@@ -30,10 +30,10 @@
     <ClInclude Include="MainApp.h">
       <Filter>00.MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Base.h">
-      <Filter>98.SuperClass</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Client_Defines.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Client_Enum.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,9 +56,6 @@
     </ClCompile>
     <ClCompile Include="MainApp.cpp">
       <Filter>00.MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Base.cpp">
-      <Filter>98.SuperClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

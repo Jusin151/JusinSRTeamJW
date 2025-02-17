@@ -1,4 +1,5 @@
 #pragma once
+namespace Engine
+{
 
-enum class LEVEL { LEVEL_LOGO, LEVEL_GAMEPLAY };
-
+}

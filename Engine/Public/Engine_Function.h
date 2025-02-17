@@ -1,48 +1,50 @@
 #pragma once
 
-template<typename T>
-void Safe_Delete(T& Pointer)
+namespace Engine
 {
-	if (nullptr != Pointer)
+	template<typename T>
+	void Safe_Delete(T& Pointer)
 	{
-		delete Pointer;
-		Pointer = nullptr;
+		if (nullptr != Pointer)
+		{
+			delete Pointer;
+			Pointer = nullptr;
+		}
 	}
-}
 
-template<typename T>
-void Safe_Delete_Array(T& Pointer)
-{
-	if (nullptr != Pointer)
+	template<typename T>
+	void Safe_Delete_Array(T& Pointer)
 	{
-		delete[] Pointer;
-		Pointer = nullptr;
+		if (nullptr != Pointer)
+		{
+			delete[] Pointer;
+			Pointer = nullptr;
+		}
 	}
-}
 
-template<typename T>
-unsigned int Safe_AddRef(T& Instance)
-{
-	unsigned int iRefCnt = { 0 };
-
-	if (nullptr != Instance)
-		iRefCnt = Instance->AddRef();
-
-	return iRefCnt;
-}
-
-template<typename T>
-unsigned int Safe_Release(T& Instance)
-{
-	unsigned int iRefCnt = { 0 };
-
-	if (nullptr != Instance)
+	template<typename T>
+	unsigned int Safe_AddRef(T& Instance)
 	{
-		iRefCnt = Instance->Release();
-		if(0 == iRefCnt)
-			Instance = nullptr;
+		unsigned int iRefCnt = { 0 };
+
+		if (nullptr != Instance)
+			iRefCnt = Instance->AddRef();
+
+		return iRefCnt;
 	}
-	return iRefCnt;
+
+	template<typename T>
+	unsigned int Safe_Release(T& Instance)
+	{
+		unsigned int iRefCnt = { 0 };
+
+		if (nullptr != Instance)
+		{
+			iRefCnt = Instance->Release();
+			if (0 == iRefCnt)
+				Instance = nullptr;
+		}
+		return iRefCnt;
+	}
+
 }
-
-

@@ -1,5 +1,14 @@
 #pragma once
 
+#define BEGIN(NAMESPACE) namespace NAMESPACE { 
+#define END }
+
+#ifdef ENGINE_EXPORTS
+#define ENGINE_DLL _declspec(dllexport)
+#else
+#define ENGINE_DLL _declspec(dllimport)
+#endif
+
 #define MSG_BOX(message)								\
 ::MessageBox(nullptr, TEXT(message), L"error", MB_OK)
 

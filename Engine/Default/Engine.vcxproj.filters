@@ -19,10 +19,33 @@
     <ClInclude Include="..\Public\Engine_Defines.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Base.h">
+      <Filter>98.Superclass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Graphic_Device.h">
+      <Filter>97.Device\Graphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
       <UniqueIdentifier>{4cd85e69-79d0-46a8-a4d9-1fcfefe60f6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.Superclass">
+      <UniqueIdentifier>{5d706b49-4323-4697-bf88-8772695c313b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device">
+      <UniqueIdentifier>{35eaf6d8-6290-4c76-80a4-fb607d029e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device\Graphic">
+      <UniqueIdentifier>{b0f5d192-78e6-4208-b0f4-cac2b5546ebd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Private\Base.cpp">
+      <Filter>98.Superclass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Graphic_Device.cpp">
+      <Filter>97.Device\Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
