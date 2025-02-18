@@ -1,17 +1,21 @@
 #include "MainApp.h"
-#include "Graphic_Device.h"
-
-
+#include "GameInstance.h"
 
 CMainApp::CMainApp()
-	: m_pGraphic_Device { CGraphic_Device::Get_Instance() }
+	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
-	Safe_AddRef(m_pGraphic_Device);
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CMainApp::Initialize()
 {
-	if (FAILED(m_pGraphic_Device->Initialize(g_hWnd, true, g_iWinSizeX, g_iWinSizeY)))
+	ENGINE_DESC		Desc{};
+	Desc.hWnd = g_hWnd;
+	Desc.isWindowed = true;
+	Desc.iWinSizeX = g_iWinSizeX;
+	Desc.iWinSizeY = g_iWinSizeY;
+
+	if (FAILED(m_pGameInstance->Initialize_Engine(Desc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -23,9 +27,8 @@ void CMainApp::Update()
 
 HRESULT CMainApp::Render()
 {
-	m_pGraphic_Device->Render_Begin();
 
-	m_pGraphic_Device->Render_End();
+	m_pGameInstance->Draw();
 
 	return S_OK;
 }
@@ -50,7 +53,7 @@ void CMainApp::Free()
 	__super::Free();
 
 	/* 내멤버를 정리한다.*/
-	Safe_Release(m_pGraphic_Device);
+	Safe_Release(m_pGameInstance);
 
 
 }

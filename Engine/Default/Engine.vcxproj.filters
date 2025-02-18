@@ -25,6 +25,9 @@
     <ClInclude Include="..\Public\Graphic_Device.h">
       <Filter>97.Device\Graphic</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GameInstance.h">
+      <Filter>00.GameInstance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -39,6 +42,9 @@
     <Filter Include="97.Device\Graphic">
       <UniqueIdentifier>{b0f5d192-78e6-4208-b0f4-cac2b5546ebd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.GameInstance">
+      <UniqueIdentifier>{f146498a-b946-42b7-9519-141ac6f93f7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -46,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>97.Device\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameInstance.cpp">
+      <Filter>00.GameInstance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

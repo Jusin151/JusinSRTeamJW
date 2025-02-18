@@ -1,8 +1,6 @@
 
 #include "Graphic_Device.h"
 
-IMPLEMENT_SINGLETON(CGraphic_Device)
-
 CGraphic_Device::CGraphic_Device() 
 	: m_pDevice(nullptr), m_pSDK(nullptr), m_pSprite(nullptr), m_pFont(nullptr)
 {
@@ -149,6 +147,19 @@ void CGraphic_Device::Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp, HWND hWnd, _b
 
 	// 재생률과 실제 창 시연 간격 설정
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+}
+
+CGraphic_Device* CGraphic_Device::Create(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY)
+{
+	CGraphic_Device* pInstance = new CGraphic_Device();
+
+	if (FAILED(pInstance->Initialize(hWnd, isWindowed, iWinSizeX, iWinSizeY)))
+	{
+		MSG_BOX("Failed to Created : CGraphic_Device");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CGraphic_Device::Free()

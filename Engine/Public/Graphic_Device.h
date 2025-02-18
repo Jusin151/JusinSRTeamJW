@@ -4,10 +4,8 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CGraphic_Device final : public CBase
+class CGraphic_Device final : public CBase
 {
-	DECLARE_SINGLETON(CGraphic_Device)
-
 private:
 	CGraphic_Device();
 	virtual ~CGraphic_Device() = default;
@@ -29,6 +27,7 @@ private:
 	LPD3DXFONT			m_pFont;
 
 public:
+	static CGraphic_Device* Create(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY);
 	virtual void Free() override;
 };
 

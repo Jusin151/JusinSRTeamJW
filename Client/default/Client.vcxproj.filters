@@ -10,9 +10,6 @@
     <Filter Include="00.MainApp">
       <UniqueIdentifier>{369681bb-6938-407b-bc8d-ba710eb82c23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="98.SuperClass">
-      <UniqueIdentifier>{2a0dcdba-6063-46e6-b420-e3bcac67e762}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

@@ -4,7 +4,7 @@
 #include "../../EngineSDK/Inc/Base.h"
 
 BEGIN(Engine)
-class CGraphic_Device;
+class CGameInstance;
 END
 
 BEGIN(Client)
@@ -20,7 +20,7 @@ public:
 	HRESULT Render();
 
 private:
-	CGraphic_Device* m_pGraphic_Device = { nullptr };
+	CGameInstance*			m_pGameInstance = { nullptr };
 
 public:
 	static CMainApp* Create();
