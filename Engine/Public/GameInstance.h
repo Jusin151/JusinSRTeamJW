@@ -18,20 +18,18 @@ private:
 
 public:
 	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc);
+	void Update_Engine(_float fTimeDelta);
 	HRESULT Draw();	
+	void Clear(_uint iLevelIndex);
+
+#pragma region LEVEL_MANAGER
+public:
+	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
+#pragma endregion
 
 private:
-	class CGraphic_Device* m_pGraphic_Device = { nullptr };
-	
-	/*int		iArray[5]; ½ä
-
-	for (size_t i = 0; i < 5; i++)
-	{
-		iArray[5] = i;
-
-	}*/
-
-
+	class CGraphic_Device*	m_pGraphic_Device = { nullptr };
+	class CLevel_Manager*	m_pLevel_Manager = { nullptr };
 public:
 	virtual void Free() override;
 };

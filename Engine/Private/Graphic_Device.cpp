@@ -88,21 +88,21 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, _bool isWindowed, _uint iWinSizeX
 void CGraphic_Device::Render_Begin()
 {
 	m_pDevice->Clear(0,			// 렉트의 개수
-					nullptr,	// 여러 렉트 중 첫 번째 렉트의 주소
-					D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, 
-					D3DCOLOR_ARGB(255, 0, 0, 255), // 후면 버퍼를 비우고서 채울 색상
-					1.f,	// z버퍼 초기화 값
-					0);		// 스텐실 버퍼 초기화 값
+		nullptr,	// 여러 렉트 중 첫 번째 렉트의 주소
+		D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET,
+		D3DCOLOR_ARGB(255, 0, 0, 255), // 후면 버퍼를 비우고서 채울 색상
+		1.f,	// z버퍼 초기화 값
+		0);		// 스텐실 버퍼 초기화 값
 
 	m_pDevice->BeginScene();
 
-	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	
 
 }
 
 void CGraphic_Device::Render_End(HWND hWnd)
 {
-	m_pSprite->End();
+	
 
 	m_pDevice->EndScene();
 
@@ -116,19 +116,19 @@ void CGraphic_Device::Render_End(HWND hWnd)
 
 void CGraphic_Device::Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp, HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY)
 {
-	d3dpp.BackBufferWidth  = iWinSizeX;
+	d3dpp.BackBufferWidth = iWinSizeX;
 	d3dpp.BackBufferHeight = iWinSizeY;
 
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.BackBufferCount = 1;
-	
+
 	d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
 	d3dpp.MultiSampleQuality = 0;
 
 	// D3DSWAPEFFECT_DISCARD : 스왑 체인 방식
 	// D3DSWAPEFFECT_FLIP : 버퍼 하나로 뒤집으면서 처리하는 방식
 	// D3DSWAPEFFECT_COPY : 더블 버퍼링과 유사한 복사 방식
-	
+
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
 	d3dpp.hDeviceWindow = hWnd;
@@ -139,7 +139,7 @@ void CGraphic_Device::Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp, HWND hWnd, _b
 	// 자동으로 깊이, 스텐실 버퍼 관리 여부
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
-	
+
 	// 전체 화면 모드일 경우 적용
 
 	// 전체 화면 시 모니터 재생률에 대한 설정
@@ -166,6 +166,10 @@ void CGraphic_Device::Free()
 {
 	Safe_Release(m_pFont);
 	Safe_Release(m_pSprite);
-	int a = Safe_Release(m_pDevice);
-	Safe_Release(m_pSDK);
+
+	if (0 != Safe_Release(m_pDevice))
+		MSG_BOX("Failed to Release : IDirect3DDevice9");	
+	if(0 != Safe_Release(m_pSDK))
+		MSG_BOX("Failed to Release : IDirect3D9");
+
 }

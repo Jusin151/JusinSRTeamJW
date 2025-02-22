@@ -28,6 +28,12 @@
     <ClInclude Include="..\public\GameInstance.h">
       <Filter>00.GameInstance</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Manager.h">
+      <Filter>01.Level\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level.h">
+      <Filter>01.Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -45,6 +51,12 @@
     <Filter Include="00.GameInstance">
       <UniqueIdentifier>{f146498a-b946-42b7-9519-141ac6f93f7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Level">
+      <UniqueIdentifier>{4984c672-521a-4088-a0d7-c4c1f4639603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Level\Manager">
+      <UniqueIdentifier>{178f61da-d50b-4e2e-9547-906f3926861e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -55,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="..\private\GameInstance.cpp">
       <Filter>00.GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Manager.cpp">
+      <Filter>01.Level\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level.cpp">
+      <Filter>01.Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
