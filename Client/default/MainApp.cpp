@@ -1,6 +1,9 @@
 #include "MainApp.h"
 #include "GameInstance.h"
 
+#include "Level_Logo.h"
+#include "Level_Loading.h"
+
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
@@ -15,20 +18,34 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeX = g_iWinSizeX;
 	Desc.iWinSizeY = g_iWinSizeY;
 
-	if (FAILED(m_pGameInstance->Initialize_Engine(Desc)))
+	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
+
+	/* ìµœì´ˆ ë³´ì—¬ì¤„ ë ˆë²¨ì„ í• ë‹¹í•˜ìž. */
+	if (FAILED(Open_Level(LEVEL_LOGO)))
+		return E_FAIL;
+	
 
 	return S_OK;
 }
 
 void CMainApp::Update()
 {
+	m_pGameInstance->Update_Engine(0.f);
 }
 
 HRESULT CMainApp::Render()
 {
 
 	m_pGameInstance->Draw();
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Open_Level(LEVEL eLevelID)
+{
+	if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pGraphic_Device, eLevelID))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -52,7 +69,7 @@ void CMainApp::Free()
 
 	__super::Free();
 
-	/* ³»¸â¹ö¸¦ Á¤¸®ÇÑ´Ù.*/
+	/* ë‚´ë©¤ë²„ë¥¼ ì •ë¦¬í•œë‹¤.*/
 	Safe_Release(m_pGameInstance);
 
 

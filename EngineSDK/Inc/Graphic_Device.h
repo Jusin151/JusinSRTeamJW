@@ -11,7 +11,7 @@ private:
 	virtual ~CGraphic_Device() = default;
 
 public:
-	HRESULT		Initialize(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY);
+	HRESULT		Initialize(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY, LPDIRECT3DDEVICE9* ppOut);
 	void		Render_Begin();
 	void		Render_End(HWND hWnd = nullptr);	
 
@@ -20,14 +20,14 @@ private:
 		HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY);
 
 private:
-	LPDIRECT3D9			m_pSDK;		// 1¹ø¿¡ ÇØ´çÇÏ´Â °´Ã¼
-	LPDIRECT3DDEVICE9	m_pDevice;	// 3¹ø¿¡ ÇØ´çÇÏ´Â °´Ã¼
+	LPDIRECT3D9			m_pSDK;		// 1ë²ˆì— í•´ë‹¹í•˜ëŠ” ê°ì²´
+	LPDIRECT3DDEVICE9	m_pDevice;	// 3ë²ˆì— í•´ë‹¹í•˜ëŠ” ê°ì²´
 
-	LPD3DXSPRITE		m_pSprite;	// 2d ÀÌ¹ÌÁö¸¦ Ãâ·ÂÇÏ±â À§ÇÑ ¿ëµµ
+	LPD3DXSPRITE		m_pSprite;	// 2d ì´ë¯¸ì§€ë¥¼ ì¶œë ¥í•˜ê¸° ìœ„í•œ ìš©ë„
 	LPD3DXFONT			m_pFont;
 
 public:
-	static CGraphic_Device* Create(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY);
+	static CGraphic_Device* Create(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY, LPDIRECT3DDEVICE9*	ppOut);
 	virtual void Free() override;
 };
 

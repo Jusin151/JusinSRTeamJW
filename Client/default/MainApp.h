@@ -21,6 +21,10 @@ public:
 
 private:
 	CGameInstance*			m_pGameInstance = { nullptr };
+	LPDIRECT3DDEVICE9		m_pGraphic_Device = { nullptr };
+
+private:
+	HRESULT Open_Level(LEVEL eLevelID);
 
 public:
 	static CMainApp* Create();

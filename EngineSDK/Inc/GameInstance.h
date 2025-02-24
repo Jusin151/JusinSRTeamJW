@@ -1,8 +1,8 @@
 #pragma once
 
-/* ¿£Áø°ú Å¬¶óÀÌ¾ğÆ® °£ÀÇ ¸µÅ©ÀÇ ¿ªÈ°À» ¼öÇàÇÑ´Ù. */
-/* ¿£Áø ³»¿¡ Á¸ÀçÇÏ´Â À¯ÀÏÇÑ ½Ì±ÛÅæ Å¬·¡½ºÀÌ´Ù. */
-/* ¿£Áø °³¹ßÀÚ°¡ Å¬¶ó°³“TÀÚ¿¡°Ô º¸¿©ÁÖ°í½ÍÀº ÇÔ¼ö¸¦ ... */
+/* ì—”ì§„ê³¼ í´ë¼ì´ì–¸íŠ¸ ê°„ì˜ ë§í¬ì˜ ì—­í™œì„ ìˆ˜í–‰í•œë‹¤. */
+/* ì—”ì§„ ë‚´ì— ì¡´ì¬í•˜ëŠ” ìœ ì¼í•œ ì‹±ê¸€í†¤ í´ë˜ìŠ¤ì´ë‹¤. */
+/* ì—”ì§„ ê°œë°œìê°€ í´ë¼ê°œë°«ìì—ê²Œ ë³´ì—¬ì£¼ê³ ì‹¶ì€ í•¨ìˆ˜ë¥¼ ... */
 #include "Base.h"
 
 BEGIN(Engine)
@@ -17,21 +17,19 @@ private:
 	virtual ~CGameInstance() = default;
 
 public:
-	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc);
+	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, _Out_ LPDIRECT3DDEVICE9* ppOut);
+	void Update_Engine(_float fTimeDelta);
 	HRESULT Draw();	
+	void Clear(_uint iLevelIndex);
+
+#pragma region LEVEL_MANAGER
+public:
+	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
+#pragma endregion
 
 private:
-	class CGraphic_Device* m_pGraphic_Device = { nullptr };
-	
-	/*int		iArray[5]; ½ä
-
-	for (size_t i = 0; i < 5; i++)
-	{
-		iArray[5] = i;
-
-	}*/
-
-
+	class CGraphic_Device*	m_pGraphic_Device = { nullptr };
+	class CLevel_Manager*	m_pLevel_Manager = { nullptr };
 public:
 	virtual void Free() override;
 };

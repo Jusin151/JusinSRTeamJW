@@ -9,9 +9,9 @@ CGameInstance::CGameInstance()
 {
 }
 
-HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc)
+HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut)
 {
-	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.isWindowed, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY);
+	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.isWindowed, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppOut);
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
@@ -25,6 +25,8 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc)
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
+
+
 	m_pLevel_Manager->Update(fTimeDelta);
 }
 
@@ -46,9 +48,9 @@ HRESULT CGameInstance::Draw()
 
 void CGameInstance::Clear(_uint iLevelIndex)
 {
-	/* Æ¯Á¤ ·¹º§ÀÇ ÀÚ¿øÀ» »èÁ¦ÇÑ´Ù. */
-	/* Æ¯Á¤ ·¹º§ÀÇ °´Ã¼À» »èÁ¦ÇÑ´Ù. */
-	/* Æ¯Á¤ ·¹º§ÀÇ ¿øÇü°´À» »èÁ¦ÇÑ´Ù. */
+	/* íŠ¹ì • ë ˆë²¨ì˜ ìžì›ì„ ì‚­ì œí•œë‹¤. */
+	/* íŠ¹ì • ë ˆë²¨ì˜ ê°ì²´ì„ ì‚­ì œí•œë‹¤. */
+	/* íŠ¹ì • ë ˆë²¨ì˜ ì›í˜•ê°ì„ ì‚­ì œí•œë‹¤. */
 }
 
 #pragma region LEVEL_MANAGER
