@@ -4,7 +4,7 @@ import chardet
 
 def convert_to_utf8(dir_path):
     """
-    지정된 디렉토리의 .cpp 및 .h 파일들을 UTF-8 인코딩으로 변환합니다.
+    지정된 디렉토리의 .cpp 및 .h 파일들을 BOM 추가 UTF-8 인코딩으로 변환합니다.
 
     Args:
         dir_path (str): 디렉토리 경로
@@ -24,7 +24,7 @@ def convert_to_utf8(dir_path):
 
 def convert_file_encoding(file_path):
     """
-    단일 파일의 인코딩을 UTF-8로 변환합니다.
+    단일 파일의 인코딩을 BOM 추가 UTF-8로 변환합니다.
 
     Args:
         file_path (str): 파일 경로
@@ -44,10 +44,10 @@ def convert_file_encoding(file_path):
                 print(f"경고: 파일 '{file_path}' 디코딩 실패 (인코딩: {original_encoding}). 기본 인코딩으로 시도합니다.")
                 text = raw_data.decode('cp949', errors='ignore') # 필요에 따라 다른 기본 인코딩 시도
 
-            # UTF-8로 인코딩하여 파일에 쓰기
-            with open(file_path, 'w', encoding='utf-8', newline='\n') as f: # newline='\n' 추가
+            # BOM 추가 UTF-8로 인코딩하여 파일에 쓰기 (encoding='utf-8-sig' 로 변경)
+            with open(file_path, 'w', encoding='utf-8-sig', newline='\n') as f: # encoding='utf-8-sig' 사용, newline='\n' 유지
                 f.write(text)
-            print(f"성공: 파일 '{file_path}' UTF-8로 변환됨 (원래 인코딩: {original_encoding})")
+            print(f"성공: 파일 '{file_path}' BOM 추가 UTF-8로 변환됨 (원래 인코딩: {original_encoding})")
         else:
             print(f"경고: 파일 '{file_path}' 인코딩 감지 실패. UTF-8 변환을 건너뜁니다.")
 

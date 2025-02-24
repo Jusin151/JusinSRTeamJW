@@ -1,4 +1,4 @@
-#include "Level_Logo.h"
+﻿#include "Level_Logo.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }

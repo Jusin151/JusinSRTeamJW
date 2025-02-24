@@ -1,4 +1,4 @@
-#include "Loader.h"
+﻿#include "Loader.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
