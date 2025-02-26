@@ -8,5 +8,6 @@ namespace Engine
 		bool			isWindowed;
 		unsigned int	iWinSizeX;
 		unsigned int	iWinSizeY;
+		unsigned int	iNumLevels;		
 	}ENGINE_DESC;
 }

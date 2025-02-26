@@ -28,9 +28,11 @@ public:
 #pragma endregion
 
 private:
-	class CGraphic_Device*	m_pGraphic_Device = { nullptr };
-	class CLevel_Manager*	m_pLevel_Manager = { nullptr };
+	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
+	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
+	class CPrototype_Manager*	m_pPrototype_Manager = { nullptr };
 public:
+	void Release_Engine();
 	virtual void Free() override;
 };
 

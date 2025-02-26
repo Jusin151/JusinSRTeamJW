@@ -17,6 +17,7 @@ HRESULT CMainApp::Initialize()
 	Desc.isWindowed = true;
 	Desc.iWinSizeX = g_iWinSizeX;
 	Desc.iWinSizeY = g_iWinSizeY;
+	Desc.iNumLevels = LEVEL_END;
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
@@ -65,12 +66,18 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
-	
-
 	__super::Free();
 
-	/* 내멤버를 정리한다.*/
+	Safe_Release(m_pGraphic_Device);
+
+	m_pGameInstance->Release_Engine();
+
+	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
+	
+
+
+	
 
 
 }

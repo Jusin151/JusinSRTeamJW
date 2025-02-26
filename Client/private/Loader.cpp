@@ -1,7 +1,9 @@
 ﻿#include "Loader.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: m_pGraphic_Device { pGraphic_Device }
 {
+	Safe_AddRef(m_pGraphic_Device);
 }
 
 _uint APIENTRY LoadingMain(void* pArg)
@@ -120,6 +122,9 @@ void CLoader::Free()
 	DeleteObject(m_hThread);
 
 	CloseHandle(m_hThread);
+
+	Safe_Release(m_pGraphic_Device);
+
 
 	DeleteCriticalSection(&m_CriticalSection);
 }
