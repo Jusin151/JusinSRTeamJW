@@ -20,6 +20,8 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
 	m_eNextLevelID = eNextLevelID;
 
+	InitializeCriticalSection(&m_CriticalSection);
+
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -29,6 +31,8 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 HRESULT CLoader::Loading()
 {
+	EnterCriticalSection(&m_CriticalSection);
+
 	HRESULT		hr = {};
 
 	switch (m_eNextLevelID)
@@ -45,6 +49,8 @@ HRESULT CLoader::Loading()
 	if (FAILED(hr))
 		return E_FAIL;
 
+	LeaveCriticalSection(&m_CriticalSection);
+
 	return S_OK;
 }
 
@@ -52,29 +58,17 @@ HRESULT CLoader::Loading_For_Logo()
 {
 	
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 999999999; i++)
-	{
-		int a = 10;
-	}
+	
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 999999999; i++)
-	{
-		int a = 10;
-	}
+	
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 999999999; i++)
-	{
-		int a = 10;
-	}
+	
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 999999999; i++)
-	{
-		int a = 10;
-	}
 
+	
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
 	m_isFinished = true;
@@ -84,6 +78,22 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
 	return S_OK;
 }
 
@@ -103,4 +113,13 @@ CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 
 void CLoader::Free()
 {
+	__super::Free();
+
+	WaitForSingleObject(m_hThread, INFINITE);
+
+	DeleteObject(m_hThread);
+
+	CloseHandle(m_hThread);
+
+	DeleteCriticalSection(&m_CriticalSection);
 }

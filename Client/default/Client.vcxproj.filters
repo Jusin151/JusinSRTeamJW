@@ -22,6 +22,9 @@
     <Filter Include="01.Levels\Loading\Loader">
       <UniqueIdentifier>{a4567c73-3efb-4ce1-a29b-da4945a9cb93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\GamePlay">
+      <UniqueIdentifier>{efb49076-2627-4a87-abf5-c51f865b5c61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="..\public\Loader.h">
       <Filter>01.Levels\Loading\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_GamePlay.h">
+      <Filter>01.Levels\GamePlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -83,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
       <Filter>01.Levels\Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_GamePlay.cpp">
+      <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

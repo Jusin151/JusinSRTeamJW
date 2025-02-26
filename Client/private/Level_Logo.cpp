@@ -1,5 +1,8 @@
 ﻿#include "Level_Logo.h"
 
+#include "GameInstance.h"
+#include "Level_Loading.h"
+
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
 {
@@ -13,11 +16,19 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-	int a = 10;
+	if (GetKeyState(VK_RETURN) & 0x8000)
+	{
+		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+			return;
+	}
+
 }
 
 HRESULT CLevel_Logo::Render()
 {
+	SetWindowText(g_hWnd, TEXT("로고레벨입니다."));
+
 	return S_OK;
 }
 

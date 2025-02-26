@@ -32,6 +32,7 @@ private:
 
 private:
 	HANDLE						m_hThread = {};
+	CRITICAL_SECTION			m_CriticalSection = {};
 	_tchar						m_szLoadingText[MAX_PATH] = {};
 
 public:

@@ -1,4 +1,7 @@
 ﻿#include "Level_Loading.h"
+
+
+#include "Level_GamePlay.h"
 #include "Level_Logo.h"
 #include "Loader.h"
 
@@ -41,7 +44,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				pLevel = CLevel_Logo::Create(m_pGraphic_Device);
 				break;
 			case LEVEL_GAMEPLAY:
-
+				pLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
 				break;
 			}
 
