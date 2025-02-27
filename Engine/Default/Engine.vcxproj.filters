@@ -40,6 +40,12 @@
     <ClInclude Include="..\public\Prototype_Manager.h">
       <Filter>02.Prototype\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Object_Manager.h">
+      <Filter>02.GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Layer.h">
+      <Filter>02.GameObject\Manager\Layer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -72,6 +78,12 @@
     <Filter Include="02.Prototype\Manager">
       <UniqueIdentifier>{00500f36-ef8e-41b5-aa07-5e12106b1fa6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\Manager">
+      <UniqueIdentifier>{dd17cb57-187f-43cd-82d0-64a0880616a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Manager\Layer">
+      <UniqueIdentifier>{b7cc089a-858e-492e-9041-130cf6a28548}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -94,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Prototype_Manager.cpp">
       <Filter>02.Prototype\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Object_Manager.cpp">
+      <Filter>02.GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Layer.cpp">
+      <Filter>02.GameObject\Manager\Layer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

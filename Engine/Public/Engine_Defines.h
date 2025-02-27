@@ -5,6 +5,7 @@
 
 #include <string>
 #include <map>
+#include <list>
 using namespace std;
 
 #include "Engine_Struct.h"

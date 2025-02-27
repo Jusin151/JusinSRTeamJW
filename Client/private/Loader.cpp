@@ -1,8 +1,13 @@
 ﻿#include "Loader.h"
 
+#include "GameInstance.h"
+#include "BackGround.h"
+
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
+	, m_pGameInstance { CGameInstance::Get_Instance() }
 {
+	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pGraphic_Device);
 }
 
@@ -70,6 +75,10 @@ HRESULT CLoader::Loading_For_Logo()
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
+	/* For.Prototype_GameObject_BackGround */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
+		CBackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
@@ -122,6 +131,8 @@ void CLoader::Free()
 	DeleteObject(m_hThread);
 
 	CloseHandle(m_hThread);
+
+	Safe_Release(m_pGameInstance);
 
 	Safe_Release(m_pGraphic_Device);
 

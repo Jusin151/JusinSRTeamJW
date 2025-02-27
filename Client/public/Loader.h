@@ -3,6 +3,10 @@
 #include "Client_Defines.h"
 #include "Base.h"
 
+BEGIN(Engine)
+class CGameInstance;
+END
+
 BEGIN(Client)
 
 class CLoader final : public CBase
@@ -29,6 +33,7 @@ private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	LEVEL						m_eNextLevelID = { LEVEL_END };
 	_bool						m_isFinished = { false };
+	CGameInstance*				m_pGameInstance = { nullptr };
 
 private:
 	HANDLE						m_hThread = {};

@@ -11,6 +11,9 @@ CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Logo::Initialize()
 {
+	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -28,6 +31,15 @@ void CLevel_Logo::Update(_float fTimeDelta)
 HRESULT CLevel_Logo::Render()
 {
 	SetWindowText(g_hWnd, TEXT("로고레벨입니다."));
+
+	return S_OK;
+}
+
+HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
+		LEVEL_LOGO, strLayerTag)))
+		return E_FAIL;
 
 	return S_OK;
 }

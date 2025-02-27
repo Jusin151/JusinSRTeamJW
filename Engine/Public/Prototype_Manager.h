@@ -16,11 +16,15 @@ private:
 
 public:
 	HRESULT Initialize(_uint iNumLevels);
-
+	HRESULT Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, class CBase* pPrototype);
+	CBase* Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 private:
 	_uint										m_iNumLevels = {};
 	map<const _wstring, class CBase*>*			m_pPrototypes = { nullptr };
 	typedef map<const _wstring, class CBase*>	PROTOTYPES;
+
+private:
+	class CBase* Find_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag);
 
 public:
 	static CPrototype_Manager* Create(_uint iNumLevels);

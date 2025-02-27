@@ -1,5 +1,7 @@
 ﻿#include "Prototype_Manager.h"
 
+#include "GameObject.h"
+
 CPrototype_Manager::CPrototype_Manager()
 {
 }
@@ -11,6 +13,40 @@ HRESULT CPrototype_Manager::Initialize(_uint iNumLevels)
 	m_pPrototypes = new /*map<const _wstring, class CBase*>*/PROTOTYPES[iNumLevels];	
 
     return S_OK;
+}
+
+HRESULT CPrototype_Manager::Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype)
+{
+	if (nullptr == m_pPrototypes ||
+		iPrototypeLevelIndex >= m_iNumLevels ||
+		nullptr != Find_Prototype(iPrototypeLevelIndex, strPrototypeTag))
+		return E_FAIL;
+
+	m_pPrototypes[iPrototypeLevelIndex].emplace(strPrototypeTag, pPrototype);
+
+	return S_OK;
+}
+
+CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg)
+{
+	CBase* pPrototype = Find_Prototype(iPrototypeLevelIndex, strPrototypeTag);
+	if (nullptr == pPrototype)
+		return nullptr;
+
+	if (ePrototypeType == PROTOTYPE::TYPE_GAMEOBJECT)
+		return dynamic_cast<CGameObject*>(pPrototype)->Clone(pArg);
+	else
+		// return dynamic_cast<CComponent*>(pPrototype)->Clone(pArg);
+		return nullptr;	
+}
+
+CBase* CPrototype_Manager::Find_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag)
+{
+	auto	iter = m_pPrototypes[iLevelIndex].find(strPrototypeTag);
+	if (iter == m_pPrototypes[iLevelIndex].end())
+		return nullptr;
+
+	return iter->second;
 }
 
 CPrototype_Manager* CPrototype_Manager::Create(_uint iNumLevels)
