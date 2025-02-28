@@ -1,4 +1,5 @@
 ﻿#include "BackGround.h"
+#include "GameInstance.h"
 
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject { pGraphic_Device }
@@ -17,6 +18,9 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
     return S_OK;
 }
 
@@ -32,12 +36,27 @@ void CBackGround::Update(_float fTimeDelta)
 
 void CBackGround::Late_Update(_float fTimeDelta)
 {
-	int a = 10;
+	
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this)))
+		return;
+	
+	
 }
 
 HRESULT CBackGround::Render()
 {
     return S_OK;
+}
+
+HRESULT CBackGround::Ready_Components()
+{
+	m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround")));
+	if (nullptr == m_pTextureCom)
+		return E_FAIL;
+
+
+
+	return S_OK;
 }
 
 CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -69,5 +88,7 @@ CGameObject* CBackGround::Clone(void* pArg)
 void CBackGround::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTextureCom);
 
 }

@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
     <ClInclude Include="..\Public\Engine_Function.h" />
@@ -156,9 +157,12 @@
     <ClInclude Include="..\public\Level_Manager.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
     <ClInclude Include="..\public\Prototype_Manager.h" />
+    <ClInclude Include="..\public\Renderer.h" />
+    <ClInclude Include="..\public\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />
@@ -167,6 +171,8 @@
     <ClCompile Include="..\Private\Level_Manager.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
+    <ClCompile Include="..\private\Renderer.cpp" />
+    <ClCompile Include="..\private\Texture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

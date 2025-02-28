@@ -1,5 +1,6 @@
 ﻿#include "GameInstance.h"
 
+#include "Renderer.h"
 #include "Level_Manager.h"
 #include "Graphic_Device.h"
 #include "Object_Manager.h"
@@ -29,6 +30,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
 
+	m_pRenderer = CRenderer::Create(*ppOut);
+	if (nullptr == m_pRenderer)
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -53,7 +58,7 @@ HRESULT CGameInstance::Draw()
 
 	m_pGraphic_Device->Render_Begin();
 
-
+	m_pRenderer->Draw();
 
 	m_pLevel_Manager->Render();
 
@@ -97,6 +102,15 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototype
 HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
+}
+
+#pragma endregion
+
+#pragma region RENDERER
+
+HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
+{
+	return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);
 }
 
 #pragma endregion

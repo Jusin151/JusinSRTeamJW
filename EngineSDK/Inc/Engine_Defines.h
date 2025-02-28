@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <vector>
 using namespace std;
 
 #include "Engine_Struct.h"
