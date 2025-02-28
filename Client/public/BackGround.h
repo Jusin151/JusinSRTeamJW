@@ -3,6 +3,10 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 
+BEGIN(Engine)
+class CTexture;
+END
+
 BEGIN(Client)
 
 class CBackGround final : public CGameObject
@@ -19,6 +23,13 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
+
+private:
+	CTexture*				m_pTextureCom = { nullptr };
+
+private:
+	HRESULT Ready_Components();
+	
 
 public:
 	static CBackGround* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
