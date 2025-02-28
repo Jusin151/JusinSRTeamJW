@@ -11,20 +11,19 @@ HRESULT CPrototype_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;
 
-	m_pPrototypes = new /*map<const _wstring, class CBase*>*/PROTOTYPES[iNumLevels];	
+	m_vecPrototypes.resize(iNumLevels);
 
     return S_OK;
 }
 
 HRESULT CPrototype_Manager::Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype)
 {
-
-	if (nullptr == m_pPrototypes ||
+	if (m_vecPrototypes.empty() ||
 		iPrototypeLevelIndex >= m_iNumLevels ||
 		nullptr != Find_Prototype(iPrototypeLevelIndex, strPrototypeTag))
 		return E_FAIL;
 
-	m_pPrototypes[iPrototypeLevelIndex].emplace(strPrototypeTag, pPrototype);
+	m_vecPrototypes[iPrototypeLevelIndex].emplace(strPrototypeTag, pPrototype);
 
 	return S_OK;
 }
@@ -44,11 +43,9 @@ CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iProt
 
 CBase* CPrototype_Manager::Find_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag)
 {
-	auto	iter = m_pPrototypes[iLevelIndex].find(strPrototypeTag);
-	if (iter == m_pPrototypes[iLevelIndex].end())
-		return nullptr;
+	auto	iter = m_vecPrototypes[iLevelIndex].find(strPrototypeTag);
 
-	return iter->second;
+	return iter == m_vecPrototypes[iLevelIndex].end() ? nullptr : iter->second;
 }
 
 CPrototype_Manager* CPrototype_Manager::Create(_uint iNumLevels)
@@ -71,12 +68,9 @@ void CPrototype_Manager::Free()
 
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
-		for (auto& Pair : m_pPrototypes[i])
+		for (auto& Pair : m_vecPrototypes[i])
 			Safe_Release(Pair.second);
-		m_pPrototypes[i].clear();
+		m_vecPrototypes[i].clear();
 	}
-
-	Safe_Delete_Array(m_pPrototypes);
-
-
+	m_vecPrototypes.clear();
 }

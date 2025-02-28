@@ -5,6 +5,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <list>
 #include <vector>
 using namespace std;
