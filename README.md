@@ -1,3 +1,3 @@
 # JusinSR
 
- 수업 원본입니다.
+SR프로젝트 TeamJW
