@@ -45,16 +45,29 @@ void CBackGround::Late_Update(_float fTimeDelta)
 
 HRESULT CBackGround::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pTextureCom->Bind_Resource(0);
+
+	m_pVIBufferCom->Render();
+
+
     return S_OK;
 }
 
 HRESULT CBackGround::Ready_Components()
 {
-	m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround")));
-	if (nullptr == m_pTextureCom)
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
 
+	
 
 	return S_OK;
 }
@@ -89,6 +102,7 @@ void CBackGround::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 
 }

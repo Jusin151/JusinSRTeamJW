@@ -40,6 +40,14 @@ HRESULT CTexture::Initialize(void* pArg)
     return S_OK;
 }
 
+HRESULT CTexture::Bind_Resource(_uint iIndex)
+{
+	if (iIndex >= m_iNumTextures)
+		return E_FAIL;
+
+	return m_pGraphic_Device->SetTexture(0, m_Textures[iIndex]);		
+}
+
 CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	CTexture* pInstance = new CTexture(pGraphic_Device);

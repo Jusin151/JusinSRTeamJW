@@ -117,6 +117,8 @@ HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGam
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pRenderer);
+
 	Safe_Release(m_pObject_Manager);
 
 	Safe_Release(m_pPrototype_Manager);

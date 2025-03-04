@@ -55,10 +55,11 @@ def convert_file_encoding(file_path):
         raise Exception(f"파일 처리 오류: {e}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("사용법: python convert_encoding.py <디렉토리_경로>")
-        sys.exit(1)
+    if len(sys.argv) == 2:
+        dir_path = sys.argv[1]
+    else:
+        # 디렉토리 경로가 제공되지 않은 경우 현재 스크립트 파일의 디렉토리를 기본 경로로 사용
+        dir_path = os.path.dirname(os.path.abspath(__file__))
 
-    dir_path = sys.argv[1]
     convert_to_utf8(dir_path)
     print("인코딩 변환 완료.")
