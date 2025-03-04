@@ -55,6 +55,12 @@
     <ClInclude Include="..\public\Texture.h">
       <Filter>04.Components\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer.h">
+      <Filter>04.Components\VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Rect.h">
+      <Filter>04.Components\VIBuffer\Rect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -105,6 +111,15 @@
     <Filter Include="04.Components\VIBuffer">
       <UniqueIdentifier>{93bf0b31-6059-4bf3-a7c2-e0a748647b9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\Rect">
+      <UniqueIdentifier>{298a3fd8-c4ce-4622-80b7-15a3ac08203d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\Cube">
+      <UniqueIdentifier>{fc1078ea-bb67-4054-bc61-5e6981c4b29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\Terrain">
+      <UniqueIdentifier>{688c68fb-dda6-432a-bcbf-b68cb6fec7bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -142,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Texture.cpp">
       <Filter>04.Components\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer.cpp">
+      <Filter>04.Components\VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Rect.cpp">
+      <Filter>04.Components\VIBuffer\Rect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

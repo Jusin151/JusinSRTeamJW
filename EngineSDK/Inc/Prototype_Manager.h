@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "VIBuffer_Rect.h"
 #include "Texture.h"
 
 /* 1. 원형객체를 보관한다. */

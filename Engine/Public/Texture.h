@@ -13,6 +13,8 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures);
 	virtual HRESULT Initialize(void* pArg) override;
+public:
+	HRESULT Bind_Resource(_uint iIndex);
 private:
 	_uint							m_iNumTextures = { };
 	vector<LPDIRECT3DTEXTURE9>		m_Textures;
