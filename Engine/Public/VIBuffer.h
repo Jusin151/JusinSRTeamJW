@@ -19,6 +19,9 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual HRESULT Render();
 
+public:
+	HRESULT Bind_Buffers();
+
 protected:
 	/*  정점 배열을 가지고 있는 컴 객체. */
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
@@ -27,9 +30,15 @@ protected:
 	_uint								m_iNumVertices = { };
 	_uint								m_iVertexStride = { };
 	_uint								m_iFVF = {};
+	_uint								m_iNumPritimive = {};
+
+	_uint								m_iNumIndices = {};
+	_uint								m_iIndexStride = {};
+	D3DFORMAT							m_eIndexFormat = {};
 
 protected:
 	HRESULT Create_VertexBuffer();
+	HRESULT Create_IndexBuffer();
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
