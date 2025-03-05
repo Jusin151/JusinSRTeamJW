@@ -26,6 +26,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
+
 	return S_OK;
 }
 
@@ -68,7 +69,15 @@ void CMainApp::Free()
 	__super::Free();
 
 	Safe_Release(m_pGraphic_Device);
+
+	m_pGameInstance->Release_Engine();
+
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
-	m_pGameInstance->Release_Engine();
+	
+
+
+	
+
+
 }

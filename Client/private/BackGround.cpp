@@ -47,9 +47,19 @@ HRESULT CBackGround::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	m_pTextureCom->Bind_Resource(0);
 
-	m_pVIBufferCom->Render();
+	/* 장치에 텍스쳐를 하나 저장해 놓는다. */
+	/* 추후 렌더링하는데 이용하는 정점이 텍스쿠드를 들고 있다면 */
+	/* 해당 정점으로 인해 생성된 픽셀에게 샘플링되기위한 텍스쳐다. */
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	/* 정점을 그린다. */
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
 
 
     return S_OK;

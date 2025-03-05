@@ -25,8 +25,14 @@
     <Filter Include="01.Levels\GamePlay">
       <UniqueIdentifier>{efb49076-2627-4a87-abf5-c51f865b5c61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.BackGround">
+    <Filter Include="02.GameObjects">
       <UniqueIdentifier>{fc197735-46d5-4551-ad66-96d8601cef85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround">
+      <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Terrain">
+      <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +70,10 @@
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
-      <Filter>02.BackGround</Filter>
+      <Filter>02.GameObjects\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Terrain.h">
+      <Filter>02.GameObjects\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -100,7 +109,10 @@
       <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
-      <Filter>02.BackGround</Filter>
+      <Filter>02.GameObjects\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Terrain.cpp">
+      <Filter>02.GameObjects\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
