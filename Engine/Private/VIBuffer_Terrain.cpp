@@ -48,11 +48,41 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 	m_pVB->Unlock();
 #pragma endregion
 
-#pragma region VERTEX_BUFFER
+#pragma region INDEX_BUFFER
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
 
+	_uint* pIndices = { nullptr };
 
+	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
+
+	_uint curIdx = 0;
+
+	for (size_t i = 0; i < m_iNumVerticesZ -1; i++)
+	{
+		for (size_t j = 0; j < m_iNumVerticesX-1; j++)
+		{
+			_uint			iIndex = (i * (m_iNumVerticesX - 1) + j) * 6;
+			_uint			vIndex = i * m_iNumVerticesX + j;
+
+			/*pIndices[curIdx++] = vIndex + m_iNumVerticesX;
+			pIndices[curIdx++] = vIndex + m_iNumVerticesX + 1;
+			pIndices[curIdx++] = vIndex + 1;
+
+			pIndices[curIdx++] = vIndex + m_iNumVerticesX;
+			pIndices[curIdx++] = vIndex + 1;
+			pIndices[curIdx++] = vIndex;*/
+
+			pIndices[iIndex] =   vIndex + m_iNumVerticesX;
+			pIndices[iIndex+1] = vIndex + m_iNumVerticesX + 1;
+			pIndices[iIndex+2] = vIndex + 1;
+
+			pIndices[iIndex+3] = vIndex + m_iNumVerticesX;
+			pIndices[iIndex+4] = vIndex + 1;
+			pIndices[iIndex+5] = vIndex;
+		}
+	}
+	m_pIB->Unlock();
 
 #pragma endregion
 

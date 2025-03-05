@@ -70,11 +70,11 @@ HRESULT CGameInstance::Draw()
 void CGameInstance::Clear(_uint iLevelIndex)
 {
 	/* 특정 레벨의 자원을 삭제한다. */
-	
+	//m_pLevel_Manager->Clear(iLevelIndex);
 	/* 특정 레벨의 객체을 삭제한다. */
-	//m_pObject_Manager->Clear(iLevelIndex);
+	m_pObject_Manager->Clear(iLevelIndex);
 	/* 특정 레벨의 원형객을 삭제한다. */
-	//m_pPrototype_Manager->Clear(iLevelIndex);
+	m_pPrototype_Manager->Clear(iLevelIndex);
 }
 
 #pragma region LEVEL_MANAGER

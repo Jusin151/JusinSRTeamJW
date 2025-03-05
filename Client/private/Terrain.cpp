@@ -44,18 +44,17 @@ void CTerrain::Late_Update(_float fTimeDelta)
 
 HRESULT CTerrain::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
 	_float4x4		WorldMatrix{}, ViewMatrix{}, ProjMatrix{};
-	_float3			vEye = _float3(0.f, 50.f, -40.f);
-	_float3			vAt = _float3(0.f, 0.f, 0.f);
+	_float3			vEye = _float3(128.f, 100.f, -100.f);
+	_float3			vAt = _float3(128.f, 0.f, 128.f);
 	_float3			vUpDir = _float3(0.f, 1.f, 0.f);
 
 	D3DXMatrixIdentity(&WorldMatrix);
-
-
-
 	D3DXMatrixLookAtLH(&ViewMatrix, &vEye, &vAt, &vUpDir);
 	D3DXMatrixPerspectiveFovLH(&ProjMatrix, D3DXToRadian(60.f), static_cast<_float>(g_iWinSizeX) / g_iWinSizeY, 0.1f, 1000.f);	
 
