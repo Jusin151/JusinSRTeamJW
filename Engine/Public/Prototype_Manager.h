@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "VIBuffer_Terrain.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 
@@ -21,7 +22,7 @@ public:
 	CBase* Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 private:
 	_uint										m_iNumLevels = {};
-	vector<map<const _wstring, class CBase*>>			m_vecPrototypes; // 레벨별로 원형을 보관할 벡터
+	map<const _wstring, class CBase*>*			m_pPrototypes = { nullptr };
 	typedef map<const _wstring, class CBase*>	PROTOTYPES;
 
 private:
