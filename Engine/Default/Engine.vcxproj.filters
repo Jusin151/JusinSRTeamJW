@@ -64,6 +64,9 @@
     <ClInclude Include="..\Public\VIBuffer_Terrain.h">
       <Filter>04.Components\VIBuffer\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Transform.h">
+      <Filter>04.Components\Transform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -123,6 +126,9 @@
     <Filter Include="04.Components\VIBuffer\Terrain">
       <UniqueIdentifier>{688c68fb-dda6-432a-bcbf-b68cb6fec7bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Transform">
+      <UniqueIdentifier>{e6f09916-b879-4da9-af31-206b538ecd54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
       <Filter>04.Components\VIBuffer\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Transform.cpp">
+      <Filter>04.Components\Transform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

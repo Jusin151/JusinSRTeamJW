@@ -56,32 +56,31 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
-	_uint curIdx = 0;
+	_uint		iNumIndices = { 0 };
 
-	for (size_t i = 0; i < m_iNumVerticesZ -1; i++)
+	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX-1; j++)
+		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
 		{
-			_uint			iIndex = (i * (m_iNumVerticesX - 1) + j) * 6;
-			_uint			vIndex = i * m_iNumVerticesX + j;
+			_uint			iIndex = i * m_iNumVerticesX + j;
 
-			/*pIndices[curIdx++] = vIndex + m_iNumVerticesX;
-			pIndices[curIdx++] = vIndex + m_iNumVerticesX + 1;
-			pIndices[curIdx++] = vIndex + 1;
+			_uint			iIndices[4] = {
+				iIndex + m_iNumVerticesX, 
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1, 
+				iIndex
+			};
 
-			pIndices[curIdx++] = vIndex + m_iNumVerticesX;
-			pIndices[curIdx++] = vIndex + 1;
-			pIndices[curIdx++] = vIndex;*/
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
 
-			pIndices[iIndex] =   vIndex + m_iNumVerticesX;
-			pIndices[iIndex+1] = vIndex + m_iNumVerticesX + 1;
-			pIndices[iIndex+2] = vIndex + 1;
-
-			pIndices[iIndex+3] = vIndex + m_iNumVerticesX;
-			pIndices[iIndex+4] = vIndex + 1;
-			pIndices[iIndex+5] = vIndex;
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
 		}
 	}
+
 	m_pIB->Unlock();
 
 #pragma endregion

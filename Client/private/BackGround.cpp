@@ -45,7 +45,6 @@ void CBackGround::Late_Update(_float fTimeDelta)
 
 HRESULT CBackGround::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 
 	/* 장치에 텍스쳐를 하나 저장해 놓는다. */
