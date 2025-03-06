@@ -44,11 +44,13 @@ void CTerrain::Late_Update(_float fTimeDelta)
 
 HRESULT CTerrain::Render()
 {
+	// m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
 	_float4x4		WorldMatrix{}, ViewMatrix{}, ProjMatrix{};
-	_float3			vEye = _float3(0.f, 50.f, -40.f);
+	_float3			vEye = _float3(0.f, 10.f, -8.f);
 	_float3			vAt = _float3(0.f, 0.f, 0.f);
 	_float3			vUpDir = _float3(0.f, 1.f, 0.f);
 
@@ -69,6 +71,8 @@ HRESULT CTerrain::Render()
 	/* 정점을 그린다. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	// m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
     return S_OK;
 }

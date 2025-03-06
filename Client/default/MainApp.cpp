@@ -22,6 +22,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Default_Setting()))
+		return E_FAIL;
+
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
@@ -39,6 +42,13 @@ HRESULT CMainApp::Render()
 {
 
 	m_pGameInstance->Draw();
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Default_Setting()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 
 	return S_OK;
 }

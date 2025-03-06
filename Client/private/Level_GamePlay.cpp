@@ -30,7 +30,7 @@ HRESULT CLevel_GamePlay::Render()
 HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"),
-		LEVEL_LOGO, strLayerTag)))
+		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
