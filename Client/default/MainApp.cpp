@@ -22,6 +22,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Component_For_Static()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Default_Setting()))
 		return E_FAIL;
 
@@ -33,9 +36,9 @@ HRESULT CMainApp::Initialize()
 	return S_OK;
 }
 
-void CMainApp::Update()
+void CMainApp::Update(_float fTimeDelta)
 {
-	m_pGameInstance->Update_Engine(0.f);
+	m_pGameInstance->Update_Engine(fTimeDelta);
 }
 
 HRESULT CMainApp::Render()
@@ -49,6 +52,15 @@ HRESULT CMainApp::Render()
 HRESULT CMainApp::Ready_Default_Setting()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Component_For_Static()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
 }

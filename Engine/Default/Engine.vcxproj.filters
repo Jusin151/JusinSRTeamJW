@@ -67,6 +67,15 @@
     <ClInclude Include="..\public\Transform.h">
       <Filter>04.Components\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Timer.h">
+      <Filter>05.Timers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Timer_Manager.h">
+      <Filter>05.Timers\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera.h">
+      <Filter>02.GameObject\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -129,6 +138,15 @@
     <Filter Include="04.Components\Transform">
       <UniqueIdentifier>{e6f09916-b879-4da9-af31-206b538ecd54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Timers">
+      <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Timers\Manager">
+      <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Camera">
+      <UniqueIdentifier>{818845ae-d1f4-4af6-8117-3b38123510e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -178,6 +196,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Transform.cpp">
       <Filter>04.Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Timer.cpp">
+      <Filter>05.Timers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Timer_Manager.cpp">
+      <Filter>05.Timers\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera.cpp">
+      <Filter>02.GameObject\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
