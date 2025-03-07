@@ -30,6 +30,11 @@ HRESULT CTransform::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CTransform::Bind_Resource()
+{
+	return m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);	
+}
+
 _float3 CTransform::Compute_Scaled() const
 {
 	_float3		vRight = Get_State(STATE_RIGHT);
@@ -121,13 +126,47 @@ void CTransform::Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMin
 }
 
 
-//void CTransform::Turn(const _float3& vAxis, _float fTimeDelta)
-//{
-//}
-//
-//void CTransform::Rotation(const _float3& vAxis, _float fRadian)
-//{
-//}
+void CTransform::Turn(const _float3& vAxis, _float fTimeDelta)
+{
+	_float3			vRight = Get_State(STATE_RIGHT);
+	_float3			vUp = Get_State(STATE_UP);
+	_float3			vLook = Get_State(STATE_LOOK);
+
+	_float4x4		RotationMatrix;
+	D3DXMatrixRotationAxis(&RotationMatrix, &vAxis, m_fRotationPerSec * fTimeDelta);
+	
+	// D3DXVec4Transform();
+	// D3DXVec3TransformCoord();
+	D3DXVec3TransformNormal(&vRight, &vRight, &RotationMatrix);
+	D3DXVec3TransformNormal(&vUp, &vUp, &RotationMatrix);
+	D3DXVec3TransformNormal(&vLook, &vLook, &RotationMatrix);
+
+	Set_State(STATE_RIGHT, vRight);
+	Set_State(STATE_UP, vUp);
+	Set_State(STATE_LOOK, vLook);
+}
+
+void CTransform::Rotation(const _float3& vAxis, _float fRadian)
+{
+	_float3		vScaled = Compute_Scaled();
+
+	_float3			vRight = _float3(1.f, 0.f, 0.f) * vScaled.x;
+	_float3			vUp = _float3(0.f, 1.f, 0.f) * vScaled.y;
+	_float3			vLook = _float3(0.f, 0.f, 1.f) * vScaled.z;
+
+	_float4x4		RotationMatrix;
+	D3DXMatrixRotationAxis(&RotationMatrix, &vAxis, fRadian);
+
+	// D3DXVec4Transform();
+	// D3DXVec3TransformCoord();
+	D3DXVec3TransformNormal(&vRight, &vRight, &RotationMatrix);
+	D3DXVec3TransformNormal(&vUp, &vUp, &RotationMatrix);
+	D3DXVec3TransformNormal(&vLook, &vLook, &RotationMatrix);
+
+	Set_State(STATE_RIGHT, vRight);
+	Set_State(STATE_UP, vUp);
+	Set_State(STATE_LOOK, vLook);
+}
 
 CTransform* CTransform::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -2,6 +2,7 @@
 
 #include "Renderer.h"
 #include "Level_Manager.h"
+#include "Timer_Manager.h"
 #include "Graphic_Device.h"
 #include "Object_Manager.h"
 #include "Prototype_Manager.h"
@@ -16,6 +17,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 {
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.isWindowed, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppOut);
 	if (nullptr == m_pGraphic_Device)
+		return E_FAIL;
+
+	m_pTimer_Manager = CTimer_Manager::Create();
+	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
 	m_pLevel_Manager = CLevel_Manager::Create();
@@ -116,8 +121,29 @@ HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGam
 
 #pragma endregion
 
+#pragma region TIMER_MANAGER
+
+_float CGameInstance::Get_TimeDelta(const _wstring& strTimerTag)
+{
+	return m_pTimer_Manager->Get_TimeDelta(strTimerTag);
+}
+
+HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
+{
+	return m_pTimer_Manager->Add_Timer(strTimerTag);
+}
+
+void CGameInstance::Update_Timer(const _wstring& strTimerTag)
+{
+	return m_pTimer_Manager->Update(strTimerTag);
+}
+
+#pragma endregion
+
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pTimer_Manager);
+
 	Safe_Release(m_pRenderer);
 
 	Safe_Release(m_pObject_Manager);

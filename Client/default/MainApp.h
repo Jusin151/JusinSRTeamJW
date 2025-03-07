@@ -16,7 +16,7 @@ private:
 
 public:
 	HRESULT Initialize();
-	void Update();
+	void Update(_float fTimeDelta);
 	HRESULT Render();
 
 private:
@@ -25,6 +25,7 @@ private:
 
 private:
 	HRESULT Ready_Default_Setting();
+	HRESULT Ready_Component_For_Static();
 	HRESULT Open_Level(LEVEL eLevelID);
 
 public:

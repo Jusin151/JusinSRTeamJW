@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 class CTexture;
+class CTransform;
 class CVIBuffer_Rect;
 END
 
@@ -27,6 +28,7 @@ public:
 
 private:
 	CTexture*				m_pTextureCom = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 
 private:
