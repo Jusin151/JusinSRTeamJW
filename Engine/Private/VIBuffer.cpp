@@ -17,6 +17,7 @@ CVIBuffer::CVIBuffer(const CVIBuffer& Prototype)
     , m_iNumPritimive { Prototype.m_iNumPritimive }
 {
     Safe_AddRef(m_pVB);
+    Safe_AddRef(m_pIB);
 }
 
 HRESULT CVIBuffer::Initialize_Prototype()
