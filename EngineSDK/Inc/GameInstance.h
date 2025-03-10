@@ -41,12 +41,19 @@ public:
 	HRESULT Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 #pragma endregion
 
+#pragma region TIMER_MANAGER
+	_float Get_TimeDelta(const _wstring& strTimerTag);
+	HRESULT Add_Timer(const _wstring& strTimerTag);
+	void Update_Timer(const _wstring& strTimerTag);
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
 	class CPrototype_Manager*	m_pPrototype_Manager = { nullptr };
 	class CObject_Manager*		m_pObject_Manager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
+	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 
 public:
 	void Release_Engine();

@@ -8,7 +8,7 @@ class ENGINE_DLL CVIBuffer_Rect final : public CVIBuffer
 {
 private:
 	CVIBuffer_Rect(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CVIBuffer_Rect(const CVIBuffer& Prototype);
+	CVIBuffer_Rect(const CVIBuffer_Rect& Prototype);
 	virtual ~CVIBuffer_Rect() = default;
 
 public:

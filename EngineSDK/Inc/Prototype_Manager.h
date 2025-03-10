@@ -2,6 +2,7 @@
 
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_Rect.h"
+#include "Transform.h"
 #include "Texture.h"
 
 /* 1. 원형객체를 보관한다. */

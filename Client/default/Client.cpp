@@ -5,6 +5,7 @@
 #include "Client.h"
 
 #include "MainApp.h"
+#include "GameInstance.h"
 
 #define MAX_LOADSTRING 100
 
@@ -51,8 +52,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     CMainApp* pMainApp = CMainApp::Create();
     if (nullptr == pMainApp)
+       return FALSE;
+
+    CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+    Safe_AddRef(pGameInstance);
+
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
+        return FALSE;
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
         return FALSE;
 
+    _float      fTimeAcc = {};
 
     while (true)
     {
@@ -69,10 +79,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
 
-        /* 내 게임의 반복적인 업데이트와 렌더를 호출해준다. */
-        pMainApp->Update();
-        pMainApp->Render();
+        pGameInstance->Update_Timer(TEXT("Timer_Default"));
+
+        fTimeAcc += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
+
+        if (fTimeAcc >= 1.f / 60.f /*1초에 60번만 트루를 리턴한다. */ )
+        {
+            pGameInstance->Update_Timer(TEXT("Timer_60"));
+
+            /* 내 게임의 반복적인 업데이트와 렌더를 호출해준다. */
+            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
+            pMainApp->Render();
+
+            fTimeAcc = 0.f;
+        }
+
+
+
+
+        
     }
+
+    Safe_Release(pGameInstance);
 
     if (0 != Safe_Release(pMainApp))
         MSG_BOX("Failed to Release : CMainApp");

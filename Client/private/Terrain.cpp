@@ -33,7 +33,23 @@ void CTerrain::Priority_Update(_float fTimeDelta)
 
 void CTerrain::Update(_float fTimeDelta)
 {
-	int a = 10;
+	if (GetKeyState(VK_UP) & 0x8000)
+	{
+		m_pTransformCom->Go_Straight(0.016f);
+	}
+	if (GetKeyState(VK_DOWN) & 0x8000)
+	{
+		m_pTransformCom->Go_Backward(0.016f);
+	}
+	if (GetKeyState(VK_LEFT) & 0x8000)
+	{
+		m_pTransformCom->Go_Left(0.016f);
+	}
+	if (GetKeyState(VK_RIGHT) & 0x8000)
+	{
+		m_pTransformCom->Go_Right(0.016f);
+	}
+
 }
 
 void CTerrain::Late_Update(_float fTimeDelta)
@@ -49,19 +65,16 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
-	_float4x4		WorldMatrix{}, ViewMatrix{}, ProjMatrix{};
+	_float4x4		ViewMatrix{}, ProjMatrix{};
 	_float3			vEye = _float3(0.f, 10.f, -8.f);
 	_float3			vAt = _float3(0.f, 0.f, 0.f);
 	_float3			vUpDir = _float3(0.f, 1.f, 0.f);
-
-	D3DXMatrixIdentity(&WorldMatrix);
-
-
-
 	D3DXMatrixLookAtLH(&ViewMatrix, &vEye, &vAt, &vUpDir);
 	D3DXMatrixPerspectiveFovLH(&ProjMatrix, D3DXToRadian(60.f), static_cast<_float>(g_iWinSizeX) / g_iWinSizeY, 0.1f, 1000.f);	
+	
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
 
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &WorldMatrix);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &ViewMatrix);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &ProjMatrix);
 
@@ -72,7 +85,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	// m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	
 
     return S_OK;
 }
@@ -88,6 +101,15 @@ HRESULT CTerrain::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f)};
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -122,7 +144,8 @@ void CTerrain::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);	
 	Safe_Release(m_pTextureCom);
 
 }
