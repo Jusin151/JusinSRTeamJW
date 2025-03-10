@@ -24,7 +24,7 @@ private:
 	LARGE_INTEGER			m_OriginTime{};
 	LARGE_INTEGER			m_CpuTick{};
 
-	float					m_fTimeDelta{};
+	_float					m_fTimeDelta{};
 
 public:
 	static CTimer* Create();
