@@ -22,7 +22,7 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 	CAMERA_FREE_DESC	Desc{};
 
-	Desc.vEye = _float3(0.f, 10.f, -10.f);
+	Desc.vEye = _float3(0.f, 100.f, -10.f);
 	Desc.vAt = _float3(0.f, 0.f, 0.f);
 	Desc.fFov = D3DXToRadian(60.f);
 	Desc.fNear = 0.1f;
@@ -34,6 +34,7 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
+	//SetCursorPos(g_iWinSizeX / 2, g_iWinSizeY / 2);
 	GetCursorPos(&m_ptOldMousePos);
 	ScreenToClient(g_hWnd, &m_ptOldMousePos);
 
@@ -76,10 +77,7 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * iMouseMove * m_fMouseSensor);
 	}
-
 	
-
-
 	m_ptOldMousePos = ptMouse;
 
 	__super::Update_VP_Matrices();

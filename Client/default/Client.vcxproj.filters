@@ -40,6 +40,15 @@
     <Filter Include="02.GameObjects\Camera\Free">
       <UniqueIdentifier>{9a579ff3-968b-4937-b82a-dcf470db3132}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\BaseObjects">
+      <UniqueIdentifier>{b506ae0f-3553-4ed7-874f-cf738e5da078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Plane">
+      <UniqueIdentifier>{2ebc4a98-6a27-4de5-90d9-1698e7455470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Cube">
+      <UniqueIdentifier>{485c1791-2a3f-4b42-9216-cd5d081af563}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
