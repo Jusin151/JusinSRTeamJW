@@ -174,6 +174,9 @@
     <Filter Include="04.Components\Collider\2D\Circle">
       <UniqueIdentifier>{2436b0f8-00cc-43d2-bfbf-e2216baf4eb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Sound">
+      <UniqueIdentifier>{8be1bb1c-fa11-4209-833e-b4b220c0eb80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

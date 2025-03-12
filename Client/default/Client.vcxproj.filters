@@ -49,6 +49,21 @@
     <Filter Include="02.GameObjects\Cube">
       <UniqueIdentifier>{485c1791-2a3f-4b42-9216-cd5d081af563}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Lib">
+      <UniqueIdentifier>{d2c067ec-2415-41f3-a3a8-70732fbdf363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Lib\IMGUI">
+      <UniqueIdentifier>{78e46183-5784-4daa-9f41-cec7eb286592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Lib\IMGUI\96.ImGUI">
+      <UniqueIdentifier>{3aff3fb0-94fd-4b98-8c3d-96a67b75ae42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Lib\FMOD">
+      <UniqueIdentifier>{a517c919-239c-4302-be7c-9260d480a864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Lib\IMGUI\96.ImGUI\backends">
+      <UniqueIdentifier>{64a171cb-0b0b-4962-9dde-9b6b7c7d8163}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -93,6 +108,33 @@
     <ClInclude Include="..\public\Camera_Free.h">
       <Filter>02.GameObjects\Camera\Free</Filter>
     </ClInclude>
+    <ClInclude Include="Client_Imgui.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h">
+      <Filter>External Lib\IMGUI\96.ImGUI\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.h">
+      <Filter>External Lib\IMGUI\96.ImGUI\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imconfig.h">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imgui.h">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imgui_internal.h">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imstb_rectpack.h">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imstb_textedit.h">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imstb_truetype.h">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -134,6 +176,27 @@
     </ClCompile>
     <ClCompile Include="..\private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_draw.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_tables.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_widgets.cpp">
+      <Filter>External Lib\IMGUI\96.ImGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
