@@ -26,6 +26,9 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual CBase* OnCollision2DEnter(void * pArg) = 0;
+	virtual CBase* OnCollision2DExit(void* pArg) = 0;
+	virtual void OnCollision(void* pArg) = 0;
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;
