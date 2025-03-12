@@ -82,6 +82,12 @@
     <ClInclude Include="..\Public\CColider3D.h">
       <Filter>04.Components\Collider\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>04.Components\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sound_Device.h">
+      <Filter>97.Device\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -144,12 +150,6 @@
     <Filter Include="04.Components\Transform">
       <UniqueIdentifier>{e6f09916-b879-4da9-af31-206b538ecd54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.Timers">
-      <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05.Timers\Manager">
-      <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\Camera">
       <UniqueIdentifier>{818845ae-d1f4-4af6-8117-3b38123510e2}</UniqueIdentifier>
     </Filter>
@@ -176,6 +176,21 @@
     </Filter>
     <Filter Include="06.Sound">
       <UniqueIdentifier>{8be1bb1c-fa11-4209-833e-b4b220c0eb80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Sound">
+      <UniqueIdentifier>{96c9b3ef-750f-4e56-b5d0-6d0dcf1466c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device\Sound">
+      <UniqueIdentifier>{cd196c7c-fe78-4a42-a7cc-4c8dc02d54e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Timers">
+      <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Timers\Manager">
+      <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Manager">
+      <UniqueIdentifier>{2d283be0-f700-4b9d-a5b3-d3c19ff33db9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +256,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CColider3D.cpp">
       <Filter>04.Components\Collider\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>04.Components\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Device.cpp">
+      <Filter>97.Device\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

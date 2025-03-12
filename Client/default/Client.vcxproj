@@ -122,6 +122,9 @@
       <AdditionalDependencies>Engine.lib;d3dx9.LIB;fmodstudio_vc.lib;fsbank_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)convert_encoding.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -141,6 +144,9 @@
       <AdditionalDependencies>Engine.lib;d3dx9.LIB;fmodstudio_vc.lib;fsbank_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)convert_encoding.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h" />
