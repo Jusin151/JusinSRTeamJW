@@ -183,9 +183,6 @@
     <ClInclude Include="..\Public\Exit_Button.h">
       <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Exit_Button</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_Base.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Loading_UI.h">
       <Filter>02.GameObjects\UI\Loading</Filter>
     </ClInclude>
@@ -224,6 +221,24 @@
     </ClInclude>
     <ClInclude Include="..\..\External Libraries\imgui\imgui.h">
       <Filter>External Libraries\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround_2.h">
+      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround_3.h">
+      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround_4.h">
+      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Default_Menu.h">
+      <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Default_Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera_Free.h">
+      <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CUI_Base.h">
+      <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +308,42 @@
     </ClCompile>
     <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp">
       <Filter>External Libraries\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround_2.cpp">
+      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround_3.cpp">
+      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround_4.cpp">
+      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera_Free.cpp">
+      <Filter>02.GameObjects\Camera\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Default_Menu.cpp">
+      <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Default_Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_UI.cpp">
+      <Filter>02.GameObjects\UI\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CUI_AmmoDisplay.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_AMMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_AMMOBar.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_AMMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Exit_Button.cpp">
+      <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Exit_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_HPDisplay.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_HPBar.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CUI_Base.cpp">
+      <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
