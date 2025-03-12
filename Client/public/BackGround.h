@@ -36,12 +36,9 @@ private:
 
 	BackGround_DESC m_BackGround_INFO{};
 
+	_float accumulatedDistance{};
 private:
 	 HRESULT Ready_Components(const _wstring& strTextureTag=L"");
-
-	float moveSpeed = {}; // 초당 100 단위 이동
-	float moveDistance = {}; // 이미지의 너비
-	float accumulatedDistance = {}; // 누적 이동 
 
 public:
 	static CBackGround* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
