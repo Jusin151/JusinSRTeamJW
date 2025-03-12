@@ -56,15 +56,17 @@ void CBackGround::Priority_Update(_float fTimeDelta)
 
 void CBackGround::Update(_float fTimeDelta)
 {
+	if(abs(m_BackGround_INFO.fmoveSpeed)>0.f)
 	accumulatedDistance += m_BackGround_INFO.fmoveSpeed * fTimeDelta;
 
-	if (accumulatedDistance >= m_BackGround_INFO.fMoveDistance)
+	if (abs(accumulatedDistance) >= m_BackGround_INFO.fMoveDistance)  
 	{
 		accumulatedDistance = 0.0f;
 	}
 
-	m_BackGround_INFO.BackGround_Desc.vPos.x = m_BackGround_INFO.fNextx + accumulatedDistance;
-	m_BackGround_INFO.BackGround_Desc.vPos.y = -m_BackGround_INFO.fNexty;
+	m_BackGround_INFO.BackGround_Desc.vPos.x = m_BackGround_INFO.fNextx + accumulatedDistance; // 저게 그러니까 싸이클 한번돌고
+
+
 
 	// 위치 설정
 	m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -96,7 +98,7 @@ HRESULT CBackGround::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
+	// 그거 왼쪽으로 갈지 오른쪽으로 갈지를 안정해줬으
 	if (FAILED(m_Back_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 	if (FAILED(m_Back_pTextureCom->Bind_Resource(0)))
@@ -105,6 +107,22 @@ HRESULT CBackGround::Render()
 		return E_FAIL;
 	if (FAILED(m_Back_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	if (m_BackGround_INFO.fStack_MoveDistance != 0.f)
+	{
+		// 두 번째 이미지 렌더링 (첫 번째 이미지의 오른쪽에 할꺼임!)
+		m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			_float3(m_BackGround_INFO.BackGround_Desc.vPos.x + m_BackGround_INFO.fMoveDistance, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
+		if (FAILED(m_Back_pTransformCom->Bind_Resource()))
+			return E_FAIL;
+		if (FAILED(m_Back_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+		if (FAILED(m_Back_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+		if (FAILED(m_Back_pVIBufferCom->Render()))
+			return E_FAIL;
+	}
+
 
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -130,7 +148,10 @@ HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 		TEXT("Com_Transform_Back"), reinterpret_cast<CComponent**>(&m_Back_pTransformCom), &tDesc)))
 		return E_FAIL;
 
+	// 그러니까 형말은 제일 마지막에 그리고 싶으면 레이어_4
 
+
+	
 
 	return S_OK;
 }

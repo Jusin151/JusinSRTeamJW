@@ -5,9 +5,6 @@
 #include "Camera_Free.h"
 ////////////////////////////// 레벨_로고
 #include "BackGround.h"
-#include  "BackGround_2.h"
-#include  "BackGround_3.h"
-#include  "BackGround_4.h"
 #include  "Default_Menu.h"
 #include  "Start_Button.h"
 #include  "Exit_Button.h"
@@ -138,17 +135,7 @@ HRESULT CLoader::Add_To_Logo_Prototype()
 		CBackGround::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_2"),
-		CBackGround_2::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_3"),
-		CBackGround_3::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_4"),
-		CBackGround_4::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	
 
 	Add_To_Logo_Menu_Prototype();
 
@@ -309,7 +296,7 @@ HRESULT CLoader::Add_To_Logo_Textures()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_2"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Long_menu_potwory.png"), 1))))
 		return E_FAIL;
-
+	//사람뒤
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_3"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/menu_blyskawica_v01_winter.png"), 1))))
 		return E_FAIL;
@@ -331,17 +318,7 @@ HRESULT CLoader::Add_To_Logo_Buffer()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_BackGround_2"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_BackGround_3"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_BackGround_4"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	
 
 	Add_To_Logo_Menu_Buffer();
 
@@ -352,18 +329,6 @@ HRESULT CLoader::Add_To_Logo_Transform()
 {
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_BackGround"),
-		CTransform::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_BackGround_2"),
-		CTransform::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_BackGround_3"),
-		CTransform::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_BackGround_4"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

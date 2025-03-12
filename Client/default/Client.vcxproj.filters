@@ -91,15 +91,6 @@
     <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_1">
       <UniqueIdentifier>{9e680ff6-4234-49fa-bfc9-bf2b6fc6fdf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_2">
-      <UniqueIdentifier>{f79061cb-6aec-49a9-85b4-a2f58623b4f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_3">
-      <UniqueIdentifier>{09e657a4-bc1f-44b4-9335-79eef146e89b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_4">
-      <UniqueIdentifier>{eb1810f4-b4f1-45e4-9781-89bd8dad713a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\Loading">
       <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
     </Filter>
@@ -222,15 +213,6 @@
     <ClInclude Include="..\..\External Libraries\imgui\imgui.h">
       <Filter>External Libraries\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BackGround_2.h">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\BackGround_3.h">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\BackGround_4.h">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_4</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Default_Menu.h">
       <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Default_Menu</Filter>
     </ClInclude>
@@ -308,15 +290,6 @@
     </ClCompile>
     <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp">
       <Filter>External Libraries\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BackGround_2.cpp">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BackGround_3.cpp">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BackGround_4.cpp">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_4</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
