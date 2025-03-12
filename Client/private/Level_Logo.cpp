@@ -92,7 +92,7 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround()
 	tDesc_BlackMonster_Image.BackGround_Desc.fAlpha = 1.0f;
 	tDesc_BlackMonster_Image.strTextureTag = TEXT("Prototype_Component_Texture_BackGround_2");
 	///////////////////////////////////////////////////////// 
-	tDesc_BlackMonster_Image.fmoveSpeed = 700.0f;
+	tDesc_BlackMonster_Image.fmoveSpeed = 70.0f;
 	tDesc_BlackMonster_Image.fMoveDistance = 1287.f;
 	tDesc_BlackMonster_Image.fNextx = -607.f;
 	tDesc_BlackMonster_Image.fNexty = 0.f;
