@@ -41,7 +41,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_Terrain"),
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
-
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 6)))
+		return E_FAIL;
 
 	return S_OK;
 }
