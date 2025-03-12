@@ -15,6 +15,7 @@ BEGIN(Client)
 // 캐릭터 
 class CBackGround final : public CUI_Base
 {
+	
 private:
 	CBackGround(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CBackGround(const CBackGround& Prototype);
@@ -33,11 +34,14 @@ private:
 	CTransform* m_Back_pTransformCom{};
 	CVIBuffer_Rect* m_Back_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
 
-	UI_Parent_Desc m_BackGround_INFO{};
+	BackGround_DESC m_BackGround_INFO{};
 
 private:
-	HRESULT Ready_Components();
+	 HRESULT Ready_Components(const _wstring& strTextureTag=L"");
 
+	float moveSpeed = {}; // 초당 100 단위 이동
+	float moveDistance = {}; // 이미지의 너비
+	float accumulatedDistance = {}; // 누적 이동 
 
 public:
 	static CBackGround* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

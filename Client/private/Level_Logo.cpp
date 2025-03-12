@@ -51,8 +51,20 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround()
 		LEVEL_LOGO, TEXT("02_Layer_BackGround_4"))))
 		return E_FAIL;
 
+
+	CUI_Base::BackGround_DESC tDesc{};
+
+	tDesc.fStack_MoveDistance = 0.f;
+	tDesc.BackGround_Desc.vPos = { 0.f,0.f };
+	tDesc.BackGround_Desc.vSize = { 1085.f,720.f };
+	tDesc.BackGround_Desc.fAlpha = 1.0f;
+	tDesc.strTextureTag = TEXT("../../Resources/Textures/UI/Logo/menu-warlock_v02_winter.png");
+	tDesc.fmoveSpeed = 100.f;
+	tDesc.fMoveDistance = 1085.f;
+	tDesc.BackGround_Desc.vPos = { -192.f,-90.f };
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
-		LEVEL_LOGO, TEXT("Layer_BackGround"))))
+		LEVEL_LOGO, TEXT("Layer_BackGround"),&tDesc)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_2"),

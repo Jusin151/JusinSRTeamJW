@@ -33,6 +33,17 @@ public:
         _float fAlpha;
     }UI_Child_Desc;
 
+    typedef struct tagBackGround
+    {
+        UI_Parent_Desc BackGround_Desc{};
+        wstring strTextureTag{};
+
+        float fmoveSpeed = {}; // 초당 100 단위 이동
+        float fMoveDistance = {}; // 이미지의 너비
+        float fStack_MoveDistance = {}; // 누적 이동 
+
+    }BackGround_DESC;
+
 protected:
     CUI_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
     CUI_Base(const CUI_Base& Prototype);
