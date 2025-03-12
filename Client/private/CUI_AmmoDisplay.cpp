@@ -1,4 +1,4 @@
-#include "CUI_AmmoDisplay.h"
+ï»¿#include "CUI_AmmoDisplay.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -122,7 +122,7 @@ CUI_AmmoDisplay* CUI_AmmoDisplay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Åº¾à UI ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("íƒ„ì•½ UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -136,7 +136,7 @@ CGameObject* CUI_AmmoDisplay::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("Åº¾à UI º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("íƒ„ì•½ UI ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

@@ -1,4 +1,4 @@
-#include "Collider2D.h"
+﻿#include "Collider2D.h"
 
 
 CCollider2D::CCollider2D(LPDIRECT3DDEVICE9 pGraphic_Device) :

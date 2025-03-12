@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,12 +7,12 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
 
-// ¸Ç µÚÀÇ Àü±â
+// ë§¨ ë’¤ì˜ ì „ê¸°
 class CBackGround_3 final : public CUI_Base
 {
 private:
@@ -31,7 +31,7 @@ public:
 private:
 	CTexture* m_Back3_pTextureCom{};
 	CTransform* m_Back3_pTransformCom{};
-	CVIBuffer_Rect* m_Back3_pVIBufferCom{};  // UI´Â »ç°¢ÇüÀÌ¹Ç·Î Rect ¹öÆÛ »ç¿ë
+	CVIBuffer_Rect* m_Back3_pVIBufferCom{};  // UIëŠ” ì‚¬ê°í˜•ì´ë¯€ë¡œ Rect ë²„í¼ ì‚¬ìš©
 	UI_Child_Desc m_BackGround3_INFO{};
 
 private:

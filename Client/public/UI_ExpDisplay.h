@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -31,7 +31,7 @@ public:
 private:
 	CTexture* m_EXP_pTextureCom{};
 	CTransform* m_EXP_pTransformCom{};
-	CVIBuffer_Rect* m_EXP_pVIBufferCom{};  // UI´Â »ç°¢ÇüÀÌ¹Ç·Î Rect ¹öÆÛ »ç¿ë
+	CVIBuffer_Rect* m_EXP_pVIBufferCom{};  // UIëŠ” ì‚¬ê°í˜•ì´ë¯€ë¡œ Rect ë²„í¼ ì‚¬ìš©
 	UI_Child_Desc m_EXP_INFO{};
 
 private:
@@ -44,7 +44,7 @@ public:
 	virtual void Free();
 
 private:
-	_float m_fExp{};  // Ã¼·Â
+	_float m_fExp{};  // ì²´ë ¥
 };
 
 

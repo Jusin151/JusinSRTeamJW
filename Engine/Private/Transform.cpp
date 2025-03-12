@@ -1,4 +1,4 @@
-#include "Transform.h"
+ï»¿#include "Transform.h"
 
 CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent{ pGraphic_Device }
@@ -109,19 +109,19 @@ void CTransform::Go_Down(_float fTimeDelta)
 
 void CTransform::LookAt(const _float3& vTargetPos)
 {
-	_float3		vScaled = Compute_Scaled(); //½ºÄÉÀÏ°ª ÀúÀåÇØ³õ°í
+	_float3		vScaled = Compute_Scaled(); //ìŠ¤ì¼€ì¼ê°’ ì €ì¥í•´ë†“ê³ 
 
-	_float3		vPosition = Get_State(STATE_POSITION); // À§Ä¡º¤ÅÍ ÀúÀåÇØ³õ°í
+	_float3		vPosition = Get_State(STATE_POSITION); // ìœ„ì¹˜ë²¡í„° ì €ì¥í•´ë†“ê³ 
 
-	_float3		vLook = vTargetPos - vPosition; // ¹æÇâº¤ÅÍ¸¸µé¾î¼­ ·èº¤ÅÍ¿¡ ½Î¾Ç¸¸µé°í
+	_float3		vLook = vTargetPos - vPosition; // ë°©í–¥ë²¡í„°ë§Œë“¤ì–´ì„œ ë£©ë²¡í„°ì— ì‹¸ì•…ë§Œë“¤ê³ 
 
 	_float3		vRight = {};
 
-	_float3		vUpDir{ 0.f, 1.f, 0.f };	// ÀÓÀÇÀÇ ¾÷º¤ÅÍ
-	D3DXVec3Cross(&vRight, &vUpDir, &vLook); // ¶óÀÌÆ® ±¸ÇÏ°í
+	_float3		vUpDir{ 0.f, 1.f, 0.f };	// ì„ì˜ì˜ ì—…ë²¡í„°
+	D3DXVec3Cross(&vRight, &vUpDir, &vLook); // ë¼ì´íŠ¸ êµ¬í•˜ê³ 
 
 	_float3		vUp = {};
-	D3DXVec3Cross(&vUp, &vLook, &vRight); // ·èÀÌ¶û ¶óÀÌÆ®·Î ¿ÜÀû ¶§·Á¼­ Up ±¸ÇÏ°í
+	D3DXVec3Cross(&vUp, &vLook, &vRight); // ë£©ì´ë‘ ë¼ì´íŠ¸ë¡œ ì™¸ì  ë•Œë ¤ì„œ Up êµ¬í•˜ê³ 
 
 	Set_State(STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x);
 	Set_State(STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * vScaled.y);
@@ -130,11 +130,11 @@ void CTransform::LookAt(const _float3& vTargetPos)
 
 void CTransform::Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
-	_float3		vPosition = Get_State(STATE_POSITION); // ½ºÄÉÀÏ°ª ¼Ò½ÇÇÒ ¼öµµ ÀÖÀ¸´Ï ÀúÀå
+	_float3		vPosition = Get_State(STATE_POSITION); // ìŠ¤ì¼€ì¼ê°’ ì†Œì‹¤í•  ìˆ˜ë„ ìˆìœ¼ë‹ˆ ì €ì¥
 
-	_float3		vMoveDir = vTargetPos - vPosition; // ¹æÁeº¤ÅÍ ¸¸µé°í
+	_float3		vMoveDir = vTargetPos - vPosition; // ë°©í–‘ë²¡í„° ë§Œë“¤ê³ 
 
-	if (fMinDistance <= D3DXVec3Length(&vMoveDir)) // ÀÌÁ¦ ´ëÃæ µû¶ó¿À°Ô ÇÏ´Â°Å ¹º¸»ÀÎÁö ¾ËÁö
+	if (fMinDistance <= D3DXVec3Length(&vMoveDir)) // ì´ì œ ëŒ€ì¶© ë”°ë¼ì˜¤ê²Œ í•˜ëŠ”ê±° ë­”ë§ì¸ì§€ ì•Œì§€
 	{
 		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
 	}
@@ -145,11 +145,11 @@ void CTransform::Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMin
 
 void CTransform::Turn(const _float3& vAxis, _float fTimeDelta)
 {
-	_float3			vRight = Get_State(STATE_RIGHT); // ¶óÀÌÆ® ÀúÀå
-	_float3			vUp = Get_State(STATE_UP); // ¾÷ ÀúÀå
-	_float3			vLook = Get_State(STATE_LOOK); // ·è ÀúÀå
+	_float3			vRight = Get_State(STATE_RIGHT); // ë¼ì´íŠ¸ ì €ì¥
+	_float3			vUp = Get_State(STATE_UP); // ì—… ì €ì¥
+	_float3			vLook = Get_State(STATE_LOOK); // ë£© ì €ì¥
 
-	_float4x4		RotationMatrix; // È¸Àü Çà·Ä ½Î¾Ç ¸¸µé¾îÁÖ°í
+	_float4x4		RotationMatrix; // íšŒì „ í–‰ë ¬ ì‹¸ì•… ë§Œë“¤ì–´ì£¼ê³ 
 
 
 	D3DXMatrixRotationAxis(&RotationMatrix, &vAxis, m_fRotationPerSec * fTimeDelta);

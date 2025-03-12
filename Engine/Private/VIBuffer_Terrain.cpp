@@ -1,4 +1,4 @@
-#include "VIBuffer_Terrain.h"
+ï»¿#include "VIBuffer_Terrain.h"
 
 CVIBuffer_Terrain::CVIBuffer_Terrain(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CVIBuffer { pGraphic_Device }
@@ -14,7 +14,7 @@ CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& Prototype)
 
 HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ)
 {
-	//Ã¼ÀÎÁö·¹º§¿¡ Å¬¸®¾î ÇÔ¼öµé ¸¸µå¼À ¤»
+	//ì²´ì¸ì§€ë ˆë²¨ì— í´ë¦¬ì–´ í•¨ìˆ˜ë“¤ ë§Œë“œì…ˆ ã…‹
 	m_iNumVerticesX = iNumVerticesX;
 	m_iNumVerticesZ = iNumVerticesZ;
 	m_iNumVertices = iNumVerticesX * iNumVerticesZ;

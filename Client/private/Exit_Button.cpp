@@ -1,4 +1,4 @@
-#include "Exit_Button.h"
+ï»¿#include "Exit_Button.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -124,7 +124,7 @@ CExit_Button* CExit_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Á¾·á¹öÆ° ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ì¢…ë£Œë²„íŠ¼ ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -138,7 +138,7 @@ CGameObject* CExit_Button::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("Á¾·á¹öÆ° º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ì¢…ë£Œë²„íŠ¼ ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

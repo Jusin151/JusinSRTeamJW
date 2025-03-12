@@ -1,4 +1,4 @@
-#include "Object_Manager.h"
+ï»¿#include "Object_Manager.h"
 #include "Layer.h"
 
 #include "GameInstance.h"
@@ -21,8 +21,8 @@ HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 
 HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
-	/* »çº»°´Ã¼¸¦ ¿ÀºêÁ§Æ® ¸Å´ÏÁ®¿¡ Ãß°¡ÇÑ´Ù. */
-	/* ¿øÇü ¸Å´ÏÁ®¿¡°Ô º¹Á¦ÇÏ¿© ³»³ö!! */
+	/* ì‚¬ë³¸ê°ì²´ë¥¼ ì˜¤ë¸Œì íŠ¸ ë§¤ë‹ˆì ¸ì— ì¶”ê°€í•œë‹¤. */
+	/* ì›í˜• ë§¤ë‹ˆì ¸ì—ê²Œ ë³µì œí•˜ì—¬ ë‚´ë†”!! */
 	CGameObject*		pGameObject = dynamic_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg));
 	if (nullptr == pGameObject)
 		return E_FAIL;

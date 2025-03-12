@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 /* V : Vertex */
 /* I : Index */
-/* Buffer : ¸Ş¸ğ¸®°ø°£ */
+/* Buffer : ë©”ëª¨ë¦¬ê³µê°„ */
 #include "Component.h"
 
 BEGIN(Engine)
@@ -23,7 +23,7 @@ public:
 	HRESULT Bind_Buffers();
 
 protected:
-	/*  Á¤Á¡ ¹è¿­À» °¡Áö°í ÀÖ´Â ÄÄ °´Ã¼. */
+	/*  ì •ì  ë°°ì—´ì„ ê°€ì§€ê³  ìˆëŠ” ì»´ ê°ì²´. */
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
 	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };
 

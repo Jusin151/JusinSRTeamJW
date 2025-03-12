@@ -1,4 +1,4 @@
-#include "CUI_Dialogue.h"
+﻿#include "CUI_Dialogue.h"
 
 CUI_Dialogue::CUI_Dialogue(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

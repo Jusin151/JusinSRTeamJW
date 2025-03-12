@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -43,12 +43,12 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-    void Show_Dialogue(const wstring& strText) // ´ë»ç Ç¥½Ã
+    void Show_Dialogue(const wstring& strText) // ëŒ€ì‚¬ í‘œì‹œ
     {
 		m_strText = strText;
     }
 private:
-	wstring m_strText{};  // ´ë»ç
+	wstring m_strText{};  // ëŒ€ì‚¬
 };
 
 

@@ -1,4 +1,4 @@
-#include "Camera_Free.h"
+﻿#include "Camera_Free.h"
 
 CCamera_Free::CCamera_Free(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCamera { pGraphic_Device }

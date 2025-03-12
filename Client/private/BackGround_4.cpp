@@ -1,4 +1,4 @@
-#include "BackGround_4.h"
+﻿#include "BackGround_4.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -49,8 +49,8 @@ void CBackGround_4::Priority_Update(_float fTimeDelta)
 
 void CBackGround_4::Update(_float fTimeDelta)
 {
-	const float moveSpeed = 50.0f; // �ʴ�
-	const float moveDistance = 1569.0f; // �̹��� ũ�⸸ŭ
+	const float moveSpeed = 50.0f; // 초당
+	const float moveDistance = 1569.0f; // 이미지 크기만큼
 	static float accumulatedDistance = 0.0f; 
 
 	accumulatedDistance += moveSpeed * fTimeDelta;
@@ -60,7 +60,7 @@ void CBackGround_4::Update(_float fTimeDelta)
 		accumulatedDistance = 0.0f;
 	}
 
-	// ���ο� ��ġ ���
+	// 새로운 위치 계산
 	m_BackGround4_INFO.vPos.x = 0.f - accumulatedDistance;
 	m_BackGround4_INFO.vPos.y = -90.f;
 
@@ -92,7 +92,7 @@ HRESULT CBackGround_4::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	// ù ��° �̹��� ������
+	// 첫 번째 이미지 렌더링
 	if (FAILED(m_Back4_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 	if (FAILED(m_Back4_pTextureCom->Bind_Resource(0)))
@@ -102,7 +102,7 @@ HRESULT CBackGround_4::Render()
 	if (FAILED(m_Back4_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	// �� ��° �̹��� ������ (ù ��° �̹����� �����ʿ�!!)
+	// 두 번째 이미지 렌더링 (첫 번째 이미지의 오른쪽에!!)
 	m_Back4_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_BackGround4_INFO.vPos.x + 1569.f, m_BackGround4_INFO.vPos.y, 0.f));
 	if (FAILED(m_Back4_pTransformCom->Bind_Resource()))
@@ -145,7 +145,7 @@ CBackGround_4* CBackGround_4::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("�׹�°��׶��� ���� ���� ���� ");
+		MSG_BOX("네번째백그라운드 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -158,7 +158,7 @@ CGameObject* CBackGround_4::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("�׹�°��׶��� ���� ����");
+		MSG_BOX("네번째백그라운드 복제 실패");
 		Safe_Release(pInstace);
 	}
 

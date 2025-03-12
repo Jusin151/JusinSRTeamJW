@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î ÇÒµí
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ í• ë“¯
 END
 
 BEGIN(Client)
@@ -50,9 +50,9 @@ protected:
 
 protected:
     UI_Parent_Desc m_UIBase_INFO{};
-    _float2 m_vPosition = { 0.f, 0.f };  // UI È­¸é ÁÂÇ¥
-    _float2 m_vSize = { 100.f, 50.f };  // UI Å©±â
-    _float  m_fAlpha = 1.0f;            // Åõ¸íµµ?
+    _float2 m_vPosition = { 0.f, 0.f };  // UI í™”ë©´ ì¢Œí‘œ
+    _float2 m_vSize = { 100.f, 50.f };  // UI í¬ê¸°
+    _float  m_fAlpha = 1.0f;            // íˆ¬ëª…ë„?
 
     CTexture* m_pTextureCom = nullptr;
     CTransform* m_pTransformCom = nullptr;
@@ -81,7 +81,7 @@ public:
         {
             m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(vPos.x, vPos.y, 0.f));
         }
-       // Update_ChildPositions();  // ºÎ¸ğ À§Ä¡ º¯°æÇÏ¸é ÀÚ½Ä À§Ä¡µµ ¹Ù²Ù°Ô ÇÒ ¿¹Á¤(±Ùµ¥ ÇÏ±â ½È¾û)
+       // Update_ChildPositions();  // ë¶€ëª¨ ìœ„ì¹˜ ë³€ê²½í•˜ë©´ ìì‹ ìœ„ì¹˜ë„ ë°”ê¾¸ê²Œ í•  ì˜ˆì •(ê·¼ë° í•˜ê¸° ì‹«ì—‰)
     }
     void Set_Size(_float2 vSize)
     {
@@ -115,7 +115,7 @@ public:
     _float2 Get_Size() const { return m_vSize; }
     _float Get_Alpha() const { return m_fAlpha; }
 
-    //¸íÈÆÀÌÇüÀÌ ¸»ÇÑ Layer ID °¡Á®¿À´Â ÇÔ¼ö (ÃßÈÄ ID·Î Á¢±Ù??)
+    //ëª…í›ˆì´í˜•ì´ ë§í•œ Layer ID ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜ (ì¶”í›„ IDë¡œ ì ‘ê·¼??)
     virtual wstring GetLayerID() { return L"Default"; }
 };
 

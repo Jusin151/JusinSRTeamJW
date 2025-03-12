@@ -1,4 +1,4 @@
-#ifndef _FSBANK_H
+﻿#ifndef _FSBANK_H
 #define _FSBANK_H
 
 #if defined(_WIN32)

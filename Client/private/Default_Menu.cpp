@@ -1,4 +1,4 @@
-#include "Default_Menu.h"
+ï»¿#include "Default_Menu.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -124,7 +124,7 @@ CDefault_Menu* CDefault_Menu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("·Î°í¸Þ´º ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ë¡œê³ ë©”ë‰´ ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -138,7 +138,7 @@ CGameObject* CDefault_Menu::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("·Î°í¸Þ´º º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ë¡œê³ ë©”ë‰´ ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

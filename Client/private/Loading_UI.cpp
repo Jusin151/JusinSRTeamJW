@@ -1,4 +1,4 @@
-#include "Loading_UI.h"
+ï»¿#include "Loading_UI.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -124,7 +124,7 @@ CLoading_UI* CLoading_UI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("·Îµù¸Þ´º ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ë¡œë”©ë©”ë‰´ ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -138,7 +138,7 @@ CGameObject* CLoading_UI::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("·Îµù¸Þ´º º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ë¡œë”©ë©”ë‰´ ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

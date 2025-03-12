@@ -1,4 +1,4 @@
-#include "Level_Logo.h"
+ï»¿#include "Level_Logo.h"
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
@@ -35,14 +35,14 @@ void CLevel_Logo::Update(_float fTimeDelta)
 
 HRESULT CLevel_Logo::Render()
 {
-	SetWindowText(g_hWnd, TEXT("·Î°í·¹º§ÀÔ´Ï´Ù."));
+	SetWindowText(g_hWnd, TEXT("ë¡œê³ ë ˆë²¨ìž…ë‹ˆë‹¤."));
 
 	return S_OK;
 }
 
 HRESULT CLevel_Logo::Ready_Layer_BackGround()
 {
-	 // ¾Õ¿¡ ¼ýÀÚ´Â ·»´õ ¼ø¼­ÀÓ
+	 // ì•žì— ìˆ«ìžëŠ” ë Œë” ìˆœì„œìž„
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_3"),
 		LEVEL_LOGO, TEXT("01_Layer_BackGround_3"))))
 		return E_FAIL;

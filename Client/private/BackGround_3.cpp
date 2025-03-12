@@ -1,4 +1,4 @@
-#include "BackGround_3.h"
+ï»¿#include "BackGround_3.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -30,7 +30,7 @@ HRESULT CBackGround_3::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// µðÆúÆ® 2048¿¡ 763
+	// ë””í´íŠ¸ 2048ì— 763
 	m_BackGround3_INFO.vSize = { 2048.f,763.f };
 	m_BackGround3_INFO.fAlpha = 1.0f;
 	m_BackGround3_INFO.vPos = { 0.f,0.f };
@@ -53,9 +53,9 @@ void CBackGround_3::Priority_Update(_float fTimeDelta)
 
 void CBackGround_3::Update(_float fTimeDelta)
 {
-	const float moveSpeed = 20.0f; // ÃÊ´ç 
-	const float moveDistance = 2048.0f; // ÀÌ¹ÌÁöÅ©±â¸¸Å­
-	static float accumulatedDistance = 0.0f; // ´©ÀûÀÌµ¿°Å¸® ÀúÀå
+	const float moveSpeed = 20.0f; // ì´ˆë‹¹ 
+	const float moveDistance = 2048.0f; // ì´ë¯¸ì§€í¬ê¸°ë§Œí¼
+	static float accumulatedDistance = 0.0f; // ëˆ„ì ì´ë™ê±°ë¦¬ ì €ìž¥
 
 
 	accumulatedDistance += moveSpeed * fTimeDelta;
@@ -65,7 +65,7 @@ void CBackGround_3::Update(_float fTimeDelta)
 		accumulatedDistance = 0.0f;
 	}
 
-	// »õ·Î¿î À§Ä¡ °è»ê
+	// ìƒˆë¡œìš´ ìœ„ì¹˜ ê³„ì‚°
 	m_BackGround3_INFO.vPos.x = 0.f - accumulatedDistance;
 	m_BackGround3_INFO.vPos.y = 0.f;
 
@@ -100,7 +100,7 @@ HRESULT CBackGround_3::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	// Ã¹ ¹øÂ° ÀÌ¹ÌÁö ·»´õ¸µ
+	// ì²« ë²ˆì§¸ ì´ë¯¸ì§€ ë Œë”ë§
 	if (FAILED(m_Back3_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 	if (FAILED(m_Back3_pTextureCom->Bind_Resource(0)))
@@ -110,7 +110,7 @@ HRESULT CBackGround_3::Render()
 	if (FAILED(m_Back3_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	// µÎ ¹øÂ° ÀÌ¹ÌÁö ·»´õ¸µ (Ã¹ ¹øÂ° ÀÌ¹ÌÁöÀÇ ¿À¸¥ÂÊ¿¡ ÇßÀ½!)
+	// ë‘ ë²ˆì§¸ ì´ë¯¸ì§€ ë Œë”ë§ (ì²« ë²ˆì§¸ ì´ë¯¸ì§€ì˜ ì˜¤ë¥¸ìª½ì— í–ˆìŒ!)
 	m_Back3_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_BackGround3_INFO.vPos.x + 2048.f, m_BackGround3_INFO.vPos.y, 0.f));
 	if (FAILED(m_Back3_pTransformCom->Bind_Resource()))
@@ -157,7 +157,7 @@ CBackGround_3* CBackGround_3::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("¼¼¹øÂ°¹é±×¶ó¿îµå ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ì„¸ë²ˆì§¸ë°±ê·¸ë¼ìš´ë“œ ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -171,7 +171,7 @@ CGameObject* CBackGround_3::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("¼¼¹øÂ°¹é±×¶ó¿îµå º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ì„¸ë²ˆì§¸ë°±ê·¸ë¼ìš´ë“œ ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

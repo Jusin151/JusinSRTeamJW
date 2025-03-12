@@ -1,4 +1,4 @@
-#include "Start_Button.h"
+ï»¿#include "Start_Button.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -138,7 +138,7 @@ CStart_Button* CStart_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("½ÃÀÛ¹öÆ° ¿øº» »ı¼º ½ÇÆĞ ");
+		MSG_BOX("ì‹œì‘ë²„íŠ¼ ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -152,7 +152,7 @@ CGameObject* CStart_Button::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("½ÃÀÛ¹öÆ° º¹Á¦ ½ÇÆĞ");
+		MSG_BOX("ì‹œì‘ë²„íŠ¼ ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

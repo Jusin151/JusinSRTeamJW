@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -43,12 +43,12 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-    void Set_WeaponIcon(int iWeaponType) // ¹«±â º¯°æ
+    void Set_WeaponIcon(int iWeaponType) // ë¬´ê¸° ë³€ê²½
     {
 		m_iWeaponType = iWeaponType;
     }
 private:
-	int m_iWeaponType{};  // ¹«±â Å¸ÀÔ
+	int m_iWeaponType{};  // ë¬´ê¸° íƒ€ì…
 
 };
 

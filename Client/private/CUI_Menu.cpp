@@ -1,4 +1,4 @@
-#include "CUI_Menu.h"
+﻿#include "CUI_Menu.h"
 
 CUI_Menu::CUI_Menu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

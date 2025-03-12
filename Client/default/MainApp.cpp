@@ -1,4 +1,4 @@
-#include "MainApp.h"
+ï»¿#include "MainApp.h"
 #include "GameInstance.h"
 
 #include "Level_Logo.h"
@@ -37,7 +37,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 
-	/* ÃÖÃÊ º¸¿©ÁÙ ·¹º§À» ÇÒ´çÇÏÀÚ. */
+	/* ìµœì´ˆ ë³´ì—¬ì¤„ ë ˆë²¨ì„ í• ë‹¹í•˜ìž. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
@@ -117,7 +117,7 @@ void CMainApp::Free()
 
 	m_pGameInstance->Release_Engine();
 
-	/* ³»¸â¹ö¸¦ Á¤¸®ÇÑ´Ù.*/	
+	/* ë‚´ë©¤ë²„ë¥¼ ì •ë¦¬í•œë‹¤.*/	
 	Safe_Release(m_pGameInstance);
 	
 

@@ -1,4 +1,4 @@
-#include "Component.h"
+﻿#include "Component.h"
 
 CComponent::CComponent(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }

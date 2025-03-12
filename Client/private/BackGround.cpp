@@ -1,4 +1,4 @@
-#include "BackGround.h"
+ï»¿#include "BackGround.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -126,7 +126,7 @@ CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Ã¹¹øÂ°¹é±×¶ó¿îµå¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ì²«ë²ˆì§¸ë°±ê·¸ë¼ìš´ë“œì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -140,7 +140,7 @@ CGameObject* CBackGround::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("Ã¹¹øÂ°¹é±×¶ó¿îµå º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ì²«ë²ˆì§¸ë°±ê·¸ë¼ìš´ë“œ ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

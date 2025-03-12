@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
-/* Æ¯Á¤ Çì´õÆÄÀÏ¿¡ ¼Ò¼ÓµÇÁö ¾Ê´Â Àü¿ªÁ¤º¸µéÀ» ¼±¾ğÇØµÎ´Â ¿ªÈ° */
-/* ±âÅ¸ ´Ù¸¥ Á¤ÀÇÆÄÀÏ(.h)µéÀ» ÀÎÅ¬·çµåÇÏ´Â ¿ªÈ°. */
+/* íŠ¹ì • í—¤ë”íŒŒì¼ì— ì†Œì†ë˜ì§€ ì•ŠëŠ” ì „ì—­ì •ë³´ë“¤ì„ ì„ ì–¸í•´ë‘ëŠ” ì—­í™œ */
+/* ê¸°íƒ€ ë‹¤ë¥¸ ì •ì˜íŒŒì¼(.h)ë“¤ì„ ì¸í´ë£¨ë“œí•˜ëŠ” ì—­í™œ. */
 #include <Windows.h>
 #include <process.h>
 #include "Client_Enum.h"
@@ -9,7 +9,7 @@
 
 namespace Client
 {
-	//±âº» 1280 720
+	//ê¸°ë³¸ 1280 720
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
 }
@@ -18,9 +18,3 @@ extern HWND g_hWnd;
 
 
 using namespace Client;
-
-
-
-
-
-

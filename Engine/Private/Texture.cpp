@@ -1,4 +1,4 @@
-#include "Texture.h"
+﻿#include "Texture.h"
 
 CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CComponent { pGraphic_Device }

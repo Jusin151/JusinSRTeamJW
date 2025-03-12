@@ -1,9 +1,9 @@
-#include "Loader.h"
+ï»¿#include "Loader.h"
 
 #include "GameInstance.h"
 #include "Terrain.h"
 #include "Camera_Free.h"
-////////////////////////////// ·¹º§_·Î°í
+////////////////////////////// ë ˆë²¨_ë¡œê³ 
 #include "BackGround.h"
 #include  "BackGround_2.h"
 #include  "BackGround_3.h"
@@ -11,7 +11,7 @@
 #include  "Default_Menu.h"
 #include  "Start_Button.h"
 #include  "Exit_Button.h"
-////////////////////////////// ·¹º§_°ÔÀÓÇÃ·¹ÀÌ
+////////////////////////////// ë ˆë²¨_ê²Œì„í”Œë ˆì´
 #include "UI_Default_Panel.h"
 #include "UI_HPDisplay.h"
 #include "CUI_AmmoDisplay.h"
@@ -27,7 +27,7 @@ CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 _uint APIENTRY LoadingMain(void* pArg)
 {
-	/* ÀÚ¿ø·ÎµùÇÑ´Ù. */
+	/* ìì›ë¡œë”©í•œë‹¤. */
 	CLoader* pLoader = static_cast<CLoader*>(pArg);
 
 	if (FAILED(pLoader->Loading()))
@@ -77,25 +77,25 @@ HRESULT CLoader::Loading()
 HRESULT CLoader::Loading_For_Logo()
 {
 
- 	lstrcpy(m_szLoadingText, TEXT("ÅØ½ºÃÄÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+ 	lstrcpy(m_szLoadingText, TEXT("í…ìŠ¤ì³ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 	Add_To_Logo_Textures();
 
-	lstrcpy(m_szLoadingText, TEXT("¸ğµ¨À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ëª¨ë¸ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 
 	Add_To_Logo_Buffer();
 
 	Add_To_Logo_Transform();
 
-	lstrcpy(m_szLoadingText, TEXT("»ç¿îµåÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì‚¬ìš´ë“œì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 
-	lstrcpy(m_szLoadingText, TEXT("¿øÇü°´Ã¼À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì›í˜•ê°ì²´ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 	Add_To_Logo_Prototype();
 
-	lstrcpy(m_szLoadingText, TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ë¡œë”©ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤."));
 
 	m_isFinished = true;
 
@@ -103,11 +103,11 @@ HRESULT CLoader::Loading_For_Logo()
 }
 HRESULT CLoader::Loading_For_GamePlay()
 {
-	lstrcpy(m_szLoadingText, TEXT("ÅØ½ºÃÄÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("í…ìŠ¤ì³ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 	Add_To_GamePlay_Textures();
 
-	lstrcpy(m_szLoadingText, TEXT("¸ğµ¨À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ëª¨ë¸ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 
 	Add_To_GamePlay_Buffer();
@@ -115,16 +115,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	Add_To_GamePlay_Transform();
 
 
-	lstrcpy(m_szLoadingText, TEXT("»ç¿îµåÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì‚¬ìš´ë“œì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 
-	lstrcpy(m_szLoadingText, TEXT("¿øÇü°´Ã¼À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì›í˜•ê°ì²´ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 	Add_To_GamePlay_Prototype();
 	//////////////////////////////////////
 
 
-	lstrcpy(m_szLoadingText, TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ë¡œë”©ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤."));
 
 	m_isFinished = true;
 
@@ -158,27 +158,27 @@ HRESULT CLoader::Add_To_Logo_Prototype()
 HRESULT CLoader::Add_To_Logo_Menu_Textures()
 {
 
-	// °ËÀº»ö ¸Ş´º¹Ù
+	// ê²€ì€ìƒ‰ ë©”ë‰´ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/UI/Logo/SR_Real.png"), 1))))
 		return E_FAIL;
 
-	// ¸Ş´º¹Ù ¾ÈÀÇ ½ÃÀÛ¹öÆ°
+	// ë©”ë‰´ë°” ì•ˆì˜ ì‹œì‘ë²„íŠ¼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_StartButton"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/UI/Logo/SR_Start.png"), 1))))
 		return E_FAIL;
 
-	// ¸Ş´º¹Ù ¾ÈÀÇ ½ÃÀÛ¹öÆ° ¼±ÅÃ½Ã
+	// ë©”ë‰´ë°” ì•ˆì˜ ì‹œì‘ë²„íŠ¼ ì„ íƒì‹œ
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_StartButton_Select"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/UI/Logo/SR_Start_Select.png"), 1))))
 		return E_FAIL;
 
-	// ¸Ş´º¹Ù ¾ÈÀÇ Á¾·á¹öÆ°
+	// ë©”ë‰´ë°” ì•ˆì˜ ì¢…ë£Œë²„íŠ¼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_ExitButton"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/UI/Logo/SR_Exit.png"), 1))))
 		return E_FAIL;
 
-	// ¸Ş´º¹Ù ¾ÈÀÇ Á¾·á¹öÆ° ¼±ÅÃ½Ã
+	// ë©”ë‰´ë°” ì•ˆì˜ ì¢…ë£Œë²„íŠ¼ ì„ íƒì‹œ
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_ExitButton_Select"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/UI/Logo/SR_Exit_Select.png"), 1))))
 		return E_FAIL;
@@ -375,28 +375,28 @@ HRESULT CLoader::Add_To_Logo_Transform()
 
 
 
-HRESULT CLoader::Add_To_UI_Prototype() //¿øÇü°´Ã¼µé
+HRESULT CLoader::Add_To_UI_Prototype() //ì›í˜•ê°ì²´ë“¤
 {
 
-	// ÇÃ·¹ÀÌ¾î µğÆúÆ® UI
+	// í”Œë ˆì´ì–´ ë””í´íŠ¸ UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Default_PlayerUI"),
 		CUI_Default_Panel::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Ã¼·Â¹Ù
+	// ì²´ë ¥ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_HealthBar_UI"),
 		CUI_HPDisplay::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Åº¾à¹Ù
+	// íƒ„ì•½ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Ammo_UI"),
 		CUI_AmmoDisplay::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// °æÇèÄ¡¹Ù
+	// ê²½í—˜ì¹˜ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Exp_UI"),
 		CUI_ExpDisplay::Create(m_pGraphic_Device))))
@@ -404,9 +404,9 @@ HRESULT CLoader::Add_To_UI_Prototype() //¿øÇü°´Ã¼µé
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_UI_Textures()// ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ®
+HRESULT CLoader::Add_To_UI_Textures()// í…ìŠ¤ì³ ì»´í¬ë„ŒíŠ¸
 {
-	// ÆÇ³Ú
+	// íŒë„¬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Default_PlayerUI"),
 		CTexture::Create(m_pGraphic_Device,
@@ -414,7 +414,7 @@ HRESULT CLoader::Add_To_UI_Textures()// ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ®
 			1))))
 		return E_FAIL;
 
-	//Ã¼·Â¹Ù
+	//ì²´ë ¥ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_HealthBar"),
 		CTexture::Create(m_pGraphic_Device,
@@ -422,7 +422,7 @@ HRESULT CLoader::Add_To_UI_Textures()// ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ®
 			1))))
 		return E_FAIL;
 
-	//Åº¾à¹Ù
+	//íƒ„ì•½ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_AmmoDisplay"),
 		CTexture::Create(m_pGraphic_Device,
@@ -430,7 +430,7 @@ HRESULT CLoader::Add_To_UI_Textures()// ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ®
 			1))))
 		return E_FAIL;
 
-	//°æÇèÄ¡¹Ù
+	//ê²½í—˜ì¹˜ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_EXPDisplay"),
 		CTexture::Create(m_pGraphic_Device,
@@ -441,27 +441,27 @@ HRESULT CLoader::Add_To_UI_Textures()// ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ®
 	return S_OK;
 }
 
-HRESULT CLoader::Add_To_UI_Buffer()//¹öÆÛ ÄÄÆ÷³ÍÆ®
+HRESULT CLoader::Add_To_UI_Buffer()//ë²„í¼ ì»´í¬ë„ŒíŠ¸
 {
-	// ÇÃ·¹ÀÌ¾î µğÆúÆ® UI
+	// í”Œë ˆì´ì–´ ë””í´íŠ¸ UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_PlayerUI"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Ã¼·Â¹Ù
+	// ì²´ë ¥ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_HealthBar"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Åº¾à¹Ù
+	// íƒ„ì•½ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_AmmoDisplay"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// °æÇèÄ¡¹Ù
+	// ê²½í—˜ì¹˜ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_EXPDisplay"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
@@ -474,28 +474,28 @@ HRESULT CLoader::Add_To_UI_Buffer()//¹öÆÛ ÄÄÆ÷³ÍÆ®
 
 
 
-HRESULT CLoader::Add_To_UI_Transform() // Æ®·£½ºÆû ÄÄÆ÷³ÍÆ®
+HRESULT CLoader::Add_To_UI_Transform() // íŠ¸ëœìŠ¤í¼ ì»´í¬ë„ŒíŠ¸
 {
 
-	// ÇÃ·¹ÀÌ¾î µğÆúÆ® UI
+	// í”Œë ˆì´ì–´ ë””í´íŠ¸ UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Default"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Ã¼·Â¹Ù
+	// ì²´ë ¥ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_HealthBar"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Åº¾à¹Ù
+	// íƒ„ì•½ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_AmmoDisplay"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// °æÇèÄ¡¹Ù
+	// ê²½í—˜ì¹˜ë°”
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_EXPDisplay"),
 		CTransform::Create(m_pGraphic_Device))))
