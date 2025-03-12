@@ -1,4 +1,4 @@
-ï»¿#include "Terrain.h"
+#include "Terrain.h"
 #include "GameInstance.h"
 
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -70,7 +70,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	/* ì •ì ì„ ê·¸ë¦°ë‹¤. */
+	/* Á¤Á¡À» ±×¸°´Ù. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 

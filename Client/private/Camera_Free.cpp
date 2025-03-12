@@ -1,4 +1,4 @@
-ï»¿#include "Camera_Free.h"
+#include "Camera_Free.h"
 
 CCamera_Free::CCamera_Free(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCamera { pGraphic_Device }
@@ -47,7 +47,7 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	/* ì¹´ë©”ë¼ì˜ ì›€ì§ìž„ ì œì–´ */
+	/* Ä«¸Þ¶óÀÇ ¿òÁ÷ÀÓ Á¦¾î */
 	if (GetKeyState('W') & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);

@@ -1,6 +1,6 @@
-ï»¿#include "Level_Loading.h"
+#include "Level_Loading.h"
 
-
+#include "Loading_UI.h"
 #include "Level_GamePlay.h"
 #include "Level_Logo.h"
 #include "Loader.h"
@@ -17,11 +17,17 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 {
 	m_eNextLevelID = eNextLevelID;
 
-	/* ë¡œë”©ë ˆë²¨ ìžì²´ì— í•„ìš”í•œ ê°ì²´ë¥¼ ìƒì„±í•œë‹¤. */
-	/* ë°°ê²½, ë¡œë”©ë°”, ë²„íŠ¼, font */
+	/* ·Îµù·¹º§ ÀÚÃ¼¿¡ ÇÊ¿äÇÑ °´Ã¼¸¦ »ý¼ºÇÑ´Ù. */
+	/* ¹è°æ, ·Îµù¹Ù, ¹öÆ°, font */
 
-	/* ë¡œë”©ì˜ ì—­í• (ë‹¤ìŒë ˆë²¨ì— í•„ìš”í•œ ìžì›(Resource)(í…ìŠ¤ì³, ëª¨ë¸, ì‚¬ìš´ë“œ ë“±ë“±ë“± )ì„ ìƒì„±í•˜ëŠ”)ì„ 
-	ìˆ˜í–‰í•  ë¡œë”ê°ì²´ë¥¼ ìƒì„±í•œë‹¤. */
+
+
+	if (FAILED(Ready_Loading()))
+ 		return E_FAIL;
+
+
+	/* ·ÎµùÀÇ ¿ªÇÒ(´ÙÀ½·¹º§¿¡ ÇÊ¿äÇÑ ÀÚ¿ø(Resource)(ÅØ½ºÃÄ, ¸ðµ¨, »ç¿îµå µîµîµî )À» »ý¼ºÇÏ´Â)À» 
+	¼öÇàÇÒ ·Î´õ°´Ã¼¸¦ »ý¼ºÇÑ´Ù. */
 	m_pLoader = CLoader::Create(m_pGraphic_Device, m_eNextLevelID);
 	if (nullptr == m_pLoader)
 		return E_FAIL;
@@ -61,6 +67,39 @@ void CLevel_Loading::Update(_float fTimeDelta)
 HRESULT CLevel_Loading::Render()
 {
 	m_pLoader->Output_LoadingText();
+
+	return S_OK;
+}
+
+HRESULT CLevel_Loading::Ready_Loading()
+{
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
+		TEXT("Prototype_Component_Texture_Loading_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../Bin/Resources/Textures/UI/Loading/bg_entering.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
+		TEXT("Prototype_Component_VIBuffer_Loading_UI"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
+		TEXT("Prototype_Component_Transform_Loading_UI"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
+		TEXT("Prototype_GameObject_Loading_UI"),
+		CLoading_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOADING, TEXT("Prototype_GameObject_Loading_UI"),
+		LEVEL_LOADING, TEXT("Layer_Loading_UI"))))
+		return E_FAIL;
+
 
 	return S_OK;
 }

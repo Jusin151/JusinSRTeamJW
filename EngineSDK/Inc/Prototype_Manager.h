@@ -1,13 +1,13 @@
-ï»¿#pragma once
+#pragma once
 
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_Rect.h"
 #include "Transform.h"
 #include "Texture.h"
 
-/* 1. ì›í˜•ê°ì²´ë¥¼ ë³´ê´€í•œë‹¤. */
-/* 1_1. ì›í˜•ê°ì²´ì˜ íƒ€ì…( CGameObject, CComponent )ì— í¬ê²Œ ì˜í–¥ì„ ë°›ì§€ ì•ŠëŠ”ë‹¤. */
-/* 1_2. ë³´ê´€í• ë•Œ ë ˆë²¨ë³„( + ëª¨ë“ ë ˆë²¨) ë¡œ êµ¬ë¶„í•˜ì—¬ ì €ì¥í• ê±°ì•¼. */
+/* 1. ¿øÇü°´Ã¼¸¦ º¸°üÇÑ´Ù. */
+/* 1_1. ¿øÇü°´Ã¼ÀÇ Å¸ÀÔ( CGameObject, CComponent )¿¡ Å©°Ô ¿µÇâÀ» ¹ŞÁö ¾Ê´Â´Ù. */
+/* 1_2. º¸°üÇÒ¶§ ·¹º§º°( + ¸ğµç·¹º§) ·Î ±¸ºĞÇÏ¿© ÀúÀåÇÒ°Å¾ß. */
 
 BEGIN(Engine)
 

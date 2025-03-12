@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Base.h"
 
@@ -20,10 +20,10 @@ private:
 		HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY);
 
 private:
-	LPDIRECT3D9			m_pSDK;		// 1번에 해당하는 객체
-	LPDIRECT3DDEVICE9	m_pDevice;	// 3번에 해당하는 객체
+	LPDIRECT3D9			m_pSDK;		// 1���� �ش��ϴ� ��ü
+	LPDIRECT3DDEVICE9	m_pDevice;	// 3���� �ش��ϴ� ��ü
 
-	LPD3DXSPRITE		m_pSprite;	// 2d 이미지를 출력하기 위한 용도
+	LPD3DXSPRITE		m_pSprite;	// 2d �̹����� ����ϱ� ���� �뵵
 	LPD3DXFONT			m_pFont;
 
 public:

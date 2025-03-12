@@ -1,8 +1,10 @@
-ï»¿#include "MainApp.h"
+#include "MainApp.h"
 #include "GameInstance.h"
 
 #include "Level_Logo.h"
 #include "Level_Loading.h"
+
+#include "Loading_UI.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -28,7 +30,14 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Default_Setting()))
 		return E_FAIL;
 
-	/* ìµœì´ˆ ë³´ì—¬ì¤„ ë ˆë²¨ì„ í• ë‹¹í•˜ìž. */
+	if (FAILED(Ready_Prototype_GameObject()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Prototype_Component()))
+		return E_FAIL;
+
+
+	/* ÃÖÃÊ º¸¿©ÁÙ ·¹º§À» ÇÒ´çÇÏÀÚ. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
@@ -62,6 +71,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
@@ -70,6 +80,19 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 	if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pGraphic_Device, eLevelID))))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_GameObject()
+{
+	
+	
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_Component()
+{
 	return S_OK;
 }
 
@@ -94,7 +117,7 @@ void CMainApp::Free()
 
 	m_pGameInstance->Release_Engine();
 
-	/* ë‚´ë©¤ë²„ë¥¼ ì •ë¦¬í•œë‹¤.*/	
+	/* ³»¸â¹ö¸¦ Á¤¸®ÇÑ´Ù.*/	
 	Safe_Release(m_pGameInstance);
 	
 

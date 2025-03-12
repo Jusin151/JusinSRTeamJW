@@ -1,4 +1,4 @@
-﻿#include "Timer_Manager.h"
+#include "Timer_Manager.h"
 #include "Timer.h"
 
 CTimer_Manager::CTimer_Manager()

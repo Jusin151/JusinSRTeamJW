@@ -1,17 +1,22 @@
-ï»¿#include "Level_Logo.h"
+#include "Level_Logo.h"
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "CUI_Base.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel { pGraphic_Device }
+	: CLevel{ pGraphic_Device }
 {
+
 
 }
 
 HRESULT CLevel_Logo::Initialize()
 {
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+	if (FAILED(Ready_Layer_BackGround()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Menu()))
 		return E_FAIL;
 
 	return S_OK;
@@ -30,16 +35,52 @@ void CLevel_Logo::Update(_float fTimeDelta)
 
 HRESULT CLevel_Logo::Render()
 {
-	SetWindowText(g_hWnd, TEXT("ë¡œê³ ë ˆë²¨ìž…ë‹ˆë‹¤."));
+	SetWindowText(g_hWnd, TEXT("·Î°í·¹º§ÀÔ´Ï´Ù."));
 
 	return S_OK;
 }
 
-HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
+HRESULT CLevel_Logo::Ready_Layer_BackGround()
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
-		LEVEL_LOGO, strLayerTag)))
+	 // ¾Õ¿¡ ¼ýÀÚ´Â ·»´õ ¼ø¼­ÀÓ
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_3"),
+		LEVEL_LOGO, TEXT("01_Layer_BackGround_3"))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_4"),
+		LEVEL_LOGO, TEXT("02_Layer_BackGround_4"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
+		LEVEL_LOGO, TEXT("Layer_BackGround"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround_2"),
+		LEVEL_LOGO, TEXT("Layer_BackGround_2"))))
+		return E_FAIL;
+
+
+
+
+
+	return S_OK;
+}
+
+HRESULT CLevel_Logo::Ready_Layer_Menu()
+{
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu"),
+		LEVEL_LOGO, TEXT("Layer_Menu"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_StartButton"),
+		LEVEL_LOGO, TEXT("Layer_Menu_StartButton"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_ExitButton"),
+		LEVEL_LOGO, TEXT("Layer_Menu_ExitButton"))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
