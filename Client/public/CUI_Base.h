@@ -38,9 +38,11 @@ public:
         UI_Parent_Desc BackGround_Desc{};
         wstring strTextureTag{};
 
-        float fmoveSpeed = {}; // 초당 100 단위 이동
-        float fMoveDistance = {}; // 이미지의 너비
-        float fStack_MoveDistance = {}; // 누적 이동 
+        _float fmoveSpeed = {}; // 초당 100 단위 이동
+        _float fMoveDistance = {}; // 이미지의 너비
+        _float fStack_MoveDistance = {}; // 누적 이동 
+		_float fNextx = {};
+		_float fNexty = {};
 
     }BackGround_DESC;
 

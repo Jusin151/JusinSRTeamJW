@@ -52,9 +52,11 @@ void CBackGround_2::Priority_Update(_float fTimeDelta)
 }
 void CBackGround_2::Update(_float fTimeDelta)
 {
-	const float moveSpeed = 100.0f; // 초당 100 단위 이동
+	const float moveSpeed = 100.0f; // 초당 100 단위 이동   // 이런거는 밖에서 던져줘야하긴 핫거든 
 	const float moveDistance = 2574.0f; // 이미지의 너비
 	static float accumulatedDistance = 0.0f; // 누적 이동 
+
+	//저걸 다 뺐었거든 
 
 
 	accumulatedDistance += moveSpeed * fTimeDelta;
@@ -62,7 +64,7 @@ void CBackGround_2::Update(_float fTimeDelta)
 
 	if (accumulatedDistance >= moveDistance)
 	{
-		accumulatedDistance = 0.0f;	
+		accumulatedDistance = 0.0f;
 	}
 
 
