@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Client_Defines.h"
 #include "Level.h"
@@ -20,7 +20,7 @@ private:
 	LEVEL				m_eNextLevelID = { LEVEL_END };
 	class CLoader*		m_pLoader = { nullptr };
 
-
+	HRESULT Ready_Loading();
 
 public:
 	static CLevel_Loading* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID);

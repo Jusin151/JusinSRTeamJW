@@ -1,4 +1,4 @@
-ï»¿#include "Level_Manager.h"
+#include "Level_Manager.h"
 #include "Level.h"
 
 #include "GameInstance.h"
@@ -11,7 +11,7 @@ CLevel_Manager::CLevel_Manager()
 
 HRESULT CLevel_Manager::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 {
-    /* ê¸°ì¡´ ë ˆë²¨ìš© ìžì›ì„ íŒŒê´´í•´ì¤€ë‹¤.*/
+    /* ±âÁ¸ ·¹º§¿ë ÀÚ¿øÀ» ÆÄ±«ÇØÁØ´Ù.*/
     if (nullptr != m_pCurrentLevel)
     {
         m_pGameInstance->Clear(m_iCurrentLevelIndex);

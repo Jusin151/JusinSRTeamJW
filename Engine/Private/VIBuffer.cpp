@@ -1,4 +1,4 @@
-ï»¿#include "VIBuffer.h"
+#include "VIBuffer.h"
 
 CVIBuffer::CVIBuffer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CComponent { pGraphic_Device }
@@ -32,7 +32,7 @@ HRESULT CVIBuffer::Initialize(void* pArg)
 
 HRESULT CVIBuffer::Render()
 {  
-    /* ì •ì ë“¤ì„ ì´ìš©í•´ì„œ ì •í•´ë†“ì€ ë°©ì‹ëŒ€ë¡œ ë„í˜•ë“¤ì„ ê·¸ë ¤ë¼.  */
+    /* Á¤Á¡µéÀ» ÀÌ¿ëÇØ¼­ Á¤ÇØ³õÀº ¹æ½Ä´ë·Î µµÇüµéÀ» ±×·Á¶ó.  */
     /*m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_iNumPritimive);*/
 
     m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, 0, m_iNumPritimive);
@@ -42,13 +42,13 @@ HRESULT CVIBuffer::Render()
 
 HRESULT CVIBuffer::Bind_Buffers()
 {
-    /* ì •ì ë²„í¼ë¥¼ ìž¥ì¹˜ì— ë°”ì¸ë”©í•œë‹¤. */
+    /* Á¤Á¡¹öÆÛ¸¦ ÀåÄ¡¿¡ ¹ÙÀÎµùÇÑ´Ù. */
     m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, m_iVertexStride);    
 
     m_pGraphic_Device->SetIndices(m_pIB);
 
-    /* ìž¥ì¹˜ê°€ ì•Œì•„ì„œ ë‚´ ì •ì ì„ ì´ìš©í•˜ì—¬ íŠ¹ì • ì—°ì‚°ì„ ìˆ˜í–‰í•  ìˆ˜ ìžˆë„ë¡ */
-    /* ë‚´ ì •ì ì˜ ì •ë³´ë¥¼ ì•Œë ¤ì¤€ë‹¤. */
+    /* ÀåÄ¡°¡ ¾Ë¾Æ¼­ ³» Á¤Á¡À» ÀÌ¿ëÇÏ¿© Æ¯Á¤ ¿¬»êÀ» ¼öÇàÇÒ ¼ö ÀÖµµ·Ï */
+    /* ³» Á¤Á¡ÀÇ Á¤º¸¸¦ ¾Ë·ÁÁØ´Ù. */
     m_pGraphic_Device->SetFVF(m_iFVF);
 
     return S_OK;

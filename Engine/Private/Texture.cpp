@@ -1,4 +1,4 @@
-﻿#include "Texture.h"
+#include "Texture.h"
 
 CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CComponent { pGraphic_Device }
@@ -6,7 +6,7 @@ CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CTexture::CTexture(const CTexture& Prototype)
-    : CComponent{ Prototype }
+    : CComponent( Prototype )
 	, m_iNumTextures { Prototype.m_iNumTextures }
 	, m_Textures { Prototype.m_Textures }
 {

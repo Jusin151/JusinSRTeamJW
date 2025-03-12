@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 
 #include "Base.h"
 
@@ -12,9 +12,9 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	/* ì›í˜•ì´ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜. ì˜¤ë˜ê±¸ë¦´ ìˆ˜ ìˆëŠ” ì´ˆê¸°í™”ì‘ì—… */
+	/* ¿øÇüÀÌ È£ÃâÇÏ´Â ÇÔ¼ö. ¿À·¡°É¸± ¼ö ÀÖ´Â ÃÊ±âÈ­ÀÛ¾÷ */
 	virtual HRESULT Initialize_Prototype();
-	/* ì‚¬ë³¸ì´ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜. */
+	/* »çº»ÀÌ È£ÃâÇÏ´Â ÇÔ¼ö. */
 	virtual HRESULT Initialize(void* pArg);
 
 	virtual void Priority_Update(_float fTimeDelta);
