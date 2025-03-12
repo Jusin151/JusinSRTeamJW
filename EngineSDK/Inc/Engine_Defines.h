@@ -19,6 +19,12 @@ using namespace std;
 
 using namespace Engine;
 
+#pragma region FMOD
+#include "fmod.h"
+#include "fmod.hpp"
+
+using namespace FMOD;
+#pragma endregion
 
 #ifdef _DEBUG
 

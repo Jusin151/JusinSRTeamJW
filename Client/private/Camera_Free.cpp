@@ -34,6 +34,7 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
+	//SetCursorPos(g_iWinSizeX / 2, g_iWinSizeY / 2);
 	GetCursorPos(&m_ptOldMousePos);
 	ScreenToClient(g_hWnd, &m_ptOldMousePos);
 
@@ -47,7 +48,7 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	/* Ä«¸Þ¶óÀÇ ¿òÁ÷ÀÓ Á¦¾î */
+	/* ì¹´ë©”ë¼ì˜ ì›€ì§ìž„ ì œì–´ */
 	if (GetKeyState('W') & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
@@ -76,6 +77,7 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * iMouseMove * m_fMouseSensor);
 	}
+	
 
 	
 
