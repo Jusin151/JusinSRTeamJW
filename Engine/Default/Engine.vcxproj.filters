@@ -82,6 +82,9 @@
     <ClInclude Include="..\Public\CColider3D.h">
       <Filter>04.Components\Collider\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PoolManager.h">
+      <Filter>07.Pool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -177,6 +180,9 @@
     <Filter Include="06.Sound">
       <UniqueIdentifier>{8be1bb1c-fa11-4209-833e-b4b220c0eb80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07.Pool">
+      <UniqueIdentifier>{f91d3988-c91a-4823-9b7f-9844bedec818}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -241,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CColider3D.cpp">
       <Filter>04.Components\Collider\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PoolManager.cpp">
+      <Filter>07.Pool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
