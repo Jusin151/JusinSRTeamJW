@@ -35,15 +35,13 @@ HRESULT CBackGround::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
-
 	if (FAILED(Ready_Components(m_BackGround_INFO.strTextureTag)))
 		return E_FAIL;
 
 
 	Set_Position(m_BackGround_INFO.BackGround_Desc.vPos);
 	Set_Size(m_BackGround_INFO.BackGround_Desc.vSize);
-	CUI_Manager::GetInstance()->AddUI(L"LOGO", this);
+	//CUI_Manager::GetInstance()->AddUI(L"LOGO%d", this); // 얘는 나중에 캔버스랑 연동
 
 
 	m_Back_pTransformCom->Set_Scale(m_BackGround_INFO.BackGround_Desc.vSize.x, m_BackGround_INFO.BackGround_Desc.vSize.y, 1.f);
@@ -58,8 +56,21 @@ void CBackGround::Priority_Update(_float fTimeDelta)
 
 void CBackGround::Update(_float fTimeDelta)
 {
+	accumulatedDistance += m_BackGround_INFO.fmoveSpeed * fTimeDelta;
 
+	if (accumulatedDistance >= m_BackGround_INFO.fMoveDistance)
+	{
+		accumulatedDistance = 0.0f;
+	}
+
+	m_BackGround_INFO.BackGround_Desc.vPos.x = m_BackGround_INFO.fNextx + accumulatedDistance;
+	m_BackGround_INFO.BackGround_Desc.vPos.y = -m_BackGround_INFO.fNexty;
+
+	// 위치 설정
+	m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		_float3(m_BackGround_INFO.BackGround_Desc.vPos.x, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
 }
+
 
 void CBackGround::Late_Update(_float fTimeDelta)
 {
@@ -105,7 +116,7 @@ HRESULT CBackGround::Render()
 
 HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 {
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
+	if (FAILED(__super::Add_Component(LEVEL_LOGO, strTextureTag,
 		TEXT("Com_Texture_Back"), reinterpret_cast<CComponent**>(&m_Back_pTextureCom))))
    		return E_FAIL;
 

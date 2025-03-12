@@ -87,6 +87,8 @@
     </ClInclude>
     <ClInclude Include="..\Public\Sound_Device.h">
       <Filter>97.Device\Sound</Filter>
+    <ClInclude Include="..\public\PoolManager.h">
+      <Filter>07.Pool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +193,9 @@
     </Filter>
     <Filter Include="06.Sound\Manager">
       <UniqueIdentifier>{2d283be0-f700-4b9d-a5b3-d3c19ff33db9}</UniqueIdentifier>
+
+    <Filter Include="07.Pool">
+      <UniqueIdentifier>{f91d3988-c91a-4823-9b7f-9844bedec818}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +267,8 @@
     </ClCompile>
     <ClCompile Include="..\Private\Sound_Device.cpp">
       <Filter>97.Device\Sound</Filter>
+    <ClCompile Include="..\private\PoolManager.cpp">
+      <Filter>07.Pool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
