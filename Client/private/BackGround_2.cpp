@@ -62,7 +62,7 @@ void CBackGround_2::Update(_float fTimeDelta)
 
 	if (accumulatedDistance >= moveDistance)
 	{
-		accumulatedDistance = 0.0f;
+		accumulatedDistance = 0.0f;	
 	}
 
 
