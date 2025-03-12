@@ -53,74 +53,52 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround()
 	///////////////////////////////////////////////////////// 이 밑으로는 안움직이는 이미지들은 0으로 할당!!
 	t_Desc_WhiteBackGround.fmoveSpeed = -20.0f;
 	t_Desc_WhiteBackGround.fMoveDistance = 2048.0f;// 이미지의 너비
-
 	t_Desc_WhiteBackGround.fNextx = 0.f; // 이미지 갔다가 다시 돌아때의 위치  X
 	t_Desc_WhiteBackGround.fNexty = 0.f; // 이미지 갔다가 다시 돌아때의 위치  Y 자세한 로직은 CBackGround.cpp에 있음
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
 		LEVEL_LOGO, TEXT("Layer_BackGround_1"), &t_Desc_WhiteBackGround)))
 		return E_FAIL;
-	
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	CUI_Base::BackGround_DESC tDesc_CanSeeMonster{};
-
-
 	tDesc_CanSeeMonster.BackGround_Desc.vSize = { 1569.f,600.f };
 	tDesc_CanSeeMonster.BackGround_Desc.vPos = { -192.f,-90.f };
 	tDesc_CanSeeMonster.BackGround_Desc.fAlpha = 1.0f;
 	tDesc_CanSeeMonster.strTextureTag = TEXT("Prototype_Component_Texture_BackGround_4");
-	///////////////////////////////////////////////////////// 이 밑으로는 안움직이는 이미지들은 0으로 할당!!
 	tDesc_CanSeeMonster.fmoveSpeed = -50.0f;
 	tDesc_CanSeeMonster.fMoveDistance = 1569.0f;// 이미지의 너비
 	tDesc_CanSeeMonster.fNextx = 0.f; // 이미지 갔다가 다시 돌아때의 위치  X
 	tDesc_CanSeeMonster.fNexty = 0.f; // 이미지 갔다가 다시 돌아때의 위치  Y 자세한 로직은 CBackGround.cpp에 있음
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
 		LEVEL_LOGO, TEXT("Layer_BackGround_2"), &tDesc_CanSeeMonster)))
 		return E_FAIL;
 	/////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 	CUI_Base::BackGround_DESC tDesc_Man{}; // 사람
-
-
 	tDesc_Man.BackGround_Desc.vSize = { 1085.f,720.f };
 	tDesc_Man.BackGround_Desc.vPos = { -192.f,-90.f };
 	tDesc_Man.BackGround_Desc.fAlpha = 1.0f;
 	tDesc_Man.strTextureTag = TEXT("Prototype_Component_Texture_BackGround");
-	///////////////////////////////////////////////////////// 이 밑으로는 안움직이는 이미지들은 0으로 할당!!
 	tDesc_Man.fmoveSpeed = 0.f;
 	tDesc_Man.fStack_MoveDistance = 0.f;// 초당 100 단위 이동
 	tDesc_Man.fMoveDistance = 0.f;// 이미지의 너비
 	tDesc_Man.fNextx = tDesc_Man.BackGround_Desc.vPos.x; // 이미지 갔다가 다시 돌아때의 위치  X
 	tDesc_Man.fNexty = 0.f; // 이미지 갔다가 다시 돌아때의 위치  Y 자세한 로직은 CBackGround.cpp에 있음
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
 		LEVEL_LOGO, TEXT("Layer_BackGround_3"), &tDesc_Man)))
 		return E_FAIL;
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 	CUI_Base::BackGround_DESC tDesc_BlackMonster_Image{};
-
 	tDesc_BlackMonster_Image.BackGround_Desc.vSize = { 2574.f,643.f };
-	tDesc_BlackMonster_Image.BackGround_Desc.vPos = { -300.f,-280.f };
+	tDesc_BlackMonster_Image.BackGround_Desc.vPos = { -0.f,-280.f };
 	tDesc_BlackMonster_Image.BackGround_Desc.fAlpha = 1.0f;
 	tDesc_BlackMonster_Image.strTextureTag = TEXT("Prototype_Component_Texture_BackGround_2");
 	///////////////////////////////////////////////////////// 
-	tDesc_BlackMonster_Image.fmoveSpeed = 1000.0f;
-	tDesc_BlackMonster_Image.fMoveDistance = 2574.f;
-	tDesc_BlackMonster_Image.fNextx = 0.f;
+	tDesc_BlackMonster_Image.fmoveSpeed = 700.0f;
+	tDesc_BlackMonster_Image.fMoveDistance = 1287.f;
+	tDesc_BlackMonster_Image.fNextx = -607.f;
 	tDesc_BlackMonster_Image.fNexty = 0.f;
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
 		LEVEL_LOGO, TEXT("Layer_BackGround_4"), &tDesc_BlackMonster_Image)))
 		return E_FAIL;
-
-
-
 	return S_OK;
 }
 
