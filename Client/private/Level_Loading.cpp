@@ -77,7 +77,7 @@ HRESULT CLevel_Loading::Ready_Loading()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
 		TEXT("Prototype_Component_Texture_Loading_UI"),
 		CTexture::Create(m_pGraphic_Device,
-			TEXT("../Bin/Resources/Textures/UI/Loading/bg_entering.png"), 1))))
+			TEXT("../../Resources/Textures/UI/Loading/bg_entering.png"), 1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
