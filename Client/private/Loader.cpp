@@ -301,11 +301,11 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 
 HRESULT CLoader::Add_To_Logo_Textures()
 {
-
+	//로고의 사람
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/menu-warlock_v02_winter.png"), 1))))
 		return E_FAIL;
-
+	//로고의 검은 몬스터
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_2"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Long_menu_potwory.png"), 1))))
 		return E_FAIL;

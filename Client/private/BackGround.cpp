@@ -18,33 +18,37 @@ CBackGround::CBackGround(const CBackGround& Prototype)
 
 HRESULT CBackGround::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 
+	 
 
 	return S_OK;
 }
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
+
+	if (pArg != nullptr)
+	{
+ 		m_BackGround_INFO = *reinterpret_cast<BackGround_DESC*>(pArg);
+	}
+	else
 		return E_FAIL;
 
-	m_BackGround_INFO.vSize = { 1085.f,720.f };
-	m_BackGround_INFO.fAlpha = 1.0f;
-	m_BackGround_INFO.vPos = { -192.f,-90.f };
-	m_BackGround_INFO.ProjMatrix = {};
-	m_BackGround_INFO.ViewMatrix = {};
-	m_BackGround_INFO.WorldMatrix = {};
 
-	Set_Position(m_BackGround_INFO.vPos);
-	Set_Size(m_BackGround_INFO.vSize);
+
+
+	if (FAILED(Ready_Components(m_BackGround_INFO.strTextureTag)))
+		return E_FAIL;
+
+
+	Set_Position(m_BackGround_INFO.BackGround_Desc.vPos);
+	Set_Size(m_BackGround_INFO.BackGround_Desc.vSize);
 	CUI_Manager::GetInstance()->AddUI(L"LOGO", this);
 
 
-	m_Back_pTransformCom->Set_Scale(m_BackGround_INFO.vSize.x, m_BackGround_INFO.vSize.y, 1.f);
+	m_Back_pTransformCom->Set_Scale(m_BackGround_INFO.BackGround_Desc.vSize.x, m_BackGround_INFO.BackGround_Desc.vSize.y, 1.f);
 	m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_BackGround_INFO.vPos.x, m_BackGround_INFO.vPos.y, 0.f));
+		_float3(m_BackGround_INFO.BackGround_Desc.vPos.x, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
 	return S_OK;
 }
 
@@ -99,7 +103,7 @@ HRESULT CBackGround::Render()
 	return S_OK;
 }
 
-HRESULT CBackGround::Ready_Components()
+HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 {
 	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
 		TEXT("Com_Texture_Back"), reinterpret_cast<CComponent**>(&m_Back_pTextureCom))))
