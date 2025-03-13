@@ -195,9 +195,6 @@
     <ClInclude Include="..\Public\Loading_UI.h">
       <Filter>02.GameObjects\UI\Loading</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_EXPBar.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_Mid_Display</Filter>
-    </ClInclude>
     <ClInclude Include="Client_Imgui.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
@@ -237,7 +234,7 @@
     <ClInclude Include="..\Public\UI_HP_Bar.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_AMMOBar.h">
+    <ClInclude Include="..\Public\UI_Bullet_Bar.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Player_Icon.h">
@@ -345,7 +342,7 @@
     <ClCompile Include="..\Private\UI_Player_Icon.cpp">
       <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\UI_AMMOBar.cpp">
+    <ClCompile Include="..\private\UI_Bullet_Bar.cpp">
       <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
