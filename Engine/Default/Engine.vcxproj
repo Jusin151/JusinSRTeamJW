@@ -124,7 +124,8 @@
     </Link>
     <PostBuildEvent>
       <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+CALL $(SolutionDir)\UpdateLib.bat
+CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,10 +146,6 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;fmod_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />

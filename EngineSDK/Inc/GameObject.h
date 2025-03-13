@@ -21,7 +21,17 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual void Reset() {}; // 차후에 오브젝트 풀링때 SetActive가 true가 될 때 기본정보 다시 셋팅을 위한 함수
 
+public:
+	bool IsActive() const { return m_bIsActive; }
+	void SetActive(_bool bIsActive);
+
+	void Set_Tag(const _wstring& strLayerTag) { m_strLayerTag = strLayerTag; } // 오브젝트 태그 설정 
+	const _wstring& Get_Tag() const { return m_strLayerTag; } // 오브젝트 태그 가져오기
+
+	void Set_FromPool(_bool bFromPool) { m_bFromPool = bFromPool; } // 오브젝트 풀에서 가져온건지 설정
+	bool Is_FromPool() const { return m_bFromPool; } 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance*			m_pGameInstance = { nullptr };
@@ -31,6 +41,7 @@ protected:
 
 protected:
 	HRESULT Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
+	class CComponent* Find(const _wstring strComponentTag);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
