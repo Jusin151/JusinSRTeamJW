@@ -21,7 +21,6 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
