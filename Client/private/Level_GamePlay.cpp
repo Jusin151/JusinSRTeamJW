@@ -77,38 +77,83 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	LEVEL_GAMEPLAY, TEXT("Layer_Default_PlayerUI"), &DefaultUI_Desc)))
 	return E_FAIL;
 
-	CUI_Base::UI_Child_Desc HP_Desc{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	HP_Desc.vSize = { 262,210 }; 
-	HP_Desc.fAlpha = 1.0f;
-	HP_Desc.vPos = { -510.f,-255.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+
+
+
+	CUI_Base::UI_Child_Desc Left_Panel{};  // 왼쪽 하단 판넬
+	Left_Panel.vSize = { 262,210 };
+	Left_Panel.fAlpha = 1.0f;
+	Left_Panel.vPos = { -510.f,-255.f }; // 부모위치 설정
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_HealthBar_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_HealthBar_UI"), &HP_Desc)))
+		TEXT("Prototype_GameObject_Left_Panel"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_1"), &Left_Panel)))
 		return E_FAIL;
 
-	CUI_Base::UI_Child_Desc Ammo_Desc{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	Ammo_Desc.vSize = { 270,177 };
-	Ammo_Desc.fAlpha = 1.0f;
-	Ammo_Desc.vPos = { 510.f,-271.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	CUI_Base::UI_Child_Desc Left_Panel_HP{};  // HP 바
+	Left_Panel_HP.vSize = { 118.f,18.f };
+	Left_Panel_HP.fAlpha = 1.0f;
+	Left_Panel_HP.vPos = { 47.f,-80.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Ammo_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_AmmoDisplay_UI"), &Ammo_Desc)))
+		TEXT("Prototype_GameObject_Hp_Bar"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_2"), &Left_Panel_HP)))
 		return E_FAIL;
 
-	CUI_Base::UI_Child_Desc EXP_Desc{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	Ammo_Desc.vSize = { 850,13.f };
-	Ammo_Desc.fAlpha = 1.0f;
-	Ammo_Desc.vPos = { 6.f,-353.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	CUI_Base::UI_Child_Desc Left_Panel_Player_Icon{};  // 플레이어 아이콘
+	Left_Panel_Player_Icon.vSize = { 69.f,61.f };
+	Left_Panel_Player_Icon.fAlpha = 1.0f;
+	Left_Panel_Player_Icon.vPos = { -589.f,-314.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Exp_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_AmmoDisplay_UI"), &Ammo_Desc)))
+		TEXT("Prototype_GameObject_Player_Icon"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_3"), &Left_Panel_Player_Icon)))
 		return E_FAIL;
+
+
+
+	CUI_Base::UI_Child_Desc EXP_Desc{};  // 중앙 패널
+	EXP_Desc.vSize = { 850,13.f };
+	EXP_Desc.fAlpha = 1.0f;
+	EXP_Desc.vPos = { 4.f,-353.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Mid_Panel"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Mid_Panel"), &EXP_Desc)))
+		return E_FAIL;
+
+
+
+	CUI_Base::UI_Child_Desc RIght_Panel{};  // 우하단 패널 
+	Left_Panel.vSize = { 270,177 };
+	Left_Panel.fAlpha = 1.0f;
+	Left_Panel.vPos = { 505.f,-272.f }; // 부모위치 잡아주기
+
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Right_Bar"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_1"), &Left_Panel)))
+		return E_FAIL;
+
+	CUI_Base::UI_Child_Desc RIght_Panel_Bullet{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
+	Left_Panel_HP.vSize = { 222.f,29.f };
+	Left_Panel_HP.fAlpha = 1.0f;
+	Left_Panel_HP.vPos = { 8.f,-59.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Bullet_Bar"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_2"), &Left_Panel_HP)))
+		return E_FAIL;
+
+
+
+
+
 
 	return S_OK;
 }

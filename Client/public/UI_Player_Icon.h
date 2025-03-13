@@ -42,7 +42,11 @@ public:
 	static CUI_Player_Icon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-
+private:
+	_float m_fElapsedTime = 0.0f; 
+	_int m_iCurrentFrame = 0; 
+	const _float m_fFrameDuration = 2.0f;  // 요기는 시간 
+	const _int m_iFrameCount = 4; // 총 프레임 수 (0부터 3까지)
 
 
 private:

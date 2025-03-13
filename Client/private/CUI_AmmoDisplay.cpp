@@ -37,6 +37,7 @@ HRESULT CUI_AmmoDisplay::Initialize(void* pArg)
 		m_Ammo_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
 		Set_Position(m_Ammo_INFO.vPos);
 		Set_Size(m_Ammo_INFO.vSize);
+		CUI_Manager::GetInstance()->AddUI(L"Right_Panel", this);
 	}
 	else
 		return E_FAIL;
@@ -100,16 +101,16 @@ HRESULT CUI_AmmoDisplay::Render()
 
 HRESULT CUI_AmmoDisplay::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_AmmoDisplay"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Right_Panel"),
 		TEXT("Com_Texture_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_AmmoDisplay"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_RIght_Panel"),
 		TEXT("Com_VIBuffer_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_AmmoDisplay"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Right_Panel"),
 		TEXT("Com_Transform_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pTransformCom), &tDesc)))
   		return E_FAIL;
 

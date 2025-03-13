@@ -38,7 +38,7 @@ HRESULT CUI_Player_Icon::Initialize(void* pArg)
 		m_PlayerICon_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
 		Set_Position(m_PlayerICon_INFO.vPos);
 		Set_Size(m_PlayerICon_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"Left_Display", this);
+		CUI_Manager::GetInstance()->AddUI(L"Player_Icon", this);
 	}
 	else
 		return E_FAIL;
@@ -55,7 +55,16 @@ void CUI_Player_Icon::Priority_Update(_float fTimeDelta)
 
 void CUI_Player_Icon::Update(_float fTimeDelta)
 {
+	
+	m_fElapsedTime += fTimeDelta;
+
+	if (m_fElapsedTime >= m_fFrameDuration)
+	{
+		m_fElapsedTime = 0.0f;
+		m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
+	}
 }
+
 
 void CUI_Player_Icon::Late_Update(_float fTimeDelta)
 {
@@ -81,16 +90,14 @@ HRESULT CUI_Player_Icon::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
 	if (FAILED(m_PlayerICon_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_PlayerICon_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_PlayerICon_pTextureCom->Bind_Resource(m_iCurrentFrame))) // 현재 프레임 인덱스를 사용하여 텍스처 바인딩
 		return E_FAIL;
 	if (FAILED(m_PlayerICon_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 	if (FAILED(m_PlayerICon_pVIBufferCom->Render()))
 		return E_FAIL;
-
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
@@ -99,18 +106,19 @@ HRESULT CUI_Player_Icon::Render()
 	return S_OK;
 }
 
+
 HRESULT CUI_Player_Icon::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_HealthBar"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player_Icon"),
 		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_PlayerICon_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_HealthBar"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Player_Icon"),
 		TEXT("Com_VIBuffer_HP"), reinterpret_cast<CComponent**>(&m_PlayerICon_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_HealthBar"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Player_Icon"),
 		TEXT("Com_Transform_HP"), reinterpret_cast<CComponent**>(&m_PlayerICon_pTransformCom), &tDesc)))
 		return E_FAIL;
 
@@ -123,7 +131,7 @@ CUI_Player_Icon* CUI_Player_Icon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("체력바 UI 원본 생성 실패 ");
+		MSG_BOX("플레이어 아이콘 UI 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -137,7 +145,7 @@ CGameObject* CUI_Player_Icon::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("체력바 UI 복제 실패");
+		MSG_BOX("플레이어 아이콘 UI 복제 실패");
 		Safe_Release(pInstace);
 	}
 
