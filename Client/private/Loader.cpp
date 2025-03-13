@@ -17,6 +17,14 @@
 #include "UI_HP_Bar.h"
 #include "UI_Bullet_Bar.h"
 #include "UI_Player_Icon.h"
+#include "UI_HP_Bar.h"
+#include "UI_MP_Bar.h"
+#include "UI_Menu.h"
+////////////////////////////
+#include "UI_Point_Shop.h"
+#include "UI_Episode.h"
+#include "UI_Spell_Shop.h"
+#include "UI_Upgrade_Weapon.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -336,6 +344,12 @@ HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 
 	Add_To_UI_Right_DisPlay_Textures(); // 우하단 디스플레이 텍스쳐
 
+	Add_To_UI_Menu_DisPlay_Textures();
+
+	Add_To_Shop_Textures();
+
+
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_UI_Buffer()//버퍼 컴포넌트
@@ -353,6 +367,13 @@ HRESULT CLoader::Add_To_UI_Buffer()//버퍼 컴포넌트
 
 	Add_To_UI_Right_DisPlay_Buffer(); // 우하단 디스플레이 버퍼
 
+	Add_To_UI_Menu_DisPlay_Buffer();
+
+	Add_To_UI_Menu_DisPlay_Transform();
+
+	Add_To_Shop_Buffer();
+	
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_UI_Transform() // 트랜스폼 컴포넌트
@@ -368,6 +389,8 @@ HRESULT CLoader::Add_To_UI_Transform() // 트랜스폼 컴포넌트
 	Add_To_UI_Mid_DisPlay_Transform();   // 중단 디스플레이 트랜스폼
 
 	Add_To_UI_Right_DisPlay_Transform(); // 우하단디스플레이 트랜스폼
+
+	Add_To_Shop_Transform();
 
 
 	return S_OK;
@@ -385,6 +408,10 @@ HRESULT CLoader::Add_To_UI_Prototype() //원형객체들
 	Add_To_UI_Mid_DisPlay_Prototype();   // 중단 디스플레이 원본생성
 
 	Add_To_UI_Right_DisPlay_Prototype(); // 우하단 디스플레이 원본생성
+
+	Add_To_UI_Right_Menu_Prototype();
+
+	Add_To_Shop_Prototype();
 
 	return S_OK;
 }
@@ -413,11 +440,18 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
 			4))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_MP_Bar"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Left/SR_HUD_bar_mana.png"),
+			1))))
+		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_UI_Left_DisPlay_Buffer()
 {
-	// 체력바
+	// 좌하단 판넬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_Left_Panel"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
@@ -429,9 +463,15 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Buffer()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 체력바
+	// 플레이어 아이콘
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_Player_Icon"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 마나바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_MP_Bar"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
@@ -439,7 +479,7 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Buffer()
 }
 HRESULT CLoader::Add_To_UI_Left_DisPlay_Transform()
 {
-	// 체력바
+	// 좌하단 판넬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Left_Panel"),
 		CTransform::Create(m_pGraphic_Device))))
@@ -451,9 +491,15 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Transform()
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 체력바
+	// 플레이어 아이콘
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Player_Icon"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 마나바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Transform_MP_Bar"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
@@ -478,6 +524,12 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Player_Icon"),
 		CUI_Player_Icon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 플레이어아이콘
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_MP_Bar"),
+		CUI_MP_Bar::Create(m_pGraphic_Device)))) 
 		return E_FAIL;
 
 
@@ -552,6 +604,7 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Textures()
 
 	return S_OK;
 }
+
 HRESULT CLoader::Add_To_UI_Right_DisPlay_Buffer()
 {
 	// 오른쪽 판넬 버퍼
@@ -590,7 +643,7 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Prototype()
 	// 중앙 판넬 원본 객체 생성
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Right_Bar"),
-		CUI_AmmoDisplay::Create(m_pGraphic_Device))))
+		CUI_Right_Panel::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	// 중앙 판넬의 총알 UI
@@ -602,8 +655,167 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Prototype()
 
 	return S_OK;
 }
+HRESULT CLoader::Add_To_UI_Menu_DisPlay_Textures()
+{
+	// 기본 메뉴 판넬 텍스쳐
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Menu_Panel"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Game_Menu.png"),
+			1))))
+		return E_FAIL;
 
+	return S_OK;
+}
+HRESULT CLoader::Add_To_UI_Menu_DisPlay_Buffer()
+{
+	// 기본 메뉴 판넬 버퍼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_Menu_Panel"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	return S_OK;
+}
+HRESULT CLoader::Add_To_UI_Menu_DisPlay_Transform()
+{
+	// 기본 메뉴 판넬 트랜스폼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Transform_Menu_Panel"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+HRESULT CLoader::Add_To_UI_Right_Menu_Prototype()
+{
+	// 기본 메뉴 판넬 프로토타입
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Menu_Panel"),
+		CUI_Menu::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+HRESULT CLoader::Add_To_Shop_Textures()
+{
+	// 포인트 스탯 상점
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Point_Shop_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI.png"),
+			1))))
+		return E_FAIL;
+
+	// 에피소드 선택창
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Episode_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Episode_UI/level_selection.png"),
+			1))))
+		return E_FAIL;
+
+	// 스펠 샵 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Spell_Shop_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"),
+			1))))
+		return E_FAIL;
+
+	// 업그레이드 웨폰 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Upgrade_Weapon_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Upgrade_Weapon_UI/lweaponshop.png"),
+			1))))
+		return E_FAIL;
+
+	return S_OK;
+}
+HRESULT CLoader::Add_To_Shop_Buffer()
+{
+	// 기본 메뉴 판넬 버퍼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_Point_Shop_UI"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 버퍼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_Episode_UI"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 버퍼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_Spell_Shop_UI"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 버퍼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_Upgrade_Weapon_UI"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+HRESULT CLoader::Add_To_Shop_Transform()
+{
+	// 기본 메뉴 판넬 트랜스폼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Transform_Point_Shop_UI"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 트랜스폼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Transform_Episode_UI"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 트랜스폼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Transform_Spell_Shop_UI"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 트랜스폼
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Transform_Upgrade_Weapon_UI"),
+		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+HRESULT CLoader::Add_To_Shop_Prototype()
+{
+	// 기본 메뉴 판넬 프로토타입
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Point_Shop_UI"),
+		CUI_Point_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 프로토타입
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Episode_UI"),
+		CUI_Episode::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 프로토타입
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Spell_Shop_UI"),
+		CUI_Spell_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// 기본 메뉴 판넬 프로토타입
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Upgrade_Weapon_UI"),
+		CUI_Upgrade_Weapon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	return S_OK;
+}
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 {
 	CLoader* pInstance = new CLoader(pGraphic_Device);
