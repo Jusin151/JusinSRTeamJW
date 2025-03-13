@@ -1,4 +1,4 @@
-#include "UI_Episode.h"
+ï»¿#include "UI_Episode.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -77,7 +77,7 @@ void CUI_Episode::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_Episode::Render()
 {
-	if (!m_bIsVisible) // ÀÌ¹ÌÁö°¡ Ç¥½ÃµÇÁö ¾ÊÀ¸¸é ·»´õ¸µ ¤¤
+	if (!m_bIsVisible) // ì´ë¯¸ì§€ê°€ í‘œì‹œë˜ì§€ ì•Šìœ¼ë©´ ë Œë”ë§ ã„´
 		return S_OK;
 
 	D3DXMATRIX matOldView, matOldProj;
@@ -138,7 +138,7 @@ CUI_Episode* CUI_Episode::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("¸Þ´º UI ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ë©”ë‰´ UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -152,7 +152,7 @@ CGameObject* CUI_Episode::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("¸Þ´º UI º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ë©”ë‰´ UI ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -31,7 +31,7 @@ public:
 private:
 	CTexture* m_PlayerICon_pTextureCom{};
 	CTransform* m_PlayerICon_pTransformCom{};
-	CVIBuffer_Rect* m_PlayerICon_pVIBufferCom{};  // UI´Â »ç°¢ÇüÀÌ¹Ç·Î Rect ¹öÆÛ »ç¿ë
+	CVIBuffer_Rect* m_PlayerICon_pVIBufferCom{};  // UIëŠ” ì‚¬ê°í˜•ì´ë¯€ë¡œ Rect ë²„í¼ ì‚¬ìš©
 	UI_Child_Desc m_PlayerICon_INFO{};
 
 private:
@@ -45,8 +45,8 @@ public:
 private:
 	_float m_fElapsedTime = 0.0f; 
 	_int m_iCurrentFrame = 0; 
-	const _float m_fFrameDuration = 2.0f;  // ¿ä±â´Â ½Ã°£ 
-	const _int m_iFrameCount = 4; // ÃÑ ÇÁ·¹ÀÓ ¼ö (0ºÎÅÍ 3±îÁö)
+	const _float m_fFrameDuration = 2.0f;  // ìš”ê¸°ëŠ” ì‹œê°„ 
+	const _int m_iFrameCount = 4; // ì´ í”„ë ˆì„ ìˆ˜ (0ë¶€í„° 3ê¹Œì§€)
 
 
 private:

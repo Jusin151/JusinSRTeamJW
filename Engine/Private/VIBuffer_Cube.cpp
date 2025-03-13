@@ -1,4 +1,4 @@
-#include "VIBuffer_Cube.h"
+ï»¿#include "VIBuffer_Cube.h"
 
 CVIBuffer_Cube::CVIBuffer_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CVIBuffer { pGraphic_Device }
@@ -31,7 +31,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	// ¾Õ
+	// ì•ž
 	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
@@ -44,7 +44,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 	
-	// µÞ¸é (¹ý¼±: (0, 0, 1))
+	// ë’·ë©´ (ë²•ì„ : (0, 0, 1))
 	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 1.f);
 	pVertices[4].vTexcoord = _float2(0.f, 0.f);
 
@@ -70,7 +70,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
 	_uint iIndex = 0;
-	// ¾Õ
+	// ì•ž
 	pIndices[iIndex++] = 0;
 	pIndices[iIndex++] = 1;
 	pIndices[iIndex++] = 2;
@@ -79,7 +79,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[iIndex++] = 2;
 	pIndices[iIndex++] = 3;
 
-	// ¿À¸¥ÂÊ
+	// ì˜¤ë¥¸ìª½
 	pIndices[iIndex++] = 1;
 	pIndices[iIndex++] = 5;
 	pIndices[iIndex++] = 6;
@@ -88,7 +88,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[iIndex++] = 6;
 	pIndices[iIndex++] = 2;
 
-	// ¿ÞÂÊ
+	// ì™¼ìª½
 	pIndices[iIndex++] = 4;
 	pIndices[iIndex++] = 0;
 	pIndices[iIndex++] = 3;
@@ -97,7 +97,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[iIndex++] = 3;
 	pIndices[iIndex++] = 7;
 
-	// µÚ
+	// ë’¤
 	pIndices[iIndex++] = 5;
 	pIndices[iIndex++] = 4;
 	pIndices[iIndex++] = 7;
@@ -106,7 +106,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[iIndex++] = 7;
 	pIndices[iIndex++] = 6;
 
-	// ¾Æ·¡
+	// ì•„ëž˜
 	pIndices[iIndex++] = 3;
 	pIndices[iIndex++] = 2;
 	pIndices[iIndex++] = 6;
@@ -115,7 +115,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[iIndex++] = 6;
 	pIndices[iIndex++] = 7;
 
-	// À§
+	// ìœ„
 	pIndices[iIndex++] = 4;
 	pIndices[iIndex++] = 5;
 	pIndices[iIndex++] = 1;
@@ -131,13 +131,13 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 }
 //HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //{
-//    // Å¥ºêÀÇ °¢ ¸éÀº 4°³ÀÇ ¹öÅØ½º°¡ ÇÊ¿äÇÏ¹Ç·Î (6¸é x 4¹öÅØ½º = 24)
+//    // íë¸Œì˜ ê° ë©´ì€ 4ê°œì˜ ë²„í…ìŠ¤ê°€ í•„ìš”í•˜ë¯€ë¡œ (6ë©´ x 4ë²„í…ìŠ¤ = 24)
 //    m_iNumVertices = 24;
 //    m_iVertexStride = sizeof(VTXPOSTEX); 
 //    m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
-//    m_iNumPritimive = 12;  // 12°³ÀÇ »ï°¢Çü (6¸é x 2»ï°¢Çü)
+//    m_iNumPritimive = 12;  // 12ê°œì˜ ì‚¼ê°í˜• (6ë©´ x 2ì‚¼ê°í˜•)
 //    m_iIndexStride = 2;
-//    m_iNumIndices = 36;    // 12°³ÀÇ »ï°¢Çü x 3°³ÀÇ ÀÎµ¦½º
+//    m_iNumIndices = 36;    // 12ê°œì˜ ì‚¼ê°í˜• x 3ê°œì˜ ì¸ë±ìŠ¤
 //    m_eIndexFormat = D3DFMT_INDEX16;
 //
 //#pragma region VERTEX_BUFFER
@@ -147,101 +147,101 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    VTXPOSTEX* pVertices = { nullptr };
 //    m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 //
-//    // ¾Õ¸é (³ë¸»: 0, 0, -1) - Á¤Á¡ 0-3
-//    pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);   // ÁÂ»ó´Ü
+//    // ì•žë©´ (ë…¸ë§: 0, 0, -1) - ì •ì  0-3
+//    pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);   // ì¢Œìƒë‹¨
 //.
 //    pVertices[0].vTexcoord = _float2(0.f, 0.f);
 //
-//    pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);    // ¿ì»ó´Ü
+//    pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);    // ìš°ìƒë‹¨
 //    pVertices[1].vTexcoord = _float2(1.f, 0.f);
 //
-//    pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);   // ¿ìÇÏ´Ü
+//    pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);   // ìš°í•˜ë‹¨
 //    pVertices[2].vTexcoord = _float2(1.f, 1.f);
 //
-//    pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);  // ÁÂÇÏ´Ü
+//    pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);  // ì¢Œí•˜ë‹¨
 //    pVertices[3].vTexcoord = _float2(0.f, 1.f);
 //
-//    // µÞ¸é (³ë¸»: 0, 0, 1) - Á¤Á¡ 4-7
-//    pVertices[4].vPosition = _float3(0.5f, 0.5f, 0.5f);    // ¿ì»ó´Ü
+//    // ë’·ë©´ (ë…¸ë§: 0, 0, 1) - ì •ì  4-7
+//    pVertices[4].vPosition = _float3(0.5f, 0.5f, 0.5f);    // ìš°ìƒë‹¨
 //    pVertices[4].vTexcoord = _float2(0.f, 0.f);
 //
-//    pVertices[5].vPosition = _float3(-0.5f, 0.5f, 0.5f);   // ÁÂ»ó´Ü
+//    pVertices[5].vPosition = _float3(-0.5f, 0.5f, 0.5f);   // ì¢Œìƒë‹¨
 //    pVertices[5].vNormal = _float3(0.0f, 0.0f, 1.0f);
 //    pVertices[5].vTexcoord = _float2(1.f, 0.f);
 //
-//    pVertices[6].vPosition = _float3(-0.5f, -0.5f, 0.5f);  // ÁÂÇÏ´Ü
+//    pVertices[6].vPosition = _float3(-0.5f, -0.5f, 0.5f);  // ì¢Œí•˜ë‹¨
 //    pVertices[6].vNormal = _float3(0.0f, 0.0f, 1.0f);
 //    pVertices[6].vTexcoord = _float2(1.f, 1.f);
 //
-//    pVertices[7].vPosition = _float3(0.5f, -0.5f, 0.5f);   // ¿ìÇÏ´Ü
+//    pVertices[7].vPosition = _float3(0.5f, -0.5f, 0.5f);   // ìš°í•˜ë‹¨
 //    pVertices[7].vNormal = _float3(0.0f, 0.0f, 1.0f);
 //    pVertices[7].vTexcoord = _float2(0.f, 1.f);
 //
-//    // ¿À¸¥ÂÊ ¸é (³ë¸»: 1, 0, 0) - Á¤Á¡ 8-11
-//    pVertices[8].vPosition = _float3(0.5f, 0.5f, -0.5f);    // ÁÂ»ó´Ü
+//    // ì˜¤ë¥¸ìª½ ë©´ (ë…¸ë§: 1, 0, 0) - ì •ì  8-11
+//    pVertices[8].vPosition = _float3(0.5f, 0.5f, -0.5f);    // ì¢Œìƒë‹¨
 //    pVertices[8].vNormal = _float3(1.0f, 0.0f, 0.0f);
 //    pVertices[8].vTexcoord = _float2(0.f, 0.f);
 //
-//    pVertices[9].vPosition = _float3(0.5f, 0.5f, 0.5f);    // ¿ì»ó´Ü
+//    pVertices[9].vPosition = _float3(0.5f, 0.5f, 0.5f);    // ìš°ìƒë‹¨
 //    pVertices[9].vNormal = _float3(1.0f, 0.0f, 0.0f);
 //    pVertices[9].vTexcoord = _float2(1.f, 0.f);
 //
-//    pVertices[10].vPosition = _float3(0.5f, -0.5f, 0.5f);  // ¿ìÇÏ´Ü
+//    pVertices[10].vPosition = _float3(0.5f, -0.5f, 0.5f);  // ìš°í•˜ë‹¨
 //    pVertices[10].vNormal = _float3(1.0f, 0.0f, 0.0f);
 //    pVertices[10].vTexcoord = _float2(1.f, 1.f);
 //
-//    pVertices[11].vPosition = _float3(0.5f, -0.5f, -0.5f);  // ÁÂÇÏ´Ü
+//    pVertices[11].vPosition = _float3(0.5f, -0.5f, -0.5f);  // ì¢Œí•˜ë‹¨
 //    pVertices[11].vNormal = _float3(1.0f, 0.0f, 0.0f);
 //    pVertices[11].vTexcoord = _float2(0.f, 1.f);
 //
-//    // ¿ÞÂÊ ¸é (³ë¸»: -1, 0, 0) - Á¤Á¡ 12-15
-//    pVertices[12].vPosition = _float3(-0.5f, 0.5f, 0.5f);  // ÁÂ»ó´Ü
+//    // ì™¼ìª½ ë©´ (ë…¸ë§: -1, 0, 0) - ì •ì  12-15
+//    pVertices[12].vPosition = _float3(-0.5f, 0.5f, 0.5f);  // ì¢Œìƒë‹¨
 //    pVertices[12].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 //    pVertices[12].vTexcoord = _float2(0.f, 0.f);
 //
-//    pVertices[13].vPosition = _float3(-0.5f, 0.5f, -0.5f);  // ¿ì»ó´Ü
+//    pVertices[13].vPosition = _float3(-0.5f, 0.5f, -0.5f);  // ìš°ìƒë‹¨
 //    pVertices[13].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 //    pVertices[13].vTexcoord = _float2(1.f, 0.f);
 //
-//    pVertices[14].vPosition = _float3(-0.5f, -0.5f, -0.5f); // ¿ìÇÏ´Ü
+//    pVertices[14].vPosition = _float3(-0.5f, -0.5f, -0.5f); // ìš°í•˜ë‹¨
 //    pVertices[14].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 //    pVertices[14].vTexcoord = _float2(1.f, 1.f);
 //
-//    pVertices[15].vPosition = _float3(-0.5f, -0.5f, 0.5f); // ÁÂÇÏ´Ü
+//    pVertices[15].vPosition = _float3(-0.5f, -0.5f, 0.5f); // ì¢Œí•˜ë‹¨
 //    pVertices[15].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 //    pVertices[15].vTexcoord = _float2(0.f, 1.f);
 //
-//    // À§ÂÊ ¸é (³ë¸»: 0, 1, 0) - Á¤Á¡ 16-19
-//    pVertices[16].vPosition = _float3(-0.5f, 0.5f, 0.5f);  // ÁÂ»ó´Ü
+//    // ìœ„ìª½ ë©´ (ë…¸ë§: 0, 1, 0) - ì •ì  16-19
+//    pVertices[16].vPosition = _float3(-0.5f, 0.5f, 0.5f);  // ì¢Œìƒë‹¨
 //    pVertices[16].vNormal = _float3(0.0f, 1.0f, 0.0f);
 //    pVertices[16].vTexcoord = _float2(0.f, 0.f);
 //
-//    pVertices[17].vPosition = _float3(0.5f, 0.5f, 0.5f);   // ¿ì»ó´Ü
+//    pVertices[17].vPosition = _float3(0.5f, 0.5f, 0.5f);   // ìš°ìƒë‹¨
 //    pVertices[17].vNormal = _float3(0.0f, 1.0f, 0.0f);
 //    pVertices[17].vTexcoord = _float2(1.f, 0.f);
 //
-//    pVertices[18].vPosition = _float3(0.5f, 0.5f, -0.5f);   // ¿ìÇÏ´Ü
+//    pVertices[18].vPosition = _float3(0.5f, 0.5f, -0.5f);   // ìš°í•˜ë‹¨
 //    pVertices[18].vNormal = _float3(0.0f, 1.0f, 0.0f);
 //    pVertices[18].vTexcoord = _float2(1.f, 1.f);
 //
-//    pVertices[19].vPosition = _float3(-0.5f, 0.5f, -0.5f);  // ÁÂÇÏ´Ü
+//    pVertices[19].vPosition = _float3(-0.5f, 0.5f, -0.5f);  // ì¢Œí•˜ë‹¨
 //    pVertices[19].vNormal = _float3(0.0f, 1.0f, 0.0f);
 //    pVertices[19].vTexcoord = _float2(0.f, 1.f);
 //
-//    // ¾Æ·¡ÂÊ ¸é (³ë¸»: 0, -1, 0) - Á¤Á¡ 20-23
-//    pVertices[20].vPosition = _float3(-0.5f, -0.5f, -0.5f); // ÁÂ»ó´Ü
+//    // ì•„ëž˜ìª½ ë©´ (ë…¸ë§: 0, -1, 0) - ì •ì  20-23
+//    pVertices[20].vPosition = _float3(-0.5f, -0.5f, -0.5f); // ì¢Œìƒë‹¨
 //    pVertices[20].vNormal = _float3(0.0f, -1.0f, 0.0f);
 //    pVertices[20].vTexcoord = _float2(0.f, 0.f);
 //
-//    pVertices[21].vPosition = _float3(0.5f, -0.5f, -0.5f);  // ¿ì»ó´Ü
+//    pVertices[21].vPosition = _float3(0.5f, -0.5f, -0.5f);  // ìš°ìƒë‹¨
 //    pVertices[21].vNormal = _float3(0.0f, -1.0f, 0.0f);
 //    pVertices[21].vTexcoord = _float2(1.f, 0.f);
 //
-//    pVertices[22].vPosition = _float3(0.5f, -0.5f, 0.5f);  // ¿ìÇÏ´Ü
+//    pVertices[22].vPosition = _float3(0.5f, -0.5f, 0.5f);  // ìš°í•˜ë‹¨
 //    pVertices[22].vNormal = _float3(0.0f, -1.0f, 0.0f);
 //    pVertices[22].vTexcoord = _float2(1.f, 1.f);
 //
-//    pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.5f); // ÁÂÇÏ´Ü
+//    pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.5f); // ì¢Œí•˜ë‹¨
 //    pVertices[23].vNormal = _float3(0.0f, -1.0f, 0.0f);
 //    pVertices[23].vTexcoord = _float2(0.f, 1.f);
 //
@@ -256,7 +256,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 //    _uint iIndex = 0;
 //
-//    // ¾Õ¸é (0-3)
+//    // ì•žë©´ (0-3)
 //    pIndices[iIndex++] = 0;
 //    pIndices[iIndex++] = 1;
 //    pIndices[iIndex++] = 2;
@@ -265,7 +265,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    pIndices[iIndex++] = 2;
 //    pIndices[iIndex++] = 3;
 //
-//    // µÞ¸é (4-7)
+//    // ë’·ë©´ (4-7)
 //    pIndices[iIndex++] = 4;
 //    pIndices[iIndex++] = 5;
 //    pIndices[iIndex++] = 6;
@@ -274,7 +274,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    pIndices[iIndex++] = 6;
 //    pIndices[iIndex++] = 7;
 //
-//    // ¿À¸¥ÂÊ ¸é (8-11)
+//    // ì˜¤ë¥¸ìª½ ë©´ (8-11)
 //    pIndices[iIndex++] = 8;
 //    pIndices[iIndex++] = 9;
 //    pIndices[iIndex++] = 10;
@@ -283,7 +283,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    pIndices[iIndex++] = 10;
 //    pIndices[iIndex++] = 11;
 //
-//    // ¿ÞÂÊ ¸é (12-15)
+//    // ì™¼ìª½ ë©´ (12-15)
 //    pIndices[iIndex++] = 12;
 //    pIndices[iIndex++] = 13;
 //    pIndices[iIndex++] = 14;
@@ -292,7 +292,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    pIndices[iIndex++] = 14;
 //    pIndices[iIndex++] = 15;
 //
-//    // À§ÂÊ ¸é (16-19)
+//    // ìœ„ìª½ ë©´ (16-19)
 //    pIndices[iIndex++] = 16;
 //    pIndices[iIndex++] = 17;
 //    pIndices[iIndex++] = 18;
@@ -301,7 +301,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //    pIndices[iIndex++] = 18;
 //    pIndices[iIndex++] = 19;
 //
-//    // ¾Æ·¡ÂÊ ¸é (20-23)
+//    // ì•„ëž˜ìª½ ë©´ (20-23)
 //    pIndices[iIndex++] = 20;
 //    pIndices[iIndex++] = 21;
 //    pIndices[iIndex++] = 22;

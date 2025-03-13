@@ -1,4 +1,4 @@
-#include "PlayerCollider.h"
+﻿#include "PlayerCollider.h"
 
 CPlayerCollider::CPlayerCollider(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollider(pGraphic_Device)

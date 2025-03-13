@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Component.h"
 #include "Transform.h"
@@ -17,7 +17,7 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
-	// ¿ÀºêÁ§Æ®¿¡¼­ ¼³Á¤ÇØ¼­ ¸Å´ÏÀú·Î ³Ñ±â±â
+	// ì˜¤ë¸Œì íŠ¸ì—ì„œ ì„¤ì •í•´ì„œ ë§¤ë‹ˆì €ë¡œ ë„˜ê¸°ê¸°
 	_float3 Get_State(CTransform::TRANSFORMSTATE eState) const {
 		return *reinterpret_cast<const _float3*>(&m_WorldMatrix.m[eState][0]);
 	}
@@ -43,12 +43,12 @@ public:
 
 protected:
 	_float4x4				m_WorldMatrix = {};
-	// Å¥ºêÀÇ ÁßÁ¡ ÀúÀå¿ë
+	// íë¸Œì˜ ì¤‘ì  ì €ì¥ìš©
 	_float3					m_fPos = {};
 
-	// ÀÚ±â Å¸ÀÔ ÀúÀå ÇÏ°í
-	// Ãæµ¹ÇÏ¸é ÀÚ±â Å¸ÀÔÀ» »ó´ë¿¡°Ô ÀúÀå, »ó´ë Å¸ÀÔÀº ³ª¿¡°Ô ÀúÀå
-	// ±× ÈÄ object¿¡¼­ »ó´ë Å¸ÀÔ º¸°í Ã¼Å©
+	// ìê¸° íƒ€ì… ì €ì¥ í•˜ê³ 
+	// ì¶©ëŒí•˜ë©´ ìê¸° íƒ€ì…ì„ ìƒëŒ€ì—ê²Œ ì €ì¥, ìƒëŒ€ íƒ€ì…ì€ ë‚˜ì—ê²Œ ì €ì¥
+	// ê·¸ í›„ objectì—ì„œ ìƒëŒ€ íƒ€ì… ë³´ê³  ì²´í¬
 	COLLIDERGROUP			m_eType = { CG_END };
 	COLLIDERGROUP			m_eOtherType = { CG_END };
 public:

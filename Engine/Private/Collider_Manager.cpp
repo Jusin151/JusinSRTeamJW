@@ -1,4 +1,4 @@
-#include "Collider_Manager.h"
+ï»¿#include "Collider_Manager.h"
 #include "Collider.h"
 #include "Collider_Sphere.h"
 
@@ -55,8 +55,8 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 		{
 			if (Calc_Sphere_To_Sphere(srcEntry, dstEntry))
 			{
-				// Ãæµ¹ÇÑ colliderÀÇ Å¸ÀÔÀ» ±â·ÏÇÔ
-				// ÀÌÁ¦ object lateupdate¿¡¼­ ÆÇÁ¤ÇØ¼­ Å¸ÀÔº°·Î Ãæµ¹ Ã³¸® ÇÏµµ·Ï
+				// ì¶©ëŒí•œ colliderì˜ íƒ€ì…ì„ ê¸°ë¡í•¨
+				// ì´ì œ object lateupdateì—ì„œ íŒì •í•´ì„œ íƒ€ì…ë³„ë¡œ ì¶©ëŒ ì²˜ë¦¬ í•˜ë„ë¡
 				srcEntry->Set_Other_Type(dstEntry->Get_Type());
 				dstEntry->Set_Other_Type(srcEntry->Get_Type());
 				
@@ -75,14 +75,14 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 	_float3 fDistance = src->Get_State(CTransform::STATE_POSITION) - dst->Get_State(CTransform::STATE_POSITION);
 
 
-	// ¹İÁö¸§ °è»ê or °¡Á®¿Í¼­ ÀÌÁ¦ Ã³¸®
+	// ë°˜ì§€ë¦„ ê³„ì‚° or ê°€ì ¸ì™€ì„œ ì´ì œ ì²˜ë¦¬
 	_float fRadiusSrc = static_cast<CCollider_Sphere*>(src)->Get_Radius();
 	_float fRadiusDst = static_cast<CCollider_Sphere*>(dst)->Get_Radius();
 
-	// °Å¸® ±æÀÌ
+	// ê±°ë¦¬ ê¸¸ì´
 	_float fLength = fDistance.x * fDistance.x + fDistance.y * fDistance.y + fDistance.z * fDistance.z;
 
-	// ÁßÁ¡ »çÀÌ °Å¸®°¡ ¹İÁö¸§ ÇÕº¸´Ù ÀÛÀ¸¸é Ãæµ¹
+	// ì¤‘ì  ì‚¬ì´ ê±°ë¦¬ê°€ ë°˜ì§€ë¦„ í•©ë³´ë‹¤ ì‘ìœ¼ë©´ ì¶©ëŒ
 	return fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst > fLength;
 }
 

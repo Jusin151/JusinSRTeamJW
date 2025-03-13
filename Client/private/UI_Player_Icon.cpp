@@ -1,4 +1,4 @@
-#include "UI_Player_Icon.h"
+ï»¿#include "UI_Player_Icon.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -92,7 +92,7 @@ HRESULT CUI_Player_Icon::Render()
 
 	if (FAILED(m_PlayerICon_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_PlayerICon_pTextureCom->Bind_Resource(m_iCurrentFrame))) // ÇöÀç ÇÁ·¹ÀÓ ÀÎµ¦½º¸¦ »ç¿ëÇÏ¿© ÅØ½ºÃ³ ¹ÙÀÎµù
+	if (FAILED(m_PlayerICon_pTextureCom->Bind_Resource(m_iCurrentFrame))) // í˜„ìž¬ í”„ë ˆìž„ ì¸ë±ìŠ¤ë¥¼ ì‚¬ìš©í•˜ì—¬ í…ìŠ¤ì²˜ ë°”ì¸ë”©
 		return E_FAIL;
 	if (FAILED(m_PlayerICon_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -131,7 +131,7 @@ CUI_Player_Icon* CUI_Player_Icon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("ÇÃ·¹ÀÌ¾î ¾ÆÀÌÄÜ UI ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("í”Œë ˆì´ì–´ ì•„ì´ì½˜ UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -145,7 +145,7 @@ CGameObject* CUI_Player_Icon::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("ÇÃ·¹ÀÌ¾î ¾ÆÀÌÄÜ UI º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("í”Œë ˆì´ì–´ ì•„ì´ì½˜ UI ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

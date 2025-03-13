@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Base.h"
 #include <queue>
@@ -22,28 +22,28 @@ private:
 
 public:
 
-	// Ãß°¡. gameinstance¿¡ µî·ÏÇØ¼­ ¿ÀºêÁ§Æ®¿¡¼­ Ãß°¡. collider¿¡¼­ ÇÏ¸é ¿ÀºêÁ§Æ®°¡ »èÁ¦µÇ¸é Á» ±×·²µí?
+	// ì¶”ê°€. gameinstanceì— ë“±ë¡í•´ì„œ ì˜¤ë¸Œì íŠ¸ì—ì„œ ì¶”ê°€. colliderì—ì„œ í•˜ë©´ ì˜¤ë¸Œì íŠ¸ê°€ ì‚­ì œë˜ë©´ ì¢€ ê·¸ëŸ´ë“¯?
 	HRESULT Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider);
 
 
-	// update ÈÄ¿¡ µî·ÏµÈ ¸ğµç collider¸¦ »èÁ¦
+	// update í›„ì— ë“±ë¡ëœ ëª¨ë“  colliderë¥¼ ì‚­ì œ
 	void Clear();
 
-	// enumÀ¸·Î ¿øÇÏ´Â Å¸ÀÔ¸¸ Ãæµ¹ Ã³¸® ÇÏµµ·Ï
+	// enumìœ¼ë¡œ ì›í•˜ëŠ” íƒ€ì…ë§Œ ì¶©ëŒ ì²˜ë¦¬ í•˜ë„ë¡
 	void Update_Collison();
 
-	// °Å¸®·Î¸¸
+	// ê±°ë¦¬ë¡œë§Œ
 	void Collison_Sphere_To_Sphere( list<CCollider*> src, list<CCollider*> dst);
-	// SAT ½á¼­
+	// SAT ì¨ì„œ
 	void Collison_Cube_To_Cube(list<CCollider*> src, list<CCollider*> dst);
 
-	// ÁßÁ¡ °Å¸®°¡ ¹İÁö¸§ ÇÕº¸´Ù ÀÛÀºÁö ÆÇ´Ü
+	// ì¤‘ì  ê±°ë¦¬ê°€ ë°˜ì§€ë¦„ í•©ë³´ë‹¤ ì‘ì€ì§€ íŒë‹¨
 	bool Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst);
 
-	// ±¸·Î Ãæµ¹ Ã¼Å© ³¡³»°í
+	// êµ¬ë¡œ ì¶©ëŒ ì²´í¬ ëë‚´ê³ 
 	bool Calc_Cube_To_Cube(CCollider* src, CCollider* dst);
 
-	// À§¿¡²¨ ³¡³»°í.
+	// ìœ„ì—êº¼ ëë‚´ê³ .
 	bool Calc_Cube_To_Sphere(CCollider* src, CCollider* dst);
 
 private:
@@ -52,9 +52,9 @@ private:
 
 
 
-	//// Ãà °è»êÇÒ¶§ ³Ö¾îµÎ´Â ¿ëµµ·Î, key°¡ dir, value´Â depth
+	//// ì¶• ê³„ì‚°í• ë•Œ ë„£ì–´ë‘ëŠ” ìš©ë„ë¡œ, keyê°€ dir, valueëŠ” depth
 	//map<_float3, _float> m_Axes;
-	//// °Å¸® ÀÛÀº ¼ø¼­´ë·Î ³Ö¾îÁÖ±â, Ãæµ¹ ÈÄ ÀÌµ¿½ÃÅ³¶§ »ç¿ë
+	//// ê±°ë¦¬ ì‘ì€ ìˆœì„œëŒ€ë¡œ ë„£ì–´ì£¼ê¸°, ì¶©ëŒ í›„ ì´ë™ì‹œí‚¬ë•Œ ì‚¬ìš©
 	//priority_queue<_float, vector<_float>, greater<_float>> m_Depths;
 	
 

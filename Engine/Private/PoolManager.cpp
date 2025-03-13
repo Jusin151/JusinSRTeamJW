@@ -1,4 +1,4 @@
-ï»¿#include "PoolManager.h"
+ï»¿ç™¤#include "PoolManager.h"
 #include "GameObject.h"
 #include "GameInstance.h"
 
@@ -11,7 +11,7 @@ CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _ws
 {
 	auto& objQueue = m_Pools[iPrototypeLevelIndex][strLayerTag];
 
-	if (objQueue.empty()) // ºñ¾îÀÖ´Ù¸é »ı¼ºÇØ¼­ ¹İÈ¯
+	if (objQueue.empty()) // ë¹„ì–´ìˆë‹¤ë©´ ìƒì„±í•´ì„œ ë°˜í™˜
 	{
 		if (FAILED(Reserve_Pool(iPrototypeLevelIndex, m_InitArgMap[strLayerTag].first, strLayerTag, 1, m_InitArgMap[strLayerTag].second)))
 		{
@@ -20,7 +20,7 @@ CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _ws
 	}
 
 	CGameObject* pGameObject = objQueue.front();
-	Safe_AddRef(pGameObject); // ºô·ÁÁÙ ¶§ ·¹ÆÛ·±½º ¿Ã¸®±â
+	Safe_AddRef(pGameObject); // ë¹Œë ¤ì¤„ ë•Œ ë ˆí¼ëŸ°ìŠ¤ ì˜¬ë¦¬ê¸°
 	objQueue.pop();
 	return pGameObject;
 }

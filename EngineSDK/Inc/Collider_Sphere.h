@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Collider.h"
 
@@ -18,12 +18,12 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 	void Calc_Radius();
-	// ¹İÁö¸§ÀÌ °è»ê ¾ÈµÇÀÖÀ¸¸é °è»ê ÈÄ Ãâ·Â
+	// ë°˜ì§€ë¦„ì´ ê³„ì‚° ì•ˆë˜ìˆìœ¼ë©´ ê³„ì‚° í›„ ì¶œë ¥
 	_float Get_Radius();
 
 
 private:
-	// ¹İÁö¸§
+	// ë°˜ì§€ë¦„
 	_float m_fRadius = {-1.f};
 	
 

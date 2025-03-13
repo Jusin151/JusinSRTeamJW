@@ -1,4 +1,4 @@
-#include "Collider_Sphere.h"
+Ôªø#include "Collider_Sphere.h"
 
 CCollider_Sphere::CCollider_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollider(m_pGraphic_Device)
@@ -23,7 +23,7 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 
 void CCollider_Sphere::Calc_Radius()
 {
-	// «— πÊ«‚ ±Ê¿Ã∏¶ ±∏«ÿº≠ ∞ˆ«ÿº≠ ≥—∞‹¡ÿ¥Ÿ
+	// Ìïú Î∞©Ìñ• Í∏∏Ïù¥Î•º Íµ¨Ìï¥ÏÑú Í≥±Ìï¥ÏÑú ÎÑòÍ≤®Ï§ÄÎã§
 	_float3 fRadiusVec = Get_State(CTransform::STATE_RIGHT);
 
 	m_fRadius = abs(fRadiusVec.x * fRadiusVec.x + fRadiusVec.z * fRadiusVec.z + fRadiusVec.y * fRadiusVec.y);
