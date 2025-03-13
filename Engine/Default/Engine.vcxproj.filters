@@ -94,6 +94,9 @@
     <ClInclude Include="..\public\UIObject.h">
       <Filter>02.GameObject\UIObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -189,7 +192,7 @@
     <Filter Include="05.Timers\Manager">
       <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
     </Filter>
-     <Filter Include="02.GameObject\Camera">
+    <Filter Include="02.GameObject\Camera">
       <UniqueIdentifier>{818845ae-d1f4-4af6-8117-3b38123510e2}</UniqueIdentifier>
     </Filter>
     <Filter Include="06.Sound\Manager">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="..\private\UIObject.cpp">
       <Filter>02.GameObject\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

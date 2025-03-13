@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Terrain.h"
 #include "Camera_Free.h"
+#include "Player.h"
 ////////////////////////////// 레벨_로고
 #include "BackGround.h"
 #include  "Default_Menu.h"
@@ -64,10 +65,11 @@ HRESULT CLoader::Loading()
 		break;
 	}
 
+	LeaveCriticalSection(&m_CriticalSection);
+
 	if (FAILED(hr))
 		return E_FAIL;
 
-	LeaveCriticalSection(&m_CriticalSection);
 
 	return S_OK;
 }
@@ -325,6 +327,12 @@ HRESULT CLoader::Add_To_GamePlay_Textures()
 			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 텍스쳐
+		TEXT("Prototype_Component_Texture_Player"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/Player/Player.png"), 1))))
+		return E_FAIL;
+
 	Add_To_UI_Textures();
 
 	return S_OK;
@@ -358,6 +366,11 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Camera_Free"),
 		CCamera_Free::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	Add_To_UI_Prototype();
