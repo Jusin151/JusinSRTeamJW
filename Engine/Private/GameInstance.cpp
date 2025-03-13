@@ -49,6 +49,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pPool_Manager)
 		return E_FAIL;
 
+	m_pCollider_Manager = CCollider_Manager::Create();
+	if (nullptr == m_pCollider_Manager)
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -153,6 +157,10 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 	return m_pTimer_Manager->Update(strTimerTag);
 }
 
+#pragma endregion
+
+#pragma POOL_MANAGER
+
 CGameObject* CGameInstance::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag)
 {
 	return m_pPool_Manager->Acquire_Object(iPrototypeLevelIndex,strLayerTag);
@@ -165,7 +173,16 @@ HRESULT CGameInstance::Return_Object(_uint iPrototypeLevelIndex, const _wstring&
 
 HRESULT CGameInstance::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strLayerTag, _uint iCount, void* pArg)
 {
-	return  m_pPool_Manager->Reserve_Pool(iPrototypeLevelIndex,strPrototypeTag,strLayerTag,iCount,pArg);
+	return  m_pPool_Manager->Reserve_Pool(iPrototypeLevelIndex, strPrototypeTag, strLayerTag, iCount, pArg);
+}
+
+#pragma endregion
+
+#pragma region COLLIDER_MANAGER
+
+HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
+{
+	return m_pCollider_Manager->Add_Collider(eGroup, Collider);
 }
 
 #pragma endregion
