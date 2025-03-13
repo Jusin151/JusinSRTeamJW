@@ -13,6 +13,7 @@ HRESULT CSound_Manager::Initialize(_int iNumChannels, FMOD_STUDIO_INITFLAGS stud
 	}
 	m_pStudioSystem->getCoreSystem(&m_pCoreSystem);
 	m_pStudioSystem->initialize(iNumChannels, studioFlags, flags, pArg);
+	//m_pStudioSystem->loadBankFile(BANKPATH "Master.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, nullptr);
 
 	return S_OK;
 }
@@ -48,6 +49,27 @@ void CSound_Manager::Play(CHANNELID eChannelID, _wstring strSoundTag, void* pArg
 
 }
 
+Studio::EventInstance* CSound_Manager::Play_Event(_wstring strEventPath, void* pArg)
+{
+	return nullptr;
+}
+
+void CSound_Manager::Stop_All_Event()
+{
+	Studio::Bus* m_pBus = nullptr;
+	m_pStudioSystem->getBus("bus:/", &m_pBus);
+	m_pBus->stopAllEvents(FMOD_STUDIO_STOP_IMMEDIATE);
+	Update();
+}
+
+Studio::Bank* CSound_Manager::Load_Bank(_wstring strBankPath, void* pArg)
+{
+	Studio::Bank* pBank = nullptr;
+	m_pStudioSystem->loadBankFile(reinterpret_cast<const char*>(strBankPath.c_str()), FMOD_STUDIO_LOAD_BANK_NORMAL, &pBank);
+
+	return nullptr;
+}
+
 CSound_Manager* CSound_Manager::Create(_int iNumChannels, FMOD_STUDIO_INITFLAGS studioFlags, FMOD_INITFLAGS flags, void* pArg)
 {
 	CSound_Manager* pInstance = new CSound_Manager();
@@ -77,7 +99,4 @@ void CSound_Manager::Free()
 		m_pCoreSystem->release();
 		m_pCoreSystem = nullptr;
 	}
-	//Safe_Release(m_pStudioSystem);
-	//Safe_Release(m_pCoreSystem);
-	//Safe_Release();
 }

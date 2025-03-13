@@ -60,6 +60,13 @@ public:
 	HRESULT Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strLayerTag, _uint iCount, void* pArg = nullptr);
 #pragma endregion
 
+
+#pragma region Collider_Manager
+
+	HRESULT Add_Collider(COLLIDERGROUP eGroup, class CCollider* Collider);
+
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -70,6 +77,7 @@ private:
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
+	class CCollider_Manager*		m_pCollider_Manager = { nullptr };
 public:
 	void Release_Engine();
 	virtual void Free() override;

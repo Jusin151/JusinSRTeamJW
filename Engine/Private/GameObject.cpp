@@ -72,6 +72,13 @@ HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _wstring& strPrototy
 	return S_OK;
 }
 
+CComponent* CGameObject::Find(const _wstring strComponentTag)
+{
+	if (m_Components.end() == m_Components.find(strComponentTag))
+		return nullptr;
+	return m_Components[strComponentTag];
+}
+
 void CGameObject::Free()
 {
 	__super::Free();
