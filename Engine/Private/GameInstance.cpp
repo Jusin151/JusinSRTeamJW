@@ -161,7 +161,7 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 
 #pragma endregion
 
-#pragma POOL_MANAGER
+#pragma region POOL_MANAGER
 
 CGameObject* CGameInstance::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag)
 {

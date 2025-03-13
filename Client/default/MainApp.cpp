@@ -1,10 +1,9 @@
 ﻿#include "MainApp.h"
 #include "GameInstance.h"
-
 #include "Level_Logo.h"
 #include "Level_Loading.h"
-
 #include "Loading_UI.h"
+#include "VIBuffer_Cube.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
