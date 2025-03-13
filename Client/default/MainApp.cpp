@@ -84,6 +84,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,  TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	return S_OK;
 }

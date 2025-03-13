@@ -6,7 +6,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;
+class CVIBuffer_Cube;
 END
 
 BEGIN(Client)
@@ -29,7 +29,7 @@ public:
 private:
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
 
 private:
 	HRESULT SetUp_RenderState();
