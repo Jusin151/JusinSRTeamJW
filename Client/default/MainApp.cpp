@@ -4,6 +4,7 @@
 #include "Level_Loading.h"
 #include "Loading_UI.h"
 #include "VIBuffer_Cube.h"
+#include "Collider_Sphere.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -85,6 +86,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,  TEXT("Prototype_Component_VIBuffer_Cube"),
 		CVIBuffer_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Transform */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		CCollider_Sphere::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

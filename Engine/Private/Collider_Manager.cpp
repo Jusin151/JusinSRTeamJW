@@ -17,6 +17,8 @@ HRESULT CCollider_Manager::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collide
 	
 	m_pColliders[eGroup].push_back(Collider);
 
+	Safe_AddRef(Collider);
+
 	return S_OK;
 }
 
@@ -80,10 +82,10 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 	_float fRadiusDst = static_cast<CCollider_Sphere*>(dst)->Get_Radius();
 
 	// 거리 길이
-	_float fLength = fDistance.x * fDistance.x + fDistance.y * fDistance.y + fDistance.z * fDistance.z;
+	_float fLength = fDistance.Length();
 
 	// 중점 사이 거리가 반지름 합보다 작으면 충돌
-	return fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst > fLength;
+	return fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst > fLength * fLength;
 }
 
 bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)

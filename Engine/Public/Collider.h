@@ -26,19 +26,31 @@ public:
 		memcpy(&m_WorldMatrix.m[eState][0], &vState, sizeof vState);
 	}
 
+	void Set_WorldMat(_float4x4 worldMat)
+	{
+		m_WorldMatrix = worldMat;
+	}
+
 
 	COLLIDERGROUP	Get_Type()
 	{
 		return m_eType;
 	}
-	void	Set_Other_Type(COLLIDERGROUP eOtherType)
+
+	void Set_Type(COLLIDERGROUP eType)
 	{
-		m_eOtherType = eOtherType;
+		m_eType = eType;
 	}
+	
 
 	COLLIDERGROUP	Get_Other_Type()
 	{
 		return m_eOtherType;
+	}
+
+	void	Set_Other_Type(COLLIDERGROUP eOtherType)
+	{
+		m_eOtherType = eOtherType;
 	}
 
 protected:

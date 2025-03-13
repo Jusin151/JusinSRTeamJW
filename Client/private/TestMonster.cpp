@@ -1,78 +1,62 @@
-ï»¿#include "Player.h"
+#include "TestMonster.h"
 
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 
-CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+CTestMonster::CTestMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: CGameObject{ pGraphic_Device }
 {
 }
 
-CPlayer::CPlayer(const CPlayer& Prototype)
+CTestMonster::CTestMonster(const CTestMonster& Prototype)
 	: CGameObject{ Prototype }
 {
 }
 
-HRESULT CPlayer::Initialize_Prototype()
+HRESULT CTestMonster::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CPlayer::Initialize(void* pArg)
+HRESULT CTestMonster::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(rand() % 10, 5.f, rand() % 10));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(50.f,5.f,50.f));
 	m_pTransformCom->Set_Scale(10.f, 10.f, 10.f);
-	m_pColliderCom->Set_Type(CG_PLAYER);
+	m_pColliderCom->Set_Type(CG_MONSTER);
 	return S_OK;
 }
 
-void CPlayer::Priority_Update(_float fTimeDelta)
+void CTestMonster::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CPlayer::Update(_float fTimeDelta)
+void CTestMonster::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_UP) & 0x8000)
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-	if (GetKeyState(VK_DOWN) & 0x8000)
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
-	if (GetKeyState(VK_LEFT) & 0x8000)
-	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
-	}
-	if (GetKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
-	}
 
-	// collider ì›”ë“œ í–‰ë ¬ ë™ê¸°í™”...
+	// collider ¿ùµå Çà·Ä µ¿±âÈ­...
 
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 
-	
 
-	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
-	
+
+	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+
 }
 
-void CPlayer::Late_Update(_float fTimeDelta)
+void CTestMonster::Late_Update(_float fTimeDelta)
 {
-	// ì¶©ëŒ íŒì •
-	On_Collision();
+	// Ãæµ¹ ÆÇÁ¤
+	On_Collision(fTimeDelta);
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CPlayer::Render()
+HRESULT CTestMonster::Render()
 {
 
 
@@ -95,32 +79,32 @@ HRESULT CPlayer::Render()
 	return S_OK;
 }
 
-HRESULT CPlayer::On_Collision()
+HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
-	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
+	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
-	switch (m_pColliderCom -> Get_Other_Type())
+	switch (m_pColliderCom->Get_Other_Type())
 	{
-	case CG_MONSTER:
-
+	case CG_PLAYER:
+		m_pTransformCom->Go_Straight(fTimeDelta);
 		break;
 
 	default:
 		break;
 	}
 
-	// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
+	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
 }
 
-HRESULT CPlayer::SetUp_RenderState()
+HRESULT CTestMonster::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
@@ -137,17 +121,17 @@ HRESULT CPlayer::SetUp_RenderState()
 	return S_OK;
 }
 
-HRESULT CPlayer::Release_RenderState()
+HRESULT CTestMonster::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return S_OK;
 }
 
-HRESULT CPlayer::Ready_Components()
+HRESULT CTestMonster::Ready_Components()
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
@@ -174,32 +158,32 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
-CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTestMonster* CTestMonster::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CPlayer* pInstance = new CPlayer(pGraphic_Device);
+	CTestMonster* pInstance = new CTestMonster(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CPlayer");
+		MSG_BOX("Failed to Created : CTestMonster");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CPlayer::Clone(void* pArg)
+CGameObject* CTestMonster::Clone(void* pArg)
 {
-	CPlayer* pInstance = new CPlayer(*this);
+	CTestMonster* pInstance = new CTestMonster(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CPlayer");
+		MSG_BOX("Failed to Created : CTestMonster");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
-void CPlayer::Free()
+void CTestMonster::Free()
 {
 	__super::Free();
 
