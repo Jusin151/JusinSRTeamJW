@@ -10,6 +10,7 @@ private:
 	virtual ~CPool_Manager() = default;
 
 public:
+	// Ǯ���� �̾ư� �� ����
 	class CGameObject* Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag);
 
 	// 풀에 객체 반환하기

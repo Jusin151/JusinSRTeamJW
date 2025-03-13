@@ -11,7 +11,7 @@ CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _ws
 {
 	auto& objQueue = m_Pools[iPrototypeLevelIndex][strLayerTag];
 
-	if (objQueue.empty())
+	if (objQueue.empty()) // 비어있다면 생성해서 반환
 	{
 		if (FAILED(Reserve_Pool(iPrototypeLevelIndex, m_InitArgMap[strLayerTag].first, strLayerTag, 1, m_InitArgMap[strLayerTag].second)))
 		{
@@ -20,7 +20,7 @@ CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _ws
 	}
 
 	CGameObject* pGameObject = objQueue.front();
-	Safe_AddRef(pGameObject);
+	Safe_AddRef(pGameObject); // 빌려줄 때 레퍼런스 올리기
 	objQueue.pop();
 	return pGameObject;
 }
@@ -46,6 +46,8 @@ HRESULT CPool_Manager::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& 
 		pGameObject = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg));
 		if (pGameObject)
 		{
+			pGameObject->Set_Tag(strLayerTag);
+			pGameObject->Set_FromPool(true);
 			m_Pools[iPrototypeLevelIndex][strLayerTag].push(pGameObject);
 	
 			if (pArg)

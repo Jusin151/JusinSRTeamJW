@@ -120,6 +120,11 @@ HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
 }
 
+HRESULT CGameInstance::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Add_GameObject_FromPool(iPrototypeLevelIndex,iLevelIndex,strLayerTag);
+}
+
 #pragma endregion
 
 #pragma region RENDERER
