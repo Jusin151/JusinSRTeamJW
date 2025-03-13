@@ -97,14 +97,8 @@
     <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display">
       <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP">
-      <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display">
       <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon">
-      <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet">
       <UniqueIdentifier>{3092ab4c-01b9-4ffc-952f-2ee449a62a90}</UniqueIdentifier>
@@ -117,6 +111,33 @@
     </Filter>
     <Filter Include="02.GameObjects\Player">
       <UniqueIdentifier>{16d06422-a5ba-4e2c-af8a-628d2d2a5dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\00.HP">
+      <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\01.MP">
+      <UniqueIdentifier>{22ef7993-c622-41ab-a771-c7c40a0eef04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\02.PlayerIcon">
+      <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\03.Key">
+      <UniqueIdentifier>{0141b836-8067-408c-812f-01969b88986a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Shop">
+      <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Shop\Episode_UI">
+      <UniqueIdentifier>{0a2996c2-5012-4a5f-b7af-68e0c8db4da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Shop\Point_Shop_UI">
+      <UniqueIdentifier>{1cabfe0a-0457-440e-a907-22084c3364cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Shop\Spell_Shop_UI">
+      <UniqueIdentifier>{2f9e9709-fb90-48ce-92b9-13633bdd18a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Shop\Upgrade_Weapon_UI">
+      <UniqueIdentifier>{c09c0d37-8ce0-43ba-a2c8-be92b4b95b15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +192,7 @@
     <ClInclude Include="..\public\CUI_AmmoDisplay.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_Menu.h">
+    <ClInclude Include="..\public\UI_Menu.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\04.UI_MENU</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CUI_Dialogue.h">
@@ -229,16 +250,31 @@
       <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_Bar.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\00.HP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Bullet_Bar.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Player_Icon.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_MP_Bar.h">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Point_Shop.h">
+      <Filter>02.GameObjects\UI\Shop\Point_Shop_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Episode.h">
+      <Filter>02.GameObjects\UI\Shop\Episode_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Spell_Shop.h">
+      <Filter>02.GameObjects\UI\Shop\Spell_Shop_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Upgrade_Weapon.h">
+      <Filter>02.GameObjects\UI\Shop\Upgrade_Weapon_UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,16 +367,34 @@
       <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_HP_Bar.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\00.HP</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_Icon.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Bullet_Bar.cpp">
       <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_MP_Bar.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Menu.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\04.UI_MENU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Point_Shop.cpp">
+      <Filter>02.GameObjects\UI\Shop\Point_Shop_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Episode.cpp">
+      <Filter>02.GameObjects\UI\Shop\Episode_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Spell_Shop.cpp">
+      <Filter>02.GameObjects\UI\Shop\Spell_Shop_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Upgrade_Weapon.cpp">
+      <Filter>02.GameObjects\UI\Shop\Upgrade_Weapon_UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
