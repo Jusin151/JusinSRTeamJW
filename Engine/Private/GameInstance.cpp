@@ -7,7 +7,9 @@
 #include "Graphic_Device.h"
 #include "PoolManager.h"
 #include "Object_Manager.h"
+#include "Collider_Manager.h"
 #include "Prototype_Manager.h"
+
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -62,7 +64,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pObject_Manager->Update(fTimeDelta);
 
-	
+	m_pCollider_Manager->Update_Collison();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
@@ -203,6 +205,8 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pPrototype_Manager);
 
 	Safe_Release(m_pLevel_Manager);
+
+	Safe_Release(m_pCollider_Manager);
 
 	Safe_Release(m_pGraphic_Device);
 
