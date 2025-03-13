@@ -49,7 +49,8 @@ public:
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID);
 	virtual void Free() override;
-	//////////////////////////////
+
+////////////////////////////////////////////////////////////
 	HRESULT Add_To_Logo_Textures();
 	HRESULT Add_To_Logo_Buffer();
 	HRESULT Add_To_Logo_Transform();
@@ -59,19 +60,35 @@ public:
 	HRESULT Add_To_Logo_Menu_Buffer();
 	HRESULT Add_To_Logo_Menu_Transform();
 	HRESULT Add_To_Logo_Menu_Prototype();
-
-
-	//////////////////////////////
-
+////////////////////////////////////////////////////////////
 	HRESULT Add_To_GamePlay_Textures();
 	HRESULT Add_To_GamePlay_Buffer();
 	HRESULT Add_To_GamePlay_Transform();
 	HRESULT Add_To_GamePlay_Prototype();
-
+//////////////////////////////////////////////////////////// UI 원본 생성
 	HRESULT Add_To_UI_Prototype();
+
+	              HRESULT Add_To_UI_Left_DisPlay_Prototype();
+				  HRESULT Add_To_UI_Mid_DisPlay_Prototype();
+				  HRESULT Add_To_UI_Right_DisPlay_Prototype();
+//////////////////////////////////////////////////////////// UI 텍스쳐 컴포넌트
 	HRESULT Add_To_UI_Textures();
+
+	              HRESULT Add_To_UI_Left_DisPlay_Textures();
+				  HRESULT Add_To_UI_Mid_DisPlay_Textures();
+				  HRESULT Add_To_UI_Right_DisPlay_Textures();
+ //////////////////////////////////////////////////////////// UI 버퍼 컴포넌트
 	HRESULT Add_To_UI_Buffer();
+
+			      HRESULT Add_To_UI_Left_DisPlay_Buffer();
+				  HRESULT Add_To_UI_Mid_DisPlay_Buffer();
+				  HRESULT Add_To_UI_Right_DisPlay_Buffer();
+//////////////////////////////////////////////////////////// UI 트랜스폼 컴포넌트
 	HRESULT Add_To_UI_Transform();
+
+				  HRESULT Add_To_UI_Left_DisPlay_Transform();
+				  HRESULT Add_To_UI_Mid_DisPlay_Transform();
+				  HRESULT Add_To_UI_Right_DisPlay_Transform();
 
 };
 
