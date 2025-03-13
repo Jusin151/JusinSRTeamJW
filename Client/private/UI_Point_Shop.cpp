@@ -1,13 +1,13 @@
-#include "Point_Shop.h"
+#include "UI_Point_Shop.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-CPoint_Shop::CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Point_Shop::CUI_Point_Shop(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
 }
 
-CPoint_Shop::CPoint_Shop(const CPoint_Shop& Prototype)
+CUI_Point_Shop::CUI_Point_Shop(const CUI_Point_Shop& Prototype)
 	: CUI_Base(Prototype),
 	m_PointShopUI_pTextureCom(Prototype.m_PointShopUI_pTextureCom),
 	m_PointShopUI_pTransformCom(Prototype.m_PointShopUI_pTransformCom),
@@ -16,7 +16,7 @@ CPoint_Shop::CPoint_Shop(const CPoint_Shop& Prototype)
 {
 }
 
-HRESULT CPoint_Shop::Initialize_Prototype()
+HRESULT CUI_Point_Shop::Initialize_Prototype()
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -25,7 +25,7 @@ HRESULT CPoint_Shop::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CPoint_Shop::Initialize(void* pArg)
+HRESULT CUI_Point_Shop::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 
@@ -36,7 +36,7 @@ HRESULT CPoint_Shop::Initialize(void* pArg)
 		m_PointShopUI_INFO = *reinterpret_cast<UI_Child_Desc*>(pArg);
 		Set_Position(m_PointShopUI_INFO.vPos);
 		Set_Size(m_PointShopUI_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"UI_Menu", this);
+		CUI_Manager::GetInstance()->AddUI(L"UI_Point_Shop", this);
 	}
 	else
 		return E_FAIL;
@@ -48,13 +48,13 @@ HRESULT CPoint_Shop::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPoint_Shop::Priority_Update(_float fTimeDelta)
+void CUI_Point_Shop::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CPoint_Shop::Update(_float fTimeDelta)
+void CUI_Point_Shop::Update(_float fTimeDelta)
 {
-	if (GetKeyState('F') & 0x8000)
+	if (GetKeyState('2') & 0x8000)
 	{
 		if (!m_bKeyPressed)
 		{
@@ -69,13 +69,13 @@ void CPoint_Shop::Update(_float fTimeDelta)
 }
 
 
-void CPoint_Shop::Late_Update(_float fTimeDelta)
+void CUI_Point_Shop::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CPoint_Shop::Render()
+HRESULT CUI_Point_Shop::Render()
 {
 	if (!m_bIsVisible) // 이미지가 표시되지 않으면 렌더링 ㄴ
 		return S_OK;
@@ -114,27 +114,27 @@ HRESULT CPoint_Shop::Render()
 	return S_OK;
 }
 
-HRESULT CPoint_Shop::Ready_Components()
+HRESULT CUI_Point_Shop::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Menu_Panel"),
+ 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop_UI"),
 		TEXT("Com_Texture_Menu"), reinterpret_cast<CComponent**>(&m_PointShopUI_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Point_Shop_UI"),
 		TEXT("Com_VIBuffer_Menu"), reinterpret_cast<CComponent**>(&m_PointShopUI_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Point_Shop_UI"),
 		TEXT("Com_Transform_Menu"), reinterpret_cast<CComponent**>(&m_PointShopUI_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CPoint_Shop* CPoint_Shop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Point_Shop* CUI_Point_Shop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CPoint_Shop* pInstance = new CPoint_Shop(pGraphic_Device);
+	CUI_Point_Shop* pInstance = new CUI_Point_Shop(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -144,9 +144,9 @@ CPoint_Shop* CPoint_Shop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	return pInstance;
 }
-CGameObject* CPoint_Shop::Clone(void* pArg)
+CGameObject* CUI_Point_Shop::Clone(void* pArg)
 {
-	CPoint_Shop* pInstace = new CPoint_Shop(*this);
+	CUI_Point_Shop* pInstace = new CUI_Point_Shop(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -156,7 +156,7 @@ CGameObject* CPoint_Shop::Clone(void* pArg)
 
 	return pInstace;
 }
-void CPoint_Shop::Free()
+void CUI_Point_Shop::Free()
 {
 	__super::Free();
 

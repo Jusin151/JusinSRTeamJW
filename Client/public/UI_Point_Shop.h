@@ -13,12 +13,12 @@ END
 BEGIN(Client)
 
 
-class CPoint_Shop final : public CUI_Base
+class CUI_Point_Shop final : public CUI_Base
 {
 private:
-	CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPoint_Shop(const CPoint_Shop& Prototype);
-	virtual ~CPoint_Shop() = default;
+	CUI_Point_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CUI_Point_Shop(const CUI_Point_Shop& Prototype);
+	virtual ~CUI_Point_Shop() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -39,7 +39,7 @@ private:
 
 
 public:
-	static CPoint_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CUI_Point_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 

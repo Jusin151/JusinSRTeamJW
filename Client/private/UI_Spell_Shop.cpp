@@ -36,7 +36,7 @@ HRESULT CUI_Spell_Shop::Initialize(void* pArg)
 		m_SpellShopUI_INFO = *reinterpret_cast<UI_Child_Desc*>(pArg);
 		Set_Position(m_SpellShopUI_INFO.vPos);
 		Set_Size(m_SpellShopUI_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"UI_Menu", this);
+		CUI_Manager::GetInstance()->AddUI(L"UI_Spell_Shop", this);
 	}
 	else
 		return E_FAIL;
@@ -54,7 +54,7 @@ void CUI_Spell_Shop::Priority_Update(_float fTimeDelta)
 
 void CUI_Spell_Shop::Update(_float fTimeDelta)
 {
-	if (GetKeyState('F') & 0x8000)
+	if (GetKeyState('4') & 0x8000)
 	{
 		if (!m_bKeyPressed)
 		{
@@ -116,16 +116,16 @@ HRESULT CUI_Spell_Shop::Render()
 
 HRESULT CUI_Spell_Shop::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop_UI"),
 		TEXT("Com_Texture_Menu"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Spell_Shop_UI"),
 		TEXT("Com_VIBuffer_Menu"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Spell_Shop_UI"),
 		TEXT("Com_Transform_Menu"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pTransformCom), &tDesc)))
 		return E_FAIL;
 

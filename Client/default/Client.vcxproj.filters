@@ -264,7 +264,7 @@
     <ClInclude Include="..\Public\UI_MP_Bar.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Point_Shop.h">
+    <ClInclude Include="..\Public\UI_Point_Shop.h">
       <Filter>02.GameObjects\UI\Shop\Point_Shop_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Episode.h">
@@ -384,7 +384,7 @@
     <ClCompile Include="..\private\UI_Menu.cpp">
       <Filter>02.GameObjects\UI\GamePlay_UI\04.UI_MENU</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Point_Shop.cpp">
+    <ClCompile Include="..\Private\UI_Point_Shop.cpp">
       <Filter>02.GameObjects\UI\Shop\Point_Shop_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Episode.cpp">

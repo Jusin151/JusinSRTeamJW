@@ -36,7 +36,7 @@ HRESULT CUI_Episode::Initialize(void* pArg)
 		m_EpisodeUI_INFO = *reinterpret_cast<UI_Child_Desc*>(pArg);
 		Set_Position(m_EpisodeUI_INFO.vPos);
 		Set_Size(m_EpisodeUI_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"UI_Menu", this);
+		CUI_Manager::GetInstance()->AddUI(L"UI_Episode", this);
 	}
 	else
 		return E_FAIL;
@@ -54,7 +54,7 @@ void CUI_Episode::Priority_Update(_float fTimeDelta)
 
 void CUI_Episode::Update(_float fTimeDelta)
 {
-	if (GetKeyState('F') & 0x8000)
+	if (GetKeyState('3') & 0x8000)
 	{
 		if (!m_bKeyPressed)
 		{
@@ -116,16 +116,16 @@ HRESULT CUI_Episode::Render()
 
 HRESULT CUI_Episode::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_UI"),
 		TEXT("Com_Texture_Menu"), reinterpret_cast<CComponent**>(&m_EpisodeUI_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Episode_UI"),
 		TEXT("Com_VIBuffer_Menu"), reinterpret_cast<CComponent**>(&m_EpisodeUI_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Episode_UI"),
 		TEXT("Com_Transform_Menu"), reinterpret_cast<CComponent**>(&m_EpisodeUI_pTransformCom), &tDesc)))
 		return E_FAIL;
 
