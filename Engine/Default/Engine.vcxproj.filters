@@ -91,6 +91,9 @@
     <ClInclude Include="Sound.h">
       <Filter>06.Sound</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\UIObject.h">
+      <Filter>02.GameObject\UIObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -186,6 +189,9 @@
     <Filter Include="05.Timers\Manager">
       <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
     </Filter>
+     <Filter Include="02.GameObject\Camera">
+      <UniqueIdentifier>{818845ae-d1f4-4af6-8117-3b38123510e2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="06.Sound\Manager">
       <UniqueIdentifier>{2d283be0-f700-4b9d-a5b3-d3c19ff33db9}</UniqueIdentifier>
     </Filter>
@@ -197,6 +203,12 @@
     </Filter>
     <Filter Include="06.Sound\Source">
       <UniqueIdentifier>{aa64ac8a-9773-4030-8eeb-61fb8677ace0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UIObject">
+      <UniqueIdentifier>{ca1b37c0-851b-4920-b166-7d1b22ab39c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UIObject">
+      <UniqueIdentifier>{ca1b37c0-851b-4920-b166-7d1b22ab39c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Sound_Manager.cpp">
       <Filter>06.Sound\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UIObject.cpp">
+      <Filter>02.GameObject\UIObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -180,6 +180,7 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\Public\Loading_UI.h" />
     <ClInclude Include="..\Public\Start_Button.h" />
+    <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\UI_Default_Panel.h" />
     <ClInclude Include="..\public\UI_ExpDisplay.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Loading_UI.cpp" />
     <ClCompile Include="..\Private\Start_Button.cpp" />
+    <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
     <ClCompile Include="..\private\UI_AMMOBar.cpp" />
     <ClCompile Include="..\private\UI_Default_Panel.cpp" />
