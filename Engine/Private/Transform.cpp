@@ -56,7 +56,8 @@ void CTransform::Go_Straight(_float fTimeDelta)
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vLook = Get_State(STATE_LOOK);
 
-	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeedPerSec * fTimeDelta;
+	//vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeedPerSec * fTimeDelta;
+	vPosition += vLook.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -66,7 +67,8 @@ void CTransform::Go_Backward(_float fTimeDelta)
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vLook = Get_State(STATE_LOOK);
 
-	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeedPerSec * fTimeDelta;
+	//vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeedPerSec * fTimeDelta;
+	vPosition -= vLook.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -76,7 +78,8 @@ void CTransform::Go_Left(_float fTimeDelta)
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vRight = Get_State(STATE_RIGHT);
 
-	vPosition -= *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeedPerSec * fTimeDelta;
+	//vPosition -= *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeedPerSec * fTimeDelta;
+	vPosition -= vRight.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -86,7 +89,8 @@ void CTransform::Go_Right(_float fTimeDelta)
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vRight = Get_State(STATE_RIGHT);
 
-	vPosition += *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeedPerSec * fTimeDelta;
+	//vPosition += *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeedPerSec * fTimeDelta;
+	vPosition += vRight.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -95,7 +99,8 @@ void CTransform::Go_Up(_float fTimeDelta)
 {
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vUp = Get_State(STATE_UP);
-	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+	//vPosition += *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+	vPosition += vUp.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 	Set_State(STATE_POSITION, vPosition);
 }
 
