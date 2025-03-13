@@ -65,6 +65,7 @@ private:
 	class CObject_Manager*		m_pObject_Manager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
+	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 
 public:
