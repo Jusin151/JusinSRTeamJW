@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-CUI_AmmoDisplay::CUI_AmmoDisplay(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Right_Panel::CUI_Right_Panel(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
 }
 
-CUI_AmmoDisplay::CUI_AmmoDisplay(const CUI_AmmoDisplay& Prototype)
+CUI_Right_Panel::CUI_Right_Panel(const CUI_Right_Panel& Prototype)
 	: CUI_Base(Prototype),
 	m_Ammo_pTextureCom(Prototype.m_Ammo_pTextureCom),
 	m_Ammo_pTransformCom(Prototype.m_Ammo_pTransformCom),
@@ -16,7 +16,7 @@ CUI_AmmoDisplay::CUI_AmmoDisplay(const CUI_AmmoDisplay& Prototype)
 {
 }
 
-HRESULT CUI_AmmoDisplay::Initialize_Prototype()
+HRESULT CUI_Right_Panel::Initialize_Prototype()
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -25,7 +25,7 @@ HRESULT CUI_AmmoDisplay::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_AmmoDisplay::Initialize(void* pArg)
+HRESULT CUI_Right_Panel::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 
@@ -49,21 +49,21 @@ HRESULT CUI_AmmoDisplay::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_AmmoDisplay::Priority_Update(_float fTimeDelta)
+void CUI_Right_Panel::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_AmmoDisplay::Update(_float fTimeDelta)
+void CUI_Right_Panel::Update(_float fTimeDelta)
 {
 }
 
-void CUI_AmmoDisplay::Late_Update(_float fTimeDelta)
+void CUI_Right_Panel::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CUI_AmmoDisplay::Render()
+HRESULT CUI_Right_Panel::Render()
 {
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -99,7 +99,7 @@ HRESULT CUI_AmmoDisplay::Render()
 	return S_OK;
 }
 
-HRESULT CUI_AmmoDisplay::Ready_Components()
+HRESULT CUI_Right_Panel::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Right_Panel"),
 		TEXT("Com_Texture_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pTextureCom))))
@@ -117,9 +117,9 @@ HRESULT CUI_AmmoDisplay::Ready_Components()
 	return S_OK;
 }
 
-CUI_AmmoDisplay* CUI_AmmoDisplay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Right_Panel* CUI_Right_Panel::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_AmmoDisplay* pInstance = new CUI_AmmoDisplay(pGraphic_Device);
+	CUI_Right_Panel* pInstance = new CUI_Right_Panel(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -131,9 +131,9 @@ CUI_AmmoDisplay* CUI_AmmoDisplay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CUI_AmmoDisplay::Clone(void* pArg)
+CGameObject* CUI_Right_Panel::Clone(void* pArg)
 {
-	CUI_AmmoDisplay* pInstace = new CUI_AmmoDisplay(*this);
+	CUI_Right_Panel* pInstace = new CUI_Right_Panel(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -144,7 +144,7 @@ CGameObject* CUI_AmmoDisplay::Clone(void* pArg)
 	return pInstace;
 }
 
-void CUI_AmmoDisplay::Free()
+void CUI_Right_Panel::Free()
 {
 	__super::Free();
 

@@ -1,4 +1,4 @@
-Ôªø#pragma once
+#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,19 +7,18 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UIÎäî ÏÇ¨Í∞ÅÌòïÏúºÎ°ú
+class CVIBuffer_Rect;  // UI¥¬ ªÁ∞¢«¸¿∏∑Œ
 END
 
 BEGIN(Client)
 
 
-
-class CUI_Menu final : public CUI_Base
+class CUI_MP_Bar final : public CUI_Base
 {
 private:
-	CUI_Menu(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CUI_Menu(const CUI_Menu& Prototype);
-	virtual ~CUI_Menu() = default;
+	CUI_MP_Bar(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CUI_MP_Bar(const CUI_MP_Bar& Prototype);
+	virtual ~CUI_MP_Bar() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -30,21 +29,22 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_pTextureCom = { nullptr };
-	CTransform* m_pTransformCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CTexture* m_MP_pTextureCom{};
+	CTransform* m_MP_pTransformCom{};
+	CVIBuffer_Rect* m_MP_pVIBufferCom{};  // UI¥¬ ªÁ∞¢«¸¿Ãπ«∑Œ Rect πˆ∆€ ªÁøÎ
+	UI_Child_Desc m_MP_INFO{};
 
 private:
 	HRESULT Ready_Components();
 
 
 public:
-	static CUI_Menu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CUI_MP_Bar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-    void OpenMenu();
-    void CloseMenu();
+private:
+	_float m_fArmor{};  // √º∑¬
 };
 
 

@@ -1,4 +1,4 @@
-Ôªø#pragma once
+#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,18 +7,18 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UIÎäî ÏÇ¨Í∞ÅÌòïÏúºÎ°ú
+class CVIBuffer_Rect;  // UI¥¬ ªÁ∞¢«¸¿∏∑Œ
 END
 
 BEGIN(Client)
 
 
-class CUI_Right_Panel final : public CUI_Base
+class CPoint_Shop final : public CUI_Base
 {
 private:
-	CUI_Right_Panel(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CUI_Right_Panel(const CUI_Right_Panel& Prototype);
-	virtual ~CUI_Right_Panel() = default;
+	CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CPoint_Shop(const CPoint_Shop& Prototype);
+	virtual ~CPoint_Shop() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -29,22 +29,25 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_Ammo_pTextureCom{};
-	CTransform* m_Ammo_pTransformCom{};
-	CVIBuffer_Rect* m_Ammo_pVIBufferCom{};  // UIÎäî ÏÇ¨Í∞ÅÌòïÏù¥ÎØÄÎ°ú Rect Î≤ÑÌçº ÏÇ¨Ïö©
-	UI_Child_Desc m_Ammo_INFO{};
+	CTexture* m_PointShopUI_pTextureCom{};
+	CTransform* m_PointShopUI_pTransformCom{};
+	CVIBuffer_Rect* m_PointShopUI_pVIBufferCom{};  // UI¥¬ ªÁ∞¢«¸¿Ãπ«∑Œ Rect πˆ∆€ ªÁøÎ
+	UI_Child_Desc m_PointShopUI_INFO{};
 
 private:
 	HRESULT Ready_Components();
 
 
 public:
-	static CUI_Right_Panel* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CPoint_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
 private:
-	_float m_fArmor{};  // Ï≤¥Î†•
+	bool m_bIsVisible = {};
+	bool m_bKeyPressed = {};
+private:
+	_float m_fArmor{};  // √º∑¬
 };
 
 

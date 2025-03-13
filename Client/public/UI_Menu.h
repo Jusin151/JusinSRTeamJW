@@ -13,12 +13,12 @@ END
 BEGIN(Client)
 
 
-class CUI_Right_Panel final : public CUI_Base
+class CUI_Menu final : public CUI_Base
 {
 private:
-	CUI_Right_Panel(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CUI_Right_Panel(const CUI_Right_Panel& Prototype);
-	virtual ~CUI_Right_Panel() = default;
+	CUI_Menu(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CUI_Menu(const CUI_Menu& Prototype);
+	virtual ~CUI_Menu() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -29,20 +29,23 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_Ammo_pTextureCom{};
-	CTransform* m_Ammo_pTransformCom{};
-	CVIBuffer_Rect* m_Ammo_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
-	UI_Child_Desc m_Ammo_INFO{};
+	CTexture* m_Menu_pTextureCom{};
+	CTransform* m_Menu_pTransformCom{};
+	CVIBuffer_Rect* m_Menu_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
+	UI_Child_Desc m_Menu_INFO{};
 
 private:
 	HRESULT Ready_Components();
 
 
 public:
-	static CUI_Right_Panel* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CUI_Menu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
+private:
+	bool m_bIsVisible = {};
+	bool m_bKeyPressed = {};
 private:
 	_float m_fArmor{};  // 체력
 };
