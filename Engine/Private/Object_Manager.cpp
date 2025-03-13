@@ -31,7 +31,7 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 
 	if (nullptr == pLayer)
 	{
-		pLayer = CLayer::Create();
+		pLayer = CLayer::Create(iPrototypeLevelIndex);
 
 		pLayer->Add_GameObject(pGameObject);
 
@@ -40,6 +40,30 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 	else
 		pLayer->Add_GameObject(pGameObject);
 
+	pGameObject->SetActive(true);
+	pGameObject->Set_Tag(strLayerTag);
+	return S_OK;
+}
+
+HRESULT CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag)
+{
+	CGameObject* pGameObject = m_pGameInstance->Acquire_Object(iPrototypeLevelIndex, strLayerTag);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+	{
+		pLayer = CLayer::Create(iPrototypeLevelIndex);
+
+		pLayer->Add_GameObject(pGameObject);
+
+		m_pLayers[iLevelIndex].emplace(strLayerTag, pLayer);
+	}
+	else
+		pLayer->Add_GameObject(pGameObject);
+
+	pGameObject->Set_Tag(strLayerTag);
+	pGameObject->SetActive(true);
 	return S_OK;
 }
 

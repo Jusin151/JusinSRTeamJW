@@ -35,6 +35,7 @@ public:
 
 #pragma region OBJECT_MANAGER
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	HRESULT Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag);
 #pragma endregion
 
 #pragma region RENDERER
@@ -46,6 +47,7 @@ public:
 	HRESULT Add_Timer(const _wstring& strTimerTag);
 	void Update_Timer(const _wstring& strTimerTag);
 #pragma endregion
+
 #pragma region POOL_MANAGER
 	class CGameObject* Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag);
 	// 풀에 객체 반환하기
@@ -53,6 +55,7 @@ public:
 	// 어디 레벨에 있는지, 어떤 이름으로 있었는지, 나중에 불러올 때 사용할 태그, 몇개 만들지, 던져줘야할 인자
 	HRESULT Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strLayerTag, _uint iCount, void* pArg = nullptr);
 #pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };

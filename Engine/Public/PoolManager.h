@@ -10,6 +10,7 @@ private:
 	virtual ~CPool_Manager() = default;
 
 public:
+	// 풀에서 뽑아갈 때 사용
 	class CGameObject* Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag);
 
 	// 풀에 객체 반환하기
@@ -20,7 +21,7 @@ public:
 	void Clear(_uint iLevelIndex);
 private:
 	class CGameInstance* m_pGameInstance = { nullptr }; // 프로토타입에서 가져오기 위함
-	unordered_map<_uint,map<_wstring, queue<CGameObject*>>> m_Pools; // 레벨, 해당 레벨의 tag를 가진 오브젝트들
+	unordered_map<_uint,map<_wstring, queue<CGameObject*>>> m_Pools; // 특정 레벨, 오브젝트 레이어 tag를 가진 오브젝트들을 큐에 저장
 	unordered_map<_wstring, pair<_wstring,void*>> m_InitArgMap;  // 레이어 태그 -> (프로토타입 태그, 초기화 인자)
 
 public:
