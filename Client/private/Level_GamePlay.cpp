@@ -36,14 +36,18 @@ HRESULT CLevel_GamePlay::Render()
 HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
 
-	if (FAILED(m_pGameInstance->Add_GameObject
-	(LEVEL_GAMEPLAY, 
-		TEXT("Prototype_GameObject_Terrain"),
-		LEVEL_GAMEPLAY, strLayerTag)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 6)))
+	//if (FAILED(m_pGameInstance->Add_GameObject
+	//(LEVEL_GAMEPLAY, 
+	//	TEXT("Prototype_GameObject_Terrain"),
+	//	LEVEL_GAMEPLAY, strLayerTag)))
+	//	return E_FAIL;
+	// 오브젝트 풀에 등록
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 1000)))
 		return E_FAIL;
 
+	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가
+	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+		return E_FAIL;
 	return S_OK;
 }
 

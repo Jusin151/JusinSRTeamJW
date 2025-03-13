@@ -3,26 +3,19 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CSound final : public CComponent
+class ENGINE_DLL CSound final : public CBase
 {
 private:
-	CSound(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSound(const CSound& Prototype);
+	CSound();
 	virtual ~CSound() = default;
 public:
-	virtual HRESULT Initialize_Prototype(const _tchar* pSoundFilePath, _uint iNumSounds);
-	virtual HRESULT Initialize(void* pArg) override;
-public:
-	HRESULT Bind_Resource(_uint iIndex);
+	void Update();
 private:
-	_uint							m_iNumSounds= { };
-	vector<FMOD::Sound>		m_Sounds;
+	FMOD::Sound*		m_Sound;
 
 public:
-	static CSound* Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pSoundFilePath, _uint iNumSounds);
-	virtual CComponent* Clone(void* pArg) override;
+	static CSound* Create();
 	virtual void Free() override;
-
 };
 
 END

@@ -44,6 +44,16 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+void CGameObject::SetActive(_bool bIsActive)
+{
+	if (bIsActive == true && m_bIsActive == false)
+	{
+		Reset(); // 상태 초기화
+	}
+
+	m_bIsActive = bIsActive;
+}
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
 	if (m_Components.end() != m_Components.find(strComponentTag))
