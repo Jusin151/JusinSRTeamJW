@@ -114,6 +114,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	Add_To_GamePlay_Textures();
 
+	/* For.Prototype_Component_Texture_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Player/Player0.png"), 1))))
+		return E_FAIL;
+
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
 	Add_To_GamePlay_Buffer();
@@ -125,6 +130,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
 	Add_To_GamePlay_Prototype();
+
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
