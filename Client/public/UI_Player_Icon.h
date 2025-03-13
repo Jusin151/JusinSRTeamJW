@@ -1,4 +1,4 @@
-Ôªø#pragma once
+#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,18 +7,18 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UIÎäî ÏÇ¨Í∞ÅÌòïÏúºÎ°ú
+class CVIBuffer_Rect;  // UI¥¬ ªÁ∞¢«¸¿∏∑Œ
 END
 
 BEGIN(Client)
 
 
-class CBackGround_4 final : public CUI_Base
+class CUI_Player_Icon final : public CUI_Base
 {
 private:
-	CBackGround_4(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBackGround_4(const CBackGround_4& Prototype);
-	virtual ~CBackGround_4() = default;
+	CUI_Player_Icon(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CUI_Player_Icon(const CUI_Player_Icon& Prototype);
+	virtual ~CUI_Player_Icon() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -29,21 +29,25 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_Back4_pTextureCom{};
-	CTransform* m_Back4_pTransformCom{};
-	CVIBuffer_Rect* m_Back4_pVIBufferCom{};  // UIÎäî ÏÇ¨Í∞ÅÌòïÏù¥ÎØÄÎ°ú Rect Î≤ÑÌçº ÏÇ¨Ïö©
-	UI_Child_Desc m_BackGround4_INFO{};
+	CTexture* m_PlayerICon_pTextureCom{};
+	CTransform* m_PlayerICon_pTransformCom{};
+	CVIBuffer_Rect* m_PlayerICon_pVIBufferCom{};  // UI¥¬ ªÁ∞¢«¸¿Ãπ«∑Œ Rect πˆ∆€ ªÁøÎ
+	UI_Child_Desc m_PlayerICon_INFO{};
 
 private:
 	HRESULT Ready_Components();
 
 
 public:
-	static CBackGround_4* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CUI_Player_Icon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
+
+
+private:
+	_float m_fHealth{};
 };
-
-
 END
+
+

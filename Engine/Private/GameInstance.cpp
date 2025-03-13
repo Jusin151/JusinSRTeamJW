@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
+#include "Sound_Manager.h"
 #include "Graphic_Device.h"
 #include "PoolManager.h"
 #include "Object_Manager.h"
@@ -40,6 +41,9 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pRenderer)
 		return E_FAIL;
 
+	m_pSound_Manager = CSound_Manager::Create(512, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL);
+	if (nullptr == m_pSound_Manager)
+		return E_FAIL;
 
 	m_pPool_Manager = CPool_Manager::Create();
 	if (nullptr == m_pPool_Manager)
@@ -173,6 +177,7 @@ void CGameInstance::Release_Engine()
 
 	Safe_Release(m_pRenderer);
 
+	Safe_Release(m_pSound_Manager);
 
 	Safe_Release(m_pObject_Manager);
 	

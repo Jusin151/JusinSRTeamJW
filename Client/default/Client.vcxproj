@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fsbank\core\inc;$(SolutionDir)External Libraries\studio\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -122,6 +122,10 @@
       <AdditionalDependencies>Engine.lib;d3dx9.LIB;fmodstudio_vc.lib;fsbank_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,7 +135,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fsbank\core\inc;$(SolutionDir)External Libraries\studio\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,6 +145,9 @@
       <AdditionalDependencies>Engine.lib;d3dx9.LIB;fmodstudio_vc.lib;fsbank_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)convert_encoding.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h" />
@@ -152,9 +159,6 @@
     <ClInclude Include="..\..\External Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\External Libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="..\public\BackGround.h" />
-    <ClInclude Include="..\public\BackGround_2.h" />
-    <ClInclude Include="..\public\BackGround_3.h" />
-    <ClInclude Include="..\public\BackGround_4.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
@@ -164,7 +168,7 @@
     <ClInclude Include="..\public\Default_Menu.h" />
     <ClInclude Include="..\Public\UI_AMMOBar.h" />
     <ClInclude Include="..\Public\UI_EXPBar.h" />
-    <ClInclude Include="..\Public\UI_HPBar.h" />
+    <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_HPDisplay.h" />
     <ClInclude Include="..\public\CUI_Manager.h" />
     <ClInclude Include="..\public\CUI_Menu.h" />
@@ -179,6 +183,7 @@
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\UI_Default_Panel.h" />
     <ClInclude Include="..\public\UI_ExpDisplay.h" />
+    <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Client_Imgui.h" />
     <ClInclude Include="framework.h" />
@@ -195,10 +200,8 @@
     <ClCompile Include="..\..\External Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\External Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
-    <ClCompile Include="..\private\BackGround_2.cpp" />
-    <ClCompile Include="..\private\BackGround_3.cpp" />
-    <ClCompile Include="..\private\BackGround_4.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
+    <ClCompile Include="..\Private\UI_Player_Icon.cpp" />
     <ClCompile Include="..\private\CUI_AmmoDisplay.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />
     <ClCompile Include="..\private\Default_Menu.cpp" />
@@ -213,7 +216,7 @@
     <ClCompile Include="..\private\UI_AMMOBar.cpp" />
     <ClCompile Include="..\private\UI_Default_Panel.cpp" />
     <ClCompile Include="..\private\UI_ExpDisplay.cpp" />
-    <ClCompile Include="..\private\UI_HPBar.cpp" />
+    <ClCompile Include="..\private\UI_HP_Bar.cpp" />
     <ClCompile Include="..\private\UI_HPDisplay.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />

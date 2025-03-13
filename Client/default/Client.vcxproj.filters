@@ -52,15 +52,6 @@
     <Filter Include="02.GameObjects\UI\GamePlay_UI\00.UI_PANEL">
       <UniqueIdentifier>{4958d50b-b755-405e-b20a-ea4c99da56d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_HP">
-      <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlay_UI\02.UI_EXP">
-      <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlay_UI\03.UI_AMMO">
-      <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\GamePlay_UI\04.UI_MENU">
       <UniqueIdentifier>{d5070475-8403-4ebf-9ecb-4b46d5e0e6a3}</UniqueIdentifier>
     </Filter>
@@ -91,15 +82,6 @@
     <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_1">
       <UniqueIdentifier>{9e680ff6-4234-49fa-bfc9-bf2b6fc6fdf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_2">
-      <UniqueIdentifier>{f79061cb-6aec-49a9-85b4-a2f58623b4f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_3">
-      <UniqueIdentifier>{09e657a4-bc1f-44b4-9335-79eef146e89b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Logo_UI\BackGround\BackGround_4">
-      <UniqueIdentifier>{eb1810f4-b4f1-45e4-9781-89bd8dad713a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\Loading">
       <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
     </Filter>
@@ -111,6 +93,27 @@
     </Filter>
     <Filter Include="External Libraries\imgui\backends">
       <UniqueIdentifier>{dd6f2ce8-7ae3-488e-b209-a054f16bd331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display">
+      <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP">
+      <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display">
+      <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon">
+      <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet">
+      <UniqueIdentifier>{3092ab4c-01b9-4ffc-952f-2ee449a62a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\03.UI_Mid_Display">
+      <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlay_UI\03.UI_Mid_Display\NewFilter1">
+      <UniqueIdentifier>{d2e44fdc-ae88-4525-bac7-697167add5b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,13 +160,13 @@
       <Filter>98. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_HPDisplay.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_HP</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CUI_WeaponIcon.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\05.UI_WEAPON</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CUI_AmmoDisplay.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_AMMO</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CUI_Menu.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\04.UI_MENU</Filter>
@@ -172,7 +175,7 @@
       <Filter>02.GameObjects\UI\GamePlay_UI\06.UI_DIALOGUE</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_ExpDisplay.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_EXP</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_Mid_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Default_Panel.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\00.UI_PANEL</Filter>
@@ -186,14 +189,8 @@
     <ClInclude Include="..\Public\Loading_UI.h">
       <Filter>02.GameObjects\UI\Loading</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_HPBar.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_HP</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_EXPBar.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_EXP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_AMMOBar.h">
-      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_AMMO</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_Mid_Display</Filter>
     </ClInclude>
     <ClInclude Include="Client_Imgui.h">
       <Filter>99.Headers</Filter>
@@ -222,15 +219,6 @@
     <ClInclude Include="..\..\External Libraries\imgui\imgui.h">
       <Filter>External Libraries\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BackGround_2.h">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\BackGround_3.h">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\BackGround_4.h">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_4</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Default_Menu.h">
       <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Default_Menu</Filter>
     </ClInclude>
@@ -239,6 +227,15 @@
     </ClInclude>
     <ClInclude Include="..\public\CUI_Base.h">
       <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_HP_Bar.h">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_AMMOBar.h">
+      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Player_Icon.h">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,7 +277,7 @@
       <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_1</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_ExpDisplay.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_EXP</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_Mid_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Default_Panel.cpp">
       <Filter>02.GameObjects\UI\GamePlay_UI\00.UI_PANEL</Filter>
@@ -309,15 +306,6 @@
     <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp">
       <Filter>External Libraries\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\BackGround_2.cpp">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BackGround_3.cpp">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BackGround_4.cpp">
-      <Filter>02.GameObjects\UI\Logo_UI\BackGround\BackGround_4</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
     </ClCompile>
@@ -328,22 +316,25 @@
       <Filter>02.GameObjects\UI\Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CUI_AmmoDisplay.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_AMMO</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\UI_AMMOBar.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\03.UI_AMMO</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Exit_Button.cpp">
       <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Exit_Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_HPDisplay.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_HP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\UI_HPBar.cpp">
-      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_HP</Filter>
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CUI_Base.cpp">
       <Filter>02.GameObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_HP_Bar.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_Icon.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\PlayerIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_AMMOBar.cpp">
+      <Filter>02.GameObjects\UI\GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

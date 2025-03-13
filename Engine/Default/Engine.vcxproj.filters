@@ -85,6 +85,12 @@
     <ClInclude Include="..\public\PoolManager.h">
       <Filter>07.Pool</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>06.Sound\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>06.Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -147,12 +153,6 @@
     <Filter Include="04.Components\Transform">
       <UniqueIdentifier>{e6f09916-b879-4da9-af31-206b538ecd54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.Timers">
-      <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05.Timers\Manager">
-      <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\Camera">
       <UniqueIdentifier>{818845ae-d1f4-4af6-8117-3b38123510e2}</UniqueIdentifier>
     </Filter>
@@ -180,8 +180,23 @@
     <Filter Include="06.Sound">
       <UniqueIdentifier>{8be1bb1c-fa11-4209-833e-b4b220c0eb80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Timers">
+      <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Timers\Manager">
+      <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Manager">
+      <UniqueIdentifier>{2d283be0-f700-4b9d-a5b3-d3c19ff33db9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="07.Pool">
       <UniqueIdentifier>{f91d3988-c91a-4823-9b7f-9844bedec818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Listener">
+      <UniqueIdentifier>{5ba1dc59-1306-434a-af42-fc67bfdf4c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Source">
+      <UniqueIdentifier>{aa64ac8a-9773-4030-8eeb-61fb8677ace0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PoolManager.cpp">
       <Filter>07.Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>06.Sound\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

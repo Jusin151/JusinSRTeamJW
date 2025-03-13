@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Base.h"
 
 BEGIN(Engine)
@@ -10,20 +10,20 @@ private:
 	virtual ~CPool_Manager() = default;
 
 public:
-	// Ç®¿¡¼­ »Ì¾Æ°¥ ¶§ »ç¿ë
+	// Ç®ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¾Æ°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	class CGameObject* Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag);
 
-	// Ç®¿¡ °´Ã¼ ¹İÈ¯ÇÏ±â
+	// í’€ì— ê°ì²´ ë°˜í™˜í•˜ê¸°
 	HRESULT Return_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject);
 
-	// ¾îµğ ·¹º§¿¡ ÀÖ´ÂÁö, ¾î¶² ÀÌ¸§À¸·Î ÀÖ¾ú´ÂÁö, ³ªÁß¿¡ ºÒ·¯¿Ã ¶§ »ç¿ëÇÒ ÅÂ±×, ¸î°³ ¸¸µéÁö, ´øÁ®Áà¾ßÇÒ ÀÎÀÚ
+	// ì–´ë”” ë ˆë²¨ì— ìˆëŠ”ì§€, ì–´ë–¤ ì´ë¦„ìœ¼ë¡œ ìˆì—ˆëŠ”ì§€, ë‚˜ì¤‘ì— ë¶ˆëŸ¬ì˜¬ ë•Œ ì‚¬ìš©í•  íƒœê·¸, ëª‡ê°œ ë§Œë“¤ì§€, ë˜ì ¸ì¤˜ì•¼í•  ì¸ì
 	HRESULT Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strLayerTag,_uint iCount,void* pArg = nullptr);
 	void Clear(_uint iLevelIndex);
 private:
-	class CGameInstance* m_pGameInstance = { nullptr }; // ÇÁ·ÎÅäÅ¸ÀÔ¿¡¼­ °¡Á®¿À±â À§ÇÔ
-	unordered_map<_uint,map<_wstring, queue<CGameObject*>>> m_Pools; // Æ¯Á¤ ·¹º§, ¿ÀºêÁ§Æ® ·¹ÀÌ¾î tag¸¦ °¡Áø ¿ÀºêÁ§Æ®µéÀ» Å¥¿¡ ÀúÀå
-	unordered_map<_wstring, pair<_wstring,void*>> m_InitArgMap;  // ·¹ÀÌ¾î ÅÂ±× -> (ÇÁ·ÎÅäÅ¸ÀÔ ÅÂ±×, ÃÊ±âÈ­ ÀÎÀÚ)
-
+	class CGameInstance* m_pGameInstance = { nullptr }; // í”„ë¡œí† íƒ€ì…ì—ì„œ ê°€ì ¸ì˜¤ê¸° ìœ„í•¨
+	unordered_map<_uint,map<_wstring, queue<CGameObject*>>> m_Pools; // ë ˆë²¨, í•´ë‹¹ ë ˆë²¨ì˜ tagë¥¼ ê°€ì§„ ì˜¤ë¸Œì íŠ¸ë“¤
+	unordered_map<_wstring, pair<_wstring,void*>> m_InitArgMap;  // ë ˆì´ì–´ íƒœê·¸ -> (í”„ë¡œí† íƒ€ì… íƒœê·¸, ì´ˆê¸°í™” ì¸ì)
+	
 public:
 	static CPool_Manager* Create();
 	virtual void Free() override;
