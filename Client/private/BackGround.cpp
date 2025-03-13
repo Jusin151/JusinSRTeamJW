@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CGameObject { pGraphic_Device }
+    : CUIObject{ pGraphic_Device }
 {
 }
 
 CBackGround::CBackGround(const CBackGround& Prototype)
-    : CGameObject { Prototype }
+    : CUIObject{ Prototype }
 {
 }
 
@@ -20,8 +20,18 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
+	UIOBJECT_DESC		Desc{};	
+
+	Desc.fSizeX = g_iWinSizeX;
+	Desc.fSizeY = g_iWinSizeY;
+
+	if (FAILED(__super::Initialize(&Desc)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	m_pTransformCom->
 
     return S_OK;
 }
@@ -58,9 +68,16 @@ HRESULT CBackGround::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
+	m_pTransformCom->Bind_Resource();
+
+
+	__super::Begin();
+
 	/* 정점을 그린다. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	__super::End();
 
 
     return S_OK;
@@ -74,7 +91,7 @@ HRESULT CBackGround::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 

@@ -76,6 +76,9 @@
     <ClInclude Include="..\public\Camera.h">
       <Filter>02.GameObject\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\UIObject.h">
+      <Filter>02.GameObject\UIObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -147,6 +150,9 @@
     <Filter Include="02.GameObject\Camera">
       <UniqueIdentifier>{818845ae-d1f4-4af6-8117-3b38123510e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\UIObject">
+      <UniqueIdentifier>{ca1b37c0-851b-4920-b166-7d1b22ab39c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -205,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Camera.cpp">
       <Filter>02.GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UIObject.cpp">
+      <Filter>02.GameObject\UIObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
