@@ -44,27 +44,35 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 void CCamera_Free::Priority_Update(_float fTimeDelta)
 {
 	POINT		ptMouse{};
-
+	_float fSpeed = 1.f;
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
+
+	if (GetKeyState(VK_SHIFT) & 0x8000)
+		fSpeed = 3.f;
+	else
+		fSpeed = 1.f;
+		
+
 
 	/* 카메라의 움직임 제어 */
 	if (GetKeyState('W') & 0x8000)
 	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		m_pTransformCom->Go_Straight(fTimeDelta* fSpeed);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
+		m_pTransformCom->Go_Backward(fTimeDelta* fSpeed);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
-		m_pTransformCom->Go_Left(fTimeDelta);
+		m_pTransformCom->Go_Left(fTimeDelta* fSpeed);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
-		m_pTransformCom->Go_Right(fTimeDelta);
+		m_pTransformCom->Go_Right(fTimeDelta* fSpeed);
 	}
+
 
 	_int		iMouseMove = {};
 
