@@ -82,14 +82,14 @@
     <ClInclude Include="..\Public\CColider3D.h">
       <Filter>04.Components\Collider\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>04.Components\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Sound_Device.h">
-      <Filter>97.Device\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PoolManager.h">
       <Filter>07.Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>06.Sound\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>06.Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,12 +180,6 @@
     <Filter Include="06.Sound">
       <UniqueIdentifier>{8be1bb1c-fa11-4209-833e-b4b220c0eb80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Sound">
-      <UniqueIdentifier>{96c9b3ef-750f-4e56-b5d0-6d0dcf1466c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97.Device\Sound">
-      <UniqueIdentifier>{cd196c7c-fe78-4a42-a7cc-4c8dc02d54e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05.Timers">
       <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
     </Filter>
@@ -197,6 +191,12 @@
     </Filter>
     <Filter Include="07.Pool">
       <UniqueIdentifier>{f91d3988-c91a-4823-9b7f-9844bedec818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Listener">
+      <UniqueIdentifier>{5ba1dc59-1306-434a-af42-fc67bfdf4c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Source">
+      <UniqueIdentifier>{aa64ac8a-9773-4030-8eeb-61fb8677ace0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -263,14 +263,11 @@
     <ClCompile Include="..\Private\CColider3D.cpp">
       <Filter>04.Components\Collider\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>04.Components\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Sound_Device.cpp">
-      <Filter>97.Device\Sound</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PoolManager.cpp">
       <Filter>07.Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>06.Sound\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fsbank\core\inc;$(SolutionDir)External Libraries\studio\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fsbank\core\inc;$(SolutionDir)External Libraries\studio\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -38,17 +38,18 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 	{
 		for (size_t j = 0; j < m_iNumVerticesX; j++)
 		{
-			_uint			iIndex = i * m_iNumVerticesX + j;
+			_uint			iIndex = (_uint)i * m_iNumVerticesX + (_uint)j;
 
 			if (j > m_iNumVerticesX / 2)
 			{
-				pVertices[iIndex].vPosition = _float3(j, 10.f, i);
+				
+				pVertices[iIndex].vPosition = _float3((_float)j, 10.f, (_float)i);
 			} else
 			{
-				pVertices[iIndex].vPosition = _float3(j, 0.f, i);
+				pVertices[iIndex].vPosition = _float3((_float)j, 0.f, (_float)i);
 			}
 			
-			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f), i / (m_iNumVerticesZ - 1.f));
+			pVertices[iIndex].vTexcoord = _float2((_float)j / (m_iNumVerticesX - 1.f), (_float)i / (m_iNumVerticesZ - 1.f));
 		}
 	}
 
@@ -71,7 +72,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 	{
 		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
 		{
-			_uint			iIndex = i * m_iNumVerticesX + j;
+			_uint			iIndex = (_uint)i * m_iNumVerticesX + (_uint)j;
 
 			_uint			iIndices[4] = {
 				iIndex + m_iNumVerticesX, 

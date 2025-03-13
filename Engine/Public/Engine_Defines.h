@@ -23,7 +23,7 @@ using namespace Engine;
 
 #pragma region FMOD
 #include "fmod.h"
-#include "fmod.hpp"
+#include "fmod_studio.hpp"
 
 using namespace FMOD;
 #pragma endregion
