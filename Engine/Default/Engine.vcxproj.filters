@@ -210,18 +210,6 @@
     <Filter Include="04.Components\Collider\Cube">
       <UniqueIdentifier>{f4f0ca3b-4ab7-45ad-b3b1-22e1ba7ffe94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Collider\Manager">
-      <UniqueIdentifier>{f18011e7-917d-4d5c-91b5-b045b514a570}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\Collider\Base">
-      <UniqueIdentifier>{aac58fc1-e004-4e5b-88f8-a438e96252a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\Collider\Sphere">
-      <UniqueIdentifier>{5348d36e-5ddb-44b8-8450-e004dd73dc23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\Collider\Cube">
-      <UniqueIdentifier>{f4f0ca3b-4ab7-45ad-b3b1-22e1ba7ffe94}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
