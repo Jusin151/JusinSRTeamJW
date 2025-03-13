@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Client_Defines.h"
+#include "MyImGui.h"
 #include "../../EngineSDK/Inc/Base.h"
 
 BEGIN(Engine)
@@ -22,6 +23,7 @@ public:
 private:
 	CGameInstance*			m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9		m_pGraphic_Device = { nullptr };
+	CMyImGui*				m_pMyImGui = { nullptr };
 
 private:
 	HRESULT Ready_Default_Setting();

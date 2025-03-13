@@ -1,17 +1,13 @@
-﻿// Client.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+﻿// Editor.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
 
 #include "framework.h"
-#include "Client.h"
-
-#include "MainApp.h"
-#include "GameInstance.h"
+#include "Editor.h"
 
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
-HWND g_hWnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
@@ -26,10 +22,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-#ifdef _DEBUG
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -37,7 +29,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_CLIENT, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_EDITOR, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
@@ -46,59 +38,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_EDITOR));
 
     MSG msg;
 
-    CMainApp* pMainApp = CMainApp::Create();
-    if (nullptr == pMainApp)
-        return FALSE;
-
-    CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-    Safe_AddRef(pGameInstance);
-
-    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
-        return FALSE;
-    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
-        return FALSE;
-
-    _float      fTimeAcc = {};
-
-    while (true)
+    // 기본 메시지 루프입니다:
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
-        /* 메세지가 있다면 해당 메세지에 대한 처리를 한다. */
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
-            if (WM_QUIT == msg.message)
-                break;
-
-            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
-        }
-
-        pGameInstance->Update_Timer(TEXT("Timer_Default"));
-
-        fTimeAcc += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
-
-        if (fTimeAcc >= 1.f / 60.f /*1초에 60번만 트루를 리턴한다. */ )
-        {
-            pGameInstance->Update_Timer(TEXT("Timer_60"));
-
-            /* 내 게임의 반복적인 업데이트와 렌더를 호출해준다. */
-            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
-            pMainApp->Render();
-
-            fTimeAcc = 0.f;
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
         }
     }
-
-    Safe_Release(pGameInstance);
-
-    if (0 != Safe_Release(pMainApp))
-        MSG_BOX("Failed to Release : CMainApp");
 
     return (int) msg.wParam;
 }
@@ -121,10 +73,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EDITOR));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = NULL; //MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_EDITOR);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -145,19 +97,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   RECT rcWindow = { 0, 0, g_iWinSizeX, g_iWinSizeY };
-
-   AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, TRUE);
-
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
-
-   g_hWnd = hWnd;
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -175,15 +121,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
-
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    //
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-        return true;
-
     switch (message)
     {
     case WM_COMMAND:
@@ -203,21 +142,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-
-    case WM_SYSCOMMAND:
-    {
-        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
-            return 0;
-        break;
-    }
-	case WM_KEYDOWN:
-	{
-        if (VK_ESCAPE == wParam)
+    case WM_PAINT:
         {
-            PostQuitMessage(0);
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hWnd, &ps);
+            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            EndPaint(hWnd, &ps);
         }
         break;
-	}
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

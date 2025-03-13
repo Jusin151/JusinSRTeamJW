@@ -194,6 +194,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Client_Imgui.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MyImGui.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Upgrade_Weapon.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="MyImGui.cpp" />
     <ClCompile Include="MainApp.cpp" />
   </ItemGroup>
   <ItemGroup>
