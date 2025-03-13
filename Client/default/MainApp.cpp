@@ -40,19 +40,10 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	if (FAILED(m_pMyImGui->Create(m_pGraphic_Device)))
+		return E_FAIL;
 
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_Init(g_hWnd);
-	ImGui_ImplDX9_Init(m_pGraphic_Device);
-	Safe_AddRef(m_pGraphic_Device);
+	
 
 
 	return S_OK;
@@ -65,7 +56,6 @@ void CMainApp::Update(_float fTimeDelta)
 
 HRESULT CMainApp::Render()
 {
-
 	m_pGameInstance->Draw();
 
 	// Start the Dear ImGui frame
