@@ -123,7 +123,8 @@
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>python $(SolutionDir)convert_encoding.py</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,7 +168,7 @@
     <ClInclude Include="..\public\Default_Menu.h" />
     <ClInclude Include="..\Public\UI_AMMOBar.h" />
     <ClInclude Include="..\Public\UI_EXPBar.h" />
-    <ClInclude Include="..\Public\UI_HPBar.h" />
+    <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_HPDisplay.h" />
     <ClInclude Include="..\public\CUI_Manager.h" />
     <ClInclude Include="..\public\CUI_Menu.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\UI_Default_Panel.h" />
     <ClInclude Include="..\public\UI_ExpDisplay.h" />
+    <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Client_Imgui.h" />
     <ClInclude Include="framework.h" />
@@ -199,6 +201,7 @@
     <ClCompile Include="..\..\External Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
+    <ClCompile Include="..\Private\UI_Player_Icon.cpp" />
     <ClCompile Include="..\private\CUI_AmmoDisplay.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />
     <ClCompile Include="..\private\Default_Menu.cpp" />
@@ -213,7 +216,7 @@
     <ClCompile Include="..\private\UI_AMMOBar.cpp" />
     <ClCompile Include="..\private\UI_Default_Panel.cpp" />
     <ClCompile Include="..\private\UI_ExpDisplay.cpp" />
-    <ClCompile Include="..\private\UI_HPBar.cpp" />
+    <ClCompile Include="..\private\UI_HP_Bar.cpp" />
     <ClCompile Include="..\private\UI_HPDisplay.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />

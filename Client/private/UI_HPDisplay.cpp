@@ -9,9 +9,9 @@ CUI_HPDisplay::CUI_HPDisplay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CUI_HPDisplay::CUI_HPDisplay(const CUI_HPDisplay& Prototype)
 	: CUI_Base(Prototype),
-	m_HP_pTextureCom(Prototype.m_pTextureCom),
-	m_HP_pTransformCom(Prototype.m_pTransformCom),
-	m_HP_pVIBufferCom(Prototype.m_pVIBufferCom),
+	m_HP_pTextureCom(Prototype.m_HP_pTextureCom),
+	m_HP_pTransformCom(Prototype.m_HP_pTransformCom),
+	m_HP_pVIBufferCom(Prototype.m_HP_pVIBufferCom),
 	m_HP_INFO{ Prototype.m_HP_INFO }
 {
 }
@@ -38,6 +38,7 @@ HRESULT CUI_HPDisplay::Initialize(void* pArg)
 		 m_HP_INFO.vPos+=CUI_Manager::GetInstance()->GetParent_Pos();
 		Set_Position(m_HP_INFO.vPos);
 		Set_Size(m_HP_INFO.vSize);
+		CUI_Manager::GetInstance()->AddUI(L"Left_Display", this);
 	}
 	else
 		return E_FAIL;

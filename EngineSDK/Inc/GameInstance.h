@@ -59,6 +59,7 @@ public:
 #pragma endregion
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
+	class CSound_Device*		m_pSound_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
 	class CPrototype_Manager*	m_pPrototype_Manager = { nullptr };
 	class CObject_Manager*		m_pObject_Manager = { nullptr };
