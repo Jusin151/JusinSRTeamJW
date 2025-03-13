@@ -75,19 +75,19 @@ HRESULT CLoader::Loading_For_Logo()
 {
  	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
-	Add_To_Logo_Textures();  // 로고레벨의 텍스쳐들 생성
+	Add_To_Logo_Textures();
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
-	Add_To_Logo_Buffer();    // 로고레벨의 버퍼들 생성
+	Add_To_Logo_Buffer();
 
-	Add_To_Logo_Transform(); // 로고 레벨의 트랜스폼들 생성
+	Add_To_Logo_Transform();
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
-	Add_To_Logo_Prototype(); // 로고 레벨의 원형객체들 생성
+	Add_To_Logo_Prototype();
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
@@ -99,19 +99,19 @@ HRESULT CLoader::Loading_For_GamePlay()
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
-	Add_To_GamePlay_Textures(); // 게임 레벨의 텍스쳐들 생성
+	Add_To_GamePlay_Textures();
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
-	Add_To_GamePlay_Buffer(); // 게임 레벨의 버퍼들 생성
+	Add_To_GamePlay_Buffer();
 
-	Add_To_GamePlay_Transform(); // 게임 레벨의 트랜스폼들 생성
+	Add_To_GamePlay_Transform();
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
-	Add_To_GamePlay_Prototype(); // 게임 레벨의 원형객체들 생성
+	Add_To_GamePlay_Prototype();
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
@@ -119,68 +119,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	return S_OK;
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_Logo_Textures()
-{
-	Add_To_Logo_UI_Textures(); // UI의 텍스쳐들
 
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Logo_Buffer()
-{
-	Add_To_Logo_UI_Buffer(); // UI의 버퍼들
-
-	return S_OK;
-}
-
-HRESULT CLoader::Add_To_Logo_Transform()
-{
-	Add_To_Logo_UI_Transform(); // UI의 트랜스폼들
-
-	return S_OK;
-}
 HRESULT CLoader::Add_To_Logo_Prototype()
 {
-	Add_To_Logo_UI_Prototype(); // UI의 원형객체들 생성
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
+		CBackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	return S_OK;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_Logo_UI_Textures()
-{
-	Add_To_Logo_Art_Textures();  // 로고레벨의 일러스트 이미지
-
-	Add_To_Logo_Menu_Textures(); // 로고레벨의 메뉴 이미지
-
-	return E_NOTIMPL;
-}
-
-HRESULT CLoader::Add_To_Logo_UI_Buffer()
-{
-	Add_To_Logo_Art_Buffer();  // 로고레벨의 일러스트 버퍼
-
-	Add_To_Logo_Menu_Buffer(); // 로고레벨의 메뉴 버퍼
+	Add_To_Logo_Menu_Prototype();
 
 	return S_OK;
 }
 
-HRESULT CLoader::Add_To_Logo_UI_Transform()
-{
-	Add_To_Logo_Art_Transform();  // 로고레벨의 일러스트 트랜스폼
-
-	Add_To_Logo_Menu_Transform(); // 로고레벨의 메뉴 트랜스폼
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Logo_UI_Prototype()
-{
-	Add_To_Logo_Menu_Prototype(); // 로고레벨의 일러스트 트랜스폼
-
-	Add_To_Logo_Art_Prototype(); // 로고레벨의 메뉴 트랜스폼
-
-	return S_OK;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 HRESULT CLoader::Add_To_Logo_Menu_Textures()
 {
 	// 검은색 메뉴바
@@ -210,65 +160,110 @@ HRESULT CLoader::Add_To_Logo_Menu_Textures()
 
 	return S_OK;
 }
+
 HRESULT CLoader::Add_To_Logo_Menu_Buffer()
 {
-	// 메뉴바
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_Menu"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 시작버튼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Menu_StartButton"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 종료버튼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Menu_ExitButton"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
 }
+
 HRESULT CLoader::Add_To_Logo_Menu_Transform()
 {
-	// 메뉴바 트랜스폼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 시작버튼 트랜스폼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu_StartButton"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 종료버튼 트랜스폼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu_ExitButton"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
 }
+
 HRESULT CLoader::Add_To_Logo_Menu_Prototype()
 {
-	// 메뉴바 원형객체
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu"),
 		CDefault_Menu::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 시작버튼 원형객체
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_StartButton"),
 		CStart_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 종료버튼 원형객체
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_ExitButton"),
 		CExit_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_Logo_Art_Textures()
+
+HRESULT CLoader::Add_To_GamePlay_Textures()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
+		return E_FAIL;
+	///////////////////////////
+	Add_To_UI_Textures();
+	////////////////////////////
+
+	return S_OK;
+}
+
+
+HRESULT CLoader::Add_To_GamePlay_Buffer()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 256, 256))))
+		return E_FAIL;
+
+	Add_To_UI_Buffer();
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_GamePlay_Transform()
+{
+	Add_To_UI_Transform();
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_GamePlay_Prototype()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Camera_Free"),
+		CCamera_Free::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	Add_To_UI_Prototype();
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_Logo_Textures()
 {
 	//로고의 사람 // 3번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
@@ -287,84 +282,82 @@ HRESULT CLoader::Add_To_Logo_Art_Textures()
 		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_menu_potwory_v01_winter.png"), 1))))
 		return E_FAIL;
 
+	Add_To_Logo_Menu_Textures();
+
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Logo_Art_Buffer()
+
+HRESULT CLoader::Add_To_Logo_Buffer()
 {
-	// 로고의 버퍼
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_BackGround"), 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_BackGround"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	Add_To_Logo_Menu_Buffer();
+
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Logo_Art_Transform()
+
+HRESULT CLoader::Add_To_Logo_Transform()
 {
-	// 로고의 트랜스폼
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_BackGround"), 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Transform_BackGround"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	Add_To_Logo_Menu_Transform();
+
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Logo_Art_Prototype()
+
+
+
+
+HRESULT CLoader::Add_To_UI_Prototype() //원형객체들
 {
-	// 로고의 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"), 
-		CBackGround::Create(m_pGraphic_Device))))
+	// 게임플레이 레벨 전체 UI의 캔버스 판넬
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Default_PlayerUI"),
+		CUI_Default_Panel::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	Add_To_UI_Left_DisPlay_Prototype();  //좌하단 디스플레이 원본생성
+
+	Add_To_UI_Mid_DisPlay_Prototype();   // 중단 디스플레이 원본생성
+
+	Add_To_UI_Right_DisPlay_Prototype(); // 우하단 디스플레이 원본생성
+
+	return S_OK;
+}
+HRESULT CLoader::Add_To_UI_Left_DisPlay_Prototype()
+{
+	// 체력바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_HealthBar_UI"),
+		CUI_HPDisplay::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_GamePlay_Textures()
+HRESULT CLoader::Add_To_UI_Mid_DisPlay_Prototype()
 {
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 텍스쳐
-		TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
+	// 탄약바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Ammo_UI"),
+		CUI_AmmoDisplay::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	Add_To_UI_Textures();
 
 	return S_OK;
 }
-
-HRESULT CLoader::Add_To_GamePlay_Buffer()
+HRESULT CLoader::Add_To_UI_Right_DisPlay_Prototype()
 {
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,     // 터레인 버퍼
-		TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 256, 256))))
+	// 경험치바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Exp_UI"),
+		CUI_ExpDisplay::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	Add_To_UI_Buffer();
 
 	return S_OK;
 }
-
-HRESULT CLoader::Add_To_GamePlay_Transform()
-{
-	Add_To_UI_Transform();
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_GamePlay_Prototype()
-{
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 원형객체
-		TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	Add_To_UI_Prototype();
-
-	return S_OK;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
@@ -384,6 +377,46 @@ HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 
 	return S_OK;
 }
+
+HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
+{
+	// 게임플레이 레벨 전체 UI의 캔버스 판넬
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_HealthBar"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png"),
+			1))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_UI_Mid_DisPlay_Textures()
+{
+	// 게임플레이 레벨 전체 UI의 캔버스 판넬
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_AmmoDisplay"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Right/SR_HUD_bottom_right.png"),
+			1))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_UI_Right_DisPlay_Textures()
+{
+	//경험치바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_EXPDisplay"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/UI/Middle/SR_EXP_Bar.png"),
+			1))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CLoader::Add_To_UI_Buffer()//버퍼 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
@@ -401,6 +434,42 @@ HRESULT CLoader::Add_To_UI_Buffer()//버퍼 컴포넌트
 
 	return S_OK;
 }
+
+HRESULT CLoader::Add_To_UI_Left_DisPlay_Buffer()
+{
+	// 체력바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_HealthBar"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_UI_Mid_DisPlay_Buffer()
+{
+	// 탄약바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_AmmoDisplay"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Add_To_UI_Right_DisPlay_Buffer()
+{
+	// 경험치바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_VIBuffer_EXPDisplay"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
+
 HRESULT CLoader::Add_To_UI_Transform() // 트랜스폼 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
@@ -418,45 +487,7 @@ HRESULT CLoader::Add_To_UI_Transform() // 트랜스폼 컴포넌트
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_UI_Prototype() //UI의 원형객체들
-{
-	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Default_PlayerUI"),
-		CUI_Default_Panel::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-	Add_To_UI_Left_DisPlay_Prototype();  //좌하단 디스플레이 원본생성
-
-	Add_To_UI_Mid_DisPlay_Prototype();   // 중단 디스플레이 원본생성
-
-	Add_To_UI_Right_DisPlay_Prototype(); // 우하단 디스플레이 원본생성
-
-	return S_OK;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
-{
-	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_HealthBar"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png"),
-			1))))
-		return E_FAIL;
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_UI_Left_DisPlay_Buffer()
-{
-	// 체력바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_VIBuffer_HealthBar"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	return S_OK;
-}
 HRESULT CLoader::Add_To_UI_Left_DisPlay_Transform()
 {
 	// 체력바
@@ -467,39 +498,7 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Transform()
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_UI_Left_DisPlay_Prototype() //왼쪽 하단 원형객체들
-{
-	// 체력바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_HealthBar_UI"),
-		CUI_HPDisplay::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-	return S_OK;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_UI_Mid_DisPlay_Textures()
-{
-	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_AmmoDisplay"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Right/SR_HUD_bottom_right.png"),
-			1))))
-		return E_FAIL;
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_UI_Mid_DisPlay_Buffer()
-{
-	// 탄약바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_VIBuffer_AmmoDisplay"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	return S_OK;
-}
 HRESULT CLoader::Add_To_UI_Mid_DisPlay_Transform()
 {
 	// 탄약바
@@ -511,39 +510,7 @@ HRESULT CLoader::Add_To_UI_Mid_DisPlay_Transform()
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_UI_Mid_DisPlay_Prototype()
-{
-	// 탄약바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Ammo_UI"),
-		CUI_AmmoDisplay::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-	return S_OK;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_UI_Right_DisPlay_Textures()
-{
-	//경험치바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_EXPDisplay"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Middle/SR_EXP_Bar.png"),
-			1))))
-		return E_FAIL;
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_UI_Right_DisPlay_Buffer()
-{
-	// 경험치바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_VIBuffer_EXPDisplay"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	return S_OK;
-}
 HRESULT CLoader::Add_To_UI_Right_DisPlay_Transform()
 {
 	// 경험치바
@@ -554,16 +521,11 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Transform()
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_UI_Right_DisPlay_Prototype()
-{
-	// 경험치바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Exp_UI"),
-		CUI_ExpDisplay::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-	return S_OK;
-}
+
+
+
+
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 {
 	CLoader* pInstance = new CLoader(pGraphic_Device);
