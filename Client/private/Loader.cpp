@@ -217,57 +217,6 @@ HRESULT CLoader::Add_To_Logo_Menu_Prototype()
 	return S_OK;
 }
 
-HRESULT CLoader::Add_To_GamePlay_Textures()
-{
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
-		return E_FAIL;
-	///////////////////////////
-	Add_To_UI_Textures();
-	////////////////////////////
-
-	return S_OK;
-}
-
-
-HRESULT CLoader::Add_To_GamePlay_Buffer()
-{
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 256, 256))))
-		return E_FAIL;
-
-	Add_To_UI_Buffer();
-
-	return S_OK;
-}
-
-HRESULT CLoader::Add_To_GamePlay_Transform()
-{
-	Add_To_UI_Transform();
-
-	return S_OK;
-}
-
-HRESULT CLoader::Add_To_GamePlay_Prototype()
-{
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	Add_To_UI_Prototype();
-
-	return S_OK;
-}
-
 HRESULT CLoader::Add_To_Logo_Textures()
 {
 	//로고의 사람 // 3번째 렌더
@@ -310,15 +259,6 @@ HRESULT CLoader::Add_To_Logo_Transform()
 		return E_FAIL;
 
 	Add_To_Logo_Menu_Transform();
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Logo_Art_Prototype()
-{
-	// 로고의 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"), 
-		CBackGround::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	return S_OK;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
