@@ -37,6 +37,7 @@ HRESULT CUI_ExpDisplay::Initialize(void* pArg)
 		m_EXP_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
 		Set_Position(m_EXP_INFO.vPos);
 		Set_Size(m_EXP_INFO.vSize);
+		CUI_Manager::GetInstance()->AddUI(L"Mid_Panel", this);
 	}
 	else
 		return E_FAIL;
@@ -100,16 +101,16 @@ HRESULT CUI_ExpDisplay::Render()
 
 HRESULT CUI_ExpDisplay::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_EXPDisplay"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Mid_Panel"),
 		TEXT("Com_Texture_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pTextureCom))))
  		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_EXPDisplay"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Mid_Panel"),
 		TEXT("Com_VIBuffer_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pVIBufferCom))))
-		return E_FAIL;
+ 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_EXPDisplay"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Mid_Panel"),
 		TEXT("Com_Transform_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pTransformCom), &tDesc)))
 		return E_FAIL;
 

@@ -61,7 +61,24 @@ public:
         }
         return _float2(99999, 99999);
     }
-
+    _float2 GetLeftPanel_Pos()
+    {
+        CUI_Base* pUI = GetUI(L"Left_Panel");
+        if (pUI)
+        {
+            return pUI->Get_Position();
+        }
+        return _float2(99999, 99999);
+    }
+    _float2 GetRightPanel_Pos()
+    {
+        CUI_Base* pUI = GetUI(L"Right_Panel");
+        if (pUI)
+        {
+            return pUI->Get_Position();
+        }
+        return _float2(99999, 99999);
+    }
     unordered_map<wstring, CUI_Base*> m_UIMap;
 
 };

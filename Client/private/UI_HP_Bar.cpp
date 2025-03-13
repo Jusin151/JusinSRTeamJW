@@ -35,15 +35,17 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		m_HP_Bar_INFO = *reinterpret_cast<UI_Child_Desc*>(pArg);
-		m_HP_Bar_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
+		m_HP_Bar_INFO.vPos += CUI_Manager::GetInstance()->GetLeftPanel_Pos();
 		Set_Position(m_HP_Bar_INFO.vPos);
 		Set_Size(m_HP_Bar_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"Left_Display", this);
+		CUI_Manager::GetInstance()->AddUI(L"Hp_Bar", this);
 	}
 	else
 		return E_FAIL;
 
 	m_HP_Bar_pTransformCom->Set_Scale(m_HP_Bar_INFO.vSize.x, m_HP_Bar_INFO.vSize.y, 1.f);
+
+
 	m_HP_Bar_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_HP_Bar_INFO.vPos.x, m_HP_Bar_INFO.vPos.y, 0.f));
 	return S_OK;
@@ -101,16 +103,16 @@ HRESULT CUI_HP_Bar::Render()
 
 HRESULT CUI_HP_Bar::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_HealthBar"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Hp_Bar"),
 		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_HP_Bar_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_HealthBar"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Hp_Bar"),
 		TEXT("Com_VIBuffer_HP"), reinterpret_cast<CComponent**>(&m_HP_Bar_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_HealthBar"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Hp_Bar"),
 		TEXT("Com_Transform_HP"), reinterpret_cast<CComponent**>(&m_HP_Bar_pTransformCom), &tDesc)))
 		return E_FAIL;
 
