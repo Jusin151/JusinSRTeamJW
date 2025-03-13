@@ -52,7 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     CMainApp* pMainApp = CMainApp::Create();
     if (nullptr == pMainApp)
-       return FALSE;
+        return FALSE;
 
     CGameInstance* pGameInstance = CGameInstance::Get_Instance();
     Safe_AddRef(pGameInstance);
@@ -93,11 +93,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             fTimeAcc = 0.f;
         }
-
-
-
-
-        
     }
 
     Safe_Release(pGameInstance);
@@ -129,7 +124,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszMenuName   = NULL; //MAKEINTRESOURCEW(IDC_CLIENT);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -180,8 +175,15 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    //
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;
+
     switch (message)
     {
     case WM_COMMAND:
@@ -202,21 +204,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
 
+    case WM_SYSCOMMAND:
+    {
+        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+            return 0;
+        break;
+    }
 	case WM_KEYDOWN:
 	{
-		if (VK_ESCAPE == wParam)
-		{
-			PostQuitMessage(0);
-		}
-	}
-    case WM_PAINT:
+        if (VK_ESCAPE == wParam)
         {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-            EndPaint(hWnd, &ps);
+            PostQuitMessage(0);
         }
         break;
+	}
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
