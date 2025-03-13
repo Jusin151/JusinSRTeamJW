@@ -47,6 +47,13 @@ public:
 	void Update_Timer(const _wstring& strTimerTag);
 #pragma endregion
 
+
+#pragma region Collider_Manager
+
+	HRESULT Add_Collider(COLLIDERGROUP eGroup, class CCollider* Collider);
+
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -54,7 +61,7 @@ private:
 	class CObject_Manager*		m_pObject_Manager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
-
+	class CCollider_Manager*		m_pCollider_Manager = { nullptr };
 public:
 	void Release_Engine();
 	virtual void Free() override;

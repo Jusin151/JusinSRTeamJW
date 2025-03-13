@@ -5,7 +5,9 @@
 #include "Timer_Manager.h"
 #include "Graphic_Device.h"
 #include "Object_Manager.h"
+#include "Collider_Manager.h"
 #include "Prototype_Manager.h"
+
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -39,6 +41,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pRenderer)
 		return E_FAIL;
 
+	m_pCollider_Manager = CCollider_Manager::Create();
+	if (nullptr == m_pCollider_Manager)
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -48,7 +54,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pObject_Manager->Update(fTimeDelta);
 
-	
+	m_pCollider_Manager->Update_Collison();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
@@ -138,6 +144,11 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 	return m_pTimer_Manager->Update(strTimerTag);
 }
 
+HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
+{
+	return m_pCollider_Manager->Add_Collider(eGroup, Collider);
+}
+
 #pragma endregion
 
 void CGameInstance::Release_Engine()
@@ -151,6 +162,8 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pPrototype_Manager);
 
 	Safe_Release(m_pLevel_Manager);
+
+	Safe_Release(m_pCollider_Manager);
 
 	Safe_Release(m_pGraphic_Device);
 
