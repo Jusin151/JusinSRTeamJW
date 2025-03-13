@@ -197,6 +197,7 @@
     </Filter>
     <Filter Include="02.GameObject\UIObject">
       <UniqueIdentifier>{ca1b37c0-851b-4920-b166-7d1b22ab39c1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="04.Components\Collider\Manager">
       <UniqueIdentifier>{f18011e7-917d-4d5c-91b5-b045b514a570}</UniqueIdentifier>
     </Filter>
