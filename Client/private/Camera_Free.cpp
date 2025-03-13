@@ -17,6 +17,7 @@ HRESULT CCamera_Free::Initialize_Prototype()
 
 HRESULT CCamera_Free::Initialize(void* pArg)
 {
+	/* TransformCom을 생성해놓는다. */
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -43,6 +44,9 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 void CCamera_Free::Priority_Update(_float fTimeDelta)
 {
+	/* 다른객체안에서 연산 시, 뷰, 투영행릉르 가지고 뭘 하고싶을 수 있어. */
+	/* 장치에서 바로 겟 해온다. */
+
 	POINT		ptMouse{};
 	_float fSpeed = 1.f;
 	GetCursorPos(&ptMouse);
@@ -87,18 +91,16 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	}
 	
 
-	
-
-
 	m_ptOldMousePos = ptMouse;
 
+	/* DX는 한번 셋한 값은 바꾸기 전까지 유지된다ㅏ. */
+	/* 갱신된 카메라월드를 통해서 뷰행렬을 만들어 장치에 셋한다.  */
+	/* 갱신된 FOV, NEAR, FAR으로 투영행렬을 만들어 장치에 셋한다. */
 	__super::Update_VP_Matrices();
 }
 
 void CCamera_Free::Update(_float fTimeDelta)
 {
-
-
 
 }
 

@@ -25,6 +25,7 @@ HRESULT CCamera::Initialize(void* pArg)
     if (nullptr == m_pTransformCom)
         return E_FAIL;
 
+    /* 카메라의 초기상태를 트랜스폼에게 동기화한다. */
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vEye);
     m_pTransformCom->LookAt(pDesc->vAt);
 
