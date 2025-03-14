@@ -6,6 +6,21 @@ SR프로젝트 TeamJW
 
 주의할점 리소스 사용할때 bin/Resource사용을 피하기
 
+
+## 윈도우 창이 움직이지 않는다면
+
+Client.cpp의
+```
+case WM_SYSCOMMAND:
+    {
+        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+            return 0;
+        break;
+    }
+```
+주석처리 해주세요
+
+
 ## 자동 dll 생성 배치파일 실행
 엔진 속성에 빌드후 이벤트에
 ```

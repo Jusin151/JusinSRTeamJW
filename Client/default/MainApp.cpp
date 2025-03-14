@@ -16,7 +16,7 @@ HRESULT CMainApp::Initialize()
 {
 	D3DLIGHT9			LightDesc{};
 
-	LightDesc
+	//LightDesc
 	
 	/*
 	D3DLIGHT9			LightDesc{};
