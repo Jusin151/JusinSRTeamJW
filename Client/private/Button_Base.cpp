@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-CButton_Base::CButton_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLogo_Button::CLogo_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
 }
 
-CButton_Base::CButton_Base(const CButton_Base& Prototype)
+CLogo_Button::CLogo_Button(const CLogo_Button& Prototype)
 	: CUI_Base(Prototype),
 	m_Button_pTextureCom(Prototype.m_Button_pTextureCom),
 	m_Button_pTransformCom(Prototype.m_Button_pTransformCom),
@@ -16,14 +16,14 @@ CButton_Base::CButton_Base(const CButton_Base& Prototype)
 {
 }
 
-HRESULT CButton_Base::Initialize_Prototype()
+HRESULT CLogo_Button::Initialize_Prototype()
 {
 	
 
 	return S_OK;
 }
 
-HRESULT CButton_Base::Initialize(void* pArg)
+HRESULT CLogo_Button::Initialize(void* pArg)
 {
 	if (pArg != nullptr)
 	{
@@ -44,11 +44,11 @@ HRESULT CButton_Base::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CButton_Base::Priority_Update(_float fTimeDelta)
+void CLogo_Button::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CButton_Base::Update(_float fTimeDelta)
+void CLogo_Button::Update(_float fTimeDelta)
 {
 	if (m_Button_INFO.bStartButton_Flag == true)
 	{
@@ -73,22 +73,18 @@ void CButton_Base::Update(_float fTimeDelta)
 		{
 			m_bIsMouseOver = false;
 		}
-
-
-
-
 	}
 
 }
 
 
-void CButton_Base::Late_Update(_float fTimeDelta)
+void CLogo_Button::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CButton_Base::Render()
+HRESULT CLogo_Button::Render()
 {
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -132,7 +128,7 @@ HRESULT CButton_Base::Render()
 	return S_OK;
 }
 
-HRESULT CButton_Base::Ready_Components()
+HRESULT CLogo_Button::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_LOGO, m_Button_INFO.strTexture_Default_Tag,
 		TEXT("Com_Texture_Menu_1"), reinterpret_cast<CComponent**>(&m_Button_pTextureCom))))
@@ -154,9 +150,9 @@ HRESULT CButton_Base::Ready_Components()
 	return S_OK;
 }
 
-CButton_Base* CButton_Base::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLogo_Button* CLogo_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CButton_Base* pInstance = new CButton_Base(pGraphic_Device);
+	CLogo_Button* pInstance = new CLogo_Button(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -168,9 +164,9 @@ CButton_Base* CButton_Base::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CButton_Base::Clone(void* pArg)
+CGameObject* CLogo_Button::Clone(void* pArg)
 {
-	CButton_Base* pInstace = new CButton_Base(*this);
+	CLogo_Button* pInstace = new CLogo_Button(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -182,7 +178,7 @@ CGameObject* CButton_Base::Clone(void* pArg)
 	return pInstace;
 }
 
-void CButton_Base::Free()
+void CLogo_Button::Free()
 {
 	__super::Free();
 

@@ -130,6 +130,12 @@
     <Filter Include="02.GameObjects\UI\04.Shop\Upgrade_Weapon_UI">
       <UniqueIdentifier>{c09c0d37-8ce0-43ba-a2c8-be92b4b95b15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\99. Button\Logo_Button">
+      <UniqueIdentifier>{d3cf93ef-aaf9-4523-8f17-2af6ed80d2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\99. Button\GamePlay">
+      <UniqueIdentifier>{3a797ae8-32eb-4d17-9b9d-8c6e82a13066}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -241,10 +247,10 @@
       <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Button_Base.h">
-      <Filter>02.GameObjects\UI\99. Button</Filter>
+      <Filter>02.GameObjects\UI\99. Button\Logo_Button</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Button_Episode.h">
-      <Filter>02.GameObjects\UI\04.Shop\Episode_UI</Filter>
+    <ClInclude Include="..\public\GamePlay_Button.h">
+      <Filter>02.GameObjects\UI\99. Button\GamePlay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,10 +349,10 @@
       <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Button_Base.cpp">
-      <Filter>02.GameObjects\UI\99. Button</Filter>
+      <Filter>02.GameObjects\UI\99. Button\Logo_Button</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Button_Episode.cpp">
-      <Filter>02.GameObjects\UI\04.Shop\Episode_UI</Filter>
+    <ClCompile Include="..\private\GamePlay_Button.cpp">
+      <Filter>02.GameObjects\UI\99. Button\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

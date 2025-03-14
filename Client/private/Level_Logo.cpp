@@ -108,7 +108,7 @@ HRESULT CLevel_Logo::Ready_Layer_Menu()
 		LEVEL_LOGO, TEXT("Layer_Menu"))))
 		return E_FAIL;
 
-	CButton_Base::UI_Button_Desc StartButton_Desc{};
+	CLogo_Button::UI_Button_Desc StartButton_Desc{};
 
 	StartButton_Desc.Button_Desc.vSize = { 296.f,32.f };
 	StartButton_Desc.Button_Desc.vPos = { 485.f,100.f };
@@ -121,8 +121,7 @@ HRESULT CLevel_Logo::Ready_Layer_Menu()
 		LEVEL_LOGO, TEXT("Layer_Menu_StartButton"),&StartButton_Desc)))
 		return E_FAIL;
 
-	CButton_Base::UI_Button_Desc ExitButton_Desc{};
-
+	CLogo_Button::UI_Button_Desc ExitButton_Desc{};
 	ExitButton_Desc.Button_Desc.vSize = { 296.f,32.f };
 	ExitButton_Desc.Button_Desc.vPos = { 485.f,-100.f};
 	ExitButton_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Menu_ExitButton" };

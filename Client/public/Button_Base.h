@@ -12,7 +12,7 @@ END
 
 BEGIN(Client)
 
-class CButton_Base  : public CUI_Base
+class CLogo_Button  : public CUI_Base
 {
 public:
     typedef struct tagButton
@@ -26,9 +26,9 @@ public:
     }UI_Button_Desc;
 
 protected:
-	CButton_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CButton_Base(const CButton_Base& Prototype);
-	virtual ~CButton_Base() = default;
+    CLogo_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CLogo_Button(const CLogo_Button& Prototype);
+	virtual ~CLogo_Button() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -82,7 +82,7 @@ protected:
 
 
 public:
-	static CButton_Base* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLogo_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 

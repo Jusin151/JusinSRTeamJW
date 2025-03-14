@@ -154,7 +154,6 @@
   <ItemGroup>
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Button_Base.h" />
-    <ClInclude Include="..\Public\Button_Episode.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
@@ -162,6 +161,7 @@
     <ClInclude Include="..\public\CUI_Base.h" />
     <ClInclude Include="..\public\CUI_Dialogue.h" />
     <ClInclude Include="..\public\Default_Menu.h" />
+    <ClInclude Include="..\public\GamePlay_Button.h" />
     <ClInclude Include="..\public\UI_Headers.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\Public\UI_Bullet_Bar.h" />
@@ -194,8 +194,8 @@
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Button_Base.cpp" />
-    <ClCompile Include="..\Private\Button_Episode.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
+    <ClCompile Include="..\private\GamePlay_Button.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Episode.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
