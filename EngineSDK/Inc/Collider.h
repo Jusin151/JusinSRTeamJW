@@ -26,29 +26,50 @@ public:
 		memcpy(&m_WorldMatrix.m[eState][0], &vState, sizeof vState);
 	}
 
+	void Set_WorldMat(_float4x4 worldMat)
+	{
+		m_WorldMatrix = worldMat;
+	}
+
 
 	COLLIDERGROUP	Get_Type()
 	{
 		return m_eType;
 	}
-	void	Set_Other_Type(COLLIDERGROUP eOtherType)
+
+	void Set_Type(COLLIDERGROUP eType)
 	{
-		m_eOtherType = eOtherType;
+		m_eType = eType;
 	}
+	
 
 	COLLIDERGROUP	Get_Other_Type()
 	{
 		return m_eOtherType;
 	}
 
+	void	Set_Other_Type(COLLIDERGROUP eOtherType)
+	{
+		m_eOtherType = eOtherType;
+	}
+
+	_float3 Get_MTV() { return m_fMTV; }
+
+	void Set_MTV(_float3 fMTV) { m_fMTV = fMTV; }
+
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
 	_float3					m_fPos = {};
 
-	// 자기 타입 저장 하고
-	// 충돌하면 자기 타입을 상대에게 저장, 상대 타입은 나에게 저장
-	// 그 후 object에서 상대 타입 보고 체크
+
+	// �ּ� �̵� ����, ũ��
+	_float3					m_fMTV = {0.f, 0.f, 0.f};
+	_float					m_fDepth = {0.f};
+
+	// �ڱ� Ÿ�� ���� �ϰ�
+	// �浹�ϸ� �ڱ� Ÿ���� ���뿡�� ����, ���� Ÿ���� ������ ����
+	// �� �� object���� ���� Ÿ�� ���� üũ
 	COLLIDERGROUP			m_eType = { CG_END };
 	COLLIDERGROUP			m_eOtherType = { CG_END };
 public:

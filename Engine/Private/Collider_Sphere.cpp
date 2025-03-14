@@ -1,7 +1,7 @@
 ﻿#include "Collider_Sphere.h"
 
 CCollider_Sphere::CCollider_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CCollider(m_pGraphic_Device)
+	:CCollider(pGraphic_Device)
 {
 }
 
@@ -26,7 +26,9 @@ void CCollider_Sphere::Calc_Radius()
 	// 한 방향 길이를 구해서 곱해서 넘겨준다
 	_float3 fRadiusVec = Get_State(CTransform::STATE_RIGHT);
 
-	m_fRadius = abs(fRadiusVec.x * fRadiusVec.x + fRadiusVec.z * fRadiusVec.z + fRadiusVec.y * fRadiusVec.y);
+	
+
+	m_fRadius = fRadiusVec.Length() ;
 
 }
 

@@ -163,6 +163,9 @@
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\Public\UI_Bullet_Bar.h" />
     <ClInclude Include="..\Public\UI_Episode.h" />
+    <ClInclude Include="..\Public\TestMonster.h" />
+    <ClInclude Include="..\Public\UI_AMMOBar.h" />
+    <ClInclude Include="..\Public\UI_EXPBar.h" />
     <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_HPDisplay.h" />
     <ClInclude Include="..\public\CUI_Manager.h" />
@@ -196,6 +199,7 @@
     <ClCompile Include="..\Private\UI_Episode.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />
+    <ClCompile Include="..\Private\TestMonster.cpp" />
     <ClCompile Include="..\Private\UI_Player_Icon.cpp" />
     <ClCompile Include="..\private\CUI_AmmoDisplay.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />

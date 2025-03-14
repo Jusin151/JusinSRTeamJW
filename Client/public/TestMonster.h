@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -12,12 +12,12 @@ END
 
 BEGIN(Client)
 
-class CPlayer final : public CGameObject
+class CTestMonster final : public CGameObject
 {
 private:
-	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPlayer(const CPlayer& Prototype);
-	virtual ~CPlayer() = default;
+	CTestMonster(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CTestMonster(const CTestMonster& Prototype);
+	virtual ~CTestMonster() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -26,13 +26,13 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	HRESULT On_Collision();
+	HRESULT On_Collision(_float fTimeDelta);
 
 private:
-	CTexture*				m_pTextureCom = { nullptr };
-	CTransform*				m_pTransformCom = { nullptr };
-	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
-	CCollider_Sphere*		m_pColliderCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
+	CCollider_Sphere* m_pColliderCom = { nullptr };
 
 private:
 	HRESULT SetUp_RenderState();
@@ -42,7 +42,7 @@ private:
 
 
 public:
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CTestMonster* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

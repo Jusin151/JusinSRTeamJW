@@ -4,6 +4,7 @@
 #include "Terrain.h"
 #include "Camera_Free.h"
 #include "Player.h"
+#include "TestMonster.h"
 ////////////////////////////// 레벨_로고
 #include "BackGround.h"
 #include  "Default_Menu.h"
@@ -332,6 +333,11 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Monster"),
+		CTestMonster::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	Add_To_UI_Prototype();

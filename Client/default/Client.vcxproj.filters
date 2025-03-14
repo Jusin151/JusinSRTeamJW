@@ -130,6 +130,9 @@
     <Filter Include="02.GameObjects\UI\Shop\Upgrade_Weapon_UI">
       <UniqueIdentifier>{c09c0d37-8ce0-43ba-a2c8-be92b4b95b15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster">
+      <UniqueIdentifier>{7e491efc-5d2d-477d-9ef4-87d044fa2728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -240,6 +243,9 @@
     <ClInclude Include="..\Public\UI_Upgrade_Weapon.h">
       <Filter>02.GameObjects\UI\Shop\Upgrade_Weapon_UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TestMonster.h">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -338,6 +344,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Upgrade_Weapon.cpp">
       <Filter>02.GameObjects\UI\Shop\Upgrade_Weapon_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TestMonster.cpp">
+      <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
