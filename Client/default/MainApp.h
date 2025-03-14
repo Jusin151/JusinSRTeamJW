@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 class CGameInstance;
+class CPickingSys;
 END
 
 BEGIN(Client)
@@ -22,7 +23,7 @@ public:
 private:
 	CGameInstance*			m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9		m_pGraphic_Device = { nullptr };
-
+	CPickingSys*  m_pPickingSys = { nullptr };
 private:
 	HRESULT Ready_Default_Setting();
 	HRESULT Ready_Component_For_Static();

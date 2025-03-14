@@ -3,6 +3,10 @@
 #include "Client_Defines.h"
 #include "Level.h"
 
+BEGIN(Engine)
+class CPickingSys;
+END
+
 BEGIN(Client)
 
 class CLevel_GamePlay final : public CLevel
@@ -22,6 +26,9 @@ private:
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Shop();
+
+private:
+	CPickingSys* m_pPickingSys = { nullptr };
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

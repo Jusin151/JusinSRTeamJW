@@ -1,12 +1,17 @@
 ﻿#include "Level_GamePlay.h"
 #include "GameInstance.h"
+#include "PickingSys.h"
 #include "UI_Default_Panel.h"
 #include "CUI_Base.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel { pGraphic_Device } 
+	: CLevel { pGraphic_Device } ,
+	m_pPickingSys{CPickingSys::Get_Instance()}
 
-{}
+{
+	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device,m_pGameInstance);
+	Safe_AddRef(m_pPickingSys);
+}
 HRESULT CLevel_GamePlay::Initialize()
 {
 
@@ -30,7 +35,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	int a = 10;
+	m_pPickingSys->Update();
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -118,13 +123,27 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
-		LEVEL_GAMEPLAY, strLayerTag)))
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+	//	LEVEL_GAMEPLAY, strLayerTag)))
+	//	return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 10)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"),
-		LEVEL_GAMEPLAY, strLayerTag)))
+
+
+	CTransform::TRANSFORM_DESC randTransDesc{};
+
+
+	for (int i = 0; i < 2; i++)
+	{
+
+	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
+	randTransDesc.fSpeedPerSec = 10.f;
+	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
+	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag,&randTransDesc)))
 		return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -264,5 +283,8 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pPickingSys);
+	CPickingSys::Destroy_Instance();
 
 }
