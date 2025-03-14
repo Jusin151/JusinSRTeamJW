@@ -46,9 +46,17 @@ _float3 CTransform::Compute_Scaled() const
 		D3DXVec3Length(&vLook));
 }
 
-void CTransform::Scaling()
+void CTransform::Scaling(_float fX, _float fY, _float fZ)
 {
+	_float3		vRight = Get_State(STATE_RIGHT);
+	_float3		vUp = Get_State(STATE_UP);
+	_float3		vLook = Get_State(STATE_LOOK);	
+
+	Set_State(STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * fX);
+	Set_State(STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * fY);
+	Set_State(STATE_LOOK, *D3DXVec3Normalize(&vLook, &vLook) * fZ);
 }
+
 
 void CTransform::Go_Straight(_float fTimeDelta)
 {

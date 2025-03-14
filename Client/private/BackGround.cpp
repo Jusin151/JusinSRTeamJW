@@ -22,8 +22,10 @@ HRESULT CBackGround::Initialize(void* pArg)
 {
 	UIOBJECT_DESC		Desc{};	
 
-	Desc.fSizeX = g_iWinSizeX;
-	Desc.fSizeY = g_iWinSizeY;
+	Desc.fSizeX = 200;
+	Desc.fSizeY = 200;
+	Desc.fX = g_iWinSizeX - Desc.fSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY - Desc.fSizeY * 0.5f;
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -31,7 +33,10 @@ HRESULT CBackGround::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->
+	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+
+	
 
     return S_OK;
 }
@@ -43,15 +48,17 @@ void CBackGround::Priority_Update(_float fTimeDelta)
 
 void CBackGround::Update(_float fTimeDelta)
 {
-	int a = 10;
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		if (true == __super::isPick(g_hWnd))
+			int a = 10;
+	}
 }
 
 void CBackGround::Late_Update(_float fTimeDelta)
-{
-	
+{	
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this)))
-		return;
-	
+		return;	
 	
 }
 
