@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
+/// �÷��̾� �������� Hp_Bar UI���� ���߿� �ҷ��ߵ�
 CUI_Player_Icon::CUI_Player_Icon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
@@ -43,27 +44,117 @@ HRESULT CUI_Player_Icon::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
+	m_fHealth = 100.f;
+
 	m_PlayerICon_pTransformCom->Set_Scale(m_PlayerICon_INFO.vSize.x, m_PlayerICon_INFO.vSize.y, 1.f);
 	m_PlayerICon_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_PlayerICon_INFO.vPos.x, m_PlayerICon_INFO.vPos.y, 0.f));
+	_float3(m_PlayerICon_INFO.vPos.x, m_PlayerICon_INFO.vPos.y, 0.f));
+
+
 	return S_OK;
 }
 
 void CUI_Player_Icon::Priority_Update(_float fTimeDelta)
 {
+	
+	
+
 }
 
 void CUI_Player_Icon::Update(_float fTimeDelta)
 {
-	
-	m_fElapsedTime += fTimeDelta;
-
-	if (m_fElapsedTime >= m_fFrameDuration)
+	// Ű ������ ü�� 1 ���� �ϴ� �ӽÿ���..
+	if (GetKeyState('8') & 0x8000)
 	{
+		m_fHealth -= 1.f;
+		if (m_fHealth < 0.f)
+			m_fHealth = 0.f;
+		m_bIsHit = true;           
+		m_fHitElapsedTime = 0.0f;    
+	}
+
+	
+	if (m_bIsHit)
+		Update_Hit_Animation(fTimeDelta);
+	else
+		Update_Animation(fTimeDelta);
+}
+
+
+void CUI_Player_Icon::Update_Animation(_float fTimeDelta)
+{
+	int defaultStart = 0, defaultCount = 4;
+	if (m_fHealth >= 70)
+	{
+		defaultStart = 0;    // 0~3
+		defaultCount = 4;
+	}
+	else if (m_fHealth >= 50)
+	{
+		defaultStart = 5;    // 5~8
+		defaultCount = 4;
+	}
+	else if (m_fHealth >= 20)
+	{
+		defaultStart = 10;   // 10~13
+		defaultCount = 4;
+	}
+	else
+	{
+		defaultStart = 15;   // 15~18
+		defaultCount = 4;
+	}
+
+	m_fElapsedTime += fTimeDelta; 
+	if (m_fElapsedTime >= m_fFrameDuration)
+	{ 
 		m_fElapsedTime = 0.0f;
-		m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
+		if (m_iCurrentFrame < defaultStart || m_iCurrentFrame >= defaultStart + defaultCount)
+			m_iCurrentFrame = defaultStart;
+		else
+			m_iCurrentFrame = defaultStart + ((m_iCurrentFrame - defaultStart + 1) % defaultCount);
 	}
 }
+
+
+void CUI_Player_Icon::Update_Hit_Animation(_float fTimeDelta)
+{
+	int hitFrame = 4; // �⺻��
+	if (m_fHealth >= 70)
+	{
+		hitFrame = 4;
+	}
+	else if (m_fHealth >= 50)
+	{
+		hitFrame = 9;
+	}
+	else if (m_fHealth >= 20)
+	{
+		hitFrame = 14;
+	}
+	else
+	{
+		hitFrame = 19;
+	}
+
+	// �ǰ� �� ������
+	m_iCurrentFrame = hitFrame;
+	m_fHitElapsedTime += fTimeDelta;
+	if (m_fHitElapsedTime >= m_fHitDuration)
+	{
+		m_bIsHit = false; 
+		if (m_fHealth >= 70)
+			m_iCurrentFrame = 0;
+		else if (m_fHealth >= 50)
+			m_iCurrentFrame = 5;
+		else if (m_fHealth >= 20)
+			m_iCurrentFrame = 10;
+		else
+			m_iCurrentFrame = 15;
+	}
+}
+
+
 
 
 void CUI_Player_Icon::Late_Update(_float fTimeDelta)
@@ -113,6 +204,7 @@ HRESULT CUI_Player_Icon::Ready_Components()
 		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_PlayerICon_pTextureCom))))
 		return E_FAIL;
 
+
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Player_Icon"),
 		TEXT("Com_VIBuffer_HP"), reinterpret_cast<CComponent**>(&m_PlayerICon_pVIBufferCom))))
 		return E_FAIL;
@@ -124,6 +216,7 @@ HRESULT CUI_Player_Icon::Ready_Components()
 
 	return S_OK;
 }
+
 
 CUI_Player_Icon* CUI_Player_Icon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

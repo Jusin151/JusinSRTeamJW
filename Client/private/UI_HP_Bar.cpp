@@ -43,6 +43,9 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
+	m_fHealth = 100.f;
+
+
 	m_HP_Bar_pTransformCom->Set_Scale(m_HP_Bar_INFO.vSize.x, m_HP_Bar_INFO.vSize.y, 1.f);
 
 
@@ -57,6 +60,16 @@ void CUI_HP_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Bar::Update(_float fTimeDelta)
 {
+	m_eHp_State = Default;
+	if (GetAsyncKeyState('8') & 0x8000)
+	{
+		m_eHp_State = Heated;
+		m_fHealth -= 1.f;
+		if (m_fHealth < 0.f)
+			m_fHealth = 0.f; // 최소 체력 제한
+
+		Update_HP_Bar(); 
+	}
 }
 
 void CUI_HP_Bar::Late_Update(_float fTimeDelta)
@@ -64,6 +77,33 @@ void CUI_HP_Bar::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
+void CUI_HP_Bar::Update_HP_Bar()
+{
+	_float fHP_Ratio = m_fHealth / 100.f;
+
+	if (fHP_Ratio < 0.f)
+		fHP_Ratio = 0.f;
+	if (fHP_Ratio > 1.f)
+		fHP_Ratio = 1.f;
+
+
+	VTXPOSTEX* pVertices = nullptr;
+	m_HP_Bar_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+
+	//  (오른쪽부터 점점 안 보이게)
+	pVertices[1].vTexcoord.x = fHP_Ratio; // 우측 상단
+	pVertices[2].vTexcoord.x = fHP_Ratio; // 우측 하단
+
+	//  정점 위치  (오른쪽부터 점점 줄어들게) 
+	float fNewWidth = m_HP_Bar_INFO.vSize.x * fHP_Ratio;
+	pVertices[1].vPosition.x = -0.5f + fNewWidth / m_HP_Bar_INFO.vSize.x;
+	pVertices[2].vPosition.x = -0.5f + fNewWidth / m_HP_Bar_INFO.vSize.x;
+
+	m_HP_Bar_pVIBufferCom->Get_VertexBuffer()->Unlock();
+}
+
+
+
 
 HRESULT CUI_HP_Bar::Render()
 {
@@ -118,6 +158,7 @@ HRESULT CUI_HP_Bar::Ready_Components()
 
 	return S_OK;
 }
+
 
 CUI_HP_Bar* CUI_HP_Bar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

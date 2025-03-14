@@ -26,6 +26,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
+	void Update_Bullet_Bar();
 	virtual HRESULT Render()override;
 
 private:
@@ -46,7 +47,7 @@ public:
 
 
 private:
-	_float m_fBullet{};
+	_float m_fBullet{100.f};
 };
 END
 

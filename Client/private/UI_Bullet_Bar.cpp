@@ -57,6 +57,14 @@ void CUI_Bullet_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_Bullet_Bar::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('0') & 0x8000)
+	{
+		m_fBullet -= 1.f;
+		if (m_fBullet < 0.f)
+			m_fBullet = 0.f; // 최소 체력 제한
+
+		Update_Bullet_Bar();
+	}
 }
 
 void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
@@ -64,7 +72,30 @@ void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
+void CUI_Bullet_Bar::Update_Bullet_Bar()
+{
+	_float fHP_Ratio = m_fBullet / 100.f;
 
+	if (fHP_Ratio < 0.f)
+		fHP_Ratio = 0.f;
+	if (fHP_Ratio > 1.f)
+		fHP_Ratio = 1.f;
+
+
+	VTXPOSTEX* pVertices = nullptr;
+	m_Bullet_Bar_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+
+	//  (오른쪽부터 점점 안 보이게)
+	pVertices[1].vTexcoord.x = fHP_Ratio; // 우측 상단
+	pVertices[2].vTexcoord.x = fHP_Ratio; // 우측 하단
+
+	//  정점 위치  (오른쪽부터 점점 줄어들게)  아직 안고쳤음!!!!!!!!!!
+	float fNewWidth = m_Bullet_Bar_INFO.vSize.x * fHP_Ratio;
+	pVertices[0].vPosition.x = +0.5f + fNewWidth / m_Bullet_Bar_INFO.vSize.x;
+	pVertices[3].vPosition.x = +0.5f + fNewWidth / m_Bullet_Bar_INFO.vSize.x;
+
+	m_Bullet_Bar_pVIBufferCom->Get_VertexBuffer()->Unlock();
+}
 HRESULT CUI_Bullet_Bar::Render()
 {
 	D3DXMATRIX matOldView, matOldProj;

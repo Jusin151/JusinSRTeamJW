@@ -6,7 +6,7 @@ CVIBuffer_Rect::CVIBuffer_Rect(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect& Prototype)
-	: CVIBuffer{ Prototype }
+	: CVIBuffer( Prototype )
 {
 }
 

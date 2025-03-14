@@ -15,6 +15,8 @@ BEGIN(Client)
 
 class CUI_HP_Bar final : public CUI_Base
 {
+public:
+	enum HP_STATE{ Default,Heated};
 private:
 	CUI_HP_Bar(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CUI_HP_Bar(const CUI_HP_Bar& Prototype);
@@ -36,17 +38,20 @@ private:
 
 private:
 	HRESULT Ready_Components();
-
+	void Update_HP_Bar(); 
 
 public:
 	static CUI_HP_Bar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-
-
-
+public:
+	HP_STATE Get_HpState() { return m_eHp_State; }
+	void Set_Health(_float fHealth) { m_fHealth = fHealth; }
+	_float Get_Health() { return m_fHealth; }
 private:
 	_float m_fHealth{};
+	HP_STATE m_eHp_State{};
+
 };
 END
 

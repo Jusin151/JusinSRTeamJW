@@ -449,12 +449,13 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
 			1))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 기본 플레이어 이미지 4장
 		TEXT("Prototype_Component_Texture_Player_Icon"),
 		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Left/Player_Icon/UnHurt/1_SR_face_unhurt_0%d.png"),
-			4))))
+			TEXT("../../Resources/Textures/UI/Left/Player_Icon/All/1_SR_face_unhurt_%d.png"),
+			20))))
 		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_MP_Bar"),
@@ -530,17 +531,20 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Prototype()
 		CUI_HPDisplay::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 체력바
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Hp_Bar"),
-		CUI_HP_Bar::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	// 플레이어아이콘
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Player_Icon"),
 		CUI_Player_Icon::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+
+	// 체력바
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Hp_Bar"),
+		CUI_HP_Bar::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	// 플레이어아이콘
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
@@ -751,25 +755,25 @@ HRESULT CLoader::Add_To_Shop_Textures()
 }
 HRESULT CLoader::Add_To_Shop_Buffer()
 {
-	// 기본 메뉴 판넬 버퍼
+	// 포인트 스탯 상점
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_Point_Shop_UI"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 버퍼
+
+	// 에피소드 선택창
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_Episode_UI"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 버퍼
+	// 스펠 샵 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_Spell_Shop_UI"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	// 기본 메뉴 판넬 버퍼
+	// 업그레이드 웨폰 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_VIBuffer_Upgrade_Weapon_UI"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
@@ -779,25 +783,24 @@ HRESULT CLoader::Add_To_Shop_Buffer()
 }
 HRESULT CLoader::Add_To_Shop_Transform()
 {
-	// 기본 메뉴 판넬 트랜스폼
+	// 포인트 스탯 상점
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Point_Shop_UI"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 트랜스폼
+	// 에피소드 선택창
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Episode_UI"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	// 기본 메뉴 판넬 트랜스폼
+	// 스펠 샵 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Spell_Shop_UI"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 트랜스폼
+	// 업그레이드 웨폰 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Transform_Upgrade_Weapon_UI"),
 		CTransform::Create(m_pGraphic_Device))))
@@ -807,25 +810,26 @@ HRESULT CLoader::Add_To_Shop_Transform()
 }
 HRESULT CLoader::Add_To_Shop_Prototype()
 {
-	// 기본 메뉴 판넬 프로토타입
+	// 포인트 스탯 상점
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Point_Shop_UI"),
 		CUI_Point_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 프로토타입
+
+	// 에피소드 선택창
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Episode_UI"),
 		CUI_Episode::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 프로토타입
+	// 스펠 샵 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Spell_Shop_UI"),
 		CUI_Spell_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 기본 메뉴 판넬 프로토타입
+	// 업그레이드 웨폰 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Upgrade_Weapon_UI"),
 		CUI_Upgrade_Weapon::Create(m_pGraphic_Device))))

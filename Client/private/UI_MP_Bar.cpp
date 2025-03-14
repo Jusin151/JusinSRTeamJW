@@ -43,6 +43,7 @@ HRESULT CUI_MP_Bar::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	m_fMp = 50.f;
 	m_MP_pTransformCom->Set_Scale(m_MP_INFO.vSize.x, m_MP_INFO.vSize.y, 1.f);
 	m_MP_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_MP_INFO.vPos.x, m_MP_INFO.vPos.y, 0.f));
@@ -55,7 +56,15 @@ void CUI_MP_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_MP_Bar::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('9') & 0x8000)
+	{
+		m_fMp -= 1.f;
+		if (m_fMp < 0.f)
+			m_fMp = 0.f; // 최소 마나 제한
 
+
+	   Update_Mp_Bar();
+	}
 }
 
 void CUI_MP_Bar::Late_Update(_float fTimeDelta)
@@ -63,6 +72,31 @@ void CUI_MP_Bar::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
+void CUI_MP_Bar::Update_Mp_Bar()
+{
+	_float fHP_Ratio = m_fMp / 50.f;
+
+	if (fHP_Ratio < 0.f)
+		fHP_Ratio = 0.f;
+	if (fHP_Ratio > 1.f)
+		fHP_Ratio = 1.f;
+
+
+	VTXPOSTEX* pVertices = nullptr;
+	m_MP_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+
+	//  (오른쪽부터 점점 안 보이게)
+	pVertices[1].vTexcoord.x = fHP_Ratio; // 우측 상단
+	pVertices[2].vTexcoord.x = fHP_Ratio; // 우측 하단
+
+	//  정점 위치  (오른쪽부터 점점 줄어들게) 
+	float fNewWidth = m_MP_INFO.vSize.x * fHP_Ratio;
+	pVertices[1].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
+	pVertices[2].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
+
+	m_MP_pVIBufferCom->Get_VertexBuffer()->Unlock();
+}
+
 
 HRESULT CUI_MP_Bar::Render()
 {
