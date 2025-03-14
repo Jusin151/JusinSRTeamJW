@@ -32,19 +32,17 @@ HRESULT CStart_Button::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_StartButton_INFO.vSize = { 296.f,32.f };
-	m_StartButton_INFO.fAlpha = 1.0f;
-	m_StartButton_INFO.vPos = { 485.f,64.f };
+	m_vSize ={ 296.f,32.f };
+	m_vPos = { 485.f,64.f };
 
-
-	Set_Position(m_StartButton_INFO.vPos);
-	Set_Size(m_StartButton_INFO.vSize);
+	Set_Position(m_vPos);
+	Set_Size(m_vSize);
 	CUI_Manager::GetInstance()->AddUI(L"Start_Button", this);
 
 
-	m_StartButton_pTransformCom->Set_Scale(m_StartButton_INFO.vSize.x, m_StartButton_INFO.vSize.y, 1.f);
+	m_StartButton_pTransformCom->Set_Scale(m_vSize.x, m_vSize.y, 1.f);
 	m_StartButton_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_StartButton_INFO.vPos.x, m_StartButton_INFO.vPos.y, 0.f));
+		_float3(m_vPos.x, m_vPos.y, 0.f));
 	return S_OK;
 }
 
@@ -53,7 +51,12 @@ void CStart_Button::Priority_Update(_float fTimeDelta)
 }
 void CStart_Button::Update(_float fTimeDelta)
 {
-	
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		if (true == __super::isPick(g_hWnd))
+			int a = 10;
+	}
+
 }
 
 void CStart_Button::Late_Update(_float fTimeDelta)
