@@ -120,12 +120,12 @@ HRESULT CUI_Upgrade_Weapon::Ready_Components()
 		TEXT("Com_Texture_Menu"), reinterpret_cast<CComponent**>(&m_Upgrade_UI_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Upgrade_Weapon_UI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Menu"), reinterpret_cast<CComponent**>(&m_Upgrade_UI_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Upgrade_Weapon_UI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Menu"), reinterpret_cast<CComponent**>(&m_Upgrade_UI_pTransformCom), &tDesc)))
 		return E_FAIL;
 

@@ -127,6 +127,9 @@
     <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.h">
       <Filter>External Libraries\backends</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Collider_Cube.h">
+      <Filter>04.Components\Collider\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -349,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.cpp">
       <Filter>External Libraries\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider_Cube.cpp">
+      <Filter>04.Components\Collider\Cube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

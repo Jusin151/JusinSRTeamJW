@@ -105,12 +105,12 @@ HRESULT CUI_ExpDisplay::Ready_Components()
 		TEXT("Com_Texture_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pTextureCom))))
  		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Mid_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pVIBufferCom))))
  		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Mid_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pTransformCom), &tDesc)))
 		return E_FAIL;
 

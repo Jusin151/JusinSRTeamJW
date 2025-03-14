@@ -104,12 +104,12 @@ HRESULT CDefault_Menu::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_Menu"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pTransformCom), &tDesc)))
 		return E_FAIL;
 

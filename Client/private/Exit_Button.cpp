@@ -104,12 +104,12 @@ HRESULT CExit_Button::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Menu_ExitButton"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_ExitButton"), reinterpret_cast<CComponent**>(&m_ExitButton_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu_ExitButton"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_ExitButton"), reinterpret_cast<CComponent**>(&m_ExitButton_pTransformCom), &tDesc)))
 		return E_FAIL;
 

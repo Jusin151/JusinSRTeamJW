@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\default\Editor.vcxproj", "{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Imgui", "Imgui\Imgui.vcxproj", "{95FC8D18-A669-40DF-AD22-89331935FF45}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -48,14 +46,6 @@ Global
 		{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}.Release|x64.Build.0 = Release|x64
 		{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}.Release|x86.ActiveCfg = Release|Win32
 		{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}.Release|x86.Build.0 = Release|Win32
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Debug|x64.ActiveCfg = Debug|x64
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Debug|x64.Build.0 = Debug|x64
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Debug|x86.ActiveCfg = Debug|Win32
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Debug|x86.Build.0 = Debug|Win32
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Release|x64.ActiveCfg = Release|x64
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Release|x64.Build.0 = Release|x64
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Release|x86.ActiveCfg = Release|Win32
-		{95FC8D18-A669-40DF-AD22-89331935FF45}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
