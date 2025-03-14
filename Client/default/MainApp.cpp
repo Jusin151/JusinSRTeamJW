@@ -14,6 +14,21 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	D3DLIGHT9			LightDesc{};
+
+	LightDesc
+	
+	/*
+	D3DLIGHT9			LightDesc{};
+	m_pGraphic_Device->SetLight(0, &LightDesc);
+
+	D3DMATERIAL9		MtrlDesc{};
+	m_pGraphic_Device->SetMaterial(&MtrlDesc);
+
+	m_pGraphic_Device->LightEnable(0, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);*/
+
+
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;
 	Desc.isWindowed = true;
