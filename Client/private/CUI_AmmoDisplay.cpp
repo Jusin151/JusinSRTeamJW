@@ -105,12 +105,12 @@ HRESULT CUI_Right_Panel::Ready_Components()
 		TEXT("Com_Texture_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_RIght_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Right_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pTransformCom), &tDesc)))
   		return E_FAIL;
 
