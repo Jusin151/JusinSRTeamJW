@@ -117,7 +117,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Player/Player0.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/Player/Player.png"), 1))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
@@ -289,12 +289,6 @@ HRESULT CLoader::Add_To_GamePlay_Textures()
 			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 텍스쳐
-		TEXT("Prototype_Component_Texture_Player"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/Player/Player.png"), 1))))
-		return E_FAIL;
-
 	Add_To_UI_Textures();
 
 	return S_OK;
@@ -330,10 +324,6 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		CCamera_Free::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Player"),
-		CPlayer::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Monster"),
