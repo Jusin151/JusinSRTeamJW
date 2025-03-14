@@ -26,7 +26,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 {
 	if (GetKeyState(VK_RETURN) & 0x8000)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+  		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
 			return;
 	}

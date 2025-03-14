@@ -184,7 +184,6 @@
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Collider.h" />
-    <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Collider_Manager.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Collider_Sphere.h" />
@@ -250,7 +249,6 @@
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
-    <ClCompile Include="..\Private\Collider_Cube.cpp" />
     <ClCompile Include="..\Private\Collider_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\Collider_Sphere.cpp" />
