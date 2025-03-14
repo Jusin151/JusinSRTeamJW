@@ -53,10 +53,19 @@ public:
 		m_eOtherType = eOtherType;
 	}
 
+	_float3 Get_MTV() { return m_fMTV; }
+
+	void Set_MTV(_float3 fMTV) { m_fMTV = fMTV; }
+
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
 	_float3					m_fPos = {};
+
+
+	// 최소 이동 벡터, 크기
+	_float3					m_fMTV = {0.f, 0.f, 0.f};
+	_float					m_fDepth = {0.f};
 
 	// 자기 타입 저장 하고
 	// 충돌하면 자기 타입을 상대에게 저장, 상대 타입은 나에게 저장

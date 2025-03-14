@@ -88,10 +88,16 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
+	_float3 fMTV = m_pColliderCom->Get_MTV();
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	switch (m_pColliderCom->Get_Other_Type())
 	{
 	case CG_PLAYER:
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		
+		fPos += fMTV;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		break;
 
 	default:

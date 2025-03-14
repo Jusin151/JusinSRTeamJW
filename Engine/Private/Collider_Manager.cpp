@@ -74,7 +74,7 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 
 bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 {
-	_float3 fDistance = src->Get_State(CTransform::STATE_POSITION) - dst->Get_State(CTransform::STATE_POSITION);
+	_float3 fDir = src->Get_State(CTransform::STATE_POSITION) - dst->Get_State(CTransform::STATE_POSITION);
 
 
 	// 반지름 계산 or 가져와서 이제 처리
@@ -82,10 +82,25 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 	_float fRadiusDst = static_cast<CCollider_Sphere*>(dst)->Get_Radius();
 
 	// 거리 길이
-	_float fLength = fDistance.Length();
+	_float fLengthSq = fDir.LengthSq();
+
+	
 
 	// 중점 사이 거리가 반지름 합보다 작으면 충돌
-	return fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst > fLength * fLength;
+	if (fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst >= fLengthSq)
+	{
+
+		fDir.Normalize();
+		src->Set_MTV(fDir * (sqrtf(fLengthSq) - fRadiusSrc));
+		dst->Set_MTV(-fDir * (sqrtf(fLengthSq) - fRadiusDst));
+
+		return true;
+	}
+	else
+		return false;
+
+	
+	
 }
 
 bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)

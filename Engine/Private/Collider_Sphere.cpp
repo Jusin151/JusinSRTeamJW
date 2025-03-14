@@ -28,7 +28,7 @@ void CCollider_Sphere::Calc_Radius()
 
 	
 
-	m_fRadius = fRadiusVec.Length();
+	m_fRadius = fRadiusVec.Length() ;
 
 }
 
