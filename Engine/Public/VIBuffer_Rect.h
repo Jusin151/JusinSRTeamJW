@@ -20,6 +20,8 @@ public:
 	static CVIBuffer_Rect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
+
+	LPDIRECT3DVERTEXBUFFER9 Get_VertexBuffer() { return m_pVB; }
 };
 
 END

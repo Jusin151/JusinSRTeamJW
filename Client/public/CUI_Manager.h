@@ -51,7 +51,6 @@ public:
         }
         return nullptr;
     }
-
     _float2 GetParent_Pos()
     {
         CUI_Base* pUI = GetUI(L"Parent");

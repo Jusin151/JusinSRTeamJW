@@ -26,6 +26,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
+	void Update_Mp_Bar();
 	virtual HRESULT Render()override;
 
 private:
@@ -44,7 +45,7 @@ public:
 	virtual void Free();
 
 private:
-	_float m_fArmor{};  // 체력
+	_float m_fMp{};  // 체력
 };
 
 
