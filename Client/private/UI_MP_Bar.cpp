@@ -1,4 +1,4 @@
-ï»¿#include "UI_MP_Bar.h"
+ï»¿ç™¤#include "UI_MP_Bar.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -60,7 +60,7 @@ void CUI_MP_Bar::Update(_float fTimeDelta)
 	{
 		m_fMp -= 1.f;
 		if (m_fMp < 0.f)
-			m_fMp = 0.f; // ÃÖ¼Ò ¸¶³ª Á¦ÇÑ
+			m_fMp = 0.f; // ìµœì†Œ ë§ˆë‚˜ ì œí•œ
 
 
 	   Update_Mp_Bar();
@@ -85,11 +85,11 @@ void CUI_MP_Bar::Update_Mp_Bar()
 	VTXPOSTEX* pVertices = nullptr;
 	m_MP_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	//  (¿À¸¥ÂÊºÎÅÍ Á¡Á¡ ¾È º¸ÀÌ°Ô)
-	pVertices[1].vTexcoord.x = fHP_Ratio; // ¿ìÃø »ó´Ü
-	pVertices[2].vTexcoord.x = fHP_Ratio; // ¿ìÃø ÇÏ´Ü
+	//  (ì˜¤ë¥¸ìª½ë¶€í„° ì ì  ì•ˆ ë³´ì´ê²Œ)
+	pVertices[1].vTexcoord.x = fHP_Ratio; // ìš°ì¸¡ ìƒë‹¨
+	pVertices[2].vTexcoord.x = fHP_Ratio; // ìš°ì¸¡ í•˜ë‹¨
 
-	//  Á¤Á¡ À§Ä¡  (¿À¸¥ÂÊºÎÅÍ Á¡Á¡ ÁÙ¾îµé°Ô) 
+	//  ì •ì  ìœ„ì¹˜  (ì˜¤ë¥¸ìª½ë¶€í„° ì ì  ì¤„ì–´ë“¤ê²Œ) 
 	float fNewWidth = m_MP_INFO.vSize.x * fHP_Ratio;
 	pVertices[1].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
 	pVertices[2].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
@@ -158,7 +158,7 @@ CUI_MP_Bar* CUI_MP_Bar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("íƒ„ì•½ UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
+		MSG_BOX("ê¹‚ë¹Ÿ UI ìè¹‚ ê¹®ê½¦ ë–Žë™£ ");
 		Safe_Release(pInstance);
 	}
 
@@ -172,7 +172,7 @@ CGameObject* CUI_MP_Bar::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("íƒ„ì•½ UI ë³µì œ ì‹¤íŒ¨");
+		MSG_BOX("ê¹‚ë¹Ÿ UI è¹‚ë“­ì £ ë–Žë™£");
 		Safe_Release(pInstace);
 	}
 

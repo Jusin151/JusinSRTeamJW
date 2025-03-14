@@ -1,4 +1,4 @@
-#include "TestMonster.h"
+ï»¿#include "TestMonster.h"
 
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
@@ -36,7 +36,7 @@ void CTestMonster::Priority_Update(_float fTimeDelta)
 void CTestMonster::Update(_float fTimeDelta)
 {
 
-	// collider ¿ùµå Çà·Ä µ¿±âÈ­...
+	// collider ì›”ë“œ í–‰ë ¬ ë™ê¸°í™”...
 
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
@@ -49,7 +49,7 @@ void CTestMonster::Update(_float fTimeDelta)
 
 void CTestMonster::Late_Update(_float fTimeDelta)
 {
-	// Ãæµ¹ ÆÇÁ¤
+	// ì¶©ëŒ íŒì •
 	On_Collision(fTimeDelta);
 
 	//if (Find(m_))
@@ -84,7 +84,7 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
@@ -104,7 +104,7 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
+	// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;

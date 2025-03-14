@@ -1,4 +1,4 @@
-ï»¿#include "UI_Bullet_Bar.h"
+ï»¿ç™¤#include "UI_Bullet_Bar.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -61,7 +61,7 @@ void CUI_Bullet_Bar::Update(_float fTimeDelta)
 	{
 		m_fBullet -= 1.f;
 		if (m_fBullet < 0.f)
-			m_fBullet = 0.f; // ÃÖ¼Ò Ã¼·Â Á¦ÇÑ
+			m_fBullet = 0.f; // ìµœì†Œ ì²´ë ¥ ì œí•œ
 
 		Update_Bullet_Bar();
 	}
@@ -85,11 +85,11 @@ void CUI_Bullet_Bar::Update_Bullet_Bar()
 	VTXPOSTEX* pVertices = nullptr;
 	m_Bullet_Bar_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	//  (¿À¸¥ÂÊºÎÅÍ Á¡Á¡ ¾È º¸ÀÌ°Ô)
-	pVertices[1].vTexcoord.x = fHP_Ratio; // ¿ìÃø »ó´Ü
-	pVertices[2].vTexcoord.x = fHP_Ratio; // ¿ìÃø ÇÏ´Ü
+	//  (ì˜¤ë¥¸ìª½ë¶€í„° ì ì  ì•ˆ ë³´ì´ê²Œ)
+	pVertices[1].vTexcoord.x = fHP_Ratio; // ìš°ì¸¡ ìƒë‹¨
+	pVertices[2].vTexcoord.x = fHP_Ratio; // ìš°ì¸¡ í•˜ë‹¨
 
-	//  Á¤Á¡ À§Ä¡  (¿À¸¥ÂÊºÎÅÍ Á¡Á¡ ÁÙ¾îµé°Ô)  ¾ÆÁ÷ ¾È°íÃÆÀ½!!!!!!!!!!
+	//  ì •ì  ìœ„ì¹˜  (ì˜¤ë¥¸ìª½ë¶€í„° ì ì  ì¤„ì–´ë“¤ê²Œ)  ì•„ì§ ì•ˆê³ ì³¤ìŒ!!!!!!!!!!
 	float fNewWidth = m_Bullet_Bar_INFO.vSize.x * fHP_Ratio;
 	pVertices[0].vPosition.x = +0.5f + fNewWidth / m_Bullet_Bar_INFO.vSize.x;
 	pVertices[3].vPosition.x = +0.5f + fNewWidth / m_Bullet_Bar_INFO.vSize.x;
@@ -156,7 +156,7 @@ CUI_Bullet_Bar* CUI_Bullet_Bar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("ì²´ë ¥ë°” UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
+		MSG_BOX("ï§£ëŒ€ì °è«› UI ìè¹‚ ê¹®ê½¦ ë–Žë™£ ");
 		Safe_Release(pInstance);
 	}
 
@@ -170,7 +170,7 @@ CGameObject* CUI_Bullet_Bar::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("ì²´ë ¥ë°” UI ë³µì œ ì‹¤íŒ¨");
+		MSG_BOX("ï§£ëŒ€ì °è«› UI è¹‚ë“­ì £ ë–Žë™£");
 		Safe_Release(pInstace);
 	}
 
