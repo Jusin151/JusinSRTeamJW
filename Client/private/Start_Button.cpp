@@ -32,19 +32,17 @@ HRESULT CStart_Button::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_StartButton_INFO.vSize = { 296.f,32.f };
-	m_StartButton_INFO.fAlpha = 1.0f;
-	m_StartButton_INFO.vPos = { 485.f,64.f };
+	m_vSize ={ 296.f,32.f };
+	m_vPos = { 485.f,64.f };
 
-
-	Set_Position(m_StartButton_INFO.vPos);
-	Set_Size(m_StartButton_INFO.vSize);
+	Set_Position(m_vPos);
+	Set_Size(m_vSize);
 	CUI_Manager::GetInstance()->AddUI(L"Start_Button", this);
 
 
-	m_StartButton_pTransformCom->Set_Scale(m_StartButton_INFO.vSize.x, m_StartButton_INFO.vSize.y, 1.f);
+	m_StartButton_pTransformCom->Set_Scale(m_vSize.x, m_vSize.y, 1.f);
 	m_StartButton_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_StartButton_INFO.vPos.x, m_StartButton_INFO.vPos.y, 0.f));
+		_float3(m_vPos.x, m_vPos.y, 0.f));
 	return S_OK;
 }
 
@@ -53,7 +51,12 @@ void CStart_Button::Priority_Update(_float fTimeDelta)
 }
 void CStart_Button::Update(_float fTimeDelta)
 {
-	
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		if (true == __super::isPick(g_hWnd))
+			int a = 10;
+	}
+
 }
 
 void CStart_Button::Late_Update(_float fTimeDelta)
@@ -114,12 +117,12 @@ HRESULT CStart_Button::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Menu_StartButton"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_StartButton"), reinterpret_cast<CComponent**>(&m_StartButton_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu_StartButton"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_StartButton"), reinterpret_cast<CComponent**>(&m_StartButton_pTransformCom), &tDesc)))
 		return E_FAIL;
 

@@ -97,13 +97,13 @@ HRESULT CUI_Default_Panel::Ready_Components()
 		TEXT("Com_Texture_Default"), reinterpret_cast<CComponent**>(&m_Default_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_PlayerUI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Default"), reinterpret_cast<CComponent**>(&m_Default_pVIBufferCom))))
 		return E_FAIL;
 
  	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Default"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Default"),reinterpret_cast<CComponent**>(&m_Default_pTransformCom),&tDesc)))
  		return E_FAIL;
 

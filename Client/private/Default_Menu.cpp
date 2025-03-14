@@ -30,20 +30,18 @@ HRESULT CDefault_Menu::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	//310 720   484.5f , 0.f
+	m_vSize = { 310.f,720 };
+	m_vPos = { 484.f,0.f };
 
-	m_BackMenu_INFO.vSize = { 310.f,720.f };
-	m_BackMenu_INFO.fAlpha = 1.0f;
-	m_BackMenu_INFO.vPos = { 484.5f,0.f };
-
-
-	Set_Position(m_BackMenu_INFO.vPos);
-	Set_Size(m_BackMenu_INFO.vSize);
+	Set_Position(m_vPos);
+	Set_Size(m_vSize);
 	CUI_Manager::GetInstance()->AddUI(L"Default_Menu", this);
 
 
-	m_BackMenu_pTransformCom->Set_Scale(m_BackMenu_INFO.vSize.x, m_BackMenu_INFO.vSize.y, 1.f);
+	m_BackMenu_pTransformCom->Set_Scale(m_vSize.x, m_vSize.y, 1.f);
 	m_BackMenu_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_BackMenu_INFO.vPos.x, m_BackMenu_INFO.vPos.y, 0.f));
+		_float3(m_vPos.x, m_vPos.y, 0.f));
 	return S_OK;
 }
 
@@ -53,6 +51,12 @@ void CDefault_Menu::Priority_Update(_float fTimeDelta)
 
 void CDefault_Menu::Update(_float fTimeDelta)
 {
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		if (true == __super::isPick(g_hWnd))
+			int a = 10;
+	}
+	   
 }
 
 void CDefault_Menu::Late_Update(_float fTimeDelta)
@@ -104,12 +108,12 @@ HRESULT CDefault_Menu::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_VIBuffer_Rect_Menu"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Transform_Menu"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pTransformCom), &tDesc)))
 		return E_FAIL;
 

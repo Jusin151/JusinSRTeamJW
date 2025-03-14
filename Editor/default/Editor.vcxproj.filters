@@ -42,5 +42,6 @@
     <ClCompile Include="Editor.cpp">
       <Filter>98.Default</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\tool.cpp" />
   </ItemGroup>
 </Project>

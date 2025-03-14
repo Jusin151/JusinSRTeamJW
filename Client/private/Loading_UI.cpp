@@ -104,12 +104,12 @@ HRESULT CLoading_UI::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_LOADING, TEXT("Prototype_Component_VIBuffer_Loading_UI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Loading"), reinterpret_cast<CComponent**>(&m_Loading_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_LOADING, TEXT("Prototype_Component_Transform_Loading_UI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_Loading"), reinterpret_cast<CComponent**>(&m_Loading_pTransformCom), &tDesc)))
 		return E_FAIL;
 

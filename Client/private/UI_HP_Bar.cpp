@@ -147,12 +147,12 @@ HRESULT CUI_HP_Bar::Ready_Components()
 		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_HP_Bar_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Hp_Bar"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_HP"), reinterpret_cast<CComponent**>(&m_HP_Bar_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Transform_Hp_Bar"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform_HP"), reinterpret_cast<CComponent**>(&m_HP_Bar_pTransformCom), &tDesc)))
 		return E_FAIL;
 
