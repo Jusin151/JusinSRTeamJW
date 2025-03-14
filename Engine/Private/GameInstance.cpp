@@ -56,7 +56,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollider_Manager)
 		return E_FAIL;
 
-	m_pMyImGui = CMyImGui::Create(EngineDesc.hWnd, *ppOut);
+	m_pMyImGui = CMyImGui::Create(EngineDesc.hWnd, m_pGraphic_Device);
 	if (nullptr == m_pMyImGui)
 		return E_FAIL;
 

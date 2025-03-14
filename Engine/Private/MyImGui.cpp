@@ -1,7 +1,8 @@
 ﻿#include "MyImGui.h"
 #include "GameInstance.h"
+#include "Graphic_Device.h"
 
-CMyImGui::CMyImGui(LPDIRECT3DDEVICE9 pGraphic_Device)
+CMyImGui::CMyImGui(CGraphic_Device* pGraphic_Device)
 	: m_pGraphic_Device{pGraphic_Device}
 	, m_pGameInstance{CGameInstance::Get_Instance()}
 {
@@ -9,7 +10,7 @@ CMyImGui::CMyImGui(LPDIRECT3DDEVICE9 pGraphic_Device)
 	Safe_AddRef(m_pGraphic_Device);
 }
 
-HRESULT CMyImGui::Initialize(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device)
+HRESULT CMyImGui::Initialize(HWND hWnd, CGraphic_Device* pGraphic_Device)
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -24,7 +25,7 @@ HRESULT CMyImGui::Initialize(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(hWnd);
-	ImGui_ImplDX9_Init(pGraphic_Device);
+	ImGui_ImplDX9_Init(m_pGraphic_Device->m_pDevice);
 	return S_OK;
 }
 
@@ -52,14 +53,24 @@ void CMyImGui::Update(_float fTimeDelta)
         ImGui::Checkbox("Another Window", &show_another_window);
 
         ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
         ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
         if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
+            m_pGraphic_Device->ChangeClearColor(clear_color);
+            //counter++;
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+        ImGui::End();
+    }
+
+    {
+        static float f = 0.0f;
+        ImGui::Begin("Another Window", &show_another_window);
+
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
         ImGui::End();
     }
 
@@ -77,9 +88,9 @@ void CMyImGui::Update(_float fTimeDelta)
 
 HRESULT CMyImGui::Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    m_pGraphic_Device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+    m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+    m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
     D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
     //m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
     ImGui::Render();
@@ -90,7 +101,7 @@ HRESULT CMyImGui::Render()
 	return S_OK;
 }
 
-CMyImGui* CMyImGui::Create(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device)
+CMyImGui* CMyImGui::Create(HWND hWnd, CGraphic_Device* pGraphic_Device)
 {
 	CMyImGui* pInstance = new CMyImGui(pGraphic_Device);
 

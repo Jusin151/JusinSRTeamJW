@@ -22,8 +22,12 @@ public:
 	HRESULT Draw();	
 	void Clear(_uint iLevelIndex);
 
-#pragma region LEVEL_MANAGER
+
+
+
+
 public:
+#pragma region LEVEL_MANAGER
 	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
 #pragma endregion
 
