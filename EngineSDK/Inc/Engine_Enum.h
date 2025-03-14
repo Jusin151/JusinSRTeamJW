@@ -1,9 +1,0 @@
-﻿#pragma once
-
-namespace Engine
-{
-	enum class PROTOTYPE { TYPE_GAMEOBJECT, TYPE_COMPONENT };
-
-	typedef enum COLLIDERGROUP { CG_PLAYER, CG_MONSTER, CG_WEAPON, CG_PLAYER_PROJECTILE, CG_MONSTER_PROJECTILE, CG_UI, CG_END } ColliderGroup;
-	
-}
