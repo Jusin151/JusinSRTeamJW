@@ -123,8 +123,6 @@ HRESULT CBackGround::Render()
 			return E_FAIL;
 	}
 
-	__super::End();
-
 
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

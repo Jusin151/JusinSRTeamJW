@@ -100,6 +100,33 @@
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
       <Filter>04.Components\VIBuffer\Cube</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MyImGui.h">
+      <Filter>96.IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imconfig.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imgui.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imgui_internal.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imstb_rectpack.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imstb_textedit.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\imstb_truetype.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h">
+      <Filter>External Libraries\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.h">
+      <Filter>External Libraries\backends</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -210,6 +237,15 @@
     <Filter Include="04.Components\Collider\Cube">
       <UniqueIdentifier>{f4f0ca3b-4ab7-45ad-b3b1-22e1ba7ffe94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96.IMGUI">
+      <UniqueIdentifier>{104b3209-c440-49aa-bae4-a246a5ec17a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Libraries">
+      <UniqueIdentifier>{68ad895a-af32-463a-9982-ad93752911e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Libraries\backends">
+      <UniqueIdentifier>{c7b09e30-225f-42f8-ae2c-21ef11971e41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -289,6 +325,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
       <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MyImGui.cpp">
+      <Filter>96.IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui.cpp">
+      <Filter>External Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp">
+      <Filter>External Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_draw.cpp">
+      <Filter>External Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_tables.cpp">
+      <Filter>External Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\imgui_widgets.cpp">
+      <Filter>External Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.cpp">
+      <Filter>External Libraries\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>External Libraries\backends</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

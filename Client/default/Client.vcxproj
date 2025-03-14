@@ -152,14 +152,6 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\imconfig.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\imgui.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\imgui_internal.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\..\External Libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -192,21 +184,12 @@
     <ClInclude Include="..\Public\UI_Spell_Shop.h" />
     <ClInclude Include="..\Public\UI_Upgrade_Weapon.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="Client_Imgui.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="MyImGui.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.cpp" />
-    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\..\External Libraries\imgui\imgui.cpp" />
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
@@ -234,7 +217,6 @@
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Upgrade_Weapon.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="MyImGui.cpp" />
     <ClCompile Include="MainApp.cpp" />
   </ItemGroup>
   <ItemGroup>

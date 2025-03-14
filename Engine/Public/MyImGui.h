@@ -2,6 +2,9 @@
 
 #include "Base.h"
 
+
+BEGIN(Engine)
+
 class CMyImGui final : public CBase
 {
 private:
@@ -20,3 +23,5 @@ public:
 	static CMyImGui* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	void Free();
 };
+
+END

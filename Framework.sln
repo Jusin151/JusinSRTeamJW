@@ -7,12 +7,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\default\Cl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Default\Engine.vcxproj", "{F1E84DF0-FB5C-4055-B88B-E4F64C8E3462}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71683B6D-FDEF-420A-9C83-E91DDEA59D04}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\default\Editor.vcxproj", "{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

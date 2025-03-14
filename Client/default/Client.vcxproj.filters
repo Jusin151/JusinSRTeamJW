@@ -85,15 +85,6 @@
     <Filter Include="02.GameObjects\UI\Loading">
       <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="External Libraries">
-      <UniqueIdentifier>{58e25ebd-6fea-4455-a80e-80edacce78a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External Libraries\imgui">
-      <UniqueIdentifier>{b21a2869-3582-45c2-87f2-9b52b45297d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External Libraries\imgui\backends">
-      <UniqueIdentifier>{dd6f2ce8-7ae3-488e-b209-a054f16bd331}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display">
       <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
     </Filter>
@@ -111,9 +102,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Player">
       <UniqueIdentifier>{16d06422-a5ba-4e2c-af8a-628d2d2a5dc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IMGUI">
-      <UniqueIdentifier>{d39d9e3e-8887-44cf-b008-93ae6a2e05d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\00.HP">
       <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
@@ -216,33 +204,6 @@
     <ClInclude Include="..\Public\Loading_UI.h">
       <Filter>02.GameObjects\UI\Loading</Filter>
     </ClInclude>
-    <ClInclude Include="Client_Imgui.h">
-      <Filter>99.Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h">
-      <Filter>External Libraries\imgui\backends</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.h">
-      <Filter>External Libraries\imgui\backends</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\imgui_internal.h">
-      <Filter>External Libraries\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\imstb_rectpack.h">
-      <Filter>External Libraries\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\imstb_textedit.h">
-      <Filter>External Libraries\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\imstb_truetype.h">
-      <Filter>External Libraries\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\imconfig.h">
-      <Filter>External Libraries\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\External Libraries\imgui\imgui.h">
-      <Filter>External Libraries\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Default_Menu.h">
       <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Default_Menu</Filter>
     </ClInclude>
@@ -263,9 +224,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="MyImGui.h">
-      <Filter>IMGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_MP_Bar.h">
       <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
@@ -330,27 +288,6 @@
     <ClCompile Include="..\Private\Start_Button.cpp">
       <Filter>02.GameObjects\UI\Logo_UI\MainMenu\Start_Button</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.cpp">
-      <Filter>External Libraries\imgui\backends</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.cpp">
-      <Filter>External Libraries\imgui\backends</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_tables.cpp">
-      <Filter>External Libraries\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_widgets.cpp">
-      <Filter>External Libraries\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_draw.cpp">
-      <Filter>External Libraries\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\imgui.cpp">
-      <Filter>External Libraries\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\External Libraries\imgui\imgui_demo.cpp">
-      <Filter>External Libraries\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
     </ClCompile>
@@ -383,9 +320,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="MyImGui.cpp">
-      <Filter>IMGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_MP_Bar.cpp">
       <Filter>02.GameObjects\UI\GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
