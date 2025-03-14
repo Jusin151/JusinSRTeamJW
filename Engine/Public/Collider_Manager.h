@@ -24,7 +24,7 @@ public:
 
 	// 추가. gameinstance에 등록해서 오브젝트에서 추가. collider에서 하면 오브젝트가 삭제되면 좀 그럴듯?
 	HRESULT Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider);
-
+	vector<list<CCollider*>> Get_Colliders()  { return m_pColliders; }
 
 	// update 후에 등록된 모든 collider를 삭제
 	void Clear();

@@ -16,7 +16,7 @@ private:
 public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
-	HRESULT Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex,const _wstring& strLayerTag); // 풀 매니저에서 뽑아쓸 때 쓰는 add
+	HRESULT Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex,const _wstring& strLayerTag,void* pArg = nullptr); // 풀 매니저에서 뽑아쓸 때 쓰는 add
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);

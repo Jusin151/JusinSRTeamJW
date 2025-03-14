@@ -7,15 +7,26 @@ CPool_Manager::CPool_Manager() : m_pGameInstance{ CGameInstance::Get_Instance() 
 	Safe_AddRef(m_pGameInstance);
 }
 
-CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag)
+CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	auto& objQueue = m_Pools[iPrototypeLevelIndex][strLayerTag];
 
 	if (objQueue.empty()) // 비어있다면 생성해서 반환
 	{
-		if (FAILED(Reserve_Pool(iPrototypeLevelIndex, m_InitArgMap[strLayerTag].first, strLayerTag, 1, m_InitArgMap[strLayerTag].second)))
+		if (pArg == nullptr)
 		{
-			return nullptr;
+
+			if (FAILED(Reserve_Pool(iPrototypeLevelIndex, m_InitArgMap[strLayerTag].first, strLayerTag, 1, m_InitArgMap[strLayerTag].second)))
+			{
+				return nullptr;
+			}
+		}
+		else
+		{
+			if (FAILED(Reserve_Pool(iPrototypeLevelIndex, m_InitArgMap[strLayerTag].first, strLayerTag, 1, pArg)))
+			{
+				return nullptr;
+			}
 		}
 	}
 
@@ -49,7 +60,7 @@ HRESULT CPool_Manager::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& 
 			pGameObject->Set_Tag(strLayerTag);
 			pGameObject->Set_FromPool(true);
 			m_Pools[iPrototypeLevelIndex][strLayerTag].push(pGameObject);
-	
+
 			if (pArg)
 			{
 				m_InitArgMap[strLayerTag] = { strPrototypeTag, pArg };

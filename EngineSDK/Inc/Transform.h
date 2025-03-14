@@ -17,6 +17,7 @@ public:
 	{
 		_float		fSpeedPerSec;
 		_float		fRotationPerSec;
+		_float3     vPos;
 	}TRANSFORM_DESC;
 private:
 	CTransform(LPDIRECT3DDEVICE9 pGraphic_Device);

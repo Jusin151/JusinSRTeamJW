@@ -127,6 +127,9 @@
     <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.h">
       <Filter>External Libraries\backends</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PickingSys.h">
+      <Filter>10. Picking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -246,6 +249,9 @@
     <Filter Include="External Libraries\backends">
       <UniqueIdentifier>{c7b09e30-225f-42f8-ae2c-21ef11971e41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10. Picking">
+      <UniqueIdentifier>{71cd9abe-a4bb-401d-8d94-53e482f059ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -349,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="..\..\External Libraries\imgui\backends\imgui_impl_win32.cpp">
       <Filter>External Libraries\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PickingSys.cpp">
+      <Filter>10. Picking</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

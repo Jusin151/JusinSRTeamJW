@@ -11,7 +11,7 @@ private:
 
 public:
 	// Ǯ���� �̾ư� �� ����
-	class CGameObject* Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag);
+	class CGameObject* Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag,void* pArg = nullptr);
 
 	// 풀에 객체 반환하기
 	HRESULT Return_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject);
