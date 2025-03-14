@@ -9,6 +9,7 @@
 #include "Object_Manager.h"
 #include "Collider_Manager.h"
 #include "Prototype_Manager.h"
+#include "MyImgui.h"
 
 
 IMPLEMENT_SINGLETON(CGameInstance);
@@ -55,6 +56,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollider_Manager)
 		return E_FAIL;
 
+	m_pMyImGui = CMyImGui::Create(EngineDesc.hWnd, *ppOut);
+	if (nullptr == m_pMyImGui)
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -70,6 +75,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pMyImGui->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Draw()
@@ -82,6 +89,8 @@ HRESULT CGameInstance::Draw()
 	m_pRenderer->Draw();
 
 	m_pLevel_Manager->Render();
+
+	m_pMyImGui->Render();
 
 	m_pGraphic_Device->Render_End();
 
@@ -191,6 +200,8 @@ HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
 
 void CGameInstance::Release_Engine()
 {
+
+	Safe_Release(m_pMyImGui);
 
 	Safe_Release(m_pTimer_Manager);
 

@@ -1,4 +1,4 @@
-﻿癤#include "UI_Bullet_Bar.h"
+﻿#include "UI_Bullet_Bar.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 

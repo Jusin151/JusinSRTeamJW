@@ -8,7 +8,6 @@
 
 BEGIN(Engine)
 
-
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -67,6 +66,9 @@ public:
 
 #pragma endregion
 
+#pragma region IMGUI
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -76,8 +78,8 @@ private:
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
-
-	class CCollider_Manager*		m_pCollider_Manager = { nullptr };
+	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
+	class CMyImGui*				m_pMyImGui = { nullptr };
 public:
 	void Release_Engine();
 	virtual void Free() override;
