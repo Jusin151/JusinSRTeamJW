@@ -171,11 +171,11 @@ HRESULT CLoader::Add_To_Logo_Menu_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_StartButton"),
-		CStart_Button::Create(m_pGraphic_Device))))
+		CButton_Base::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_ExitButton"),
-		CExit_Button::Create(m_pGraphic_Device))))
+		CButton_Base::Create(m_pGraphic_Device)))) 
 		return E_FAIL;
 
 	return S_OK;

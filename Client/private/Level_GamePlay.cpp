@@ -104,6 +104,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 		LEVEL_GAMEPLAY, TEXT("Layer_Upgrade_Weapon_1"), &Upgrade_Weapon)))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 

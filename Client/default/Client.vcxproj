@@ -153,6 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\public\Button_Base.h" />
+    <ClInclude Include="..\Public\Button_Episode.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
@@ -170,13 +172,11 @@
     <ClInclude Include="..\public\CUI_Manager.h" />
     <ClInclude Include="..\public\UI_Menu.h" />
     <ClInclude Include="..\public\CUI_WeaponIcon.h" />
-    <ClInclude Include="..\Public\Exit_Button.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\Public\Loading_UI.h" />
-    <ClInclude Include="..\Public\Start_Button.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\UI_Default_Panel.h" />
@@ -193,6 +193,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\Button_Base.cpp" />
+    <ClCompile Include="..\Private\Button_Episode.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Episode.cpp" />
@@ -203,13 +205,11 @@
     <ClCompile Include="..\private\CUI_AmmoDisplay.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />
     <ClCompile Include="..\private\Default_Menu.cpp" />
-    <ClCompile Include="..\private\Exit_Button.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Loading_UI.cpp" />
-    <ClCompile Include="..\Private\Start_Button.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
     <ClCompile Include="..\private\UI_Bullet_Bar.cpp" />
