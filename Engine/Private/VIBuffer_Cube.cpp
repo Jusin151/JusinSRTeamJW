@@ -31,30 +31,30 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	// 앞
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	// 앞면 (z = -0.5)
+	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
-	pVertices[2].vTexcoord = _float2(1.f, 1.f);		
+	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
+	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
-	
-	// 뒷면 (법선: (0, 0, 1))
-	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 1.f);
+
+	// 뒷면 (z = 0.5)
+	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[4].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[5].vPosition = _float3(0.5f, 0.5f, 1.f);
+	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[5].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[6].vPosition = _float3(0.5f, -0.5f, 1.f);
+	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[6].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 1.f);
+	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float2(0.f, 1.f);
 
 
