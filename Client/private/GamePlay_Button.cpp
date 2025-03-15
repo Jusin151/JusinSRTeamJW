@@ -1,6 +1,7 @@
 ﻿#include "GamePlay_Button.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
+#include "UI_Episode.h"
 
 CGamePlay_Button::CGamePlay_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
@@ -27,6 +28,10 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		m_Button_INFO = *reinterpret_cast<GamePlayer_Button_Desc*>(pArg);
+		if (m_Button_INFO.strUIName != L"Level_1_Display")
+		{
+			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetEpisode_Display_Pos();
+		}
 		Set_Position(m_Button_INFO.Button_Desc.vPos);
 		Set_Size(m_Button_INFO.Button_Desc.vSize);
 		CUI_Manager::GetInstance()->AddUI(m_Button_INFO.strUIName, this);
@@ -39,7 +44,7 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 
 	m_GamePlayer_Button_pTransformCom->Set_Scale(m_Button_INFO.Button_Desc.vSize.x, m_Button_INFO.Button_Desc.vSize.y, 1.f);
 	m_GamePlayer_Button_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_Button_INFO.Button_Desc.vPos.x, m_Button_INFO.Button_Desc.vPos.y, 0.f));
+		_float3(m_Button_INFO.Button_Desc.vPos.x, m_Button_INFO.Button_Desc.vPos.y, 0.1f));
 	return S_OK;
 }
 
@@ -49,22 +54,55 @@ void CGamePlay_Button::Priority_Update(_float fTimeDelta)
 
 void CGamePlay_Button::Update(_float fTimeDelta)
 {
-	switch (m_Button_INFO.Button_type)
+	if (!m_Button_INFO.bDisplay_On)
 	{
-	case Episode:
-		Episode_Display_Button();
-		break;
-	case Point_Shop:
-		Point_Shop_Display_Button();
-		break;
-	case Spell_Shop:
-		Spell_Shop_Display_Button();
-		break;
-	case Upgrade_Weapon:
-		Upgrade_Weapon_Display_Button();
-		break;
-	default:
-		break;
+		if (GetKeyState('3') & 0x8000)
+		{
+			if (!m_bKeyPressed)
+			{
+				m_bIsVisible = !m_bIsVisible;
+				m_bKeyPressed = true;
+			}
+		}
+		else
+		{
+			m_bKeyPressed = false;
+
+		}
+		switch (m_Button_INFO.Button_type)
+		{
+		case Episode:
+			Episode_Display_Button();
+			break;
+		case Point_Shop:
+			Point_Shop_Display_Button();
+			break;
+		case Spell_Shop:
+			Spell_Shop_Display_Button();
+			break;
+		case Upgrade_Weapon:
+			Upgrade_Weapon_Display_Button();
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		Current_Image = Episode_Display;
+		if (GetKeyState('3') & 0x8000)
+		{
+			if (!m_bKeyPressed)
+			{
+				m_bIsVisible = !m_bIsVisible;
+				m_bKeyPressed = true;			
+			}	
+		}
+		else
+		{
+			m_bKeyPressed = false;
+			
+		}
 	}
 
 }
@@ -72,12 +110,17 @@ void CGamePlay_Button::Update(_float fTimeDelta)
 
 void CGamePlay_Button::Late_Update(_float fTimeDelta)
 {
+	
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
 HRESULT CGamePlay_Button::Render()
 {
+	if (!m_bIsVisible) 
+		return S_OK;
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -115,47 +158,133 @@ HRESULT CGamePlay_Button::Render()
 
 void CGamePlay_Button::Episode_Display_Button()
 {
-	if (m_Button_INFO.bLevel_Icon_Button_Flag == true)
+	
+	if (m_Button_INFO.bLevel_Icon_Button_Flag)
 	{
-		if (true == isPick(g_hWnd))
-			Current_Image = Level_ICon_Selected;
-		else
-			Current_Image = Level_ICon_Defaul;
+		if (!m_bChange_Click)
+		{
+			if (true == isPick(g_hWnd))
+			{
+				
+				Current_Image = Level_ICon_Selected;
+			}
+			else
+				Current_Image = Level_ICon_Defaul;
+		}
+		
 	}
-	if (m_Button_INFO.bLevel_01_Stage_Button_Flag == true)
+	if (m_Button_INFO.bLevel_01_Stage_Button_Flag) // 1레벨의 1스테이지는 기본적으로 열려있음 그래서 회색이 없음
 	{
-		if (true == isPick(g_hWnd))
-			Current_Image = Stage_01_Default;
-		else
-			Current_Image = Stage_01_Default;
+		if (!m_bChange_Click)
+		{
+			if (true == isPick(g_hWnd))
+			{
+				Current_Image = Stage_01_Color_Selected;
+			}
+			else
+				Current_Image = Stage_01_Color_Default;
+		}
+		
 	}
-	if (m_Button_INFO.bLevel_02_Stage_Button_Flag == true)
+	if (m_Button_INFO.bLevel_02_Stage_Button_Flag) // 1레벨의 2스테이지
 	{
-		if (true == isPick(g_hWnd))
-			Current_Image = Stage_02_Selected;
+		if (!m_bChange_Click)
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_LBUTTON) & 0x8000)
+					m_bChange_Click = true;
+				Current_Image = Stage_02_Gray_Selected;
+			}
+			else
+				Current_Image = Stage_02_Gray_Default;
+		}
 		else
-			Current_Image = Stage_02_Default;
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_RBUTTON) & 0x8000)
+					m_bChange_Click = false;
+				Current_Image = Stage_02_Color_Selected;
+			}
+			else
+				Current_Image = Stage_02_Color_Default;
+		}
 	}
-	if (m_Button_INFO.bLevel_03_Stage_Button_Flag == true)
+	if (m_Button_INFO.bLevel_03_Stage_Button_Flag) // 1레벨의 3스테이지
 	{
-		if (true == isPick(g_hWnd))
-			Current_Image = Stage_03_Selected;
+		if (!m_bChange_Click)
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_LBUTTON) & 0x8000)
+					m_bChange_Click = true;
+				Current_Image = Stage_03_Gray_Selected;
+			}
+			else
+				Current_Image = Stage_03_Gray_Default;
+		}
 		else
-			Current_Image = Stage_03_Default;
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_RBUTTON) & 0x8000)
+					m_bChange_Click = false;
+				Current_Image = Stage_03_Color_Selected;
+			}
+			else
+				Current_Image = Stage_03_Color_Default;
+		}
 	}
-	if (m_Button_INFO.bLevel_04_Stage_Button_Flag == true)
+	if (m_Button_INFO.bLevel_04_Stage_Button_Flag) // 1레벨의 4스테이지
 	{
-		if (true == isPick(g_hWnd))
-			Current_Image = Stage_04_Selected;
+		if (!m_bChange_Click)
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_LBUTTON) & 0x8000)
+					m_bChange_Click = true;
+				Current_Image = Stage_04_Gray_Selected;
+			}
+			else
+				Current_Image = Stage_04_Gray_Default;
+		}
 		else
-			Current_Image = Stage_04_Default;
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_RBUTTON) & 0x8000)
+					m_bChange_Click = false;
+				Current_Image = Stage_04_Color_Selected;
+			}
+			else
+				Current_Image = Stage_04_Color_Default;
+		}
 	}
-	if (m_Button_INFO.bLevel_05_Stage_Button_Flag == true)
+	if (m_Button_INFO.bLevel_05_Stage_Button_Flag) // 1레벨의 5스테이지
 	{
-		if (true == isPick(g_hWnd))
-			Current_Image = Stage_05_Selected;
+		if (!m_bChange_Click)
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_LBUTTON) & 0x8000)
+					m_bChange_Click = true;
+				Current_Image = Stage_05_Gray_Selected;
+			}
+			else
+				Current_Image = Stage_05_Gray_Default;
+		}
 		else
-			Current_Image = Stage_05_Default;
+		{
+			if (true == isPick(g_hWnd))
+			{
+				if (GetKeyState(VK_RBUTTON) & 0x8000)
+					m_bChange_Click = false;
+				Current_Image = Stage_05_Color_Selected;
+			}
+			else
+				Current_Image = Stage_05_Color_Default;
+		}
 	}
 
 }

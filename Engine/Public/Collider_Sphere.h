@@ -16,9 +16,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
-	
-
+	virtual HRESULT Render() override;
 	_float Get_Radius() { return m_fRadius; }
 	void   Set_Radius(_float fRadius) { m_fRadius = fRadius; }
 

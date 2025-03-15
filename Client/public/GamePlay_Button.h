@@ -21,12 +21,13 @@ public:
     };
     enum Level_01_Type // 이 버튼은 어느 이미지를 사용할것인지
     {
-        Stage_01_Default=0,
-        Stage_02_Default,Stage_02_Selected,
-        Stage_03_Default,Stage_03_Selected,
-        Stage_04_Default,Stage_04_Selected,
-        Stage_05_Default,Stage_05_Selected,
-        Level_ICon_Defaul,Level_ICon_Selected,
+        Level_ICon_Defaul, Level_ICon_Selected,
+        Stage_01_Color_Default, Stage_01_Color_Selected,
+        Stage_02_Gray_Default, Stage_02_Gray_Selected, Stage_02_Color_Default, Stage_02_Color_Selected,
+        Stage_03_Gray_Default, Stage_03_Gray_Selected, Stage_03_Color_Default, Stage_03_Color_Selected,
+        Stage_04_Gray_Default, Stage_04_Gray_Selected, Stage_04_Color_Default, Stage_04_Color_Selected,
+        Stage_05_Gray_Default, Stage_05_Gray_Selected, Stage_05_Color_Default, Stage_05_Color_Selected,
+        Episode_Display
     };
     typedef struct tagButton
     {
@@ -41,6 +42,7 @@ public:
         _bool bLevel_03_Stage_Button_Flag{};
         _bool bLevel_04_Stage_Button_Flag{};
         _bool bLevel_05_Stage_Button_Flag{};
+        _bool bDisplay_On{};
 
     }GamePlayer_Button_Desc;
 
@@ -111,15 +113,15 @@ public:
 private:
     Level_01_Type Current_Image{};
 private:
-    bool m_bIsVisible = {};
-    bool m_bKeyPressed = {};
+    bool m_bChange_Click{};
+    _bool m_bIsVisible = {};
+    _bool m_bKeyPressed = {};
+    _bool m_bOpen_Display = {};
 private:
-    _bool m_bEpisode_Display{};
     _bool m_bPoint_Shop_Display{};
     _bool m_bSpell_Shop_Display{};
     _bool m_Upgrade_UI_Display{};
+ public:
+   
 };
-
-
 END
-
