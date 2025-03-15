@@ -108,6 +108,16 @@ namespace Engine
 			return D3DXVec3Length(&tmpVector);
 		}
 
+		/// <summary>
+	/// x->y->z 순으로 비교하면서 다른 값이 나오면 그거 기준으로 정렬
+	/// </summary>
+		bool operator<(const tagVector3& other) const
+		{
+			if (x != other.x) return x < other.x;
+			if (y != other.y) return y < other.y;
+			return z < other.z;
+		}
+
 		static tagVector3 Zero() { return tagVector3(0.0f, 0.0f, 0.0f); }
 		static tagVector3 One() { return tagVector3(1.0f, 1.0f, 1.0f); }
 		static tagVector3 Up() { return tagVector3(0.0f, 1.0f, 0.0f); }

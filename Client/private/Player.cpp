@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
+#include "Collider_Cube.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -56,7 +57,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
-
+	m_pColliderCom->Update_Desc();
 	
 
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
@@ -167,8 +168,8 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Collider_Sphere */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
 		return E_FAIL;
 
 	return S_OK;

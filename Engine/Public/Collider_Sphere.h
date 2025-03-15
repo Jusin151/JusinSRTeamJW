@@ -24,7 +24,7 @@ public:
 
 private:
 	// 반지름
-	_float m_fRadius = {-1.f};
+	_float m_fRadius = {1.f};
 	
 
 public:

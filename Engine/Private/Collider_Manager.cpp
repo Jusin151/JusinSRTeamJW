@@ -1,6 +1,7 @@
 ﻿#include "Collider_Manager.h"
 #include "Collider.h"
 #include "Collider_Sphere.h"
+#include "Collider_Cube.h"
 
 
 
@@ -69,7 +70,23 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 
 void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollider*> dst)
 {
-	
+	if (src.empty() || dst.empty())
+		return;
+
+	for (auto& srcEntry : src)
+	{
+		for (auto& dstEntry : dst)
+		{
+			if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+			{
+				// 충돌한 collider의 타입을 기록함
+				// 이제 object lateupdate에서 판정해서 타입별로 충돌 처리 하도록
+				srcEntry->Set_Other_Type(dstEntry->Get_Type());
+				dstEntry->Set_Other_Type(srcEntry->Get_Type());
+
+			}
+		}
+	}
 }
 
 bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
@@ -81,15 +98,13 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 	_float fRadiusSrc = static_cast<CCollider_Sphere*>(src)->Get_Radius();
 	_float fRadiusDst = static_cast<CCollider_Sphere*>(dst)->Get_Radius();
 
-	// �Ÿ� ����
 	_float fLengthSq = fDir.LengthSq();
 
 	
-
-	// ���� ���� �Ÿ��� ������ �պ��� ������ �浹
+	// 반지름 합보다 길이 합이 짧으면 충돌
 	if (fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst >= fLengthSq)
 	{
-
+		
 		fDir.Normalize();
 		src->Set_MTV(fDir * (sqrtf(fLengthSq) - fRadiusSrc));
 		dst->Set_MTV(-fDir * (sqrtf(fLengthSq) - fRadiusDst));
@@ -105,11 +120,153 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 
 bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 {
-	return false;
+	
+	
+	if (Check_Cube_Distance(src, dst))
+		return false;
+
+	
+	if (Calc_Basic_Axes_Dot(src, dst))
+		return false;
+
+	if (Calc_AddOn_Axes_Dot(src, dst))
+		return false;
+
+
+	// 모든 계산이 끝나면 다시 사용하기 위해 set을 초기화
+	setAxes.clear();
+
+	return true;
 }
 
 bool CCollider_Manager::Calc_Cube_To_Sphere(CCollider* src, CCollider* dst)
 {
+	return false;
+}
+
+bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
+{
+	// 큐브 큐브 사이 거리가, 큐브와 큐브를 외접하는 두 구의 반지름 합보다 길면 true
+	// 아니면 false
+
+	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+
+
+	return srcDesc.fRadius + dstDesc.fRadius < srcDesc.fPos.Distance(dstDesc.fPos);
+}
+
+bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
+{
+	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+
+	setAxes.clear();
+
+	// 범위 계산
+	setAxes.insert(srcDesc.fAxisX.GetNormalized());
+	setAxes.insert(srcDesc.fAxisY.GetNormalized());
+	setAxes.insert(srcDesc.fAxisZ.GetNormalized());
+	setAxes.insert(dstDesc.fAxisX.GetNormalized());
+	setAxes.insert(dstDesc.fAxisY.GetNormalized());
+	setAxes.insert(dstDesc.fAxisZ.GetNormalized());
+	
+
+	for (auto& axis : setAxes)
+	{
+		_float fSrcMin{FLT_MAX}, fDstMin{FLT_MAX}, fSrcMax{FLT_MIN}, fDstMax{FLT_MIN};
+		
+
+		for (auto& p : srcDesc.vecIndices)
+		{
+			_float proj = p.Dot(axis);
+			fSrcMin = min(fSrcMin, proj);
+			fSrcMax = max(fSrcMax, proj);
+		}
+
+		for (auto& p : dstDesc.vecIndices)
+		{
+			_float proj = p.Dot(axis);
+			fDstMin = min(fDstMin, proj);
+			fDstMax = max(fDstMax, proj);
+		}
+
+		if ((fSrcMax < fDstMin || fDstMax < fSrcMin)) // 범위가 안겹치면 충돌 안함
+			return true;
+	}
+	
+	return false;
+}
+
+void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
+{
+	// 일단 추가만 해놓고 로직 좀 깔끔하게 수정 예정...
+	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+
+	_float3 srcAxisX = srcDesc.fAxisX.GetNormalized();
+	_float3 srcAxisY = srcDesc.fAxisY.GetNormalized();
+	_float3 srcAxisZ = srcDesc.fAxisZ.GetNormalized();
+
+	_float3 dstAxisX = dstDesc.fAxisX.GetNormalized();
+	_float3 dstAxisY = dstDesc.fAxisY.GetNormalized();
+	_float3 dstAxisZ = dstDesc.fAxisZ.GetNormalized();
+
+	vector<_float3> tempAxes;
+
+	// 외적 값 일단 저장
+	tempAxes.push_back(srcAxisX.Cross(dstAxisX));
+	tempAxes.push_back(srcAxisX.Cross(dstAxisY));
+	tempAxes.push_back(srcAxisX.Cross(dstAxisZ));
+
+	tempAxes.push_back(srcAxisY.Cross(dstAxisX));
+	tempAxes.push_back(srcAxisY.Cross(dstAxisY));
+	tempAxes.push_back(srcAxisY.Cross(dstAxisZ));
+
+	tempAxes.push_back(srcAxisZ.Cross(dstAxisX));
+	tempAxes.push_back(srcAxisZ.Cross(dstAxisY));
+	tempAxes.push_back(srcAxisZ.Cross(dstAxisZ));
+	
+	
+	for (auto& axis : tempAxes)
+	{
+		// 크기가 0(평행)이거나 같은 방향이 있거나, 반대 방향이 있으면 추가 안하고 없으면 추가
+		if (axis.LengthSq() != 0 && setAxes.find(axis) == setAxes.end() && setAxes.find(-axis) == setAxes.end())
+			setAxes.insert(axis);
+	}
+
+}
+
+bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
+{
+	Calc_Cross_Axes(src, dst);
+
+	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+
+	for (auto& axis : setAxes)
+	{
+		_float fSrcMin{ FLT_MAX }, fDstMin{ FLT_MAX }, fSrcMax{ FLT_MIN }, fDstMax{ FLT_MIN };
+
+
+		for (auto& p : srcDesc.vecIndices)
+		{
+			_float proj = p.Dot(axis);
+			fSrcMin = min(fSrcMin, proj);
+			fSrcMax = max(fSrcMax, proj);
+		}
+
+		for (auto& p : dstDesc.vecIndices)
+		{
+			_float proj = p.Dot(axis);
+			fDstMin = min(fDstMin, proj);
+			fDstMax = max(fDstMax, proj);
+		}
+
+		if ((fSrcMax < fDstMin || fDstMax < fSrcMin)) // 범위가 안겹치면 충돌 안함
+			return true;
+	}
+
 	return false;
 }
 

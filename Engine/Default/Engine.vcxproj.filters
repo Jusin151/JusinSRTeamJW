@@ -130,6 +130,9 @@
     <ClInclude Include="..\public\PickingSys.h">
       <Filter>10. Picking</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Collider_Cube.h">
+      <Filter>04.Components\Collider\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PickingSys.cpp">
       <Filter>10. Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider_Cube.cpp">
+      <Filter>04.Components\Collider\Cube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

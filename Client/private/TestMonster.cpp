@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
+#include "Collider_Cube.h"
 
 CTestMonster::CTestMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -41,7 +42,7 @@ void CTestMonster::Update(_float fTimeDelta)
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 
-
+	m_pColliderCom->Update_Desc();
 
 	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 
@@ -88,16 +89,17 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
-	_float3 fMTV = m_pColliderCom->Get_MTV();
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	/*_float3 fMTV = m_pColliderCom->Get_MTV();
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);*/
 
 	switch (m_pColliderCom->Get_Other_Type())
 	{
 	case CG_PLAYER:
 		
-		fPos += fMTV;
+		/*fPos += fMTV;*/
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		m_pTransformCom->Go_Straight(fTimeDelta);
 		break;
 
 	default:
@@ -157,8 +159,8 @@ HRESULT CTestMonster::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Collider_Sphere */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
 		return E_FAIL;
 
 	return S_OK;

@@ -34,7 +34,7 @@ void CCollider_Sphere::Calc_Radius()
 
 _float CCollider_Sphere::Get_Radius()
 {
-	if (0 > m_fRadius)
+	if (1.f != m_fRadius)
 		Calc_Radius();
 
 	return m_fRadius;

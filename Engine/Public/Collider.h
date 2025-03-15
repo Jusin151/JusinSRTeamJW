@@ -62,14 +62,13 @@ protected:
 	// 큐브의 중점 저장용
 	_float3					m_fPos = {};
 
-
-	// �ּ� �̵� ����, ũ��
+	// 최소 이동 벡터랑 필요하면 길이까지. 길이는 필요 없을지도?
 	_float3					m_fMTV = {0.f, 0.f, 0.f};
 	_float					m_fDepth = {0.f};
 
-	// �ڱ� Ÿ�� ���� �ϰ�
-	// �浹�ϸ� �ڱ� Ÿ���� ���뿡�� ����, ���� Ÿ���� ������ ����
-	// �� �� object���� ���� Ÿ�� ���� üũ
+	// 내 타입은 object에서 설정. 
+	// 상대 타입은 충돌하면 collidermanager에서 수정해서 다르게 충돌 처리 하도록 
+	// 나중에 수정 하면 좋을듯?
 	COLLIDERGROUP			m_eType = { CG_END };
 	COLLIDERGROUP			m_eOtherType = { CG_END };
 public:
