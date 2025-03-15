@@ -34,13 +34,13 @@ void CPickingSys::Update()
 			if (GetKeyState(VK_LBUTTON) & 0x8000)
 			{
 
-			if (Spherelntersection(static_cast<CCollider_Sphere*>(collider)))
-			{
+				if (Spherelntersection(static_cast<CCollider_Sphere*>(collider)))
+				{
 
-				int a = 10;
+					int a = 10;
+				}
 			}
 		}
-			}
 	}
 }
 

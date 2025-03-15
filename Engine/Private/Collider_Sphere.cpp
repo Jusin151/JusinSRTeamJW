@@ -21,6 +21,61 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CCollider_Sphere::Render()
+{
+    Calc_Radius();
+    // 현재 상태를 저장
+    DWORD dwFillMode, dwLighting;
+    m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &dwFillMode);
+    m_pGraphic_Device->GetRenderState(D3DRS_LIGHTING, &dwLighting);
+
+    // 월드 매트릭스 저장
+    _float4x4 matOldWorld;
+
+    m_pGraphic_Device->GetTransform(D3DTS_WORLD, &matOldWorld);
+
+    // 반지름 확인 및 임시 조정 (디버깅용)
+    _float fRenderRadius = m_fRadius*0.5f;
+
+
+
+    LPD3DXMESH pSphereMesh = nullptr;
+    if (FAILED(D3DXCreateSphere(m_pGraphic_Device, fRenderRadius, 10, 10, &pSphereMesh, nullptr)))
+        return E_FAIL;
+
+    // 렌더 상태 설정
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // Z 버퍼 쓰기 활성화
+
+    // 색상 설정 (콜라이더 색상을 구분하기 위해)
+    m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 0, 255, 0));
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    _float4x4 matWorld = m_WorldMatrix;
+    // 스케일 성분 1로 설정 (스케일 제거)
+    matWorld._11 = 1.0f;
+    matWorld._22 = 1.0f;
+    matWorld._33 = 1.0f;
+    // 월드 매트릭스 설정
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
+
+    // 메시 렌더링
+    pSphereMesh->DrawSubset(0);
+
+    // 원래 상태로 복원
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matOldWorld);
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, dwFillMode);
+    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, dwLighting);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+
+    // 메시 해제
+    Safe_Release(pSphereMesh);
+
+    return S_OK;
+}
+
 void CCollider_Sphere::Calc_Radius()
 {
 	// 한 방향 길이를 구해서 곱해서 넘겨준다

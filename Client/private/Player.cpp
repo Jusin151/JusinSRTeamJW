@@ -70,6 +70,9 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+
+
 }
 
 HRESULT CPlayer::Render()
@@ -86,12 +89,12 @@ HRESULT CPlayer::Render()
 		return E_FAIL;
 
 	SetUp_RenderState();
-
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 	Release_RenderState();
 
+	m_pColliderCom->Render();
 	return S_OK;
 }
 

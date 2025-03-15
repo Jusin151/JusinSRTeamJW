@@ -16,7 +16,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
+	virtual HRESULT Render() override;
 	void Calc_Radius();
 	// 반지름이 계산 안되있으면 계산 후 출력
 	_float Get_Radius();
@@ -24,7 +24,7 @@ public:
 
 private:
 	// 반지름
-	_float m_fRadius = {-1.f};
+	_float m_fRadius = {1.f};
 	
 
 public:
