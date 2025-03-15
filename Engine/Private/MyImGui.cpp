@@ -49,18 +49,18 @@ HRESULT CMyImGui::Initialize(_uint iNumLevels, HWND hWnd, CGraphic_Device* pGrap
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(hWnd);
 
-	ImGui_ImplDX9_Init(pGraphic_Device);
+	ImGui_ImplDX9_Init(pGraphic_Device->m_pDevice);
 
 
     m_pVIBuffer_Cube.reserve(50);
     m_pTransform.reserve(50);
     // 큐브 버퍼 생성
-    m_pVIBuffer_Cube.emplace_back(CVIBuffer_Cube::Create(m_pGraphic_Device));
+    m_pVIBuffer_Cube.emplace_back(CVIBuffer_Cube::Create(pGraphic_Device->m_pDevice));
     if (nullptr == m_pVIBuffer_Cube.front())
         return E_FAIL;
 
     // 트랜스폼 컴포넌트 생성 (큐브의 위치, 회전, 크기 조절용)
-    m_pTransform.emplace_back(CTransform::Create(m_pGraphic_Device));
+    m_pTransform.emplace_back(CTransform::Create(pGraphic_Device->m_pDevice));
     if (nullptr == m_pTransform.front())
         return E_FAIL;
 
@@ -164,7 +164,7 @@ HRESULT CMyImGui::Render()
         {
 
         // 텍스처 설정
-        m_pGraphic_Device->SetTexture(0, m_Textures[m_SelectedTextureIndex]);
+            m_pGraphic_Device->m_pDevice->SetTexture(0, m_Textures[m_SelectedTextureIndex]);
 
         m_pTransform[i]->Bind_Resource();
         m_pVIBuffer_Cube[i]->Bind_Buffers();
@@ -173,9 +173,9 @@ HRESULT CMyImGui::Render()
     }
 
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    m_pGraphic_Device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+    m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+    m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
     D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
     //m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
     ImGuiIO& io = ImGui::GetIO();
@@ -420,7 +420,7 @@ void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
                 // 텍스처 로드
                 LPDIRECT3DTEXTURE9 texture = nullptr;
                 HRESULT hr = D3DXCreateTextureFromFileW(
-                    m_pGraphic_Device,  // Direct3D 디바이스
+                    m_pGraphic_Device->m_pDevice,  // Direct3D 디바이스
                     filePath.c_str(),
                     &texture);
 
@@ -490,12 +490,12 @@ _wstring CMyImGui::SelectFolder()
 
 HRESULT CMyImGui::CreateObject()
 {
-    m_pVIBuffer_Cube.emplace_back(CVIBuffer_Cube::Create(m_pGraphic_Device));
+    m_pVIBuffer_Cube.emplace_back(CVIBuffer_Cube::Create(m_pGraphic_Device->m_pDevice));
     if (nullptr == m_pVIBuffer_Cube.back())
         return E_FAIL;
 
     // 트랜스폼 컴포넌트 생성 (큐브의 위치, 회전, 크기 조절용)
-    m_pTransform.emplace_back(CTransform::Create(m_pGraphic_Device));
+    m_pTransform.emplace_back(CTransform::Create(m_pGraphic_Device->m_pDevice));
     if (nullptr == m_pTransform.back())
         return E_FAIL;
 
