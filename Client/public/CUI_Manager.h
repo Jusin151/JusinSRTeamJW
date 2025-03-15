@@ -87,6 +87,15 @@ public:
         }
         return _float2(99999, 99999);
     }
+    _float2 GetPoint_Shop()
+    {
+        CUI_Base* pUI = GetUI(L"Level_1_Display");
+        if (pUI)
+        {
+            return pUI->Get_Position();
+        }
+        return _float2(99999, 99999);
+    }
     unordered_map<wstring, CUI_Base*> m_UIMap;
 
 };
