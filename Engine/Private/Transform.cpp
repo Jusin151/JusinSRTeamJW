@@ -32,6 +32,20 @@ HRESULT CTransform::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CTransform::ImGuiDisplay()
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	static float x = vPosition.x;
+	static float y = vPosition.y;
+	static float z = vPosition.z;
+	ImGui::DragFloat("X", &x, -100000.0f, 100000.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	ImGui::DragFloat("Y", &y, -100000.0f, 100000.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	ImGui::DragFloat("Z", &z, -100000.0f, 100000.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+
+	_float3 newPosition = { x, y, z };
+	Set_State(STATE_POSITION, newPosition);
+}
+
 HRESULT CTransform::Bind_Resource()
 {
 	return m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
