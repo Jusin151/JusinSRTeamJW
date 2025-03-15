@@ -161,10 +161,10 @@ bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
+	// 경래야 내가 distance 만들어놨어...
+	//_float3 distance = srcDesc.fPos - dstDesc.fPos;
 
-	_float3 distance = srcDesc.fPos - dstDesc.fPos;
-
-	return srcDesc.fRadius + dstDesc.fRadius < distance.Length();
+	return srcDesc.fRadius + dstDesc.fRadius < _float3::Distance(srcDesc.fPos, dstDesc.fPos);
 }
 
 bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)

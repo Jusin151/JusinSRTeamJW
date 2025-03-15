@@ -48,6 +48,7 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 
 	// 예: "MainFont"라는 태그로 폰트를 등록
 	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
+		return E_FAIL;
 
 	return S_OK;
 }
