@@ -9,9 +9,13 @@
 #include <map>
 #include <unordered_map>
 #include <queue>
+#include <algorithm>
+#include <shobjidl.h> // IFileOpenDialog 사용을 위한 헤더
 #include <list>
 #include <vector>
 #include <set>
+#include <codecvt>
+#include <locale>
 using namespace std;
 
 #include "Engine_Struct.h"

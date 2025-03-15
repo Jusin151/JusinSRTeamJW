@@ -7,8 +7,10 @@
 
 BEGIN(Engine)
 
+
 class CObject_Manager final : public CBase
 {
+	friend class CMyImGui;
 private:
 	CObject_Manager();
 	virtual ~CObject_Manager() = default;

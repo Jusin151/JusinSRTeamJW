@@ -53,6 +53,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 
+
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
@@ -67,6 +68,8 @@ void CMainApp::Update(_float fTimeDelta)
 
 HRESULT CMainApp::Render()
 {
+	
+
 	m_pGameInstance->Draw();
 
 	return S_OK;

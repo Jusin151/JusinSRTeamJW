@@ -57,7 +57,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollider_Manager)
 		return E_FAIL;
 
-	m_pMyImGui = CMyImGui::Create(EngineDesc.hWnd, *ppOut);
+	m_pMyImGui = CMyImGui::Create(EngineDesc.iNumLevels, EngineDesc.hWnd, m_pGraphic_Device);
 	if (nullptr == m_pMyImGui)
 		return E_FAIL;
 
@@ -220,6 +220,15 @@ HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _wstring& strF
 HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, _float3 vColor)
 {
 	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
+}
+
+#pragma endregion
+
+#pragma region Graphic_Device
+
+void CGameInstance::Change_ClearColor(_float4 rgba)
+{
+	return m_pGraphic_Device->ChangeClearColor(rgba);
 }
 
 #pragma endregion
