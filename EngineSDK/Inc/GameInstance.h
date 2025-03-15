@@ -71,6 +71,12 @@ public:
 #pragma endregion
 
 
+
+#pragma region FONT_MANAGER
+	HRESULT Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath);
+	HRESULT Render_Font(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, _float3 vColor);
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -82,6 +88,7 @@ private:
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 	class CMyImGui*				m_pMyImGui = { nullptr };
+	class CFont_Manager*	    m_pFont_Manager = { nullptr };
 public:
 	void Release_Engine();
 	virtual void Free() override;

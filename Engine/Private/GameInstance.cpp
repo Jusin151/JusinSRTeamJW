@@ -6,6 +6,7 @@
 #include "Sound_Manager.h"
 #include "Graphic_Device.h"
 #include "PoolManager.h"
+#include "Font_Manager.h"
 #include "Object_Manager.h"
 #include "Collider_Manager.h"
 #include "Prototype_Manager.h"
@@ -58,6 +59,11 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 	m_pMyImGui = CMyImGui::Create(EngineDesc.hWnd, *ppOut);
 	if (nullptr == m_pMyImGui)
+		return E_FAIL;
+
+
+	m_pFont_Manager = CFont_Manager::Create(*ppOut);
+	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
 
 
@@ -201,12 +207,24 @@ vector<list<class CCollider*>> CGameInstance::Get_Colliders()
 	return m_pCollider_Manager->Get_Colliders();
 }
 
+HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath)
+{
+	return m_pFont_Manager->Add_Font(strFontTag, strFontFilePath);
+}
+
+HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, _float3 vColor)
+{
+	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
+}
+
 #pragma endregion
 
 void CGameInstance::Release_Engine()
 {
 
 	Safe_Release(m_pMyImGui);
+
+	Safe_Release(m_pFont_Manager);
 
 	Safe_Release(m_pTimer_Manager);
 

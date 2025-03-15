@@ -130,6 +130,12 @@
     <ClInclude Include="..\public\PickingSys.h">
       <Filter>10. Picking</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Font_Manager.h">
+      <Filter>95.Font\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CustomFont.h">
+      <Filter>95.Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -252,6 +258,12 @@
     <Filter Include="10. Picking">
       <UniqueIdentifier>{71cd9abe-a4bb-401d-8d94-53e482f059ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="95.Font">
+      <UniqueIdentifier>{d090c81d-d2a1-4529-bb1d-df7a95002d3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Font\Manager">
+      <UniqueIdentifier>{04681188-4679-4e2f-9f63-efd3c4e6a9db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -358,6 +370,12 @@
     </ClCompile>
     <ClCompile Include="..\private\PickingSys.cpp">
       <Filter>10. Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font_Manager.cpp">
+      <Filter>95.Font\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CustomFont.cpp">
+      <Filter>95.Font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
