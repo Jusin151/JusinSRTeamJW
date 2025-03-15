@@ -45,9 +45,9 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 	return S_OK;
 }
 
-HRESULT CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag)
+HRESULT CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag,void* pArg)
 {
-	CGameObject* pGameObject = m_pGameInstance->Acquire_Object(iPrototypeLevelIndex, strLayerTag);
+	CGameObject* pGameObject = m_pGameInstance->Acquire_Object(iPrototypeLevelIndex, strLayerTag, pArg);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);

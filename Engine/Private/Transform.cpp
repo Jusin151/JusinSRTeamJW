@@ -26,6 +26,7 @@ HRESULT CTransform::Initialize(void* pArg)
 		TRANSFORM_DESC* pDesc = static_cast<TRANSFORM_DESC*>(pArg);
 		m_fSpeedPerSec = pDesc->fSpeedPerSec;
 		m_fRotationPerSec = pDesc->fRotationPerSec;
+		Set_State(CTransform::STATE_POSITION, pDesc->vPos);
 	}
 
 	return S_OK;

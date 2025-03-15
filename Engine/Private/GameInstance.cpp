@@ -69,11 +69,11 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pObject_Manager->Update(fTimeDelta);
 
+	m_pLevel_Manager->Update(fTimeDelta);
 	m_pCollider_Manager->Update_Collison();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
-	m_pLevel_Manager->Update(fTimeDelta);
 
 
 	m_pMyImGui->Update(fTimeDelta);
@@ -135,9 +135,9 @@ HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
 }
 
-HRESULT CGameInstance::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag)
+HRESULT CGameInstance::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
-	return m_pObject_Manager->Add_GameObject_FromPool(iPrototypeLevelIndex,iLevelIndex,strLayerTag);
+	return m_pObject_Manager->Add_GameObject_FromPool(iPrototypeLevelIndex,iLevelIndex,strLayerTag, pArg);
 }
 
 #pragma endregion
@@ -172,9 +172,9 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 
 #pragma region POOL_MANAGER
 
-CGameObject* CGameInstance::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag)
+CGameObject* CGameInstance::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag,void* pArg)
 {
-	return m_pPool_Manager->Acquire_Object(iPrototypeLevelIndex,strLayerTag);
+	return m_pPool_Manager->Acquire_Object(iPrototypeLevelIndex,strLayerTag,pArg);
 }
 
 HRESULT CGameInstance::Return_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject)
@@ -194,6 +194,11 @@ HRESULT CGameInstance::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& 
 HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
 {
 	return m_pCollider_Manager->Add_Collider(eGroup, Collider);
+}
+
+vector<list<class CCollider*>> CGameInstance::Get_Colliders()
+{
+	return m_pCollider_Manager->Get_Colliders();
 }
 
 #pragma endregion
