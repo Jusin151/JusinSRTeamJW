@@ -11,12 +11,10 @@ private:
 	CCollider_Cube(const CCollider_Cube& Prototype);
 	virtual ~CCollider_Cube() = default;
 
-
-
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
+	virtual HRESULT Render() override;
 
 private:
 

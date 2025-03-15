@@ -35,7 +35,7 @@ HRESULT CCollider_Sphere::Render()
     m_pGraphic_Device->GetTransform(D3DTS_WORLD, &matOldWorld);
 
     // 반지름 확인 및 임시 조정 (디버깅용)
-    _float fRenderRadius = m_fRadius*0.5f;
+    _float fRenderRadius = 0.5f;
 
 
 
@@ -53,10 +53,10 @@ HRESULT CCollider_Sphere::Render()
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
     m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
     _float4x4 matWorld = m_WorldMatrix;
-    // 스케일 성분 1로 설정 (스케일 제거)
-    matWorld._11 = 1.0f;
-    matWorld._22 = 1.0f;
-    matWorld._33 = 1.0f;
+     // 스케일 성분 1로 설정 (스케일 제거)
+    // matWorld._11 = 1.0f;
+    //matWorld._22 = 1.0f;
+    //matWorld._33 = 1.0f;
     // 월드 매트릭스 설정
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 

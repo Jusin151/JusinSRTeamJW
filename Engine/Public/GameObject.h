@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
+	friend class CMyImGui;
 protected:
 	CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject(const CGameObject& Prototype);

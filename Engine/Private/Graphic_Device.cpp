@@ -2,7 +2,7 @@
 #include "Graphic_Device.h"
 
 CGraphic_Device::CGraphic_Device() 
-	: m_pDevice(nullptr), m_pSDK(nullptr), m_pSprite(nullptr), m_pFont(nullptr)
+	: m_pDevice(nullptr), m_pSDK(nullptr), m_pSprite(nullptr), m_pFont(nullptr), m_clearColor(D3DCOLOR_ARGB(255, 0, 0, 255))
 {
 }
 
@@ -92,13 +92,11 @@ void CGraphic_Device::Render_Begin()
 	m_pDevice->Clear(0,			// 렉트의 개수
 		nullptr,	// 여러 렉트 중 첫 번째 렉트의 주소
 		D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET,
-		D3DCOLOR_ARGB(255, 0, 0, 255), // 후면 버퍼를 비우고서 채울 색상
+		m_clearColor, // 후면 버퍼를 비우고서 채울 색상
 		1.f,	// z버퍼 초기화 값
 		0);		// 스텐실 버퍼 초기화 값
 
 	m_pDevice->BeginScene();
-
-	
 
 }
 
@@ -114,7 +112,10 @@ void CGraphic_Device::Render_End(HWND hWnd)
 	// 3인자 : 출력 대상 윈도우 핸들, NULL인 경우에는 Set_Parameters에서 지정한 핸들 값으로 지정
 }
 
-
+void CGraphic_Device::ChangeClearColor(_float4 rgba)
+{
+	m_clearColor = D3DCOLOR_COLORVALUE(rgba.x, rgba.y, rgba.z, rgba.w);
+}
 
 void CGraphic_Device::Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp, HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY)
 {

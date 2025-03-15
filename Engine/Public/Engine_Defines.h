@@ -11,6 +11,8 @@
 #include <queue>
 #include <list>
 #include <vector>
+#include <codecvt>
+#include <locale>
 using namespace std;
 
 #include "Engine_Struct.h"

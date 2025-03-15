@@ -8,6 +8,7 @@ BEGIN(Engine)
 
 class CLayer final : public CBase
 {
+	friend class CMyImGui;
 private:
 	CLayer();
 	virtual ~CLayer() = default;

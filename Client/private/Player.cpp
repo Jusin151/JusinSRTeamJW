@@ -24,7 +24,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(rand() % 10, 5.f, rand() % 10));
-	m_pTransformCom->Set_Scale(10.f, 10.f, 10.f);
+	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 	m_pColliderCom->Set_Type(CG_PLAYER);
 	return S_OK;
 }
