@@ -33,7 +33,7 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
-	CCollider_Sphere* m_pColliderCom = { nullptr };
+	CCollider_Cube* m_pColliderCom = { nullptr };
 
 private:
 	HRESULT SetUp_RenderState();

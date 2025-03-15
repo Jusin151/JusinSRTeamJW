@@ -34,7 +34,7 @@ HRESULT CCollider_Sphere::Render()
     m_pGraphic_Device->GetTransform(D3DTS_WORLD, &matOldWorld);
 
     // 반지름 확인 및 임시 조정 (디버깅용)
-    _float fRenderRadius = 0.5f;
+    _float fRenderRadius = 5.f;
 
 
 

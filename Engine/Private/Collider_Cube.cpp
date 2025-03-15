@@ -29,6 +29,8 @@ void CCollider_Cube::Update_Desc()
 {
 	// 축과 점 위치를 월드 행렬에 맞게 고친다
 
+	m_tDesc.vecIndices.clear();
+
 	m_tDesc.fAxisX = Get_State(CTransform::STATE_RIGHT);
 	m_tDesc.fAxisY = Get_State(CTransform::STATE_UP);
 	m_tDesc.fAxisZ = Get_State(CTransform::STATE_LOOK);
@@ -41,10 +43,11 @@ void CCollider_Cube::Update_Desc()
 			((i & 1) ? axis[0] : -axis[0]) * 0.5f +
 			((i & 2) ? axis[1] : -axis[1]) * 0.5f +
 			((i & 4) ? axis[2] : -axis[2]) * 0.5f;
-		m_tDesc.vecIndices.push_back(m_fPos + offset);
+		m_tDesc.vecIndices.push_back(m_tDesc.fPos + offset);
 	}
 
-	m_tDesc.fRadius = sqrt(m_tDesc.fAxisX.LengthSq() + m_tDesc.fAxisY.LengthSq() + m_tDesc.fAxisZ.LengthSq()) * 0.5f;
+	_float fDiagonal = (axis[0].LengthSq() * 0.25f + axis[1].LengthSq() * 0.25f + axis[2].LengthSq() * 0.25f);
+	m_tDesc.fRadius = sqrtf(fDiagonal);
 }
 
 CCollider_Cube* CCollider_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

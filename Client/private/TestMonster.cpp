@@ -24,11 +24,11 @@ HRESULT CTestMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f,5.f,20.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f,1.f,20.f));
 	m_pTransformCom->Set_Scale(10.f, 10.f, 10.f);
 	m_pColliderCom->Set_Type(CG_MONSTER);
-	m_pColliderCom->Set_Radius(5.f);
-	m_pColliderCom->Set_Scale(_float3(10.f, 10.f, 10.f));
+	//m_pColliderCom->Set_Radius(5.f);
+	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 	return S_OK;
 }
 
@@ -40,19 +40,11 @@ void CTestMonster::Update(_float fTimeDelta)
 {
 
 	// collider 월드 행렬 동기화...
-
-	_float3 right = m_pTransformCom->Get_State(CTransform::STATE_RIGHT).GetNormalized();
-	_float3 look = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
-	_float3 up = m_pTransformCom->Get_State(CTransform::STATE_UP).GetNormalized();
-	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	m_pColliderCom->Set_State(CTransform::STATE_RIGHT, right * m_pColliderCom->Get_Scale().x);
-	m_pColliderCom->Set_State(CTransform::STATE_UP, up * m_pColliderCom->Get_Scale().y);
-	m_pColliderCom->Set_State(CTransform::STATE_LOOK, look * m_pColliderCom->Get_Scale().z);
-	m_pColliderCom->Set_State(CTransform::STATE_POSITION, pos);
+	
+	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 
-	//m_pColliderCom->Update_Desc();
+	m_pColliderCom->Update_Desc();
 
 	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 
@@ -108,8 +100,8 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 		
 		fPos += fMTV;
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-		//m_pTransformCom->Go_Straight(fTimeDelta);
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		m_pTransformCom->Go_Straight(fTimeDelta);
 		break;
 
 	default:
@@ -169,7 +161,7 @@ HRESULT CTestMonster::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
 		return E_FAIL;
 

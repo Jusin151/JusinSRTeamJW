@@ -42,8 +42,8 @@ void CCollider_Manager::Clear()
 
 void CCollider_Manager::Update_Collison()
 {
-	Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
-	//Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
+	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
+	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 
 	Clear();
 }
@@ -103,12 +103,16 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 
 	
 	// 반지름 합보다 길이 합이 짧으면 충돌
-	if (fRadiusSrc * fRadiusSrc + fRadiusDst * fRadiusDst >= fLengthSq)
+	if ( (fRadiusSrc + fRadiusDst) * (fRadiusSrc + fRadiusDst) >= fLengthSq)
 	{
 		
+		// 충돌 시 MTV 계산
 		fDir.Normalize();
-		src->Set_MTV(fDir * (sqrtf(fLengthSq) - fRadiusSrc));
-		dst->Set_MTV(-fDir * (sqrtf(fLengthSq) - fRadiusDst));
+		_float fOverlap = fRadiusSrc + fRadiusDst - sqrtf(fLengthSq);  // 겹친 정도 (겹친 길이)
+
+		// MTV 계산 (두 구가 겹치는 정도만큼 이동)
+		src->Set_MTV(fDir * fOverlap * 0.5f);
+		dst->Set_MTV(-fDir * fOverlap * 0.5f);
 
 		return true;
 	}
@@ -121,16 +125,18 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 
 bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 {
-	
+	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 	
 	if (Check_Cube_Distance(src, dst))
 		return false;
 
 	
-	if (Calc_Basic_Axes_Dot(src, dst))
+	if (!Calc_Basic_Axes_Dot(src, dst))
 		return false;
 
-	if (Calc_AddOn_Axes_Dot(src, dst))
+
+	if (!Calc_AddOn_Axes_Dot(src, dst))
 		return false;
 
 
@@ -147,6 +153,8 @@ bool CCollider_Manager::Calc_Cube_To_Sphere(CCollider* src, CCollider* dst)
 
 bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 {
+
+	setAxes.clear();
 	// 큐브 큐브 사이 거리가, 큐브와 큐브를 외접하는 두 구의 반지름 합보다 길면 true
 	// 아니면 false
 
@@ -154,15 +162,15 @@ bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 
-	return srcDesc.fRadius + dstDesc.fRadius < srcDesc.fPos.Distance(dstDesc.fPos);
+	_float3 distance = srcDesc.fPos - dstDesc.fPos;
+
+	return srcDesc.fRadius + dstDesc.fRadius < distance.Length();
 }
 
 bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 {
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
-
-	setAxes.clear();
 
 	// 범위 계산
 	setAxes.insert(srcDesc.fAxisX.GetNormalized());
@@ -175,7 +183,7 @@ bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 
 	for (auto& axis : setAxes)
 	{
-		_float fSrcMin{FLT_MAX}, fDstMin{FLT_MAX}, fSrcMax{FLT_MIN}, fDstMax{FLT_MIN};
+		_float fSrcMin{ FLT_MAX }, fDstMin{FLT_MAX}, fSrcMax{ -FLT_MAX }, fDstMax{ -FLT_MAX };
 		
 
 		for (auto& p : srcDesc.vecIndices)
@@ -193,10 +201,10 @@ bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 		}
 
 		if ((fSrcMax < fDstMin || fDstMax < fSrcMin)) // 범위가 안겹치면 충돌 안함
-			return true;
+			return false;
 	}
 	
-	return false;
+	return true;
 }
 
 void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
@@ -232,7 +240,7 @@ void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
 	for (auto& axis : tempAxes)
 	{
 		// 크기가 0(평행)이거나 같은 방향이 있거나, 반대 방향이 있으면 추가 안하고 없으면 추가
-		if (axis.LengthSq() != 0 && setAxes.find(axis) == setAxes.end() && setAxes.find(-axis) == setAxes.end())
+		if (axis.LengthSq() != 0.f && setAxes.find(axis) == setAxes.end() && setAxes.find(-axis) == setAxes.end())
 			setAxes.insert(axis);
 	}
 
@@ -247,7 +255,7 @@ bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 
 	for (auto& axis : setAxes)
 	{
-		_float fSrcMin{ FLT_MAX }, fDstMin{ FLT_MAX }, fSrcMax{ FLT_MIN }, fDstMax{ FLT_MIN };
+		_float fSrcMin{ FLT_MAX }, fDstMin{ FLT_MAX }, fSrcMax{ -FLT_MAX }, fDstMax{ -FLT_MAX };
 
 
 		for (auto& p : srcDesc.vecIndices)
@@ -265,10 +273,10 @@ bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 		}
 
 		if ((fSrcMax < fDstMin || fDstMax < fSrcMin)) // 범위가 안겹치면 충돌 안함
-			return true;
+			return false;
 	}
 
-	return false;
+	return true;
 }
 
 CCollider_Manager* CCollider_Manager::Create()
