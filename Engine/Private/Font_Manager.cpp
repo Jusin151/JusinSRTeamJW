@@ -1,4 +1,4 @@
-#include "Font_Manager.h"
+﻿#include "Font_Manager.h"
 #include "CustomFont.h"
 
 CFont_Manager::CFont_Manager(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -252,6 +252,9 @@
     <ClInclude Include="..\public\GamePlay_Button.h">
       <Filter>02.GameObjects\UI\99. Button\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\UI_Structs.h">
+      <Filter>97. UI_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

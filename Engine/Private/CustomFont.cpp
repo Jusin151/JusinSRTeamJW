@@ -1,4 +1,4 @@
-#include "..\Public\CustomFont.h"
+ï»¿#include "..\Public\CustomFont.h"
 
 CCustomFont::CCustomFont(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -9,24 +9,24 @@ CCustomFont::CCustomFont(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CCustomFont::Initialize(const wstring& strFontFilePath)
 {
-	// ÆùÆ® ÆÄÀÏ °æ·Î¿¡¼­ ÆùÆ® ÀÌ¸§ ÃßÃâ ¶Ç´Â ±âº» ÆùÆ® »ç¿ë
-	// DX9¿¡¼­´Â TTF ÆÄÀÏÀ» Á÷Á¢ ·ÎµåÇÏ´Â ´ë½Å ½Ã½ºÅÛ ÆùÆ®¸¦ »ç¿ë
+	// í°íŠ¸ íŒŒì¼ ê²½ë¡œì—ì„œ í°íŠ¸ ì´ë¦„ ì¶”ì¶œ ë˜ëŠ” ê¸°ë³¸ í°íŠ¸ ì‚¬ìš©
+	// DX9ì—ì„œëŠ” TTF íŒŒì¼ì„ ì§ì ‘ ë¡œë“œí•˜ëŠ” ëŒ€ì‹  ì‹œìŠ¤í…œ í°íŠ¸ë¥¼ ì‚¬ìš©
 
-	m_FontDesc.Height = 16;                  // ÆùÆ® ³ôÀÌ
-	m_FontDesc.Width = 0;                    // ÆùÆ® ³Êºñ (0Àº ÀÚµ¿)
-	m_FontDesc.Weight = FW_NORMAL;           // ÆùÆ® µÎ²²
+	m_FontDesc.Height = 16;                  // í°íŠ¸ ë†’ì´
+	m_FontDesc.Width = 0;                    // í°íŠ¸ ë„ˆë¹„ (0ì€ ìžë™)
+	m_FontDesc.Weight = FW_NORMAL;           // í°íŠ¸ ë‘ê»˜
 	m_FontDesc.MipLevels = 1;
 	m_FontDesc.Italic = FALSE;
 	m_FontDesc.CharSet = DEFAULT_CHARSET;
 	m_FontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
 	m_FontDesc.Quality = DEFAULT_QUALITY;
 	m_FontDesc.PitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-	wcscpy_s(m_FontDesc.FaceName, L"±¼¸²");  // ±âº» ÆùÆ® ÀÌ¸§
+	wcscpy_s(m_FontDesc.FaceName, L"êµ´ë¦¼");  // ê¸°ë³¸ í°íŠ¸ ì´ë¦„
 
-	// ÆùÆ® ÆÄÀÏ ÀÌ¸§ÀÌ ÁöÁ¤µÈ °æ¿ì »ç¿ë
+	// í°íŠ¸ íŒŒì¼ ì´ë¦„ì´ ì§€ì •ëœ ê²½ìš° ì‚¬ìš©
 	if (!strFontFilePath.empty())
 	{
-		// °£´ÜÇÑ ¿¹: ÆÄÀÏ ÀÌ¸§¿¡¼­ .ttf È®ÀåÀÚ Á¦°Å
+		// ê°„ë‹¨í•œ ì˜ˆ: íŒŒì¼ ì´ë¦„ì—ì„œ .ttf í™•ìž¥ìž ì œê±°
 		wstring strFontName = strFontFilePath;
 		size_t pos = strFontName.rfind(L'\\');
 		if (pos != wstring::npos)
@@ -40,7 +40,7 @@ HRESULT CCustomFont::Initialize(const wstring& strFontFilePath)
 			wcscpy_s(m_FontDesc.FaceName, strFontName.c_str());
 	}
 
-	// D3DX ÆùÆ® »ý¼º
+	// D3DX í°íŠ¸ ìƒì„±
 	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &m_FontDesc, &m_pFont)))
 		return E_FAIL;
 
@@ -52,17 +52,17 @@ HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _f
 	if (nullptr == m_pFont)
 		return E_FAIL;
 
-	// ÅØ½ºÆ® ·»´õ¸µ ¿µ¿ª ¼³Á¤
+	// í…ìŠ¤íŠ¸ ë Œë”ë§ ì˜ì—­ ì„¤ì •
 	RECT rc;
 	SetRect(&rc, (int)vPosition.x, (int)vPosition.y, 0, 0);
 
-	// D3DCOLOR·Î »ö»ó º¯È¯
+	// D3DCOLORë¡œ ìƒ‰ìƒ ë³€í™˜
 	D3DCOLOR fontColor = D3DCOLOR_XRGB(
 		(int)(vColor.x * 255.0f),
 		(int)(vColor.y * 255.0f),
 		(int)(vColor.z * 255.0f));
 
-	// ÅØ½ºÆ® ±×¸®±â
+	// í…ìŠ¤íŠ¸ ê·¸ë¦¬ê¸°
 	m_pFont->DrawTextW(
 		NULL,
 		strText.c_str(),
