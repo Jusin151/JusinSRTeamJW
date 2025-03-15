@@ -110,7 +110,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	Add_To_GamePlay_Prototype();
 
 	/* For.Prototype_GameObject_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
@@ -459,15 +459,6 @@ HRESULT CLoader::Add_To_UI_Right_Menu_Prototype()
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Shop_Textures()
-{
-     Add_To_Shop_Episode_Textures();
-    Add_To_Shop_Point_Shop_Textures();
-    Add_To_Shop_Spell_Shop_Textures();
-    Add_To_Shop_Upgrade_Weapon_Textures();
-
-	return S_OK;
-}
 
 HRESULT CLoader::Add_To_Shop_Prototype()
 {
@@ -478,52 +469,30 @@ HRESULT CLoader::Add_To_Shop_Prototype()
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
-	Add_To_Shop_Episode_Prototype(); 
-	Add_To_Shop_Point_Shop_Prototype(); 
-	Add_To_Shop_Spell_Shop_Prototype(); 
-	Add_To_Shop_Upgrade_Weapon_Prototype(); 
+	Add_To_Shop_Spell_Shop_Prototype();
+	Add_To_Shop_Upgrade_Weapon_Prototype();
 
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Shop_Episode_Textures()
+
+HRESULT CLoader::Add_To_Shop_Textures()
 {
-
-	// 에피소드 선택창
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/SR_level_selection.png"),
-			1))))
-         		return E_FAIL;
-
-
 	// 에피소드 레벨 1 모든 스테이지 이미지
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Episode_Level_1_UI"),
 		CTexture::Create(m_pGraphic_Device,
 			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png"),
-		21))))
+			21))))
 		return E_FAIL;
 
-
-
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Shop_Point_Shop_Textures()
-{
-	// 포인트 스탯 상점
+	// 포인트 스탯 상점의 모든 이미지
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Point_Shop_UI"),
 		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI.png"),
-			1))))
+			TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_%d.png"),
+			2))))
 		return E_FAIL;
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Shop_Spell_Shop_Textures()
-{
+
 	// 스펠 샵 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Spell_Shop_UI"),
@@ -533,11 +502,6 @@ HRESULT CLoader::Add_To_Shop_Spell_Shop_Textures()
 		return E_FAIL;
 
 
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Shop_Upgrade_Weapon_Textures()
-{
 	// 업그레이드 웨폰 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Upgrade_Weapon_UI"),
@@ -546,27 +510,9 @@ HRESULT CLoader::Add_To_Shop_Upgrade_Weapon_Textures()
 			1))))
 		return E_FAIL;
 
-
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Shop_Episode_Prototype()
-{
 
-
-	
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Shop_Point_Shop_Prototype()
-{
-	// 포인트 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Point_Shop_UI"),
-		CUI_Point_Shop::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-	return S_OK;
-}
 HRESULT CLoader::Add_To_Shop_Spell_Shop_Prototype()
 {
 	// 스펠 샵 UI 운헝격체

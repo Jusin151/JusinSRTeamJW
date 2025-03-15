@@ -184,6 +184,7 @@
     <ClInclude Include="..\Public\UI_MP_Bar.h" />
     <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="..\Public\UI_Spell_Shop.h" />
+    <ClInclude Include="..\public\UI_Structs.h" />
     <ClInclude Include="..\Public\UI_Upgrade_Weapon.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />

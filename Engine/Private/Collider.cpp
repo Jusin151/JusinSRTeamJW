@@ -21,6 +21,11 @@ HRESULT CCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CCollider::Render()
+{
+	return S_OK;
+}
+
 
 void CCollider::Free()
 {

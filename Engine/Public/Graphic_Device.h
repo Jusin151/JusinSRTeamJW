@@ -4,8 +4,11 @@
 
 BEGIN(Engine)
 
+
+
 class CGraphic_Device final : public CBase
 {
+	friend class CMyImGui;
 private:
 	CGraphic_Device();
 	virtual ~CGraphic_Device() = default;
@@ -14,6 +17,7 @@ public:
 	HRESULT		Initialize(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY, LPDIRECT3DDEVICE9* ppOut);
 	void		Render_Begin();
 	void		Render_End(HWND hWnd = nullptr);	
+	void		ChangeClearColor(_float4 rgba);
 
 private:
 	void		Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp,
@@ -25,6 +29,8 @@ private:
 
 	LPD3DXSPRITE		m_pSprite;	// 2d 이미지를 출력하기 위한 용도
 	LPD3DXFONT			m_pFont;
+
+	D3DCOLOR			m_clearColor;
 
 public:
 	static CGraphic_Device* Create(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY, LPDIRECT3DDEVICE9*	ppOut);
