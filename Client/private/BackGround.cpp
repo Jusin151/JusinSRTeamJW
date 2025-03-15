@@ -19,8 +19,6 @@ CBackGround::CBackGround(const CBackGround& Prototype)
 HRESULT CBackGround::Initialize_Prototype()
 {
 
-	 
-
 	return S_OK;
 }
 

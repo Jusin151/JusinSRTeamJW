@@ -9,9 +9,6 @@ CDefault_Menu::CDefault_Menu(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CDefault_Menu::CDefault_Menu(const CDefault_Menu& Prototype)
 	: CUI_Base(Prototype),
-	m_BackMenu_pTextureCom(Prototype.m_BackMenu_pTextureCom),
-	m_BackMenu_pTransformCom(Prototype.m_BackMenu_pTransformCom),
-	m_BackMenu_pVIBufferCom(Prototype.m_BackMenu_pVIBufferCom),
 	m_BackMenu_INFO{ Prototype.m_BackMenu_INFO }
 {
 }
@@ -39,8 +36,8 @@ HRESULT CDefault_Menu::Initialize(void* pArg)
 	CUI_Manager::GetInstance()->AddUI(L"Default_Menu", this);
 
 
-	m_BackMenu_pTransformCom->Set_Scale(m_vSize.x, m_vSize.y, 1.f);
-	m_BackMenu_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	m_pTransformCom->Set_Scale(m_vSize.x, m_vSize.y, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_vPos.x, m_vPos.y, 0.f));
 	return S_OK;
 }
@@ -51,11 +48,7 @@ void CDefault_Menu::Priority_Update(_float fTimeDelta)
 
 void CDefault_Menu::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_LBUTTON) & 0x8000)
-	{
-		if (true == __super::isPick(g_hWnd))
-			int a = 10;
-	}
+
 	   
 }
 
@@ -84,13 +77,13 @@ HRESULT CDefault_Menu::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-	if (FAILED(m_BackMenu_pTransformCom->Bind_Resource()))
+	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_BackMenu_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
-	if (FAILED(m_BackMenu_pVIBufferCom->Bind_Buffers()))
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-	if (FAILED(m_BackMenu_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 
@@ -104,17 +97,17 @@ HRESULT CDefault_Menu::Render()
 HRESULT CDefault_Menu::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu"),
-		TEXT("Com_Texture_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pTextureCom))))
+		TEXT("Com_Texture_Back_5"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pVIBufferCom))))
+		TEXT("Com_VIBuffer_Back_5"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Back_5"), reinterpret_cast<CComponent**>(&m_BackMenu_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Back_5"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 
@@ -153,7 +146,7 @@ void CDefault_Menu::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_BackMenu_pTextureCom);
-	Safe_Release(m_BackMenu_pTransformCom);
-	Safe_Release(m_BackMenu_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
 }

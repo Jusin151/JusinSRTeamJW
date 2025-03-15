@@ -2,7 +2,8 @@
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
-#include "CUI_Base.h"
+#include "Logo_Button.h"
+#include "CUI_Manager.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -24,7 +25,8 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_RETURN) & 0x8000)
+	if (GetKeyState(VK_LBUTTON)&0x8000 && 
+		CUI_Manager::GetInstance()->GetUI(L"Start_Button")->Get_MouseClick())
 	{
   		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
@@ -106,12 +108,28 @@ HRESULT CLevel_Logo::Ready_Layer_Menu()
 		LEVEL_LOGO, TEXT("Layer_Menu"))))
 		return E_FAIL;
 
+	CLogo_Button::UI_Button_Desc StartButton_Desc{};
+
+	StartButton_Desc.Button_Desc.vSize = { 296.f,32.f };
+	StartButton_Desc.Button_Desc.vPos = { 485.f,100.f };
+	StartButton_Desc.strTexture_Default_Tag = {L"Prototype_Component_Texture_Menu_StartButton" };
+	StartButton_Desc.strTexture_Select_Tag = {L"Prototype_Component_Texture_Menu_StartButton_Select"};
+	StartButton_Desc.strUIName = { L"Start_Button" };
+	StartButton_Desc.bStartButton_Flag = true;
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_StartButton"),
-		LEVEL_LOGO, TEXT("Layer_Menu_StartButton"))))
+		LEVEL_LOGO, TEXT("Layer_Menu_StartButton"),&StartButton_Desc)))
 		return E_FAIL;
 
+	CLogo_Button::UI_Button_Desc ExitButton_Desc{};
+	ExitButton_Desc.Button_Desc.vSize = { 296.f,32.f };
+	ExitButton_Desc.Button_Desc.vPos = { 485.f,-100.f};
+	ExitButton_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Menu_ExitButton" };
+	ExitButton_Desc.strTexture_Select_Tag = { L"Prototype_Component_Texture_Menu_ExitButton_Select" };
+	ExitButton_Desc.strUIName = { L"Exit_Button" };
+	ExitButton_Desc.bExitButton_Flag = true;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_ExitButton"),
-		LEVEL_LOGO, TEXT("Layer_Menu_ExitButton"))))
+		LEVEL_LOGO, TEXT("Layer_Menu_ExitButton"),&ExitButton_Desc)))
 		return E_FAIL;
 
 

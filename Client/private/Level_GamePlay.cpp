@@ -3,6 +3,7 @@
 #include "PickingSys.h"
 #include "UI_Default_Panel.h"
 #include "CUI_Base.h"
+#include "GamePlay_Button.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device } ,
@@ -65,6 +66,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 {
+	
 	CUI_Base::UI_Child_Desc Point_Shop{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
 	Point_Shop.vSize = { 804.f,482.f };
 	Point_Shop.fAlpha = 1.0f;
@@ -76,16 +78,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_1"), &Point_Shop)))
 		return E_FAIL;
 
-	CUI_Base::UI_Child_Desc Episode_UI{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	Episode_UI.vSize = { 846.f,508.f };
-	Episode_UI.fAlpha = 1.0f;
-	Episode_UI.vPos = { 200.f,-100.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
 
-	if (FAILED(m_pGameInstance->Add_GameObject
-	(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Episode_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop_1"), &Episode_UI)))
-		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc Spell_Shop_UI{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
 	Spell_Shop_UI.vSize = { 847.f,508.f };
@@ -95,7 +88,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Spell_Shop_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Upgrade_Weapon_1"), &Spell_Shop_UI)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop_1"), &Spell_Shop_UI)))
 		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc Upgrade_Weapon{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
@@ -109,8 +102,108 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 		LEVEL_GAMEPLAY, TEXT("Layer_Upgrade_Weapon_1"), &Upgrade_Weapon)))
 		return E_FAIL;
 
+	Ready_Layer_Shop_Button();
+
 	return S_OK;
 }
+
+#include "GamePlay_Button.h"
+
+// ...
+
+HRESULT CLevel_GamePlay::Ready_Layer_Shop_Button() // 레벨은 큰 라운드 스테이지는 레벨안의 스테이지
+{
+	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Display{}; // 레벨 5 이미지의 첫번째 스테이지
+	Level_1_Display.Button_Desc.vSize = { 846.f,508.f };
+	Level_1_Display.Button_Desc.vPos = { 0.f,0.f };
+	Level_1_Display.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_1_Display.strUIName = { L"Level_1_Display" };
+	Level_1_Display.Button_type = CGamePlay_Button::Button_type::Episode;
+	Level_1_Display.bDisplay_On = true;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_0"),
+		&Level_1_Display)))
+		return E_FAIL;
+
+
+
+    CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{}; // 왼쪽 레벨 1 이미지 ( ex 후드쓴 개구리 
+    Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
+    Level_1_Icon_Desc.Button_Desc.vPos = { -320.f,184.f };
+    Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+    Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
+    Level_1_Icon_Desc.bLevel_Icon_Button_Flag = true;
+	Level_1_Icon_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
+        LEVEL_LOGO, TEXT("Layer_Episode_2"), 
+        &Level_1_Icon_Desc)))
+        return E_FAIL;
+
+	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Level_Stage_Desc{}; // 레벨 1 이미지의 첫번째 스테이지
+	Level_1_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	Level_1_Level_Stage_Desc.Button_Desc.vPos = { -112.f,121.f };
+	Level_1_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_1_Level_Stage_Desc.strUIName = { L"Level_1_01_Stage" };
+	Level_1_Level_Stage_Desc.bLevel_01_Stage_Button_Flag = true;
+	Level_1_Level_Stage_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_3"),
+		&Level_1_Level_Stage_Desc)))
+		return E_FAIL;
+
+	CGamePlay_Button::GamePlayer_Button_Desc Level_2_Level_Stage_Desc{}; // 레벨 2 이미지의 첫번째 스테이지
+	Level_2_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	Level_2_Level_Stage_Desc.Button_Desc.vPos = { 87.f,121.f };
+	Level_2_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_2_Level_Stage_Desc.strUIName = { L"Level_1_02_Stage" };
+	Level_2_Level_Stage_Desc.bLevel_02_Stage_Button_Flag = true;
+	Level_2_Level_Stage_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_4"),
+		&Level_2_Level_Stage_Desc)))
+		return E_FAIL;
+
+	CGamePlay_Button::GamePlayer_Button_Desc Level_3_Level_Stage_Desc{}; // 레벨 3 이미지의 첫번째 스테이지
+	Level_3_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	Level_3_Level_Stage_Desc.Button_Desc.vPos = { 288.f,121.f };
+	Level_3_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_3_Level_Stage_Desc.strUIName = { L"Level_1_03_Stage" };
+	Level_3_Level_Stage_Desc.bLevel_03_Stage_Button_Flag = true;
+	Level_3_Level_Stage_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_5"),
+		&Level_3_Level_Stage_Desc)))
+		return E_FAIL;
+
+	CGamePlay_Button::GamePlayer_Button_Desc Level_4_Level_Stage_Desc{}; // 레벨 4 이미지의 첫번째 스테이지
+	Level_4_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	Level_4_Level_Stage_Desc.Button_Desc.vPos = {-112.f,-76.f };
+	Level_4_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_4_Level_Stage_Desc.strUIName = { L"Level_1_04_Stage" };
+	Level_4_Level_Stage_Desc.bLevel_04_Stage_Button_Flag = true;
+	Level_4_Level_Stage_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_6"),
+		&Level_4_Level_Stage_Desc)))
+		return E_FAIL;
+
+	CGamePlay_Button::GamePlayer_Button_Desc Level_5_Level_Stage_Desc{}; // 레벨 5 이미지의 첫번째 스테이지
+	Level_5_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	Level_5_Level_Stage_Desc.Button_Desc.vPos = { 87.f,-76.f };
+	Level_5_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_5_Level_Stage_Desc.strUIName = { L"Level_1_05_Stage" };
+	Level_5_Level_Stage_Desc.bLevel_05_Stage_Button_Flag = true;
+	Level_5_Level_Stage_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_7"),
+		&Level_5_Level_Stage_Desc)))
+		return E_FAIL;
+
+
+    return S_OK;
+}
+
+
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
