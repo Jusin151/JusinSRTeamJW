@@ -42,7 +42,7 @@ public:
 	// 그냥 하면 연산량이 많아서 단계적으로 진행...
 	bool Calc_Cube_To_Cube(CCollider* src, CCollider* dst);
 
-	// 위에꺼 끝내고.
+	// 나중에 필요하면 ? 
 	bool Calc_Cube_To_Sphere(CCollider* src, CCollider* dst);
 
 	// 큐브 큐브 사이 거리로 먼저

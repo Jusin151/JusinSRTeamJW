@@ -209,7 +209,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop_Button() // 레벨은 큰 라운드 �
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera_Free"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera_FirstPerson"),
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 

@@ -136,6 +136,9 @@
     <Filter Include="02.GameObjects\UI\99. Button\GamePlay">
       <UniqueIdentifier>{3a797ae8-32eb-4d17-9b9d-8c6e82a13066}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera\FirstPerson">
+      <UniqueIdentifier>{acb5fd34-0af2-4e31-9a34-c2ec83823af0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -252,6 +255,9 @@
     <ClInclude Include="..\public\GamePlay_Button.h">
       <Filter>02.GameObjects\UI\99. Button\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Camera_FirstPerson.h">
+      <Filter>02.GameObjects\Camera\FirstPerson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -353,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="..\private\GamePlay_Button.cpp">
       <Filter>02.GameObjects\UI\99. Button\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_FirstPerson.cpp">
+      <Filter>02.GameObjects\Camera\FirstPerson</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

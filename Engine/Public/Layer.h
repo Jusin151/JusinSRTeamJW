@@ -17,6 +17,9 @@ public:
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
+
+	// 일단 제일 앞에 거 가져오도록. 나중에 생각...
+	class CGameObject* Find_Object();
 private:
 	list<class CGameObject*>			m_GameObjects;
 	class CGameInstance* m_pGameInstance;

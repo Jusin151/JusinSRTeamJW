@@ -1,6 +1,7 @@
 ﻿#include "Layer.h"
 #include "GameObject.h"
 #include "GameInstance.h"
+
 CLayer::CLayer() :
 	m_pGameInstance(CGameInstance::Get_Instance())
 {
@@ -68,6 +69,12 @@ void CLayer::Late_Update(_float fTimeDelta)
 		}
 		++iter;
 	}
+}
+
+CGameObject* CLayer::Find_Object()
+{
+	
+	return m_GameObjects.front();
 }
 
 CLayer* CLayer::Create(_uint iPrototypeLevelIndex)

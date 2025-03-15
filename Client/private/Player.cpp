@@ -83,7 +83,7 @@ HRESULT CPlayer::Render()
 {
 
 
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -98,7 +98,7 @@ HRESULT CPlayer::Render()
 
 	Release_RenderState();
 
-	m_pColliderCom->Render();
+	m_pColliderCom->Render();*/
 	return S_OK;
 }
 
