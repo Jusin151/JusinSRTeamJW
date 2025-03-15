@@ -31,7 +31,7 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 		{
 			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetEpisode_Display_Pos();
 		}
-		if (m_Button_INFO.strUIName != L"Level_Point_Shop_Selected_" && m_Button_INFO.Button_type == Episode)
+		if (m_Button_INFO.strUIName != L"Level_Point_Shop_Selected_" && m_Button_INFO.Button_type == Point_Shop)
 		{
 			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetPoint_Shop();
 		}
@@ -177,6 +177,7 @@ void CGamePlay_Button::Episode_Display_Button()
 			}
 
 		}
+	
 		if (m_Button_INFO.Episode_Button_Type.bLevel_01_Stage_Button_Flag) // 1레벨의 1스테이지는 기본적으로 열려있음 그래서 회색이 없음
 		{
 			if (!m_bChange_Click)

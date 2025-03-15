@@ -208,7 +208,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 		LEVEL_LOGO, TEXT("Layer_Point_Shop_Display"),
 		&Level_Poinst_Shop_Display)))
 		return E_FAIL;
-
+	 
 	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(12);
 
 	for (int i = 0; i < 6; ++i)
