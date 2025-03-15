@@ -34,6 +34,13 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
+	// GetComponet 테스트용
+	//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
+
+	//if (pTransform)
+	//{
+	//	pTransform->Go_Straight(fTimeDelta);
+	//}
 }
 
 void CPlayer::Update(_float fTimeDelta)

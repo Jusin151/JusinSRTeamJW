@@ -37,7 +37,7 @@ void CPickingSys::Update()
 				if (Spherelntersection(static_cast<CCollider_Sphere*>(collider)))
 				{
 
-					int a = 10;
+ 					int a = 10;
 				}
 			}
 		}
