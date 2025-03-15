@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "CUI_Base.h"
-
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -42,12 +41,13 @@ public:
 	static CUI_Episode* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+	_bool Get_Oepn_Display() { return m_bOpen_Display; }
 
 private:
-	bool m_bIsVisible = {};
-	bool m_bKeyPressed = {};
-private:
-	_float m_fArmor{};  // 체력
+	_bool m_bIsVisible = {};
+	_bool m_bKeyPressed = {};
+	_bool m_bOpen_Display = {};
+
 };
 
 

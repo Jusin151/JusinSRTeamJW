@@ -60,11 +60,14 @@ void CUI_Episode::Update(_float fTimeDelta)
 		{
 			m_bIsVisible = !m_bIsVisible;
 			m_bKeyPressed = true;
+			
 		}
+		//CUI_Manager::GetInstance()->Set_Episode_Display(true);
 	}
 	else
 	{
 		m_bKeyPressed = false;
+		//CUI_Manager::GetInstance()->Set_Episode_Display(false);
 	}
 }
 

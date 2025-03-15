@@ -503,7 +503,7 @@ HRESULT CLoader::Add_To_Shop_Episode_Textures()
 		TEXT("Prototype_Component_Texture_Episode_Level_1_UI"),
 		CTexture::Create(m_pGraphic_Device,
 			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png"),
-		20))))
+		21))))
 		return E_FAIL;
 
 
@@ -551,11 +551,7 @@ HRESULT CLoader::Add_To_Shop_Upgrade_Weapon_Textures()
 }
 HRESULT CLoader::Add_To_Shop_Episode_Prototype()
 {
-	// 에피소드 선택창
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Episode_UI"),
-		CUI_Episode::Create(m_pGraphic_Device))))
-		return E_FAIL;
+
 
 	
 	return S_OK;
