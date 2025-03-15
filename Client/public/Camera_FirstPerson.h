@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "Player.h"
@@ -29,7 +29,7 @@ public:
 private:
 	POINT				m_ptOldMousePos = {};
 	_float				m_fMouseSensor = {};
-	// ÇÃ·¹ÀÌ¾î À§Ä¡¿Í µ¿±âÈ­ÇÏ±â À§ÇØ..
+	// í”Œë ˆì´ì–´ ìœ„ì¹˜ì™€ ë™ê¸°í™”í•˜ê¸° ìœ„í•´..
 	CGameObject*		m_pPlayer = { nullptr };
 private:
 	HRESULT Ready_Components();

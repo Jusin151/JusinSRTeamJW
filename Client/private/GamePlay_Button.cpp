@@ -32,6 +32,10 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 		{
 			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetEpisode_Display_Pos();
 		}
+		if (m_Button_INFO.strUIName != L"Level_Point_Shop_Selected_" && m_Button_INFO.Button_type == Episode)
+		{
+			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetPoint_Shop();
+		}
 		Set_Position(m_Button_INFO.Button_Desc.vPos);
 		Set_Size(m_Button_INFO.Button_Desc.vSize);
 		CUI_Manager::GetInstance()->AddUI(m_Button_INFO.strUIName, this);

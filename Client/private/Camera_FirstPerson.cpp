@@ -1,6 +1,6 @@
-#include "Camera_FirstPerson.h"
+ï»¿#include "Camera_FirstPerson.h"
 #include "GameInstance.h"
-#include "PickingSys.h" // Å×½ºÆ® ¿ëÀ¸·Î Çì´õ Ãß°¡
+#include "PickingSys.h" // í…ŒìŠ¤íŠ¸ ìš©ìœ¼ë¡œ í—¤ë” ì¶”ê°€
 
 CCamera_FirstPerson::CCamera_FirstPerson(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCamera{ pGraphic_Device }
@@ -19,7 +19,7 @@ HRESULT CCamera_FirstPerson::Initialize_Prototype()
 
 HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 {
-	/* TransformComÀ» »ı¼ºÇØ³õ´Â´Ù. */
+	/* TransformComì„ ìƒì„±í•´ë†“ëŠ”ë‹¤. */
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
