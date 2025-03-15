@@ -20,6 +20,11 @@ HRESULT CCollider_Cube::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CCollider_Cube::Render()
+{
+	return S_OK;
+}
+
 void CCollider_Cube::Update_Desc()
 {
 	// 축과 점 위치를 월드 행렬에 맞게 고친다

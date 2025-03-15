@@ -32,7 +32,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
+	virtual HRESULT Render() override;
 	COL_CUBE_DESC& Get_Desc() { return m_tDesc; }
 
 	void Update_Desc();

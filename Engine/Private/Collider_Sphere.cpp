@@ -23,7 +23,6 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 
 HRESULT CCollider_Sphere::Render()
 {
-    Calc_Radius();
     // 현재 상태를 저장
     DWORD dwFillMode, dwLighting;
     m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &dwFillMode);
@@ -35,7 +34,7 @@ HRESULT CCollider_Sphere::Render()
     m_pGraphic_Device->GetTransform(D3DTS_WORLD, &matOldWorld);
 
     // 반지름 확인 및 임시 조정 (디버깅용)
-    _float fRenderRadius = m_fRadius*0.5f;
+    _float fRenderRadius = m_fRadius;
 
 
 
@@ -75,12 +74,6 @@ HRESULT CCollider_Sphere::Render()
 
     return S_OK;
 }
-
-void CCollider_Sphere::Calc_Radius()
-{
-	// 한 방향 길이를 구해서 곱해서 넘겨준다
-	_float3 fRadiusVec = Get_State(CTransform::STATE_RIGHT);
-
 	
 
 CCollider_Sphere* CCollider_Sphere::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
