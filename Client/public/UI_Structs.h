@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Engine_Defines.h"
 
-enum Button_type // ÀÌ ¹öÆ°Àº ¾î´À ¸Ş´ºÃ¢ÀÇ ¹öÆ°ÀÎÁö
+enum Button_type // ì´ ë²„íŠ¼ì€ ì–´ëŠ ë©”ë‰´ì°½ì˜ ë²„íŠ¼ì¸ì§€
 {
     Episode = 0, Point_Shop = 1, Spell_Shop = 2, Upgrade_Weapon = 3
 };
-enum Level_01_Type // ÀÌ ¹öÆ°Àº ¾î´À ÀÌ¹ÌÁö¸¦ »ç¿ëÇÒ°ÍÀÎÁö
+enum Level_01_Type // ì´ ë²„íŠ¼ì€ ì–´ëŠ ì´ë¯¸ì§€ë¥¼ ì‚¬ìš©í• ê²ƒì¸ì§€
 {
     Level_ICon_Defaul, Level_ICon_Selected,
     Stage_01_Color_Default, Stage_01_Color_Selected,
@@ -16,7 +16,7 @@ enum Level_01_Type // ÀÌ ¹öÆ°Àº ¾î´À ÀÌ¹ÌÁö¸¦ »ç¿ëÇÒ°ÍÀÎÁö
     Stage_05_Gray_Default, Stage_05_Gray_Selected, Stage_05_Color_Default, Stage_05_Color_Selected,
     Episode_Display
 };
-typedef struct tagEpisode_Type //¿¡ÇÇ¼Òµå ¹öÆ° Å¸ÀÔ
+typedef struct tagEpisode_Type //ì—í”¼ì†Œë“œ ë²„íŠ¼ íƒ€ì…
 {
     _bool bLevel_Icon_Button_Flag{};
     _bool bLevel_01_Stage_Button_Flag{};

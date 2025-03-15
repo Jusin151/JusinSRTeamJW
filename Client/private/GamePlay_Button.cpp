@@ -19,7 +19,6 @@ CGamePlay_Button::CGamePlay_Button(const CGamePlay_Button& Prototype)
 HRESULT CGamePlay_Button::Initialize_Prototype()
 {
 
-
 	return S_OK;
 }
 
@@ -31,6 +30,10 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 		if (m_Button_INFO.strUIName != L"Level_1_Display"&& m_Button_INFO.Button_type==Episode)
 		{
 			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetEpisode_Display_Pos();
+		}
+		if (m_Button_INFO.strUIName != L"Level_Point_Shop_Selected_" && m_Button_INFO.Button_type == Point_Shop)
+		{
+			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetPoint_Shop();
 		}
 		Set_Position(m_Button_INFO.Button_Desc.vPos);
 		Set_Size(m_Button_INFO.Button_Desc.vSize);
@@ -47,7 +50,7 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 		_float3(m_Button_INFO.Button_Desc.vPos.x, m_Button_INFO.Button_Desc.vPos.y, 0.1f));
 
 	// 예: "MainFont"라는 태그로 폰트를 등록
-	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
+
 
 	return S_OK;
 }
@@ -174,6 +177,7 @@ void CGamePlay_Button::Episode_Display_Button()
 			}
 
 		}
+	
 		if (m_Button_INFO.Episode_Button_Type.bLevel_01_Stage_Button_Flag) // 1레벨의 1스테이지는 기본적으로 열려있음 그래서 회색이 없음
 		{
 			if (!m_bChange_Click)

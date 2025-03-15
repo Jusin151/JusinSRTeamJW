@@ -1,4 +1,4 @@
-#include "Collider_Cube.h"
+ï»¿#include "Collider_Cube.h"
 
 CCollider_Cube::CCollider_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollider(pGraphic_Device)
@@ -27,7 +27,7 @@ HRESULT CCollider_Cube::Render()
 
 void CCollider_Cube::Update_Desc()
 {
-	// Ãà°ú Á¡ À§Ä¡¸¦ ¿ùµå Çà·Ä¿¡ ¸Â°Ô °íÄ£´Ù
+	// ì¶•ê³¼ ì  ìœ„ì¹˜ë¥¼ ì›”ë“œ í–‰ë ¬ì— ë§ê²Œ ê³ ì¹œë‹¤
 
 	m_tDesc.vecIndices.clear();
 

@@ -208,7 +208,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 		LEVEL_LOGO, TEXT("Layer_Point_Shop_Display"),
 		&Level_Poinst_Shop_Display)))
 		return E_FAIL;
-
+	 
 	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(12);
 
 	for (int i = 0; i < 6; ++i)
@@ -217,7 +217,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 		{
 			int index = i * 2 + j;
 			vecButtonDescs[index].Button_Desc.vSize = { 211.f, 32.f };
-			vecButtonDescs[index].Button_Desc.vPos = { j * 220.f + 46.f, i * 60.f - 45.f }; // 위치 조정
+			vecButtonDescs[index].Button_Desc.vPos = { 10.f*j,10.f*i }; // 위치 조정
 			vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI";
 			vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_" + to_wstring(index);
 			vecButtonDescs[index].Button_type = CGamePlay_Button::Button_type::Point_Shop;
