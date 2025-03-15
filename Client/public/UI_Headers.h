@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
-////////////////////////////// ·¹º§_·Î°í
+////////////////////////////// ë ˆë²¨_ë¡œê³ 
 #include "BackGround.h"
 #include  "Default_Menu.h"
 #include  "Start_Button.h"
 #include  "Exit_Button.h"
-////////////////////////////// ·¹º§_°ÔÀÓÇÃ·¹ÀÌ
+////////////////////////////// ë ˆë²¨_ê²Œì„í”Œë ˆì´
 #include "UI_Default_Panel.h"
 #include "UI_HPDisplay.h"
 #include "CUI_AmmoDisplay.h"

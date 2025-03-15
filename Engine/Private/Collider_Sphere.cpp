@@ -21,6 +21,11 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CCollider_Sphere::Render()
+{
+	return E_NOTIMPL;
+}
+
 void CCollider_Sphere::Calc_Radius()
 {
 	// 한 방향 길이를 구해서 곱해서 넘겨준다

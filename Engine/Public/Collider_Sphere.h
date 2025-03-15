@@ -16,6 +16,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Render() override;
 
 	void Calc_Radius();
 	// 반지름이 계산 안되있으면 계산 후 출력

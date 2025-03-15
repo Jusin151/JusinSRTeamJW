@@ -7,8 +7,10 @@
 
 BEGIN(Engine)
 
+
 class CObject_Manager final : public CBase
 {
+	friend class CMyImGui;
 private:
 	CObject_Manager();
 	virtual ~CObject_Manager() = default;
@@ -17,6 +19,7 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
 	HRESULT Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex,const _wstring& strLayerTag); // 풀 매니저에서 뽑아쓸 때 쓰는 add
+	
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);

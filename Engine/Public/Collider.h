@@ -16,6 +16,7 @@ public:
 
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Render();
 
 	// 오브젝트에서 설정해서 매니저로 넘기기
 	_float3 Get_State(CTransform::TRANSFORMSTATE eState) const {

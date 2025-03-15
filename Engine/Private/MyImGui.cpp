@@ -1,6 +1,26 @@
 ﻿#include "MyImGui.h"
 #include "GameInstance.h"
 #include "Graphic_Device.h"
+#include "Object_Manager.h"
+#include "Layer.h"
+#include "GameObject.h"
+
+
+inline string WStringToString(const wstring& wstr) {
+    if (wstr.empty()) {
+        return "";
+    }
+
+    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    if (bufferSize == 0) {
+        return ""; // 또는 예외 처리
+    }
+
+    string str(bufferSize, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], bufferSize, nullptr, nullptr);
+    str.resize(strlen(str.c_str())); // null 문자 제거
+    return str;
+}
 
 CMyImGui::CMyImGui(CGraphic_Device* pGraphic_Device)
 	: m_pGraphic_Device{pGraphic_Device}
@@ -10,8 +30,9 @@ CMyImGui::CMyImGui(CGraphic_Device* pGraphic_Device)
 	Safe_AddRef(m_pGraphic_Device);
 }
 
-HRESULT CMyImGui::Initialize(HWND hWnd, CGraphic_Device* pGraphic_Device)
+HRESULT CMyImGui::Initialize(_uint iNumLevels, HWND hWnd, CGraphic_Device* pGraphic_Device)
 {
+    m_iNumLevels = iNumLevels;
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -66,13 +87,14 @@ void CMyImGui::Update(_float fTimeDelta)
         ImGui::End();
     }
 
-    {
-        static float f = 0.0f;
-        ImGui::Begin("Another Window", &show_another_window);
+    //{
+    //    ImGui::Begin("Camera");
+    //    m_pGameInstance->m_pObject_Manager->m_pLayers
+    //    //여기에 쓰고싶은거로 채우기
+    //    ImGui::End();
+    //}
 
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::End();
-    }
+    ShowLayerInMap(m_pGameInstance->m_pObject_Manager->m_pLayers);
 
     // 3. Show another simple window.
     if (show_another_window)
@@ -88,24 +110,86 @@ void CMyImGui::Update(_float fTimeDelta)
 
 HRESULT CMyImGui::Render()
 {
+    ImGuiIO& io = ImGui::GetIO();
     m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
     m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-    D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
-    //m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
     ImGui::Render();
     ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-    /*HRESULT result = m_pGraphic_Device->Present(nullptr, nullptr, nullptr, nullptr);
-    if (result == D3DERR_DEVICELOST)
-        g_DeviceLost = true;*/
+
 	return S_OK;
 }
 
-CMyImGui* CMyImGui::Create(HWND hWnd, CGraphic_Device* pGraphic_Device)
+void CMyImGui::ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers)
+{
+    if (ImGui::BeginTable("MyMapTable", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders)) {
+        // 헤더 설정
+        ImGui::TableSetupColumn("Layer Key");
+        //ImGui::TableSetupColumn("Objects"); // 오브젝트 리스트를 표시할 열
+        ImGui::TableHeadersRow();
+
+        // 맵의 각 요소를 순회하며 테이블에 행 추가
+        for (_uint i = 0; i < m_iNumLevels; ++i) {
+            // std::map<std::wstring, CLayer*> iter = pLayers[i];
+            for (auto& pair : pLayers[i])
+            {
+                ImGui::TableNextRow(); // 새 행 시작
+                ImGui::TableNextColumn(); // 첫 번째 열 (Key)
+                if(ImGui::CollapsingHeader(WStringToString(pair.first).c_str())) // Key (wstring) 출력
+                    ShowListInLayer(pair.second);
+            }
+        }
+        ImGui::EndTable();
+    }
+}
+
+void CMyImGui::ShowListInLayer(CLayer* pLayer)
+{
+    //내부 테이블
+    if (ImGui::BeginTable("ObjectsTable", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders))
+    {
+        ImGui::TableSetupColumn("ID");
+        //ImGui::TableSetupColumn("Components");
+        ImGui::TableHeadersRow();
+        int i = 0;
+        for (const auto& pGameObject : pLayer->m_GameObjects)
+        {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            if (ImGui::CollapsingHeader(to_string(i).c_str()))
+                ShowComponentsInGameObject(pGameObject);
+            //ImGui::TableNextColumn();
+            //ImGui::Text("%d", pGameObject->GetID());
+            ++i;
+        }
+        ImGui::EndTable();
+    }
+}
+
+void CMyImGui::ShowComponentsInGameObject(CGameObject* pGameObject)
+{
+    if (ImGui::BeginTable("ObjectsTable", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders))
+    {
+        ImGui::TableSetupColumn("Components");
+        ImGui::TableHeadersRow();
+        for (const auto& pair : pGameObject->m_Components)
+        {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            if (ImGui::CollapsingHeader(WStringToString(pair.first).c_str()))
+            {
+
+            }
+        }
+        ImGui::EndTable();
+    }
+}
+
+CMyImGui* CMyImGui::Create(_uint iNumLevels, HWND hWnd, CGraphic_Device* pGraphic_Device)
 {
 	CMyImGui* pInstance = new CMyImGui(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize(hWnd, pGraphic_Device)))
+	if (FAILED(pInstance->Initialize(iNumLevels, hWnd, pGraphic_Device)))
 	{
 		MSG_BOX("Failed to Created : CObject_Manager");
 		Safe_Release(pInstance);

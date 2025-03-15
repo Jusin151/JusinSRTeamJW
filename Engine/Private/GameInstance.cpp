@@ -56,7 +56,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollider_Manager)
 		return E_FAIL;
 
-	m_pMyImGui = CMyImGui::Create(EngineDesc.hWnd, m_pGraphic_Device);
+	m_pMyImGui = CMyImGui::Create(EngineDesc.iNumLevels, EngineDesc.hWnd, m_pGraphic_Device);
 	if (nullptr == m_pMyImGui)
 		return E_FAIL;
 
@@ -194,6 +194,15 @@ HRESULT CGameInstance::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& 
 HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
 {
 	return m_pCollider_Manager->Add_Collider(eGroup, Collider);
+}
+
+#pragma endregion
+
+#pragma region Graphic_Device
+
+void CGameInstance::Change_ClearColor(_float4 rgba)
+{
+	return m_pGraphic_Device->ChangeClearColor(rgba);
 }
 
 #pragma endregion
