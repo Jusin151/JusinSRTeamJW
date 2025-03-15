@@ -26,9 +26,11 @@ private:
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Shop();
+	HRESULT Ready_Layer_Shop_Button();
 
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
+
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

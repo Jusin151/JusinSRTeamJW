@@ -29,9 +29,7 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_BackMenu_pTextureCom{};
-	CTransform* m_BackMenu_pTransformCom{};
-	CVIBuffer_Rect* m_BackMenu_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
+
 	UI_Child_Desc m_BackMenu_INFO{};
 
 private:

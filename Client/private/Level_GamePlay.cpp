@@ -3,6 +3,7 @@
 #include "PickingSys.h"
 #include "UI_Default_Panel.h"
 #include "CUI_Base.h"
+#include "GamePlay_Button.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device } ,
@@ -109,8 +110,31 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 		LEVEL_GAMEPLAY, TEXT("Layer_Upgrade_Weapon_1"), &Upgrade_Weapon)))
 		return E_FAIL;
 
+
+	Ready_Layer_Shop_Button();
+
 	return S_OK;
 }
+
+HRESULT CLevel_GamePlay::Ready_Layer_Shop_Button()
+{
+	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{};
+	Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
+	Level_1_Icon_Desc.Button_Desc.vPos = { 0.f,0.f };
+	Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Icon_UI" };
+	Level_1_Icon_Desc.strTexture_Select_Tag = { L"Prototype_Component_Texture_Episode_Level_Selected" };
+	Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
+
+	Level_1_Icon_Desc.bLevel_Icon_Button_Flag = true;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Menu_GameButton"), 
+		&Level_1_Icon_Desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {

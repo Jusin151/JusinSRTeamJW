@@ -1,10 +1,9 @@
 #pragma once
 
+#include "Button_Base.h"
 ////////////////////////////// 레벨_로고
 #include "BackGround.h"
 #include  "Default_Menu.h"
-#include  "Start_Button.h"
-#include  "Exit_Button.h"
 ////////////////////////////// 레벨_게임플레이
 #include "UI_Default_Panel.h"
 #include "UI_HPDisplay.h"

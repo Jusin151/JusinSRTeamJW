@@ -24,6 +24,7 @@ private:
 
 public:
 	static CLevel_Logo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static _bool bStart;
 	virtual void Free() override;
 };
 
