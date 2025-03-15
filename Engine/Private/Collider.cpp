@@ -18,6 +18,7 @@ HRESULT CCollider::Initialize_Prototype()
 
 HRESULT CCollider::Initialize(void* pArg)
 {
+	D3DXMatrixIdentity(&m_WorldMatrix);
 	return S_OK;
 }
 

@@ -82,15 +82,15 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 
 	_int		iMouseMove = {};
 
-	//if (iMouseMove = ptMouse.x - m_ptOldMousePos.x)
-	//{
-	//	m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iMouseMove * m_fMouseSensor);
-	//}
+	if (iMouseMove = ptMouse.x - m_ptOldMousePos.x)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iMouseMove * m_fMouseSensor);
+	}
 
-	//if (iMouseMove = ptMouse.y - m_ptOldMousePos.y)
-	//{
-	//	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * iMouseMove * m_fMouseSensor);
-	//}
+	if (iMouseMove = ptMouse.y - m_ptOldMousePos.y)
+	{
+		m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * iMouseMove * m_fMouseSensor);
+	}
 	
 
 	m_ptOldMousePos = ptMouse;

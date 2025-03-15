@@ -57,10 +57,15 @@ public:
 
 	void Set_MTV(_float3 fMTV) { m_fMTV = fMTV; }
 
+	_float3 Get_Scale() { return m_fScale; }
+	void Set_Scale(_float3 fScale) { m_fScale = fScale; }
+
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
 	_float3					m_fPos = {};
+	// 월드 행렬 스케일 값 저장용
+	_float3					m_fScale = {};
 
 	// 최소 이동 벡터랑 필요하면 길이까지. 길이는 필요 없을지도?
 	_float3					m_fMTV = {0.f, 0.f, 0.f};

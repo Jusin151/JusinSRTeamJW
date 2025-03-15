@@ -21,24 +21,7 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CCollider_Sphere::Calc_Radius()
-{
-	// 한 방향 길이를 구해서 곱해서 넘겨준다
-	_float3 fRadiusVec = Get_State(CTransform::STATE_RIGHT);
 
-	
-
-	m_fRadius = fRadiusVec.Length() ;
-
-}
-
-_float CCollider_Sphere::Get_Radius()
-{
-	if (1.f != m_fRadius)
-		Calc_Radius();
-
-	return m_fRadius;
-}
 
 CCollider_Sphere* CCollider_Sphere::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -43,6 +43,7 @@ void CCollider_Manager::Clear()
 void CCollider_Manager::Update_Collison()
 {
 	Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
+	//Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 
 	Clear();
 }

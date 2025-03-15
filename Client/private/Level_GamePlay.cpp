@@ -176,15 +176,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	CTransform::TRANSFORM_DESC randTransDesc{};
 
 
-	for (int i = 0; i < 2; i++)
-	{
+	
 
 	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
 	randTransDesc.fSpeedPerSec = 10.f;
 	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
 	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag,&randTransDesc)))
 		return E_FAIL;
-	}
+	
 
 	return S_OK;
 }
