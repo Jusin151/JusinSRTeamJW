@@ -19,7 +19,6 @@ CGamePlay_Button::CGamePlay_Button(const CGamePlay_Button& Prototype)
 HRESULT CGamePlay_Button::Initialize_Prototype()
 {
 
-
 	return S_OK;
 }
 
@@ -51,8 +50,7 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 		_float3(m_Button_INFO.Button_Desc.vPos.x, m_Button_INFO.Button_Desc.vPos.y, 0.1f));
 
 	// 예: "MainFont"라는 태그로 폰트를 등록
-	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
-		return E_FAIL;
+
 
 	return S_OK;
 }

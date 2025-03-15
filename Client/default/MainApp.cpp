@@ -119,6 +119,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CCollider_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
+		return E_FAIL;
 
 	return S_OK;
 }
