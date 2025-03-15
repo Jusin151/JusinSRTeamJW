@@ -13,6 +13,7 @@ class ENGINE_DLL CGameInstance final : public CBase
 	DECLARE_SINGLETON(CGameInstance)
 
 private:
+	friend class CMyImGui;
 	CGameInstance();
 	virtual ~CGameInstance() = default;
 
@@ -22,14 +23,14 @@ public:
 	HRESULT Draw();	
 	void Clear(_uint iLevelIndex);
 
-#pragma region LEVEL_MANAGER
 public:
+#pragma region LEVEL_MANAGER
 	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
 	HRESULT Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, class CBase* pPrototype);
-	CBase* Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
+	CBase*	Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
@@ -42,9 +43,9 @@ public:
 #pragma endregion
 
 #pragma region TIMER_MANAGER
-	_float Get_TimeDelta(const _wstring& strTimerTag);
+	_float	Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT Add_Timer(const _wstring& strTimerTag);
-	void Update_Timer(const _wstring& strTimerTag);
+	void	Update_Timer(const _wstring& strTimerTag);
 #pragma endregion
 
 #pragma region SOUND_MANAGER
@@ -67,7 +68,12 @@ public:
 
 #pragma endregion
 
-#pragma region IMGUI
+#pragma region MyImGui
+	HRESULT Register_GameObject(CGameObject* pGameObject);
+#pragma endregion
+
+#pragma region Graphic_Device
+	void Change_ClearColor(_float4 rgba);
 #pragma endregion
 
 
