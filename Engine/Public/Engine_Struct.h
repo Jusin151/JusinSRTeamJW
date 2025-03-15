@@ -117,7 +117,11 @@ namespace Engine
 			if (y != other.y) return y < other.y;
 			return z < other.z;
 		}
-
+		static float Distance(const tagVector3& a, const tagVector3& b)
+		{
+			tagVector3 tmpVector = a - b;
+			return D3DXVec3Length(&tmpVector);
+		}
 		static tagVector3 Zero() { return tagVector3(0.0f, 0.0f, 0.0f); }
 		static tagVector3 One() { return tagVector3(1.0f, 1.0f, 1.0f); }
 		static tagVector3 Up() { return tagVector3(0.0f, 1.0f, 0.0f); }
