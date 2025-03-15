@@ -1,4 +1,4 @@
-#include "Button_Base.h"
+ï»¿#include "Logo_Button.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -156,7 +156,7 @@ CLogo_Button* CLogo_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("¹öÆ° UI ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("ë²„íŠ¼ UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 
@@ -171,7 +171,7 @@ CGameObject* CLogo_Button::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("¹öÆ° UI º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ë²„íŠ¼ UI ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 

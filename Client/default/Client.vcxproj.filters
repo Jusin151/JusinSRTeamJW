@@ -246,7 +246,7 @@
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Button_Base.h">
+    <ClInclude Include="..\public\Logo_Button.h">
       <Filter>02.GameObjects\UI\99. Button\Logo_Button</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GamePlay_Button.h">
@@ -348,7 +348,7 @@
     <ClCompile Include="..\Private\BackGround.cpp">
       <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Button_Base.cpp">
+    <ClCompile Include="..\private\Logo_Button.cpp">
       <Filter>02.GameObjects\UI\99. Button\Logo_Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GamePlay_Button.cpp">

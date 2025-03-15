@@ -116,22 +116,37 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Shop_Button()
-{
-	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{};
-	Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
-	Level_1_Icon_Desc.Button_Desc.vPos = { 0.f,0.f };
-	Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Icon_UI" };
-	Level_1_Icon_Desc.strTexture_Select_Tag = { L"Prototype_Component_Texture_Episode_Level_Selected" };
-	Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
+#include "GamePlay_Button.h"
 
-	Level_1_Icon_Desc.bLevel_Icon_Button_Flag = true;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Menu_GameButton"), 
+// ...
+
+HRESULT CLevel_GamePlay::Ready_Layer_Shop_Button() // 레벨은 큰 라운드 스테이지는 레벨안의 스테이지
+{
+    CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{};
+    Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
+    Level_1_Icon_Desc.Button_Desc.vPos = { 0.f,0.f };
+    Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+    Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
+    Level_1_Icon_Desc.bLevel_Icon_Button_Flag = true;
+	Level_1_Icon_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
+        LEVEL_LOGO, TEXT("Layer_GamePlay_Level_01_Icon"), 
+        &Level_1_Icon_Desc)))
+        return E_FAIL;
+
+	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Level_Stage_Desc{};
+	Level_1_Icon_Desc.Button_Desc.vSize = { 192.f,192.f };
+	Level_1_Icon_Desc.Button_Desc.vPos = { 200.f,0.f };
+	Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_1_Icon_Desc.strUIName = { L"Level_1_01_Stage" };
+	Level_1_Icon_Desc.bLevel_01_Stage_Button_Flag = true;
+	Level_1_Icon_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_GamePlay_Level_01_01_Stage"),
 		&Level_1_Icon_Desc)))
 		return E_FAIL;
 
-	return S_OK;
+    return S_OK;
 }
 
 

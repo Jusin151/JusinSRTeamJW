@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -15,9 +15,18 @@ BEGIN(Client)
 class CGamePlay_Button : public CUI_Base
 {
 public:
-    enum Button_type
+    enum Button_type // ì´ ë²„íŠ¼ì€ ì–´ëŠ ë©”ë‰´ì°½ì˜ ë²„íŠ¼ì¸ì§€
     {
-        Episode
+        Episode = 0, Point_Shop = 1, Spell_Shop = 2, Upgrade_Weapon = 3
+    };
+    enum Level_01_Type // ì´ ë²„íŠ¼ì€ ì–´ëŠ ì´ë¯¸ì§€ë¥¼ ì‚¬ìš©í• ê²ƒì¸ì§€
+    {
+        Stage_01_Default=0,
+        Stage_02_Default,Stage_02_Selected,
+        Stage_03_Default,Stage_03_Selected,
+        Stage_04_Default,Stage_04_Selected,
+        Stage_05_Default,Stage_05_Selected,
+        Level_ICon_Defaul,Level_ICon_Selected,
     };
     typedef struct tagButton
     {
@@ -25,12 +34,14 @@ public:
         wstring strTexture_Default_Tag{};
         wstring strTexture_Select_Tag{};
         wstring strUIName{};
+        Button_type Button_type{};
         _bool bLevel_Icon_Button_Flag{}; 
-        _bool bLevel_1_Button_Flag{};
-        _bool bLevel_2_Button_Flag{};
-        _bool bLevel_3_Button_Flag{};
-        _bool bLevel_4_Button_Flag{};
-        _bool bLevel_5_Button_Flag{};
+        _bool bLevel_01_Stage_Button_Flag{};
+        _bool bLevel_02_Stage_Button_Flag{};
+        _bool bLevel_03_Stage_Button_Flag{};
+        _bool bLevel_04_Stage_Button_Flag{};
+        _bool bLevel_05_Stage_Button_Flag{};
+
     }GamePlayer_Button_Desc;
 
 protected:
@@ -46,9 +57,13 @@ public:
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
 
+    void Episode_Display_Button();
+    void Point_Shop_Display_Button();
+    void Spell_Shop_Display_Button();
+    void Upgrade_Weapon_Display_Button();
+
 protected:
     CTexture* m_GamePlay_Button_pTextureCom{};
-    CTexture* m_GamePlayer_Button_pTextureCom_Second{};
     CVIBuffer_Rect* m_GamePlayer_Button_pVIBufferCom{};
     CTransform* m_GamePlayer_Button_pTransformCom{};
 
@@ -67,8 +82,8 @@ protected:
         LONG screenWidth = rcClient.right - rcClient.left;
         LONG screenHeight = rcClient.bottom - rcClient.top;
 
-        // ³» ÄÚµå´Â È­¸é Áß¾ÓÀÇ 0,0À» ±âÁØÀ¸·Î ÇÏ´Â°Ô ´õ ÆíÇÑ°Å °°¾Æ¼­
-        // ¸¶¿ì½ºÄ¿¼­ÀÇ ÁÂÇ¥µµ 0,0À¸·Î ¹Ù²ãÁØ°ÅÀÓ
+        // ë‚´ ì½”ë“œëŠ” í™”ë©´ ì¤‘ì•™ì˜ 0,0ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ëŠ”ê²Œ ë” í¸í•œê±° ê°™ì•„ì„œ
+        // ë§ˆìš°ìŠ¤ì»¤ì„œì˜ ì¢Œí‘œë„ 0,0ìœ¼ë¡œ ë°”ê¿”ì¤€ê±°ì„
         _float2 vMousePos =
         {
             static_cast<_float>(ptMouse.x - screenWidth / 2),
@@ -93,7 +108,8 @@ public:
     static CGamePlay_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free();
-
+private:
+    Level_01_Type Current_Image{};
 private:
     bool m_bIsVisible = {};
     bool m_bKeyPressed = {};

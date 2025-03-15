@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
-#include "Button_Base.h"
-////////////////////////////// ·¹º§_·Î°í
+#include "Logo_Button.h"
+////////////////////////////// ë ˆë²¨_ë¡œê³ 
 #include "BackGround.h"
 #include  "Default_Menu.h"
-////////////////////////////// ·¹º§_°ÔÀÓÇÃ·¹ÀÌ
+////////////////////////////// ë ˆë²¨_ê²Œì„í”Œë ˆì´
 #include "UI_Default_Panel.h"
 #include "UI_HPDisplay.h"
 #include "CUI_AmmoDisplay.h"

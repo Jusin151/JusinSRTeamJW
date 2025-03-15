@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -21,7 +21,7 @@ public:
         wstring strTexture_Default_Tag{}; 
         wstring strTexture_Select_Tag{};
         wstring strUIName{};
-        _bool bStartButton_Flag{}; // ½ÃÀÛ¹öÆ°¿ë
+        _bool bStartButton_Flag{}; // ì‹œì‘ë²„íŠ¼ìš©
         _bool bExitButton_Flag{};;
     }UI_Button_Desc;
 
@@ -59,8 +59,8 @@ protected:
         LONG screenWidth = rcClient.right - rcClient.left;
         LONG screenHeight = rcClient.bottom - rcClient.top;
 
-        // ³» ÄÚµå´Â È­¸é Áß¾ÓÀÇ 0,0À» ±âÁØÀ¸·Î ÇÏ´Â°Ô ´õ ÆíÇÑ°Å °°¾Æ¼­
-        // ¸¶¿ì½ºÄ¿¼­ÀÇ ÁÂÇ¥µµ 0,0À¸·Î ¹Ù²ãÁØ°ÅÀÓ
+        // ë‚´ ì½”ë“œëŠ” í™”ë©´ ì¤‘ì•™ì˜ 0,0ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ëŠ”ê²Œ ë” í¸í•œê±° ê°™ì•„ì„œ
+        // ë§ˆìš°ìŠ¤ì»¤ì„œì˜ ì¢Œí‘œë„ 0,0ìœ¼ë¡œ ë°”ê¿”ì¤€ê±°ì„
         _float2 vMousePos =
         {
             static_cast<_float>(ptMouse.x - screenWidth / 2),
@@ -90,7 +90,6 @@ private:
 	bool m_bIsVisible = {};
 	bool m_bKeyPressed = {};
 private:
-	_float m_fArmor{};  // Ã¼·Â
 };
 
 

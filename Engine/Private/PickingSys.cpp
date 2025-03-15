@@ -1,4 +1,4 @@
-#include "PickingSys.h"
+ï»¿#include "PickingSys.h"
 #include "Transform.h"
 #include "Collider_Sphere.h"
 #include "GameInstance.h"
@@ -49,7 +49,7 @@ _bool CPickingSys::Spherelntersection(CCollider_Sphere* pColliderSp)
 	if (pColliderSp == nullptr) return false;
 	_float3 v = m_Ray.vOrigin - pColliderSp->Get_State(CTransform::STATE_POSITION);
 
-	_float a = m_Ray.vDir.Dot(m_Ray.vDir);     // a = 1 (Á¤±ÔÈ­µÈ ¹æÇâ º¤ÅÍ¶ó¸é)
+	_float a = m_Ray.vDir.Dot(m_Ray.vDir);     // a = 1 (ì •ê·œí™”ëœ ë°©í–¥ ë²¡í„°ë¼ë©´)
 	_float b = 2.0f * m_Ray.vDir.Dot(v);
 	//_float c = v.Dot(v) - (pColliderSp->Get_Radius() * pColliderSp->Get_Radius());
 	_float c = v.Dot(v) - (pColliderSp->Get_Radius());
@@ -84,17 +84,17 @@ HRESULT CPickingSys::CalcPickingRay(_ulong iX, _ulong iY)
 	m_Ray.vOrigin = _float3(0.f, 0.f, 0.f);
 	m_Ray.vDir = _float3(px, py, 1.f);
 
-	// Ä«¸Þ¶óÀÇ ¿ùµå À§Ä¡¸¦ RayÀÇ ¿øÁ¡À¸·Î ¼³Á¤
+	// ì¹´ë©”ë¼ì˜ ì›”ë“œ ìœ„ì¹˜ë¥¼ Rayì˜ ì›ì ìœ¼ë¡œ ì„¤ì •
 	m_Ray.vOrigin = m_pCamTransform->Get_State(CTransform::STATE_POSITION);
 
-	// ¿ùµå ¹æÇâ °è»ê: Ä«¸Þ¶óÀÇ right, up, look º¤ÅÍ¸¦ »ç¿ëÇÏ¿© ºä °ø°£ ¹æÇâÀ» ¿ùµå °ø°£À¸·Î º¯È¯
+	// ì›”ë“œ ë°©í–¥ ê³„ì‚°: ì¹´ë©”ë¼ì˜ right, up, look ë²¡í„°ë¥¼ ì‚¬ìš©í•˜ì—¬ ë·° ê³µê°„ ë°©í–¥ì„ ì›”ë“œ ê³µê°„ìœ¼ë¡œ ë³€í™˜
 	_float3 vRight = m_pCamTransform->Get_State(CTransform::STATE_RIGHT);
 	_float3 vUp = m_pCamTransform->Get_State(CTransform::STATE_UP);
 	_float3 vLook = m_pCamTransform->Get_State(CTransform::STATE_LOOK);
 
-	// ºä °ø°£ ¹æÇâ º¤ÅÍ¸¦ ¿ùµå °ø°£ ¹æÇâ º¤ÅÍ·Î º¯È¯
+	// ë·° ê³µê°„ ë°©í–¥ ë²¡í„°ë¥¼ ì›”ë“œ ê³µê°„ ë°©í–¥ ë²¡í„°ë¡œ ë³€í™˜
 	m_Ray.vDir = vRight * px + vUp * py + vLook * m_Ray.vDir.z;
-	m_Ray.vDir.Normalize(); // ¹æÇâ º¤ÅÍ Á¤±ÔÈ­, ¿ùµå·Î ¹Ù²Ù±â
+	m_Ray.vDir.Normalize(); // ë°©í–¥ ë²¡í„° ì •ê·œí™”, ì›”ë“œë¡œ ë°”ê¾¸ê¸°
 
 	return S_OK;
 }

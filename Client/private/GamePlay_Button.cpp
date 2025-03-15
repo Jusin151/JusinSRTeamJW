@@ -1,4 +1,4 @@
-#include "GamePlay_Button.h"
+Ôªø#include "GamePlay_Button.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -10,7 +10,6 @@ CGamePlay_Button::CGamePlay_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 CGamePlay_Button::CGamePlay_Button(const CGamePlay_Button& Prototype)
 	: CUI_Base(Prototype),
 	m_GamePlay_Button_pTextureCom(Prototype.m_GamePlay_Button_pTextureCom),
-	m_GamePlayer_Button_pTextureCom_Second(Prototype.m_GamePlayer_Button_pTextureCom_Second),
 	m_GamePlayer_Button_pVIBufferCom(Prototype.m_GamePlayer_Button_pVIBufferCom),
 	m_GamePlayer_Button_pTransformCom{ Prototype.m_GamePlayer_Button_pTransformCom }
 {
@@ -50,16 +49,23 @@ void CGamePlay_Button::Priority_Update(_float fTimeDelta)
 
 void CGamePlay_Button::Update(_float fTimeDelta)
 {
-	if (m_Button_INFO.bLevel_Icon_Button_Flag == true)
+	switch (m_Button_INFO.Button_type)
 	{
-		if (true == isPick(g_hWnd))
-		{
-			m_bIsMouseOver = true;
-		}
-		else
-			m_bIsMouseOver = false;
+	case Episode:
+		Episode_Display_Button();
+		break;
+	case Point_Shop:
+		Point_Shop_Display_Button();
+		break;
+	case Spell_Shop:
+		Spell_Shop_Display_Button();
+		break;
+	case Upgrade_Weapon:
+		Upgrade_Weapon_Display_Button();
+		break;
+	default:
+		break;
 	}
-	
 
 }
 
@@ -91,16 +97,9 @@ HRESULT CGamePlay_Button::Render()
 	if (FAILED(m_GamePlayer_Button_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (m_bIsMouseOver)
-	{
-		if (FAILED(m_GamePlayer_Button_pTextureCom_Second->Bind_Resource(0)))
+	if (FAILED(m_GamePlay_Button_pTextureCom->Bind_Resource(Current_Image)))
 			return E_FAIL;
-	}
-	else
-	{
-		if (FAILED(m_GamePlay_Button_pTextureCom->Bind_Resource(0)))
-			return E_FAIL;
-	}
+
 
 	if (FAILED(m_GamePlayer_Button_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -114,14 +113,72 @@ HRESULT CGamePlay_Button::Render()
 	return S_OK;
 }
 
+void CGamePlay_Button::Episode_Display_Button()
+{
+	if (m_Button_INFO.bLevel_Icon_Button_Flag == true)
+	{
+		if (true == isPick(g_hWnd))
+			Current_Image = Level_ICon_Selected;
+		else
+			Current_Image = Level_ICon_Defaul;
+	}
+	if (m_Button_INFO.bLevel_01_Stage_Button_Flag == true)
+	{
+		if (true == isPick(g_hWnd))
+			Current_Image = Stage_01_Default;
+		else
+			Current_Image = Stage_01_Default;
+	}
+	if (m_Button_INFO.bLevel_02_Stage_Button_Flag == true)
+	{
+		if (true == isPick(g_hWnd))
+			Current_Image = Stage_02_Selected;
+		else
+			Current_Image = Stage_02_Default;
+	}
+	if (m_Button_INFO.bLevel_03_Stage_Button_Flag == true)
+	{
+		if (true == isPick(g_hWnd))
+			Current_Image = Stage_03_Selected;
+		else
+			Current_Image = Stage_03_Default;
+	}
+	if (m_Button_INFO.bLevel_04_Stage_Button_Flag == true)
+	{
+		if (true == isPick(g_hWnd))
+			Current_Image = Stage_04_Selected;
+		else
+			Current_Image = Stage_04_Default;
+	}
+	if (m_Button_INFO.bLevel_05_Stage_Button_Flag == true)
+	{
+		if (true == isPick(g_hWnd))
+			Current_Image = Stage_05_Selected;
+		else
+			Current_Image = Stage_05_Default;
+	}
+
+}
+
+void CGamePlay_Button::Point_Shop_Display_Button()
+{
+
+}
+
+void CGamePlay_Button::Spell_Shop_Display_Button()
+{
+
+}
+
+void CGamePlay_Button::Upgrade_Weapon_Display_Button()
+{
+
+}
+
 HRESULT CGamePlay_Button::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_Button_INFO.strTexture_Default_Tag,
 		TEXT("Com_Texture_Menu_1"), reinterpret_cast<CComponent**>(&m_GamePlay_Button_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_Button_INFO.strTexture_Select_Tag,
-		TEXT("Com_Texture_Menu_2"), reinterpret_cast<CComponent**>(&m_GamePlayer_Button_pTextureCom_Second))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -142,7 +199,7 @@ CGamePlay_Button* CGamePlay_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("πˆ∆∞ UI ø¯∫ª ª˝º∫ Ω«∆– ");
+		MSG_BOX("Í≤åÏûÑÌîåÎ†àÏù¥Î†àÎ≤® Î≤ÑÌäº UI ÏõêÎ≥∏ ÏÉùÏÑ± Ïã§Ìå® ");
 		Safe_Release(pInstance);
 	}
 
@@ -157,7 +214,7 @@ CGameObject* CGamePlay_Button::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("πˆ∆∞ UI ∫π¡¶ Ω«∆–");
+		MSG_BOX("Í≤åÏûÑ ÌîåÎ†àÏù¥Î†àÎ≤® Î≤ÑÌäº UI Î≥µÏ†ú Ïã§Ìå®");
 		Safe_Release(pInstace);
 	}
 
@@ -169,7 +226,6 @@ void CGamePlay_Button::Free()
 	__super::Free();
 
 	Safe_Release(m_GamePlay_Button_pTextureCom);
-	Safe_Release(m_GamePlayer_Button_pTextureCom_Second);
 	Safe_Release(m_GamePlayer_Button_pVIBufferCom);
 	Safe_Release(m_GamePlayer_Button_pTransformCom);
 	

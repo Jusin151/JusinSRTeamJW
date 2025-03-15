@@ -497,69 +497,17 @@ HRESULT CLoader::Add_To_Shop_Episode_Textures()
 			1))))
          		return E_FAIL;
 
-	// 에피소드 레벨 1의 아이콘
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Icon_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_Icon.png"),
-			1))))
-		return E_FAIL;
 
-	// 에피소드 레벨1 ,     1장
+	// 에피소드 레벨 1 모든 스테이지 이미지
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Episode_Level_1_UI"),
 		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_1.png"),
-			1))))
+			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png"),
+		20))))
 		return E_FAIL;
 
-	// 에피소드 레벨 2    , 2장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Level_2_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_2_%d.png"),
-			2))))
-		return E_FAIL;
 
-	// 에피소드 레벨 3    , 2장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Level_3_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_3_%d.png"),
-			2))))
-		return E_FAIL;
 
-	// 에피소드 레벨 4    , 2장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Level_4_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_4_%d.png"),
-			1))))
-		return E_FAIL;
-
-	// 에피소드 레벨 5    ,2장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Level_5_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_5_%d.png"),
-			1))))
-		return E_FAIL;
-
-	// 에피소드 선택창
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Selected"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/episode_selected.png"),
-			1))))
-		return E_FAIL;
-
-	// 레벨 1 (아이콘) 선택창
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Level_Selected"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_Icon_Selected.png"),
-			1))))
-		return E_FAIL;
 
 	return S_OK;
 }
