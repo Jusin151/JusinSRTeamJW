@@ -22,15 +22,15 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, class CBase* pPrototype);
 	CBase* Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+	HRESULT Find_Prototype(const _wstring& strPrototypeTag);
 	void Clear(_uint iLevelIndex);
 private:
 	_uint										m_iNumLevels = {};
 	map<const _wstring, class CBase*>*			m_pPrototypes = { nullptr };
 	typedef map<const _wstring, class CBase*>	PROTOTYPES;
 
-private:
-	class CBase* Find_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag);
-
+private: 
+	class CBase* Find_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag); // private에서 빼옴
 public:
 	static CPrototype_Manager* Create(_uint iNumLevels);
 	virtual void Free() override;

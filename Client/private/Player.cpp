@@ -26,7 +26,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 1.f, 0.f));
-	m_pTransformCom->Set_Scale(10.f, 10.f, 10.f);
+	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 	m_pColliderCom->Set_Type(CG_PLAYER);
 	m_pColliderCom->Set_Owner(this); // 레퍼런스 안올림 굳이 올려서 해제할 때 문제 안생기게
 	//m_pColliderCom->Set_Radius(5.f);
