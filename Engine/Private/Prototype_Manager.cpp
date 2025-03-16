@@ -42,6 +42,18 @@ CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iProt
 		return nullptr;	
 }
 
+HRESULT CPrototype_Manager::Find_Prototype(const _wstring& strPrototypeTag)
+{
+	for (int i = 0;i<m_iNumLevels;i++)
+	{
+		for (const auto& Pair : m_pPrototypes[i])
+		{
+			if (Pair.first == strPrototypeTag) return S_OK;
+		}
+	}
+	return E_FAIL;
+}
+
 void CPrototype_Manager::Clear(_uint iLevelIndex)
 {
 	if (iLevelIndex >= m_iNumLevels)
