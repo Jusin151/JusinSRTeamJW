@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Base.h"
-
+#include "../../Client/public/Structure.h"
 BEGIN(Engine)
 
 class CGraphic_Device;
@@ -29,8 +29,11 @@ private:
 	void Show_Texture_Image();
 	void Show_Objects();
 	void LoadImagesFromFolder(const _wstring& folderPath);
+	_wstring SelectFile();
 	_wstring SelectFolder();
 	HRESULT CreateObject();
+	_wstring GetRelativePath(const _wstring& absolutePath);
+
 
 private:
 
@@ -49,10 +52,13 @@ private:
 	// 테스트용/////////////////////////////
 	_bool m_bRenderSelectedCube = false; // 선택된 큐브를 렌더링할지 여부
 	_bool m_bShowObjectsWindow = false; 
-	_uint m_iCurrentObject{0};
+	_ulonglong m_iCurrentObject{0};
 
-	vector<class CVIBuffer_Cube*> m_pVIBuffer_Cube;
-	vector<class CTransform*>m_pTransform;
+	vector<class CVIBuffer_Cube*> m_pVIBuffer_CubeVec;
+	vector<class CTransform*> m_pTransformVec;
+	vector<class CCollider*> m_pColliderVec;
+	_wstring m_wstrProjectPath; // 프로젝트 루트 경로 저장
+
 	///////////////////////////////////////
 #pragma endregion
 
