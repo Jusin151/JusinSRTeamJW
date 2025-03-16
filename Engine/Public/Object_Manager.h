@@ -24,6 +24,7 @@ public:
 	void Late_Update(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag);
+	class CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 private:	
 	_uint								m_iNumLevels = {};
 	map<const _wstring, class CLayer*>* m_pLayers = { nullptr };

@@ -61,6 +61,9 @@ public:
 	_float3 Get_Scale() { return m_fScale; }
 	void Set_Scale(_float3 fScale) { m_fScale = fScale; }
 
+	void Set_Owner(class CGameObject* pOwner) { m_pOwner = pOwner; }
+	class CGameObject* Get_Owner() const { return m_pOwner; }
+
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
@@ -77,6 +80,7 @@ protected:
 	// 나중에 수정 하면 좋을듯?
 	COLLIDERGROUP			m_eType = { CG_END };
 	COLLIDERGROUP			m_eOtherType = { CG_END };
+	class CGameObject* m_pOwner = { nullptr };
 public:
 
 	virtual CComponent* Clone(void* pArg) = 0;

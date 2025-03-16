@@ -27,6 +27,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 1.f, 0.f));
 	m_pTransformCom->Set_Scale(10.f, 10.f, 10.f);
 	m_pColliderCom->Set_Type(CG_PLAYER);
+	m_pColliderCom->Set_Owner(this); // 레퍼런스 안올림 굳이 올려서 해제할 때 문제 안생기게
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 	return S_OK;
@@ -34,6 +35,13 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
+	// GetComponet 테스트용
+	//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
+
+	//if (pTransform)
+	//{
+	//	pTransform->Go_Straight(fTimeDelta);
+	//}
 }
 
 void CPlayer::Update(_float fTimeDelta)
