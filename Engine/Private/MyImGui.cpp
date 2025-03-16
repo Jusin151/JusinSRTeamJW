@@ -88,22 +88,8 @@ void CMyImGui::Update(_float fTimeDelta)
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
 	{
 
-		ImGui::Begin("Editor");                          // Create a window called "Hello, world!" and append into it.
-
-		if (ImGui::Button("Select Folder and Load Images"))
-		{
-			_wstring selectedFolder = SelectFolder();
-			if (!selectedFolder.empty())
-			{
-				LoadImagesFromFolder(selectedFolder);
-				m_bShowImageWindow = true;
-			}
-		}
-		ImGui::End();
-
-		Show_Texture_Image();
 		CreateObject();
-		Show_Objects();
+	//	Show_Objects();
 	}
 
 
@@ -540,7 +526,7 @@ HRESULT CMyImGui::CreateObject()
 	};
 
 	// ImGui 컴포넌트 선택 인터페이스 표시
-	ImGui::Begin("Structure Attricbute");
+	ImGui::Begin("Structure Attribute");
 
 	// 충돌체 타입 드롭다운
 	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
