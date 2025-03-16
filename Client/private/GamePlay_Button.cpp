@@ -169,9 +169,6 @@ void CGamePlay_Button::Font_Render()
 	if (m_Button_INFO.Button_type == Point_Shop)
 	{
 		m_pGameInstance->Render_Font(L"MainFont", L"근접 마스터", _float2(0.f, -205.0f), _float3(1.f, 1.f, 0.0f));
-
-
-
 		m_pGameInstance->Render_Font(L"MainFont", L"트레져 헌터", _float2(0.f, -163.0f), _float3(1.f, 1.f, 0.0f));
 		m_pGameInstance->Render_Font(L"MainFont", L"빠른 치료자", _float2(0.f, -122.0f), _float3(1.f, 1.f, 0.0f));
 		m_pGameInstance->Render_Font(L"MainFont", L"학생", _float2(23.f, -78.0f), _float3(1.f, 1.f, 0.0f));
@@ -184,10 +181,13 @@ void CGamePlay_Button::Font_Render()
 		m_pGameInstance->Render_Font(L"MainFont", L"마법 잠재력", _float2(225.f, -78.0f), _float3(1.f, 1.f, 0.0f));
 		m_pGameInstance->Render_Font(L"MainFont", L"소울 수집가", _float2(225.f, -35.F), _float3(1.f, 1.f, 0.0f));
 		m_pGameInstance->Render_Font(L"MainFont", L"스프린터", _float2(232.f, 10.F), _float3(1.f, 1.f, 0.0f));
-	}
-	
 
+		m_pGameInstance->Render_Font(L"MainFont", strMin_Stat_box, _float2(-40.f, 137.0f), _float3(1.f, 1.f, 0.0f));
+	}
+
+	m_pGameInstance->Render_Font(L"MainFont", strItem_Tag, _float2(0.f, 50.0f), _float3(1.f, 1.f, 0.0f));
 }
+
 void CGamePlay_Button::Episode_Display_Button()
 {
 	if (m_bIsVisible)
@@ -271,7 +271,7 @@ void CGamePlay_Button::Point_Shop_Display_Button()
 					m_bChange_Click = true;
 					m_bOpen_Display = true;
 					Current_Image = Point_Shop_Selected;
-			
+					Button_TexT(m_Button_INFO.Point_Shop_Num);
 					// 여기 안에서 버튼 클릭 할 예정 배열로 
 				}
 				else
@@ -287,7 +287,66 @@ void CGamePlay_Button::Point_Shop_Display_Button()
 	}
 
 }
-
+void CGamePlay_Button::Button_TexT(_int CurrentButtonType)
+{
+	// 밑은 각 버튼에 대한 설명 텍스트박스임
+	switch (CurrentButtonType)
+	{
+	case AXE_POWER:
+		strItem_Tag = L"도끼로 연속 3번 히트시  \n 마지막 3타를 줜나 쎄게 때립니다!";
+		strMin_Stat_box = L"요구 스탯 : 근력 5";
+		break;
+	case TREASURE_HUNTER_:
+		strItem_Tag = L"보물을 찾을 확률이 2배가 됩니당";
+		strMin_Stat_box = L"요구 스탯 없음";
+		break;
+	case HEAL_IS_GOOD:
+		strItem_Tag = L"모든 메디킷의 효과를 더 야물딱지게 받게됩니다.";
+		strMin_Stat_box = L"요구 스탯 : 생명력 5";
+		break;
+	case STUDENT:
+		strItem_Tag = L"학생 효과를 모르겠어";
+		strMin_Stat_box = L"조건을 모르겠엉";
+		break;
+	case SHUTGUN_MASTER:
+		strItem_Tag = L"산탄총이 2개의 탄약을 더 제공합니다.";
+		strMin_Stat_box = L"요구 스탯 : 용량 5";
+		break;
+	case FIRE_BOY:
+		strItem_Tag = L"방화광은 추가 연료(+15),다이너마이트(+1),로켓(+1)\n 그리고 세포(+5)를 제공합니다";
+		strMin_Stat_box = L"요구 스탯 : 용량 5";
+		break;
+	case BULLET_COLLECTOR:
+		strItem_Tag = L"모든 피스톨(+2),SMG총기(+5),미니건(+5)에게 \n 추가탄약을 제공합니다 ";
+		strMin_Stat_box = L"요구 스탯 : 용량 5";
+		break;
+	case GHOST:
+		strItem_Tag = L"모든 몬스터를 통과 할 수 있게 됩니당.";
+		strMin_Stat_box = L"요구 스탯 : 정신력 5";
+		break;
+	case SUPER_BOY:
+		strItem_Tag = L"최대 생명력이(+30)만큼 늘어나고 들어오는 \n 피해는 (-20%) 만큼 감소합니다.";
+		strMin_Stat_box = L"요구 스탯 : 생명력 5";
+		break;
+	case MAGICIAN:
+		strItem_Tag = L"최대 마나가(+30) 증가합니다";
+		strMin_Stat_box = L"요구 스탯 : 정신력 5";
+		break;
+	case SOUL_COLLECTOR:
+		strItem_Tag = L"적을 죽일시 에너지가 드랍되어 획득시 \n 마나가 소량 증가합니다";
+		strMin_Stat_box = L"요구 스탯 : 정신력 7";
+		break;
+	case 11:
+	VERY_FASTER:
+		strItem_Tag = L"조오오온나 빨라짐 ㅋㅋ";
+		strMin_Stat_box = L"요구 스탯 : 근생맹력 3";
+		break;
+	default:
+		strItem_Tag = L"";
+		strMin_Stat_box = L"";
+		break;
+	}
+}
 void CGamePlay_Button::Spell_Shop_Display_Button()
 {
 

@@ -19,7 +19,13 @@ enum Level_01_Type // 이 버튼은 어느 이미지를 사용할것인지
 
     Point_Shop_Display = 0, Point_Shop_Selected = 1, Point_Shop_Small_Selected = 2
 };
+enum Poinst_Shop_Button // 이 버튼은 어느 이미지를 사용할것인지
+{
+   AXE_POWER,TREASURE_HUNTER_,HEAL_IS_GOOD,STUDENT,SHUTGUN_MASTER,FIRE_BOY,
+   BULLET_COLLECTOR,GHOST,SUPER_BOY,MAGICIAN,SOUL_COLLECTOR,VERY_FASTER
 
+    
+};
 typedef struct tagEpisode_Type //에피소드 버튼 타입
 {
     _bool bLevel_Icon_Button_Flag{};
