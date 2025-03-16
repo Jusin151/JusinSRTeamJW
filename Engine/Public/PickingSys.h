@@ -22,7 +22,10 @@ public:
 
 public:
 	void Set_CameraTransform(class CTransform* pCamTransform) { m_pCamTransform = pCamTransform; Safe_AddRef(m_pCamTransform); }
-	_bool Spherelntersection(class CCollider_Sphere* pColliderSp);
+	_bool Ray_Intersection(class CCollider* pCollider);
+	void Set_Player(class CGameObject* pPlayer) { m_pPlayer = pPlayer; }
+	const _float3& Get_Mouse_WorldPos() const { return m_Ray.vOrigin; };
+	const Ray& Get_Ray() const { return m_Ray; }
 
 protected:
 	LPDIRECT3DDEVICE9	 m_pGraphic_Device = { nullptr };
@@ -31,11 +34,13 @@ protected:
 
 private:
 	HRESULT CalcPickingRay(_ulong iX, _ulong iY);
+	_bool Sphere_lntersection(class CCollider_Sphere* pColliderSp);
+	_bool Cube_Intersection(class CCollider_Cube* pColliderCu);
 
 private:
 	HWND m_Hwnd = { nullptr };
 	Ray m_Ray;
-
+	class CGameObject* m_pPlayer = { nullptr };
 private:
 	virtual void Free() override;
 };

@@ -401,3 +401,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 EngineSDK/Lib/Engine.lib
+Client/default/imgui.ini

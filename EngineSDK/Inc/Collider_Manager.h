@@ -37,19 +37,19 @@ public:
 	void Collison_Cube_To_Cube(list<CCollider*> src, list<CCollider*> dst);
 
 	// 중점 거리가 반지름 합보다 작은지 판단
-	bool Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst);
+	_bool Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst);
 
 	// 그냥 하면 연산량이 많아서 단계적으로 진행...
-	bool Calc_Cube_To_Cube(CCollider* src, CCollider* dst);
+	_bool Calc_Cube_To_Cube(CCollider* src, CCollider* dst);
 
 	// 나중에 필요하면 ? 
-	bool Calc_Cube_To_Sphere(CCollider* src, CCollider* dst);
+	_bool Calc_Cube_To_Sphere(CCollider* src, CCollider* dst);
 
 	// 큐브 큐브 사이 거리로 먼저
-	bool Check_Cube_Distance(CCollider* src, CCollider* dst);
+	_bool Check_Cube_Distance(CCollider* src, CCollider* dst);
 
 	// 각 기본 축으로 먼저 내적하면서 확인
-	bool Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst);
+	_bool Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst);
 	
 	// 추가 계산이 필요하면 이제 외적해서 축을 추가로 구하기
 	void Calc_Cross_Axes(CCollider* src, CCollider* dst);

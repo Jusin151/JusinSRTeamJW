@@ -33,6 +33,11 @@ public:
 
 	void Set_FromPool(_bool bFromPool) { m_bFromPool = bFromPool; } // 오브젝트 풀에서 가져온건지 설정
 	bool Is_FromPool() const { return m_bFromPool; } 
+
+	class CComponent* Get_Component(const wstring& strComponentTag) { 
+		auto it = m_Components.find(strComponentTag);
+		return it != m_Components.end() ? it->second : nullptr;
+	}
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance* m_pGameInstance = { nullptr };

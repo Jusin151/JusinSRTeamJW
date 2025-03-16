@@ -91,8 +91,6 @@ void CGamePlay_Button::Update(_float fTimeDelta)
 
 void CGamePlay_Button::Late_Update(_float fTimeDelta)
 {
-	
-
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
@@ -173,6 +171,142 @@ void CGamePlay_Button::Spell_Shop_Update()
 void CGamePlay_Button::Weapon_Upgrade_Update()
 {
 }
+
+//void CGamePlay_Button::Episode_Display_Button()
+//{
+//	if (m_bIsVisible)
+//	{
+//		if (m_Button_INFO.Episode_Button_Type.bLevel_Icon_Button_Flag)
+//		{
+//			if (!m_bChange_Click)
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//
+//					Current_Image = Level_ICon_Selected;
+//				}
+//				else
+//					Current_Image = Level_ICon_Defaul;
+//			}
+//
+//		}
+//	
+//		if (m_Button_INFO.Episode_Button_Type.bLevel_01_Stage_Button_Flag) // 1레벨의 1스테이지는 기본적으로 열려있음 그래서 회색이 없음
+//		{
+//			if (!m_bChange_Click)
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					Current_Image = Stage_01_Color_Selected;
+//				}
+//				else
+//					Current_Image = Stage_01_Color_Default;
+//			}
+//
+//		}
+//		if (m_Button_INFO.Episode_Button_Type.bLevel_02_Stage_Button_Flag) // 1레벨의 2스테이지
+//		{
+//			if (!m_bChange_Click)
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_LBUTTON) & 0x8000)
+//						m_bChange_Click = true;
+//					Current_Image = Stage_02_Gray_Selected;
+//				}
+//				else
+//					Current_Image = Stage_02_Gray_Default;
+//			}
+//			else
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_RBUTTON) & 0x8000)
+//						m_bChange_Click = false;
+//					Current_Image = Stage_02_Color_Selected;
+//				}
+//				else
+//					Current_Image = Stage_02_Color_Default;
+//			}
+//		}
+//		if (m_Button_INFO.Episode_Button_Type.bLevel_03_Stage_Button_Flag) // 1레벨의 3스테이지
+//		{
+//			if (!m_bChange_Click)
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_LBUTTON) & 0x8000)
+//						m_bChange_Click = true;
+//					Current_Image = Stage_03_Gray_Selected;
+//				}
+//				else
+//					Current_Image = Stage_03_Gray_Default;
+//			}
+//			else
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_RBUTTON) & 0x8000)
+//						m_bChange_Click = false;
+//					Current_Image = Stage_03_Color_Selected;
+//				}
+//				else
+//					Current_Image = Stage_03_Color_Default;
+//			}
+//		}
+//		if (m_Button_INFO.Episode_Button_Type.bLevel_04_Stage_Button_Flag) // 1레벨의 4스테이지
+//		{
+//			if (!m_bChange_Click)
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_LBUTTON) & 0x8000)
+//						m_bChange_Click = true;
+//					Current_Image = Stage_04_Gray_Selected;
+//				}
+//				else
+//					Current_Image = Stage_04_Gray_Default;
+//			}
+//			else
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_RBUTTON) & 0x8000)
+//						m_bChange_Click = false;
+//					Current_Image = Stage_04_Color_Selected;
+//				}
+//				else
+//					Current_Image = Stage_04_Color_Default;
+//			}
+//		}
+//		if (m_Button_INFO.Episode_Button_Type.bLevel_05_Stage_Button_Flag) // 1레벨의 5스테이지
+//		{
+//			if (!m_bChange_Click)
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_LBUTTON) & 0x8000)
+//						m_bChange_Click = true;
+//					Current_Image = Stage_05_Gray_Selected;
+//				}
+//				else
+//					Current_Image = Stage_05_Gray_Default;
+//			}
+//			else
+//			{
+//				if (true == isPick(g_hWnd))
+//				{
+//					if (GetKeyState(VK_RBUTTON) & 0x8000)
+//						m_bChange_Click = false;
+//					Current_Image = Stage_05_Color_Selected;
+//				}
+//				else
+//					Current_Image = Stage_05_Color_Default;
+//			}
+//		}
+//	}
+//}
+
 
 void CGamePlay_Button::Episode_Display_Button()
 {

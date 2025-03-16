@@ -1,5 +1,6 @@
 ﻿#include "PickingSys.h"
 #include "Transform.h"
+#include "Collider_Cube.h"
 #include "Collider_Sphere.h"
 #include "GameInstance.h"
 
@@ -15,6 +16,8 @@ HRESULT CPickingSys::Initialize(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device, CG
 	m_pGameInstance = pGameInstance;
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pGameInstance);
+
+	auto colliderVec = m_pGameInstance->Get_Colliders();
 	return S_OK;
 }
 
@@ -24,29 +27,108 @@ void CPickingSys::Update()
 	GetCursorPos(&pt);
 	ScreenToClient(m_Hwnd, &pt);
 	CalcPickingRay(pt.x, pt.y);
-
-	auto colliderVec = m_pGameInstance->Get_Colliders();
-
-	for (auto& colliderList : colliderVec)
-	{
-		for (auto& collider : colliderList)
-		{
-			if (GetKeyState(VK_LBUTTON) & 0x8000)
-			{
-
-				if (Spherelntersection(static_cast<CCollider_Sphere*>(collider)))
-				{
-
-					int a = 10;
-				}
-			}
-		}
-	}
 }
 
-_bool CPickingSys::Spherelntersection(CCollider_Sphere* pColliderSp)
+_bool CPickingSys::Cube_Intersection(CCollider_Cube* pColliderCu)
 {
-	if (pColliderSp == nullptr) return false;
+	if (pColliderCu == nullptr || pColliderCu->Get_Owner() == m_pPlayer) return false;
+
+
+    _float fScaleX = pColliderCu->Get_Desc().fAxisX.Length();
+    _float fScaleY = pColliderCu->Get_Desc().fAxisY.Length();
+    _float fScaleZ = pColliderCu->Get_Desc().fAxisZ.Length();
+
+    // 방향 벡터 정규화
+    _float3 vDirX = pColliderCu->Get_Desc().fAxisX.GetNormalized();
+    _float3 vDirY = pColliderCu->Get_Desc().fAxisY.GetNormalized();
+    _float3 vDirZ = pColliderCu->Get_Desc().fAxisZ.GetNormalized();
+
+    // 스케일이 적용된 축 벡터 생성
+    _float fHalfSize[3] = {
+        fScaleX * 0.5f,  // 0.5f는 중심에서 가장자리까지의 거리
+        fScaleY * 0.5f,
+        fScaleZ * 0.5f
+    };
+    _float3 vDir[3] = {
+      vDirX,
+      vDirY,
+      vDirZ
+    };
+
+    // OBB의 로컬 좌표계로 변환된 광선 원점
+    _float3 vLocalOrigin = m_Ray.vOrigin - pColliderCu->Get_Desc().fPos;
+
+    // 로컬 좌표계 기준 광선 방향과 원점 계산
+    _float3 vLocalDir, vLocalPos;
+    for (int i = 0; i < 3; i++)
+    {
+        vLocalDir[i] = m_Ray.vDir.Dot(vDir[i]);
+        vLocalPos[i] = vLocalOrigin.Dot(vDir[i]);
+    }
+
+    //  각 축별 슬랩 교차 검사
+    _float fMin = -FLT_MAX;
+    _float fMax = FLT_MAX;
+
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (abs(vLocalDir[i]) < FLT_EPSILON)
+        {
+            // 광선이 이 축과 평행하면, 원점이 박스 범위 내에 있어야 함
+            if (vLocalPos[i] < -fHalfSize[i] || vLocalPos[i] > fHalfSize[i])
+                return false;
+        }
+        else
+        {
+            // t 값 계산 (슬랩 진입/이탈 지점)
+            _float t1 = (-fHalfSize[i] - vLocalPos[i]) / vLocalDir[i];
+            _float t2 = (fHalfSize[i] - vLocalPos[i]) / vLocalDir[i];
+
+            // t1이 항상 더 작은 값이 되도록 함
+            if (t1 > t2)
+            {
+                _float temp = t1;
+                t1 = t2;
+                t2 = temp;
+            }
+
+            // 교차 구간 업데이트
+            fMin = max(fMin, t1);
+            fMax = min(fMax, t2);
+
+            // 교차 구간이 유효하지 않으면 충돌 없음
+            if (fMin > fMax)
+                return false;
+        }
+    }
+
+    // 모든 슬랩을 통과하면 충돌 발생
+    return fMin <= fMax && fMax >= 0.0f;
+}
+
+_bool CPickingSys::Ray_Intersection(CCollider* pCollider)
+{
+    CCollider_Sphere*  pSphere = dynamic_cast<CCollider_Sphere*>(pCollider);
+
+    if (pSphere)
+    {
+        return Sphere_lntersection(pSphere);
+    }
+
+    CCollider_Cube* pCube = dynamic_cast<CCollider_Cube*>(pCollider);
+
+    if (pCube)
+    {
+        return Cube_Intersection(pCube);
+    }
+
+    return false;
+}
+
+_bool CPickingSys::Sphere_lntersection(CCollider_Sphere* pColliderSp)
+{
+	if (pColliderSp == nullptr|| pColliderSp->Get_Owner() == m_pPlayer) return false;
 	_float3 v = m_Ray.vOrigin - pColliderSp->Get_State(CTransform::STATE_POSITION);
 
 	_float a = m_Ray.vDir.Dot(m_Ray.vDir);     // a = 1 (정규화된 방향 벡터라면)

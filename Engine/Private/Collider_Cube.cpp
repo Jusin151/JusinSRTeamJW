@@ -36,6 +36,24 @@ void CCollider_Cube::Update_Desc()
 	m_tDesc.fAxisZ = Get_State(CTransform::STATE_LOOK);
 	m_tDesc.fPos = Get_State(CTransform::STATE_POSITION);
 
+	/// 픽킹 테스트///////////////////////
+	// 각 축 벡터의 길이 계산 (스케일 값)
+	//_float fScaleX = m_tDesc.fAxisX.Length();
+	//_float fScaleY = m_tDesc.fAxisY.Length();
+	//_float fScaleZ = m_tDesc.fAxisZ.Length();
+
+	//// 방향 벡터 정규화
+	//_float3 vDirX = m_tDesc.fAxisX.GetNormalized(); 
+	//_float3 vDirY = m_tDesc.fAxisY.GetNormalized(); 
+	//_float3 vDirZ = m_tDesc.fAxisZ.GetNormalized(); 
+
+	//// 스케일이 적용된 축 벡터 생성
+	//_float3 axis[3] = {
+	//	vDirX * fScaleX * 0.5f,  // 0.5f는 중심에서 가장자리까지의 거리
+	//	vDirY * fScaleY * 0.5f,
+	//	vDirZ * fScaleZ * 0.5f
+	//};
+	/////////////////////////////////////
 	_float3 axis[3] = { m_tDesc.fAxisX, m_tDesc.fAxisY, m_tDesc.fAxisZ };
 	for (int i = 0; i < 8; ++i) 
 	{
