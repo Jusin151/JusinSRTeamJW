@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Base.h"
-
+#include "GameObject.h"
 BEGIN(Engine)
 
 class CCustomFont final : public CBase
