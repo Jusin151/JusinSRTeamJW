@@ -1,6 +1,7 @@
 ﻿#include "Level_GamePlay.h"
 #include "GameInstance.h"
 #include "PickingSys.h"
+#include "Collider_Sphere.h"
 #include "UI_Default_Panel.h"
 #include "CUI_Base.h"
 #include "GamePlay_Button.h"
@@ -40,6 +41,22 @@ HRESULT CLevel_GamePlay::Initialize()
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 	m_pPickingSys->Update();
+
+	auto colliderVec = m_pGameInstance->Get_Colliders();
+
+	for (auto& colliderList : colliderVec)
+	{
+		for (auto& collider : colliderList)
+		{
+			if (GetKeyState(VK_LBUTTON) & 0x8000)
+			{
+				if (m_pPickingSys->Ray_Intersection(collider))
+				{
+					int a = 10;
+				}
+			}
+		}
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -257,7 +274,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	//	LEVEL_GAMEPLAY, strLayerTag)))
 	//	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 10)))
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 1)))
 		return E_FAIL;
 	
 
