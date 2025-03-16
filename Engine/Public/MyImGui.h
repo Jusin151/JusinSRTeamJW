@@ -27,7 +27,7 @@ private:
 private:
 
 	void Show_Texture_Image();
-	void Show_Objects();
+	void Show_Objects(_float fTimeDelta);
 	void LoadImagesFromFolder(const _wstring& folderPath);
 	_wstring SelectFile();
 	_wstring SelectFolder();

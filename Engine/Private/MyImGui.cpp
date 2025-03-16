@@ -89,7 +89,7 @@ void CMyImGui::Update(_float fTimeDelta)
 	{
 
 		CreateObject();
-	//	Show_Objects();
+		Show_Objects(fTimeDelta);
 	}
 
 
@@ -243,10 +243,16 @@ void CMyImGui::Show_Texture_Image()
 	ImGui::End();
 }
 
-void CMyImGui::Show_Objects()
+void CMyImGui::Show_Objects(_float fTimeDelta)
 {
-	if (m_pVIBuffer_CubeVec.empty() || m_pTransformVec.empty()) return;
-	if (m_iCurrentObject < 0 || m_pVIBuffer_CubeVec.size() <= m_iCurrentObject) return;
+	const _wstring layerTag = L"Layer_Structure";
+
+	// 레이어 찾기
+	auto layerIt = m_pGameInstance->m_pObject_Manager->m_pLayers[3].find(layerTag);
+	if (layerIt == m_pGameInstance->m_pObject_Manager->m_pLayers[3].end())
+	{
+		return;
+	}
 
 	ImGui::Begin("Objects");
 
@@ -257,74 +263,111 @@ void CMyImGui::Show_Objects()
 		return;
 	}
 
-	//if (ImGui::Button("Add New Cube"))
-	//{
-	//	
-	//}
+	auto& gameObjects = layerIt->second->m_GameObjects;
+	ImGui::Text("Current Object count: %d", (int)gameObjects.size());
 
-	// 디버그용 정보 - 로드된 이미지 수 표시
-	ImGui::Text("Current Object count: %d", (int)m_pVIBuffer_CubeVec.size());
+	// 현재 선택된 오브젝트 인덱스 저장 변수
+	static int selectedObjectIndex = -1;
 
-
-	for (_ulonglong i = 0; i < m_pVIBuffer_CubeVec.size(); ++i)
+	// 각 게임 오브젝트에 대해 버튼 생성
+	int i = 0;
+	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it, ++i)
 	{
-		// 텍스처가 유효한지 확인
-		if (m_pVIBuffer_CubeVec[i])
+		CGameObject* pGameObject = *it;
+
+		// 그룹 시작
+		ImGui::BeginGroup();
+
+		// 버튼 표시 (선택된 상태 표시)
+		std::string buttonLabel = "Select " + std::to_string(i);
+		if (selectedObjectIndex == i)
+			buttonLabel += " (Selected)";
+
+		if (ImGui::Button(buttonLabel.c_str()))
 		{
-
-			// 각 항목을 세로로 정렬하기 위한 그룹 시작
-			ImGui::BeginGroup();
-
-			//// 이미지 표시
-			//ImGui::Image((ImTextureID)m_Textures[i], ImVec2(100, 100));
-
-			//// 선택된 텍스처에 표시 추가
-			//if (m_SelectedTextureIndex == i)
-			//{
-			//    ImGui::SameLine();
-			//    ImGui::Text("*"); // 별표로 선택 상태 표시
-			//}
-
-			// 버튼 표시
-			if (ImGui::Button(("Select" + to_string(i)).c_str()))
-			{
-				m_iCurrentObject = i;
-				m_bRenderSelectedCube = true; // 큐브 렌더링 활성화
-			}
-
-			ImGui::EndGroup();
+			selectedObjectIndex = i;
+			m_bRenderSelectedCube = true;
 		}
+
+		ImGui::EndGroup();
 	}
 
-	if (m_iCurrentObject != -1 && m_iCurrentObject < m_pVIBuffer_CubeVec.size())
+	// 선택된 오브젝트가 있고 인덱스가 유효한 경우
+	if (selectedObjectIndex != -1 && selectedObjectIndex < gameObjects.size())
 	{
 		ImGui::Separator();
 
-		// 큐브 렌더링 활성화/비활성화
-		ImGui::Checkbox("Show Cube", &m_bRenderSelectedCube);
+		// 선택된 게임 오브젝트 가져오기
+		auto it = gameObjects.begin();
+		std::advance(it, selectedObjectIndex);
+		CGameObject* pSelectedObject = *it;
 
+		// 트랜스폼 컴포넌트 가져오기
+		CTransform* pTransform = (CTransform*)pSelectedObject->Get_Component(TEXT("Com_Transform"));
 
-		ImGui::Text("Cube Position");
-
-		// 위치 조절 (드래그 슬라이더 + 직접 입력)
-		_float3 position = m_pTransformVec[m_iCurrentObject]->Get_State(CTransform::STATE_POSITION);
-		bool positionChanged = false;
-
-		// X 위치 조절
-		ImGui::Text("X"); ImGui::SameLine();
-		positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f);
-
-		// Y 위치 조절
-		ImGui::Text("Y"); ImGui::SameLine();
-		positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f);
-
-		// Z 위치 조절
-		ImGui::Text("Z"); ImGui::SameLine();
-		positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f);
-
-		if (positionChanged)
+		if (pTransform != nullptr)
 		{
-			m_pTransformVec[m_iCurrentObject]->Set_State(CTransform::STATE_POSITION, position);
+			ImGui::Text("Object Position");
+
+			// 현재 위치 가져오기
+			_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
+			_float3 scale = pTransform->Compute_Scaled();
+			_float3 rotation;
+			bool positionChanged = false;
+			bool scaleChanged = false;
+			bool rotationChanged = false;
+
+			// X 위치 조절
+			ImGui::Text("X"); ImGui::SameLine();
+			positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f,-FLT_MAX, FLT_MAX);
+
+			// Y 위치 조절
+			ImGui::Text("Y"); ImGui::SameLine();
+			positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
+
+			// Z 위치 조절
+			ImGui::Text("Z"); ImGui::SameLine();
+			positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
+
+			ImGui::Separator();
+			ImGui::Text("Object Scale");
+			// X 위치 조절
+			ImGui::Text("X"); ImGui::SameLine();
+			scaleChanged |= ImGui::DragFloat("ScaleX", &scale.x, 0.1f, 1.f, FLT_MAX);
+
+			// Y 위치 조절
+			ImGui::Text("Y"); ImGui::SameLine();
+			scaleChanged |= ImGui::DragFloat("ScaleY", &scale.y, 0.1f, 1.f, FLT_MAX);
+
+			// Z 위치 조절
+			ImGui::Text("Z"); ImGui::SameLine();
+			scaleChanged |= ImGui::DragFloat("ScaleZ", &scale.z, 0.1f, 1.f, FLT_MAX);
+
+			ImGui::Separator();
+			ImGui::Text("Object Rotation");
+			// X 위치 조절
+			ImGui::Text("X"); ImGui::SameLine();
+			rotationChanged |= ImGui::DragFloat("RotationX", &rotation.x, 0.1f, 1.f, FLT_MAX);
+
+			// Y 위치 조절
+			ImGui::Text("Y"); ImGui::SameLine();
+			rotationChanged |= ImGui::DragFloat("RotationY", &rotation.y, 0.1f, 1.f, FLT_MAX);
+
+			// Z 위치 조절
+			ImGui::Text("Z"); ImGui::SameLine();
+			rotationChanged |= ImGui::DragFloat("RotationZ", &rotation.z, 0.1f, 1.f, FLT_MAX);
+
+
+			// 위치가 변경되면 트랜스폼 업데이트
+			if (positionChanged)
+			{
+				pTransform->Set_State(CTransform::STATE_POSITION, position);
+			}
+
+			if (scaleChanged)
+			{
+				pTransform->Scaling(scale.x, scale.y, scale.z);
+			}
 		}
 	}
 
@@ -546,7 +589,7 @@ HRESULT CMyImGui::CreateObject()
 
 	// 레이어 태그 입력
 	ImGui::InputText("Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
-	
+
 	// 충돌체 컴포넌트 이름 입력 필드
 	ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
 
@@ -609,7 +652,7 @@ _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 {
 	if (absolutePath.empty()) return absolutePath;
 	_wstring relativePath = L"../../" + absolutePath.substr(absolutePath.find(L"Resources"));
-	
+
 	return relativePath;
 }
 
