@@ -43,7 +43,7 @@ HRESULT CCustomFont::Initialize(const wstring& strFontFilePath)
 	// D3DX 폰트 생성
 	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &m_FontDesc, &m_pFont)))
 		return E_FAIL;
-
+	
 	return S_OK;
 }
 
@@ -52,15 +52,20 @@ HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _f
 	if (nullptr == m_pFont)
 		return E_FAIL;
 
-	// 텍스트 렌더링 영역 설정
+	// 화면 중심을 기준으로 좌표 변환 (예: (0,0)이 화면 중앙이 되도록)
+	int centerX = 1280 / 2;
+	int centerY = 720 / 2;
+	int drawX = static_cast<int>(vPosition.x + centerX);
+	int drawY = static_cast<int>(vPosition.y + centerY);
+
 	RECT rc;
-	SetRect(&rc, (int)vPosition.x, (int)vPosition.y, 0, 0);
+	SetRect(&rc, drawX, drawY, 0, 0);
 
 	// D3DCOLOR로 색상 변환
 	D3DCOLOR fontColor = D3DCOLOR_XRGB(
-		(int)(vColor.x * 255.0f),
-		(int)(vColor.y * 255.0f),
-		(int)(vColor.z * 255.0f));
+		static_cast<int>(vColor.x * 255.0f),
+		static_cast<int>(vColor.y * 255.0f),
+		static_cast<int>(vColor.z * 255.0f));
 
 	// 텍스트 그리기
 	m_pFont->DrawTextW(
@@ -73,6 +78,7 @@ HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _f
 
 	return S_OK;
 }
+
 
 CCustomFont* CCustomFont::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const wstring& strFontFilePath)
 {
