@@ -29,6 +29,7 @@ public:
         Episode_Button_Type_Desc Episode_Button_Type{}; // 이 버튼의 에피소드 버튼 타입
         _bool bDisplay_On{};
         _bool Point_Shop_Seleted[16]{};
+        _int Point_Shop_Num{};
     }GamePlayer_Button_Desc;
  
 
@@ -50,6 +51,7 @@ public:
     void Spell_Shop_Update();
 public:
     void Font_Render();
+    void Button_TexT(_int CurrentButtonType);
 
 public:
     void Episode_Display_Button();
@@ -115,7 +117,8 @@ private:
     _bool m_Upgrade_UI_Display{};
  public:
      _float3 m_fFont_Rgb{};
-     wstring strDialog_box{};
+     _wstring strMin_Stat_box{}; // 요구 스탯 뜨는 창
+     _wstring strItem_Tag{}; // 아이템 설명
    
 };
 END

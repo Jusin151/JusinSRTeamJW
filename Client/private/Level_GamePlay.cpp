@@ -337,7 +337,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 			vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI"; // 컴포넌트
 			vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_" + to_wstring(index); // UI 등록 이름
 			vecButtonDescs[index].Button_type = Button_type::Point_Shop;
-
+			vecButtonDescs[index].Point_Shop_Num = index;
 			vecButtonDescs[index].Point_Shop_Seleted[0] = true;
 
 			if (FAILED(m_pGameInstance->Add_GameObject(
