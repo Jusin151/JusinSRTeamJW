@@ -31,7 +31,7 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 		{
 			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetEpisode_Display_Pos();
 		}
-		if (m_Button_INFO.strUIName != L"Level_Point_Shop_Selected_" && m_Button_INFO.Button_type == Point_Shop)
+		if (m_Button_INFO.strUIName != L"Layer_Point_Shop_Display" && m_Button_INFO.Button_type == Point_Shop)
 		{
 			m_Button_INFO.Button_Desc.vPos += CUI_Manager::GetInstance()->GetPoint_Shop();
 		}
@@ -61,10 +61,31 @@ void CGamePlay_Button::Priority_Update(_float fTimeDelta)
 
 void CGamePlay_Button::Update(_float fTimeDelta)
 {
+	for (int i = 12; i < 16; i++) // 12 부터 13까지  // 13번째 이미지부터14번쨰 이미지까지
+	{
+		if (m_Button_INFO.Point_Shop_Seleted[i])
+		{
+			if (isPick(g_hWnd))
+			{
+				m_bChange_Click = true;
+				m_bOpen_Display = true;
+				Current_Image = Point_Shop_Small_Selected;
+			}
+			else
+			{
+				m_bOpen_Display = false;
+			}
+
+			// 버튼이 하나 선택되면 반복을 종료할 수도?
+
+		}
+	}
+
 	if(m_Button_INFO.Button_type==Episode)
 	Episode_UI_Update();
 	if (m_Button_INFO.Button_type == Point_Shop)
     Point_Shop_Update();
+
 }
 
 
@@ -137,13 +158,10 @@ void CGamePlay_Button::Point_Shop_Update()
 			}
 		}
 		else
-		{
 			m_bKeyPressed = false;
-
-		}
-
-	}
-	Point_Shop_Display_Button();
+	}	
+		Point_Shop_Display_Button();
+	
 }
 
 void CGamePlay_Button::Spell_Shop_Update()
@@ -294,136 +312,69 @@ void CGamePlay_Button::Episode_Display_Button()
 {
 	if (m_bIsVisible)
 	{
-		if (m_Button_INFO.Episode_Button_Type.bLevel_Icon_Button_Flag)
-		{
-			if (!m_bChange_Click)
-			{
-				if (true == isPick(g_hWnd))
-				{
+		// Level Icon 버튼 처리 (m_bChange_Click 상태에 상관없이 처리)
+		if (m_Button_INFO.Episode_Button_Type.bLevel_Icon_Button_Flag && !m_bChange_Click)
+			Current_Image = isPick(g_hWnd) ? Level_ICon_Selected : Level_ICon_Defaul;
 
-					Current_Image = Level_ICon_Selected;
-				}
-				else
-					Current_Image = Level_ICon_Defaul;
-			}
+		// 1레벨 1스테이지는 기본적으로 열려 있으므로, 회색/기본 이미지가 필요없음
+		if (m_Button_INFO.Episode_Button_Type.bLevel_01_Stage_Button_Flag && !m_bChange_Click)
+			Current_Image = isPick(g_hWnd) ? Stage_01_Color_Selected : Stage_01_Color_Default;
 
-		}
+		//  2~5스테이지 버튼은 클릭에 따라 다른 이미지와 상태 변경 할꺼임
+		auto processStageButton = [&](bool buttonFlag,
+			auto graySelected, auto grayDefault,
+			auto colorSelected, auto colorDefault)
+			{
+				if (!buttonFlag)
+					return; // 해당 스테이지 버튼 플래그가 false이면 아무 작업 x
 
-		if (m_Button_INFO.Episode_Button_Type.bLevel_01_Stage_Button_Flag) // 1레벨의 1스테이지는 기본적으로 열려있음 그래서 회색이 없음
-		{
-			if (!m_bChange_Click)
-			{
-				if (true == isPick(g_hWnd))
+				if (!m_bChange_Click)
 				{
-					Current_Image = Stage_01_Color_Selected;
+					if (isPick(g_hWnd))
+					{
+						// 왼쪽 버튼 클릭 시 Gray Selected 이미지 적용
+						if (GetKeyState(VK_LBUTTON) & 0x8000)
+							m_bChange_Click = true;
+						Current_Image = graySelected;
+					}
+					else
+						Current_Image = grayDefault;
 				}
 				else
-					Current_Image = Stage_01_Color_Default;
-			}
+				{
+					if (isPick(g_hWnd))
+					{
+						// 오른쪽 버튼 클릭 시  Color Selected 이미지 적용
+						if (GetKeyState(VK_RBUTTON) & 0x8000)
+						{
+							m_bChange_Click = false;
+						}
 
-		}
+						Current_Image = colorSelected;
+					}
+					else
+						Current_Image = colorDefault;
+				}
+			};
 
-		if (m_Button_INFO.Episode_Button_Type.bLevel_02_Stage_Button_Flag) // 1레벨의 2스테이지
-		{
-			if (!m_bChange_Click)
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_LBUTTON) & 0x8000)
-						m_bChange_Click = true;
-					Current_Image = Stage_02_Gray_Selected;
-				}
-				else
-					Current_Image = Stage_02_Gray_Default;
-			}
-			else
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_RBUTTON) & 0x8000)
-						m_bChange_Click = false;
-					Current_Image = Stage_02_Color_Selected;
-				}
-				else
-					Current_Image = Stage_02_Color_Default;
-			}
-		}
-		if (m_Button_INFO.Episode_Button_Type.bLevel_03_Stage_Button_Flag) // 1레벨의 3스테이지
-		{
-			if (!m_bChange_Click)
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_LBUTTON) & 0x8000)
-						m_bChange_Click = true;
-					Current_Image = Stage_03_Gray_Selected;
-				}
-				else
-					Current_Image = Stage_03_Gray_Default;
-			}
-			else
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_RBUTTON) & 0x8000)
-						m_bChange_Click = false;
-					Current_Image = Stage_03_Color_Selected;
-				}
-				else
-					Current_Image = Stage_03_Color_Default;
-			}
-		}
-		if (m_Button_INFO.Episode_Button_Type.bLevel_04_Stage_Button_Flag) // 1레벨의 4스테이지
-		{
-			if (!m_bChange_Click)
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_LBUTTON) & 0x8000)
-						m_bChange_Click = true;
-					Current_Image = Stage_04_Gray_Selected;
-				}
-				else
-					Current_Image = Stage_04_Gray_Default;
-			}
-			else
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_RBUTTON) & 0x8000)
-						m_bChange_Click = false;
-					Current_Image = Stage_04_Color_Selected;
-				}
-				else
-					Current_Image = Stage_04_Color_Default;
-			}
-		}
-		if (m_Button_INFO.Episode_Button_Type.bLevel_05_Stage_Button_Flag) // 1레벨의 5스테이지
-		{
-			if (!m_bChange_Click)
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_LBUTTON) & 0x8000)
-						m_bChange_Click = true;
-					Current_Image = Stage_05_Gray_Selected;
-				}
-				else
-					Current_Image = Stage_05_Gray_Default;
-			}
-			else
-			{
-				if (true == isPick(g_hWnd))
-				{
-					if (GetKeyState(VK_RBUTTON) & 0x8000)
-						m_bChange_Click = false;
-					Current_Image = Stage_05_Color_Selected;
-				}
-				else
-					Current_Image = Stage_05_Color_Default;
-			}
-		}
+		// 각 스테이지 버튼에 대해 공통으로
+		processStageButton(m_Button_INFO.Episode_Button_Type.bLevel_02_Stage_Button_Flag,
+			Stage_02_Gray_Selected, Stage_02_Gray_Default,
+			Stage_02_Color_Selected, Stage_02_Color_Default);
+
+		processStageButton(m_Button_INFO.Episode_Button_Type.bLevel_03_Stage_Button_Flag,
+			Stage_03_Gray_Selected, Stage_03_Gray_Default,
+			Stage_03_Color_Selected, Stage_03_Color_Default);
+
+		processStageButton(m_Button_INFO.Episode_Button_Type.bLevel_04_Stage_Button_Flag,
+			Stage_04_Gray_Selected, Stage_04_Gray_Default,
+			Stage_04_Color_Selected, Stage_04_Color_Default);
+
+		processStageButton(m_Button_INFO.Episode_Button_Type.bLevel_05_Stage_Button_Flag,
+			Stage_05_Gray_Selected, Stage_05_Gray_Default,
+			Stage_05_Color_Selected, Stage_05_Color_Default);
 	}
+
 }
 
 void CGamePlay_Button::Point_Shop_Display_Button()
@@ -431,164 +382,30 @@ void CGamePlay_Button::Point_Shop_Display_Button()
 
 	if (m_bIsVisible)
 	{
-		if (m_Button_INFO.Point_Shop_Seleted[0])
-		{		
-				if (true == isPick(g_hWnd))
-				{			
-						m_bChange_Click = true;
-						m_bOpen_Display = true;
-						Current_Image = Point_Shop_Selected;
-
-				}
-				else
-					m_bOpen_Display = false;
-
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[1]) 
-		{		
-				if (true == isPick(g_hWnd))
+		// (총 12개의 버튼)
+		for (int i = 0; i < 12; i++) // 0부터 11까지   // 1번째 이미지부터 12번째 이미지까지
+		{
+			if (m_Button_INFO.Point_Shop_Seleted[i])
+			{
+				if (isPick(g_hWnd))
 				{
-
 					m_bChange_Click = true;
 					m_bOpen_Display = true;
 					Current_Image = Point_Shop_Selected;
-
+					// 여기 안에서 버튼 클릭 할 예정 배열로 
 				}
 				else
+				{
 					m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[2])
-		{
-			if (true == isPick(g_hWnd))
-			{
+				}
 
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
+				// 버튼이 하나 선택되면 반복을 종료할 수도?
+				
 			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[3])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[4])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[5])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[6])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[7])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[8])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[9])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[10])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
-		}
-		if (m_Button_INFO.Point_Shop_Seleted[11])
-		{
-			if (true == isPick(g_hWnd))
-			{
-
-				m_bChange_Click = true;
-				m_bOpen_Display = true;
-				Current_Image = Point_Shop_Selected;
-
-			}
-			else
-				m_bOpen_Display = false;
 		}
 	
 	}
+
 }
 
 void CGamePlay_Button::Spell_Shop_Display_Button()
@@ -642,14 +459,16 @@ HRESULT CGamePlay_Button::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
 	// "MainFont" 태그로 등록한 폰트를 사용하여 텍스트를 좌표 위치에 RGB로 렌더링.
-	m_pGameInstance->Render_Font(L"MainFont", L"앙 기머찌 ㅋ", _float2(270.0f, 260.0f), _float3(1.0f, 1.0f, 1.0f));
+	if (m_Button_INFO.Button_type == Point_Shop)
+	{
+		/*m_pGameInstance->Render_Font(L"MainFont", L"앙 기머찌 ㅋ", _float2(270.0f, 260.0f), _float3(1.0f, 1.0f, 1.0f));
 
-	m_pGameInstance->Render_Font(L"MainFont", L"잉 기모링 ㅋ", _float2(270.0f, 355.0f), _float3(1.0f, 1.0f, 1.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"잉 기모링 ㅋ", _float2(270.0f, 355.0f), _float3(1.0f, 1.0f, 1.0f));
 
-	m_pGameInstance->Render_Font(L"MainFont", L"양 금모띠 ㅋ", _float2(270.0f, 445.0f), _float3(1.0f, 1.0f, 1.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"양 금모띠 ㅋ", _float2(270.0f, 445.0f), _float3(1.0f, 1.0f, 1.0f));*/
 
-	m_pGameInstance->Render_Font(L"MainFont", L"반 기문띠 ㅋ", _float2(270.0f, 535.0f), _float3(1.0f, 1.0f, 1.0f));
-
+		m_pGameInstance->Render_Font(L"MainFont", L"흑인이 놀라면? 깜짝ㅋㅋ", _float2(300.0f, 510.0f), _float3(1.0f, 1.0f, 1.0f));
+	}
 
 	return S_OK;
 }

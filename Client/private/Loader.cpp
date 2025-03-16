@@ -503,7 +503,7 @@ HRESULT CLoader::Add_To_Shop_Textures()
 		TEXT("Prototype_Component_Texture_Point_Shop_UI"),
 		CTexture::Create(m_pGraphic_Device,
 			TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_%d.png"),
-			2))))
+			3))))
 		return E_FAIL;
 
 	// 스펠 샵 UI
