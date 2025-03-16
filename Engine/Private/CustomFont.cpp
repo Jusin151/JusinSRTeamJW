@@ -78,6 +78,50 @@ HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _f
 
 	return S_OK;
 }
+HRESULT CCustomFont::Render_Size(const wstring& strText, const _float2& vPosition, const _float2& vSize, _float3 vColor)
+{
+	if (nullptr == m_pGraphic_Device)
+		return E_FAIL;
+
+	// 기존 폰트 정보 복사 후 크기 변경
+	D3DXFONT_DESC fontDesc = m_FontDesc;
+	fontDesc.Height = static_cast<int>(vSize.y); // y값을 폰트 크기로 사용
+	fontDesc.Width = static_cast<int>(vSize.x);  // x값은 사용 안 될 수도 있음
+
+	LPD3DXFONT pTempFont = nullptr;
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &fontDesc, &pTempFont)))
+		return E_FAIL;
+
+	// 화면 중심 기준 좌표 변환
+	int centerX = 1280 / 2;
+	int centerY = 720 / 2;
+	int drawX = static_cast<int>(vPosition.x + centerX);
+	int drawY = static_cast<int>(vPosition.y + centerY);
+
+	RECT rc;
+	SetRect(&rc, drawX, drawY, 0, 0);
+
+	// D3DCOLOR 변환
+	D3DCOLOR fontColor = D3DCOLOR_XRGB(
+		static_cast<int>(vColor.x * 255.0f),
+		static_cast<int>(vColor.y * 255.0f),
+		static_cast<int>(vColor.z * 255.0f));
+
+	// 텍스트 렌더링
+	pTempFont->DrawTextW(
+		NULL,
+		strText.c_str(),
+		-1,
+		&rc,
+		DT_NOCLIP,
+		fontColor);
+
+	// 임시 폰트 해제
+	Safe_Release(pTempFont);
+
+	return S_OK;
+}
+
 
 
 CCustomFont* CCustomFont::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const wstring& strFontFilePath)

@@ -84,6 +84,7 @@ public:
 #pragma region FONT_MANAGER
 	HRESULT Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath);
 	HRESULT Render_Font(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, _float3 vColor);
+	HRESULT Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, const _float2& vSize, _float3 vColor);
 #pragma endregion
 
 private:

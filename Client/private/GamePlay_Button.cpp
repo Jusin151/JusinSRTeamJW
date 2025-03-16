@@ -3,6 +3,15 @@
 #include "CUI_Manager.h"
 #include "UI_Episode.h"
 
+_int CGamePlay_Button::s_fStrength_Point = 0;
+_int CGamePlay_Button::s_fLife_Point = 0;
+_int CGamePlay_Button::s_fSprit_Point = 0;
+_int CGamePlay_Button::s_fCapacity_Point = 0;
+
+_int CGamePlay_Button::s_fStat_Point = 0;
+_int CGamePlay_Button::s_fLevel_Point = 0;
+_int CGamePlay_Button::s_fLive_Point = 0;
+
 CGamePlay_Button::CGamePlay_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
@@ -61,7 +70,17 @@ void CGamePlay_Button::Priority_Update(_float fTimeDelta)
 
 void CGamePlay_Button::Update(_float fTimeDelta)
 {
+	
+	s_fStat_Point; // 잔여 스탯 포인트
+	s_fLevel_Point;// 레벨 포인트 
+	s_fLive_Point; // 목숨 갯수  
 
+	s_fStrength_Point; // 근력
+	s_fLife_Point; // 생맹력
+	s_fSprit_Point; // 정신력
+	s_fCapacity_Point; // 용량
+
+	strStat_Tag_box = L"";
 	if(m_Button_INFO.Button_type==Episode)
 	Episode_UI_Update();
 	if (m_Button_INFO.Button_type == Point_Shop)
@@ -165,9 +184,34 @@ void CGamePlay_Button::Font_Render()
 
 		m_pGameInstance->Render_Font(L"MainFont", strMin_Stat_box, _float2(-40.f, 137.0f), _float3(1.f, 1.f, 0.0f));
 		m_pGameInstance->Render_Font(L"MainFont", strItem_Tag, _float2(0.f, 50.0f), _float3(1.f, 1.f, 0.0f));
+
+
 	}
 
 	
+}
+
+void CGamePlay_Button::Stat_Render()
+{
+	if (m_Button_INFO.Button_type == Point_Shop)
+	{
+		// 테스트용 나중에 플레이어와 연동
+
+
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fStrength_Point), _float2(-308.f, -148.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fLife_Point), _float2(-308.f, -85.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fSprit_Point), _float2(-308.f, -22.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fCapacity_Point), _float2(-308.f, 38.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fStat_Point), _float2(-366.f, -208.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fLevel_Point), _float2(-285.f, -226.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(s_fLive_Point), _float2(-172.f, -228.F), _float2(30.f, 40.F), _float3(1.f, 1.f, 0.0f));
+
+		m_pGameInstance->Render_Font(L"MainFont", strStat_Tag_box, _float2(-350.f, 137.0f), _float3(1.f, 1.f, 0.0f));
+	}
 }
 
 void CGamePlay_Button::Episode_Display_Button()
@@ -275,6 +319,8 @@ void CGamePlay_Button::Point_Shop_Display_Button()
 					m_bChange_Click = true;
 					m_bOpen_Display = true;
 					Current_Image = Point_Shop_Small_Selected;
+
+					Button_TexT(m_Button_INFO.Point_Shop_Num);
 				}
 				else
 				{
@@ -339,13 +385,44 @@ void CGamePlay_Button::Button_TexT(_int CurrentButtonType)
 		break;
 	case VERY_FASTER:
 		strItem_Tag = L"조오오온나 빨라짐 ㅋㅋ";
-		strMin_Stat_box = L"요구 스탯 : 근생맹력 3";
+		strMin_Stat_box = L"요구 스탯 : 근,생맹력 3";
 		break;
+	case 12:
+		strItem_Tag = L"앙깔롱띠 ㅋㅋ";
+		strStat_Tag_box = L"어 그래 나 하남의 홍동완이다";
+		if (GetKeyState(VK_LBUTTON) & 0x8000)
+		{
+			s_fStrength_Point += 1;
+			s_fStat_Point  -=  1;
+			s_fLevel_Point +=  2 ;
+			s_fLive_Point  -=  2;
+		}
+		break;
+	case 13:
+		strItem_Tag = L"앙검은띠  ㅋㅋ";
+		strStat_Tag_box = L"어 그래 나 수원의 차명훈이다";
+		if (GetKeyState(VK_LBUTTON) & 0x8000)
+			s_fLife_Point += 1;
+		break;
+	case 14:
+		strItem_Tag = L"앙후드띠  ㅋㅋ";
+		strStat_Tag_box = L"어 그래 나 파주의 김장원이다";
+		if (GetKeyState(VK_LBUTTON) & 0x8000)
+			s_fSprit_Point += 1;
+		break;
+	case 15:
+		strItem_Tag = L"앙 허리띠 ㅋㅋ";
+		strStat_Tag_box = L"어 그래 나 낙성대의 김경래다";
+		if (GetKeyState(VK_LBUTTON) & 0x8000)
+			s_fCapacity_Point += 1;
+		break;
+
 	default:
 		strItem_Tag = L"";
-		strMin_Stat_box = L"";
 		break;
+
 	}
+
 }
 void CGamePlay_Button::Spell_Shop_Display_Button()
 {
@@ -389,6 +466,7 @@ HRESULT CGamePlay_Button::Render()
 		return E_FAIL;
 
 	Font_Render();
+	Stat_Render();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);

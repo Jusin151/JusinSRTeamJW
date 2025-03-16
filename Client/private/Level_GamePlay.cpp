@@ -371,6 +371,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 		vecSmallButtonDescs[i].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI";
 		vecSmallButtonDescs[i].strUIName = L"Level_Point_Shop_Small_Button" + to_wstring(i);
 		vecSmallButtonDescs[i].Button_type = Button_type::Point_Shop;
+		vecSmallButtonDescs[i].Point_Shop_Num = 12+i;
 
 			if (FAILED(m_pGameInstance->Add_GameObject(
 				LEVEL_GAMEPLAY,
