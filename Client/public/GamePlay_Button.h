@@ -51,6 +51,7 @@ public:
     void Spell_Shop_Update();
 public:
     void Font_Render();
+    void Stat_Render();
     void Button_TexT(_int CurrentButtonType);
 
 public:
@@ -118,7 +119,20 @@ private:
  public:
      _float3 m_fFont_Rgb{};
      _wstring strMin_Stat_box{}; // 요구 스탯 뜨는 창
+     _wstring strStat_Tag_box{}; // 스탯 설명창 
      _wstring strItem_Tag{}; // 아이템 설명
-   
+
+  
+
+  
+     static _int s_fStrength_Point;// 근력
+     static _int s_fLife_Point;    // 생맹력
+     static _int s_fSprit_Point;   // 정신력
+     static _int s_fCapacity_Point;// 용량  
+
+     static _int s_fStat_Point; // 잔여 스탯 포인트
+     static _int s_fLevel_Point;// 레벨 포인트 
+     static _int s_fLive_Point; // 목숨 갯수  
+
 };
 END

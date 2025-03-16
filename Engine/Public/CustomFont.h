@@ -13,6 +13,8 @@ public:
 	HRESULT Initialize(const wstring& strFontFilePath);
 	HRESULT Render(const wstring& strText, const _float2& vPosition, _float3 vColor);
 
+	HRESULT Render_Size(const wstring& strText, const _float2& vPosition, const _float2& vSize, _float3 vColor);
+
 private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	LPD3DXFONT					m_pFont = { nullptr };

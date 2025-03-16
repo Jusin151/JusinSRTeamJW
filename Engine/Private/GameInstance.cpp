@@ -233,6 +233,12 @@ HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& s
 	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
 }
 
+// 사이즈 크기 조절하려고 홍동완이 만듬
+HRESULT CGameInstance::Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition,const _float2& vSize, _float3 vColor)
+{
+	return m_pFont_Manager->Render_Font_size(strFontTag, strText, vPosition, vSize, vColor);
+}
+
 #pragma endregion
 
 #pragma region Graphic_Device
