@@ -25,7 +25,7 @@ HRESULT CTestMonster::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f,1.f,20.f));
-	m_pTransformCom->Set_Scale(10.f, 10.f, 10.f);
+	m_pTransformCom->Set_Scale(20.f, 20.f, 20.f);
 	m_pColliderCom->Set_Type(CG_MONSTER);
 	m_pColliderCom->Set_Owner(this);
 	//m_pColliderCom->Set_Radius(5.f);

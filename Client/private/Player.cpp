@@ -1,5 +1,6 @@
 ﻿#include "Player.h"
 
+#include "PickingSys.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -30,6 +31,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pColliderCom->Set_Owner(this); // 레퍼런스 안올림 굳이 올려서 해제할 때 문제 안생기게
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
+
+	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
 
