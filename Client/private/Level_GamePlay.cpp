@@ -8,11 +8,11 @@
 
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel { pGraphic_Device } ,
-	m_pPickingSys{CPickingSys::Get_Instance()}
+	: CLevel{ pGraphic_Device },
+	m_pPickingSys{ CPickingSys::Get_Instance() }
 
 {
-	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device,m_pGameInstance);
+	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
 	Safe_AddRef(m_pPickingSys);
 }
 HRESULT CLevel_GamePlay::Initialize()
@@ -20,7 +20,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
-	
+
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -31,7 +31,7 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
-	
+
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
@@ -40,23 +40,146 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	//m_pPickingSys->Update();
+	//static CGameObject* dragObject = nullptr;
+	//auto colliderVec = m_pGameInstance->Get_Colliders();
+
+	//for (auto& colliderList : colliderVec)
+	//{
+	//	for (auto& collider : colliderList)
+	//	{
+	//		if (GetKeyState(VK_LBUTTON) & 0x8000)
+	//		{
+	//			if (m_pPickingSys->Ray_Intersection(collider))
+	//			{
+	//				if (!dragObject)
+	//				{
+	//					dragObject = collider->Get_Owner();
+	//				}
+	//				else continue;
+	//			}
+	//			if (dragObject)
+	//			{
+
+	//				CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
+	//				if (pTransform)
+	//				{
+	//					//pTransform->Set_State(CTransform::STATE_POSITION,m_pPickingSys->Get_Instance()->Get_Mouse_WorldPos());
+	//					_float3 vObjPos = pTransform->Get_State(CTransform::STATE_POSITION);
+
+	//					// 카메라 위치 가져오기
+	//					CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Camera"));
+	//					CTransform* pCamTransform = dynamic_cast<CTransform*>(pCamera->Get_Component(TEXT("Com_Transform")));
+	//					_float3 vCamPos = pCamTransform->Get_State(CTransform::STATE_POSITION);
+
+	//					// 카메라로부터 객체까지의 거리 계산
+	//					_float3 vDiff;
+	//					D3DXVec3Subtract(&vDiff, &vObjPos, &vCamPos);
+	//					_float fDistanceFromCamera = D3DXVec3Length(&vDiff);
+	//					_float3 vDragOffset = _float3(0.f, 0.f, 0.f);
+	//					// 현재 선택 지점의 월드 위치 계산
+	//					_float3 vWorldPos = m_pPickingSys->Get_Ray().vOrigin +
+	//						m_pPickingSys->Get_Ray().vDir * fDistanceFromCamera;
+
+	//					// 객체 위치와 선택 지점 사이의 오프셋 계산
+	//					D3DXVec3Subtract(&vDragOffset, &vObjPos, &vWorldPos);
+	//					// 오프셋을 더한 새 위치 계산
+	//					_float3 vNewPos;
+	//					D3DXVec3Add(&vNewPos, &vWorldPos, &vDragOffset);
+
+
+	//					pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+	/// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
 	m_pPickingSys->Update();
+	static CGameObject* dragObject = nullptr;
+	static _float3 vDragOffset = _float3(0.f, 0.f, 0.f);
+	static _float fDistanceFromCamera = 0.f;
+	static bool bInitialized = false;
 
 	auto colliderVec = m_pGameInstance->Get_Colliders();
 
-	for (auto& colliderList : colliderVec)
+	// 마우스 버튼이 떼어진 경우 드래그 객체 초기화
+	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
 	{
-		for (auto& collider : colliderList)
+		dragObject = nullptr;
+		bInitialized = false;
+	}
+	// 마우스 왼쪽 버튼이 눌린 경우
+	else
+	{
+		// 드래그 객체가 없으면 객체 선택
+		if (!dragObject)
 		{
-			if (GetKeyState(VK_LBUTTON) & 0x8000)
+			for (auto& colliderList : colliderVec)
 			{
-				if (m_pPickingSys->Ray_Intersection(collider))
+				for (auto& collider : colliderList)
 				{
-					int a = 10;
+					if (m_pPickingSys->Ray_Intersection(collider))
+					{
+						dragObject = collider->Get_Owner();
+						bInitialized = false;
+						break;
+					}
 				}
+				if (dragObject) break;
+			}
+		}
+
+		// 선택된 객체가 있으면 이동 처리
+		if (dragObject)
+		{
+			CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
+			if (pTransform)
+			{
+				// 카메라 정보 가져오기
+				CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Camera"));
+				CTransform* pCamTransform = dynamic_cast<CTransform*>(pCamera->Get_Component(TEXT("Com_Transform")));
+
+				// 첫 드래그 시 초기화
+				if (!bInitialized)
+				{
+					// 객체의 현재 위치 가져오기
+					_float3 vObjPos = pTransform->Get_State(CTransform::STATE_POSITION);
+
+					// 카메라 위치 가져오기
+					_float3 vCamPos = pCamTransform->Get_State(CTransform::STATE_POSITION);
+
+					// 카메라로부터 객체까지의 거리 계산
+					_float3 vDiff;
+					D3DXVec3Subtract(&vDiff, &vObjPos, &vCamPos);
+					fDistanceFromCamera = D3DXVec3Length(&vDiff);
+
+					// 현재 선택 지점의 월드 위치 계산
+					_float3 vWorldPos = m_pPickingSys->Get_Ray().vOrigin +
+						m_pPickingSys->Get_Ray().vDir * fDistanceFromCamera;
+
+					// 객체 위치와 선택 지점 사이의 오프셋 계산
+					D3DXVec3Subtract(&vDragOffset, &vObjPos, &vWorldPos);
+
+					bInitialized = true;
+				}
+
+				// 현재 마우스 레이 상의 위치 계산 (고정된 거리에서)
+				_float3 vWorldPos = m_pPickingSys->Get_Ray().vOrigin +
+					m_pPickingSys->Get_Ray().vDir * fDistanceFromCamera;
+
+				// 오프셋을 더한 새 위치 계산
+				_float3 vNewPos;
+				D3DXVec3Add(&vNewPos, &vWorldPos, &vDragOffset);
+
+				// 객체 위치 업데이트
+				pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
 			}
 		}
 	}
+
+	/// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -86,11 +209,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 {
-	
+
 	CUI_Base::UI_Child_Desc Spell_Shop_UI{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
 	Spell_Shop_UI.vSize = { 847.f,508.f };
 	Spell_Shop_UI.fAlpha = 1.0f;
-	Spell_Shop_UI.vPos = {-200.f,100.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	Spell_Shop_UI.vPos = { -200.f,100.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
@@ -99,7 +222,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc Upgrade_Weapon{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	Upgrade_Weapon.vSize = {847.f,508.f };
+	Upgrade_Weapon.vSize = { 847.f,508.f };
 	Upgrade_Weapon.fAlpha = 1.0f;
 	Upgrade_Weapon.vPos = { -200.f,-100.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
 
@@ -135,17 +258,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 
 
 
-    CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{}; // 왼쪽 레벨 1 이미지 ( ex 후드쓴 개구리 
-    Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
-    Level_1_Icon_Desc.Button_Desc.vPos = { -320.f,184.f };
-    Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-    Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
-    Level_1_Icon_Desc.Episode_Button_Type.bLevel_Icon_Button_Flag = true;
+	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{}; // 왼쪽 레벨 1 이미지 ( ex 후드쓴 개구리 
+	Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
+	Level_1_Icon_Desc.Button_Desc.vPos = { -320.f,184.f };
+	Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
+	Level_1_Icon_Desc.Episode_Button_Type.bLevel_Icon_Button_Flag = true;
 	Level_1_Icon_Desc.Button_type = CGamePlay_Button::Button_type::Episode;
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
-        LEVEL_LOGO, TEXT("Layer_Episode_2"), 
-        &Level_1_Icon_Desc)))
-        return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+		LEVEL_LOGO, TEXT("Layer_Episode_2"),
+		&Level_1_Icon_Desc)))
+		return E_FAIL;
 
 	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Level_Stage_Desc{}; // 레벨 1 이미지의 첫번째 스테이지
 	Level_1_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
@@ -185,7 +308,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 
 	CGamePlay_Button::GamePlayer_Button_Desc Level_4_Level_Stage_Desc{}; // 레벨 4 이미지의 첫번째 스테이지
 	Level_4_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
-	Level_4_Level_Stage_Desc.Button_Desc.vPos = {-112.f,-76.f };
+	Level_4_Level_Stage_Desc.Button_Desc.vPos = { -112.f,-76.f };
 	Level_4_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
 	Level_4_Level_Stage_Desc.strUIName = { L"Level_1_04_Stage" };
 	Level_4_Level_Stage_Desc.Episode_Button_Type.bLevel_04_Stage_Button_Flag = true;
@@ -208,7 +331,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 		return E_FAIL;
 
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
@@ -220,12 +343,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 	Level_Poinst_Shop_Display.strUIName = { L"Level_Point_Shop_Display" };
 	Level_Poinst_Shop_Display.Button_type = CGamePlay_Button::Button_type::Point_Shop;
 
-		
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
 		LEVEL_LOGO, TEXT("Layer_Point_Shop_Display"),
 		&Level_Poinst_Shop_Display)))
 		return E_FAIL;
-	 
+
 	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(12);
 
 	for (int i = 0; i < 6; ++i)
@@ -234,7 +357,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 		{
 			int index = i * 2 + j;
 			vecButtonDescs[index].Button_Desc.vSize = { 211.f, 32.f };
-			vecButtonDescs[index].Button_Desc.vPos = { 10.f*j,10.f*i }; // 위치 조정
+			vecButtonDescs[index].Button_Desc.vPos = { 10.f * j,10.f * i }; // 위치 조정
 			vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI";
 			vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_" + to_wstring(index);
 			vecButtonDescs[index].Button_type = CGamePlay_Button::Button_type::Point_Shop;
@@ -265,6 +388,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera_Free"),
+	//	LEVEL_GAMEPLAY, strLayerTag)))
+	//	return E_FAIL;
 	return S_OK;
 }
 
@@ -276,20 +403,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 1)))
 		return E_FAIL;
-	
+
 
 
 	CTransform::TRANSFORM_DESC randTransDesc{};
 
 
-	
+
 
 	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
 	randTransDesc.fSpeedPerSec = 10.f;
 	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag,&randTransDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag, &randTransDesc)))
 		return E_FAIL;
-	
+
 
 	return S_OK;
 }
@@ -333,9 +460,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
-	TEXT("Prototype_GameObject_Default_PlayerUI"),
-	LEVEL_GAMEPLAY, TEXT("Layer_Default_PlayerUI"), &DefaultUI_Desc)))
-	return E_FAIL;
+		TEXT("Prototype_GameObject_Default_PlayerUI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Default_PlayerUI"), &DefaultUI_Desc)))
+		return E_FAIL;
 
 
 	CUI_Base::UI_Child_Desc Left_Panel{};  // 왼쪽 하단 판넬

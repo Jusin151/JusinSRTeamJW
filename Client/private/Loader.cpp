@@ -257,6 +257,8 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		return E_FAIL;
 
 
+
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Monster"),
 		CTestMonster::Create(m_pGraphic_Device))))
