@@ -115,6 +115,14 @@ CGameObject* CObject_Manager::Find_Object(_uint iLevelIndex, const _wstring& str
 	return pLayer->Find_Object();
 }
 
+CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag)
+{
+	CGameObject* pGameObject = Find_Object(iLevelIndex, strLayerTag);
+	if (!pGameObject) return nullptr;
+	
+	return pGameObject->Get_Component(strComponentTag);
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto	iter = m_pLayers[iLevelIndex].find(strLayerTag);

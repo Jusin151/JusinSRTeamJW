@@ -1,69 +1,64 @@
-﻿#include "TestMonster.h"
-
+﻿#include "Structure.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
-CTestMonster::CTestMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
+	:CGameObject{ pGraphic_Device }
 {
 }
 
-CTestMonster::CTestMonster(const CTestMonster& Prototype)
-	: CGameObject{ Prototype }
+CStructure::CStructure(const CStructure& Prototype)
+	:CGameObject{ Prototype }
 {
 }
 
-HRESULT CTestMonster::Initialize_Prototype()
+HRESULT CStructure::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CTestMonster::Initialize(void* pArg)
+HRESULT CStructure::Initialize(void* pArg)
 {
+	STRUCTURE_DESC* tStructureDesc = static_cast<STRUCTURE_DESC*>(pArg);
+
+	if (tStructureDesc)
+	{
+		m_tStructure_Desc = *tStructureDesc;
+	}
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f,1.f,20.f));
-	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	m_pColliderCom->Set_Type(CG_MONSTER);
+	m_pColliderCom->Set_Type(CG_STRUCTURE);
 	m_pColliderCom->Set_Owner(this);
-	//m_pColliderCom->Set_Radius(5.f);
-	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
+	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_tStructure_Desc.vPos);
 	return S_OK;
 }
 
-void CTestMonster::Priority_Update(_float fTimeDelta)
+void CStructure::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CTestMonster::Update(_float fTimeDelta)
+void CStructure::Update(_float fTimeDelta)
 {
-
-	// collider 월드 행렬 동기화...
-	
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
-
-	m_pColliderCom->Update_Desc();
-
-	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
-
+	if (m_bIsCubeCollider)
+	{
+		static_cast<CCollider_Cube*>(m_pColliderCom)->Update_Desc();;
+	}
+	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
 }
 
-void CTestMonster::Late_Update(_float fTimeDelta)
+void CStructure::Late_Update(_float fTimeDelta)
 {
-	// 충돌 판정
-	On_Collision(fTimeDelta);
-
-	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CTestMonster::Render()
+HRESULT CStructure::Render()
 {
-
-
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
@@ -83,39 +78,12 @@ HRESULT CTestMonster::Render()
 	return S_OK;
 }
 
-HRESULT CTestMonster::On_Collision(_float fTimeDelta)
+HRESULT CStructure::On_Collision(_float fTimeDelta)
 {
-	if (nullptr == m_pColliderCom)
-		return E_FAIL;
-
-	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
-		return S_OK;
-
-	_float3 fMTV = m_pColliderCom->Get_MTV();
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	switch (m_pColliderCom->Get_Other_Type())
-	{
-	case CG_PLAYER:
-		
-		fPos += fMTV;
-
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		break;
-
-	default:
-		break;
-	}
-
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
-
-	return S_OK;
+	return E_NOTIMPL;
 }
 
-HRESULT CTestMonster::SetUp_RenderState()
+HRESULT CStructure::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
@@ -132,7 +100,7 @@ HRESULT CTestMonster::SetUp_RenderState()
 	return S_OK;
 }
 
-HRESULT CTestMonster::Release_RenderState()
+HRESULT CStructure::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -142,15 +110,25 @@ HRESULT CTestMonster::Release_RenderState()
 	return S_OK;
 }
 
-HRESULT CTestMonster::Ready_Components()
+HRESULT CStructure::Ready_Components()
 {
+	_wstring str = m_tStructure_Desc.stTextureTag;
+	if (FAILED(m_pGameInstance->Find_Prototype(str)))
+	{
+		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+			m_tStructure_Desc.stTextureTag,
+			CTexture::Create(m_pGraphic_Device,
+				m_tStructure_Desc.stTexturePath.c_str(), 1))))
+			return E_FAIL;
+	}
+
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tStructure_Desc.stTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tStructure_Desc.stVIBuffer,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
@@ -162,39 +140,40 @@ HRESULT CTestMonster::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tStructure_Desc.stCollProtoTag,
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CTestMonster* CTestMonster::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CStructure* CStructure::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CTestMonster* pInstance = new CTestMonster(pGraphic_Device);
+	CStructure* pInstance = new CStructure(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CTestMonster");
+		MSG_BOX("Failed to Created : CStructure");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CTestMonster::Clone(void* pArg)
+CGameObject* CStructure::Clone(void* pArg)
 {
-	CTestMonster* pInstance = new CTestMonster(*this);
+	CStructure* pInstance = new CStructure(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CTestMonster");
+		MSG_BOX("Failed to Created : CStructure");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
-void CTestMonster::Free()
+
+void CStructure::Free()
 {
 	__super::Free();
 
@@ -202,6 +181,4 @@ void CTestMonster::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
-
-
 }

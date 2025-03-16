@@ -139,6 +139,9 @@
     <Filter Include="02.GameObjects\Camera\FirstPerson">
       <UniqueIdentifier>{acb5fd34-0af2-4e31-9a34-c2ec83823af0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Structure">
+      <UniqueIdentifier>{01a4a485-e43d-48f6-a8ff-d7b89bcf1367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -261,6 +264,9 @@
     <ClInclude Include="..\Public\Camera_FirstPerson.h">
       <Filter>02.GameObjects\Camera\FirstPerson</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Structure.h">
+      <Filter>02.GameObjects\Structure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -365,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp">
       <Filter>02.GameObjects\Camera\FirstPerson</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Structure.cpp">
+      <Filter>02.GameObjects\Structure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

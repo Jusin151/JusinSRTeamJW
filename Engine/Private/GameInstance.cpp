@@ -133,6 +133,11 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototype
 {
 	return m_pPrototype_Manager->Clone_Prototype(ePrototypeType, iPrototypeLevelIndex, strPrototypeTag, pArg);
 }
+
+HRESULT CGameInstance::Find_Prototype(const _wstring& strPrototypeTag)
+{
+	return m_pPrototype_Manager->Find_Prototype(strPrototypeTag);
+}
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
@@ -150,6 +155,12 @@ CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLa
 {
 	return m_pObject_Manager->Find_Object(iLevelIndex, strLayerTag);
 }
+
+CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag)
+{
+	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag,strComponentTag);
+}
+
 
 #pragma endregion
 
@@ -220,6 +231,12 @@ HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _wstring& strF
 HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, _float3 vColor)
 {
 	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
+}
+
+// 사이즈 크기 조절하려고 홍동완이 만듬
+HRESULT CGameInstance::Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition,const _float2& vSize, _float3 vColor)
+{
+	return m_pFont_Manager->Render_Font_size(strFontTag, strText, vPosition, vSize, vColor);
 }
 
 #pragma endregion

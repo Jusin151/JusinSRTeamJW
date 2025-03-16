@@ -16,40 +16,8 @@ BEGIN(Client)
 class CGamePlay_Button : public CUI_Base
 {
 public:
-    enum Button_type // 이 버튼은 어느 메뉴창의 버튼인지
-    {
-        Episode = 0, Point_Shop = 1, Spell_Shop = 2, Upgrade_Weapon = 3
-    };
-    enum Level_01_Type // 이 버튼은 어느 이미지를 사용할것인지
-    {
-        Level_ICon_Defaul, Level_ICon_Selected,
-        Stage_01_Color_Default, Stage_01_Color_Selected,
-        Stage_02_Gray_Default, Stage_02_Gray_Selected, Stage_02_Color_Default, Stage_02_Color_Selected,
-        Stage_03_Gray_Default, Stage_03_Gray_Selected, Stage_03_Color_Default, Stage_03_Color_Selected,
-        Stage_04_Gray_Default, Stage_04_Gray_Selected, Stage_04_Color_Default, Stage_04_Color_Selected,
-        Stage_05_Gray_Default, Stage_05_Gray_Selected, Stage_05_Color_Default, Stage_05_Color_Selected,
-        Episode_Display=20,
-
-        Point_Shop_Display=0,Point_Shop_Selected=1
-    };
-    typedef struct tagEpisode //에피소드 버튼 타입
-    {
-        _bool bLevel_Icon_Button_Flag{};
-        _bool bLevel_01_Stage_Button_Flag{};
-        _bool bLevel_02_Stage_Button_Flag{};
-        _bool bLevel_03_Stage_Button_Flag{};
-        _bool bLevel_04_Stage_Button_Flag{};
-        _bool bLevel_05_Stage_Button_Flag{};
-    }Episode_Button_Type_Desc;
-    typedef struct tagPoint_Shop //에피소드 버튼 타입
-    {
-        _bool bLevel_Icon_Button_Flag{};
-        _bool bLevel_01_Stage_Button_Flag{};
-        _bool bLevel_02_Stage_Button_Flag{};
-        _bool bLevel_03_Stage_Button_Flag{};
-        _bool bLevel_04_Stage_Button_Flag{};
-        _bool bLevel_05_Stage_Button_Flag{};
-    }Point_Shop_Button_Type_Desc;
+  
+ 
 
     typedef struct tagButton
     {
@@ -60,7 +28,8 @@ public:
         Button_type Button_type{}; // 이 버튼이 4종류의 상점중 어느 상점의 버튼인지
         Episode_Button_Type_Desc Episode_Button_Type{}; // 이 버튼의 에피소드 버튼 타입
         _bool bDisplay_On{};
-        _bool Point_Shop_Seleted[12];
+        _bool Point_Shop_Seleted[16]{};
+        _int Point_Shop_Num{};
     }GamePlayer_Button_Desc;
  
 
@@ -80,14 +49,15 @@ public:
     void Episode_UI_Update();
     void Point_Shop_Update();
     void Spell_Shop_Update();
-    void Weapon_Upgrade_Update();
-
+public:
+    void Font_Render();
+    void Stat_Render();
+    void Button_TexT(_int CurrentButtonType);
 
 public:
     void Episode_Display_Button();
     void Point_Shop_Display_Button();
     void Spell_Shop_Display_Button();
-    void Upgrade_Weapon_Display_Button();
 
 protected:
     CTexture* m_GamePlay_Button_pTextureCom{};
@@ -147,6 +117,22 @@ private:
     _bool m_bSpell_Shop_Display{};
     _bool m_Upgrade_UI_Display{};
  public:
-   
+     _float3 m_fFont_Rgb{};
+     _wstring strMin_Stat_box{}; // 요구 스탯 뜨는 창
+     _wstring strStat_Tag_box{}; // 스탯 설명창 
+     _wstring strItem_Tag{}; // 아이템 설명
+
+  
+
+  
+     static _int s_fStrength_Point;// 근력
+     static _int s_fLife_Point;    // 생맹력
+     static _int s_fSprit_Point;   // 정신력
+     static _int s_fCapacity_Point;// 용량  
+
+     static _int s_fStat_Point; // 잔여 스탯 포인트
+     static _int s_fLevel_Point;// 레벨 포인트 
+     static _int s_fLive_Point; // 목숨 갯수  
+
 };
 END

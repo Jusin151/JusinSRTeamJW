@@ -37,7 +37,6 @@ HRESULT CCamera::Initialize(void* pArg)
     m_pGraphic_Device->GetViewport(&ViewportDesc);
 
     m_fAspect = static_cast<_float>(ViewportDesc.Width) / ViewportDesc.Height;    
-
     return S_OK;
 }
 

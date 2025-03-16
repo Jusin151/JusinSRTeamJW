@@ -90,7 +90,7 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 	}
 }
 
-bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 {
 	_float3 fDir = src->Get_State(CTransform::STATE_POSITION) - dst->Get_State(CTransform::STATE_POSITION);
 
@@ -123,7 +123,7 @@ bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 	
 }
 
-bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 {
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
@@ -146,12 +146,12 @@ bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 	return true;
 }
 
-bool CCollider_Manager::Calc_Cube_To_Sphere(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_Cube_To_Sphere(CCollider* src, CCollider* dst)
 {
 	return false;
 }
 
-bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 {
 
 	setAxes.clear();
@@ -167,7 +167,7 @@ bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 	return srcDesc.fRadius + dstDesc.fRadius < _float3::Distance(srcDesc.fPos, dstDesc.fPos);
 }
 
-bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 {
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
@@ -246,7 +246,7 @@ void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
 
 }
 
-bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 {
 	Calc_Cross_Axes(src, dst);
 

@@ -4,6 +4,7 @@
 #include "Level_Loading.h"
 #include "Loading_UI.h"
 #include "VIBuffer_Cube.h"
+#include "Structure.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
@@ -136,7 +137,11 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
 	
-	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, 
+		TEXT("Prototype_GameObject_Structure"),
+		CStructure::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
