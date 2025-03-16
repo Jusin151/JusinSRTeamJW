@@ -48,14 +48,13 @@ public:
     void Episode_UI_Update();
     void Point_Shop_Update();
     void Spell_Shop_Update();
-    void Weapon_Upgrade_Update();
-
+public:
+    void Font_Render();
 
 public:
     void Episode_Display_Button();
     void Point_Shop_Display_Button();
     void Spell_Shop_Display_Button();
-    void Upgrade_Weapon_Display_Button();
 
 protected:
     CTexture* m_GamePlay_Button_pTextureCom{};
@@ -115,6 +114,8 @@ private:
     _bool m_bSpell_Shop_Display{};
     _bool m_Upgrade_UI_Display{};
  public:
+     _float3 m_fFont_Rgb{};
+     wstring strDialog_box{};
    
 };
 END

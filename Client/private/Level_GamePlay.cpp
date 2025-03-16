@@ -403,10 +403,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 	vecSmallButtonDescs[2].Point_Shop_Seleted[14] = true;
 	vecSmallButtonDescs[3].Point_Shop_Seleted[15] = true;
 
-	for (int i = 0; i < 4; ++i)
+	vecSmallButtonDescs[0].Button_Desc.vPos.y = 130.f;
+	vecSmallButtonDescs[1].Button_Desc.vPos.y = 66.f;
+	vecSmallButtonDescs[2].Button_Desc.vPos.y = 2.f;
+	vecSmallButtonDescs[3].Button_Desc.vPos.y = -58.f;
+
+	for(int i = 0; i < 4; ++i)
 	{
-		vecSmallButtonDescs[i].Button_Desc.vSize = { 44.f, 43.f };
-		vecSmallButtonDescs[i].Button_Desc.vPos = { 0.f,0.f }; // 위치 조정
+		vecSmallButtonDescs[i].Button_Desc.vSize = { 50.f,50.f };
+		vecSmallButtonDescs[i].Button_Desc.vPos.x ={ -349.f}; // 위치 조정
 		vecSmallButtonDescs[i].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI";
 		vecSmallButtonDescs[i].strUIName = L"Level_Point_Shop_Small_Button" + to_wstring(i);
 		vecSmallButtonDescs[i].Button_type = Button_type::Point_Shop;

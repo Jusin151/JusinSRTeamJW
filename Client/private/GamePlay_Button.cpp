@@ -120,9 +120,6 @@ void CGamePlay_Button::Episode_UI_Update()
 		case Spell_Shop:
 			Spell_Shop_Display_Button();
 			break;
-		case Upgrade_Weapon:
-			Upgrade_Weapon_Display_Button();
-			break;
 		default:
 			break;
 		}
@@ -163,151 +160,34 @@ void CGamePlay_Button::Point_Shop_Update()
 		Point_Shop_Display_Button();
 	
 }
-
 void CGamePlay_Button::Spell_Shop_Update()
 {
 }
-
-void CGamePlay_Button::Weapon_Upgrade_Update()
+void CGamePlay_Button::Font_Render()
 {
+	// "MainFont" 태그로 등록한 폰트를 사용하여 텍스트를 좌표 위치에 RGB로 렌더링.
+	if (m_Button_INFO.Button_type == Point_Shop)
+	{
+		m_pGameInstance->Render_Font(L"MainFont", L"근접 마스터", _float2(0.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+
+
+
+		m_pGameInstance->Render_Font(L"MainFont", L"트레져 헌터", _float2(0.f, -163.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"빠른 치료자", _float2(0.f, -122.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"학생", _float2(23.f, -78.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"산탄총 전문가", _float2(0.f, -35.F), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"방화광", _float2(20.f, 10.F), _float3(1.f, 1.f, 0.0f));
+
+		m_pGameInstance->Render_Font(L"MainFont", L"리드 수집가", _float2(220.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"귀신", _float2(250.f, -163.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"강인함", _float2(240.f, -123.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"마법 잠재력", _float2(225.f, -78.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"소울 수집가", _float2(225.f, -35.F), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"스프린터", _float2(232.f, 10.F), _float3(1.f, 1.f, 0.0f));
+	}
+	
+
 }
-
-//void CGamePlay_Button::Episode_Display_Button()
-//{
-//	if (m_bIsVisible)
-//	{
-//		if (m_Button_INFO.Episode_Button_Type.bLevel_Icon_Button_Flag)
-//		{
-//			if (!m_bChange_Click)
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//
-//					Current_Image = Level_ICon_Selected;
-//				}
-//				else
-//					Current_Image = Level_ICon_Defaul;
-//			}
-//
-//		}
-//	
-//		if (m_Button_INFO.Episode_Button_Type.bLevel_01_Stage_Button_Flag) // 1레벨의 1스테이지는 기본적으로 열려있음 그래서 회색이 없음
-//		{
-//			if (!m_bChange_Click)
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					Current_Image = Stage_01_Color_Selected;
-//				}
-//				else
-//					Current_Image = Stage_01_Color_Default;
-//			}
-//
-//		}
-//		if (m_Button_INFO.Episode_Button_Type.bLevel_02_Stage_Button_Flag) // 1레벨의 2스테이지
-//		{
-//			if (!m_bChange_Click)
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_LBUTTON) & 0x8000)
-//						m_bChange_Click = true;
-//					Current_Image = Stage_02_Gray_Selected;
-//				}
-//				else
-//					Current_Image = Stage_02_Gray_Default;
-//			}
-//			else
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_RBUTTON) & 0x8000)
-//						m_bChange_Click = false;
-//					Current_Image = Stage_02_Color_Selected;
-//				}
-//				else
-//					Current_Image = Stage_02_Color_Default;
-//			}
-//		}
-//		if (m_Button_INFO.Episode_Button_Type.bLevel_03_Stage_Button_Flag) // 1레벨의 3스테이지
-//		{
-//			if (!m_bChange_Click)
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_LBUTTON) & 0x8000)
-//						m_bChange_Click = true;
-//					Current_Image = Stage_03_Gray_Selected;
-//				}
-//				else
-//					Current_Image = Stage_03_Gray_Default;
-//			}
-//			else
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_RBUTTON) & 0x8000)
-//						m_bChange_Click = false;
-//					Current_Image = Stage_03_Color_Selected;
-//				}
-//				else
-//					Current_Image = Stage_03_Color_Default;
-//			}
-//		}
-//		if (m_Button_INFO.Episode_Button_Type.bLevel_04_Stage_Button_Flag) // 1레벨의 4스테이지
-//		{
-//			if (!m_bChange_Click)
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_LBUTTON) & 0x8000)
-//						m_bChange_Click = true;
-//					Current_Image = Stage_04_Gray_Selected;
-//				}
-//				else
-//					Current_Image = Stage_04_Gray_Default;
-//			}
-//			else
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_RBUTTON) & 0x8000)
-//						m_bChange_Click = false;
-//					Current_Image = Stage_04_Color_Selected;
-//				}
-//				else
-//					Current_Image = Stage_04_Color_Default;
-//			}
-//		}
-//		if (m_Button_INFO.Episode_Button_Type.bLevel_05_Stage_Button_Flag) // 1레벨의 5스테이지
-//		{
-//			if (!m_bChange_Click)
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_LBUTTON) & 0x8000)
-//						m_bChange_Click = true;
-//					Current_Image = Stage_05_Gray_Selected;
-//				}
-//				else
-//					Current_Image = Stage_05_Gray_Default;
-//			}
-//			else
-//			{
-//				if (true == isPick(g_hWnd))
-//				{
-//					if (GetKeyState(VK_RBUTTON) & 0x8000)
-//						m_bChange_Click = false;
-//					Current_Image = Stage_05_Color_Selected;
-//				}
-//				else
-//					Current_Image = Stage_05_Color_Default;
-//			}
-//		}
-//	}
-//}
-
-
 void CGamePlay_Button::Episode_Display_Button()
 {
 	if (m_bIsVisible)
@@ -374,12 +254,11 @@ void CGamePlay_Button::Episode_Display_Button()
 			Stage_05_Gray_Selected, Stage_05_Gray_Default,
 			Stage_05_Color_Selected, Stage_05_Color_Default);
 	}
-
 }
 
 void CGamePlay_Button::Point_Shop_Display_Button()
 {
-
+	////////////// 나중에 여기서 버튼 클릭 여부 체크하면됨
 	if (m_bIsVisible)
 	{
 		// (총 12개의 버튼)
@@ -392,6 +271,7 @@ void CGamePlay_Button::Point_Shop_Display_Button()
 					m_bChange_Click = true;
 					m_bOpen_Display = true;
 					Current_Image = Point_Shop_Selected;
+			
 					// 여기 안에서 버튼 클릭 할 예정 배열로 
 				}
 				else
@@ -411,11 +291,6 @@ void CGamePlay_Button::Point_Shop_Display_Button()
 void CGamePlay_Button::Spell_Shop_Display_Button()
 {
 
-}
-
-void CGamePlay_Button::Upgrade_Weapon_Display_Button()
-{
-	
 }
 HRESULT CGamePlay_Button::Render()
 {
@@ -454,21 +329,12 @@ HRESULT CGamePlay_Button::Render()
 	if (FAILED(m_GamePlayer_Button_pVIBufferCom->Render()))
 		return E_FAIL;
 
+	Font_Render();
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
-	// "MainFont" 태그로 등록한 폰트를 사용하여 텍스트를 좌표 위치에 RGB로 렌더링.
-	if (m_Button_INFO.Button_type == Point_Shop)
-	{
-		/*m_pGameInstance->Render_Font(L"MainFont", L"앙 기머찌 ㅋ", _float2(270.0f, 260.0f), _float3(1.0f, 1.0f, 1.0f));
-
-		m_pGameInstance->Render_Font(L"MainFont", L"잉 기모링 ㅋ", _float2(270.0f, 355.0f), _float3(1.0f, 1.0f, 1.0f));
-
-		m_pGameInstance->Render_Font(L"MainFont", L"양 금모띠 ㅋ", _float2(270.0f, 445.0f), _float3(1.0f, 1.0f, 1.0f));*/
-
-		m_pGameInstance->Render_Font(L"MainFont", L"흑인이 놀라면? 깜짝ㅋㅋ", _float2(300.0f, 510.0f), _float3(1.0f, 1.0f, 1.0f));
-	}
 
 	return S_OK;
 }
