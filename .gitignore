@@ -13,6 +13,8 @@
 EngineSDK/Lib/*.lib
 EngineSDK/lib/*.lib
 EngineSDK/inc/*.h
+SR팀 리소스/
+SR팀 리소스.zip
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

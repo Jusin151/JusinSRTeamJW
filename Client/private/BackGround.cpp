@@ -79,7 +79,63 @@ void CBackGround::Late_Update(_float fTimeDelta)
 }
 
 HRESULT CBackGround::Render()
-{
+{	
+	//// 픽셀 셰이더 로드 및 설정
+	//IDirect3DPixelShader9* pPixelShader = nullptr;
+	//LPD3DXBUFFER pShaderBuffer = nullptr;
+	//LPD3DXBUFFER pErrorBuffer = nullptr;
+
+	//HRESULT hr = D3DXCompileShaderFromFile(L"TestPixelShader.hlsl", nullptr, nullptr, "PS", "ps_3_0", D3DXSHADER_DEBUG, &pShaderBuffer, &pErrorBuffer, nullptr);
+	//if (FAILED(hr))
+	//{
+	//	if (pErrorBuffer)
+	//	{
+	//		OutputDebugStringA((char*)pErrorBuffer->GetBufferPointer());
+	//		pErrorBuffer->Release();
+	//	}
+	//	return E_FAIL;
+	//}
+
+	//hr = m_pGraphic_Device->CreatePixelShader((DWORD*)pShaderBuffer->GetBufferPointer(), &pPixelShader);
+	//if (FAILED(hr))
+	//{
+	//	pShaderBuffer->Release();
+	//	return E_FAIL;
+	//}
+
+	//m_pGraphic_Device->SetPixelShader(pPixelShader);
+
+	//// 빛 정보 설정
+	//D3DXVECTOR3 lightDirection(0.0f, 0.0f, -1.0f); // 빛의 방향 (예시)
+	//D3DXCOLOR lightColor(1.0f, 0.0f, 0.0f, 1.0f); // 빨간 빛 (예시)
+
+	//m_pGraphic_Device->SetPixelShaderConstantF(0, (float*)&lightDirection, 1);
+	//m_pGraphic_Device->SetPixelShaderConstantF(1, (float*)&lightColor, 1);
+
+	// 재질 설정
+	D3DMATERIAL9 material;
+	ZeroMemory(&material, sizeof(D3DMATERIAL9));
+	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 확산광 색상
+	material.Ambient = D3DXCOLOR(0.5f, 0.0f, 0.0f, 0.0f); // 주변광 색상
+	material.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 반사광 색상
+	material.Emissive = D3DXCOLOR(1.0f, 0.2f, 0.2f, 1.0f); // 방출광 색상
+	material.Power = 32.0f; // 반사광 강도
+
+	m_pGraphic_Device->SetMaterial(&material);
+
+	D3DLIGHT9 light;
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL; // 방향성 광원
+	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 확산광 색상 (빨간색)
+	light.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 주변광 색상
+	light.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 반사광 색상
+	light.Direction = D3DXVECTOR3(1.0f, 0.0f, 0.0f); // 빛의 방향
+
+	m_pGraphic_Device->SetLight(0, &light); // 0번 라이트 설정
+	m_pGraphic_Device->LightEnable(0, TRUE); // 0번 라이트 활성화
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE); // 라이팅 활성화
+
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -121,11 +177,12 @@ HRESULT CBackGround::Render()
 			return E_FAIL;
 	}
 
-
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE); // 라이팅 비활성화
+	m_pGraphic_Device->LightEnable(0, FALSE); // 0번 라이트 비활성화
 
 	return S_OK;
 }

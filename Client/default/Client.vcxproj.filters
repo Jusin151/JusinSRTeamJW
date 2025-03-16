@@ -379,4 +379,12 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="TestPixelShader.hlsl">
+      <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>

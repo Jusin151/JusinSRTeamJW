@@ -82,7 +82,6 @@ HRESULT CRenderer::Render_Blend()
 
 HRESULT CRenderer::Render_Collider()
 {
-
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_GREEN);
 	for (auto& pGameObject : m_RenderObjects[RG_COLLIDER])
