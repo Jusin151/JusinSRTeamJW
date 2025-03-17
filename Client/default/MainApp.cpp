@@ -62,7 +62,7 @@ HRESULT CMainApp::Initialize()
 	LightDesc.Direction = _float3(1.f, -1.f, 1.f);
 	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	LightDesc.Specular = ;
+	//LightDesc.Specular = ;
 
 	/* LightDesc.Specular = ;*/
 	m_pGraphic_Device->SetLight(0, &LightDesc);
@@ -73,7 +73,7 @@ HRESULT CMainApp::Initialize()
 	/* 난반사에 위한 픽셀의 색상. */
 	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	MtrlDesc.Ambient = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
-	MtrlDesc.Specular = ;
+	//MtrlDesc.Specular = ;
 
 	m_pGraphic_Device->SetMaterial(&MtrlDesc);
 

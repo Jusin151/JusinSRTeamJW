@@ -409,7 +409,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Material.cpp">
       <Filter>04.Components\Material</Filter>
-    <ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Serializable.cpp">
       <Filter>999. JsonManager</Filter>
     </ClCompile>
