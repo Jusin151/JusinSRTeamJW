@@ -1,4 +1,4 @@
-#include "Material.h"
+﻿#include "Material.h"
 
 CMaterial::CMaterial(LPDIRECT3DDEVICE9 pGraphic_Device)
     :   CComponent { pGraphic_Device }
@@ -62,4 +62,5 @@ CComponent* CMaterial::Clone(void* pArg)
 
 void CMaterial::Free()
 {
+    __super::Free();
 }

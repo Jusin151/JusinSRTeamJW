@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 
@@ -8,7 +8,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î ÇÒµí
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ í• ë“¯
 END
 
 BEGIN(Client)
@@ -19,11 +19,11 @@ class CRanged_Weapon  : public CWeapon_Base
 public:
     struct RangedWeapon_Info
     {
-        int MaxAmmo;         // ÃÖ´ë Åº¾à ¼ö
-        int CurrentAmmo;     // ÇöÀç Åº¾à
-        float ReloadTime;    // ÀçÀåÀü ½Ã°£
-        float BulletSpeed;   // ÅºÈ¯ ¼Óµµ
-        float BulletSpread;  // Åº ÆÛÁü Á¤µµ
+        int MaxAmmo;         // ìµœëŒ€ íƒ„ì•½ ìˆ˜
+        int CurrentAmmo;     // í˜„ì¬ íƒ„ì•½
+        float ReloadTime;    // ì¬ì¥ì „ ì‹œê°„
+        float BulletSpeed;   // íƒ„í™˜ ì†ë„
+        float BulletSpread;  // íƒ„ í¼ì§ ì •ë„
     };
 
 protected:
@@ -42,7 +42,7 @@ public:
     void Free();
 
 
-    // CWeapon_BaseÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+    // CWeapon_Baseì„(ë¥¼) í†µí•´ ìƒì†ë¨
     void Attack() override;
 
     CGameObject* Clone(void* pArg) override;
