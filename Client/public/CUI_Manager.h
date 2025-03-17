@@ -1,6 +1,6 @@
 ﻿#include "Client_Defines.h"
 #include "GameObject.h"
-
+#include "CUI_Base.h"
 
 class CUI_Manager
 {

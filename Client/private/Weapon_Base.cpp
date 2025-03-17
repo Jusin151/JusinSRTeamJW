@@ -1,21 +1,37 @@
-﻿#include "CUI_Base.h"
+#include "Weapon_Base.h"
 
 #include "GameInstance.h"
+#include "Melee_Weapon.h"
+#include "Melee_Weapon.h"
+#include "Melee_Weapon.h"
 
 
-CUI_Base::CUI_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{pGraphic_Device}
+CWeapon_Base::CWeapon_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: CGameObject{ pGraphic_Device }
 {
 }
 
-CUI_Base::CUI_Base(const CUI_Base& Prototype)
- : CGameObject(Prototype)
+CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
+	: CGameObject(Prototype)
 {
 }
 
+HRESULT CWeapon_Base::Initialize_Prototype()
+{
+	return S_OK;
+}
 
+HRESULT CWeapon_Base::Initialize(void* pArg)
+{
+	return S_OK;
+}
 
-HRESULT CUI_Base::Render()
+void CWeapon_Base::Update(_float fTimeDelta)
+{
+
+}
+
+HRESULT CWeapon_Base::Render()
 {
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -51,14 +67,31 @@ HRESULT CUI_Base::Render()
 	return S_OK;
 }
 
-HRESULT CUI_Base::Ready_Components()
+
+void CWeapon_Base::Priority_Update(_float fTimeDelta)
 {
-	return E_NOTIMPL;
 }
 
-void CUI_Base::Free()
+void CWeapon_Base::Late_Update(_float fTimeDelta)
+{
+}
+
+void CWeapon_Base::Free()
 {
 	__super::Free();
 }
 
+CGameObject* CWeapon_Base::Clone(void* pArg)
+{
+	return nullptr;
+}
 
+
+
+
+
+HRESULT CWeapon_Base::Ready_Components()
+{
+
+	return S_OK;
+}
