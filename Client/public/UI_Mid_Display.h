@@ -13,12 +13,12 @@ END
 BEGIN(Client)
 
 
-class CUI_ExpDisplay final : public CUI_Base
+class CUI_Mid_Display final : public CUI_Base
 {
 private:
-	CUI_ExpDisplay(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CUI_ExpDisplay(const CUI_ExpDisplay& Prototype);
-	virtual ~CUI_ExpDisplay() = default;
+	CUI_Mid_Display(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CUI_Mid_Display(const CUI_Mid_Display& Prototype);
+	virtual ~CUI_Mid_Display() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -39,7 +39,7 @@ private:
 
 
 public:
-	static CUI_ExpDisplay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CUI_Mid_Display* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 

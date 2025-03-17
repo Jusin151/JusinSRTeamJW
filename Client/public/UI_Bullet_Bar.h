@@ -30,9 +30,6 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_Bullet_Bar_pTextureCom{};
-	CTransform* m_Bullet_Bar_pTransformCom{};
-	CVIBuffer_Rect* m_Bullet_Bar_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
 	UI_Child_Desc m_Bullet_Bar_INFO{};
 
 private:

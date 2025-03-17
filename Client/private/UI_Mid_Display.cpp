@@ -1,13 +1,13 @@
-﻿#include "UI_ExpDisplay.h"
+﻿#include "UI_Mid_Display.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-CUI_ExpDisplay::CUI_ExpDisplay(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Mid_Display::CUI_Mid_Display(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
 }
 
-CUI_ExpDisplay::CUI_ExpDisplay(const CUI_ExpDisplay& Prototype)
+CUI_Mid_Display::CUI_Mid_Display(const CUI_Mid_Display& Prototype)
 	: CUI_Base(Prototype),
 	m_EXP_pTextureCom(Prototype.m_EXP_pTextureCom),
 	m_EXP_pTransformCom(Prototype.m_EXP_pTransformCom),
@@ -16,7 +16,7 @@ CUI_ExpDisplay::CUI_ExpDisplay(const CUI_ExpDisplay& Prototype)
 {
 }
 
-HRESULT CUI_ExpDisplay::Initialize_Prototype()
+HRESULT CUI_Mid_Display::Initialize_Prototype()
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -25,7 +25,7 @@ HRESULT CUI_ExpDisplay::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_ExpDisplay::Initialize(void* pArg)
+HRESULT CUI_Mid_Display::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 
@@ -49,21 +49,21 @@ HRESULT CUI_ExpDisplay::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_ExpDisplay::Priority_Update(_float fTimeDelta)
+void CUI_Mid_Display::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_ExpDisplay::Update(_float fTimeDelta)
+void CUI_Mid_Display::Update(_float fTimeDelta)
 {
 }
 
-void CUI_ExpDisplay::Late_Update(_float fTimeDelta)
+void CUI_Mid_Display::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CUI_ExpDisplay::Render()
+HRESULT CUI_Mid_Display::Render()
 {
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -99,7 +99,7 @@ HRESULT CUI_ExpDisplay::Render()
 	return S_OK;
 }
 
-HRESULT CUI_ExpDisplay::Ready_Components()
+HRESULT CUI_Mid_Display::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Mid_Panel"),
 		TEXT("Com_Texture_EXP"), reinterpret_cast<CComponent**>(&m_EXP_pTextureCom))))
@@ -117,9 +117,9 @@ HRESULT CUI_ExpDisplay::Ready_Components()
 	return S_OK;
 }
 
-CUI_ExpDisplay* CUI_ExpDisplay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Mid_Display* CUI_Mid_Display::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_ExpDisplay* pInstance = new CUI_ExpDisplay(pGraphic_Device);
+	CUI_Mid_Display* pInstance = new CUI_Mid_Display(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -131,9 +131,9 @@ CUI_ExpDisplay* CUI_ExpDisplay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CUI_ExpDisplay::Clone(void* pArg)
+CGameObject* CUI_Mid_Display::Clone(void* pArg)
 {
-	CUI_ExpDisplay* pInstace = new CUI_ExpDisplay(*this);
+	CUI_Mid_Display* pInstace = new CUI_Mid_Display(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -144,7 +144,7 @@ CGameObject* CUI_ExpDisplay::Clone(void* pArg)
 	return pInstace;
 }
 
-void CUI_ExpDisplay::Free()
+void CUI_Mid_Display::Free()
 {
 	__super::Free();
 

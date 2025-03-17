@@ -1,7 +1,6 @@
 ﻿#include "GamePlay_Button.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
-#include "UI_Episode.h"
 
 _int CGamePlay_Button::s_fStrength_Point = 0;
 _int CGamePlay_Button::s_fLife_Point = 0;
