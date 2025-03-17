@@ -158,6 +158,7 @@
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
+    <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
     <ClInclude Include="..\public\CUI_Dialogue.h" />

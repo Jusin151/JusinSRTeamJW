@@ -243,6 +243,9 @@
     <ClInclude Include="..\public\Default_Menu.h">
       <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\UI_Enum.h">
+      <Filter>97. UI_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
