@@ -28,7 +28,7 @@ private:
 	_float4 m_fSpecular = {};
 public:
 	virtual CLight* Clone(void* pArg) override;
-	virtual void Free() override;
+	virtual void	Free() override;
 };
 
 END

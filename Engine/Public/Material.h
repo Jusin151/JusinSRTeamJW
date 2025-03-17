@@ -11,21 +11,14 @@ private:
 	CMaterial(const CMaterial& Prototype);
 	virtual ~CMaterial() = default;
 public:
-	virtual HRESULT Initialize_Prototype(const _tchar * pTextureFilePath, _uint iNumTextures);
+	virtual HRESULT Initialize_Prototype(const _tchar * pMaterialFilePath);
 	virtual HRESULT Initialize(void* pArg) override;
 public:
-	HRESULT Bind_Resource(_uint iIndex);
+	HRESULT Bind_Resource();
 private:
-	_float4							m_fDiffuse;
-	_float4							m_fAmbient;
-	_float4							m_fSpecular;
-	_float4							m_fEmissive;
-	_float							m_fPower;
-	_uint							m_iNumTextures = { };
-	vector<LPDIRECT3DTEXTURE9>		m_Textures;
-
+	D3DMATERIAL9					m_tMaterial;
 public:
-	static CMaterial* Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar * pTextureFilePath, _uint iNumTextures);
+	static	CMaterial* Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar * pMaterialFilePath);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 
