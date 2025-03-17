@@ -40,8 +40,8 @@ public:
 	}
 
 public:
-	virtual json Serialize() override { return json(); };
-	virtual void Deserialize(const json& j) override {};
+	virtual json Serialize() override;
+	virtual void Deserialize(const json& j) override;
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };

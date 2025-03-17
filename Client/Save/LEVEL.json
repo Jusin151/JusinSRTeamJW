@@ -1,4 +1,610 @@
 {
-    "level": 1,
-    "objects": []
+    "level": 3,
+    "objects": [
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "1"
+        },
+        {
+            "FromPool": true,
+            "IsActive": true,
+            "LayerTag": "Layer_BackGround"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Camera"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Default_PlayerUI"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_1"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_2"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_3"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_4"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Mid_Panel"
+        },
+        {
+            "FromPool": true,
+            "IsActive": true,
+            "LayerTag": "Layer_Monster"
+        },
+        {
+            "FromPool": true,
+            "IsActive": true,
+            "LayerTag": "Layer_Player"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Right_Panel_UI_1"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Right_Panel_UI_2"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Spell_Shop_1"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                1.9635329246520996,
+                0.9156370759010315,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Cube"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.3662550151348114,
+                1.5667566061019897,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Cube"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                3.6625475883483887,
+                -0.8138997554779053,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "1"
+        },
+        {
+            "FromPool": true,
+            "IsActive": true,
+            "LayerTag": "Layer_BackGround"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Camera"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Default_PlayerUI"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_1"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_2"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_3"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Left_Panel_UI_4"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Mid_Panel"
+        },
+        {
+            "FromPool": true,
+            "IsActive": true,
+            "LayerTag": "Layer_Monster"
+        },
+        {
+            "FromPool": true,
+            "IsActive": true,
+            "LayerTag": "Layer_Player"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Right_Panel_UI_1"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Right_Panel_UI_2"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Spell_Shop_1"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                1.9635329246520996,
+                0.9156370759010315,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Cube"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.3662550151348114,
+                1.5667566061019897,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Cube"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                3.6625475883483887,
+                -0.8138997554779053,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        },
+        {
+            "FromPool": false,
+            "IsActive": true,
+            "LayerTag": "Layer_Structure",
+            "collider_tag": "Prototype_Component_Collider_Cube",
+            "is_cube_collider": true,
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "texture_path": "../../Resources\\Textures\\Logo\\Logo.png",
+            "texture_tag": "Prototype_Component_Texture",
+            "vibuffer": "Prototype_Component_VIBuffer_Rect"
+        }
+    ]
 }

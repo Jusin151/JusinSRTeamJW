@@ -10,6 +10,7 @@ CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CStructure::CStructure(const CStructure& Prototype)
 	:CGameObject{ Prototype }
+	,m_tStructure_Desc(Prototype.m_tStructure_Desc)
 {
 }
 
@@ -25,6 +26,23 @@ HRESULT CStructure::Initialize(void* pArg)
 	if (tStructureDesc)
 	{
 		m_tStructure_Desc = *tStructureDesc;
+
+		if (m_tStructure_Desc.stVIBuffer)
+			m_strVIBuffer = m_tStructure_Desc.stVIBuffer;
+
+		if (m_tStructure_Desc.stCollProtoTag)
+			m_strCollProtoTag = m_tStructure_Desc.stCollProtoTag;
+
+		if (m_tStructure_Desc.stTextureTag)
+			m_strTextureTag = m_tStructure_Desc.stTextureTag;
+
+		// ê¸°ì¡´ í…ìŠ¤ì²˜ ê²½ë¡œëŠ” ì´ë¯¸ wstringì´ë¯€ë¡œ ê·¸ëŒ€ë¡œ ë³µì‚¬
+		m_tStructure_Desc.stTexturePath = m_tStructure_Desc.stTexturePath;
+
+		// ë³µì‚¬ëœ wstringì˜ c_str() í¬ì¸í„°ë¥¼ í• ë‹¹
+		m_tStructure_Desc.stVIBuffer = m_strVIBuffer.c_str();
+		m_tStructure_Desc.stCollProtoTag = m_strCollProtoTag.c_str();
+		m_tStructure_Desc.stTextureTag = m_strTextureTag.c_str();
 	}
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -185,17 +203,26 @@ void CStructure::Free()
 
 json CStructure::Serialize()
 {
-	json j;
-	// ±âº» Á¤º¸¸¸ ÀúÀå
-	j["texture_tag"] = WideToUtf8(m_tStructure_Desc.stTextureTag);
-	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath.c_str());
-	j["vibuffer"] = WideToUtf8(m_tStructure_Desc.stVIBuffer);
-	j["collider_tag"] = WideToUtf8(m_tStructure_Desc.stCollProtoTag);
+	json j = __super::Serialize();
+	//j["texture_tag"] = WideToUtf8(m_tStructure_Desc.stTextureTag);
+	//j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath.c_str());
+	//j["vibuffer"] = WideToUtf8(m_tStructure_Desc.stVIBuffer);
+	//j["collider_tag"] = WideToUtf8(m_tStructure_Desc.stCollProtoTag);
+
+	j["texture_tag"] = WideToUtf8(m_strTextureTag);
+	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); // ì´ë¯¸ wstring
+	j["vibuffer"] = WideToUtf8(m_strVIBuffer);
+	j["collider_tag"] = WideToUtf8(m_strCollProtoTag);
+
+
 	j["is_cube_collider"] = m_bIsCubeCollider;
 
-	// Æ®·£½ºÆû Á¤º¸
 	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	auto scale = m_pTransformCom->Compute_Scaled();
+	auto angle = m_pTransformCom->Get_EulerAngles();
 	j["position"] = { pos.x, pos.y, pos.z };
+	j["rotation"] = { angle.x, angle.y, angle.z };
+	j["scale"] = { scale.x, scale.y, scale.z };
 
 	return j;
 }

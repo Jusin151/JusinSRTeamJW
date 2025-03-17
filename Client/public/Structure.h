@@ -21,8 +21,6 @@ class CStructure : public CGameObject
 		const _tchar* stVIBuffer;
 		const _tchar* stTextureTag;
 		_wstring stTexturePath;
-		//_wstring stCollProtoTag;
-		//_wstring stVIBuffer;
 	}STRUCTURE_DESC;
 
 private:
@@ -46,6 +44,9 @@ private:
 	CCollider* m_pColliderCom = { nullptr };
 	_bool m_bIsCubeCollider = { false };
 	STRUCTURE_DESC m_tStructure_Desc;
+	_wstring m_strVIBuffer;
+	_wstring m_strCollProtoTag;
+	_wstring m_strTextureTag;
 
 private:
 	HRESULT SetUp_RenderState();
@@ -59,7 +60,6 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-	// ISerializable을(를) 통해 상속됨
 	virtual json Serialize() override;
 	virtual void Deserialize(const json& j) override;
 };
