@@ -60,29 +60,29 @@ public:
 	HRESULT Add_To_GamePlay_Textures();
 	HRESULT Add_To_GamePlay_Buffer();
 	HRESULT Add_To_GamePlay_Prototype();
-//////////////////////////////////////////////////////////// UI 텍스쳐 컴포넌트
+//////////////////////////////////////////////////////////// 
 	HRESULT Add_To_UI_Textures();
 
-	              HRESULT Add_To_UI_Left_DisPlay_Textures();
-				  HRESULT Add_To_UI_Mid_DisPlay_Textures();
-				  HRESULT Add_To_UI_Right_DisPlay_Textures();
-				  HRESULT Add_To_UI_Menu_DisPlay_Textures();
- //////////////////////////////////////////////////////////// UI 버퍼 컴포넌트
-
-			    
-//////////////////////////////////////////////////////////// UI 트랜스폼 컴포넌트
-
-//////////////////////////////////////////////////////////// UI 원본 생성
+     HRESULT Add_To_UI_Left_DisPlay_Textures();
+	 HRESULT Add_To_UI_Mid_DisPlay_Textures();
+	 HRESULT Add_To_UI_Right_DisPlay_Textures();
+	 HRESULT Add_To_UI_Menu_DisPlay_Textures();
+//////////////////////////////////////////////////////////// 
     HRESULT Add_To_UI_Prototype();
 
-				  HRESULT Add_To_UI_Left_DisPlay_Prototype();
-				  HRESULT Add_To_UI_Mid_DisPlay_Prototype();
-				  HRESULT Add_To_UI_Right_DisPlay_Prototype();
-				  HRESULT Add_To_UI_Right_Menu_Prototype();
-/////////////////////////////////////////////////////////////
+    HRESULT Add_To_UI_Left_DisPlay_Prototype();
+	HRESULT Add_To_UI_Mid_DisPlay_Prototype();
+	HRESULT Add_To_UI_Right_DisPlay_Prototype();
+	HRESULT Add_To_UI_Right_Menu_Prototype();
 
-				  HRESULT Add_To_Shop_Textures();
-				  HRESULT Add_To_Shop_Prototype();
+	HRESULT Add_To_Shop_Textures();
+	HRESULT Add_To_Shop_Prototype();
+/////////////////////////////////////////////////////////////
+	HRESULT Add_To_Weapon_Textures();
+	HRESULT Add_To_Weapon_Prototye();
+
+				
+
 
 		
 };
