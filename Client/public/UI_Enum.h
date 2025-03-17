@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
-enum Button_type // ÀÌ ¹öÆ°Àº ¾î´À ¸Ş´ºÃ¢ÀÇ ¹öÆ°ÀÎÁö
+enum Button_type // ì´ ë²„íŠ¼ì€ ì–´ëŠ ë©”ë‰´ì°½ì˜ ë²„íŠ¼ì¸ì§€
 {
     Episode = 0, Point_Shop = 1, Spell_Shop = 2, Upgrade_Weapon = 3
 };
 
-enum Level_01_Type // ÀÌ ¹öÆ°Àº ¾î´À ÀÌ¹ÌÁö¸¦ »ç¿ëÇÒ°ÍÀÎÁö
+enum Level_01_Type // ì´ ë²„íŠ¼ì€ ì–´ëŠ ì´ë¯¸ì§€ë¥¼ ì‚¬ìš©í• ê²ƒì¸ì§€
 {
     Level_ICon_Defaul, Level_ICon_Selected,
     Stage_01_Color_Default, Stage_01_Color_Selected,
@@ -17,7 +17,7 @@ enum Level_01_Type // ÀÌ ¹öÆ°Àº ¾î´À ÀÌ¹ÌÁö¸¦ »ç¿ëÇÒ°ÍÀÎÁö
 
     Point_Shop_Display = 0, Point_Shop_Selected = 1, Point_Shop_Small_Selected = 2
 };
-enum Poinst_Shop_Button // ÀÌ ¹öÆ°Àº ¾î´À ÀÌ¹ÌÁö¸¦ »ç¿ëÇÒ°ÍÀÎÁö
+enum Poinst_Shop_Button // ì´ ë²„íŠ¼ì€ ì–´ëŠ ì´ë¯¸ì§€ë¥¼ ì‚¬ìš©í• ê²ƒì¸ì§€
 {
     AXE_POWER, BULLET_COLLECTOR, TREASURE_HUNTER, GHOST, HEAL_IS_GOOD, SUPER_BOY,
     STUDENT, MAGICIAN, SHUTGUN_MASTER, SOUL_COLLECTOR, FIRE_BOY, VERY_FASTER

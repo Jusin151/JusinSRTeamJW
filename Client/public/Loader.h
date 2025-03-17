@@ -84,13 +84,7 @@ public:
 				  HRESULT Add_To_Shop_Textures();
 				  HRESULT Add_To_Shop_Prototype();
 
-				  HRESULT Add_To_Shop_Episode_Textures();
-				  HRESULT Add_To_Shop_Point_Shop_Textures();
-				  HRESULT Add_To_Shop_Spell_Shop_Textures();
-				  HRESULT Add_To_Shop_Upgrade_Weapon_Textures();
-
-				  HRESULT Add_To_Shop_Spell_Shop_Prototype();
-				  HRESULT Add_To_Shop_Upgrade_Weapon_Prototype();
+		
 };
 
 END

@@ -1,22 +1,22 @@
-Ôªø#pragma once
+#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
-#include "CUI_Base.h"
+#include "Melee_Weapon.h"
 
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UIÎäî ÏÇ¨Í∞ÅÌòïÏúºÎ°ú
+class CVIBuffer_Rect;  // UI¥¬ ªÁ∞¢«¸¿∏∑Œ
 END
 
 BEGIN(Client)
-class CUI_Mid_Display final : public CUI_Base
+class CClaymore final : public CMelee_Weapon
 {
 private:
-	CUI_Mid_Display(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CUI_Mid_Display(const CUI_Mid_Display& Prototype);
-	virtual ~CUI_Mid_Display() = default;
+	CClaymore(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CClaymore(const CClaymore& Prototype);
+	virtual ~CClaymore() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -26,19 +26,17 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
-private:
-	UI_Child_Desc m_EXP_INFO{};
 
 private:
 	HRESULT Ready_Components();
 
 
 public:
-	static CUI_Mid_Display* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CClaymore* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
 private:
-	_float m_fExp{};  // Ï≤¥Î†•
+	_float m_fExp{};  // √º∑¬
 };
 END

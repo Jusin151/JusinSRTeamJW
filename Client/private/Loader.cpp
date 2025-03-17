@@ -482,8 +482,13 @@ HRESULT CLoader::Add_To_Shop_Prototype()
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	Add_To_Shop_Spell_Shop_Prototype();
-	Add_To_Shop_Upgrade_Weapon_Prototype();
+	// 스펠 샵 UI 원형격체
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Spell_Shop_UI"),
+		CUI_Spell_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -519,23 +524,7 @@ HRESULT CLoader::Add_To_Shop_Textures()
 	return S_OK;
 }
 
-HRESULT CLoader::Add_To_Shop_Spell_Shop_Prototype()
-{
-	// 스펠 샵 UI 원형격체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Spell_Shop_UI"),
-		CUI_Spell_Shop::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-	
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Shop_Upgrade_Weapon_Prototype()
-{
-
-
-	return S_OK;
-}
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 {
