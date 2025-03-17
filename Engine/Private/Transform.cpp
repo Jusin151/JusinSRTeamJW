@@ -62,15 +62,15 @@ _float3 CTransform::Compute_Scaled() const
 		D3DXVec3Length(&vLook));
 }
 
-void CTransform::Scaling(_float fX, _float fY, _float fZ)
+void CTransform::Set_Scale(_float fX, _float fY, _float fZ)
 {
-	_float3		vRight = Get_State(STATE_RIGHT);
-	_float3		vUp = Get_State(STATE_UP);
-	_float3		vLook = Get_State(STATE_LOOK);	
+	_float3		vRight = Get_State(STATE_RIGHT).GetNormalized();
+	_float3		vUp = Get_State(STATE_UP).GetNormalized();
+	_float3		vLook = Get_State(STATE_LOOK).GetNormalized();
 
-	Set_State(STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * fX);
-	Set_State(STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * fY);
-	Set_State(STATE_LOOK, *D3DXVec3Normalize(&vLook, &vLook) * fZ);
+	Set_State(STATE_RIGHT,vRight * fX);
+	Set_State(STATE_UP, vUp * fY);
+	Set_State(STATE_LOOK, vLook * fZ);
 }
 
 
@@ -78,8 +78,6 @@ void CTransform::Go_Straight(_float fTimeDelta)
 {
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vLook = Get_State(STATE_LOOK);
-
-	//vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeedPerSec * fTimeDelta;
 	vPosition += vLook.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
@@ -90,7 +88,6 @@ void CTransform::Go_Backward(_float fTimeDelta)
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vLook = Get_State(STATE_LOOK);
 
-	//vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeedPerSec * fTimeDelta;
 	vPosition -= vLook.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
@@ -100,8 +97,6 @@ void CTransform::Go_Left(_float fTimeDelta)
 {
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vRight = Get_State(STATE_RIGHT);
-
-	//vPosition -= *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeedPerSec * fTimeDelta;
 	vPosition -= vRight.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
@@ -112,7 +107,6 @@ void CTransform::Go_Right(_float fTimeDelta)
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vRight = Get_State(STATE_RIGHT);
 
-	//vPosition += *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeedPerSec * fTimeDelta;
 	vPosition += vRight.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 
 	Set_State(STATE_POSITION, vPosition);
@@ -122,7 +116,6 @@ void CTransform::Go_Up(_float fTimeDelta)
 {
 	_float3		vPosition = Get_State(STATE_POSITION);
 	_float3		vUp = Get_State(STATE_UP);
-	//vPosition += *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
 	vPosition += vUp.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -151,20 +144,20 @@ void CTransform::LookAt(const _float3& vTargetPos)
 	_float3		vUp = {};
 	D3DXVec3Cross(&vUp, &vLook, &vRight); // 룩이랑 라이트로 외적 때려서 Up 구하고
 
-	Set_State(STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x);
-	Set_State(STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * vScaled.y);
-	Set_State(STATE_LOOK, *D3DXVec3Normalize(&vLook, &vLook) * vScaled.z);
+	Set_State(STATE_RIGHT, vRight.GetNormalized() * vScaled.x);
+	Set_State(STATE_UP, vUp.GetNormalized() * vScaled.y);
+	Set_State(STATE_LOOK, vLook.GetNormalized() * vScaled.z);
 }
 
 void CTransform::Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
 	_float3		vPosition = Get_State(STATE_POSITION); // 스케일값 소실할 수도 있으니 저장
 
-	_float3		vMoveDir = vTargetPos - vPosition; // 방햑벡터 만들고
+	_float3		vMoveDir = _float3(vTargetPos - vPosition).GetNormalized(); // 방햑벡터 만들고
 
-	if (fMinDistance <= D3DXVec3Length(&vMoveDir)) // 이제 대충 따라오게 하는거 뭔말인지 알지
+	if (fMinDistance <= _float3::Distance(vTargetPos, vPosition)) // 이제 대충 따라오게 하는거 뭔말인지 알지
 	{
-		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
+		vPosition +=vMoveDir * m_fSpeedPerSec * fTimeDelta;
 	}
 
 	Set_State(STATE_POSITION, vPosition);
@@ -215,16 +208,28 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 	Set_State(STATE_LOOK, vLook);
 }
 
-void CTransform::Set_Scale(_float x, _float y, _float z)
+void CTransform::Rotate_EulerAngles(const _float3& vEulerAngles)
 {
-	_float3		vRight = Get_State(CTransform::STATE_RIGHT);
-	_float3		vUp = Get_State(CTransform::STATE_UP);
-	_float3		vLook = Get_State(CTransform::STATE_LOOK);
+	m_vEulerAngles = vEulerAngles;
+	D3DXMATRIX matRotation;
+	D3DXMatrixRotationYawPitchRoll(&matRotation,
+		D3DXToRadian(vEulerAngles.y),  // Yaw (Y축 회전)
+		D3DXToRadian(vEulerAngles.x),  // Pitch (X축 회전)
+		D3DXToRadian(vEulerAngles.z)); // Roll (Z축 회전)
 
-	Set_State(CTransform::STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * x);
-	Set_State(CTransform::STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * y);
-	Set_State(CTransform::STATE_LOOK, *D3DXVec3Normalize(&vLook, &vLook) * z);
+	_float3 vScale = Compute_Scaled();
+
+	// 새로운 right, up, look 벡터 계산
+	_float3 vRight = _float3(matRotation._11, matRotation._12, matRotation._13) * vScale.x;
+	_float3 vUp = _float3(matRotation._21, matRotation._22, matRotation._23) * vScale.y;
+	_float3 vLook = _float3(matRotation._31, matRotation._32, matRotation._33) * vScale.z;
+
+	// 상태 벡터 업데이트
+	Set_State(STATE_RIGHT, vRight);
+	Set_State(STATE_UP, vUp);
+	Set_State(STATE_LOOK, vLook);
 }
+
 
 CTransform* CTransform::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

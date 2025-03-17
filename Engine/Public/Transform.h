@@ -11,7 +11,7 @@ BEGIN(Engine)
 class ENGINE_DLL CTransform final : public CComponent
 {
 public:
-	enum TRANSFORMSTATE { STATE_RIGHT, STATE_UP, STATE_LOOK, STATE_POSITION };
+	enum TRANSFORMSTATE { STATE_RIGHT, STATE_UP, STATE_LOOK, STATE_POSITION};
 
 	typedef struct tagTransformDesc
 	{
@@ -43,7 +43,7 @@ public:
 
 public:
 	_float3 Compute_Scaled() const;
-	void Scaling(_float fX, _float fY, _float fZ);
+	void Set_Scale(_float fX, _float fY, _float fZ);
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
@@ -55,9 +55,9 @@ public:
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void Rotation(const _float3& vAxis, _float fRadian);
+	void Rotate_EulerAngles(const _float3& vEulerAngles);
 
 public:
-	void Set_Scale(_float x, _float y, _float z);
 
 	const _float4x4* Get_WorldMatrix_Inverse() {
 
@@ -69,12 +69,15 @@ public:
 		return m_WorldMatrix;
 	}
 
+	_float3 Get_EulerAngles() const{return m_vEulerAngles;}
+
 private:
 	_float4x4				m_WorldMatrix = {};
 	_float4x4				m_WorldMatrixInverse = {};
 
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
+	_float3 m_vEulerAngles{};
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

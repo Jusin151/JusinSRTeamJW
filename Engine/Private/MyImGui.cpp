@@ -9,7 +9,8 @@
 #include "GameObject.h"
 
 
-inline string WStringToString(const wstring& wstr) {
+inline string WStringToString(const wstring& wstr) 
+{
 	if (wstr.empty()) {
 		return "";
 	}
@@ -52,24 +53,6 @@ HRESULT CMyImGui::Initialize(_uint iNumLevels, HWND hWnd, CGraphic_Device* pGrap
 
 	ImGui_ImplDX9_Init(pGraphic_Device->m_pDevice);
 
-
-	m_pVIBuffer_CubeVec.reserve(50);
-	m_pTransformVec.reserve(50);
-	// 큐브 버퍼 생성
-	m_pVIBuffer_CubeVec.emplace_back(CVIBuffer_Cube::Create(pGraphic_Device->m_pDevice));
-	if (nullptr == m_pVIBuffer_CubeVec.front())
-		return E_FAIL;
-
-	// 트랜스폼 컴포넌트 생성 (큐브의 위치, 회전, 크기 조절용)
-	m_pTransformVec.emplace_back(CTransform::Create(pGraphic_Device->m_pDevice));
-	if (nullptr == m_pTransformVec.front())
-		return E_FAIL;
-
-	// 큐브 초기 위치 및 크기 설정
-	m_pTransformVec.front()->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.f, 0.f));
-	m_pTransformVec.front()->Set_Scale(1.f, 1.f, 1.f);
-
-
 	return S_OK;
 }
 
@@ -91,7 +74,7 @@ void CMyImGui::Update(_float fTimeDelta)
 		CreateObject();
 		Show_Objects(fTimeDelta);
 	}
-
+	m_Editor.RenderUI();
 
 	//{
 	//    ImGui::Begin("Camera");
@@ -117,24 +100,6 @@ void CMyImGui::Update(_float fTimeDelta)
 
 HRESULT CMyImGui::Render()
 {
-	// 선택된 텍스처로 큐브 렌더링
-	if (m_bRenderSelectedCube && m_SelectedTextureIndex != -1 &&
-		m_SelectedTextureIndex < m_Textures.size() && m_Textures[m_SelectedTextureIndex])
-	{
-
-		for (int i = 0; i < (int)m_pVIBuffer_CubeVec.size(); i++)
-		{
-
-			// 텍스처 설정
-			m_pGraphic_Device->m_pDevice->SetTexture(0, m_Textures[m_SelectedTextureIndex]);
-
-			m_pTransformVec[i]->Bind_Resource();
-			m_pVIBuffer_CubeVec[i]->Bind_Buffers();
-			m_pVIBuffer_CubeVec[i]->Render();
-		}
-	}
-
-
 	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
@@ -148,101 +113,6 @@ HRESULT CMyImGui::Render()
 
 
 	return S_OK;
-}
-
-
-void CMyImGui::Show_Texture_Image()
-{
-	if (m_Textures.empty() || !m_bShowImageWindow)
-		return;
-
-	ImGui::Begin("Textures");
-
-	if (ImGui::Button("Close Window"))
-	{
-		m_bShowImageWindow = false;
-		ImGui::End();
-		return;
-	}
-
-	// 디버그용 정보 - 로드된 이미지 수 표시
-	ImGui::Text("Load Image count: %d", (int)m_Textures.size());
-
-	const int imagesPerRow = 4; // 한 줄에 표시할 이미지 수 
-
-	for (_ulonglong i = 0; i < m_Textures.size(); ++i)
-	{
-		// 텍스처가 유효한지 확인
-		if (m_Textures[i])
-		{
-			// 새 줄의 시작인 경우 SameLine을 호출하지 않음
-			if (i % imagesPerRow != 0)
-				ImGui::SameLine();
-
-			// 각 항목을 세로로 정렬하기 위한 그룹 시작
-			ImGui::BeginGroup();
-
-			// 이미지 표시
-			ImGui::Image((ImTextureID)m_Textures[i], ImVec2(100, 100));
-
-			// 선택된 텍스처에 표시 추가
-			if (m_SelectedTextureIndex == i)
-			{
-				ImGui::SameLine();
-				ImGui::Text("*"); // 별표로 선택 상태 표시
-			}
-
-			// 버튼 표시
-			if (ImGui::Button(("Apply to Cube " + to_string(i)).c_str()))
-			{
-				m_SelectedTextureIndex = i;
-				m_bRenderSelectedCube = true; // 큐브 렌더링 활성화
-			}
-
-
-			ImGui::EndGroup();
-		}
-		else
-		{
-			if (i % imagesPerRow != 0)
-				ImGui::SameLine();
-
-			ImGui::Text("Invalid texture at index %d", (int)i);
-		}
-	}
-
-	if (m_SelectedTextureIndex != -1 && m_SelectedTextureIndex < m_Textures.size())
-	{
-		ImGui::Separator();
-		ImGui::Text("Selected Texture: %d", (int)m_SelectedTextureIndex);
-
-
-
-		//// 큐브 크기 조절
-		//_float3 scale = m_pTransform->Compute_Scaled();
-		//bool scaleChanged = false;
-		//ImGui::Text("Scale");
-
-		//// X 스케일 조절
-		//ImGui::Text("X"); ImGui::SameLine();
-		//scaleChanged |= ImGui::DragFloat("##ScaleX", &scale.x, 0.01f, -FLT_MAX, FLT_MAX);  // 최소값 -FLT_MAX, 최대값 FLT_MAX
-
-		//// Y 스케일 조절 
-		//ImGui::Text("Y"); ImGui::SameLine();
-		//scaleChanged |= ImGui::DragFloat("##ScaleY", &scale.y, 0.01f, -FLT_MAX, FLT_MAX);  // 최소값 -FLT_MAX, 최대값 FLT_MAX
-
-		//// Z 스케일 조절
-		//ImGui::Text("Z"); ImGui::SameLine();
-		//scaleChanged |= ImGui::DragFloat("##ScaleZ", &scale.z, 0.01f, -FLT_MAX, FLT_MAX);  // 최소값 -FLT_MAX, 최대값 FLT_MAX
-
-		//if (scaleChanged)
-		//{
-		//    m_pTransform->Set_Scale(scale.x, scale.y, scale.z);
-		//}
-
-	}
-
-	ImGui::End();
 }
 
 void CMyImGui::Show_Objects(_float fTimeDelta)
@@ -314,6 +184,7 @@ void CMyImGui::Show_Objects(_float fTimeDelta)
 			// 현재 위치 가져오기
 			_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
 			_float3 scale = pTransform->Compute_Scaled();
+			_float3 euler = pTransform->Get_EulerAngles();
 			_float3 rotation;
 			bool positionChanged = false;
 			bool scaleChanged = false;
@@ -349,15 +220,15 @@ void CMyImGui::Show_Objects(_float fTimeDelta)
 			ImGui::Text("Object Rotation");
 			// X 위치 조절
 			ImGui::Text("X"); ImGui::SameLine();
-			rotationChanged |= ImGui::DragFloat("RotationX", &rotation.x, 0.1f, 1.f, FLT_MAX);
+			rotationChanged |= ImGui::DragFloat("RotationX", &euler.x, 1.f, 0.f, 360.f);
 
 			// Y 위치 조절
 			ImGui::Text("Y"); ImGui::SameLine();
-			rotationChanged |= ImGui::DragFloat("RotationY", &rotation.y, 0.1f, 1.f, FLT_MAX);
+			rotationChanged |= ImGui::DragFloat("RotationY", &euler.y, 1.f, 0.f, 360.f);
 
 			// Z 위치 조절
 			ImGui::Text("Z"); ImGui::SameLine();
-			rotationChanged |= ImGui::DragFloat("RotationZ", &rotation.z, 0.1f, 1.f, FLT_MAX);
+			rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
 
 
 			// 위치가 변경되면 트랜스폼 업데이트
@@ -368,7 +239,12 @@ void CMyImGui::Show_Objects(_float fTimeDelta)
 
 			if (scaleChanged)
 			{
-				pTransform->Scaling(scale.x, scale.y, scale.z);
+				pTransform->Set_Scale(scale.x, scale.y, scale.z);
+			}
+
+			if (rotationChanged)
+			{
+				pTransform->Rotate_EulerAngles(euler);
 			}
 		}
 	}
@@ -743,22 +619,6 @@ void CMyImGui::Free()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
-	for (auto& texture : m_Textures)
-	{
-		if (texture)
-			texture->Release();
-	}
-	m_Textures.clear();
-	for (auto& cube : m_pVIBuffer_CubeVec)
-	{
-		Safe_Release(cube);
-	}
-	m_pVIBuffer_CubeVec.clear();
-	for (auto& transform : m_pTransformVec)
-	{
-		Safe_Release(transform);
-	}
-	m_pTransformVec.clear();
 
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pGameInstance);

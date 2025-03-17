@@ -127,6 +127,24 @@
     <Filter Include="02.GameObjects\Structure">
       <UniqueIdentifier>{01a4a485-e43d-48f6-a8ff-d7b89bcf1367}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96. Manager\Item_Manager">
+      <UniqueIdentifier>{9801f51e-72c3-4afa-9b48-140af7d04d64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item">
+      <UniqueIdentifier>{7410495c-2ebe-448e-887e-61ab8a3b62b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Claymore">
+      <UniqueIdentifier>{f23db6f8-636e-4d2c-8a87-bd2a2e55fd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon_Base">
+      <UniqueIdentifier>{bda00311-2010-4dc6-8616-fcc7b7160629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon">
+      <UniqueIdentifier>{a63de5a8-d560-430e-8184-13e297b85853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon_Base\Ranged Weapon">
+      <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -246,6 +264,21 @@
     <ClInclude Include="..\public\UI_Enum.h">
       <Filter>97. UI_Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Item_Manager.h">
+      <Filter>96. Manager\Item_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Claymore.h">
+      <Filter>02.GameObjects\Item\Claymore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Base.h">
+      <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Ranged_Weapon.h">
+      <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Melee_Weapon.h">
+      <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -344,6 +377,18 @@
     </ClCompile>
     <ClCompile Include="..\private\Default_Menu.cpp">
       <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Claymore.cpp">
+      <Filter>02.GameObjects\Item\Claymore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Base.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Melee_Weapon.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Ranged_Weapon.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

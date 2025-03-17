@@ -11,8 +11,6 @@ class CVIBuffer_Rect;  // UI는 사각형으로
 END
 
 BEGIN(Client)
-
-
 class CUI_Mid_Display final : public CUI_Base
 {
 private:
@@ -29,9 +27,6 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_EXP_pTextureCom{};
-	CTransform* m_EXP_pTransformCom{};
-	CVIBuffer_Rect* m_EXP_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
 	UI_Child_Desc m_EXP_INFO{};
 
 private:
@@ -46,6 +41,4 @@ public:
 private:
 	_float m_fExp{};  // 체력
 };
-
-
 END

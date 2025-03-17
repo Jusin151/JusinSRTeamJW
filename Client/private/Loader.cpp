@@ -222,7 +222,11 @@ HRESULT CLoader::Add_To_GamePlay_Textures()
 			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
 		return E_FAIL;
 
-	Add_To_UI_Textures();
+	Add_To_UI_Textures(); // UI 텍스쳐
+
+	Add_To_Shop_Textures();// 상점 텍스쳐
+
+	Add_To_Weapon_Textures(); // 무기 텍스쳐
 
 	return S_OK;
 }
@@ -264,7 +268,11 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		CTestMonster::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	Add_To_UI_Prototype();
+	Add_To_UI_Prototype(); //UI 원형 객체
+
+	Add_To_Shop_Prototype(); // 상점 원형객체
+
+	Add_To_Weapon_Prototye();// 무기 원형객체
 	return S_OK;
 }
 HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
@@ -285,9 +293,6 @@ HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 	Add_To_UI_Right_DisPlay_Textures(); // 우하단 디스플레이 텍스쳐
 
 	Add_To_UI_Menu_DisPlay_Textures();
-
-	Add_To_Shop_Textures();
-
 
 
 	return S_OK;
@@ -310,7 +315,6 @@ HRESULT CLoader::Add_To_UI_Prototype() //원형객체들
 
 	Add_To_UI_Right_Menu_Prototype();
 
- 	Add_To_Shop_Prototype();
 
 	return S_OK;
 }
@@ -482,12 +486,16 @@ HRESULT CLoader::Add_To_Shop_Prototype()
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	Add_To_Shop_Spell_Shop_Prototype();
-	Add_To_Shop_Upgrade_Weapon_Prototype();
+	// 스펠 샵 UI 원형격체
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Spell_Shop_UI"),
+		CUI_Spell_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }
-
 HRESULT CLoader::Add_To_Shop_Textures()
 {
 	// 에피소드 레벨 1 모든 스테이지 이미지
@@ -513,29 +521,17 @@ HRESULT CLoader::Add_To_Shop_Textures()
 			TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"),
 			1))))
 		return E_FAIL;
-
-
-
 	return S_OK;
 }
-
-HRESULT CLoader::Add_To_Shop_Spell_Shop_Prototype()
+HRESULT CLoader::Add_To_Weapon_Textures()
 {
-	// 스펠 샵 UI 원형격체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Spell_Shop_UI"),
-		CUI_Spell_Shop::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	
 	return S_OK;
 }
-HRESULT CLoader::Add_To_Shop_Upgrade_Weapon_Prototype()
+HRESULT CLoader::Add_To_Weapon_Prototye()
 {
-
-
 	return S_OK;
 }
+
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 {

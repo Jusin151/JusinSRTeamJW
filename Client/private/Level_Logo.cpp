@@ -68,7 +68,7 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround() ///  레이어 아이디로 렌더
 	tDesc_CanSeeMonster.fNextx = 0.f; // 이미지 갔다가 다시 돌아때의 위치  X
 	tDesc_CanSeeMonster.fNexty = 0.f; // 이미지 갔다가 다시 돌아때의 위치  Y 자세한 로직은 CBackGround.cpp에 있음
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
-		LEVEL_LOGO, TEXT("Layer_BackGround_2"), &tDesc_CanSeeMonster)))
+		LEVEL_LOGO, TEXT("Layer_BackGround_2'"), &tDesc_CanSeeMonster)))
 		return E_FAIL;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	CUI_Base::BackGround_DESC tDesc_Man{}; // 사람
