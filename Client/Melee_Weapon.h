@@ -29,14 +29,14 @@ protected:
     virtual ~CMelee_Weapon() = default;
 
 public:
-    virtual HRESULT Initialize_Prototype();
-    virtual HRESULT Initialize(void* pArg);
-    virtual void Priority_Update(_float fTimeDelta);
-    virtual void Update(_float fTimeDelta);
-    virtual void Late_Update(_float fTimeDelta);
+    virtual HRESULT Initialize_Prototype()override;
+    virtual HRESULT Initialize(void* pArg)override;
+    virtual void Priority_Update(_float fTimeDelta)override;
+    virtual void Update(_float fTimeDelta)override;
+    virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
-    virtual HRESULT Ready_Components();
-    void Free();
+    virtual HRESULT Ready_Components()override;
+    void Free()override;
 
 
 

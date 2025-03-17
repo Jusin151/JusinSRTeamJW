@@ -34,17 +34,15 @@ public:
     virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta);
     virtual void Late_Update(_float fTimeDelta);
-    virtual HRESULT Render()override;
+    virtual HRESULT Render();
     virtual HRESULT Ready_Components();
     void Free();
 
 
+    CGameObject* Clone(void* pArg) ;
 
-    CGameObject* Clone(void* pArg) override;
+    void Attack() ;
 
-
-    // CWeapon_Base을(를) 통해 상속됨
-    void Attack() override;
 
 };
 

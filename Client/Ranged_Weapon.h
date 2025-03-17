@@ -7,7 +7,7 @@
 
 
 BEGIN(Engine)
-class CTexture;
+class CTexture; 
 class CVIBuffer_Rect;  // UI는 사각형으로 할듯
 END
 
