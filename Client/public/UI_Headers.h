@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "UI_Structs.h"
+#include "UI_Enum.h"
 
 ////////////////////////////// 레벨_로고
 #include "BackGround.h"
