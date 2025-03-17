@@ -117,7 +117,9 @@ CClaymore* CClaymore::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
+
 		MSG_BOX("클레이모어 UI 원본 생성 실패 ");
+
 		Safe_Release(pInstance);
 	}
 
@@ -131,7 +133,9 @@ CGameObject* CClaymore::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
+
 		MSG_BOX("클레이모어 UI 복제 실패");
+
 		Safe_Release(pInstace);
 	}
 

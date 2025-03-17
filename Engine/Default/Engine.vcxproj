@@ -124,9 +124,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat
-CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -289,6 +288,9 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Materials\TestMaterial.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
