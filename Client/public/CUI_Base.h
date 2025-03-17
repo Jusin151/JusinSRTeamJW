@@ -58,13 +58,11 @@ public:
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
     virtual HRESULT Render()override;
-
+    virtual HRESULT Ready_Components(); 
     void Free();
 
 
 protected:
-    HRESULT Ready_Components();
-
 
     void Set_Parent(CUI_Base* pParent)
     {

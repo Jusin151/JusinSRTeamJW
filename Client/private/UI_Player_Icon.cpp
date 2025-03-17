@@ -63,7 +63,6 @@ void CUI_Player_Icon::Priority_Update(_float fTimeDelta)
 
 void CUI_Player_Icon::Update(_float fTimeDelta)
 {
-	// Ű ������ ü�� 1 ���� �ϴ� �ӽÿ���..
 	if (GetKeyState('8') & 0x8000)
 	{
 		m_fHealth -= 1.f;
@@ -119,7 +118,7 @@ void CUI_Player_Icon::Update_Animation(_float fTimeDelta)
 
 void CUI_Player_Icon::Update_Hit_Animation(_float fTimeDelta)
 {
-	int hitFrame = 4; // �⺻��
+	int hitFrame = 4; 
 	if (m_fHealth >= 70)
 	{
 		hitFrame = 4;
@@ -137,7 +136,7 @@ void CUI_Player_Icon::Update_Hit_Animation(_float fTimeDelta)
 		hitFrame = 19;
 	}
 
-	// �ǰ� �� ������
+	
 	m_iCurrentFrame = hitFrame;
 	m_fHitElapsedTime += fTimeDelta;
 	if (m_fHitElapsedTime >= m_fHitDuration)

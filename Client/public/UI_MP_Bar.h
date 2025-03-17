@@ -30,9 +30,6 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_MP_pTextureCom{};
-	CTransform* m_MP_pTransformCom{};
-	CVIBuffer_Rect* m_MP_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
 	UI_Child_Desc m_MP_INFO{};
 
 private:
@@ -45,7 +42,6 @@ public:
 	virtual void Free();
 
 private:
-	_float m_fArmor{};  // 체력
 	_float m_fMp{};  // ü��
 };
 

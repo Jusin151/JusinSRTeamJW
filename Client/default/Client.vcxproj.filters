@@ -61,9 +61,6 @@
     <Filter Include="02.GameObjects\UI\01.Logo_UI\MainMenu">
       <UniqueIdentifier>{48c7a6a5-4806-4406-aa51-e8ac3f749af0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\01.Logo_UI\MainMenu\Default_Menu">
-      <UniqueIdentifier>{1d26f5b1-6680-4fcc-9709-467a6016c573}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\01.Logo_UI\BackGround">
       <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
     </Filter>
@@ -106,9 +103,6 @@
     <Filter Include="02.GameObjects\UI\02.GamePlay_UI\03.UI_Mid_Display">
       <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\02.GamePlay_UI\03.UI_Mid_Display\NewFilter1">
-      <UniqueIdentifier>{d2e44fdc-ae88-4525-bac7-697167add5b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\03.Loading">
       <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
     </Filter>
@@ -118,17 +112,8 @@
     <Filter Include="02.GameObjects\UI\04.Shop">
       <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\04.Shop\Episode_UI">
-      <UniqueIdentifier>{0a2996c2-5012-4a5f-b7af-68e0c8db4da9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.Shop\Point_Shop_UI">
-      <UniqueIdentifier>{1cabfe0a-0457-440e-a907-22084c3364cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\04.Shop\Spell_Shop_UI">
       <UniqueIdentifier>{2f9e9709-fb90-48ce-92b9-13633bdd18a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\04.Shop\Upgrade_Weapon_UI">
-      <UniqueIdentifier>{c09c0d37-8ce0-43ba-a2c8-be92b4b95b15}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\99. Button\Logo_Button">
       <UniqueIdentifier>{d3cf93ef-aaf9-4523-8f17-2af6ed80d2fb}</UniqueIdentifier>
@@ -183,13 +168,13 @@
     <ClInclude Include="..\public\CUI_Manager.h">
       <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\UI_HPDisplay.h">
+    <ClInclude Include="..\public\UI_Left_Display.h">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\01.UI_Left_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CUI_WeaponIcon.h">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\05.UI_WEAPON</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_AmmoDisplay.h">
+    <ClInclude Include="..\public\UI_Right_Display.h">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\02.UI_Right_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h">
@@ -198,7 +183,7 @@
     <ClInclude Include="..\public\CUI_Dialogue.h">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\06.UI_DIALOGUE</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\UI_ExpDisplay.h">
+    <ClInclude Include="..\public\UI_Mid_Display.h">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\03.UI_Mid_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Default_Panel.h">
@@ -206,9 +191,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Loading_UI.h">
       <Filter>02.GameObjects\UI\03.Loading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Default_Menu.h">
-      <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu\Default_Menu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Camera_Free.h">
       <Filter>02.GameObjects\Camera\Free</Filter>
@@ -231,17 +213,8 @@
     <ClInclude Include="..\Public\UI_MP_Bar.h">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Point_Shop.h">
-      <Filter>02.GameObjects\UI\04.Shop\Point_Shop_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Episode.h">
-      <Filter>02.GameObjects\UI\04.Shop\Episode_UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_Spell_Shop.h">
       <Filter>02.GameObjects\UI\04.Shop\Spell_Shop_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Upgrade_Weapon.h">
-      <Filter>02.GameObjects\UI\04.Shop\Upgrade_Weapon_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TestMonster.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -267,6 +240,9 @@
     <ClInclude Include="..\public\Structure.h">
       <Filter>02.GameObjects\Structure</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Default_Menu.h">
+      <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -291,9 +267,6 @@
     <ClCompile Include="..\private\Terrain.cpp">
       <Filter>02.GameObjects\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01.Levels\Loading\Loader</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Level_Logo.cpp">
       <Filter>01.Levels\Logo</Filter>
     </ClCompile>
@@ -303,7 +276,7 @@
     <ClCompile Include="..\private\Level_GamePlay.cpp">
       <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\UI_ExpDisplay.cpp">
+    <ClCompile Include="..\private\UI_Mid_Display.cpp">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\03.UI_Mid_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Default_Panel.cpp">
@@ -312,16 +285,13 @@
     <ClCompile Include="..\private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera\Free</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Default_Menu.cpp">
-      <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu\Default_Menu</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Loading_UI.cpp">
       <Filter>02.GameObjects\UI\03.Loading</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CUI_AmmoDisplay.cpp">
+    <ClCompile Include="..\private\UI_Right_Display.cpp">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\02.UI_Right_Display</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\UI_HPDisplay.cpp">
+    <ClCompile Include="..\private\UI_Left_Display.cpp">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\01.UI_Left_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CUI_Base.cpp">
@@ -345,17 +315,8 @@
     <ClCompile Include="..\private\UI_Menu.cpp">
       <Filter>02.GameObjects\UI\02.GamePlay_UI\04.UI_MENU</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Point_Shop.cpp">
-      <Filter>02.GameObjects\UI\04.Shop\Point_Shop_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Episode.cpp">
-      <Filter>02.GameObjects\UI\04.Shop\Episode_UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp">
       <Filter>02.GameObjects\UI\04.Shop\Spell_Shop_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Upgrade_Weapon.cpp">
-      <Filter>02.GameObjects\UI\04.Shop\Upgrade_Weapon_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TestMonster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -374,6 +335,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Structure.cpp">
       <Filter>02.GameObjects\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loader.cpp">
+      <Filter>01.Levels\Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Default_Menu.cpp">
+      <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

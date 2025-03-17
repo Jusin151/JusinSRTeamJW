@@ -166,10 +166,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 {
 
-	CUI_Base::UI_Child_Desc Spell_Shop_UI{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
+	CUI_Base::UI_Child_Desc Spell_Shop_UI{};  // 스펠샵
 	Spell_Shop_UI.vSize = { 847.f,508.f };
 	Spell_Shop_UI.fAlpha = 1.0f;
-	Spell_Shop_UI.vPos = { -200.f,100.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	Spell_Shop_UI.vPos = { 0.f,00.f }; 
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
@@ -177,16 +177,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop()
 		LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop_1"), &Spell_Shop_UI)))
 		return E_FAIL;
 
-	CUI_Base::UI_Child_Desc Upgrade_Weapon{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	Upgrade_Weapon.vSize = { 847.f,508.f };
-	Upgrade_Weapon.fAlpha = 1.0f;
-	Upgrade_Weapon.vPos = { -200.f,-100.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
-
-	if (FAILED(m_pGameInstance->Add_GameObject
-	(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Upgrade_Weapon_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Upgrade_Weapon_1"), &Upgrade_Weapon)))
-		return E_FAIL;
 
 	Ready_Layer_Episode_Button();
 	Ready_Layer_Point_Shop_Button();
