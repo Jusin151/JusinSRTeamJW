@@ -144,6 +144,8 @@ HRESULT CMyImGui::Render()
 
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+
 
 	return S_OK;
 }

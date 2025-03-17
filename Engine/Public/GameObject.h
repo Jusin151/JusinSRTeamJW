@@ -40,13 +40,14 @@ public:
 	}
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
-	class CGameInstance* m_pGameInstance = { nullptr };
+	class CGameInstance*			m_pGameInstance = { nullptr };
 
 protected:
 	map<const _wstring, class CComponent*>	m_Components;
 	_bool m_bIsActive = { false }; // 풀링을 위한 active 변수
 	_bool m_bFromPool = { false }; // 게임 종료시에 반환 때 풀링에서 등록된 오브젝트인지 확인하기 위함
 	_wstring m_strLayerTag;
+	_wstring m_strObjectName;
 
 protected:
 	HRESULT Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);

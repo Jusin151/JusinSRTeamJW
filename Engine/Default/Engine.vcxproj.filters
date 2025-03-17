@@ -142,6 +142,9 @@
     <ClInclude Include="..\public\Light.h">
       <Filter>02.GameObject\Light</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Material.h">
+      <Filter>04.Components\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -273,6 +276,9 @@
     <Filter Include="02.GameObject\Light">
       <UniqueIdentifier>{d7cb60dd-89f9-4c8f-9fa2-baa6d49a15d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Material">
+      <UniqueIdentifier>{3b77c23e-2248-495b-aecf-e1a12efb1e06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -391,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Light.cpp">
       <Filter>02.GameObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Material.cpp">
+      <Filter>04.Components\Material</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

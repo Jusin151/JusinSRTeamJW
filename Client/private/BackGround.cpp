@@ -116,9 +116,9 @@ HRESULT CBackGround::Render()
 	D3DMATERIAL9 material;
 	ZeroMemory(&material, sizeof(D3DMATERIAL9));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 확산광 색상
-	material.Ambient = D3DXCOLOR(0.5f, 0.0f, 0.0f, 0.0f); // 주변광 색상
+	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 주변광 색상
 	material.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 반사광 색상
-	material.Emissive = D3DXCOLOR(1.0f, 0.2f, 0.2f, 1.0f); // 방출광 색상
+	material.Emissive = D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f); // 방출광 색상
 	material.Power = 32.0f; // 반사광 강도
 
 	m_pGraphic_Device->SetMaterial(&material);
@@ -127,9 +127,9 @@ HRESULT CBackGround::Render()
 	ZeroMemory(&light, sizeof(D3DLIGHT9));
 	light.Type = D3DLIGHT_DIRECTIONAL; // 방향성 광원
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 확산광 색상 (빨간색)
-	light.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 주변광 색상
+	light.Ambient = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f); // 주변광 색상
 	light.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 반사광 색상
-	light.Direction = D3DXVECTOR3(1.0f, 0.0f, 0.0f); // 빛의 방향
+	light.Direction = D3DXVECTOR3(0.0f, 0.0f, -1.0f); // 빛의 방향
 
 	m_pGraphic_Device->SetLight(0, &light); // 0번 라이트 설정
 	m_pGraphic_Device->LightEnable(0, TRUE); // 0번 라이트 활성화
