@@ -54,6 +54,26 @@ void CGameObject::SetActive(_bool bIsActive)
 	m_bIsActive = bIsActive;
 }
 
+json CGameObject::Serialize()
+{
+	json j;
+	j["IsActive"] = m_bIsActive;
+	j["FromPool"] = m_bFromPool;
+	j["LayerTag"] = ISerializable::WideToUtf8(m_strLayerTag);
+	return j;
+}
+
+void CGameObject::Deserialize(const json& j)
+{
+		if (j.contains("IsActive")) m_bIsActive = j["IsActive"];
+		if (j.contains("FromPool")) m_bFromPool = j["FromPool"];
+		if (j.contains("LayerTag"))
+		{
+			string layerTag = j["LayerTag"].get<string>();
+			m_strLayerTag = ISerializable::Utf8ToWide(layerTag);
+		}
+}
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
 	if (m_Components.end() != m_Components.find(strComponentTag))

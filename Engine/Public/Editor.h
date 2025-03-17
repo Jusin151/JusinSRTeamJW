@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "Base.h"
-#include "Serializable.h"
 #include "Layer.h"
+#include "GameObject.h"
+#include "Object_Manager.h"
 #include "GameInstance.h"
 
 BEGIN(Engine)
@@ -19,23 +20,24 @@ public:
 
 public:
     // 오브젝트 등록
-    void RegisterObject(_uint ilevelID) 
+       void RegisterObject(_uint iLevelID)
     {
-      /*  auto pObjMgr = m_pGameInstance->m_pObject_Manager;
-        for (auto layer : pObjMgr->m_pLayers[ilevelID])
+        auto& layerMap = m_pGameInstance->m_pObject_Manager->m_pLayers[iLevelID];
+
+        for (auto& layer : layerMap)
         {
-            CLayer* pLayer = layer.second;
-            for (auto& obj : pLayer->m_GameObjects)
+            auto& objList = layer.second->m_GameObjects;
+            for (auto it = objList.begin();it!=objList.end();++it)
             {
-                m_LevelObjects[ilevelID].push_back(reinterpret_cast<ISerializable*>(obj));
-           }
-        }*/
-     
+                m_LevelObjects[iLevelID].push_back(static_cast<ISerializable*>(*it));
+            }
+        }
     }
 
     // 레벨별 저장
     _bool SaveLevel(_uint ilevelID, const _wstring& filepath) 
     {
+        RegisterObject(ilevelID);
         json j;
         j["level"] = ilevelID;
         j["objects"] = json::array();
