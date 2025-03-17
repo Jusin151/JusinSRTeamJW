@@ -30,22 +30,24 @@ def convert_file_encoding(file_path):
         file_path (str): 파일 경로
     """
     try:
-        # 파일 내용 읽기 (인코딩 자동 감지)
         with open(file_path, 'rb') as f:
             raw_data = f.read()
-            result = chardet.detect(raw_data)
-            original_encoding = result['encoding']
+
+        result = chardet.detect(raw_data)
+        original_encoding = result['encoding']
+
+        if original_encoding == 'UTF-8-SIG':
+            print(f"건너뜀: 파일 '{file_path}'은 이미 BOM 추가 UTF-8입니다.")
+            return
 
         if original_encoding:
             try:
-                # 원래 인코딩으로 디코딩
                 text = raw_data.decode(original_encoding)
             except UnicodeDecodeError:
                 print(f"경고: 파일 '{file_path}' 디코딩 실패 (인코딩: {original_encoding}). 기본 인코딩으로 시도합니다.")
-                text = raw_data.decode('cp949', errors='ignore') # 필요에 따라 다른 기본 인코딩 시도
+                text = raw_data.decode('cp949', errors='ignore')
 
-            # BOM 추가 UTF-8로 인코딩하여 파일에 쓰기 (encoding='utf-8-sig' 로 변경)
-            with open(file_path, 'w', encoding='utf-8-sig', newline='\n') as f: # encoding='utf-8-sig' 사용, newline='\n' 유지
+            with open(file_path, 'w', encoding='utf-8-sig', newline='\n') as f:
                 f.write(text)
             print(f"성공: 파일 '{file_path}' BOM 추가 UTF-8로 변환됨 (원래 인코딩: {original_encoding})")
         else:
@@ -58,7 +60,6 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         dir_path = sys.argv[1]
     else:
-        # 디렉토리 경로가 제공되지 않은 경우 현재 스크립트 파일의 디렉토리를 기본 경로로 사용
         dir_path = os.path.dirname(os.path.abspath(__file__))
 
     convert_to_utf8(dir_path)

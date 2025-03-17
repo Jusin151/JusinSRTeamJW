@@ -46,7 +46,7 @@ public:
 
 public:
 	_float3 Compute_Scaled() const;
-	void Scaling();
+	void Scaling(_float fX, _float fY, _float fZ);
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
