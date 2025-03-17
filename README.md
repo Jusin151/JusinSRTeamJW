@@ -29,3 +29,9 @@ CALL $(SolutionDir)\UpdateLib.bat
 CALL $(SolutionDir)\UpdateFMODLib.bat
 ```
 적어주세요
+
+## References
+https://www.microsoft.com/en-us/download/details.aspx?id=8109
+https://github.com/nlohmann/json
+https://github.com/ocornut/imgui
+https://www.fmod.com/
