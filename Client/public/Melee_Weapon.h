@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -8,7 +8,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î ÇÒµí
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ í• ë“¯
 END
 
 BEGIN(Client)
@@ -19,9 +19,9 @@ class CMelee_Weapon : public CWeapon_Base
 public:
     struct MeleeWeapon_Info
     {
-        float KnockbackForce;  // Å¸°İ ½Ã ³Ë¹é (0ÀÌ¸é ³Ë¹é ¾øÀ½)
-        int ComboCount;        // ÄŞº¸ °ø°İ °¡´É È½¼ö
-        float ComboDelay;      // ÄŞº¸ °ø°İ °£ µô·¹ÀÌ
+        float KnockbackForce;  // íƒ€ê²© ì‹œ ë„‰ë°± (0ì´ë©´ ë„‰ë°± ì—†ìŒ)
+        int ComboCount;        // ì½¤ë³´ ê³µê²© ê°€ëŠ¥ íšŸìˆ˜
+        float ComboDelay;      // ì½¤ë³´ ê³µê²© ê°„ ë”œë ˆì´
     };
 protected:
     CMelee_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -43,7 +43,7 @@ public:
     CGameObject* Clone(void* pArg) override;
 
 
-    // CWeapon_BaseÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+    // CWeapon_Baseì„(ë¥¼) í†µí•´ ìƒì†ë¨
     void Attack() override;
 
 };

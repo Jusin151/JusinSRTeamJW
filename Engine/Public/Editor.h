@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Base.h"
 #include "Layer.h"
 #include "GameObject.h"
@@ -19,8 +19,8 @@ public:
     }
 
 public:
-    // ¿ÀºêÁ§Æ® µî·Ï
-    void RegisterObject(_uint iLevelID)
+    // ì˜¤ë¸Œì íŠ¸ ë“±ë¡
+       void RegisterObject(_uint iLevelID)
     {
         auto& layerMap = m_pGameInstance->m_pObject_Manager->m_pLayers[iLevelID];
 
@@ -34,7 +34,7 @@ public:
         }
     }
 
-    // ·¹º§º° ÀúÀå
+    // ë ˆë²¨ë³„ ì €ì¥
     _bool SaveLevel(_uint ilevelID, const _wstring& filepath) 
     {
         RegisterObject(ilevelID);
@@ -55,7 +55,7 @@ public:
         return true;
     }
 
-    //// Æ¯Á¤ ·¹º§ ºÒ·¯¿À±â
+    //// íŠ¹ì • ë ˆë²¨ ë¶ˆëŸ¬ì˜¤ê¸°
     //bool LoadLevel(int levelID, const char* filepath,
     //    function<void(const json&)> objectCreator) 
     //{
@@ -70,7 +70,7 @@ public:
 
     //    for (auto& objData : j["objects"])
     //    {
-    //        // Äİ¹éÀ» ÅëÇØ ¿ÀºêÁ§Æ® »ı¼º ·ÎÁ÷À» ¿ÜºÎ·Î À§ÀÓ
+    //        // ì½œë°±ì„ í†µí•´ ì˜¤ë¸Œì íŠ¸ ìƒì„± ë¡œì§ì„ ì™¸ë¶€ë¡œ ìœ„ì„
     //        objectCreator(objData);
     //    }
 
@@ -98,7 +98,7 @@ public:
     }
 
 private:
-    map<_uint, vector<ISerializable*>> m_LevelObjects; // ·¹º§º° ¿ÀºêÁ§Æ®
+    map<_uint, vector<ISerializable*>> m_LevelObjects; // ë ˆë²¨ë³„ ì˜¤ë¸Œì íŠ¸
     CGameInstance* m_pGameInstance = { nullptr };
 };
 END

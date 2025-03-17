@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "CUI_Base.h"
@@ -30,7 +30,7 @@ private:
 public:
 
 
-    // ¾ÆÀÌÅÛ Ãß°¡, Á¦°Å, Á¶È¸ ±â´É
+    // ì•„ì´í…œ ì¶”ê°€, ì œê±°, ì¡°íšŒ ê¸°ëŠ¥
     void AddItem(CItemBase* pItem) 
     {
 
@@ -49,8 +49,8 @@ public:
 
 private:
     vector<CItemBase*> m_Items;
-    unordered_map<int, CItemBase*> m_ItemMap; // ¾ÆÀÌÅÛ ID¸¦ Å°·Î °ü¸®
+    unordered_map<int, CItemBase*> m_ItemMap; // ì•„ì´í…œ IDë¥¼ í‚¤ë¡œ ê´€ë¦¬
 
-    // ÀÎº¥Åä¸® UI °ü·Ã µ¥ÀÌÅÍ (¿¹: ½½·Ô À§Ä¡, ¹è°æ ÀÌ¹ÌÁö µî)À» Ãß°¡ÇÒ ¼ö ÀÖÀ½.
+    // ì¸ë²¤í† ë¦¬ UI ê´€ë ¨ ë°ì´í„° (ì˜ˆ: ìŠ¬ë¡¯ ìœ„ì¹˜, ë°°ê²½ ì´ë¯¸ì§€ ë“±)ì„ ì¶”ê°€í•  ìˆ˜ ìˆìŒ.
 };
 END

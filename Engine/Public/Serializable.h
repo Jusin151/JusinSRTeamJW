@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine_Defines.h"
 
 BEGIN(Engine)
@@ -7,7 +7,7 @@ class ENGINE_DLL ISerializable
 	virtual json Serialize() = 0;
 	virtual void Deserialize(const json& j) = 0;
 
-    // ¿ÍÀÌµå ¹®ÀÚ¿­À» UTF-8·Î º¯È¯ (std::string ¹İÈ¯ÇØ¾ß ÇÔ)
+    // ì™€ì´ë“œ ë¬¸ìì—´ì„ UTF-8ë¡œ ë³€í™˜ (std::string ë°˜í™˜í•´ì•¼ í•¨)
     static string WideToUtf8(const wchar_t* wstr)
     {
         if (!wstr) return "";
@@ -15,18 +15,18 @@ class ENGINE_DLL ISerializable
         int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
         std::string strUtf8(size_needed, 0);
         WideCharToMultiByte(CP_UTF8, 0, wstr, -1, &strUtf8[0], size_needed, NULL, NULL);
-        strUtf8.resize(strUtf8.length() - 1); // ³Î Á¾·áÀÚ Á¦°Å
+        strUtf8.resize(strUtf8.length() - 1); // ë„ ì¢…ë£Œì ì œê±°
 
         return strUtf8;
     }
 
-    // UTF-8À» ¿ÍÀÌµå ¹®ÀÚ¿­·Î º¯È¯ (¹İ´ë ¹æÇâ º¯È¯µµ ÇÊ¿äÇÔ)
+    // UTF-8ì„ ì™€ì´ë“œ ë¬¸ìì—´ë¡œ ë³€í™˜ (ë°˜ëŒ€ ë°©í–¥ ë³€í™˜ë„ í•„ìš”í•¨)
     static wstring Utf8ToWide(const string& str)
     {
         int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
         wstring wstrTo(size_needed, 0);
         MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstrTo[0], size_needed);
-        wstrTo.resize(wstrTo.length() - 1); // ³Î Á¾·áÀÚ Á¦°Å
+        wstrTo.resize(wstrTo.length() - 1); // ë„ ì¢…ë£Œì ì œê±°
 
         return wstrTo;
     }

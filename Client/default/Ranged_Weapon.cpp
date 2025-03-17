@@ -1,4 +1,4 @@
-#include "Ranged_Weapon.h"
+ï»¿#include "Ranged_Weapon.h"
 
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{pGraphic_Device}
@@ -53,7 +53,7 @@ CGameObject* CRanged_Weapon::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("±ÙÁ¢¹«±â UI º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("ê·¼ì ‘ë¬´ê¸° UI ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 
