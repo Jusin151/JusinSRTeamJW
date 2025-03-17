@@ -247,6 +247,110 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	return S_OK;
 }
 
+HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath)
+{
+	_ulong			dwByte = { };
+	HANDLE			hFile = CreateFile(pHeightMapFilePath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	if (0 == hFile)
+		return E_FAIL;
+
+	BITMAPFILEHEADER		fh{};
+	BITMAPINFOHEADER		ih{};
+
+	ReadFile(hFile, &fh, sizeof fh, &dwByte, nullptr);
+	ReadFile(hFile, &ih, sizeof ih, &dwByte, nullptr);
+
+	_uint* pPixels = new _uint[ih.biWidth * ih.biHeight];
+
+	ReadFile(hFile, pPixels, sizeof(_uint) * ih.biWidth * ih.biHeight, &dwByte, nullptr);
+
+	CloseHandle(hFile);
+
+	
+	m_iNumVerticesX = ih.biWidth;
+	m_iNumVerticesZ = ih.biHeight;
+	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
+	m_iVertexStride = sizeof(VTXPOSTEX);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+	m_iNumPritimive = (m_iNumVerticesX - 1) * (m_iNumVerticesZ - 1) * 2;
+	m_iNumIndices = m_iNumPritimive * 3;
+	m_iIndexStride = 4;
+	m_eIndexFormat = D3DFMT_INDEX32;
+
+#pragma region VERTEX_BUFFER
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	VTXPOSTEX* pVertices = { nullptr };
+
+//	11111111 11100111 11100111 11100111
+//&	00000000 00000000 00000000 11111111
+//
+//	00000000 00000000 00000000 11100111
+
+
+		
+
+
+
+	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
+
+	for (size_t i = 0; i < m_iNumVerticesZ; i++)
+	{
+		for (size_t j = 0; j < m_iNumVerticesX; j++)
+		{
+			_uint			iIndex = i * m_iNumVerticesX + j;
+
+			pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 15.f, i);
+			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
+		}
+	}
+
+	m_pVB->Unlock();
+
+	Safe_Delete_Array(pPixels);
+#pragma endregion
+
+#pragma region INDEX_BUFFER
+	if (FAILED(__super::Create_IndexBuffer()))
+		return E_FAIL;
+
+	_uint* pIndices = { nullptr };
+
+	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
+
+	_uint		iNumIndices = { 0 };
+
+	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+	{
+		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		{
+			_uint			iIndex = i * m_iNumVerticesX + j;
+
+			_uint			iIndices[4] = {
+				iIndex + m_iNumVerticesX,
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
+		}
+	}
+
+	m_pIB->Unlock();
+
+#pragma endregion
+
+	return S_OK;
+}
+
 HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
 {
 	return S_OK;
