@@ -355,7 +355,7 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Prototype()
 	// 왼쪽 레프트 하단 판넬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Left_Panel"),
-		CUI_HPDisplay::Create(m_pGraphic_Device))))
+		CUI_Left_Display::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
@@ -402,7 +402,7 @@ HRESULT CLoader::Add_To_UI_Mid_DisPlay_Prototype()
 	// 중앙 판넬 원본 객체 생성
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Mid_Panel"),
-		CUI_ExpDisplay::Create(m_pGraphic_Device))))
+		CUI_Mid_Display::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
@@ -438,7 +438,7 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Prototype()
 	// 중앙 판넬 원본 객체 생성
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Right_Bar"),
-		CUI_Right_Panel::Create(m_pGraphic_Device))))
+		CUI_Right_Display::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	// 중앙 판넬의 총알 UI
@@ -515,20 +515,13 @@ HRESULT CLoader::Add_To_Shop_Textures()
 		return E_FAIL;
 
 
-	// 업그레이드 웨폰 UI
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Upgrade_Weapon_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/UI/Upgrade_Weapon_UI/lweaponshop.png"),
-			1))))
-		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CLoader::Add_To_Shop_Spell_Shop_Prototype()
 {
-	// 스펠 샵 UI 운헝격체
+	// 스펠 샵 UI 원형격체
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Spell_Shop_UI"),
 		CUI_Spell_Shop::Create(m_pGraphic_Device))))
@@ -539,11 +532,7 @@ HRESULT CLoader::Add_To_Shop_Spell_Shop_Prototype()
 }
 HRESULT CLoader::Add_To_Shop_Upgrade_Weapon_Prototype()
 {
-	// 업그레이드 웨폰 UI 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Upgrade_Weapon_UI"),
-		CUI_Upgrade_Weapon::Create(m_pGraphic_Device))))
-		return E_FAIL;
+
 
 	return S_OK;
 }

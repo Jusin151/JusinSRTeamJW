@@ -3,7 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "CUI_Base.h"
-#include "UI_Structs.h"
+#include "UI_Headers.h"
 
 BEGIN(Engine)
 class CTexture;

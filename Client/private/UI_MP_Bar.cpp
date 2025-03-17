@@ -9,9 +9,6 @@ CUI_MP_Bar::CUI_MP_Bar(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CUI_MP_Bar::CUI_MP_Bar(const CUI_MP_Bar& Prototype)
 	: CUI_Base(Prototype),
-	m_MP_pTextureCom(Prototype.m_MP_pTextureCom),
-	m_MP_pTransformCom(Prototype.m_MP_pTransformCom),
-	m_MP_pVIBufferCom(Prototype.m_MP_pVIBufferCom),
 	m_MP_INFO{ Prototype.m_MP_INFO }
 {
 }
@@ -44,8 +41,8 @@ HRESULT CUI_MP_Bar::Initialize(void* pArg)
 
 
 	m_fMp = 50.f;
-	m_MP_pTransformCom->Set_Scale(m_MP_INFO.vSize.x, m_MP_INFO.vSize.y, 1.f);
-	m_MP_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	m_pTransformCom->Set_Scale(m_MP_INFO.vSize.x, m_MP_INFO.vSize.y, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_MP_INFO.vPos.x, m_MP_INFO.vPos.y, 0.f));
 	return S_OK;
 }
@@ -83,7 +80,7 @@ void CUI_MP_Bar::Update_Mp_Bar()
 
 
 	VTXPOSTEX* pVertices = nullptr;
-	m_MP_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
 	//  (오른쪽부터 점점 안 보이게)
 	pVertices[1].vTexcoord.x = fHP_Ratio; // 우측 상단
@@ -94,59 +91,28 @@ void CUI_MP_Bar::Update_Mp_Bar()
 	pVertices[1].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
 	pVertices[2].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
 
-	m_MP_pVIBufferCom->Get_VertexBuffer()->Unlock();
+	m_pVIBufferCom->Get_VertexBuffer()->Unlock();
 }
 
 
 HRESULT CUI_MP_Bar::Render()
 {
-	D3DXMATRIX matOldView, matOldProj;
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
-	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
-
-	D3DXMATRIX matView;
-	D3DXMatrixIdentity(&matView);
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
-
-	D3DXMATRIX matProj;
-	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-
-	if (FAILED(m_MP_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-	if (FAILED(m_MP_pTextureCom->Bind_Resource(0)))
-		return E_FAIL;
-	if (FAILED(m_MP_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-	if (FAILED(m_MP_pVIBufferCom->Render()))
-		return E_FAIL;
-
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-
-	return S_OK;
+	return __super::Render();
 }
 
 HRESULT CUI_MP_Bar::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_MP_Bar"),
-		TEXT("Com_Texture_Mana"), reinterpret_cast<CComponent**>(&m_MP_pTextureCom))))
+		TEXT("Com_Texture_Mana"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Mana"), reinterpret_cast<CComponent**>(&m_MP_pVIBufferCom))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_MP"),
+		TEXT("Com_VIBuffer_Mana"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Mana"), reinterpret_cast<CComponent**>(&m_MP_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Mana"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -183,7 +149,7 @@ void CUI_MP_Bar::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_MP_pTextureCom);
-	Safe_Release(m_MP_pTransformCom);
-	Safe_Release(m_MP_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
 }

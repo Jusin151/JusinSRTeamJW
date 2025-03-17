@@ -13,12 +13,12 @@ END
 BEGIN(Client)
 
 
-class CUI_Right_Panel final : public CUI_Base
+class CUI_Right_Display final : public CUI_Base
 {
 private:
-	CUI_Right_Panel(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CUI_Right_Panel(const CUI_Right_Panel& Prototype);
-	virtual ~CUI_Right_Panel() = default;
+	CUI_Right_Display(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CUI_Right_Display(const CUI_Right_Display& Prototype);
+	virtual ~CUI_Right_Display() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -39,12 +39,9 @@ private:
 
 
 public:
-	static CUI_Right_Panel* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CUI_Right_Display* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-
-private:
-	_float m_fArmor{};  // 체력
 };
 
 

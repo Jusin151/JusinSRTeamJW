@@ -132,4 +132,10 @@ namespace Engine
 		static tagVector3 Back() { return tagVector3(0.0f, 0.0f, -1.0f); }
 
 	}VECTOR3;
+	typedef struct tagVertexPositionNormalTexcoord
+	{
+		D3DXVECTOR3		vPosition;
+		D3DXVECTOR3		vNormal;
+		D3DXVECTOR2		vTexcoord;
+	}VTXNORTEX;
 }
