@@ -89,7 +89,7 @@ HRESULT CStructure::SetUp_RenderState()
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 254);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	/*m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -181,4 +181,31 @@ void CStructure::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+}
+
+json CStructure::Serialize()
+{
+	json j;
+	// 기본 정보만 저장
+	j["texture_tag"] = WideToUtf8(m_tStructure_Desc.stTextureTag);
+	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath.c_str());
+	j["vibuffer"] = WideToUtf8(m_tStructure_Desc.stVIBuffer);
+	j["collider_tag"] = WideToUtf8(m_tStructure_Desc.stCollProtoTag);
+	j["is_cube_collider"] = m_bIsCubeCollider;
+
+	// 트랜스폼 정보
+	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	j["position"] = { pos.x, pos.y, pos.z };
+
+	return j;
+}
+
+void CStructure::Deserialize(const json& j)
+{
+	if (j.contains("position")) 
+	{
+		auto pos = j["position"];
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			_float3(pos[0], pos[1], pos[2]));
+	}
 }

@@ -13,11 +13,13 @@
 #include <shobjidl.h> // IFileOpenDialog 사용을 위한 헤더
 #include <list>
 #include <vector>
+#include <fstream>
 #include <set>
 #include <codecvt>
 #include <locale>
 using namespace std;
 
+#include "../../External Libraries/json.hpp"
 #include "Engine_Struct.h"
 #include "Engine_Enum.h"
 #include "Engine_Function.h"
@@ -25,7 +27,7 @@ using namespace std;
 #include "Engine_Macro.h"
 
 using namespace Engine;
-
+using json = nlohmann::json;
 #pragma region FMOD
 #include "fmod.h"
 #include "fmod_studio.hpp"

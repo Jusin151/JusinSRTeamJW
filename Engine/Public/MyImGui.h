@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Base.h"
+#include "Editor.h"
 #include "../../Client/public/Structure.h"
 BEGIN(Engine)
 
@@ -26,14 +27,13 @@ private:
 
 private:
 
-	void Show_Texture_Image();
 	void Show_Objects(_float fTimeDelta);
 	void LoadImagesFromFolder(const _wstring& folderPath);
 	_wstring SelectFile();
 	_wstring SelectFolder();
 	HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
-
+	CEditor m_Editor;
 
 private:
 
@@ -54,9 +54,9 @@ private:
 	_bool m_bShowObjectsWindow = false; 
 	_ulonglong m_iCurrentObject{0};
 
-	vector<class CVIBuffer_Cube*> m_pVIBuffer_CubeVec;
-	vector<class CTransform*> m_pTransformVec;
-	vector<class CCollider*> m_pColliderVec;
+	//vector<class CVIBuffer_Cube*> m_pVIBuffer_CubeVec;
+	//vector<class CTransform*> m_pTransformVec;
+	//vector<class CCollider*> m_pColliderVec;
 	_wstring m_wstrProjectPath; // 프로젝트 루트 경로 저장
 
 	///////////////////////////////////////

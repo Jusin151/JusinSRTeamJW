@@ -2,6 +2,7 @@
 #include "Client_Defines.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "Serializable.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -57,5 +58,9 @@ public:
 	static CStructure* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+
+	// ISerializable을(를) 통해 상속됨
+	virtual json Serialize() override;
+	virtual void Deserialize(const json& j) override;
 };
 END
