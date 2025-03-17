@@ -22,6 +22,10 @@ HRESULT CComponent::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CComponent::ImGuiDisplay()
+{
+}
+
 void CComponent::Free()
 {
 	__super::Free();

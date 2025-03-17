@@ -36,6 +36,7 @@ public:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual void	ImGuiDisplay() override;
 
 public:
 	HRESULT Bind_Resource();
