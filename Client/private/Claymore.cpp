@@ -1,4 +1,4 @@
-#include "Claymore.h"
+Ôªø#include "Claymore.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -8,14 +8,14 @@ CClaymore::CClaymore(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CClaymore::CClaymore(const CClaymore& Prototype)
-	: CMelee_Weapon(Prototype)
+	: CMelee_Weapon(Prototype),
+	m_Claymore_INFO{Prototype.m_Claymore_INFO }
 {
 }
 
 HRESULT CClaymore::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+
 
 
 	return S_OK;
@@ -23,20 +23,22 @@ HRESULT CClaymore::Initialize_Prototype()
 
 HRESULT CClaymore::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
-
-		return E_FAIL;
 
 	if (pArg != nullptr)
 	{
-		m_Weapon_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);		
+		m_Claymore_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
 	}
 	else
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scale(m_Weapon_INFO.vPos.x, m_Weapon_INFO.vPos.y, 1.f);
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+
+
+	m_pTransformCom->Set_Scale(m_Claymore_INFO.vSize.x, m_Claymore_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_Weapon_INFO.vPos.x, m_Weapon_INFO.vPos.y, 0.f));
+		_float3(m_Claymore_INFO.vPos.x, m_Claymore_INFO.vPos.y, 0.f));
 	return S_OK;
 }
 
@@ -46,6 +48,7 @@ void CClaymore::Priority_Update(_float fTimeDelta)
 
 void CClaymore::Update(_float fTimeDelta)
 {
+	m_iCurrentFrame = (m_iCurrentFrame + 1) % 15; // ÎÇ¥ÏùºÎ∂ÄÌÑ∞ Î¨¥Í∏∞ Ï∞çÏñ¥ÎÇ∏Îã§
 }
 
 void CClaymore::Late_Update(_float fTimeDelta)
@@ -75,7 +78,7 @@ HRESULT CClaymore::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -92,17 +95,17 @@ HRESULT CClaymore::Render()
 
 HRESULT CClaymore::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Mid_Panel"),
-		TEXT("Com_Texture_EXP"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Claymore"),
+		TEXT("Com_Texture_Claymore"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_EXP"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer_Claymore"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_EXP"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Claymore"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -114,7 +117,7 @@ CClaymore* CClaymore::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("∞Ê«Ëƒ°πŸ UI ø¯∫ª ª˝º∫ Ω«∆– ");
+		MSG_BOX("ÌÅ¥Î†àÏù¥Î™®Ïñ¥ UI ÏõêÎ≥∏ ÏÉùÏÑ± Ïã§Ìå® ");
 		Safe_Release(pInstance);
 	}
 
@@ -128,7 +131,7 @@ CGameObject* CClaymore::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("∞Ê«Ëƒ°πŸ UI ∫π¡¶ Ω«∆–");
+		MSG_BOX("ÌÅ¥Î†àÏù¥Î™®Ïñ¥ UI Î≥µÏ†ú Ïã§Ìå®");
 		Safe_Release(pInstace);
 	}
 

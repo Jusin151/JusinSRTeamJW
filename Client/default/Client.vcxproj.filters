@@ -52,9 +52,6 @@
     <Filter Include="96. Manager\UI_Manager">
       <UniqueIdentifier>{c0d63515-f904-4d4c-9616-e675b485b353}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97. UI_Headers">
-      <UniqueIdentifier>{220958d5-1d2e-4240-8dea-f4a0062ced2d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\01.Logo_UI">
       <UniqueIdentifier>{85bb928b-017d-4b9f-88f6-6d68fa56d270}</UniqueIdentifier>
     </Filter>
@@ -144,6 +141,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Item\99. Weapon_Base\Ranged Weapon">
       <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Hong_Headers">
+      <UniqueIdentifier>{220958d5-1d2e-4240-8dea-f4a0062ced2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -238,7 +238,7 @@
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Headers.h">
-      <Filter>97. UI_Headers</Filter>
+      <Filter>97. Hong_Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\UI\01.Logo_UI\BackGround</Filter>
@@ -250,7 +250,7 @@
       <Filter>02.GameObjects\UI\99. Button\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Structs.h">
-      <Filter>97. UI_Headers</Filter>
+      <Filter>97. Hong_Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_FirstPerson.h">
       <Filter>02.GameObjects\Camera\FirstPerson</Filter>
@@ -262,22 +262,25 @@
       <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Enum.h">
-      <Filter>97. UI_Headers</Filter>
+      <Filter>97. Hong_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Item_Manager.h">
       <Filter>96. Manager\Item_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Claymore.h">
+    <ClInclude Include="..\public\Weapon_Headers.h">
+      <Filter>97. Hong_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Claymore.h">
       <Filter>02.GameObjects\Item\Claymore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Base.h">
-      <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Ranged_Weapon.h">
-      <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Melee_Weapon.h">
       <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ranged_Weapon.h">
+      <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Weapon_Base.h">
+      <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -378,17 +381,17 @@
     <ClCompile Include="..\private\Default_Menu.cpp">
       <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Claymore.cpp">
+    <ClCompile Include="..\private\Claymore.cpp">
       <Filter>02.GameObjects\Item\Claymore</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Base.cpp">
+    <ClCompile Include="..\private\Weapon_Base.cpp">
       <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
     </ClCompile>
-    <ClCompile Include="Melee_Weapon.cpp">
-      <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Ranged_Weapon.cpp">
+    <ClCompile Include="..\private\Ranged_Weapon.cpp">
       <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Melee_Weapon.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

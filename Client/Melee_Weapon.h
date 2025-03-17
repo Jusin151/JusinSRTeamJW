@@ -13,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CMelee_Weapon : public CWeapon_Base
+class CMelee_Weapon  : public CWeapon_Base
 {
 
 public:
@@ -29,19 +29,22 @@ protected:
     virtual ~CMelee_Weapon() = default;
 
 public:
-    virtual HRESULT Initialize_Prototype();
-    virtual HRESULT Initialize(void* pArg);
-    virtual void Priority_Update(_float fTimeDelta);
-    virtual void Update(_float fTimeDelta);
-    virtual void Late_Update(_float fTimeDelta);
-    virtual HRESULT Render();
-    virtual HRESULT Ready_Components();
-    void Free();
+    virtual HRESULT Initialize_Prototype()override;
+    virtual HRESULT Initialize(void* pArg)override;
+    virtual void Priority_Update(_float fTimeDelta)override;
+    virtual void Update(_float fTimeDelta)override;
+    virtual void Late_Update(_float fTimeDelta)override;
+    virtual HRESULT Render()override;
+    virtual HRESULT Ready_Components()override;
+    void Free()override;
 
 
-    CGameObject* Clone(void* pArg) ;
 
-    void Attack() ;
+    CGameObject* Clone(void* pArg) override;
+
+
+    // CWeapon_Base을(를) 통해 상속됨
+    void Attack() override;
 
 };
 

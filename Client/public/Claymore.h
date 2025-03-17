@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI¥¬ ªÁ∞¢«¸¿∏∑Œ
+class CVIBuffer_Rect;  // UIÎäî ÏÇ¨Í∞ÅÌòïÏúºÎ°ú
 END
 
 BEGIN(Client)
@@ -19,13 +19,13 @@ private:
 	virtual ~CClaymore() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype()override;
-	virtual HRESULT Initialize(void* pArg)override;
-	virtual void Priority_Update(_float fTimeDelta)override;
-	virtual void Update(_float fTimeDelta)override;
-	virtual void Late_Update(_float fTimeDelta)override;
-	virtual HRESULT Render()override;
-
+	 HRESULT Initialize_Prototype();
+	 HRESULT Initialize(void* pArg);
+	 void Priority_Update(_float fTimeDelta);
+	 void Update(_float fTimeDelta);
+	 void Late_Update(_float fTimeDelta);
+	 HRESULT Render();
+	 Weapon_DESC m_Claymore_INFO{};
 
 private:
 	HRESULT Ready_Components();
@@ -33,10 +33,11 @@ private:
 
 public:
 	static CClaymore* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
+	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-
 private:
-	_float m_fExp{};  // √º∑¬
+	_float m_fElapsedTime = 0.0f;
+	_int m_iCurrentFrame = 0;
+	const _float m_fFrameDuration = 2.0f;  
 };
 END

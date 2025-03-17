@@ -1,13 +1,14 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Weapon_Headers.h"
 
 
 BEGIN(Engine)
 class CTexture;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î ÇÒµí
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ í• ë“¯
 END
 
 BEGIN(Client)
@@ -21,20 +22,19 @@ public:
     };
 
 
+public:
 
     typedef struct tagWeapon_INFO
     {
-        WEAPON_ID WeaponID;            // ¹«±â °íÀ¯ ID
-        wstring Name;            // ¹«±â ÀÌ¸§
-        _float2 vPos = {};  // UI È­¸é ÁÂÇ¥
-        _float2 vSize = {};  // UI Å©±â
-        _float Damage;            // ±âº» °ø°İ·Â
-        _float AttackSpeed;       // °ø°İ ¼Óµµ
-        _float Range;             // °ø°İ ¹üÀ§ (±ÙÁ¢/¿ø°Å¸® °øÅë)
-        _float Cooldown;          // °ø°İ ÄğÅ¸ÀÓ
-        _bool IsEquipped;         // ÇöÀç ÀåÂø ÁßÀÎÁö ¿©ºÎ
-        wstring TextureKey;      // ¹«±â UI¿¡ »ç¿ëµÉ ÅØ½ºÃ³ Å°
- 
+        WEAPON_ID WeaponID{};          // ë¬´ê¸° ê³ ìœ  ID
+        _float2 vPos = {};  // UI í™”ë©´ ì¢Œí‘œ
+        _float2 vSize = {};  // UI í¬ê¸°
+        _float Damage{};            // ê¸°ë³¸ ê³µê²©ë ¥
+        _float AttackSpeed{};       // ê³µê²© ì†ë„
+        _float Range{};             // ê³µê²© ë²”ìœ„ (ê·¼ì ‘/ì›ê±°ë¦¬ ê³µí†µ)
+        _float Cooldown{};          // ê³µê²© ì¿¨íƒ€ì„
+        _bool IsEquipped{};         // í˜„ì¬ ì¥ì°© ì¤‘ì¸ì§€ ì—¬ë¶€
+        wstring TextureKey{};      // ë¬´ê¸° UIì— ì‚¬ìš©ë  í…ìŠ¤ì²˜ í‚¤
     }Weapon_DESC;
 
 
@@ -50,11 +50,10 @@ public:
     virtual void Priority_Update(_float fTimeDelta)PURE;
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
-    virtual HRESULT Render()PURE;
-    virtual HRESULT Ready_Components()PURE;
-    virtual  void Free()PURE;
+    virtual HRESULT Render()override;
+    virtual HRESULT Ready_Components();
+    virtual  void Free();
     virtual void Attack()PURE;
-    CGameObject* Clone(void* pArg)PURE;
 
 protected:
     CTexture* m_pTextureCom = nullptr;

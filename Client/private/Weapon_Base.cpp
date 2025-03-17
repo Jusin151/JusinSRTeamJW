@@ -1,4 +1,4 @@
-#include "Weapon_Base.h"
+﻿#include "Weapon_Base.h"
 
 #include "GameInstance.h"
 #include "Melee_Weapon.h"
@@ -16,20 +16,6 @@ CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
 {
 }
 
-HRESULT CWeapon_Base::Initialize_Prototype()
-{
-	return S_OK;
-}
-
-HRESULT CWeapon_Base::Initialize(void* pArg)
-{
-	return S_OK;
-}
-
-void CWeapon_Base::Update(_float fTimeDelta)
-{
-
-}
 
 HRESULT CWeapon_Base::Render()
 {
@@ -80,14 +66,6 @@ void CWeapon_Base::Free()
 {
 	__super::Free();
 }
-
-CGameObject* CWeapon_Base::Clone(void* pArg)
-{
-	return nullptr;
-}
-
-
-
 
 
 HRESULT CWeapon_Base::Ready_Components()
