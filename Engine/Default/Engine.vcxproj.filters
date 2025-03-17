@@ -139,6 +139,12 @@
     <ClInclude Include="..\Public\Collider_Cube.h">
       <Filter>04.Components\Collider\Cube</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Serializable.h">
+      <Filter>999. JsonManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Editor.h">
+      <Filter>999. JsonManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -267,6 +273,9 @@
     <Filter Include="95.Font\Manager">
       <UniqueIdentifier>{04681188-4679-4e2f-9f63-efd3c4e6a9db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="999. JsonManager">
+      <UniqueIdentifier>{98805492-c6cd-4d61-b83e-41954ffeb913}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -382,6 +391,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collider_Cube.cpp">
       <Filter>04.Components\Collider\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Serializable.cpp">
+      <Filter>999. JsonManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Editor.cpp">
+      <Filter>999. JsonManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

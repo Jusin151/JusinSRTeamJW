@@ -10,6 +10,7 @@ BEGIN(Engine)
 
 class CObject_Manager final : public CBase
 {
+	friend class CEditor;
 	friend class CMyImGui;
 private:
 	CObject_Manager();
