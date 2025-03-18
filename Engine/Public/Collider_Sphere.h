@@ -18,9 +18,8 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual HRESULT Render() override;
 	_float Get_Radius() { return m_fRadius; }
-	void   Set_Radius(_float fRadius) { m_fRadius = fRadius; }
 
-
+	virtual HRESULT Update_Collider() override;
 private:
 	// 반지름
 	_float m_fRadius = {1.f};

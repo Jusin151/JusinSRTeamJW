@@ -18,6 +18,15 @@ HRESULT CCollider::Initialize_Prototype()
 
 HRESULT CCollider::Initialize(void* pArg)
 {
+	COL_DESC* tDesc = {};
+	tDesc = static_cast<COL_DESC*>(pArg);
+
+	m_fLocalPos = tDesc->fLocalPos;
+	m_fScale = tDesc->fScale;
+	m_pOwner = tDesc->pOwner;
+	m_eType = tDesc->eType;
+
+
 	D3DXMatrixIdentity(&m_WorldMatrix);
 	return S_OK;
 }

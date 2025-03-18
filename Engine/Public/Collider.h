@@ -7,6 +7,22 @@ BEGIN(Engine)
 
 class ENGINE_DLL CCollider abstract : public CComponent
 {
+public:
+	// 필요하면 처음 초기화 용으로 사용하면 될듯?
+	typedef struct tagCol_Desc
+	{
+		// 콜라이더 처음 위치. 오브젝트에서 얼마만큼 떨어져 있나 설정
+		_float3					fLocalPos = {};
+		// 크기
+		_float3					fScale = {};
+
+		// 누가 가지고 있는지
+		class CGameObject*      pOwner = { nullptr };
+
+		// Owner에 따라 바꿔주기
+		COLLIDERGROUP			eType = { CG_END };
+	}COL_DESC;
+
 protected:
 	CCollider(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCollider(const CCollider& Prototype);
@@ -17,6 +33,8 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual HRESULT Render() = 0;
+
+	virtual HRESULT Update_Collider() = 0;
 
 	// 오브젝트에서 설정해서 매니저로 넘기기
 	_float3 Get_State(CTransform::TRANSFORMSTATE eState) const {
@@ -67,11 +85,12 @@ public:
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
-	_float3					m_fPos = {};
-	// 월드 행렬 스케일 값 저장용
+	_float3					m_fLocalPos = {};
+	// 콜라이더 크기 저장. 
 	_float3					m_fScale = {};
 
-	// 최소 이동 벡터랑 필요하면 길이까지. 길이는 필요 없을지도?
+	// 최소 이동 벡터랑 길이
+	// 충돌 시에만 사용
 	_float3					m_fMTV = {0.f, 0.f, 0.f};
 	_float					m_fDepth = {0.f};
 

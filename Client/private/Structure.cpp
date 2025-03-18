@@ -47,8 +47,7 @@ HRESULT CStructure::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pColliderCom->Set_Type(CG_STRUCTURE);
-	m_pColliderCom->Set_Owner(this);
+	
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_tStructure_Desc.vPos);
@@ -65,7 +64,7 @@ void CStructure::Update(_float fTimeDelta)
 
 	if (m_bIsCubeCollider)
 	{
-		static_cast<CCollider_Cube*>(m_pColliderCom)->Update_Desc();;
+		(m_pColliderCom)->Update_Collider();
 	}
 	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
 }
@@ -156,10 +155,16 @@ HRESULT CStructure::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.eType = CG_STRUCTURE;
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tStructure_Desc.stCollProtoTag,
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
+		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;

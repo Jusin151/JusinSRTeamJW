@@ -112,7 +112,7 @@ HRESULT CBackGround::Render()
 	//m_pGraphic_Device->SetPixelShaderConstantF(0, (float*)&lightDirection, 1);
 	//m_pGraphic_Device->SetPixelShaderConstantF(1, (float*)&lightColor, 1);
 
-	if(nullptr != m_pMaterial) m_pMaterial->Bind_Resource();
+	//if(nullptr != m_pMaterial) m_pMaterial->Bind_Resource();
 	// 재질 설정
 	//D3DMATERIAL9 material;
 	//ZeroMemory(&material, sizeof(D3DMATERIAL9));
@@ -208,9 +208,9 @@ HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 
 
 	//마테리얼 추가
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterial))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -249,5 +249,5 @@ void CBackGround::Free()
 	Safe_Release(m_Back_pTextureCom);
 	Safe_Release(m_Back_pTransformCom);
 	Safe_Release(m_Back_pVIBufferCom);
-	Safe_Release(m_pMaterial);
+	//Safe_Release(m_pMaterial);
 }
