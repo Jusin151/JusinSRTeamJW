@@ -12,13 +12,13 @@ CBackGround::CBackGround(const CBackGround& Prototype)
 	m_Back_pTextureCom(Prototype.m_Back_pTextureCom),
 	m_Back_pTransformCom(Prototype.m_Back_pTransformCom),
 	m_Back_pVIBufferCom(Prototype.m_Back_pVIBufferCom),
-	m_BackGround_INFO{ Prototype.m_BackGround_INFO }
+	m_BackGround_INFO{ Prototype.m_BackGround_INFO },
+	m_pMaterial { Prototype.m_pMaterial }
 {
 }
 
 HRESULT CBackGround::Initialize_Prototype()
 {
-
 	return S_OK;
 }
 
@@ -112,17 +112,7 @@ HRESULT CBackGround::Render()
 	//m_pGraphic_Device->SetPixelShaderConstantF(0, (float*)&lightDirection, 1);
 	//m_pGraphic_Device->SetPixelShaderConstantF(1, (float*)&lightColor, 1);
 
-	//if(nullptr != m_pMaterial) m_pMaterial->Bind_Resource();
-	// 재질 설정
-	//D3DMATERIAL9 material;
-	//ZeroMemory(&material, sizeof(D3DMATERIAL9));
-	//material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 확산광 색상
-	//material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 주변광 색상
-	//material.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 반사광 색상
-	//material.Emissive = D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f); // 방출광 색상
-	//material.Power = 32.0f; // 반사광 강도
-
-	//m_pGraphic_Device->SetMaterial(&material);
+	if(nullptr != m_pMaterial) m_pMaterial->Bind_Resource();
 
 	D3DLIGHT9 light;
 	ZeroMemory(&light, sizeof(D3DLIGHT9));

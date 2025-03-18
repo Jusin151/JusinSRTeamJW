@@ -25,20 +25,20 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
-	virtual void Priority_Update(_float fTimeDelta)override;
-	virtual void Update(_float fTimeDelta)override;
-	virtual void Late_Update(_float fTimeDelta)override;
+	virtual void	Priority_Update(_float fTimeDelta)override;
+	virtual void	Update(_float fTimeDelta)override;
+	virtual void	Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
 private:
-	CTexture* m_Back_pTextureCom{};
-	CTransform* m_Back_pTransformCom{};
-	CVIBuffer_Rect* m_Back_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
-	CMaterial*		m_pMaterial;
+	CTexture*			m_Back_pTextureCom{};
+	CTransform*			m_Back_pTransformCom{};
+	CVIBuffer_Rect*		m_Back_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
+	CMaterial*			m_pMaterial{};
 
-	BackGround_DESC m_BackGround_INFO{};
+	BackGround_DESC		m_BackGround_INFO{};
 
-	_float accumulatedDistance{};
+	_float				accumulatedDistance{};
 private:
 	 HRESULT Ready_Components(const _wstring& strTextureTag=L"");
 
