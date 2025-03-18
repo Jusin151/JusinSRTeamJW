@@ -37,13 +37,18 @@ public:
     virtual HRESULT Render();
     virtual HRESULT Ready_Components();
     void Free();
-
-
     CGameObject* Clone(void* pArg) ;
+
+public:
 
     void Attack() ;
 
+private:
+    _float m_fElapsedTime = 0.0f;
+    _int m_iCurrentFrame = 0;
+    const _float m_fFrameDuration = 2.0f;
+    _bool m_bIsAnimating{};
+
 
 };
-
 END
