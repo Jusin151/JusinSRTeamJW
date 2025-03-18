@@ -11,6 +11,8 @@ protected:
 	CGameObject(const CGameObject& Prototype);
 	virtual ~CGameObject() = default;
 
+
+
 public:
 	/* 원형이 호출하는 함수. 오래걸릴 수 있는 초기화작업 */
 	virtual HRESULT Initialize_Prototype();
@@ -21,6 +23,9 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+
+public:
+	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };

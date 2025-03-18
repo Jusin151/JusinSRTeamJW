@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+	: CLandObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CGameObject{ Prototype }
+	: CLandObject{ Prototype }
 {
 }
 
@@ -19,10 +19,19 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
+	CLandObject::LANDOBJECT_DESC		Desc{};
+	Desc.iLevelIndex = LEVEL_GAMEPLAY;
+	Desc.strLayerTag = TEXT("Layer_BackGround");
+	Desc.strComponentTag = TEXT("Com_VIBuffer");
+	Desc.iIndex = 0;
+
+	if (FAILED(__super::Initialize(&Desc)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(rand() % 10, 0.5f, rand() % 10));
+	
 	return S_OK;
 }
 
@@ -49,6 +58,8 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
 
+	__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -59,6 +70,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 HRESULT CPlayer::Render()
 {
 
+	
 
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -81,6 +93,11 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::SetUp_RenderState()
 {
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -97,8 +114,13 @@ HRESULT CPlayer::SetUp_RenderState()
 
 HRESULT CPlayer::Release_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 

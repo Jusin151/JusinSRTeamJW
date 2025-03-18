@@ -1,22 +1,22 @@
 ﻿#pragma once
 
 #include "Client_Defines.h"
-#include "LandObject.h"
+#include "GameObject.h"
 
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;
+class CVIBuffer_Cube;
 END
 
 BEGIN(Client)
 
-class CPlayer final : public CLandObject
+class CSky final : public CGameObject
 {
 private:
-	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPlayer(const CPlayer& Prototype);
-	virtual ~CPlayer() = default;
+	CSky(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSky(const CSky& Prototype);
+	virtual ~CSky() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -29,7 +29,7 @@ public:
 private:
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
 
 private:
 	HRESULT SetUp_RenderState();
@@ -39,7 +39,7 @@ private:
 
 
 public:
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSky* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

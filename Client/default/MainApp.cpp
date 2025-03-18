@@ -12,20 +12,10 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	D3DLIGHT9			LightDesc{};
 
-	LightDesc
-	
-	/*
-	D3DLIGHT9			LightDesc{};
-	m_pGraphic_Device->SetLight(0, &LightDesc);
-
-	D3DMATERIAL9		MtrlDesc{};
-	m_pGraphic_Device->SetMaterial(&MtrlDesc);
-
-	m_pGraphic_Device->LightEnable(0, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);*/
-
+	// 3월 18일 랜드오브젝트와 평면의 방정식
+	// 플레이어 지형타기까지 완료 
+	// 스카이큐브 까지 완료
 
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;
@@ -36,6 +26,37 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
+
+	D3DLIGHT9			LightDesc{};
+
+	LightDesc.Type = D3DLIGHT_DIRECTIONAL;
+	LightDesc.Direction = _float3(1.f, -1.f, 1.f);
+	//LightDesc.Position = _float3(10.f, 3.f, 10.f);
+	//LightDesc.Range = 10.f;
+	//LightDesc.Attenuation1 = 1.3f;
+	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);	
+	m_pGraphic_Device->SetLight(0, &LightDesc);
+
+	//LightDesc.Type = D3DLIGHT_POINT;
+	///*LightDesc.Direction = _float3(1.f, -1.f, 1.f);*/
+	//LightDesc.Position = _float3(20.f, 3.f, 10.f);
+	//LightDesc.Range = 10.f;
+	//LightDesc.Attenuation1 = 1.3f;
+	//LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	//LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	//m_pGraphic_Device->SetLight(1, &LightDesc);
+
+	
+
+	D3DMATERIAL9		MtrlDesc{};
+	
+	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	MtrlDesc.Ambient = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
+
+	m_pGraphic_Device->SetMaterial(&MtrlDesc);
+	m_pGraphic_Device->LightEnable(0, true);
+	/*m_pGraphic_Device->LightEnable(1, true);*/
 
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
@@ -74,7 +95,7 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 	
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	
 
 	return S_OK;
 }

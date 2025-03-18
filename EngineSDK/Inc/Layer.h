@@ -13,6 +13,9 @@ private:
 	virtual ~CLayer() = default;
 
 public:
+	class CComponent* Get_Component(const _wstring& strComponentTag, _uint iIndex);
+
+public:
 	HRESULT Add_GameObject(class CGameObject* pGameObject);
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);

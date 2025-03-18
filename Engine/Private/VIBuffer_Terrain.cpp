@@ -18,8 +18,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 	m_iNumVerticesX = iNumVerticesX;
 	m_iNumVerticesZ = iNumVerticesZ;
 	m_iNumVertices = iNumVerticesX * iNumVerticesZ;
-	m_iVertexStride = sizeof(VTXPOSTEX);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+	m_iVertexStride = sizeof(VTXNORTEX);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
 	m_iNumPritimive = (m_iNumVerticesX - 1) * (m_iNumVerticesZ - 1) * 2;
 	m_iNumIndices = m_iNumPritimive * 3;
 	m_iIndexStride = 4;
@@ -29,7 +29,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXPOSTEX* pVertices = { nullptr };
+	VTXNORTEX* pVertices = { nullptr };
 
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
@@ -41,11 +41,12 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			_uint			iIndex = i * m_iNumVerticesX + j;
 
 			pVertices[iIndex].vPosition = _float3(j, 0.f, i);
+			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
 		}
 	}	
 
-	m_pVB->Unlock();
+
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -71,16 +72,43 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 				iIndex
 			};
 
+			_float3		vSourDir, vDestDir, vNormal;
+
 			pIndices[iNumIndices++] = iIndices[0];
 			pIndices[iNumIndices++] = iIndices[1];
 			pIndices[iNumIndices++] = iIndices[2];
 
+			vSourDir = pVertices[iIndices[1]].vPosition - pVertices[iIndices[0]].vPosition;
+			vDestDir = pVertices[iIndices[2]].vPosition - pVertices[iIndices[1]].vPosition;
+
+			D3DXVec3Normalize(&vNormal, D3DXVec3Cross(&vNormal, &vSourDir, &vDestDir));
+
+			pVertices[iIndices[0]].vNormal += vNormal;
+			pVertices[iIndices[1]].vNormal += vNormal;
+			pVertices[iIndices[2]].vNormal += vNormal;
+
+
+
 			pIndices[iNumIndices++] = iIndices[0];
 			pIndices[iNumIndices++] = iIndices[2];
 			pIndices[iNumIndices++] = iIndices[3];
+
+
+			vSourDir = pVertices[iIndices[2]].vPosition - pVertices[iIndices[0]].vPosition;
+			vDestDir = pVertices[iIndices[3]].vPosition - pVertices[iIndices[2]].vPosition;
+
+			D3DXVec3Normalize(&vNormal, D3DXVec3Cross(&vNormal, &vSourDir, &vDestDir));
+
+			pVertices[iIndices[0]].vNormal += vNormal;
+			pVertices[iIndices[2]].vNormal += vNormal;
+			pVertices[iIndices[3]].vNormal += vNormal;
 		}
 	}
 
+	for (size_t i = 0; i < m_iNumVertices; i++)	
+		D3DXVec3Normalize(&pVertices[i].vNormal, &pVertices[i].vNormal);
+
+	m_pVB->Unlock();
 	m_pIB->Unlock();
 
 #pragma endregion
@@ -111,8 +139,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	m_iNumVerticesX = ih.biWidth;
 	m_iNumVerticesZ = ih.biHeight;
 	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
-	m_iVertexStride = sizeof(VTXPOSTEX);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+	m_iVertexStride = sizeof(VTXNORTEX);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
 	m_iNumPritimive = (m_iNumVerticesX - 1) * (m_iNumVerticesZ - 1) * 2;
 	m_iNumIndices = m_iNumPritimive * 3;
 	m_iIndexStride = 4;
@@ -122,17 +150,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXPOSTEX* pVertices = { nullptr };
+	m_pVertexPositions = new _float3[m_iNumVertices];
 
-//	11111111 11100111 11100111 11100111
-//&	00000000 00000000 00000000 11111111
-//
-//	00000000 00000000 00000000 11100111
-
-
-		
-
-
+	VTXNORTEX* pVertices = { nullptr };
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
@@ -142,12 +162,12 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 		{
 			_uint			iIndex = i * m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 15.f, i);
+			m_pVertexPositions[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
+			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
 		}
 	}
 
-	m_pVB->Unlock();
 
 	Safe_Delete_Array(pPixels);
 #pragma endregion
@@ -175,16 +195,43 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 				iIndex
 			};
 
+			_float3		vSourDir, vDestDir, vNormal;
+
 			pIndices[iNumIndices++] = iIndices[0];
 			pIndices[iNumIndices++] = iIndices[1];
 			pIndices[iNumIndices++] = iIndices[2];
 
+			vSourDir = pVertices[iIndices[1]].vPosition - pVertices[iIndices[0]].vPosition;
+			vDestDir = pVertices[iIndices[2]].vPosition - pVertices[iIndices[1]].vPosition;
+
+			D3DXVec3Normalize(&vNormal, D3DXVec3Cross(&vNormal, &vSourDir, &vDestDir));
+
+			pVertices[iIndices[0]].vNormal += vNormal;
+			pVertices[iIndices[1]].vNormal += vNormal;
+			pVertices[iIndices[2]].vNormal += vNormal;
+
+
+
 			pIndices[iNumIndices++] = iIndices[0];
 			pIndices[iNumIndices++] = iIndices[2];
 			pIndices[iNumIndices++] = iIndices[3];
+
+
+			vSourDir = pVertices[iIndices[2]].vPosition - pVertices[iIndices[0]].vPosition;
+			vDestDir = pVertices[iIndices[3]].vPosition - pVertices[iIndices[2]].vPosition;
+
+			D3DXVec3Normalize(&vNormal, D3DXVec3Cross(&vNormal, &vSourDir, &vDestDir));
+
+			pVertices[iIndices[0]].vNormal += vNormal;
+			pVertices[iIndices[2]].vNormal += vNormal;
+			pVertices[iIndices[3]].vNormal += vNormal;
 		}
 	}
 
+	for (size_t i = 0; i < m_iNumVertices; i++)
+		D3DXVec3Normalize(&pVertices[i].vNormal, &pVertices[i].vNormal);
+
+	m_pVB->Unlock();
 	m_pIB->Unlock();
 
 #pragma endregion
@@ -195,6 +242,50 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
 {
 	return S_OK;
+}
+
+_float3 CVIBuffer_Terrain::Compute_HeightPosition(const _float3& vPosition)
+{
+	_uint	iIndex = static_cast<_uint>(vPosition.z) * m_iNumVerticesX + static_cast<_uint>(vPosition.x);
+
+	_uint	iIndices[4] = {
+		iIndex + m_iNumVerticesX, 
+		iIndex + m_iNumVerticesX + 1,
+		iIndex + 1,
+		iIndex
+	};
+
+	_float		fWidth = vPosition.x - m_pVertexPositions[iIndices[0]].x;
+	_float		fDepth = m_pVertexPositions[iIndices[0]].z - vPosition.z;
+
+	D3DXPLANE		Plane = {};
+
+	/*
+	직선의 방정식 : ax + by + c = 0
+	y = 기울기x + y절편;
+
+	평면의 방정식 : ax + by + cz + d = 0
+	*/
+
+	/* 
+	y = (-ax - cz - d) / b
+	*/
+
+	/* 오른쪽 위 삼각형 안에 있다. */
+	if (fWidth > fDepth)
+	{
+		// D3DXPlaneFromPointNormal(&Plane, );
+		D3DXPlaneFromPoints(&Plane, &m_pVertexPositions[iIndices[0]], &m_pVertexPositions[iIndices[1]], &m_pVertexPositions[iIndices[2]]);	 
+		
+	}
+
+	/*왼쪽 하단 삼각형에 있다. */
+	else
+	{
+		D3DXPlaneFromPoints(&Plane, &m_pVertexPositions[iIndices[0]], &m_pVertexPositions[iIndices[2]], &m_pVertexPositions[iIndices[3]]);
+	}
+
+	return _float3(vPosition.x, (-Plane.a * vPosition.x - Plane.c * vPosition.z - Plane.d) / Plane.b, vPosition.z);
 }
 
 CVIBuffer_Terrain* CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device, _uint iNumVerticesX, _uint iNumVerticesZ)
