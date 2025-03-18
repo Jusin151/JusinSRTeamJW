@@ -45,7 +45,7 @@ public:
 
 
     // CWeapon_Base을(를) 통해 상속됨
-    void Attack() override;
+    void Attack(_float fTimeDelta) override;
 
 };
 

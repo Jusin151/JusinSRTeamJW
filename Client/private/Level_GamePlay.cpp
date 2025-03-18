@@ -551,8 +551,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 
 	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
 	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
-	Weapon_Claymore_Desc.vPos = { 330.f,-97.f };
-	Weapon_Claymore_Desc.vSize = { 847.f,570.f };
+	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
+	Weapon_Claymore_Desc.vSize = { 2048.,682.f };
 	Weapon_Claymore_Desc.Damage = { 100.f };
 	Weapon_Claymore_Desc.AttackSpeed = { 1.f };
 	Weapon_Claymore_Desc.Range = { 3.f };
