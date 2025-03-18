@@ -82,6 +82,9 @@ public:
 	void Set_Owner(class CGameObject* pOwner) { m_pOwner = pOwner; }
 	class CGameObject* Get_Owner() const { return m_pOwner; }
 
+	void Set_bCollsion() { m_bIsCollision = true; }
+	_bool Get_bCollision() { return m_bIsCollision; }
+
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
@@ -100,7 +103,10 @@ protected:
 	// 나중에 수정 하면 좋을듯?
 	COLLIDERGROUP			m_eType = { CG_END };
 	COLLIDERGROUP			m_eOtherType = { CG_END };
-	class CGameObject* m_pOwner = { nullptr };
+	class CGameObject*		m_pOwner = { nullptr };
+
+	// 충돌 여러번 안하기 위해 사용할 변수
+	_bool					m_bIsCollision = { false };
 public:
 
 	virtual CComponent* Clone(void* pArg) = 0;

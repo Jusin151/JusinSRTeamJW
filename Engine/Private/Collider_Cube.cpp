@@ -27,7 +27,7 @@ HRESULT CCollider_Cube::Initialize(void* pArg)
 	m_pOwner = tDesc->pOwner;
 	m_eType = tDesc->eType;
 	
-	m_tDesc.fRadius = m_fScale.Length() / 4.f;
+	m_tDesc.fRadius = m_fScale.LengthSq() / 4.f;
 
 	D3DXMatrixIdentity(&m_WorldMatrix);
 	return S_OK;
@@ -84,6 +84,10 @@ HRESULT CCollider_Cube::Update_Collider()
 			((i & 4) ? axis[2] : -axis[2]) * 0.5f;
 		m_tDesc.vecIndices.push_back(m_tDesc.fPos + offset);
 	}
+
+	m_tDesc.fRadius = m_fScale.LengthSq() / 4.f;
+
+	return S_OK;
 
 }
 
