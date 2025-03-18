@@ -73,6 +73,14 @@ void CGameObject::Deserialize(const json& j)
 			m_strLayerTag = ISerializable::Utf8ToWide(layerTag);
 		}
 }
+/*CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
+{
+	auto	iter = m_Components.find(strComponentTag);
+	if(iter == m_Components.end())
+		return nullptr;
+
+	return iter->second;
+}*/
 
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {

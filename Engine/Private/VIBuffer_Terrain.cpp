@@ -159,17 +159,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
+	m_pVertexPositions = new _float3[m_iNumVertices];
+
 	VTXNORTEX* pVertices = { nullptr };
-
-//	11111111 11100111 11100111 11100111
-//&	00000000 00000000 00000000 11111111
-//
-//	00000000 00000000 00000000 11100111
-
-
-		
-
-
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
@@ -179,7 +171,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 		{
 			_uint			iIndex = i * m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
+			m_pVertexPositions[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
 			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
 		}
@@ -259,6 +251,50 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
 {
 	return S_OK;
+}
+
+_float3 CVIBuffer_Terrain::Compute_HeightPosition(const _float3& vPosition)
+{
+	_uint	iIndex = static_cast<_uint>(vPosition.z) * m_iNumVerticesX + static_cast<_uint>(vPosition.x);
+
+	_uint	iIndices[4] = {
+		iIndex + m_iNumVerticesX, 
+		iIndex + m_iNumVerticesX + 1,
+		iIndex + 1,
+		iIndex
+	};
+
+	_float		fWidth = vPosition.x - m_pVertexPositions[iIndices[0]].x;
+	_float		fDepth = m_pVertexPositions[iIndices[0]].z - vPosition.z;
+
+	D3DXPLANE		Plane = {};
+
+	/*
+	직선의 방정식 : ax + by + c = 0
+	y = 기울기x + y절편;
+
+	평면의 방정식 : ax + by + cz + d = 0
+	*/
+
+	/* 
+	y = (-ax - cz - d) / b
+	*/
+
+	/* 오른쪽 위 삼각형 안에 있다. */
+	if (fWidth > fDepth)
+	{
+		// D3DXPlaneFromPointNormal(&Plane, );
+		D3DXPlaneFromPoints(&Plane, &m_pVertexPositions[iIndices[0]], &m_pVertexPositions[iIndices[1]], &m_pVertexPositions[iIndices[2]]);	 
+		
+	}
+
+	/*왼쪽 하단 삼각형에 있다. */
+	else
+	{
+		D3DXPlaneFromPoints(&Plane, &m_pVertexPositions[iIndices[0]], &m_pVertexPositions[iIndices[2]], &m_pVertexPositions[iIndices[3]]);
+	}
+
+	return _float3(vPosition.x, (-Plane.a * vPosition.x - Plane.c * vPosition.z - Plane.d) / Plane.b, vPosition.z);
 }
 
 CVIBuffer_Terrain* CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device, _uint iNumVerticesX, _uint iNumVerticesZ)

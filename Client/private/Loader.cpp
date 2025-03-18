@@ -9,7 +9,7 @@
 #include "UI_Headers.h" // UI 헤더들 
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
-
+#include "Sky.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -126,6 +126,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	//m_isFinished = true;
 
+	/* For.Prototype_Component_Texture_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+		return E_FAIL;
+
   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
@@ -154,27 +159,27 @@ HRESULT CLoader::Add_To_Logo_Menu_Textures()
 {
 	// 검은색 메뉴바
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Real.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Real.png"), 1))))
 		return E_FAIL;
 
 	// 메뉴바 안의 시작버튼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_StartButton"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Start.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Start.png"), 1))))
 		return E_FAIL;
 
 	// 메뉴바 안의 시작버튼 선택시
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_StartButton_Select"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Start_Select.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Start_Select.png"), 1))))
 		return E_FAIL;
 
 	// 메뉴바 안의 종료버튼
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_ExitButton"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Exit.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Exit.png"), 1))))
 		return E_FAIL;
 
 	// 메뉴바 안의 종료버튼 선택시
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu_ExitButton_Select"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Exit_Select.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Exit_Select.png"), 1))))
 		return E_FAIL;
 
 	return S_OK;
@@ -204,19 +209,19 @@ HRESULT CLoader::Add_To_Logo_Textures()
 {
 	//로고의 사람 // 3번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/menu-warlock_v02_winter.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu-warlock_v02_winter.png"), 1))))
 		return E_FAIL;
 	//로고의 검은 몬스터 // 4번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_2"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_Long_menu_potwory.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Long_menu_potwory.png"), 1))))
 		return E_FAIL;
 	// 로고의 맨뒤 배경 // 1번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_3"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/menu_blyskawica_v01_winter.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu_blyskawica_v01_winter.png"), 1))))
 		return E_FAIL;
 	// 로고의 맨뒤에서 2번째 몬스터 // 2번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_4"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/UI/Logo/SR_menu_potwory_v01_winter.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_menu_potwory_v01_winter.png"), 1))))
 		return E_FAIL;
 
 	Add_To_Logo_Menu_Textures();
@@ -230,7 +235,7 @@ HRESULT CLoader::Add_To_GamePlay_Textures()
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 텍스쳐
 		TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
 		return E_FAIL;
 
@@ -248,6 +253,10 @@ HRESULT CLoader::Add_To_GamePlay_Buffer()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,     // 터레인 버퍼
 		TEXT("Prototype_Component_VIBuffer_Terrain"),
 		CVIBuffer_Terrain::Create(m_pGraphic_Device, 256, 256))))
+		return E_FAIL;
+	/* For.Prototype_Component_VIBuffer_Cube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
@@ -272,6 +281,12 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		CCamera_FirstPerson::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sky"),
+		CSky::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
 
 
@@ -291,8 +306,8 @@ HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Default_PlayerUI"),
-		CTexture::Create(m_pGraphic_Device,
+		TEXT("Prototype_Component_Texture_Default_PlayerUI"), 
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Default_UI.png"),
 			1))))
 		return E_FAIL;
@@ -335,7 +350,7 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Left_Panel"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png"),
 			1))))
 		return E_FAIL;
@@ -343,14 +358,14 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Hp_Bar"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Left/SR_HUD_bar_HP.png"),
 			1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 기본 플레이어 이미지 4장
 		TEXT("Prototype_Component_Texture_Player_Icon"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Left/Player_Icon/All/1_SR_face_unhurt_%d.png"),
 			20))))
 		return E_FAIL;
@@ -358,7 +373,7 @@ HRESULT CLoader::Add_To_UI_Left_DisPlay_Textures()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_MP_Bar"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Left/SR_HUD_bar_mana.png"),
 			1))))
 		return E_FAIL;
@@ -403,7 +418,7 @@ HRESULT CLoader::Add_To_UI_Mid_DisPlay_Textures()
 	// 중앙 판넬
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Mid_Panel"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Middle/SR_EXP_Bar.png"),
 			1))))
 		return E_FAIL;
@@ -430,7 +445,7 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Textures()
 	// 오른쪽 판넬 텍스쳐
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Right_Panel"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Right/SR_HUD_bottom_right.png"),
 			1))))
 		return E_FAIL;
@@ -438,7 +453,7 @@ HRESULT CLoader::Add_To_UI_Right_DisPlay_Textures()
 	// 오른쪽 판넬의 총알 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Bullet_Bar"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Right/SR_HUD_bar_ammo.png"),
 			1))))
 		return E_FAIL;
@@ -471,7 +486,7 @@ HRESULT CLoader::Add_To_UI_Menu_DisPlay_Textures()
 	// 기본 메뉴 판넬 텍스쳐
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Menu_Panel"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Game_Menu.png"),
 			1))))
 		return E_FAIL;
@@ -513,7 +528,7 @@ HRESULT CLoader::Add_To_Shop_Textures()
 	// 에피소드 레벨 1 모든 스테이지 이미지
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Episode_Level_1_UI"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png"),
 			21))))
 		return E_FAIL;
@@ -521,7 +536,7 @@ HRESULT CLoader::Add_To_Shop_Textures()
 	// 포인트 스탯 상점의 모든 이미지
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Point_Shop_UI"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_%d.png"),
 			3))))
 		return E_FAIL;
@@ -529,7 +544,7 @@ HRESULT CLoader::Add_To_Shop_Textures()
 	// 스펠 샵 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Spell_Shop_UI"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"),
 			1))))
 		return E_FAIL;

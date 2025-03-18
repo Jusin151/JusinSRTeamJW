@@ -18,6 +18,8 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual HRESULT Render();
+public:
+	virtual _float3 Compute_HeightPosition(const _float3& vPosition) { return vPosition; }
 
 public:
 	HRESULT Bind_Buffers();
@@ -35,6 +37,7 @@ protected:
 	_uint								m_iNumIndices = {};
 	_uint								m_iIndexStride = {};
 	D3DFORMAT							m_eIndexFormat = {};
+	_float3*						m_pVertexPositions = { nullptr };
 
 protected:
 	HRESULT Create_VertexBuffer();

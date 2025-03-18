@@ -8,8 +8,7 @@ class ENGINE_DLL CVIBuffer_Cube final : public CVIBuffer
 {
 private:
 	CVIBuffer_Cube(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CVIBuffer_Cube(const CVIBuffer& Prototype);
-	/*CVIBuffer_Cube(const CVIBuffer_Cube& Prototype);*/
+	CVIBuffer_Cube(const CVIBuffer_Cube& Prototype);
 	virtual ~CVIBuffer_Cube() = default;
 
 public:

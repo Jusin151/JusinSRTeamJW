@@ -14,13 +14,13 @@ CTexture::CTexture(const CTexture& Prototype)
 		Safe_AddRef(pTexture);	
 }
 
-HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures)
+HRESULT CTexture::Initialize_Prototype(TYPE eType, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	m_iNumTextures = iNumTextures;
 
 	for (size_t i = 0; i < m_iNumTextures; i++)
 	{
-		LPDIRECT3DTEXTURE9		pTexture = { nullptr };
+		IDirect3DBaseTexture9*		pTexture = {nullptr};
 
 		_tchar			szTextureFileName[MAX_PATH] = {};
 
@@ -51,6 +51,12 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 		))) {
 			return E_FAIL; // 텍스처 생성 실패
 		}
+		HRESULT hr = eType == TYPE_2D ?
+			D3DXCreateTextureFromFile(m_pGraphic_Device, szTextureFileName, reinterpret_cast<IDirect3DTexture9**>(&pTexture)) :
+			D3DXCreateCubeTextureFromFile(m_pGraphic_Device, szTextureFileName, reinterpret_cast<IDirect3DCubeTexture9**>(&pTexture));
+
+		if (FAILED(hr))
+			return E_FAIL;
 
 		m_Textures.push_back(pTexture);
 	}
@@ -71,11 +77,11 @@ HRESULT CTexture::Bind_Resource(_uint iIndex)
 	return m_pGraphic_Device->SetTexture(0, m_Textures[iIndex]);		
 }
 
-CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures)
+CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TYPE eType, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	CTexture* pInstance = new CTexture(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize_Prototype(pTextureFilePath, iNumTextures)))
+	if (FAILED(pInstance->Initialize_Prototype(eType, pTextureFilePath, iNumTextures)))
 	{
 		MSG_BOX("Failed to Created : CTexture");
 		Safe_Release(pInstance);

@@ -151,6 +151,13 @@
     <ClInclude Include="..\public\Editor.h">
       <Filter>999. JsonManager</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\public\LandObject.h">
+      <Filter>02.GameObject\LandObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -288,6 +295,9 @@
     <Filter Include="999. JsonManager">
       <UniqueIdentifier>{98805492-c6cd-4d61-b83e-41954ffeb913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\LandObject">
+      <UniqueIdentifier>{c5d5bdd8-efbb-4a30-a101-e079c9264fc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -421,5 +431,14 @@
     <None Include="..\..\Resources\Materials\TestMaterial.json">
       <Filter>04.Components\Material</Filter>
     </None>
+    <ClCompile Include="..\private\LandObject.cpp">
+      <Filter>02.GameObject\LandObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
   </ItemGroup>
 </Project>
