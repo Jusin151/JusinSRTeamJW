@@ -27,8 +27,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 1.f, 0.f));
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	m_pColliderCom->Set_Type(CG_PLAYER);
-	m_pColliderCom->Set_Owner(this); // 레퍼런스 안올림 굳이 올려서 해제할 때 문제 안생기게
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -66,12 +64,10 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
 
-	// collider 월드 행렬 동기화...
 
 
-	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
-	m_pColliderCom->Update_Desc();
+	m_pColliderCom->Update_Collider();
 	
 
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
@@ -184,9 +180,17 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.eType = CG_PLAYER;
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
 	/* For.Com_Collider_Sphere */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
+		TEXT("Com_Collider_"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
