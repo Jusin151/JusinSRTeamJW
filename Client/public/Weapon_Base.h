@@ -56,9 +56,9 @@ public:
     virtual void Attack()PURE;
 
 protected:
-    CTexture* m_pTextureCom = nullptr;
-    CVIBuffer_Rect* m_pVIBufferCom = nullptr;
-    CTransform* m_pTransformCom = nullptr;
+    CTexture* m_pTextureCom = {};
+    CVIBuffer_Rect* m_pVIBufferCom = {};
+    CTransform* m_pTransformCom = {};
 
 public:
     _bool  Get_MouseClick() const { return m_bIsMouseClick; }
