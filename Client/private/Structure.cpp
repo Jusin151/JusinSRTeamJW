@@ -206,7 +206,7 @@ json CStructure::Serialize()
 	json j = __super::Serialize();
 
 	j["texture_tag"] = WideToUtf8(m_strTextureTag);
-	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); // 이미 wstring
+	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); 
 	j["vibuffer"] = WideToUtf8(m_strVIBuffer);
 	j["collider_tag"] = WideToUtf8(m_strCollProtoTag);
 

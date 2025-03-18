@@ -170,6 +170,11 @@
       "tag": "Prototype_GameObject_Spell_Shop_UI",
       "level": 3,
       "class": "CUI_Spell_Shop"
+    },
+    {
+      "tag": "Prototype_GameObject_Structure",
+      "level": 3,
+      "class": "CStructure"
     }
   ],
   "buffers": [

@@ -18,9 +18,9 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
-	/*CJsonLoader jsonLoader;
+	CJsonLoader jsonLoader;
 
-	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL.json", LEVEL_GAMEPLAY);*/
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
@@ -32,8 +32,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Shop()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+	//	return E_FAIL;
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
 
