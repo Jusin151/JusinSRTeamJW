@@ -166,6 +166,8 @@
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
+    <ClInclude Include="..\public\Melee_Weapon.h" />
+    <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
@@ -194,11 +196,12 @@
     <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="..\Public\UI_Spell_Shop.h" />
     <ClInclude Include="..\public\UI_Structs.h" />
+    <ClInclude Include="..\public\Weapon_Base.h" />
+    <ClInclude Include="..\public\Weapon_Headers.h" />
     <ClInclude Include="Item_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
-    <ClInclude Include="Ranged_Weapon.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -211,8 +214,9 @@
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
     <ClCompile Include="..\private\GamePlay_Button.cpp" />
+    <ClCompile Include="..\private\Melee_Weapon.cpp" />
+    <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
-    <ClCompile Include="..\Private\Weapon_Base.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />
     <ClCompile Include="..\Private\TestMonster.cpp" />
@@ -232,10 +236,9 @@
     <ClCompile Include="..\private\UI_HP_Bar.cpp" />
     <ClCompile Include="..\private\UI_Left_Display.cpp" />
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
+    <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
-    <ClCompile Include="Melee_Weapon.cpp" />
-    <ClCompile Include="Ranged_Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

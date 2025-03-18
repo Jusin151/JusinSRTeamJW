@@ -7,8 +7,11 @@
 #include "Player.h"
 #include "TestMonster.h"
 #include "UI_Headers.h" // UI 헤더들 
+#include "Weapon_Headers.h" // 무기 헤더들
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
+#include "Claymore.h"
+
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -290,7 +293,7 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Default_PlayerUI"),
 		CTexture::Create(m_pGraphic_Device,
 			TEXT("../../Resources/Textures/UI/Default_UI.png"),
@@ -533,14 +536,30 @@ HRESULT CLoader::Add_To_Shop_Textures()
 			TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"),
 			1))))
 		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_Weapon_Textures()
 {
+	// 클레이모어 텍스쳐 15장
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Claymore"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/Weapon/Claymore/claymore_pwI%d.png"),
+			15))))
+		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_Weapon_Prototye()
 {
+	// 클레이모어 원형객체
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Weapon_CClaymore"),
+		CClaymore::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+
 	return S_OK;
 }
 
