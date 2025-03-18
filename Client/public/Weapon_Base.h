@@ -35,6 +35,7 @@ public:
         _float Cooldown{};          // 공격 쿨타임
         _bool IsEquipped{};         // 현재 장착 중인지 여부
         wstring TextureKey{};      // 무기 UI에 사용될 텍스처 키
+
     }Weapon_DESC;
 
 
