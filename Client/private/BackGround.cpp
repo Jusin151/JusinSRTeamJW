@@ -198,9 +198,9 @@ HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 
 
 	//마테리얼 추가
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterial))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -239,5 +239,5 @@ void CBackGround::Free()
 	Safe_Release(m_Back_pTextureCom);
 	Safe_Release(m_Back_pTransformCom);
 	Safe_Release(m_Back_pVIBufferCom);
-	//Safe_Release(m_pMaterial);
+	Safe_Release(m_pMaterial);
 }
