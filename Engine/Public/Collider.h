@@ -86,6 +86,7 @@ protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용
 	_float3					m_fLocalPos = {};
+	_float3					m_fPos = {};
 	// 콜라이더 크기 저장. 
 	_float3					m_fScale = {};
 

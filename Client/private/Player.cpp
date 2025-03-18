@@ -186,7 +186,7 @@ HRESULT CPlayer::Ready_Components()
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 1.f, 0.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
 
 	/* For.Com_Collider_Sphere */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),

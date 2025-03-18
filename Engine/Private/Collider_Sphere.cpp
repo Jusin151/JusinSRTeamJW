@@ -30,6 +30,8 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 
     m_fRadius = m_fScale.Length() / 4.f;
 
+    D3DXMatrixIdentity(&m_WorldMatrix);
+
 	return S_OK;
 }
 
@@ -92,6 +94,7 @@ HRESULT CCollider_Sphere::Update_Collider()
     if (nullptr == m_pOwner)
         return E_FAIL;
 
+
     // owner 가 가지고 있는 월드 행렬을 이용해서 collider의 월드 행렬을 만든다
     CTransform* pTransfrom = static_cast<CTransform*>(m_pOwner->Get_Component(TEXT("Com_Transform")));
 
@@ -107,8 +110,10 @@ HRESULT CCollider_Sphere::Update_Collider()
     Set_State(CTransform::STATE_LOOK, fLook * m_fScale.z);
     Set_State(CTransform::STATE_POSITION, fObjectPos);
    
+    
 
-    D3DXVec3TransformCoord(&m_fLocalPos, &m_fLocalPos, &m_WorldMatrix);
+    D3DXVec3TransformCoord(&m_fPos, &m_fLocalPos, &m_WorldMatrix);
+    Set_State(CTransform::STATE_POSITION, m_fPos);
 
     return S_OK;
 }
