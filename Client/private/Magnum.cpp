@@ -1,4 +1,4 @@
-#include "Magnum.h"
+ï»¿#include "Magnum.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
@@ -68,7 +68,7 @@ void CMagnum::Update(_float fTimeDelta)
 		t += speed;
 	}
 
-	float v = 20.0f;  // ÆøÀ» ¼³Á¤ ÇÏ´Âº¯¼ö
+	float v = 20.0f;  // í­ì„ ì„¤ì • í•˜ëŠ”ë³€ìˆ˜
 	_float3 vNewPos;
 	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
 	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
@@ -115,7 +115,7 @@ CMagnum* CMagnum::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("Å¬·¹ÀÌ¸ğ¾î UI ¿øº» »ı¼º ½ÇÆĞ ");
+		MSG_BOX("í´ë ˆì´ëª¨ì–´ UI ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 
 		Safe_Release(pInstance);
 	}
@@ -131,7 +131,7 @@ CGameObject* CMagnum::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("Å¬·¹ÀÌ¸ğ¾î UI º¹Á¦ ½ÇÆĞ");
+		MSG_BOX("í´ë ˆì´ëª¨ì–´ UI ë³µì œ ì‹¤íŒ¨");
 
 		Safe_Release(pInstace);
 	}
