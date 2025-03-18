@@ -38,7 +38,7 @@ class ENGINE_DLL ISerializable
         int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
         string strUtf8(size_needed, 0);
         WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &strUtf8[0], size_needed, NULL, NULL);
-        strUtf8.resize(strUtf8.length() - 1); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        strUtf8.resize(strUtf8.length() - 1); // ³Î Á¾·áÀÚ Á¦°Å
 
         return strUtf8;
     }

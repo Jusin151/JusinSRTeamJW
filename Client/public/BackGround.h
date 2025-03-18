@@ -34,7 +34,7 @@ private:
 	CTexture* m_Back_pTextureCom{};
 	CTransform* m_Back_pTransformCom{};
 	CVIBuffer_Rect* m_Back_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
-	CMaterial* m_pMaterial = { nullptr };
+	CMaterial*		m_pMaterial;
 
 	BackGround_DESC m_BackGround_INFO{};
 

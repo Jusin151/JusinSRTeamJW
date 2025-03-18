@@ -22,7 +22,6 @@ public:
 
 	// 일단 제일 앞에 거 가져오도록. 나중에 생각...
 	class CGameObject* Find_Object();
-	class CGameObject* Find_Last_Object();
 private:
 	list<class CGameObject*>			m_GameObjects;
 	class CGameInstance* m_pGameInstance;

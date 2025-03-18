@@ -65,19 +65,12 @@ json CGameObject::Serialize()
 
 void CGameObject::Deserialize(const json& j)
 {
-		// LayerTag 설정
-		if (j.contains("LayerTag")) {
-			m_strLayerTag = Utf8ToWide(j["LayerTag"].get<string>());
-		}
-
-		// 활성화 상태 설정
-		if (j.contains("IsActive")) {
-			m_bIsActive = j["IsActive"].get<bool>();
-		}
-
-		// FromPool 상태 설정
-		if (j.contains("FromPool")) {
-			m_bFromPool = j["FromPool"].get<bool>();
+		if (j.contains("IsActive")) m_bIsActive = j["IsActive"];
+		if (j.contains("FromPool")) m_bFromPool = j["FromPool"];
+		if (j.contains("LayerTag"))
+		{
+			string layerTag = j["LayerTag"].get<string>();
+			m_strLayerTag = ISerializable::Utf8ToWide(layerTag);
 		}
 }
 
