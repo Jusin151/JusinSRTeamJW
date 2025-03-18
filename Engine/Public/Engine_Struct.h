@@ -138,4 +138,23 @@ namespace Engine
 		D3DXVECTOR3		vNormal;
 		D3DXVECTOR2		vTexcoord;
 	}VTXNORTEX;
+
+	typedef struct tagParticlePositionColor
+	{
+		D3DXVECTOR3 vPosition;
+		D3DCOLOR	vColor;
+		static const DWORD FVF;
+	} PARTICLE;
+
+	typedef struct tagParticleAttribute
+	{
+		D3DXVECTOR3 vPosition;
+		D3DXVECTOR3 vVelocity;
+		D3DXVECTOR3 vAcceleration;
+		float		fLifetime;
+		float		fAge;
+		D3DCOLOR	vColor;
+		D3DCOLOR	vColorFade;
+		bool		bIsAlive;
+	} ATTRIBUTE;
 }

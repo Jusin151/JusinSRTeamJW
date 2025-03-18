@@ -13,7 +13,7 @@ CMaterial::CMaterial(const CMaterial& Prototype)
 
 HRESULT CMaterial::Initialize_Prototype(const _tchar* pMaterialFilePath)
 {
-    ifstream f("../../Resources/Materials/TestMaterial.json");
+    ifstream f(pMaterialFilePath);
     json data = json::parse(f);
     m_tMaterial.Diffuse =   { data["Diffuse"]["x"], data["Diffuse"]["z"], data["Diffuse"]["y"], data["Diffuse"]["w"] };
     m_tMaterial.Ambient =   { data["Ambient"]["x"], data["Ambient"]["z"], data["Ambient"]["y"], data["Ambient"]["w"] };

@@ -1,0 +1,4 @@
+{2be9a8f6-ebd5-49a3-97ff-846654733a32} bank:/Master
+{b3f48822-9aae-05e1-11b6-0e98a5803caa} bank:/Master.strings
+{2fcea790-9b86-4127-b1be-ebf4d51ccd9f} bus:/
+{410dec02-14ac-44f1-b871-34a8e53b7c04} bus:/Reverb

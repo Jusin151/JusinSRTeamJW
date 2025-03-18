@@ -151,6 +151,15 @@
     <ClInclude Include="..\public\Editor.h">
       <Filter>999. JsonManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Particle.h">
+      <Filter>11. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particle_Manager.h">
+      <Filter>11. Particle\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particle_System.h">
+      <Filter>11. Particle\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -288,6 +297,15 @@
     <Filter Include="999. JsonManager">
       <UniqueIdentifier>{98805492-c6cd-4d61-b83e-41954ffeb913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="11. Particle">
+      <UniqueIdentifier>{bdf0b877-c902-45c5-878e-268f1f0dbcc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11. Particle\System">
+      <UniqueIdentifier>{78b61c9f-7a9d-4a4a-8739-3539d7837d68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11. Particle\Manager">
+      <UniqueIdentifier>{d576c316-ab06-4fc2-96e5-f0d1f7958b43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -415,6 +433,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Editor.cpp">
       <Filter>999. JsonManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Particle.cpp">
+      <Filter>11. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Particle_Manager.cpp">
+      <Filter>11. Particle\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Particle_System.cpp">
+      <Filter>11. Particle\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
