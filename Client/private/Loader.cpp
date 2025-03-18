@@ -7,8 +7,10 @@
 #include "Player.h"
 #include "TestMonster.h"
 #include "UI_Headers.h" // UI 헤더들 
+#include "Weapon_Headers.h" // 무기 헤더들
 #include "GamePlay_Button.h"
-#include "JsonLoader.h"
+#include "Claymore.h"
+
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -92,48 +94,38 @@ HRESULT CLoader::Loading_For_Logo()
 }
 HRESULT CLoader::Loading_For_GamePlay()
 {
-	//lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
-	//Add_To_GamePlay_Textures();
+	Add_To_GamePlay_Textures();
 
-	///* For.Prototype_Component_Texture_Player */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-	//	CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/Player/Player.png"), 1))))
-	//	return E_FAIL;
+	/* For.Prototype_Component_Texture_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/Player/Player.png"), 1))))
+		return E_FAIL;
 
-	//lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
-	//Add_To_GamePlay_Buffer();
+	Add_To_GamePlay_Buffer();
 
 
-	//lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
-	//lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
-	//Add_To_GamePlay_Prototype();
+	Add_To_GamePlay_Prototype();
 
-	///* For.Prototype_GameObject_Player */
- //	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
-	//	CPlayer::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
+	/* For.Prototype_GameObject_Player */
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	///* For.Prototype_GameObject_Monster */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"),
-	//	CTestMonster::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-
-	//lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
-
-	//m_isFinished = true;
-
-  	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
-
-	// JSON 로더를 사용하여 모든 프로토타입 로드
-	CJsonLoader jsonLoader;
- 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"),
+		CTestMonster::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+
 	m_isFinished = true;
 
 	return S_OK;
@@ -290,7 +282,7 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Default_PlayerUI"),
 		CTexture::Create(m_pGraphic_Device,
 			TEXT("../../Resources/Textures/UI/Default_UI.png"),
@@ -533,14 +525,30 @@ HRESULT CLoader::Add_To_Shop_Textures()
 			TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"),
 			1))))
 		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_Weapon_Textures()
 {
+	// 클레이모어 텍스쳐 15장
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Claymore"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/Weapon/Claymoreee/claymore_pwI%d.png"),
+			14))))
+		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CLoader::Add_To_Weapon_Prototye()
 {
+	// 클레이모어 원형객체
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Weapon_CClaymore"),
+		CClaymore::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+
 	return S_OK;
 }
 

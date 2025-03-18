@@ -2,10 +2,10 @@
 #include "GameInstance.h"
 #include "PickingSys.h"
 #include "Collider_Sphere.h"
-#include "UI_Default_Panel.h"
 #include "CUI_Base.h"
 #include "GamePlay_Button.h"
-#include "JsonLoader.h"
+#include "UI_Headers.h"
+#include "Weapon_Headers.h"
 
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -18,26 +18,20 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
-	CJsonLoader jsonLoader;
-
-	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
-	
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
-
-
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_Shop()))
 		return E_FAIL;
-
-	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+		return E_FAIL;
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
-
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_Weapon()))
 		return E_FAIL;
 
 	return S_OK;
@@ -386,7 +380,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 }
 
 
-
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera_FirstPerson"),
@@ -551,12 +544,28 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_2"), &Left_Panel_HP)))
 		return E_FAIL;
 
+	return S_OK;
+}
+HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
+{
 
+	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
+	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
+	Weapon_Claymore_Desc.vSize = { 2048.,682.f };
+	Weapon_Claymore_Desc.Damage = { 100.f };
+	Weapon_Claymore_Desc.AttackSpeed = { 1.f };
+	Weapon_Claymore_Desc.Range = { 3.f };
+	Weapon_Claymore_Desc.Cooldown = { 1.f };
+	Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Claymore"),
+		&Weapon_Claymore_Desc)))
+		return E_FAIL;
 
 
 	return S_OK;
 }
-
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLevel_GamePlay* pInstance = new CLevel_GamePlay(pGraphic_Device);
