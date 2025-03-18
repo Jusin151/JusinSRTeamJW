@@ -167,6 +167,7 @@
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
+    <ClInclude Include="..\public\Magnum.h" />
     <ClInclude Include="..\public\Melee_Weapon.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
     <ClCompile Include="..\private\GamePlay_Button.cpp" />
+    <ClCompile Include="..\private\Magnum.cpp" />
     <ClCompile Include="..\private\Melee_Weapon.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />

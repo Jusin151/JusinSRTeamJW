@@ -23,6 +23,7 @@ public:
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
+	void HandleMouseInput(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
@@ -33,7 +34,10 @@ private:
 	CGameObject*		m_pPlayer = { nullptr };
 private:
 	HRESULT Ready_Components();
-
+private:
+	_float m_fYaw = 0.0f;
+	_float m_fPitch = 0.0f;
+	_float m_fSensitivity = 0.1f;
 
 
 public:

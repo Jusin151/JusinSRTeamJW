@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "PickingSys.h" // 테스트 용으로 헤더 추가
 
+
 CCamera_FirstPerson::CCamera_FirstPerson(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCamera{ pGraphic_Device }
 {
@@ -25,7 +26,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 
 	CAMERA_FREE_DESC	Desc{};
 
-	Desc.vEye = _float3(0.f, 10.f, -10.f);
+	Desc.vEye = _float3(0.f, 100.f, -10.f);
 	Desc.vAt = _float3(0.f, 0.f, 0.f);
 	Desc.vAt = _float3(0.f, 10.f, 0.f);
 	Desc.fFov = D3DXToRadian(45.f);
@@ -71,9 +72,43 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 }
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
+{	}
+void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
-}
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
 
+	static POINT ptLast = pt;
+
+	_float fDeltaX = (pt.x - ptLast.x) * m_fSensitivity;
+	_float fDeltaY = (ptLast.y - pt.y) * m_fSensitivity;
+
+	m_fYaw += fDeltaX;
+	m_fPitch += fDeltaY;
+
+	if (m_fPitch > D3DX_PI / 2.0f)
+		m_fPitch = D3DX_PI / 2.0f;
+	if (m_fPitch < -D3DX_PI / 2.0f)
+		m_fPitch = -D3DX_PI / 2.0f;
+
+	D3DXMATRIX matRotation;
+	D3DXMatrixRotationYawPitchRoll(&matRotation, m_fYaw, m_fPitch, 0.0f);
+
+	_float3 vLook = { 0.0f, 0.0f, 1.0f };
+	D3DXVec3TransformNormal(&vLook, &vLook, &matRotation);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
+
+	_float3 vRight = { 1.0f, 0.0f, 0.0f };
+	D3DXVec3TransformNormal(&vRight, &vRight, &matRotation);
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+
+	_float3 vUp = { 0.0f, 1.0f, 0.0f };
+	D3DXVec3TransformNormal(&vUp, &vUp, &matRotation);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
+
+	ptLast = pt;
+}
 void CCamera_FirstPerson::Late_Update(_float fTimeDelta)
 {
 }
