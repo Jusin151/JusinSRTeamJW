@@ -30,5 +30,17 @@ class ENGINE_DLL ISerializable
 
         return wstrTo;
     }
+
+    static string WideToUtf8(const wstring& wstr)
+    {
+        if (wstr.empty()) return "";
+
+        int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+        string strUtf8(size_needed, 0);
+        WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &strUtf8[0], size_needed, NULL, NULL);
+        strUtf8.resize(strUtf8.length() - 1); // 널 종료자 제거
+
+        return strUtf8;
+    }
 };
 END

@@ -49,5 +49,6 @@ private:
     const _float m_fFrameDuration = 2.0f;
     _bool m_bIsAnimating{};
 
+
 };
 END

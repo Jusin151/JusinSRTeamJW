@@ -7,6 +7,7 @@
 #include "Structure.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Material.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -166,6 +167,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	/* For.Prototype_Component_Collider_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		CCollider_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Material */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		CMaterial::Create(m_pGraphic_Device, L"../../Resources/Materials/TestMaterial.json"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
