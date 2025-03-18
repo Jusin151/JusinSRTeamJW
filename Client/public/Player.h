@@ -2,6 +2,8 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Weapon_Base.h"
+
 
 BEGIN(Engine)
 class CTexture;
@@ -33,7 +35,8 @@ private:
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
 	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
-	CCollider_Cube*		m_pColliderCom = { nullptr };
+	CCollider_Cube*			m_pColliderCom = { nullptr };
+	
 
 private:
 	HRESULT SetUp_RenderState();

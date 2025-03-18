@@ -1,5 +1,6 @@
 ﻿#include "Melee_Weapon.h"
 #include "GameInstance.h"
+#include "Collider_Cube.h"
 
 CMelee_Weapon::CMelee_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{pGraphic_Device}
@@ -18,7 +19,13 @@ HRESULT CMelee_Weapon::Initialize_Prototype()
 
 HRESULT CMelee_Weapon::Initialize(void* pArg)
 {
-	return E_NOTIMPL;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	m_pColliderCom->AddRef();
+	m_pColTransformCom->AddRef();
+
+	return S_OK;
 }
 
 void CMelee_Weapon::Priority_Update(_float fTimeDelta)
@@ -27,9 +34,30 @@ void CMelee_Weapon::Priority_Update(_float fTimeDelta)
 
 void CMelee_Weapon::Update(_float fTimeDelta)
 {
+	CGameObject* pPlayer =m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+
+	if (nullptr == pPlayer)
+		return;
+
+	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+
+	if (nullptr == pTransform)
+		return;
+
+	m_pColTransformCom->Set_State(CTransform::STATE_RIGHT, pTransform->Get_State(CTransform::STATE_RIGHT));
+	m_pColTransformCom->Set_State(CTransform::STATE_UP, pTransform->Get_State(CTransform::STATE_UP));
+	m_pColTransformCom->Set_State(CTransform::STATE_LOOK, pTransform->Get_State(CTransform::STATE_LOOK));
+	m_pColTransformCom->Set_State(CTransform::STATE_POSITION, pTransform->Get_State(CTransform::STATE_POSITION));
+
+
+
+	m_pColliderCom->Update_Collider();
+
+
 	Attack(fTimeDelta);
 
-	
+	if(m_bIsAnimating)
+		m_pGameInstance->Add_Collider(CG_WEAPON, m_pColliderCom);
 }
 
 void CMelee_Weapon::Late_Update(_float fTimeDelta)
@@ -74,12 +102,34 @@ HRESULT CMelee_Weapon::Render()
 
 HRESULT CMelee_Weapon::Ready_Components()
 {
-	return E_NOTIMPL;
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.eType = CG_WEAPON;
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정, 
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pColTransformCom), &tDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CMelee_Weapon::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pColTransformCom);
 }
 
 CGameObject* CMelee_Weapon::Clone(void* pArg)
