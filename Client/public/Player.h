@@ -2,6 +2,8 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Weapon_Base.h"
+
 
 
 BEGIN(Engine)
@@ -40,6 +42,8 @@ private:
 	_float m_fMouseSensor = {};
 private:
 	CGameObject* m_pCamera = nullptr; 
+	CCollider_Cube*			m_pColliderCom = { nullptr };
+	
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();

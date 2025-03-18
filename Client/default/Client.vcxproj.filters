@@ -148,6 +148,9 @@
     <Filter Include="02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum">
       <UniqueIdentifier>{edac6ec4-ed4d-4c48-94f8-4b6401d2ccd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="999. JsonLoader">
+      <UniqueIdentifier>{614ded8b-fb5d-4e85-b052-74b2726d5d07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -288,6 +291,9 @@
     <ClInclude Include="..\public\Magnum.h">
       <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\JsonLoader.h">
+      <Filter>999. JsonLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -401,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Magnum.cpp">
       <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\JsonLoader.cpp">
+      <Filter>999. JsonLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

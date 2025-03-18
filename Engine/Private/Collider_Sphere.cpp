@@ -115,6 +115,8 @@ HRESULT CCollider_Sphere::Update_Collider()
     D3DXVec3TransformCoord(&m_fPos, &m_fLocalPos, &m_WorldMatrix);
     Set_State(CTransform::STATE_POSITION, m_fPos);
 
+    m_fRadius = m_fScale.LengthSq() / 4.f;
+
     return S_OK;
 }
 	

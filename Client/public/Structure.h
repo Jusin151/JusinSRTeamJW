@@ -14,7 +14,7 @@ END
 BEGIN(Client)
 class CStructure : public CGameObject
 {
-	friend class CMyImGui;
+public:
 	typedef struct tagStructureDesc : public CTransform::TRANSFORM_DESC
 	{
 		const _tchar* stCollProtoTag;
@@ -22,6 +22,9 @@ class CStructure : public CGameObject
 		const _tchar* stTextureTag;
 		_wstring stTexturePath;
 	}STRUCTURE_DESC;
+private:
+	friend class CMyImGui;
+
 
 private:
 	CStructure(LPDIRECT3DDEVICE9 pGraphic_Device);
