@@ -49,19 +49,19 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_UP) & 0x8000)
+	if (GetKeyState('W') & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
-	if (GetKeyState(VK_DOWN) & 0x8000)
+	if (GetKeyState('S') & 0x8000)
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
-	if (GetKeyState(VK_LEFT) & 0x8000)
+	if (GetKeyState('A') & 0x8000)
 	{
 		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
 	}
-	if (GetKeyState(VK_RIGHT) & 0x8000)
+	if (GetKeyState('D') & 0x8000)
 	{
 		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}

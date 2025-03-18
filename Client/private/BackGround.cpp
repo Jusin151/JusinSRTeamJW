@@ -204,7 +204,7 @@ HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 		TEXT("Com_Transform_Back"), reinterpret_cast<CComponent**>(&m_Back_pTransformCom), &tDesc)))
 		return E_FAIL;
 
-	// 그러니까 형말은 제일 마지막에 그리고 싶으면 레이어_4
+
 
 
 	//마테리얼 추가
@@ -249,5 +249,5 @@ void CBackGround::Free()
 	Safe_Release(m_Back_pTextureCom);
 	Safe_Release(m_Back_pTransformCom);
 	Safe_Release(m_Back_pVIBufferCom);
-	Safe_Release(m_pMaterial);
+	//Safe_Release(m_pMaterial);
 }
