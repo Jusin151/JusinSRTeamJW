@@ -53,7 +53,7 @@ public:
     virtual HRESULT Render()override;
     virtual HRESULT Ready_Components();
     virtual  void Free();
-    virtual void Attack()PURE;
+    virtual void Attack(_float fTimeDelta)PURE;
 
 protected:
     CTexture* m_pTextureCom = {};

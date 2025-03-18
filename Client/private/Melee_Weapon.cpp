@@ -27,23 +27,9 @@ void CMelee_Weapon::Priority_Update(_float fTimeDelta)
 
 void CMelee_Weapon::Update(_float fTimeDelta)
 {
-	Attack();
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
-		if (m_fElapsedTime >= 0.04f)
-		{
-			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 13)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-			}
-		}
-	}
+	Attack(fTimeDelta);
+
+	
 }
 
 void CMelee_Weapon::Late_Update(_float fTimeDelta)
@@ -102,7 +88,7 @@ CGameObject* CMelee_Weapon::Clone(void* pArg)
 }
 
 
-void CMelee_Weapon::Attack()
+void CMelee_Weapon::Attack(_float fTimeDelta)
 {
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
@@ -110,4 +96,23 @@ void CMelee_Weapon::Attack()
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.0f;
 	}
+	if (m_bIsAnimating)
+	{
+		m_fElapsedTime += fTimeDelta;
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+			if (m_iCurrentFrame < 13)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_bIsAnimating = false;
+			}
+		}
+	}
 }
+
+
+

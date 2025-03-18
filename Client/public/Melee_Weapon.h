@@ -41,7 +41,8 @@ public:
 
 public:
 
-    void Attack() ;
+    void Attack(_float fTimeDelta);
+ 
 
 private:
     _float m_fElapsedTime = 0.0f;

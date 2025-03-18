@@ -52,6 +52,7 @@ CGameObject* CRanged_Weapon::Clone(void* pArg)
 	return nullptr;
 }
 
-void CRanged_Weapon::Attack()
+void CRanged_Weapon::Attack(_float fTimeDelta)
 {
+
 }

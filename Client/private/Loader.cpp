@@ -534,8 +534,8 @@ HRESULT CLoader::Add_To_Weapon_Textures()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_Component_Texture_Claymore"),
 		CTexture::Create(m_pGraphic_Device,
-			TEXT("../../Resources/Textures/Weapon/Claymore/claymore_pwI%d.png"),
-			15))))
+			TEXT("../../Resources/Textures/Weapon/Claymoreee/claymore_pwI%d.png"),
+			14))))
 		return E_FAIL;
 
 	return S_OK;
