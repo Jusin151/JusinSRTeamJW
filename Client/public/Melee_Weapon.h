@@ -32,8 +32,8 @@ protected:
     virtual ~CMelee_Weapon() = default;
 
 public:
-    virtual HRESULT Initialize_Prototype();
-    virtual HRESULT Initialize(void* pArg);
+    virtual HRESULT Initialize_Prototype()PURE;
+    virtual HRESULT Initialize(void* pArg)PURE; 
     virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta);
     virtual void Late_Update(_float fTimeDelta);

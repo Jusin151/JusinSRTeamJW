@@ -130,20 +130,23 @@
     <Filter Include="02.GameObjects\Item">
       <UniqueIdentifier>{7410495c-2ebe-448e-887e-61ab8a3b62b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Claymore">
-      <UniqueIdentifier>{f23db6f8-636e-4d2c-8a87-bd2a2e55fd15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\99. Weapon_Base">
-      <UniqueIdentifier>{bda00311-2010-4dc6-8616-fcc7b7160629}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon">
-      <UniqueIdentifier>{a63de5a8-d560-430e-8184-13e297b85853}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\99. Weapon_Base\Ranged Weapon">
-      <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Hong_Headers">
       <UniqueIdentifier>{220958d5-1d2e-4240-8dea-f4a0062ced2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon">
+      <UniqueIdentifier>{bda00311-2010-4dc6-8616-fcc7b7160629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\CMeleeWeapon">
+      <UniqueIdentifier>{a63de5a8-d560-430e-8184-13e297b85853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\Ranged Weapon">
+      <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\CMeleeWeapon\Claymore">
+      <UniqueIdentifier>{f23db6f8-636e-4d2c-8a87-bd2a2e55fd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum">
+      <UniqueIdentifier>{edac6ec4-ed4d-4c48-94f8-4b6401d2ccd6}</UniqueIdentifier>
     </Filter>
     <Filter Include="999. JsonLoader">
       <UniqueIdentifier>{614ded8b-fb5d-4e85-b052-74b2726d5d07}</UniqueIdentifier>
@@ -274,16 +277,19 @@
       <Filter>97. Hong_Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Claymore.h">
-      <Filter>02.GameObjects\Item\Claymore</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon\CMeleeWeapon\Claymore</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Melee_Weapon.h">
-      <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon\CMeleeWeapon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ranged_Weapon.h">
-      <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Weapon_Base.h">
-      <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Magnum.h">
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum</Filter>
     </ClInclude>
     <ClInclude Include="..\public\JsonLoader.h">
       <Filter>999. JsonLoader</Filter>
@@ -388,16 +394,19 @@
       <Filter>02.GameObjects\UI\01.Logo_UI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Claymore.cpp">
-      <Filter>02.GameObjects\Item\Claymore</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon\CMeleeWeapon\Claymore</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Weapon_Base.cpp">
-      <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Ranged_Weapon.cpp">
-      <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Melee_Weapon.cpp">
-      <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
+      <Filter>02.GameObjects\Item\99. Weapon\CMeleeWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Magnum.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum</Filter>
     </ClCompile>
     <ClCompile Include="..\private\JsonLoader.cpp">
       <Filter>999. JsonLoader</Filter>
