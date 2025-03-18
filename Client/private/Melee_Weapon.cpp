@@ -11,16 +11,6 @@ CMelee_Weapon::CMelee_Weapon(const CMelee_Weapon& Prototype)
 {
 }
 
-HRESULT CMelee_Weapon::Initialize_Prototype()
-{
-	return E_NOTIMPL;
-}
-
-HRESULT CMelee_Weapon::Initialize(void* pArg)
-{
-	return E_NOTIMPL;
-}
-
 void CMelee_Weapon::Priority_Update(_float fTimeDelta)
 {
 }

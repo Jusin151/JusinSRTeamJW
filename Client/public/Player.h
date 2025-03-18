@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -34,7 +35,11 @@ private:
 	CTransform*				m_pTransformCom = { nullptr };
 	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
 	CCollider_Cube*		m_pColliderCom = { nullptr };
-
+private:
+	POINT m_ptOldMousePos = {};
+	_float m_fMouseSensor = {};
+private:
+	CGameObject* m_pCamera = nullptr; 
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
