@@ -161,6 +161,11 @@ CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const wstring& strLa
 	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag,strComponentTag);
 }
 
+CGameObject* CGameInstance::Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Find_Last_Object(iLevelIndex,strLayerTag);
+}
+
 
 #pragma endregion
 

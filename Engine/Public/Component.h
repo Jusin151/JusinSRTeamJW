@@ -1,10 +1,11 @@
 ﻿#pragma once
 
 #include "Base.h"
+#include "Serializable.h"
 
 BEGIN(Engine)
 
-class ENGINE_DLL CComponent abstract : public CBase
+class ENGINE_DLL CComponent abstract : public CBase, public ISerializable
 {
 protected:
 	CComponent(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -23,6 +24,10 @@ protected:
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;
+
+public:
+	virtual json Serialize() override { return json(); };
+	virtual void Deserialize(const json& j) {};
 };
 
 END

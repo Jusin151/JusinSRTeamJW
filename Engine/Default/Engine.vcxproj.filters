@@ -146,10 +146,10 @@
       <Filter>04.Components\Material</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Serializable.h">
-      <Filter>999. JsonManager</Filter>
+      <Filter>999. Save&amp;Load</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Editor.h">
-      <Filter>999. JsonManager</Filter>
+      <Filter>999. Save&amp;Load</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,7 +285,7 @@
     <Filter Include="04.Components\Material">
       <UniqueIdentifier>{3b77c23e-2248-495b-aecf-e1a12efb1e06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="999. JsonManager">
+    <Filter Include="999. Save&amp;Load">
       <UniqueIdentifier>{98805492-c6cd-4d61-b83e-41954ffeb913}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -411,10 +411,10 @@
       <Filter>04.Components\Material</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Serializable.cpp">
-      <Filter>999. JsonManager</Filter>
+      <Filter>999. Save&amp;Load</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Editor.cpp">
-      <Filter>999. JsonManager</Filter>
+      <Filter>999. Save&amp;Load</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
