@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI¥¬ ªÁ∞¢«¸¿∏∑Œ
+class CVIBuffer_Rect;  // UIÎäî ÏÇ¨Í∞ÅÌòïÏúºÎ°ú
 END
 
 BEGIN(Client)
@@ -23,9 +23,10 @@ public:
 	HRESULT Initialize(void* pArg);
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
+	void Attack(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 	HRESULT Render();
-	Weapon_DESC m_Claymore_INFO{};
+	Weapon_DESC m_Magnum_INFO{};
 
 private:
 	HRESULT Ready_Components();

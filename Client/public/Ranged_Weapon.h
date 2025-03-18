@@ -47,7 +47,7 @@ public:
     // CWeapon_Base을(를) 통해 상속됨
     void Attack(_float fTimeDelta) override;
 
-private:
+protected:
     _float m_fElapsedTime = 0.0f;
     _int m_iCurrentFrame = 0;
     const _float m_fFrameDuration = 2.0f;

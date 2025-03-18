@@ -148,6 +148,15 @@
     <Filter Include="02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum">
       <UniqueIdentifier>{edac6ec4-ed4d-4c48-94f8-4b6401d2ccd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\Ranged Weapon\ShutGun">
+      <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\Ranged Weapon\Staft">
+      <UniqueIdentifier>{b9c28634-f146-4ad6-b9f9-b3e851bd7479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\99. Weapon\CMeleeWeapon\Axe">
+      <UniqueIdentifier>{e0b0c9df-54bc-4bb2-9161-7e8e26a783b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -288,6 +297,15 @@
     <ClInclude Include="..\public\Magnum.h">
       <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Axe.h">
+      <Filter>02.GameObjects\Item\99. Weapon\CMeleeWeapon\Axe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Staft.h">
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Staft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ShutGun.h">
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\ShutGun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -401,6 +419,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Magnum.cpp">
       <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Magnum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Axe.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon\CMeleeWeapon\Axe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staft.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\Staft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShutGun.cpp">
+      <Filter>02.GameObjects\Item\99. Weapon\Ranged Weapon\ShutGun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

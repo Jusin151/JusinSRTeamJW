@@ -160,6 +160,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
@@ -170,6 +171,8 @@
     <ClInclude Include="..\public\Magnum.h" />
     <ClInclude Include="..\public\Melee_Weapon.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
+    <ClInclude Include="..\public\ShutGun.h" />
+    <ClInclude Include="..\public\Staft.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
@@ -221,6 +225,8 @@
     <ClCompile Include="..\private\Magnum.cpp" />
     <ClCompile Include="..\private\Melee_Weapon.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
+    <ClCompile Include="..\private\ShutGun.cpp" />
+    <ClCompile Include="..\private\Staft.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />

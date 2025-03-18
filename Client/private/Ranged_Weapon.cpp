@@ -18,7 +18,6 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 {
 	Attack(fTimeDelta);
 
-
 }
 
 void CRanged_Weapon::Late_Update(_float fTimeDelta)
