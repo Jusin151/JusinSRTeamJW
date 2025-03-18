@@ -5,6 +5,7 @@
 #include "UI_Default_Panel.h"
 #include "CUI_Base.h"
 #include "GamePlay_Button.h"
+#include "JsonLoader.h"
 
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -17,6 +18,10 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
+	/*CJsonLoader jsonLoader;
+
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL.json", LEVEL_GAMEPLAY);*/
+	
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;

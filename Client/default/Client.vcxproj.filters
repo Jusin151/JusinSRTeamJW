@@ -145,6 +145,9 @@
     <Filter Include="02.GameObjects\Item\99. Weapon_Base\Ranged Weapon">
       <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="999. JsonLoader">
+      <UniqueIdentifier>{ff350be0-05d5-4fe5-8a2d-de2210be948a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -279,6 +282,9 @@
     <ClInclude Include="..\public\Melee_Weapon.h">
       <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\JsonLoader.h">
+      <Filter>999. JsonLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -389,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="Ranged_Weapon.cpp">
       <Filter>02.GameObjects\Item\99. Weapon_Base\Ranged Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\JsonLoader.cpp">
+      <Filter>999. JsonLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

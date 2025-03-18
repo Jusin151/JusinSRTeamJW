@@ -100,7 +100,7 @@ void CMyImGui::Update(_float fTimeDelta)
 
 HRESULT CMyImGui::Render()
 {
-	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+//	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 	D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
