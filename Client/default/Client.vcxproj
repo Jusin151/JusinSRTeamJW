@@ -163,6 +163,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
+    <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
+    <ClCompile Include="..\private\JsonLoader.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
