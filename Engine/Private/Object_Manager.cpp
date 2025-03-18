@@ -123,6 +123,18 @@ CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const wstring& str
 	return pGameObject->Get_Component(strComponentTag);
 }
 
+CGameObject* CObject_Manager::Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+
+	if (nullptr == pLayer)
+		return nullptr;
+
+	// 레이어의 마지막 객체 반환
+	return pLayer->Find_Last_Object();
+}
+
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto	iter = m_pLayers[iLevelIndex].find(strLayerTag);

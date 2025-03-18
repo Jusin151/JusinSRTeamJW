@@ -145,6 +145,9 @@
     <Filter Include="97. Hong_Headers">
       <UniqueIdentifier>{220958d5-1d2e-4240-8dea-f4a0062ced2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="999. JsonLoader">
+      <UniqueIdentifier>{614ded8b-fb5d-4e85-b052-74b2726d5d07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -282,6 +285,9 @@
     <ClInclude Include="..\public\Weapon_Base.h">
       <Filter>02.GameObjects\Item\99. Weapon_Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\JsonLoader.h">
+      <Filter>999. JsonLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -392,6 +398,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Melee_Weapon.cpp">
       <Filter>02.GameObjects\Item\99. Weapon_Base\CMeleeWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\JsonLoader.cpp">
+      <Filter>999. JsonLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
