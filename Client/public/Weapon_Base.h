@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Weapon_Headers.h"
 
 
 BEGIN(Engine)
@@ -21,20 +22,20 @@ public:
     };
 
 
+public:
 
     typedef struct tagWeapon_INFO
     {
-        WEAPON_ID WeaponID;            // 무기 고유 ID
-        wstring Name;            // 무기 이름
+        WEAPON_ID WeaponID{};          // 무기 고유 ID
         _float2 vPos = {};  // UI 화면 좌표
         _float2 vSize = {};  // UI 크기
-        _float Damage;            // 기본 공격력
-        _float AttackSpeed;       // 공격 속도
-        _float Range;             // 공격 범위 (근접/원거리 공통)
-        _float Cooldown;          // 공격 쿨타임
-        _bool IsEquipped;         // 현재 장착 중인지 여부
-        wstring TextureKey;      // 무기 UI에 사용될 텍스처 키
- 
+        _float Damage{};            // 기본 공격력
+        _float AttackSpeed{};       // 공격 속도
+        _float Range{};             // 공격 범위 (근접/원거리 공통)
+        _float Cooldown{};          // 공격 쿨타임
+        _bool IsEquipped{};         // 현재 장착 중인지 여부
+        wstring TextureKey{};      // 무기 UI에 사용될 텍스처 키
+
     }Weapon_DESC;
 
 
@@ -50,16 +51,15 @@ public:
     virtual void Priority_Update(_float fTimeDelta)PURE;
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
-    virtual HRESULT Render()PURE;
-    virtual HRESULT Ready_Components()PURE;
-    virtual  void Free()PURE;
-    virtual void Attack()PURE;
-    CGameObject* Clone(void* pArg)PURE;
+    virtual HRESULT Render()override;
+    virtual HRESULT Ready_Components();
+    virtual  void Free();
+    virtual void Attack(_float fTimeDelta)PURE;
 
 protected:
-    CTexture* m_pTextureCom = nullptr;
-    CVIBuffer_Rect* m_pVIBufferCom = nullptr;
-    CTransform* m_pTransformCom = nullptr;
+    CTexture* m_pTextureCom = {};
+    CVIBuffer_Rect* m_pVIBufferCom = {};
+    CTransform* m_pTransformCom = {};
 
 public:
     _bool  Get_MouseClick() const { return m_bIsMouseClick; }

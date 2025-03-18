@@ -40,7 +40,6 @@ public:
 	HRESULT Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 	CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
-	CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 #pragma endregion
 
 #pragma region RENDERER

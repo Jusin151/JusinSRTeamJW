@@ -14,7 +14,6 @@ CMaterial::CMaterial(const CMaterial& Prototype)
 HRESULT CMaterial::Initialize_Prototype(const _tchar* pMaterialFilePath)
 {
     ifstream f("../../Resources/Materials/TestMaterial.json");
-    L"TestMaterial.json";
     json data = json::parse(f);
     m_tMaterial.Diffuse =   { data["Diffuse"]["x"], data["Diffuse"]["z"], data["Diffuse"]["y"], data["Diffuse"]["w"] };
     m_tMaterial.Ambient =   { data["Ambient"]["x"], data["Ambient"]["z"], data["Ambient"]["y"], data["Ambient"]["w"] };
@@ -42,7 +41,7 @@ CMaterial* CMaterial::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pM
 
     if (FAILED(pInstance->Initialize_Prototype(pMaterialFilePath)))
     {
-        MSG_BOX("Failed to Created : CTexture");
+        MSG_BOX("Failed to Created : CMaterial");
         Safe_Release(pInstance);
     }
 
@@ -54,7 +53,7 @@ CComponent* CMaterial::Clone(void* pArg)
     CMaterial* pInstance = new CMaterial(*this);
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Created : CVIBuffer_Terrain");
+        MSG_BOX("Failed to Created : CMaterial");
         Safe_Release(pInstance);
     }
     return pInstance;

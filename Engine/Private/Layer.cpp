@@ -73,20 +73,8 @@ void CLayer::Late_Update(_float fTimeDelta)
 
 CGameObject* CLayer::Find_Object()
 {
-	if (m_GameObjects.empty())
-		return nullptr;
 	
 	return m_GameObjects.front();
-}
-
-CGameObject* CLayer::Find_Last_Object()
-{
-	if (m_GameObjects.empty())
-		return nullptr;
-
-	// 리스트의 마지막 객체 반환
-	return m_GameObjects.back();
-
 }
 
 CLayer* CLayer::Create(_uint iPrototypeLevelIndex)

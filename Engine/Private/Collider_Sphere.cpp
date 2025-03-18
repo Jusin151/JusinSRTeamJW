@@ -1,4 +1,6 @@
 ﻿#include "Collider_Sphere.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 CCollider_Sphere::CCollider_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollider(pGraphic_Device)
@@ -18,6 +20,18 @@ HRESULT CCollider_Sphere::Initialize_Prototype()
 
 HRESULT CCollider_Sphere::Initialize(void* pArg)
 {
+    COL_DESC* tDesc = {};
+    tDesc = static_cast<COL_DESC*>(pArg);
+
+    m_fLocalPos = tDesc->fLocalPos;
+    m_fScale = tDesc->fScale;
+    m_pOwner = tDesc->pOwner;
+    m_eType = tDesc->eType;
+
+    m_fRadius = m_fScale.Length() / 4.f;
+
+    D3DXMatrixIdentity(&m_WorldMatrix);
+
 	return S_OK;
 }
 
@@ -71,6 +85,35 @@ HRESULT CCollider_Sphere::Render()
 
     // 메시 해제
     Safe_Release(pSphereMesh);
+
+    return S_OK;
+}
+
+HRESULT CCollider_Sphere::Update_Collider()
+{
+    if (nullptr == m_pOwner)
+        return E_FAIL;
+
+
+    // owner 가 가지고 있는 월드 행렬을 이용해서 collider의 월드 행렬을 만든다
+    CTransform* pTransfrom = static_cast<CTransform*>(m_pOwner->Get_Component(TEXT("Com_Transform")));
+
+    
+
+    _float3 fRight = pTransfrom->Get_State(CTransform::STATE_RIGHT).GetNormalized();
+    _float3 fUp = pTransfrom->Get_State(CTransform::STATE_UP).GetNormalized();
+    _float3 fLook = pTransfrom->Get_State(CTransform::STATE_LOOK).GetNormalized();
+    _float3 fObjectPos = pTransfrom->Get_State(CTransform::STATE_POSITION);
+
+    Set_State(CTransform::STATE_RIGHT, fRight * m_fScale.x);
+    Set_State(CTransform::STATE_UP, fUp * m_fScale.y);
+    Set_State(CTransform::STATE_LOOK, fLook * m_fScale.z);
+    Set_State(CTransform::STATE_POSITION, fObjectPos);
+   
+    
+
+    D3DXVec3TransformCoord(&m_fPos, &m_fLocalPos, &m_WorldMatrix);
+    Set_State(CTransform::STATE_POSITION, m_fPos);
 
     return S_OK;
 }

@@ -10,7 +10,7 @@ CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CStructure::CStructure(const CStructure& Prototype)
 	:CGameObject{ Prototype }
-	, m_tStructure_Desc(Prototype.m_tStructure_Desc)
+	,m_tStructure_Desc(Prototype.m_tStructure_Desc)
 {
 }
 
@@ -47,8 +47,7 @@ HRESULT CStructure::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pColliderCom->Set_Type(CG_STRUCTURE);
-	m_pColliderCom->Set_Owner(this);
+	
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_tStructure_Desc.vPos);
@@ -65,7 +64,7 @@ void CStructure::Update(_float fTimeDelta)
 
 	if (m_bIsCubeCollider)
 	{
-		static_cast<CCollider_Cube*>(m_pColliderCom)->Update_Desc();;
+		(m_pColliderCom)->Update_Collider();
 	}
 	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
 }
@@ -156,10 +155,16 @@ HRESULT CStructure::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.eType = CG_STRUCTURE;
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tStructure_Desc.stCollProtoTag,
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
+		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -204,6 +209,10 @@ void CStructure::Free()
 json CStructure::Serialize()
 {
 	json j = __super::Serialize();
+	//j["texture_tag"] = WideToUtf8(m_tStructure_Desc.stTextureTag);
+	//j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath.c_str());
+	//j["vibuffer"] = WideToUtf8(m_tStructure_Desc.stVIBuffer);
+	//j["collider_tag"] = WideToUtf8(m_tStructure_Desc.stCollProtoTag);
 
 	j["texture_tag"] = WideToUtf8(m_strTextureTag);
 	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); 
@@ -216,68 +225,19 @@ json CStructure::Serialize()
 	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	auto scale = m_pTransformCom->Compute_Scaled();
 	auto angle = m_pTransformCom->Get_EulerAngles();
-	j["transform"] =
-	{
-		{"position", pos.x, pos.y, pos.z },
-		{"rotation" ,angle.x, angle.y, angle.z },
-		{"scale", scale.x, scale.y, scale.z }
-	};
+	j["position"] = { pos.x, pos.y, pos.z };
+	j["rotation"] = { angle.x, angle.y, angle.z };
+	j["scale"] = { scale.x, scale.y, scale.z };
 
 	return j;
 }
 
 void CStructure::Deserialize(const json& j)
 {
-
-	__super::Deserialize(j);
-	// 컴포넌트 정보 설정
-	if (j.contains("texture_tag")) {
-		m_strTextureTag = Utf8ToWide(j["texture_tag"].get<string>());
-	}
-
-	if (j.contains("texture_path")) {
-		m_tStructure_Desc.stTexturePath = Utf8ToWide(j["texture_path"].get<string>());
-	}
-
-	if (j.contains("vibuffer")) {
-		m_strVIBuffer = Utf8ToWide(j["vibuffer"].get<string>());
-	}
-
-	if (j.contains("collider_tag")) {
-		m_strCollProtoTag = Utf8ToWide(j["collider_tag"].get<string>());
-	}
-
-	// 트랜스폼 정보 설정
-	if (j.contains("transform")) {
-		auto& transform = j["transform"];
-
-		// 위치 설정
-		if (transform[0][0] == "position") {
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(
-				transform[0][1].get<float>(),
-				transform[0][2].get<float>(),
-				transform[0][3].get<float>()
-			));
-		}
-
-		// 회전 설정
-		if (transform[1][0] == "rotation") {
-			_float3 vRotation(
-				transform[1][1].get<float>(),
-				transform[1][2].get<float>(),
-				transform[1][3].get<float>()
-			);
-			m_pTransformCom->Rotate_EulerAngles(vRotation);
-		}
-
-		// 크기 설정
-		if (transform[2][0] == "scale") {
-			_float3 vScale(
-				transform[2][1].get<float>(),
-				transform[2][2].get<float>(),
-				transform[2][3].get<float>()
-			);
-			m_pTransformCom->Set_Scale(vScale.x, vScale.y, vScale.z);
-		}
+	if (j.contains("position")) 
+	{
+		auto pos = j["position"];
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			_float3(pos[0], pos[1], pos[2]));
 	}
 }

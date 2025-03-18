@@ -34,18 +34,22 @@ public:
     virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta);
     virtual void Late_Update(_float fTimeDelta);
-    virtual HRESULT Render()override;
+    virtual HRESULT Render();
     virtual HRESULT Ready_Components();
     void Free();
+    CGameObject* Clone(void* pArg) ;
 
+public:
 
+    void Attack(_float fTimeDelta);
+ 
 
-    CGameObject* Clone(void* pArg) override;
+private:
+    _float m_fElapsedTime = 0.0f;
+    _int m_iCurrentFrame = 0;
+    const _float m_fFrameDuration = 2.0f;
+    _bool m_bIsAnimating{};
 
-
-    // CWeapon_Base을(를) 통해 상속됨
-    void Attack() override;
 
 };
-
 END

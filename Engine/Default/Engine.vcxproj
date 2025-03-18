@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -51,6 +52,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -116,6 +118,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../public/;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc;$(SolutionDir)External Libraries\imgui\;$(SolutionDir)External Libraries\imgui\backends</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,8 +127,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>CD $(SolutionDir)
+CALL $(SolutionDir)\UpdateLib.bat
+CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,6 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../public/;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc;$(SolutionDir)External Libraries\imgui\;$(SolutionDir)External Libraries\imgui\backends</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,6 +152,11 @@
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;fmod_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>CD $(SolutionDir)
+CALL $(SolutionDir)\UpdateLib.bat
+CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\External Libraries\imgui\backends\imgui_impl_dx9.h">

@@ -7,7 +7,7 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider_Cube : public CCollider
 {
 public:
-	typedef struct tagCol_Cube_Desc
+	typedef struct tagCol_Cube_Desc : public COL_DESC
 	{
 		// 점 계산을 위한 축과 중점
 		_float3 fAxisX;
@@ -33,7 +33,7 @@ public:
 	virtual HRESULT Render() override;
 	COL_CUBE_DESC& Get_Desc() { return m_tDesc; }
 
-	void Update_Desc();
+	virtual HRESULT Update_Collider() override;
 
 private:
 	COL_CUBE_DESC		m_tDesc;
