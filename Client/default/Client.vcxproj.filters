@@ -154,12 +154,6 @@
     <Filter Include="02.GameObjects\Sky">
       <UniqueIdentifier>{9577e1b8-0648-4258-bdc6-c3a799c174cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShutGun">
-      <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft">
-      <UniqueIdentifier>{b9c28634-f146-4ad6-b9f9-b3e851bd7479}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\96. Structure">
       <UniqueIdentifier>{01a4a485-e43d-48f6-a8ff-d7b89bcf1367}</UniqueIdentifier>
     </Filter>
@@ -171,6 +165,12 @@
     </Filter>
     <Filter Include="01.Levels\Editor">
       <UniqueIdentifier>{45f9bd66-c000-430b-bcc3-934b1428b194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff">
+      <UniqueIdentifier>{b9c28634-f146-4ad6-b9f9-b3e851bd7479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun">
+      <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -319,10 +319,10 @@
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Staff.h">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
+      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ShotGun.h">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShutGun</Filter>
+      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Inventory.h">
       <Filter>Inven</Filter>
@@ -333,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="..\public\MyImGui.h">
       <Filter>999. JsonLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Manager.h">
+      <Filter>96. Manager\Item_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -458,21 +461,24 @@
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ShotGun.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShutGun</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Inventory.cpp">
-      <Filter>Inven</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Item_Icon.cpp" />
-    <ClCompile Include="..\private\Level_Editor.cpp">
-      <Filter>01.Levels\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\MyImGui.cpp">
-      <Filter>999. JsonLoader</Filter>
-    </ClCompile>
+  <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
+</ClCompile>
+<ClCompile Include="..\private\ShotGun.cpp">
+  <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Inventory.cpp">
+  <Filter>Inven</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Item_Icon.cpp" />
+<ClCompile Include="..\private\Level_Editor.cpp">
+  <Filter>01.Levels\Editor</Filter>
+</ClCompile>
+<ClCompile Include="..\private\MyImGui.cpp">
+  <Filter>999. JsonLoader</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Item_Manager.cpp">
+  <Filter>96. Manager\Item_Manager</Filter>
+</ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

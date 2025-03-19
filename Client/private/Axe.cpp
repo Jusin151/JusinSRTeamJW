@@ -1,7 +1,7 @@
 ﻿#include "Axe.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
-
+#include "Item_Manager.h"
 
 CAxe::CAxe(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMelee_Weapon(pGraphic_Device)
@@ -56,6 +56,10 @@ HRESULT CAxe::Initialize(void* pArg)
 
 	m_vInitialPos = m_Axe_INFO.vPos;
 
+
+
+
+	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this);
 	return S_OK;
 }
 
@@ -139,11 +143,11 @@ HRESULT CAxe::On_Collision()
 HRESULT CAxe::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Axe"),
-		TEXT("Com_Texture_Axe"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Axe"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };

@@ -59,6 +59,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 #pragma endregion
 
 #pragma region INDEX_BUFFER
+	m_pIndices = new _uint[m_iNumIndices];
+
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
 
@@ -113,6 +115,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			pVertices[iIndices[3]].vNormal += vNormal;
 		}
 	}
+
+	memcpy(m_pIndices, pIndices, m_iIndexStride * m_iNumIndices);
 
 	for (size_t i = 0; i < m_iNumVertices; i++)	
 		D3DXVec3Normalize(&pVertices[i].vNormal, &pVertices[i].vNormal);
@@ -182,6 +186,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 #pragma endregion
 
 #pragma region INDEX_BUFFER
+	m_pIndices = new _uint[m_iNumIndices];
+
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
 
@@ -239,7 +245,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 
 	for (size_t i = 0; i < m_iNumVertices; i++)
 		D3DXVec3Normalize(&pVertices[i].vNormal, &pVertices[i].vNormal);
-
+	memcpy(m_pIndices, pIndices, m_iIndexStride * m_iNumIndices);
 	m_pVB->Unlock();
 	m_pIB->Unlock();
 

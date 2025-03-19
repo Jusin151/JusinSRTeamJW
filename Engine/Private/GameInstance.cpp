@@ -1,5 +1,6 @@
 ﻿#include "GameInstance.h"
 
+#include "Picking.h"
 #include "Renderer.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
@@ -60,6 +61,11 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	m_pFont_Manager = CFont_Manager::Create(*ppOut);
 	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
+	/*m_pPicking = CPicking::Create(*ppOut, EngineDesc.hWnd, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY);
+	if (nullptr == m_pPicking)
+		return E_FAIL;*/
+
+
 
 
 	return S_OK;
@@ -68,10 +74,13 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	m_pObject_Manager->Priority_Update(fTimeDelta);
-	m_pObject_Manager->Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
 	m_pCollider_Manager->Update_Collison();
+
+	/*m_pPicking->Update();*/
+
+	m_pObject_Manager->Update(fTimeDelta);	
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 }
@@ -191,6 +200,14 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 }
 
 #pragma endregion
+#pragma region PICKING
+_bool CGameInstance::Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+{
+	return false;
+	//return m_pPicking->Picking(vPickedPos, vPointA, vPointB, vPointC);
+}
+
+#pragma endregion
 
 #pragma region POOL_MANAGER
 
@@ -254,6 +271,7 @@ void CGameInstance::Release_Engine()
 {
 
 	Safe_Release(m_pFont_Manager);
+	/*Safe_Release(m_pPicking);*/
 
 	Safe_Release(m_pTimer_Manager);
 
@@ -280,6 +298,8 @@ void CGameInstance::Release_Engine()
 void CGameInstance::Free()
 {
 	__super::Free();
+
+
 
 	
 }

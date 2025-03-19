@@ -28,10 +28,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
-private:
-	CTexture* m_Loading_pTextureCom{};
-	CTransform* m_Loading_pTransformCom{};
-	CVIBuffer_Rect* m_Loading_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
 	UI_Child_Desc m_Loading_INFO{};
 
 private:

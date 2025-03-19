@@ -76,11 +76,7 @@ public:
 	HRESULT Add_To_UI_Right_DisPlay_Prototype();
 	HRESULT Add_To_UI_Right_Menu_Prototype();
 
-	HRESULT Add_To_Shop_Textures();
-	HRESULT Add_To_Shop_Prototype();
-/////////////////////////////////////////////////////////////
-	HRESULT Add_To_Weapon_Textures();
-	HRESULT Add_To_Weapon_Prototye();
+
 
 				
 
