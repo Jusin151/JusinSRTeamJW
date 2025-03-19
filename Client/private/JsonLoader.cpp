@@ -1,4 +1,4 @@
-#include "JsonLoader.h"
+ï»¿#include "JsonLoader.h"
 #include <Player.h>
 #include <Terrain.h>
 #include <TestMonster.h>
@@ -10,20 +10,21 @@
 #include "Weapon_Headers.h"
 #include "Anubis.h"
 
+
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
 {
-    // JSON ���� �ε�
+    // JSON íŒŒì¼ ë¡œë“œ
     ifstream file(filePath);
     if (!file.is_open()) 
     {
-        MSG_BOX("������Ÿ�� JSON ������ ã�� �� �����ϴ�.");
+        MSG_BOX("í”„ë¡œí† íƒ€ìž… JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return E_FAIL;
     }
 
     json j;
     file >> j;
 
-    // �ؽ�ó ������Ÿ�� �ε�
+    // í…ìŠ¤ì²˜ í”„ë¡œí† íƒ€ìž… ë¡œë“œ
     if (j.contains("textures")) 
     {
         for (const auto& texture : j["textures"])
@@ -38,7 +39,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
         }
     }
 
-    // ���� ������Ʈ ������Ÿ�� �ε�
+    // ê²Œìž„ ì˜¤ë¸Œì íŠ¸ í”„ë¡œí† íƒ€ìž… ë¡œë“œ
     if (j.contains("gameObjects")) 
     {
         for (const auto& obj : j["gameObjects"])
@@ -55,7 +56,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
         }
     }
 
-    // ���� ������Ÿ�� �ε�
+    // ë²„í¼ í”„ë¡œí† íƒ€ìž… ë¡œë“œ
     if (j.contains("buffers")) 
     {
         for (const auto& buffer : j["buffers"])
@@ -64,7 +65,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
             LEVEL level = static_cast<LEVEL>(buffer["level"].get<_uint>());
             string className = buffer["class"];
 
-            // ���� ���� ���� �߰�
+            // ë²„í¼ ìƒì„± ë¡œì§ ì¶”ê°€
             CBase* pBuffer = nullptr;
 
             if (className == "CVIBuffer_Terrain") 
@@ -73,7 +74,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
                 _uint height = buffer["height"].get<_uint>();
                 pBuffer = CVIBuffer_Terrain::Create(pGraphic_Device, width, height);
             }
-            // �ٸ� Ÿ���� ���۰� �ִٸ� ���⿡ �߰�
+            // ë‹¤ë¥¸ íƒ€ìž…ì˜ ë²„í¼ê°€ ìžˆë‹¤ë©´ ì—¬ê¸°ì— ì¶”ê°€
 
             if (!pBuffer)
                 continue;
@@ -91,7 +92,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
     ifstream file(jsonFilePath);
     if (!file.is_open())
     {
-        MSG_BOX("���� JSON ������ ã�� �� �����ϴ�.");
+        MSG_BOX("ë ˆë²¨ JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return E_FAIL;
     }
 
@@ -167,7 +168,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 
 CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    // �⺻ ���� ������Ʈ
+    // ê¸°ë³¸ ê²Œìž„ ì˜¤ë¸Œì íŠ¸
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
     else if (className == "CTestMonster")
@@ -176,12 +177,12 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")
         return CStructure::Create(pGraphic_Device);
-    // ī�޶�
+    // ì¹´ë©”ë¼
     else if (className == "CCamera_Free")
         return CCamera_Free::Create(pGraphic_Device);
     else if (className == "CCamera_FirstPerson")
         return CCamera_FirstPerson::Create(pGraphic_Device);
-    // UI ������Ʈ
+    // UI ì»´í¬ë„ŒíŠ¸
     else if (className == "CUI_Default_Panel")
         return CUI_Default_Panel::Create(pGraphic_Device);
     else if (className == "CUI_Left_Display")
@@ -218,17 +219,62 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CStaff::Create(pGraphic_Device);
     else if (className == "CShotGun")
         return CShotGun::Create(pGraphic_Device);
-
-    // ����
     else if (className == "CAnubis")
         return CAnubis::Create(pGraphic_Device);
 
-    // ã�� ���� Ŭ���� �̸��� ���� ó��
     wstring wClassName = ISerializable::Utf8ToWide(className);
-    wstring errorMsg = L"�� �� ���� Ŭ���� �̸�: " + wClassName;
+    wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;
     OutputDebugString(errorMsg.c_str());
 
     return nullptr;
+}
+
+HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<string>& outClassNames)
+{
+    try
+    {
+        // JSON ÆÄÀÏ ¿­±â
+        ifstream file(filePath);
+        if (!file.is_open())
+        {
+            MSG_BOX("Å¬·¡½º ÀÌ¸§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            return E_FAIL;
+        }
+
+        // JSON ÆÄ½Ì
+        json jsonData;
+        file >> jsonData;
+        file.close();
+
+        outClassNames.clear();
+
+        if (jsonData.contains("classes") && jsonData["classes"].is_array())
+        {
+            for (const auto& className : jsonData["classes"])
+            {
+                if (className.is_string())
+                {
+                    outClassNames.push_back(className.get<string>());
+                }
+            }
+
+            return S_OK;
+        }
+        else
+        {
+            MSG_BOX("JSON ÆÄÀÏ¿¡ 'classes' ¹è¿­ÀÌ ¾ø°Å³ª Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.");
+            return E_FAIL;
+        }
+    }
+    catch (const json::exception& e)
+    {
+        return E_FAIL;
+    }
+    catch (const exception& e)
+    {
+
+        return E_FAIL;
+    }
 }
 
 _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)

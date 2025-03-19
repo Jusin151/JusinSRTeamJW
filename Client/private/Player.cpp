@@ -13,12 +13,13 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CLandObject{ Prototype }
+	: CLandObject( Prototype )
 {
 }
 
 HRESULT CPlayer::Initialize_Prototype()
 {
+	//m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
 	return S_OK;
 }
 
@@ -33,6 +34,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;*/
 
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -41,8 +43,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
+	
 
-	//m_pPlayer_Inven = CInventory::GetInstance();
+	//m_pPlayer_Inven = CInventory::GetInstance(); 
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
@@ -212,7 +215,11 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
+	{
+		if (FAILED(__super::Add_Component(LEVEL_EDITOR, TEXT("Prototype_Component_Texture_Player"),
+			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+			return E_FAIL;
+	}
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),

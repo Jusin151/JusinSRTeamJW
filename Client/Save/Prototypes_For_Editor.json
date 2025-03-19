@@ -2,7 +2,7 @@
   "textures": [
     {
       "tag": "Prototype_Component_Texture_Player",
-      "level": 3,
+      "level": 4,
       "path": "../../Resources/Textures/Player/Player.png",
       "count": 1
     },
@@ -123,39 +123,21 @@
     {
       "tag": "Prototype_Component_Texture_Inven",
       "level": 3,
-
-      "path": "../../Resources/Textures/Weapon/ShotGun/Shot/shotgun_shot%d.png",
-      "count": 3
-    },
-    {
-      "tag": "Prototype_Component_Texture_ShotGun_2",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/ShotGun/Reload/shotgun_reload%d.png",
-      "count": 14
-    },
-    {
-      "tag": "Prototype_Component_Texture_Weapon_Icon",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
-      "count": 5
-    },
-    {
-      "tag": "Prototype_Component_Texture_Anubis",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Anubis/anubis_idle.png",
+      "path": "../../Resources/Textures/Inven/Inven.png",
       "count": 1
     }
+
   ],
   "gameObjects": [
     {
       "tag": "Prototype_GameObject_Player",
-      "level": 3,
+      "level": 4,
       "class": "CPlayer"
     },
     {
-      "tag": "Prototype_GameObject_Anubis",
+      "tag": "Prototype_GameObject_TestMonster",
       "level": 3,
-      "class": "CAnubis"
+      "class": "CTestMonster"
     },
     {
       "tag": "Prototype_GameObject_Terrain",
@@ -164,12 +146,12 @@
     },
     {
       "tag": "Prototype_GameObject_Camera_Free",
-      "level": 3,
+      "level": 4,
       "class": "CCamera_Free"
     },
     {
       "tag": "Prototype_GameObject_Camera_FirstPerson",
-      "level": 3,
+      "level": 4,
       "class": "CCamera_FirstPerson"
     },
     {
@@ -248,24 +230,19 @@
       "class": "CClaymore"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Magnum",
+      "tag": "Prototype_GameObject_Weapon_Claymore_Magnum",
       "level": 3,
       "class": "CMagnum"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Staff",
+      "tag": "Prototype_GameObject_Weapon_Claymore_Staff",
       "level": 3,
       "class": "CStaff"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_ShotGun",
+      "tag": "Prototype_GameObject_Weapon_Claymore_ShotGun",
       "level": 3,
       "class": "CShotGun"
-    },
-    {
-      "tag": "Prototype_GameObject_Inven",
-      "level": 3,
-      "class": "CInventory"
     }
   ],
   "buffers": [

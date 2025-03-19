@@ -165,9 +165,11 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
+    <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Inventory.h" />
     <ClInclude Include="..\Public\Item_Icon.h" />
+    <ClInclude Include="..\public\Level_Editor.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="..\public\Magnum.h" />
     <ClInclude Include="..\public\Melee_Weapon.h" />
     <ClInclude Include="..\Public\Monster_Base.h" />
+    <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Staff.h" />
@@ -224,9 +227,11 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
+    <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\private\JsonLoader.cpp" />
     <ClCompile Include="..\Private\Inventory.cpp" />
     <ClCompile Include="..\Private\Item_Icon.cpp" />
+    <ClCompile Include="..\private\Level_Editor.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
@@ -234,6 +239,7 @@
     <ClCompile Include="..\private\Magnum.cpp" />
     <ClCompile Include="..\private\Melee_Weapon.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp" />
+    <ClCompile Include="..\private\MyImGui.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />

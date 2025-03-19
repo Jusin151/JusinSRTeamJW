@@ -82,17 +82,21 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
+  
+
 	return S_OK;
 }
 
 void CMainApp::Update(_float fTimeDelta)
 {
+//	m_pMyImGui->Update(fTimeDelta);
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
 
 HRESULT CMainApp::Render()
 {
 	
+	//m_pMyImGui->Render();
 
 	m_pGameInstance->Draw();
 

@@ -1,15 +1,9 @@
 ﻿#pragma once
 
 #include "Client_Defines.h"
-#include "CUI_Base.h"
-#include <vector>
-#include <unordered_map>
-#include <string>
+#include "Weapon_Base.h"
 
 BEGIN(Client)
-
-class CItemBase;
-
 class CItem_Manager 
 {
 public:
@@ -30,27 +24,27 @@ private:
 public:
 
 
-    // 아이템 추가, 제거, 조회 기능
-    void AddItem(CItemBase* pItem) 
+    void Add_Weapon(const wstring& tag, CWeapon_Base* pUI)
     {
-
+        if (m_UIMap.find(tag) != m_UIMap.end())
+        {
+            return;
+        }
+        m_UIMap[tag] = pUI;
     }
-    void RemoveItem(int iItemID)
+
+    CWeapon_Base* Get_Weapon(const wstring& tag)
     {
-
+        auto it = m_UIMap.find(tag);
+        if (it != m_UIMap.end())
+        {
+            return it->second;
+        }
+        return nullptr;
     }
-    CItemBase* GetItem(int iItemID)
-    {
-
-    }
-    const vector<CItemBase*>& GetAllItems() const { return m_Items; }
-
 
 
 private:
-    vector<CItemBase*> m_Items;
-    unordered_map<int, CItemBase*> m_ItemMap; // 아이템 ID를 키로 관리
-
-    // 인벤토리 UI 관련 데이터 (예: 슬롯 위치, 배경 이미지 등)을 추가할 수 있음.
+    unordered_map<wstring, CWeapon_Base*> m_UIMap;
 };
 END
