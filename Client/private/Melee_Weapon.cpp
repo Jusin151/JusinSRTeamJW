@@ -12,8 +12,6 @@ CMelee_Weapon::CMelee_Weapon(const CMelee_Weapon& Prototype)
 {
 }
 
-
-=======
 HRESULT CMelee_Weapon::Initialize_Prototype()
 {
 	return E_NOTIMPL;

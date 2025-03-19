@@ -34,13 +34,12 @@ private:
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
 	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
-	CCollider_Cube*		m_pColliderCom = { nullptr };
+	CCollider_Cube*			m_pColliderCom = { nullptr };
 private:
 	POINT m_ptOldMousePos = {};
 	_float m_fMouseSensor = {};
 private:
-	CGameObject* m_pCamera = nullptr; 
-	CCollider_Cube*			m_pColliderCom = { nullptr };
+	CGameObject*			m_pCamera = nullptr; 
 	
 private:
 	HRESULT SetUp_RenderState();

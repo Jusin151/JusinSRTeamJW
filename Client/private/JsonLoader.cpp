@@ -31,7 +31,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
             LEVEL level = static_cast<LEVEL>(texture["level"].get<_uint>());
             _uint count = texture["count"];
             if (FAILED(pGameInstance->Add_Prototype(level, tag,
-                CTexture::Create(pGraphic_Device, path.c_str(), count))))
+                CTexture::Create(pGraphic_Device, CTexture::TYPE_2D, path.c_str(), count))))
                 return E_FAIL;
         }
     }
