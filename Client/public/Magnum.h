@@ -23,9 +23,10 @@ public:
 	HRESULT Initialize(void* pArg);
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
+	void Attack(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 	HRESULT Render();
-	Weapon_DESC m_Claymore_INFO{};
+	Weapon_DESC m_Magnum_INFO{};
 
 private:
 	HRESULT Ready_Components();

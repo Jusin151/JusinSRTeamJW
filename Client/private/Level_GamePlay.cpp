@@ -553,6 +553,77 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		return E_FAIL;
 
 
+	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
+	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
+	Weapon_Claymore_Desc.vSize = { 2048.,682.f };
+	Weapon_Claymore_Desc.Damage = { 100.f };
+	Weapon_Claymore_Desc.AttackSpeed = { 1.f };
+	Weapon_Claymore_Desc.Range = { 3.f };
+	Weapon_Claymore_Desc.Cooldown = { 1.f };
+	//Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Claymore"),
+		&Weapon_Claymore_Desc)))
+		return E_FAIL;
+
+	CWeapon_Base::Weapon_DESC Weapon_Axe_Desc{}; // 도끼
+	Weapon_Axe_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Axe_Desc.vPos = { 0.f,200.f };
+	Weapon_Axe_Desc.vSize = { 1000,282.f };
+	Weapon_Axe_Desc.Damage = { 100.f };
+	Weapon_Axe_Desc.AttackSpeed = { 1.f };
+	Weapon_Axe_Desc.Range = { 3.f };
+	Weapon_Axe_Desc.Cooldown = { 1.f };
+	//Weapon_Axe_Desc.TextureKey = L"Prototype_Component_Texture_Axe";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Axe"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Axe"),
+		&Weapon_Axe_Desc)))
+		return E_FAIL;
+
+	CWeapon_Base::Weapon_DESC Weapon_Magnum_Desc{}; // 매그넘
+	Weapon_Magnum_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Magnum_Desc.vPos = { 200.f,-40.f };
+	Weapon_Magnum_Desc.vSize = { 187,267.f };
+	Weapon_Magnum_Desc.Damage = { 100.f };
+	Weapon_Magnum_Desc.AttackSpeed = { 1.f };
+	Weapon_Magnum_Desc.Range = { 3.f };
+	Weapon_Magnum_Desc.Cooldown = { 1.f };
+	//Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_Magnum"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Magnum"),
+		&Weapon_Magnum_Desc)))
+		return E_FAIL;
+
+	CWeapon_Base::Weapon_DESC Weapon_ShotGun_Desc{}; // 샷건
+	Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_ShotGun_Desc.vPos = { -400,0.f };
+	Weapon_ShotGun_Desc.vSize = { 535,300.f };
+	Weapon_ShotGun_Desc.Damage = { 100.f };
+	Weapon_ShotGun_Desc.AttackSpeed = { 1.f };
+	Weapon_ShotGun_Desc.Range = { 3.f };
+	Weapon_ShotGun_Desc.Cooldown = { 1.f };
+	//Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_ShotGun";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_Staft"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
+		&Weapon_ShotGun_Desc)))
+		return E_FAIL;
+
+	CWeapon_Base::Weapon_DESC Weapon_Staft_Desc{}; // 스태프 원형객체
+	Weapon_Staft_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Staft_Desc.vPos = { -200.f,0.f };
+	Weapon_Staft_Desc.vSize = { 535,300.f };
+	Weapon_Staft_Desc.Damage = { 100.f };
+	Weapon_Staft_Desc.AttackSpeed = { 1.f };
+	Weapon_Staft_Desc.Range = { 3.f };
+	Weapon_Staft_Desc.Cooldown = { 1.f };
+	//Weapon_Staft_Desc.TextureKey = L"Prototype_Component_Texture_Staft";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_ShutGun"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staft"),
+		&Weapon_Staft_Desc)))
+		return E_FAIL;
+
+
 
 
 	return S_OK;

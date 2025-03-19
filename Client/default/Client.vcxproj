@@ -160,10 +160,13 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
+    <ClInclude Include="..\public\Inventory.h" />
+    <ClInclude Include="..\Public\Item_Icon.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -171,6 +174,8 @@
     <ClInclude Include="..\public\Magnum.h" />
     <ClInclude Include="..\public\Melee_Weapon.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
+    <ClInclude Include="..\public\ShutGun.h" />
+    <ClInclude Include="..\public\Staft.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
@@ -184,7 +189,7 @@
     <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_Left_Display.h" />
     <ClInclude Include="..\public\CUI_Manager.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h" />
@@ -205,7 +210,6 @@
     <ClInclude Include="..\public\UI_Structs.h" />
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
-    <ClInclude Include="Item_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -213,10 +217,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\JsonLoader.cpp" />
+    <ClCompile Include="..\Private\Inventory.cpp" />
+    <ClCompile Include="..\Private\Item_Icon.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
@@ -224,6 +231,8 @@
     <ClCompile Include="..\private\Magnum.cpp" />
     <ClCompile Include="..\private\Melee_Weapon.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
+    <ClCompile Include="..\private\ShutGun.cpp" />
+    <ClCompile Include="..\private\Staft.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />

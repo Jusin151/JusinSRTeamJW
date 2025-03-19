@@ -117,7 +117,7 @@ HRESULT CClaymore::On_Collision()
 
 	
 
-	switch (m_pColliderCom->Get_Other_Type())
+	switch (m_pColliderCom->Get_Other_Type()) //여기서 디버깅 잡히나?
 	{
 	case CG_MONSTER:
 
