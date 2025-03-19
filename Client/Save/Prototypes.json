@@ -103,41 +103,28 @@
       "count": 6
     },
     {
-      "tag": "Prototype_Component_Texture_Staff_1",
+      "tag": "Prototype_Component_Texture_Staff",
       "level": 3,
-      "path": "../../Resources/Textures/Weapon/Staff/Default/Start/staff_charge%d.png",
+      "path": "../../Resources/Textures/Weapon/Staff/Default/Staff_%d.png",
+      "count": 32
+    },
+    {
+      "tag": "Prototype_Component_Texture_ShotGun",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/ShotGun/ShotGun_%d.png",
       "count": 17
-    },
-    {
-      "tag": "Prototype_Component_Texture_Staff_2",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Staff/Default/Loop/staff_charge_loop%d.png",
-      "count": 10
-    },
-
-    {
-      "tag": "Prototype_Component_Texture_Staff_3",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Staff/Default/End/staff_charge_release%d.png",
-      "count": 5
-    },
-    {
-      "tag": "Prototype_Component_Texture_ShotGun_1",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/ShotGun/Shot/shotgun_shot%d.png",
-      "count": 3
-    },
-    {
-      "tag": "Prototype_Component_Texture_ShotGun_2",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/ShotGun/Reload/shotgun_reload%d.png",
-      "count": 14
     },
     {
       "tag": "Prototype_Component_Texture_Weapon_Icon",
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
       "count": 5
+    },
+    {
+      "tag": "Prototype_Component_Texture_Inven",
+      "level": 3,
+      "path": "../../Resources/Textures/Inven/Inven.png",
+      "count": 1
     }
 
   ],
@@ -243,19 +230,24 @@
       "class": "CClaymore"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore_Magnum",
+      "tag": "Prototype_GameObject_Weapon_Magnum",
       "level": 3,
       "class": "CMagnum"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore_Staff",
+      "tag": "Prototype_GameObject_Weapon_Staff",
       "level": 3,
       "class": "CStaff"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore_ShotGun",
+      "tag": "Prototype_GameObject_Weapon_ShotGun",
       "level": 3,
       "class": "CShotGun"
+    },
+    {
+      "tag": "Prototype_GameObject_Inven",
+      "level": 3,
+      "class": "CInventory"
     }
   ],
   "buffers": [

@@ -1,4 +1,4 @@
-#include "JsonLoader.h"
+ï»¿#include "JsonLoader.h"
 #include <Player.h>
 #include <Terrain.h>
 #include <TestMonster.h>
@@ -11,18 +11,18 @@
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
 {
-    // JSON ÆÄÀÏ ·Îµå
+    // JSON íŒŒì¼ ë¡œë“œ
     ifstream file(filePath);
     if (!file.is_open()) 
     {
-        MSG_BOX("ÇÁ·ÎÅäÅ¸ÀÔ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        MSG_BOX("í”„ë¡œí† íƒ€ì… JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return E_FAIL;
     }
 
     json j;
     file >> j;
 
-    // ÅØ½ºÃ³ ÇÁ·ÎÅäÅ¸ÀÔ ·Îµå
+    // í…ìŠ¤ì²˜ í”„ë¡œí† íƒ€ì… ë¡œë“œ
     if (j.contains("textures")) 
     {
         for (const auto& texture : j["textures"])
@@ -37,7 +37,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
         }
     }
 
-    // °ÔÀÓ ¿ÀºêÁ§Æ® ÇÁ·ÎÅäÅ¸ÀÔ ·Îµå
+    // ê²Œì„ ì˜¤ë¸Œì íŠ¸ í”„ë¡œí† íƒ€ì… ë¡œë“œ
     if (j.contains("gameObjects")) 
     {
         for (const auto& obj : j["gameObjects"])
@@ -54,7 +54,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
         }
     }
 
-    // ¹öÆÛ ÇÁ·ÎÅäÅ¸ÀÔ ·Îµå
+    // ë²„í¼ í”„ë¡œí† íƒ€ì… ë¡œë“œ
     if (j.contains("buffers")) 
     {
         for (const auto& buffer : j["buffers"])
@@ -63,7 +63,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
             LEVEL level = static_cast<LEVEL>(buffer["level"].get<_uint>());
             string className = buffer["class"];
 
-            // ¹öÆÛ »ı¼º ·ÎÁ÷ Ãß°¡
+            // ë²„í¼ ìƒì„± ë¡œì§ ì¶”ê°€
             CBase* pBuffer = nullptr;
 
             if (className == "CVIBuffer_Terrain") 
@@ -72,7 +72,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
                 _uint height = buffer["height"].get<_uint>();
                 pBuffer = CVIBuffer_Terrain::Create(pGraphic_Device, width, height);
             }
-            // ´Ù¸¥ Å¸ÀÔÀÇ ¹öÆÛ°¡ ÀÖ´Ù¸é ¿©±â¿¡ Ãß°¡
+            // ë‹¤ë¥¸ íƒ€ì…ì˜ ë²„í¼ê°€ ìˆë‹¤ë©´ ì—¬ê¸°ì— ì¶”ê°€
 
             if (!pBuffer)
                 continue;
@@ -90,7 +90,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
     ifstream file(jsonFilePath);
     if (!file.is_open())
     {
-        MSG_BOX("·¹º§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        MSG_BOX("ë ˆë²¨ JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return E_FAIL;
     }
 
@@ -166,7 +166,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 
 CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    // ±âº» °ÔÀÓ ¿ÀºêÁ§Æ®
+    // ê¸°ë³¸ ê²Œì„ ì˜¤ë¸Œì íŠ¸
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
     else if (className == "CTestMonster")
@@ -175,12 +175,12 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")
         return CStructure::Create(pGraphic_Device);
-    // Ä«¸Ş¶ó
+    // ì¹´ë©”ë¼
     else if (className == "CCamera_Free")
         return CCamera_Free::Create(pGraphic_Device);
     else if (className == "CCamera_FirstPerson")
         return CCamera_FirstPerson::Create(pGraphic_Device);
-    // UI ÄÄÆ÷³ÍÆ®
+    // UI ì»´í¬ë„ŒíŠ¸
     else if (className == "CUI_Default_Panel")
         return CUI_Default_Panel::Create(pGraphic_Device);
     else if (className == "CUI_Left_Display")
@@ -218,9 +218,9 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     else if (className == "CShotGun")
         return CShotGun::Create(pGraphic_Device);
 
-    // Ã£Áö ¸øÇÑ Å¬·¡½º ÀÌ¸§¿¡ ´ëÇÑ Ã³¸®
+    // ì°¾ì§€ ëª»í•œ í´ë˜ìŠ¤ ì´ë¦„ì— ëŒ€í•œ ì²˜ë¦¬
     wstring wClassName = ISerializable::Utf8ToWide(className);
-    wstring errorMsg = L"¾Ë ¼ö ¾ø´Â Å¬·¡½º ÀÌ¸§: " + wClassName;
+    wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ë˜ìŠ¤ ì´ë¦„: " + wClassName;
     OutputDebugString(errorMsg.c_str());
 
     return nullptr;

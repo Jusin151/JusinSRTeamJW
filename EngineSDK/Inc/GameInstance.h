@@ -90,6 +90,10 @@ public:
 	HRESULT Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, const _float2& vSize, _float3 vColor);
 #pragma endregion
 
+#pragma region PICKING
+	_bool Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC);
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -102,6 +106,8 @@ private:
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 	class CMyImGui*				m_pMyImGui = { nullptr };
 	class CFont_Manager*	    m_pFont_Manager = { nullptr };
+	/*class CPicking*				m_pPicking = { nullptr };*/
+
 public:
 	void Release_Engine();
 	virtual void Free() override;

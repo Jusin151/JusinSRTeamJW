@@ -98,7 +98,7 @@ void CGamePlay_Button::Episode_UI_Update()
 {
 	if (!m_Button_INFO.bDisplay_On)
 	{
-		if (GetKeyState('o') & 0x8000)
+		if (GetKeyState('O') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -126,7 +126,7 @@ void CGamePlay_Button::Episode_UI_Update()
 	else
 	{
 		Current_Image = Episode_Display;
-		if (GetKeyState('o') & 0x8000)
+		if (GetKeyState('O') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -477,16 +477,16 @@ HRESULT CGamePlay_Button::Render()
 HRESULT CGamePlay_Button::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_Button_INFO.strTexture_Default_Tag,
-		TEXT("Com_Texture_Menu_1"), reinterpret_cast<CComponent**>(&m_GamePlay_Button_pTextureCom))))
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_GamePlay_Button_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Menu"), reinterpret_cast<CComponent**>(&m_GamePlayer_Button_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_GamePlayer_Button_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Menu"), reinterpret_cast<CComponent**>(&m_GamePlayer_Button_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_GamePlayer_Button_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

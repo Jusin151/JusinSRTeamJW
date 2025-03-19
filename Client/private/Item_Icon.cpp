@@ -1,4 +1,4 @@
-#include "Item_Icon.h"
+Ôªø#include "Item_Icon.h"
 #include "GameInstance.h"
 
 
@@ -28,7 +28,8 @@ HRESULT CItem_Icon::Initialize(void* pArg)
 
 		return E_FAIL;
 
-
+	m_Icon_INFO.vPos = { 0.f,0.f };
+	m_Icon_INFO.vSize = { 300.f,300.f };
 
 	m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x, m_Icon_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -36,9 +37,6 @@ HRESULT CItem_Icon::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CItem_Icon::Priority_Update(_float fTimeDelta)
-{
-}
 
 void CItem_Icon::Update(_float fTimeDelta)
 {
@@ -62,17 +60,17 @@ HRESULT CItem_Icon::Render()
 HRESULT CItem_Icon::Ready_Components()
 {
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Hp_Bar"),
-		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Inven_Icon"),
+		TEXT("Com_Texture_Icon"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_HP"),
-		TEXT("Com_VIBuffer_HP"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer"),
+		TEXT("Com_VIBuffer_Icon"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_HP"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Icon"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -85,7 +83,7 @@ CItem_Icon* CItem_Icon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("√º∑¬πŸ UI ø¯∫ª ª˝º∫ Ω«∆– ");
+		MSG_BOX("ÏïÑÏù¥ÏΩò UI ÏõêÎ≥∏ ÏÉùÏÑ± Ïã§Ìå® ");
 		Safe_Release(pInstance);
 	}
 
@@ -98,7 +96,7 @@ CGameObject* CItem_Icon::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("√º∑¬πŸ UI ∫π¡¶ Ω«∆–");
+		MSG_BOX("ÏïÑÏù¥ÏΩò UI Î≥µÏ†ú Ïã§Ìå®");
 		Safe_Release(pInstace);
 	}
 

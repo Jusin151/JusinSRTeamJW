@@ -27,7 +27,7 @@ _uint APIENTRY LoadingMain(void* pArg)
 	/* 자원로딩한다. */
 	CLoader* pLoader = static_cast<CLoader*>(pArg);
 
-	if (FAILED(pLoader->Loading()))
+ 	if (FAILED(pLoader->Loading()))
 		return 1;
 
 	return 0;
@@ -130,8 +130,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//m_isFinished = true;
 
 	/* For.Prototype_Component_Texture_Sky */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+		return E_FAIL;*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Inven"),
+		CInventory::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
@@ -244,10 +249,6 @@ HRESULT CLoader::Add_To_GamePlay_Textures()
 
 	Add_To_UI_Textures(); // UI 텍스쳐
 
-	Add_To_Shop_Textures();// 상점 텍스쳐
-
-	Add_To_Weapon_Textures(); // 무기 텍스쳐
-
 	return S_OK;
 }
 
@@ -298,11 +299,10 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		CTestMonster::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
 	Add_To_UI_Prototype(); //UI 원형 객체
 
-	Add_To_Shop_Prototype(); // 상점 원형객체
 
-	Add_To_Weapon_Prototye();// 무기 원형객체
 	return S_OK;
 }
 HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
@@ -507,166 +507,21 @@ HRESULT CLoader::Add_To_UI_Right_Menu_Prototype()
 	return S_OK;
 }
 
-HRESULT CLoader::Add_To_Shop_Prototype()
-{
-	// 모든 게임플레이 레벨의 버튼 컨트롤러
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_GamePlayer_Button"),
-		CGamePlay_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// 스펠 샵 UI 원형격체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Spell_Shop_UI"),
-		CUI_Spell_Shop::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 
+	//// 인벤 원형객체
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+	//	TEXT("Prototype_GameObject_Weapon_Claymore_Sh"),
+	//	CStaff::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
 
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Shop_Textures()
-{
-	// 에피소드 레벨 1 모든 스테이지 이미지
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Episode_Level_1_UI"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png"),
-			21))))
-		return E_FAIL;
-
-	// 포인트 스탯 상점의 모든 이미지
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Point_Shop_UI"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_%d.png"),
-			3))))
-		return E_FAIL;
-
-	// 스펠 샵 UI
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Spell_Shop_UI"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"),
-			1))))
-		return E_FAIL;
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Weapon_Textures()
-{
-	// 도끼 텍스쳐 11장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Axe"), 
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Axe/axe_attack%d.png"),
-			10))))
-		return E_FAIL;
-
-	// 클레이모어 텍스쳐 15장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Claymore"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Claymoreee/claymore_pwI%d.png"),
-			14))))
-		return E_FAIL;
-
-	// 매그넘 텍스쳐 6장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Magnum"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Magnum/magnum_shoot%d.png"),
-			6))))
-		return E_FAIL;
-
-	// 스태프 텍스쳐 16장 // 차징 준비단계
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Staff_1"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Staft/Default/Start/staff_charge%d.png"),
-			17))))
-		return E_FAIL;
-
-	// 스태프 텍스쳐 10장 // 차징 루프 ( 기모으는중
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Staff_2"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Staft/Default/Loop/staff_charge_loop%d.png"),
-			10))))
-		return E_FAIL;
-
-	// 스태프 텍스쳐 5장 // 발사
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Staff_3"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Staft/Default/End/staff_charge_release%d.png"),
-			5))))
-		return E_FAIL;
-
-	// 샷건 텍스쳐 발사 3장
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_ShotGun_1"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/ShotGun/Shot/shotgun_shot%d.png"),
-			3))))
-		return E_FAIL;
-
-	// 샷건 텍스쳐 발사후 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_ShotGun_2"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/ShotGun/Reload/shotgun_reload%d.png"),
-			14))))
-		return E_FAIL;
-
-	// 인벤에서 사용할 아이콘들 5장
-	// 1 도끼 2 클레이모어 3 매그넘 4 샷건 5 스태프
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_Component_Texture_Weapon_Icon"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"),
-			5))))
-		return E_FAIL;
-
-
-	return S_OK;
-}
-HRESULT CLoader::Add_To_Weapon_Prototye()
-{
-	// 도끼 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Weapon_Axe"),
-		CAxe::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// 클레이모어 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Weapon_Claymore"),
-		CClaymore::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// 매그넘 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Weapon_Claymore_Magnum"),
-		CMagnum::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-	// 샷건 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Weapon_Claymore_Staff"),
-		CShotGun::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// 스태프 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Weapon_Claymore_ShotGun"),
-		CStaff::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	//// 아이템 아이콘 원형객체
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+	//	TEXT("Prototype_GameObject_Weapon_Claymore_ShotGun"),
+	//	CStaff::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
 	
 
-	return S_OK;
-}
 
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)

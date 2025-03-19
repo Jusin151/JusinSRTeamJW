@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "Weapon_Base.h"
 #include "LandObject.h"
+#include "Inventory.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -53,6 +54,7 @@ private:
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
+	CInventory* m_pInven={nullptr};
 	virtual void Free();
 };
 
