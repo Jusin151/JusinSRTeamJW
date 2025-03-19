@@ -214,7 +214,8 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 #pragma region PICKING
 _bool CGameInstance::Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
 {
-	return m_pPicking->Picking(vPickedPos, vPointA, vPointB, vPointC);
+	return false;
+	//return m_pPicking->Picking(vPickedPos, vPointA, vPointB, vPointC);
 }
 
 #pragma endregion
