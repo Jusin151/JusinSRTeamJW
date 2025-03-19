@@ -36,6 +36,12 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 	m_vInitialPos = m_ShotGun_INFO.vPos;
 
+	// 초기화 시 설정
+	m_TextureRanges["Idle"] = { 0,0 };
+	m_TextureRanges["Reloading"] = { 3, 16 };
+	m_TextureRanges["Firing"] = { 1, 2 };
+
+
 	return S_OK;
 }
 
@@ -79,7 +85,7 @@ void CShotGun::Attack(_float fTimeDelta)
 		if (m_eState == State::Idle)
 		{
 			m_eState = State::Firing;
-			m_iCurrentFrame = 0;
+			m_iCurrentFrame = m_TextureRanges["Firing"].first;
 			m_fElapsedTime = 0.0f;
 		}
 	}
@@ -89,21 +95,21 @@ void CShotGun::Attack(_float fTimeDelta)
 	switch (m_eState)
 	{
 	case State::Idle:
-		m_iCurrentFrame = 0;
+		m_iCurrentFrame = m_TextureRanges["Idle"].first;
 		break;
 
 	case State::Firing:
 		if (m_fElapsedTime >= 0.02f)
 		{
 			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 3)
+			if (m_iCurrentFrame < m_TextureRanges["Firing"].second)
 			{
 				m_iCurrentFrame++;
 			}
 			else
 			{
 				m_eState = State::Reloading;
-				m_iCurrentFrame = 0;
+				m_iCurrentFrame = m_TextureRanges["Reloading"].first;
 			}
 		}
 		break;
@@ -112,19 +118,20 @@ void CShotGun::Attack(_float fTimeDelta)
 		if (m_fElapsedTime >= 0.02f)
 		{
 			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 14)
+			if (m_iCurrentFrame < m_TextureRanges["Reloading"].second)
 			{
 				m_iCurrentFrame++;
 			}
 			else
 			{
 				m_eState = State::Idle;
-				m_iCurrentFrame = 0;
+				m_iCurrentFrame = m_TextureRanges["Idle"].first;
 			}
 		}
 		break;
 	}
 }
+
 void CShotGun::Late_Update(_float fTimeDelta)
 {
 	
@@ -162,7 +169,7 @@ HRESULT CShotGun::Render()
 		break;
 
 	case State::Reloading:
-		if (FAILED(m_pTextureCom_Second->Bind_Resource(m_iCurrentFrame)))
+		if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
 			return E_FAIL;
 		break;
 	}
@@ -189,21 +196,17 @@ HRESULT CShotGun::On_Collision()
 
 HRESULT CShotGun::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_ShotGun_1"),
-		TEXT("Com_Texture_ShotGun_1"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_ShotGun_2"),
-		TEXT("Com_Texture_ShotGun_2"), reinterpret_cast<CComponent**>(&m_pTextureCom_Second))))
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_ShotGun"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_ShotGun"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_ShotGun"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

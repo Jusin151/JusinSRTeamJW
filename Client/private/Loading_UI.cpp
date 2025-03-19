@@ -9,9 +9,6 @@ CLoading_UI::CLoading_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CLoading_UI::CLoading_UI(const CLoading_UI& Prototype)
 	: CUI_Base(Prototype),
-	m_Loading_pTextureCom(Prototype.m_Loading_pTextureCom),
-	m_Loading_pTransformCom(Prototype.m_Loading_pTransformCom),
-	m_Loading_pVIBufferCom(Prototype.m_Loading_pVIBufferCom),
 	m_Loading_INFO{ Prototype.m_Loading_INFO }
 {
 }
@@ -100,17 +97,17 @@ HRESULT CLoading_UI::Render()
 HRESULT CLoading_UI::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_LOADING, TEXT("Prototype_Component_Texture_Loading_UI"),
-		TEXT("Com_Texture_Loading"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Loading"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Loading"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 
@@ -149,7 +146,5 @@ void CLoading_UI::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_Loading_pTextureCom);
-	Safe_Release(m_Loading_pTransformCom);
-	Safe_Release(m_Loading_pVIBufferCom);
+
 }

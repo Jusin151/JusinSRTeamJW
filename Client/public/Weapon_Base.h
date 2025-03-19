@@ -17,7 +17,7 @@ class CWeapon_Base abstract : public CGameObject
 public:
     enum WEAPON_ID
     {
-        Axe,Claymore,Magnum,ShotGun,Staff
+        Axe, Claymore, Magnum, ShotGun, Staff
     };
 
 public:
@@ -37,7 +37,7 @@ public:
     }Weapon_DESC;
 
 
- 
+
 protected:
     CWeapon_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
     CWeapon_Base(const CWeapon_Base& Prototype);
@@ -58,24 +58,23 @@ protected:
     CTexture* m_pTextureCom = {};
     CVIBuffer_Rect* m_pVIBufferCom = {};
     CTransform* m_pTransformCom = {};
-protected: // 이미지 너무 많은 경우 나눠서 사용  ex : ) 스태프의 경우 공격이 세단계로 나누어져서 이루어짐
-    CTexture* m_pTextureCom_Second = {}; 
-    CTexture* m_pTextureCom_Third = {};
 public:
     _bool  Get_MouseClick() const { return m_bIsMouseClick; }
     void   Set_MouseClick(_bool type) { m_bIsMouseClick = type; }
     virtual wstring GetLayerID() { return L"Default"; }
 
-    Weapon_DESC m_Weapon_INFO;
-
 protected:
-
-
     bool m_bIsMouseOver = {};
     bool m_bIsMouseClick = {};
 
+    // 상태별 시작 인덱스 관리
+    map<string, pair<int, int>> m_TextureRanges{};
 
-
+ 
+    int GetTextureIndex(string& stateName, int frameNum)
+    {
+        auto range = m_TextureRanges[stateName];
+        return range.first + (frameNum % (range.second - range.first + 1));
+    }
 };
-
 END

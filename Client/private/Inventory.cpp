@@ -29,7 +29,6 @@ HRESULT CInventory::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
 	m_pTransformCom->Set_Scale(m_Inven_INFO.vSize.x, m_Inven_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
@@ -62,17 +61,17 @@ HRESULT CInventory::Render()
 HRESULT CInventory::Ready_Components()
 {
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Hp_Bar"),
-		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Icon"),
+		TEXT("Com_Texture_Inven"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_HP"),
-		TEXT("Com_VIBuffer_HP"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer"),
+		TEXT("Com_VIBuffer_Inven"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_HP"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Inven"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -85,7 +84,7 @@ CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("체력바 UI 원본 생성 실패 ");
+		MSG_BOX("인벤 UI 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -98,7 +97,7 @@ CGameObject* CInventory::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("체력바 UI 복제 실패");
+		MSG_BOX("인벤 UI 복제 실패");
 		Safe_Release(pInstace);
 	}
 

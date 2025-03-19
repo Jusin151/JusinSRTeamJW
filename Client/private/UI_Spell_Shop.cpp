@@ -117,16 +117,16 @@ HRESULT CUI_Spell_Shop::Render()
 HRESULT CUI_Spell_Shop::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop_UI"),
-		TEXT("Com_Texture_Menu"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pTextureCom))))
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Menu"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Menu"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_SpellShopUI_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

@@ -6,6 +6,7 @@
 
 BEGIN(Engine)
 class CTexture;
+class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로 할듯
 END
 
@@ -67,7 +68,7 @@ public:
 protected:
     CTexture* m_pTextureCom = { nullptr };
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-    CTransform* m_pTransformCom = {nullptr};
+    CTransform* m_pTransformCom = { nullptr };
     Inven_DESC m_Inven_INFO{};
 
     unordered_map<wstring, CWeapon_Base*> m_UIMap;
