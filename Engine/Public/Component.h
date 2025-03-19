@@ -19,6 +19,7 @@ public:
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance*			m_pGameInstance = { nullptr };
+	_bool							m_isCloned = { false };
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;

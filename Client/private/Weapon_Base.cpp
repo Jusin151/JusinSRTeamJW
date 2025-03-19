@@ -65,11 +65,13 @@ void CWeapon_Base::Late_Update(_float fTimeDelta)
 void CWeapon_Base::Free()
 {
 	__super::Free();
+	Safe_Release(m_pTextureCom_Second);
+	Safe_Release(m_pTextureCom_Third);
 }
 
 
 HRESULT CWeapon_Base::Ready_Components()
 {
-
+	
 	return S_OK;
 }

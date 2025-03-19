@@ -1,17 +1,19 @@
-﻿#include "Player.h"
-
+﻿
 #include "PickingSys.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Camera_FirstPerson.h"
+#include "Melee_Weapon.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+	: CLandObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CGameObject{ Prototype }
+	: CLandObject{ Prototype }
 {
 }
 
@@ -22,6 +24,15 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
+	/*CLandObject::LANDOBJECT_DESC		Desc{};
+	Desc.iLevelIndex = LEVEL_GAMEPLAY;
+	Desc.strLayerTag = TEXT("Layer_BackGround");
+	Desc.strComponentTag = TEXT("Com_VIBuffer");
+	Desc.iIndex = 0;
+
+	if (FAILED(__super::Initialize(&Desc)))
+		return E_FAIL;*/
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -30,6 +41,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
+
+	//m_pPlayer_Inven = CInventory::GetInstance();
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
@@ -47,31 +60,16 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	if (GetKeyState('W') & 0x8000)
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-	if (GetKeyState('S') & 0x8000)
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
-	if (GetKeyState('A') & 0x8000)
-	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
-	}
-	if (GetKeyState('D') & 0x8000)
-	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
-	}
+	Move(fTimeDelta); 
 
-
-
-
+	Inven_Update(fTimeDelta);
 	m_pColliderCom->Update_Collider();
 	
 
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 	
+	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -88,7 +86,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-
+	//m_pPlayer_Inven->Render();
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -111,6 +109,7 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::On_Collision()
 {
+	
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
@@ -134,8 +133,41 @@ HRESULT CPlayer::On_Collision()
 	return S_OK;
 }
 
+void CPlayer::Move(_float fTimeDelta)
+{
+	if (GetKeyState('W') & 0x8000)
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+	if (GetKeyState('S') & 0x8000)
+	{
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+	if (GetKeyState('A') & 0x8000)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+	}
+	if (GetKeyState('D') & 0x8000)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+	}
+}
+
+void CPlayer::Inven_Update(_float fTimeDelta)
+{
+	//m_bInven_Render_State = m_pPlayer_Inven->Update(fTimeDelta);
+
+
+	
+}
+
 HRESULT CPlayer::SetUp_RenderState()
 {
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 
@@ -153,9 +185,15 @@ HRESULT CPlayer::SetUp_RenderState()
 
 HRESULT CPlayer::Release_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 //	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
 	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return S_OK;
@@ -186,11 +224,11 @@ HRESULT CPlayer::Ready_Components()
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.5f };
 
 	/* For.Com_Collider_Sphere */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -229,6 +267,4 @@ void CPlayer::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
-
-
 }

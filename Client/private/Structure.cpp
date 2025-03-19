@@ -134,7 +134,7 @@ HRESULT CStructure::Ready_Components()
 	{
 		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 			m_tStructure_Desc.stTextureTag,
-			CTexture::Create(m_pGraphic_Device,
+			CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 				m_tStructure_Desc.stTexturePath.c_str(), 1))))
 			return E_FAIL;
 	}

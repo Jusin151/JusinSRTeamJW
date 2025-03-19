@@ -17,34 +17,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	// 3월 17일 끊으신곳 : 머테리얼의 스펙큘러란? 에서 끊으심
-	// 3월 18일 끊으신곳 : 반사벡터와 Pow로 코사인 그래프를 압축시키는이유 
-	// Emissive 아이언맨 가슴까지 설명해주심
 
-	/*결과색상 = (L.Diffuse.r * M.Diffuse.r,
-		L.Diffuse.g * M.Diffuse.g,
-		L.Diffuse.b * M.Diffuse.b,
-		L.Diffuse.a * M.Diffuse.a);
-
-	결과색상 = (L.Diffuse.r * DiffuseTexture.r * M.Diffuse.r,
-		L.Diffuse.g * DiffuseTexture.g * M.Diffuse.g,
-		L.Diffuse.b * DiffuseTexture.b * M.Diffuse.b,
-		L.Diffuse.a * DiffuseTexture.a * M.Diffuse.a);
-
-	결과색상 * (명암(0.f ~ 1.f) + L.Ambient * M.Ambient)*/
-
-	//LightDesc
-	
-	/*
-	D3DLIGHT9			LightDesc{};
-	m_pGraphic_Device->SetLight(0, &LightDesc);
-
-	D3DMATERIAL9		MtrlDesc{};
-	m_pGraphic_Device->SetMaterial(&MtrlDesc);
-
-	m_pGraphic_Device->LightEnable(0, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);*/
-
+	// 3월 18일 랜드오브젝트와 평면의 방정식
+	// 플레이어 지형타기까지 완료 
+	// 스카이큐브 까지 완료
+	// dds 감지기능 완료
 
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;
@@ -58,29 +35,34 @@ HRESULT CMainApp::Initialize()
 
 	D3DLIGHT9			LightDesc{};
 
-	/* 난반사에 위한 빛의 색상. */
 	LightDesc.Type = D3DLIGHT_DIRECTIONAL;
 	LightDesc.Direction = _float3(1.f, -1.f, 1.f);
+	//LightDesc.Position = _float3(10.f, 3.f, 10.f);
+	//LightDesc.Range = 10.f;
+	//LightDesc.Attenuation1 = 1.3f;
 	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//LightDesc.Specular = ;
-
-	/* LightDesc.Specular = ;*/
+	LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);	
 	m_pGraphic_Device->SetLight(0, &LightDesc);
 
-	/* 텍스쳐로 재질을 대체한다. */
+	//LightDesc.Type = D3DLIGHT_POINT;
+	///*LightDesc.Direction = _float3(1.f, -1.f, 1.f);*/
+	//LightDesc.Position = _float3(20.f, 3.f, 10.f);
+	//LightDesc.Range = 10.f;
+	//LightDesc.Attenuation1 = 1.3f;
+	//LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	//LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	//m_pGraphic_Device->SetLight(1, &LightDesc);
+
+	
 
 	D3DMATERIAL9		MtrlDesc{};
-	/* 난반사에 위한 픽셀의 색상. */
+	
 	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	MtrlDesc.Ambient = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
-	//MtrlDesc.Specular = ;
 
 	m_pGraphic_Device->SetMaterial(&MtrlDesc);
-
 	m_pGraphic_Device->LightEnable(0, true);
-
-
+	/*m_pGraphic_Device->LightEnable(1, true);*/
 
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;

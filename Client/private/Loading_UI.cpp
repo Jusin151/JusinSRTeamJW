@@ -41,8 +41,8 @@ HRESULT CLoading_UI::Initialize(void* pArg)
 	CUI_Manager::GetInstance()->AddUI(L"Loading", this);
 
 
-	m_Loading_pTransformCom->Set_Scale(m_Loading_INFO.vSize.x, m_Loading_INFO.vSize.y, 1.f);
-	m_Loading_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	m_pTransformCom->Set_Scale(m_Loading_INFO.vSize.x, m_Loading_INFO.vSize.y, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Loading_INFO.vPos.x, m_Loading_INFO.vPos.y, 0.f));
 	return S_OK;
 }
@@ -80,13 +80,13 @@ HRESULT CLoading_UI::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-	if (FAILED(m_Loading_pTransformCom->Bind_Resource()))
+	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_Loading_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
-	if (FAILED(m_Loading_pVIBufferCom->Bind_Buffers()))
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-	if (FAILED(m_Loading_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 
@@ -100,17 +100,17 @@ HRESULT CLoading_UI::Render()
 HRESULT CLoading_UI::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_LOADING, TEXT("Prototype_Component_Texture_Loading_UI"),
-		TEXT("Com_Texture_Loading"), reinterpret_cast<CComponent**>(&m_Loading_pTextureCom))))
+		TEXT("Com_Texture_Loading"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Loading"), reinterpret_cast<CComponent**>(&m_Loading_pVIBufferCom))))
+		TEXT("Com_VIBuffer_Loading"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Loading"), reinterpret_cast<CComponent**>(&m_Loading_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Loading"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 

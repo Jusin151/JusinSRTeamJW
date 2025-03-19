@@ -31,8 +31,8 @@ protected:
     virtual ~CRanged_Weapon() = default;
 
 public:
-    virtual HRESULT Initialize_Prototype();
-    virtual HRESULT Initialize(void* pArg);
+    virtual HRESULT Initialize_Prototype()PURE;
+    virtual HRESULT Initialize(void* pArg)PURE;
     virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta);
     virtual void Late_Update(_float fTimeDelta);
@@ -46,6 +46,13 @@ public:
 
     // CWeapon_Base을(를) 통해 상속됨
     void Attack(_float fTimeDelta) override;
+
+protected:
+    _float m_fElapsedTime = 0.0f;
+    _int m_iCurrentFrame = 0;
+    const _float m_fFrameDuration = 2.0f;
+    _bool m_bIsAnimating{};
+
 
 };
 

@@ -51,7 +51,7 @@ void CUI_Menu::Priority_Update(_float fTimeDelta)
 
 void CUI_Menu::Update(_float fTimeDelta)
 {
-	if (GetKeyState('1') & 0x8000)
+	if (GetKeyState('u') & 0x8000)
 	{
 		if (!m_bKeyPressed) 
 		{

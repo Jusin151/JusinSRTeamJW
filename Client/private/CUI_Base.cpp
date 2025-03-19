@@ -9,7 +9,10 @@ CUI_Base::CUI_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CUI_Base::CUI_Base(const CUI_Base& Prototype)
- : CGameObject(Prototype)
+ : CGameObject(Prototype),
+	m_pTextureCom{Prototype.m_pTextureCom},
+	m_pTransformCom{ Prototype.m_pTransformCom },
+	m_pVIBufferCom{ Prototype.m_pVIBufferCom }
 {
 }
 
@@ -59,6 +62,9 @@ HRESULT CUI_Base::Ready_Components()
 void CUI_Base::Free()
 {
 	__super::Free();
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
 }
 
 

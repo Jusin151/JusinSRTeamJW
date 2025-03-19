@@ -32,7 +32,12 @@ void CTerrain::Priority_Update(_float fTimeDelta)
 
 void CTerrain::Update(_float fTimeDelta)
 {
-
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition();
+		int a = 10;
+	}
+	
 
 }
 
@@ -78,6 +83,8 @@ HRESULT CTerrain::Render()
 		return E_FAIL;
 	/*m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);*/
+
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	
 

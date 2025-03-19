@@ -23,6 +23,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	m_eIndexFormat = D3DFMT_INDEX16;
 
 #pragma region VERTEX_BUFFER
+	m_pVertexPositions = new _float3[m_iNumVertices];
+
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
@@ -31,22 +33,24 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);		
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
 	m_pVB->Unlock();
 #pragma endregion
 
 #pragma region INDEX_BUFFER
+	m_pIndices = new _uint[m_iNumIndices];
+
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
 
@@ -63,6 +67,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	pIndices[5] = 3;
 
 	m_pIB->Unlock();
+
+	memcpy(m_pIndices, pIndices, m_iIndexStride * m_iNumIndices);
 #pragma endregion
 
 	return S_OK;

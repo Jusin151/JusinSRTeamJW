@@ -21,8 +21,6 @@ private:
     CUI_Manager& operator=(CUI_Manager&&) = delete;
 
 public:
-
-
     void AddUI(const wstring& tag, CUI_Base* pUI)
     {
         if (m_UIMap.find(tag) != m_UIMap.end())

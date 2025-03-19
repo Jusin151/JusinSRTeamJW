@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "Weapon_Headers.h"
 
 
 BEGIN(Engine)
@@ -18,9 +17,8 @@ class CWeapon_Base abstract : public CGameObject
 public:
     enum WEAPON_ID
     {
-        Claymore
+        Axe,Claymore,Magnum,ShotGun,Staff
     };
-
 
 public:
 
@@ -60,7 +58,9 @@ protected:
     CTexture* m_pTextureCom = {};
     CVIBuffer_Rect* m_pVIBufferCom = {};
     CTransform* m_pTransformCom = {};
-
+protected: // 이미지 너무 많은 경우 나눠서 사용  ex : ) 스태프의 경우 공격이 세단계로 나누어져서 이루어짐
+    CTexture* m_pTextureCom_Second = {}; 
+    CTexture* m_pTextureCom_Third = {};
 public:
     _bool  Get_MouseClick() const { return m_bIsMouseClick; }
     void   Set_MouseClick(_bool type) { m_bIsMouseClick = type; }

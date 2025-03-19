@@ -98,7 +98,7 @@ void CGamePlay_Button::Episode_UI_Update()
 {
 	if (!m_Button_INFO.bDisplay_On)
 	{
-		if (GetKeyState('3') & 0x8000)
+		if (GetKeyState('o') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -126,7 +126,7 @@ void CGamePlay_Button::Episode_UI_Update()
 	else
 	{
 		Current_Image = Episode_Display;
-		if (GetKeyState('3') & 0x8000)
+		if (GetKeyState('o') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -143,7 +143,7 @@ void CGamePlay_Button::Point_Shop_Update()
 {
 	if (!m_Button_INFO.bDisplay_On)
 	{
-		if (GetKeyState('2') & 0x8000)
+		if (GetKeyState('i') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -370,7 +370,7 @@ void CGamePlay_Button::Button_TexT(_int CurrentButtonType)
 		strItem_Tag = L"최대 마나가(+30) 증가합니다";
 		strMin_Stat_box = L"요구 스탯 : 정신력 5";
 		break;
-	case SHUTGUN_MASTER:
+	case ShotGun_MASTER:
 		strItem_Tag = L"산탄총이 2개의 탄약을 더 제공합니다.";
 		strMin_Stat_box = L"요구 스탯 : 용량 5";
 		break;

@@ -20,8 +20,6 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	/* 로딩레벨 자체에 필요한 객체를 생성한다. */
 	/* 배경, 로딩바, 버튼, font */
 
-
-
 	if (FAILED(Ready_Loading()))
  		return E_FAIL;
 
@@ -76,7 +74,7 @@ HRESULT CLevel_Loading::Ready_Loading()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING,
 		TEXT("Prototype_Component_Texture_Loading_UI"),
-		CTexture::Create(m_pGraphic_Device,
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/UI/Loading/bg_entering.png"), 1))))
 		return E_FAIL;
 

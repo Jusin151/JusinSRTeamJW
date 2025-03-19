@@ -7,6 +7,7 @@
 #include <Camera_FirstPerson.h>
 #include "UI_Headers.h" 
 #include "GamePlay_Button.h"
+#include "Weapon_Headers.h"
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
 {
@@ -31,7 +32,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
             LEVEL level = static_cast<LEVEL>(texture["level"].get<_uint>());
             _uint count = texture["count"];
             if (FAILED(pGameInstance->Add_Prototype(level, tag,
-                CTexture::Create(pGraphic_Device, path.c_str(), count))))
+                CTexture::Create(pGraphic_Device, CTexture::TYPE_2D, path.c_str(), count))))
                 return E_FAIL;
         }
     }
@@ -202,6 +203,20 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CGamePlay_Button::Create(pGraphic_Device);
     else if (className == "CUI_Spell_Shop")
         return CUI_Spell_Shop::Create(pGraphic_Device);
+    else if (className == "CUI_Spell_Shop")
+        return CUI_Spell_Shop::Create(pGraphic_Device);
+    else if (className == "CUI_Spell_Shop")
+        return CUI_Spell_Shop::Create(pGraphic_Device);
+    else if (className == "CAxe")
+        return CAxe::Create(pGraphic_Device);
+    else if (className == "CClaymore")
+        return CClaymore::Create(pGraphic_Device);
+    else if (className == "CMagnum")
+        return CMagnum::Create(pGraphic_Device);
+    else if (className == "CStaff")
+        return CStaff::Create(pGraphic_Device);
+    else if (className == "CShotGun")
+        return CShotGun::Create(pGraphic_Device);
 
     // 찾지 못한 클래스 이름에 대한 처리
     wstring wClassName = ISerializable::Utf8ToWide(className);
