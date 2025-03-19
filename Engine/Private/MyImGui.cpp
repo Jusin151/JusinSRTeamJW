@@ -431,7 +431,7 @@ HRESULT CMyImGui::CreateObject()
 	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube"; // 기본값
 	static char layerTagBuffer[128] = "Com_Collider"; // 기본값
 	static char textureTagBuffer[256] = "Prototype_Component_Texture"; // 기본값
-
+	static _int iPoolingCount = 0;
 	// 충돌체 타입 배열
 	static const char* colliderTypes[] = { "Cube", "Sphere" };
 	static const char* colliderProtoNames[] = {
@@ -470,6 +470,9 @@ HRESULT CMyImGui::CreateObject()
 
 	// 충돌체 컴포넌트 이름 입력 필드
 	ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
+
+	
+	ImGui::InputInt("Pool Count", &iPoolingCount);
 
 	static _wstring selectedFolder;
 	if (ImGui::Button("Select Texture"))
@@ -516,9 +519,19 @@ HRESULT CMyImGui::CreateObject()
 		stDesc.stTexturePath = selectedFolder;
 
 		// 게임 오브젝트 추가
-		if (FAILED(m_pGameInstance->Add_GameObject(0, TEXT("Prototype_GameObject_Structure"),
-			3, TEXT("Layer_Structure"), &stDesc)))
-			return E_FAIL;
+
+		if (iPoolingCount != 0)
+		{
+			if (FAILED(m_pGameInstance->Reserve_Pool(0, TEXT("Prototype_GameObject_Structure"),
+				TEXT("Layer_Structure"), iPoolingCount, &stDesc)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pGameInstance->Add_GameObject(0, TEXT("Prototype_GameObject_Structure"),
+				3, TEXT("Layer_Structure"), &stDesc)))
+				return E_FAIL;
+		}
 	}
 
 	ImGui::End();
