@@ -123,21 +123,8 @@
     {
       "tag": "Prototype_Component_Texture_Inven",
       "level": 3,
-
-      "path": "../../Resources/Textures/Weapon/ShotGun/Shot/shotgun_shot%d.png",
-      "count": 3
-    },
-    {
-      "tag": "Prototype_Component_Texture_ShotGun_2",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/ShotGun/Reload/shotgun_reload%d.png",
-      "count": 14
-    },
-    {
-      "tag": "Prototype_Component_Texture_Weapon_Icon",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
-      "count": 5
+      "path": "../../Resources/Textures/Inven/Inven.png",
+      "count": 1
     },
     {
       "tag": "Prototype_Component_Texture_Anubis",
