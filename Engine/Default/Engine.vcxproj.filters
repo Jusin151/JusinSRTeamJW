@@ -167,6 +167,9 @@
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
       <Filter>04.Components\VIBuffer\Cube</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Picking.h">
+      <Filter>06.Picking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -316,6 +319,15 @@
     <Filter Include="02.GameObject\LandObject">
       <UniqueIdentifier>{c5d5bdd8-efbb-4a30-a101-e079c9264fc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Timers">
+      <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Timers\Manager">
+      <UniqueIdentifier>{45424e6a-9752-432d-b096-86bb2ca8ec51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Picking">
+      <UniqueIdentifier>{32a800c3-1493-4e31-b204-a68049ab35ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -463,6 +475,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
       <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Picking.cpp">
+      <Filter>06.Picking</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
