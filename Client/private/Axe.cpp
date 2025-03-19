@@ -56,8 +56,11 @@ HRESULT CAxe::Initialize(void* pArg)
 
 	m_vInitialPos = m_Axe_INFO.vPos;
 
-	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this);
 
+
+
+	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this);
+	return S_OK;
 }
 
 void CAxe::Priority_Update(_float fTimeDelta)

@@ -20,7 +20,6 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_GamePlay::Initialize()
 {
 	CJsonLoader jsonLoader;
-
 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
 
@@ -51,101 +50,101 @@ HRESULT CLevel_GamePlay::Initialize()
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 
-	/// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
-	m_pPickingSys->Update();
-	static CGameObject* dragObject = nullptr;
-	static _float3 vDragOffset{};
-	static _float3 vDragPlaneNormal{};
-	static _float fDistanceFromCamera = 0.f;
-	static _float fDragPlaneDistance = 0.f;
-	static bool bInitialized = false;
+	///// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
+	//m_pPickingSys->Update();
+	//static CGameObject* dragObject = nullptr;
+	//static _float3 vDragOffset{};
+	//static _float3 vDragPlaneNormal{};
+	//static _float fDistanceFromCamera = 0.f;
+	//static _float fDragPlaneDistance = 0.f;
+	//static bool bInitialized = false;
 
-	auto colliderVec = m_pGameInstance->Get_Colliders();
+	//auto colliderVec = m_pGameInstance->Get_Colliders();
 
-	// 마우스 버튼이 떼어진 경우 드래그 객체 초기화
-	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
-	{
-		dragObject = nullptr;
-		bInitialized = false;
-	}
-	// 마우스 왼쪽 버튼이 눌린 경우
-	else
-	{
-		// 드래그 객체가 없으면 객체 선택
-		if (!dragObject)
-		{
-			for (auto& colliderList : colliderVec)
-			{
-				for (auto& collider : colliderList)
-				{
-					if (m_pPickingSys->Ray_Intersection(collider))
-					{
-						dragObject = collider->Get_Owner();
-						bInitialized = false;
-						break;
-					}
-				}
-				if (dragObject) break;
-			}
-		}
+	//// 마우스 버튼이 떼어진 경우 드래그 객체 초기화
+	//if (!(GetKeyState(VK_LBUTTON) & 0x8000))
+	//{
+	//	dragObject = nullptr;
+	//	bInitialized = false;
+	//}
+	//// 마우스 왼쪽 버튼이 눌린 경우
+	//else
+	//{
+	//	// 드래그 객체가 없으면 객체 선택
+	//	if (!dragObject)
+	//	{
+	//		for (auto& colliderList : colliderVec)
+	//		{
+	//			for (auto& collider : colliderList)
+	//			{
+	//				if (m_pPickingSys->Ray_Intersection(collider))
+	//				{
+	//					dragObject = collider->Get_Owner();
+	//					bInitialized = false;
+	//					break;
+	//				}
+	//			}
+	//			if (dragObject) break;
+	//		}
+	//	}
 
-		// 선택된 객체가 있으면 이동 처리
-		if (dragObject)
-		{
-			CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
-			if (pTransform)
-			{
-				// 카메라 정보 가져오기
-				CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Camera"));
-				CTransform* pCamTransform = dynamic_cast<CTransform*>(pCamera->Get_Component(TEXT("Com_Transform")));
-				_float3 vCamLook = pCamTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
-				// 첫 드래그 시 초기화
-				if (!bInitialized)
-				{
-					// 객체의 현재 위치 가져오기
-					_float3 vObjPos = pTransform->Get_State(CTransform::STATE_POSITION);
+	//	// 선택된 객체가 있으면 이동 처리
+	//	if (dragObject)
+	//	{
+	//		CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
+	//		if (pTransform)
+	//		{
+	//			// 카메라 정보 가져오기
+	//			CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Camera"));
+	//			CTransform* pCamTransform = dynamic_cast<CTransform*>(pCamera->Get_Component(TEXT("Com_Transform")));
+	//			_float3 vCamLook = pCamTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
+	//			// 첫 드래그 시 초기화
+	//			if (!bInitialized)
+	//			{
+	//				// 객체의 현재 위치 가져오기
+	//				_float3 vObjPos = pTransform->Get_State(CTransform::STATE_POSITION);
 
-							 // 객체의 현재 위치와 카메라 시선 방향을 기반으로 드래그 평면 정의
-			// 카메라 시선 벡터를 평면의 법선으로 사용
-					vDragPlaneNormal = vCamLook;
-					fDragPlaneDistance = D3DXVec3Dot(&vDragPlaneNormal, &vObjPos);
+	//						 // 객체의 현재 위치와 카메라 시선 방향을 기반으로 드래그 평면 정의
+	//		// 카메라 시선 벡터를 평면의 법선으로 사용
+	//				vDragPlaneNormal = vCamLook;
+	//				fDragPlaneDistance = D3DXVec3Dot(&vDragPlaneNormal, &vObjPos);
 
-					// 초기 오프셋 계산
-					_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
-					_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+	//				// 초기 오프셋 계산
+	//				_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
+	//				_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
-					// 평면과의 교차점 계산
-					float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
-						D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
+	//				// 평면과의 교차점 계산
+	//				float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
+	//					D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
 
-					_float3 vIntersectPoint = (vRayDir * t);
-					D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
+	//				_float3 vIntersectPoint = (vRayDir * t);
+	//				D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
 
-					// 객체와 교차점 사이의 오프셋 계산
-					D3DXVec3Subtract(&vDragOffset, &vObjPos, &vIntersectPoint);
+	//				// 객체와 교차점 사이의 오프셋 계산
+	//				D3DXVec3Subtract(&vDragOffset, &vObjPos, &vIntersectPoint);
 
 
-					bInitialized = true;
-				}
-				vDragPlaneNormal = vCamLook;
-				_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
-				_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+	//				bInitialized = true;
+	//			}
+	//			vDragPlaneNormal = vCamLook;
+	//			_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
+	//			_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
-				float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
-					D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
+	//			float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
+	//				D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
 
-				_float3 vIntersectPoint = (vRayDir * t);
-				D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
-				_float3 vNewPos;
-				D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);
+	//			_float3 vIntersectPoint = (vRayDir * t);
+	//			D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
+	//			_float3 vNewPos;
+	//			D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);
 
-				// 객체 위치 업데이트
-				pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
-			}
-		}
-	}
+	//			// 객체 위치 업데이트
+	//			pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
+	//		}
+	//	}
+	//}
 
-	/// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
+	///// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
 }
 
 HRESULT CLevel_GamePlay::Render()

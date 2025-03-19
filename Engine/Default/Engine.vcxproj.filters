@@ -100,9 +100,6 @@
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
       <Filter>04.Components\VIBuffer\Cube</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\MyImGui.h">
-      <Filter>96.IMGUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\External Libraries\imgui\imconfig.h">
       <Filter>External Libraries</Filter>
     </ClInclude>
@@ -205,9 +202,6 @@
     <Filter Include="03.Prototype">
       <UniqueIdentifier>{fff994a1-1d65-4ab2-b65a-a4e49cdffb59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Prototype\Manager">
-      <UniqueIdentifier>{00500f36-ef8e-41b5-aa07-5e12106b1fa6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Renderer">
       <UniqueIdentifier>{ac1221d1-ea14-4963-a022-db50384008db}</UniqueIdentifier>
     </Filter>
@@ -280,9 +274,6 @@
     <Filter Include="04.Components\Collider\Cube">
       <UniqueIdentifier>{f4f0ca3b-4ab7-45ad-b3b1-22e1ba7ffe94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96.IMGUI">
-      <UniqueIdentifier>{104b3209-c440-49aa-bae4-a246a5ec17a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External Libraries">
       <UniqueIdentifier>{68ad895a-af32-463a-9982-ad93752911e9}</UniqueIdentifier>
     </Filter>
@@ -318,6 +309,9 @@
     </Filter>
     <Filter Include="02.GameObject\LandObject">
       <UniqueIdentifier>{c5d5bdd8-efbb-4a30-a101-e079c9264fc3}</UniqueIdentifier>
+    </Filter>
+<Filter Include="03.Prototype\Manager">
+      <UniqueIdentifier>{00500f36-ef8e-41b5-aa07-5e12106b1fa6}</UniqueIdentifier>
     </Filter>
     <Filter Include="05.Timers">
       <UniqueIdentifier>{97f5d22b-91e8-48e5-9a75-38182d68917a}</UniqueIdentifier>
@@ -407,9 +401,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
       <Filter>04.Components\VIBuffer\Cube</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\MyImGui.cpp">
-      <Filter>96.IMGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\External Libraries\imgui\imgui.cpp">
       <Filter>External Libraries</Filter>

@@ -19,6 +19,7 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
+	//m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
 	return S_OK;
 }
 
@@ -32,6 +33,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;*/
+
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -205,7 +207,11 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
+	{
+		if (FAILED(__super::Add_Component(LEVEL_EDITOR, TEXT("Prototype_Component_Texture_Player"),
+			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+			return E_FAIL;
+	}
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),

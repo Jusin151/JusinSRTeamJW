@@ -9,6 +9,7 @@
 #include "GamePlay_Button.h"
 #include "Weapon_Headers.h"
 
+
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
 {
     // JSON ÌååÏùº Î°úÎìú
@@ -224,6 +225,54 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     OutputDebugString(errorMsg.c_str());
 
     return nullptr;
+}
+
+HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<string>& outClassNames)
+{
+    try
+    {
+        // JSON ∆ƒ¿œ ø≠±‚
+        ifstream file(filePath);
+        if (!file.is_open())
+        {
+            MSG_BOX("≈¨∑°Ω∫ ¿Ã∏ß JSON ∆ƒ¿œ¿ª √£¿ª ºˆ æ¯Ω¿¥œ¥Ÿ.");
+            return E_FAIL;
+        }
+
+        // JSON ∆ƒΩÃ
+        json jsonData;
+        file >> jsonData;
+        file.close();
+
+        outClassNames.clear();
+
+        if (jsonData.contains("classes") && jsonData["classes"].is_array())
+        {
+            for (const auto& className : jsonData["classes"])
+            {
+                if (className.is_string())
+                {
+                    outClassNames.push_back(className.get<string>());
+                }
+            }
+
+            return S_OK;
+        }
+        else
+        {
+            MSG_BOX("JSON ∆ƒ¿œø° 'classes' πËø≠¿Ã æ¯∞≈≥™ «¸Ωƒ¿Ã ¿ﬂ∏¯µ«æ˙Ω¿¥œ¥Ÿ.");
+            return E_FAIL;
+        }
+    }
+    catch (const json::exception& e)
+    {
+        return E_FAIL;
+    }
+    catch (const exception& e)
+    {
+
+        return E_FAIL;
+    }
 }
 
 _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
