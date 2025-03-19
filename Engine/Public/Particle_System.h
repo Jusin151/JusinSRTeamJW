@@ -3,22 +3,24 @@
 class CParticle_System : public CBase
 {
 private:
-	CParticle_System();
+	CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual ~CParticle_System() = default;
 	
 	virtual HRESULT Initialize(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Priority_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
+	virtual void Add_Particle();
 	virtual void Clear(_uint iLevelIndex);
 	virtual void Reset();
-	virtual void ResetParticle();
+	virtual void Reset_Particle(ATTRIBUTE* pAttribute);
 	virtual void Render();
-	void RemoveDeadParticles();
+	void Remove_Dead_Particles();
 	
 protected:
 	_wstring strName;
 	LPDIRECT3DDEVICE9	m_pGraphic_Device;
+	class CGameInstance* m_pGame_Instance;
 	D3DXVECTOR3			m_vOrigin;
 	//d3d::BoundingBox;
 	_float				m_fEmit_Rate;
@@ -33,7 +35,7 @@ protected:
 	DWORD	m_VBBatchSize;
 	
 public:
-	static CParticle_System* Create(void* pArg);
+	static CParticle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device, void* pArg);
 	void Free() override;
 };
 

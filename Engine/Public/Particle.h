@@ -1,6 +1,6 @@
 #pragma once
-#include "Base.h"
-class CParticle : public CBase
+#include "GameObject.h"
+class CParticle : public CGameObject
 {
 private:
 public:

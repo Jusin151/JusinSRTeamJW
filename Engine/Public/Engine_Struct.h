@@ -143,8 +143,11 @@ namespace Engine
 	{
 		D3DXVECTOR3 vPosition;
 		D3DCOLOR	vColor;
+		float		fSize;
 		static const DWORD FVF;
 	} PARTICLE;
+
+	//const PARTICLE::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
 	typedef struct tagParticleAttribute
 	{
