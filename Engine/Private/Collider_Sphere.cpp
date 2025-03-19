@@ -89,14 +89,14 @@ HRESULT CCollider_Sphere::Render()
     return S_OK;
 }
 
-HRESULT CCollider_Sphere::Update_Collider()
+HRESULT CCollider_Sphere::Update_Collider(const _wstring& strLayerTag)
 {
     if (nullptr == m_pOwner)
         return E_FAIL;
 
 
     // owner 가 가지고 있는 월드 행렬을 이용해서 collider의 월드 행렬을 만든다
-    CTransform* pTransfrom = static_cast<CTransform*>(m_pOwner->Get_Component(TEXT("Com_Transform")));
+    CTransform* pTransfrom = static_cast<CTransform*>(m_pOwner->Get_Component(strLayerTag));
 
     
 

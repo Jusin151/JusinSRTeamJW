@@ -175,6 +175,9 @@
     <Filter Include="02.GameObjects\01.Monster\Anubis">
       <UniqueIdentifier>{54719e9f-0839-471c-a96f-16d435f626d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Harpoonguy">
+      <UniqueIdentifier>{0d132fd3-9009-4ee7-be71-25807adcb069}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

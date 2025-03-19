@@ -42,7 +42,7 @@ void CTestMonster::Update(_float fTimeDelta)
 
 	m_pTransformCom->LookAt(static_cast<CPlayer*>(pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
 
-	m_pColliderCom->Update_Collider();
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
 
 	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 

@@ -24,6 +24,7 @@ public:
 	// 일단 쫓아가는 패턴만
 	virtual void Select_Pattern(_float fTimeDelta) override;
 
+	void Attack_Melee();
 
 private:
 	HRESULT SetUp_RenderState();
@@ -34,7 +35,8 @@ private:
 
 
 private:
-	
+	// 공격 때 만들 콜라이더
+	CCollider_Cube* m_pAttackCollider = { nullptr };
 	
 public:
 	static CAnubis* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

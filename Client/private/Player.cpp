@@ -63,7 +63,7 @@ void CPlayer::Update(_float fTimeDelta)
 	Move(fTimeDelta); 
 
 	Inven_Update(fTimeDelta);
-	m_pColliderCom->Update_Collider();
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
 	
 
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
@@ -110,6 +110,9 @@ HRESULT CPlayer::Render()
 HRESULT CPlayer::On_Collision()
 {
 	
+	_float3 temp = { 0.f,0.f, -5.f };
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
@@ -121,6 +124,11 @@ HRESULT CPlayer::On_Collision()
 	{
 	case CG_MONSTER:
 
+		break;
+
+	case CG_MONSTER_PROJECTILE:
+		temp += fPos;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
 		break;
 
 	default:

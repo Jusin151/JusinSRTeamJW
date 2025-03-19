@@ -46,7 +46,7 @@ void CAnubis::Update(_float fTimeDelta)
 
 	__super::Update(fTimeDelta);
 
-	m_pColliderCom->Update_Collider();
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
 
 	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 }
@@ -125,7 +125,19 @@ HRESULT CAnubis::On_Collision(_float fTimeDelta)
 
 void CAnubis::Select_Pattern(_float fTimeDelta)
 {
-	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.25f, 2.f);
+	_float3 fDist;
+	fDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+	if (fDist.LengthSq() > 5)
+		m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.25f);
+	else
+		Attack_Melee();
+}
+
+void CAnubis::Attack_Melee()
+{
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"));
+
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
 }
 
 HRESULT CAnubis::SetUp_RenderState()
@@ -156,6 +168,20 @@ HRESULT CAnubis::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 	_float3 fPos = { 10.f, 0.5f, 10.f };
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 3.f, 1.f, 3.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -191,4 +217,5 @@ void CAnubis::Free()
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pAttackCollider);
 }

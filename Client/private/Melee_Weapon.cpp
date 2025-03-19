@@ -51,7 +51,7 @@ void CMelee_Weapon::Update(_float fTimeDelta)
 
 
 
-	m_pColliderCom->Update_Collider();
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
 
 
 	Attack(fTimeDelta);
