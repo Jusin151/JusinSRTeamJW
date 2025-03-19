@@ -131,7 +131,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_Sky */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../../Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
 		return E_FAIL;
 
   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
@@ -292,11 +292,6 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
 
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Monster"),
-		CTestMonster::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	Add_To_UI_Prototype(); //UI 원형 객체
 

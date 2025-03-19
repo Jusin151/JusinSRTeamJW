@@ -138,8 +138,13 @@
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
       "count": 5
+    },
+    {
+      "tag": "Prototype_Component_Texture_Anubis",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Anubis/anubis_idle.png",
+      "count": 1
     }
-
   ],
   "gameObjects": [
     {
@@ -148,9 +153,9 @@
       "class": "CPlayer"
     },
     {
-      "tag": "Prototype_GameObject_TestMonster",
+      "tag": "Prototype_GameObject_Anubis",
       "level": 3,
-      "class": "CTestMonster"
+      "class": "CAnubis"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

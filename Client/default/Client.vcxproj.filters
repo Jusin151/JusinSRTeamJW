@@ -169,6 +169,12 @@
     <Filter Include="02.GameObjects\97. UI\05. ItemIcon">
       <UniqueIdentifier>{33781b4a-53c8-43fd-8994-421a11835195}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Base">
+      <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Anubis">
+      <UniqueIdentifier>{54719e9f-0839-471c-a96f-16d435f626d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -325,6 +331,12 @@
       <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Icon.h" />
+    <ClInclude Include="..\Public\Monster_Base.h">
+      <Filter>02.GameObjects\01.Monster\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Anubis.h">
+      <Filter>02.GameObjects\01.Monster\Anubis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -458,6 +470,12 @@
       <Filter>Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp" />
+    <ClCompile Include="..\Private\Monster_Base.cpp">
+      <Filter>02.GameObjects\01.Monster\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Anubis.cpp">
+      <Filter>02.GameObjects\01.Monster\Anubis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

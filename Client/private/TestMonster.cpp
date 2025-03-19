@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Player.h"
 
 CTestMonster::CTestMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -26,6 +27,7 @@ HRESULT CTestMonster::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f,1.f,20.f));
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+
 	return S_OK;
 }
 
@@ -35,6 +37,10 @@ void CTestMonster::Priority_Update(_float fTimeDelta)
 
 void CTestMonster::Update(_float fTimeDelta)
 {
+
+	CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+
+	m_pTransformCom->LookAt(static_cast<CPlayer*>(pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
 
 	m_pColliderCom->Update_Collider();
 
@@ -94,7 +100,7 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 		fPos += fMTV;
 
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		m_pTransformCom->Go_Backward(fTimeDelta);
 		break;
 		
 	case CG_WEAPON:
@@ -175,6 +181,7 @@ HRESULT CTestMonster::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
 
 	return S_OK;
 }

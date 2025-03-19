@@ -31,6 +31,7 @@ private:
 	HRESULT Ready_Layer_Point_Shop_Button();
 	HRESULT Ready_Layer_Weapon();
 
+
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
 

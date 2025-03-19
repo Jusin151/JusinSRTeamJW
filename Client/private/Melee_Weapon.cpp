@@ -22,8 +22,8 @@ HRESULT CMelee_Weapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pColliderCom->AddRef();
-	m_pColTransformCom->AddRef();
+	Safe_AddRef(m_pColliderCom);
+	Safe_AddRef(m_pColTransformCom);
 
 	return S_OK;
 }
