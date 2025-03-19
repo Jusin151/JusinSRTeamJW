@@ -181,7 +181,6 @@
 <Filter Include="02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun">
   <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
 </Filter>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -477,6 +476,7 @@
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
+	</ClCompile>
 <ClCompile Include="..\private\Staff.cpp">
   <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
 </ClCompile>
