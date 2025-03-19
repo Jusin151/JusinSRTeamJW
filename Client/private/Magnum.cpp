@@ -1,32 +1,27 @@
-﻿#include "Claymore.h"
+﻿#include "Magnum.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-
-CClaymore::CClaymore(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CMelee_Weapon(pGraphic_Device)
+CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: CRanged_Weapon(pGraphic_Device)
 {
 }
 
-CClaymore::CClaymore(const CClaymore& Prototype)
-	: CMelee_Weapon(Prototype),
-	m_Claymore_INFO{Prototype.m_Claymore_INFO }
+CMagnum::CMagnum(const CMagnum& Prototype)
+	: CRanged_Weapon(Prototype),
+	m_Claymore_INFO{ Prototype.m_Claymore_INFO }
 {
 }
 
-HRESULT CClaymore::Initialize_Prototype()
+HRESULT CMagnum::Initialize_Prototype()
 {
-	if (FAILED(CMelee_Weapon::Ready_Components()))
-		return E_FAIL;
 
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 
 
 	return S_OK;
 }
 
-HRESULT CClaymore::Initialize(void* pArg)
+HRESULT CMagnum::Initialize(void* pArg)
 {
 
 	if (pArg != nullptr)
@@ -36,17 +31,9 @@ HRESULT CClaymore::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
-	if (FAILED(CMelee_Weapon::Ready_Components()))
-		return E_FAIL;
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pColliderCom->Set_Scale(_float3(3.f, 0.5f, 3.f));
-
-	m_pColTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	m_pColTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(0.f, 0.f, 0.5f));
 
 
 	m_pTransformCom->Set_Scale(m_Claymore_INFO.vSize.x, m_Claymore_INFO.vSize.y, 1.f);
@@ -58,15 +45,15 @@ HRESULT CClaymore::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CClaymore::Priority_Update(_float fTimeDelta)
+void CMagnum::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CClaymore::Update(_float fTimeDelta)
+void CMagnum::Update(_float fTimeDelta)
 {
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
-		t += speed;  
+		t += speed;
 	}
 	else if (GetAsyncKeyState('A') & 0x8000)
 	{
@@ -90,52 +77,20 @@ void CClaymore::Update(_float fTimeDelta)
 	__super::Update(fTimeDelta);
 }
 
-void CClaymore::Late_Update(_float fTimeDelta)
+void CMagnum::Late_Update(_float fTimeDelta)
 {
-	if(m_bIsAnimating)
-		On_Collision();
-
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CClaymore::Render()
+HRESULT CMagnum::Render()
 {
-	
+
 
 	return __super::Render();
 }
 
-HRESULT CClaymore::On_Collision()
-{
-	if (nullptr == m_pColliderCom)
-		return E_FAIL;
-
-	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
-		return S_OK;
-
-	
-
-	switch (m_pColliderCom->Get_Other_Type())
-	{
-	case CG_MONSTER:
-
-		// 나중에 공격력 만들어서 추가하는 식으로
-	
-		break;
-
-	default:
-		break;
-	}
-
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
-
-	return S_OK;
-}
-
-HRESULT CClaymore::Ready_Components()
+HRESULT CMagnum::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Claymore"),
 		TEXT("Com_Texture_Claymore"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -147,15 +102,15 @@ HRESULT CClaymore::Ready_Components()
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Orth"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Claymore"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CClaymore* CClaymore::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CMagnum* CMagnum::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CClaymore* pInstance = new CClaymore(pGraphic_Device);
+	CMagnum* pInstance = new CMagnum(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -169,9 +124,9 @@ CClaymore* CClaymore::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CClaymore::Clone(void* pArg)
+CGameObject* CMagnum::Clone(void* pArg)
 {
-	CClaymore* pInstace = new CClaymore(*this);
+	CMagnum* pInstace = new CMagnum(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -184,7 +139,7 @@ CGameObject* CClaymore::Clone(void* pArg)
 	return pInstace;
 }
 
-void CClaymore::Free()
+void CMagnum::Free()
 {
 	__super::Free();
 

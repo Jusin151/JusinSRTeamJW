@@ -85,6 +85,7 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 
 	_float3 fMTV = m_pColliderCom->Get_MTV();
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 temp = { 1.f, 0.f, 1.f };
 
 	switch (m_pColliderCom->Get_Other_Type())
 	{
@@ -95,7 +96,16 @@ HRESULT CTestMonster::On_Collision(_float fTimeDelta)
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		m_pTransformCom->Go_Straight(fTimeDelta);
 		break;
+		
+	case CG_WEAPON:
 
+		
+
+		temp += fPos;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
+
+		break;
 	default:
 		break;
 	}
@@ -154,7 +164,7 @@ HRESULT CTestMonster::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_PLAYER;
+	ColliderDesc.eType = CG_MONSTER;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

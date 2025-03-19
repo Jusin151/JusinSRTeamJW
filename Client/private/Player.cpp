@@ -4,6 +4,9 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Camera_FirstPerson.h"
+#include "Melee_Weapon.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -30,6 +33,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
+
+
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
@@ -47,6 +52,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+
 	if (GetKeyState('W') & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
@@ -63,9 +69,6 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
-
-
-
 
 	m_pColliderCom->Update_Collider();
 	
@@ -111,6 +114,7 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::On_Collision()
 {
+	
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
@@ -186,11 +190,11 @@ HRESULT CPlayer::Ready_Components()
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.5f };
 
 	/* For.Com_Collider_Sphere */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
