@@ -20,9 +20,9 @@ HRESULT CLandObject::Initialize_Prototype()
 
 HRESULT CLandObject::Initialize(void* pArg)
 {
-	LANDOBJECT_DESC* pDesc = static_cast<LANDOBJECT_DESC*>(pArg);
+	//LANDOBJECT_DESC* pDesc = static_cast<LANDOBJECT_DESC*>(pArg);
 
-	/*m_pTargetBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(pDesc->iLevelIndex, pDesc->strLayerTag, pDesc->strComponentTag, pDesc->iIndex));*/
+	//m_pTargetBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(pDesc->iLevelIndex, pDesc->strLayerTag, pDesc->strComponentTag, pDesc->iIndex));
 
 	if (nullptr == m_pTargetBuffer)
 		return E_FAIL;	

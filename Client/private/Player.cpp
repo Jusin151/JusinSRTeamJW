@@ -24,14 +24,14 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-	CLandObject::LANDOBJECT_DESC		Desc{};
+	/*CLandObject::LANDOBJECT_DESC		Desc{};
 	Desc.iLevelIndex = LEVEL_GAMEPLAY;
 	Desc.strLayerTag = TEXT("Layer_BackGround");
 	Desc.strComponentTag = TEXT("Com_VIBuffer");
 	Desc.iIndex = 0;
 
 	if (FAILED(__super::Initialize(&Desc)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -83,7 +83,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 	
-	__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
+	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
 
 }
 
