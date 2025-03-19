@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -6,7 +6,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î ÇÒµí
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ í• ë“¯
 END
 
 
@@ -30,7 +30,6 @@ private:
 public:
     virtual HRESULT Initialize_Prototype()override;
     virtual HRESULT Initialize(void* pArg)override;
-    virtual void Priority_Update(_float fTimeDelta)override;
     virtual void Update(_float fTimeDelta)override;
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;

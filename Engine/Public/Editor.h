@@ -6,84 +6,18 @@
 #include "GameInstance.h"
 
 BEGIN(Engine)
-class CEditor final : public CBase
+class ENGINE_DLL CEditor final : public CBase
 {
 public:
-    CEditor() : m_pGameInstance(CGameInstance::Get_Instance())
-    {
-        Safe_AddRef(m_pGameInstance);
-    }
-    ~CEditor()
-    {
-        Safe_Release(m_pGameInstance);
-    }
+    CEditor();
+    virtual ~CEditor() = default;
 
 public:
     // 오브젝트 등록
-    void RegisterObject(_uint iLevelID)
-    {
-        auto& layerMap = m_pGameInstance->m_pObject_Manager->m_pLayers[iLevelID];
-
-        for (auto& layer : layerMap)
-        {
-            auto& objList = layer.second->m_GameObjects;
-            for (auto it = objList.begin(); it != objList.end(); ++it)
-            {
-                m_LevelObjects[iLevelID].push_back(static_cast<ISerializable*>(*it));
-            }
-        }
-    }
+    void RegisterObject(_uint iLevelID);
 
     // 레벨별 저장
-    _bool SaveLevel(_uint iLevelID, const _wstring& filepath)
-    {
-        RegisterObject(iLevelID);
-        /*     json j;
-             j["level"] = ilevelID;
-             j["objects"] = json::array();
-
-             for (auto* obj : m_LevelObjects[ilevelID])
-             {
-                 j["objects"].push_back(obj->Serialize());
-             }
-
-             ofstream file(filepath);
-             if (!file.is_open()) return false;
-
-             file << j.dump(4);
-             file.close();
-             return true;*/
-
-        json j;
-        j["level"] = iLevelID;
-        j["layers"] = json::object();
-
-        // 레이어별로 오브젝트 그룹화
-        map<wstring, vector<json>> layerObjects;
-
-        for (auto* obj : m_LevelObjects[iLevelID])
-        {
-            json objData = obj->Serialize();
-            _wstring layerTag = static_cast<CGameObject*>(obj)->Get_Tag();
-            layerObjects[layerTag].push_back(objData);
-        }
-
-        // 그룹화된 오브젝트를 JSON에 추가
-        for (const auto& [layerTag, objects] : layerObjects)
-        {
-            string layerTagStr = ISerializable::WideToUtf8(layerTag);
-            j["layers"][layerTagStr] = objects;
-        }
-
-        // 파일에 저장
-        ofstream file(filepath);
-        if (!file.is_open())
-            return false;
-
-        file << j.dump(4);
-        file.close();
-        return true;
-    }
+    _bool SaveLevel(_uint iLevelID, const _wstring& filepath);
 
     _bool LoadLevel(_uint iLevelID, const _wstring& filepath, const _wstring& specificLayer = L"")
     {
@@ -253,6 +187,7 @@ public:
 
         ImGui::End();
     }
+   virtual  void Free() override;
 
 private:
     map<_uint, vector<ISerializable*>> m_LevelObjects; // 레벨별 오브젝트

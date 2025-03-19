@@ -9,11 +9,11 @@ END
 
 BEGIN(Client)
 
-class CLevel_GamePlay final : public CLevel
+class CLevel_Editor final : public CLevel
 {
 private:
-	CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual ~CLevel_GamePlay() = default;
+	CLevel_Editor(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual ~CLevel_Editor() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -21,23 +21,17 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Layer_UI();
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Shop();
-	HRESULT Ready_Layer_Episode_Button();
-	HRESULT Ready_Layer_Point_Shop_Button();
-	HRESULT Ready_Layer_Weapon();
-
 
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
-
+	class CMyImGui* m_pImgui = { nullptr };
 
 public:
-	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLevel_Editor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 };
 

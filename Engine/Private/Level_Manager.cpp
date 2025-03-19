@@ -28,7 +28,7 @@ HRESULT CLevel_Manager::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 void CLevel_Manager::Update(_float fTimeDelta)
 {
     if (nullptr != m_pCurrentLevel)
-        m_pCurrentLevel->Update(fTimeDelta);
+          m_pCurrentLevel->Update(fTimeDelta);
 }
 
 HRESULT CLevel_Manager::Render()

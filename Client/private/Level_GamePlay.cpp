@@ -20,7 +20,6 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_GamePlay::Initialize()
 {
 	CJsonLoader jsonLoader;
-
 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
 
@@ -41,107 +40,111 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 
-	/// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
-	m_pPickingSys->Update();
-	static CGameObject* dragObject = nullptr;
-	static _float3 vDragOffset{};
-	static _float3 vDragPlaneNormal{};
-	static _float fDistanceFromCamera = 0.f;
-	static _float fDragPlaneDistance = 0.f;
-	static bool bInitialized = false;
+	///// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
+	//m_pPickingSys->Update();
+	//static CGameObject* dragObject = nullptr;
+	//static _float3 vDragOffset{};
+	//static _float3 vDragPlaneNormal{};
+	//static _float fDistanceFromCamera = 0.f;
+	//static _float fDragPlaneDistance = 0.f;
+	//static bool bInitialized = false;
 
-	auto colliderVec = m_pGameInstance->Get_Colliders();
+	//auto colliderVec = m_pGameInstance->Get_Colliders();
 
-	// 마우스 버튼이 떼어진 경우 드래그 객체 초기화
-	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
-	{
-		dragObject = nullptr;
-		bInitialized = false;
-	}
-	// 마우스 왼쪽 버튼이 눌린 경우
-	else
-	{
-		// 드래그 객체가 없으면 객체 선택
-		if (!dragObject)
-		{
-			for (auto& colliderList : colliderVec)
-			{
-				for (auto& collider : colliderList)
-				{
-					if (m_pPickingSys->Ray_Intersection(collider))
-					{
-						dragObject = collider->Get_Owner();
-						bInitialized = false;
-						break;
-					}
-				}
-				if (dragObject) break;
-			}
-		}
+	//// 마우스 버튼이 떼어진 경우 드래그 객체 초기화
+	//if (!(GetKeyState(VK_LBUTTON) & 0x8000))
+	//{
+	//	dragObject = nullptr;
+	//	bInitialized = false;
+	//}
+	//// 마우스 왼쪽 버튼이 눌린 경우
+	//else
+	//{
+	//	// 드래그 객체가 없으면 객체 선택
+	//	if (!dragObject)
+	//	{
+	//		for (auto& colliderList : colliderVec)
+	//		{
+	//			for (auto& collider : colliderList)
+	//			{
+	//				if (m_pPickingSys->Ray_Intersection(collider))
+	//				{
+	//					dragObject = collider->Get_Owner();
+	//					bInitialized = false;
+	//					break;
+	//				}
+	//			}
+	//			if (dragObject) break;
+	//		}
+	//	}
 
-		// 선택된 객체가 있으면 이동 처리
-		if (dragObject)
-		{
-			CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
-			if (pTransform)
-			{
-				// 카메라 정보 가져오기
-				CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Camera"));
-				CTransform* pCamTransform = dynamic_cast<CTransform*>(pCamera->Get_Component(TEXT("Com_Transform")));
-				_float3 vCamLook = pCamTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
-				// 첫 드래그 시 초기화
-				if (!bInitialized)
-				{
-					// 객체의 현재 위치 가져오기
-					_float3 vObjPos = pTransform->Get_State(CTransform::STATE_POSITION);
+	//	// 선택된 객체가 있으면 이동 처리
+	//	if (dragObject)
+	//	{
+	//		CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
+	//		if (pTransform)
+	//		{
+	//			// 카메라 정보 가져오기
+	//			CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Camera"));
+	//			CTransform* pCamTransform = dynamic_cast<CTransform*>(pCamera->Get_Component(TEXT("Com_Transform")));
+	//			_float3 vCamLook = pCamTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
+	//			// 첫 드래그 시 초기화
+	//			if (!bInitialized)
+	//			{
+	//				// 객체의 현재 위치 가져오기
+	//				_float3 vObjPos = pTransform->Get_State(CTransform::STATE_POSITION);
 
-							 // 객체의 현재 위치와 카메라 시선 방향을 기반으로 드래그 평면 정의
-			// 카메라 시선 벡터를 평면의 법선으로 사용
-					vDragPlaneNormal = vCamLook;
-					fDragPlaneDistance = D3DXVec3Dot(&vDragPlaneNormal, &vObjPos);
+	//						 // 객체의 현재 위치와 카메라 시선 방향을 기반으로 드래그 평면 정의
+	//		// 카메라 시선 벡터를 평면의 법선으로 사용
+	//				vDragPlaneNormal = vCamLook;
+	//				fDragPlaneDistance = D3DXVec3Dot(&vDragPlaneNormal, &vObjPos);
 
-					// 초기 오프셋 계산
-					_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
-					_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+	//				// 초기 오프셋 계산
+	//				_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
+	//				_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
-					// 평면과의 교차점 계산
-					float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
-						D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
+	//				// 평면과의 교차점 계산
+	//				float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
+	//					D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
 
-					_float3 vIntersectPoint = (vRayDir * t);
-					D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
+	//				_float3 vIntersectPoint = (vRayDir * t);
+	//				D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
 
-					// 객체와 교차점 사이의 오프셋 계산
-					D3DXVec3Subtract(&vDragOffset, &vObjPos, &vIntersectPoint);
+	//				// 객체와 교차점 사이의 오프셋 계산
+	//				D3DXVec3Subtract(&vDragOffset, &vObjPos, &vIntersectPoint);
 
 
-					bInitialized = true;
-				}
-				vDragPlaneNormal = vCamLook;
-				_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
-				_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+	//				bInitialized = true;
+	//			}
+	//			vDragPlaneNormal = vCamLook;
+	//			_float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
+	//			_float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
-				float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
-					D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
+	//			float t = (fDragPlaneDistance - D3DXVec3Dot(&vDragPlaneNormal, &vRayOrigin)) /
+	//				D3DXVec3Dot(&vDragPlaneNormal, &vRayDir);
 
-				_float3 vIntersectPoint = (vRayDir * t);
-				D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
-				_float3 vNewPos;
-				D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);
+	//			_float3 vIntersectPoint = (vRayDir * t);
+	//			D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
+	//			_float3 vNewPos;
+	//			D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);
 
-				// 객체 위치 업데이트
-				pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
-			}
-		}
-	}
+	//			// 객체 위치 업데이트
+	//			pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
+	//		}
+	//	}
+	//}
 
-	/// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
+	///// 오브젝트 픽킹 후 드래그 테스트/////////////////////////////
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -430,11 +433,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"), strLayerTag, 10)))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Anubis"),
+		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
@@ -568,7 +568,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		return E_FAIL;
 
 	CWeapon_Base::Weapon_DESC Weapon_Axe_Desc{}; // 도끼
-	Weapon_Axe_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Axe_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Axe;
 	Weapon_Axe_Desc.vPos = { 0.f,200.f };
 	Weapon_Axe_Desc.vSize = { 1000,282.f };
 	Weapon_Axe_Desc.Damage = { 100.f };
@@ -582,7 +582,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		return E_FAIL;
 
 	CWeapon_Base::Weapon_DESC Weapon_Magnum_Desc{}; // 매그넘
-	Weapon_Magnum_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Magnum_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Magnum;
 	Weapon_Magnum_Desc.vPos = { 200.f,-40.f };
 	Weapon_Magnum_Desc.vSize = { 187,267.f };
 	Weapon_Magnum_Desc.Damage = { 100.f };
@@ -590,13 +590,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Weapon_Magnum_Desc.Range = { 3.f };
 	Weapon_Magnum_Desc.Cooldown = { 1.f };
 	//Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore_Magnum"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Magnum"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Magnum"),
 		&Weapon_Magnum_Desc)))
 		return E_FAIL;
 
 	CWeapon_Base::Weapon_DESC Weapon_ShotGun_Desc{}; // 샷건
-	Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::ShotGun;
 	Weapon_ShotGun_Desc.vPos = { -400,0.f };
 	Weapon_ShotGun_Desc.vSize = { 535,300.f };
 	Weapon_ShotGun_Desc.Damage = { 100.f };
@@ -604,21 +604,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Weapon_ShotGun_Desc.Range = { 3.f };
 	Weapon_ShotGun_Desc.Cooldown = { 1.f };
 	//Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_ShotGun";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore_ShotGun"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_ShotGun"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
 		&Weapon_ShotGun_Desc)))
 		return E_FAIL;
 
 	CWeapon_Base::Weapon_DESC Weapon_Staff_Desc{}; // 스태프 원형객체
-	Weapon_Staff_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Staff_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Staff;
 	Weapon_Staff_Desc.vPos = { -200.f,0.f };
 	Weapon_Staff_Desc.vSize = { 535,300.f };
 	Weapon_Staff_Desc.Damage = { 100.f };
 	Weapon_Staff_Desc.AttackSpeed = { 1.f };
 	Weapon_Staff_Desc.Range = { 3.f };
 	Weapon_Staff_Desc.Cooldown = { 1.f };
-	//Weapon_Staft_Desc.TextureKey = L"Prototype_Component_Texture_Staft";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore_Staff"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Staff"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staff"),
 		&Weapon_Staff_Desc)))
 		return E_FAIL;

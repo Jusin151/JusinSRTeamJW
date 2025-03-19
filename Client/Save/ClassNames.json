@@ -1,0 +1,26 @@
+{
+  "classes": [
+    "CPlayer",
+    "CTestMonster",
+    "CTerrain",
+    "CStructure",
+    "CCamera_Free",
+    "CCamera_FirstPerson",
+    "CUI_Default_Panel",
+    "CUI_Left_Display",
+    "CUI_Player_Icon",
+    "CUI_HP_Bar",
+    "CUI_MP_Bar",
+    "CUI_Mid_Display",
+    "CUI_Right_Display",
+    "CUI_Bullet_Bar",
+    "CUI_Menu",
+    "CGamePlay_Button",
+    "CUI_Spell_Shop",
+    "CAxe",
+    "CClaymore",
+    "CMagnum",
+    "CStaff",
+    "CShotGun"
+  ]
+}

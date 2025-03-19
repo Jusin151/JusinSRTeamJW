@@ -1,8 +1,7 @@
 ﻿#include "Staff.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
-#include "Inventory.h"
-
+#include "Item_Manager.h"
 
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -18,6 +17,18 @@ CStaff::CStaff(const CStaff& Prototype)
 HRESULT CStaff::Initialize_Prototype()
 {
 
+
+   //아무런 입력이 없을때 0번쨰 이미지 출력
+   // m_TextureRanges["Idle"] = { 0,0 };
+
+    //좌클릭이 감지가 되면 바로 발사
+    //하지만 꾹 누르고 있는다면 
+   // m_TextureRanges["Attack"] 의 1부터
+   //  m_TextureRanges["Attack"] 의 16까지 이미지를 출력하고
+
+   // 그래도 계속 누르고 있다면
+   //  m_TextureRanges["Charging"] = { 17, 26 };
+   // m_TextureRanges["Loop"] = { 27, 31 };
 
 	return S_OK;
 }
@@ -41,7 +52,13 @@ HRESULT CStaff::Initialize(void* pArg)
 
 	m_vInitialPos = m_Staff_INFO.vPos;
 
-   // CInventory::GetInstance()->Add_Weapon(L"Staff", this);
+    // 초기화 시 설정
+    m_TextureRanges["Idle"] = { 0,0 };
+    m_TextureRanges["Charging"] = { 1, 16 };
+    m_TextureRanges["Loop"] = { 17, 26 };
+    m_TextureRanges["Attack"] = { 27, 31 };
+
+    CItem_Manager::GetInstance()->Add_Weapon(L"Staff", this);
     
 	return S_OK;
 }
@@ -87,7 +104,7 @@ void CStaff::Attack(_float fTimeDelta)
         if (m_eState == State::Idle || m_eState == State::Firing)
         {
             m_eState = State::Charging;
-            m_iCurrentFrame = 0;
+            m_iCurrentFrame = m_TextureRanges["Charging"].first;
             m_fElapsedTime = 0.0f;
         }
     }
@@ -96,7 +113,7 @@ void CStaff::Attack(_float fTimeDelta)
         if (m_eState == State::Charging || m_eState == State::Charged)
         {
             m_eState = State::Firing;
-            m_iCurrentFrame = 0;
+            m_iCurrentFrame = m_TextureRanges["Attack"].first;
             m_fElapsedTime = 0.0f;
         }
     }
@@ -105,18 +122,18 @@ void CStaff::Attack(_float fTimeDelta)
 
     switch (m_eState)
     {
-    case State::Charging:
+    case State::Charging: //차징
         if (m_fElapsedTime >= 0.02f)
         {
             m_fElapsedTime = 0.0f;
-            if (m_iCurrentFrame < 16)
+            if (m_iCurrentFrame < m_TextureRanges["Charging"].second)
             {
                 m_iCurrentFrame++;
             }
             else
             {
                 m_eState = State::Charged;
-                m_iCurrentFrame = 0;
+                m_iCurrentFrame = m_TextureRanges["Loop"].first;
             }
         }
         break;
@@ -125,31 +142,32 @@ void CStaff::Attack(_float fTimeDelta)
         if (m_fElapsedTime >= 0.02f)
         {
             m_fElapsedTime = 0.0f;
-            m_iCurrentFrame = (m_iCurrentFrame + 1) % 10;
+            m_iCurrentFrame = (m_iCurrentFrame + 1) % (m_TextureRanges["Loop"].second - m_TextureRanges["Loop"].first + 1) + m_TextureRanges["Loop"].first;
         }
         break;
 
-    case State::Firing:
+    case State::Firing: //발사
         if (m_fElapsedTime >= 0.02f)
         {
             m_fElapsedTime = 0.0f;
-            if (m_iCurrentFrame < 5)
+            if (m_iCurrentFrame < m_TextureRanges["Attack"].second)
             {
                 m_iCurrentFrame++;
             }
             else
             {
                 m_eState = State::Idle;
-                m_iCurrentFrame = 0;
+                m_iCurrentFrame = m_TextureRanges["Idle"].first;
             }
         }
         break;
 
-    case State::Idle:
-        m_iCurrentFrame = 0;
+    case State::Idle: // 입력 없을때 0 
+        m_iCurrentFrame = m_TextureRanges["Idle"].first;
         break;
     }
 }
+
 
 void CStaff::Late_Update(_float fTimeDelta)
 {
@@ -188,12 +206,12 @@ HRESULT CStaff::Render()
         break;
 
     case State::Charged:
-        if (FAILED(m_pTextureCom_Second->Bind_Resource(m_iCurrentFrame)))
+        if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
             return E_FAIL;
         break;
 
     case State::Firing:
-        if (FAILED(m_pTextureCom_Third->Bind_Resource(m_iCurrentFrame)))
+        if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
             return E_FAIL;
         break;
     }
@@ -219,25 +237,17 @@ HRESULT CStaff::On_Collision()
 
 HRESULT CStaff::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff_1"), // 차징 단계 총 16장
-		TEXT("Com_Texture_Staft_1"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff"), 
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
  		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff_2"), // 차징이 다 되었는데도
-		TEXT("Com_Texture_Staft_2"), reinterpret_cast<CComponent**>(&m_pTextureCom_Second))))    // 계속 누르고 있으면 
-		return E_FAIL;                                                                       // 10장 무한루프
-
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff_3"), // 발사 텍스쳐 총 5장
-		TEXT("Com_Texture_Staft_3"), reinterpret_cast<CComponent**>(&m_pTextureCom_Third))))
-		return E_FAIL;
-
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Staft"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Staft"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

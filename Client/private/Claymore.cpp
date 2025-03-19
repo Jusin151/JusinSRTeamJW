@@ -1,6 +1,7 @@
 ﻿#include "Claymore.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
+#include "Item_Manager.h"
 
 
 CClaymore::CClaymore(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -54,6 +55,7 @@ HRESULT CClaymore::Initialize(void* pArg)
 		_float3(m_Claymore_INFO.vPos.x, m_Claymore_INFO.vPos.y, 0.f));
 
 	m_vInitialPos = m_Claymore_INFO.vPos;
+	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 
 	return S_OK;
 }
@@ -64,6 +66,9 @@ void CClaymore::Priority_Update(_float fTimeDelta)
 
 void CClaymore::Update(_float fTimeDelta)
 {
+	if (!IsActive())
+		return;
+
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;  
@@ -92,6 +97,9 @@ void CClaymore::Update(_float fTimeDelta)
 
 void CClaymore::Late_Update(_float fTimeDelta)
 {
+	if (!IsActive())
+		return;
+
 	if(m_bIsAnimating)
 		On_Collision();
 
@@ -138,11 +146,11 @@ HRESULT CClaymore::On_Collision()
 HRESULT CClaymore::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Claymore"),
-		TEXT("Com_Texture_Claymore"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Claymore"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
