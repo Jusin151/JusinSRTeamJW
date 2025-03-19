@@ -133,9 +133,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//m_isFinished = true;
 
 	/* For.Prototype_Component_Texture_Sky */
-	/*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
-		return E_FAIL;*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../../Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+    return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Inven"),
@@ -307,6 +308,7 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+
 
 
 

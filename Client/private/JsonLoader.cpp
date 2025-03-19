@@ -1,4 +1,4 @@
-﻿#include "JsonLoader.h"
+ï»¿#include "JsonLoader.h"
 #include <Player.h>
 #include <Terrain.h>
 #include <TestMonster.h>
@@ -8,22 +8,23 @@
 #include "UI_Headers.h" 
 #include "GamePlay_Button.h"
 #include "Weapon_Headers.h"
+#include "Anubis.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
 {
-    // JSON 파일 로드
+    // JSON íŒŒì¼ ë¡œë“œ
     ifstream file(filePath);
     if (!file.is_open()) 
     {
-        MSG_BOX("프로토타입 JSON 파일을 찾을 수 없습니다.");
+        MSG_BOX("í”„ë¡œí† íƒ€ìž… JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return E_FAIL;
     }
 
     json j;
     file >> j;
 
-    // 텍스처 프로토타입 로드
+    // í…ìŠ¤ì²˜ í”„ë¡œí† íƒ€ìž… ë¡œë“œ
     if (j.contains("textures")) 
     {
         for (const auto& texture : j["textures"])
@@ -38,7 +39,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
         }
     }
 
-    // 게임 오브젝트 프로토타입 로드
+    // ê²Œìž„ ì˜¤ë¸Œì íŠ¸ í”„ë¡œí† íƒ€ìž… ë¡œë“œ
     if (j.contains("gameObjects")) 
     {
         for (const auto& obj : j["gameObjects"])
@@ -55,7 +56,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
         }
     }
 
-    // 버퍼 프로토타입 로드
+    // ë²„í¼ í”„ë¡œí† íƒ€ìž… ë¡œë“œ
     if (j.contains("buffers")) 
     {
         for (const auto& buffer : j["buffers"])
@@ -64,7 +65,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
             LEVEL level = static_cast<LEVEL>(buffer["level"].get<_uint>());
             string className = buffer["class"];
 
-            // 버퍼 생성 로직 추가
+            // ë²„í¼ ìƒì„± ë¡œì§ ì¶”ê°€
             CBase* pBuffer = nullptr;
 
             if (className == "CVIBuffer_Terrain") 
@@ -73,7 +74,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
                 _uint height = buffer["height"].get<_uint>();
                 pBuffer = CVIBuffer_Terrain::Create(pGraphic_Device, width, height);
             }
-            // 다른 타입의 버퍼가 있다면 여기에 추가
+            // ë‹¤ë¥¸ íƒ€ìž…ì˜ ë²„í¼ê°€ ìžˆë‹¤ë©´ ì—¬ê¸°ì— ì¶”ê°€
 
             if (!pBuffer)
                 continue;
@@ -91,7 +92,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
     ifstream file(jsonFilePath);
     if (!file.is_open())
     {
-        MSG_BOX("레벨 JSON 파일을 찾을 수 없습니다.");
+        MSG_BOX("ë ˆë²¨ JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return E_FAIL;
     }
 
@@ -167,7 +168,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 
 CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    // 기본 게임 오브젝트
+    // ê¸°ë³¸ ê²Œìž„ ì˜¤ë¸Œì íŠ¸
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
     else if (className == "CTestMonster")
@@ -176,12 +177,12 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")
         return CStructure::Create(pGraphic_Device);
-    // 카메라
+    // ì¹´ë©”ë¼
     else if (className == "CCamera_Free")
         return CCamera_Free::Create(pGraphic_Device);
     else if (className == "CCamera_FirstPerson")
         return CCamera_FirstPerson::Create(pGraphic_Device);
-    // UI 컴포넌트
+    // UI ì»´í¬ë„ŒíŠ¸
     else if (className == "CUI_Default_Panel")
         return CUI_Default_Panel::Create(pGraphic_Device);
     else if (className == "CUI_Left_Display")
@@ -218,10 +219,11 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CStaff::Create(pGraphic_Device);
     else if (className == "CShotGun")
         return CShotGun::Create(pGraphic_Device);
+    else if (className == "CAnubis")
+        return CAnubis::Create(pGraphic_Device);
 
-    // 찾지 못한 클래스 이름에 대한 처리
     wstring wClassName = ISerializable::Utf8ToWide(className);
-    wstring errorMsg = L"알 수 없는 클래스 이름: " + wClassName;
+    wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;
     OutputDebugString(errorMsg.c_str());
 
     return nullptr;
@@ -231,15 +233,15 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
 {
     try
     {
-        // JSON ���� ����
+        // JSON ÆÄÀÏ ¿­±â
         ifstream file(filePath);
         if (!file.is_open())
         {
-            MSG_BOX("Ŭ���� �̸� JSON ������ ã�� �� �����ϴ�.");
+            MSG_BOX("Å¬·¡½º ÀÌ¸§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
             return E_FAIL;
         }
 
-        // JSON �Ľ�
+        // JSON ÆÄ½Ì
         json jsonData;
         file >> jsonData;
         file.close();
@@ -260,7 +262,7 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
         }
         else
         {
-            MSG_BOX("JSON ���Ͽ� 'classes' �迭�� ���ų� ������ �߸��Ǿ����ϴ�.");
+            MSG_BOX("JSON ÆÄÀÏ¿¡ 'classes' ¹è¿­ÀÌ ¾ø°Å³ª Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.");
             return E_FAIL;
         }
     }
@@ -280,7 +282,7 @@ _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
     if (layerName == L"Layer_Player")
         return L"Prototype_GameObject_Player";
     else if (layerName == L"Layer_Monster")
-        return L"Prototype_GameObject_TestMonster";
+        return L"Prototype_GameObject_Anubis";
     else if (layerName == L"Layer_BackGround")
         return L"Prototype_GameObject_Terrain";
     else if (layerName == L"Layer_Camera")
