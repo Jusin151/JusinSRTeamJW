@@ -14,7 +14,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CGameObject{ Prototype }
+	: CGameObject( Prototype )
 {
 }
 
@@ -34,7 +34,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
 
-
+	//m_pPlayer_Inven = CInventory::GetInstance();
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
@@ -52,24 +52,9 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	Move(fTimeDelta); 
 
-	if (GetKeyState('W') & 0x8000)
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-	if (GetKeyState('S') & 0x8000)
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
-	if (GetKeyState('A') & 0x8000)
-	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
-	}
-	if (GetKeyState('D') & 0x8000)
-	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
-	}
-
+	Inven_Update(fTimeDelta);
 	m_pColliderCom->Update_Collider();
 	
 
@@ -91,7 +76,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-
+	//m_pPlayer_Inven->Render();
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -136,6 +121,34 @@ HRESULT CPlayer::On_Collision()
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
+}
+
+void CPlayer::Move(_float fTimeDelta)
+{
+	if (GetKeyState('W') & 0x8000)
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+	if (GetKeyState('S') & 0x8000)
+	{
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+	if (GetKeyState('A') & 0x8000)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+	}
+	if (GetKeyState('D') & 0x8000)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+	}
+}
+
+void CPlayer::Inven_Update(_float fTimeDelta)
+{
+	//m_bInven_Render_State = m_pPlayer_Inven->Update(fTimeDelta);
+
+
+	
 }
 
 HRESULT CPlayer::SetUp_RenderState()

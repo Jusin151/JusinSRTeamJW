@@ -98,7 +98,7 @@ void CGamePlay_Button::Episode_UI_Update()
 {
 	if (!m_Button_INFO.bDisplay_On)
 	{
-		if (GetKeyState('3') & 0x8000)
+		if (GetKeyState('o') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -126,7 +126,7 @@ void CGamePlay_Button::Episode_UI_Update()
 	else
 	{
 		Current_Image = Episode_Display;
-		if (GetKeyState('3') & 0x8000)
+		if (GetKeyState('o') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
@@ -143,7 +143,7 @@ void CGamePlay_Button::Point_Shop_Update()
 {
 	if (!m_Button_INFO.bDisplay_On)
 	{
-		if (GetKeyState('2') & 0x8000)
+		if (GetKeyState('i') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{

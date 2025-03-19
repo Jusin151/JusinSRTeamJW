@@ -13,12 +13,14 @@ END
 BEGIN(Client)
 class CShutGun final : public CRanged_Weapon
 {
-	enum class State
+private:
+	enum class State 
 	{
 		Idle,
-		Charged,
-		Firing
+		Firing,
+		Reloading
 	};
+
 private:
 	CShutGun(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CShutGun(const CShutGun& Prototype);
@@ -32,7 +34,6 @@ public:
 	 void Attack(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
 	 HRESULT Render();
-	 Weapon_DESC m_ShotGun_INFO{};
 
 	 HRESULT On_Collision();
 
@@ -45,10 +46,11 @@ public:
 	static CShutGun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-
-	_float t = {}; //
-	_float speed = { 0.1f }; //
+private:
+	State m_eState = State::Idle;
+	Weapon_DESC m_ShotGun_INFO{};
+	_float t = {};
+	_float speed = { 0.1f };
 	_float2 m_vInitialPos = {};
-
 };
 END

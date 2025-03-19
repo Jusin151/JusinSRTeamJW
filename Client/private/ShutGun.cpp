@@ -76,26 +76,53 @@ void CShutGun::Attack(_float fTimeDelta)
 {
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
-		m_bIsAnimating = true;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
+		if (m_eState == State::Idle)
+		{
+			m_eState = State::Firing;
+			m_iCurrentFrame = 0;
+			m_fElapsedTime = 0.0f;
+		}
 	}
-	if (m_bIsAnimating)
+
+	m_fElapsedTime += fTimeDelta;
+
+	switch (m_eState)
 	{
-		m_fElapsedTime += fTimeDelta;
+	case State::Idle:
+		m_iCurrentFrame = 0;
+		break;
+
+	case State::Firing:
 		if (m_fElapsedTime >= 0.02f)
 		{
 			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 3) // 몇장까지인지
+			if (m_iCurrentFrame < 3)
 			{
 				m_iCurrentFrame++;
 			}
 			else
 			{
-				m_bIsAnimating = false;
+				m_eState = State::Reloading;
 				m_iCurrentFrame = 0;
 			}
 		}
+		break;
+
+	case State::Reloading:
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+			if (m_iCurrentFrame < 14)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_eState = State::Idle;
+				m_iCurrentFrame = 0;
+			}
+		}
+		break;
 	}
 }
 void CShutGun::Late_Update(_float fTimeDelta)
@@ -107,7 +134,6 @@ void CShutGun::Late_Update(_float fTimeDelta)
 
 HRESULT CShutGun::Render()
 {
-	
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -124,16 +150,27 @@ HRESULT CShutGun::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
-		return E_FAIL;
+
+	switch (m_eState)
+	{
+	case State::Idle:
+	case State::Firing:
+		if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
+			return E_FAIL;
+		break;
+
+	case State::Reloading:
+		if (FAILED(m_pTextureCom_Second->Bind_Resource(m_iCurrentFrame)))
+			return E_FAIL;
+		break;
+	}
+
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);

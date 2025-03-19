@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "Ranged_Weapon.h"
 
+class CPlayer; 
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -37,8 +39,9 @@ public:
 
 	 HRESULT On_Collision();
 
-private:
-	HRESULT Ready_Components();
+	 HRESULT Ready_Components();
+
+
 
 private:
 	State m_eState = State::Idle;

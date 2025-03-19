@@ -594,6 +594,15 @@ HRESULT CLoader::Add_To_Weapon_Textures()
 			14))))
 		return E_FAIL;
 
+	// 인벤에서 사용할 아이콘들 5장
+	// 1 도끼 2 클레이모어 3 매그넘 4 샷건 5 스태프
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Weapon_Icon"),
+		CTexture::Create(m_pGraphic_Device,
+			TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"),
+			5))))
+		return E_FAIL;
+
 
 	return S_OK;
 }

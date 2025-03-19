@@ -1,6 +1,7 @@
 ﻿#include "Staft.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
+#include "Inventory.h"
 
 
 CStaft::CStaft(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -40,7 +41,8 @@ HRESULT CStaft::Initialize(void* pArg)
 
 	m_vInitialPos = m_Staft_INFO.vPos;
 
-
+   // CInventory::GetInstance()->Add_Weapon(L"Staft", this);
+    
 	return S_OK;
 }
 

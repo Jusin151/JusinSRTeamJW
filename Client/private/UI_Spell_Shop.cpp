@@ -54,7 +54,7 @@ void CUI_Spell_Shop::Priority_Update(_float fTimeDelta)
 
 void CUI_Spell_Shop::Update(_float fTimeDelta)
 {
-	if (GetKeyState('4') & 0x8000)
+	if (GetKeyState('p') & 0x8000)
 	{
 		if (!m_bKeyPressed)
 		{

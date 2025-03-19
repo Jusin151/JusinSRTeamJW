@@ -164,6 +164,8 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
+    <ClInclude Include="..\public\Inventory.h" />
+    <ClInclude Include="..\Public\Item_Icon.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -186,7 +188,7 @@
     <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_Left_Display.h" />
     <ClInclude Include="..\public\CUI_Manager.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h" />
@@ -206,7 +208,6 @@
     <ClInclude Include="..\public\UI_Structs.h" />
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
-    <ClInclude Include="Item_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -218,6 +219,8 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
+    <ClCompile Include="..\Private\Inventory.cpp" />
+    <ClCompile Include="..\Private\Item_Icon.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />

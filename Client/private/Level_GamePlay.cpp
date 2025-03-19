@@ -599,7 +599,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_ShotGun_Desc.AttackSpeed = { 1.f };
 	Weapon_ShotGun_Desc.Range = { 3.f };
 	Weapon_ShotGun_Desc.Cooldown = { 1.f };
-	//Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_Staft";
+	//Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_ShotGun";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_Staft"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
 		&Weapon_ShotGun_Desc)))
@@ -613,11 +613,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Staft_Desc.AttackSpeed = { 1.f };
 	Weapon_Staft_Desc.Range = { 3.f };
 	Weapon_Staft_Desc.Cooldown = { 1.f };
-	//Weapon_Staft_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
+	//Weapon_Staft_Desc.TextureKey = L"Prototype_Component_Texture_Staft";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_ShutGun"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staft"),
 		&Weapon_Staft_Desc)))
 		return E_FAIL;
+
+
 
 
 	return S_OK;
