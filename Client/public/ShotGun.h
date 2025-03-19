@@ -4,8 +4,6 @@
 #include "GameObject.h"
 #include "Ranged_Weapon.h"
 
-class CPlayer; 
-
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -13,19 +11,20 @@ class CVIBuffer_Rect;  // UI는 사각형으로
 END
 
 BEGIN(Client)
-class CStaft final : public CRanged_Weapon
+class CShotGun final : public CRanged_Weapon
 {
+private:
 	enum class State 
 	{
 		Idle,
-		Charging, 
-		Charged,
-		Firing
+		Firing,
+		Reloading
 	};
+
 private:
-	CStaft(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CStaft(const CStaft& Prototype);
-	virtual ~CStaft() = default;
+	CShotGun(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CShotGun(const CShotGun& Prototype);
+	virtual ~CShotGun() = default;
 
 public:
 	 HRESULT Initialize_Prototype();
@@ -35,25 +34,23 @@ public:
 	 void Attack(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
 	 HRESULT Render();
-	 Weapon_DESC m_Staft_INFO{};
 
 	 HRESULT On_Collision();
 
-	 HRESULT Ready_Components();
-
-
-
 private:
-	State m_eState = State::Idle;
+	HRESULT Ready_Components();
+
+
 
 public:
-	static CStaft* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CShotGun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-
-	_float t = {}; //
-	_float speed = { 0.1f }; //
+private:
+	State m_eState = State::Idle;
+	Weapon_DESC m_ShotGun_INFO{};
+	_float t = {};
+	_float speed = { 0.1f };
 	_float2 m_vInitialPos = {};
-
 };
 END

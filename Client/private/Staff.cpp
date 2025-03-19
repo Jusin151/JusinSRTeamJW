@@ -1,28 +1,28 @@
-﻿#include "Staft.h"
+﻿#include "Staff.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 #include "Inventory.h"
 
 
-CStaft::CStaft(LPDIRECT3DDEVICE9 pGraphic_Device)
+CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
 {
 }
 
-CStaft::CStaft(const CStaft& Prototype)
+CStaff::CStaff(const CStaff& Prototype)
 	: CRanged_Weapon(Prototype),
-	m_Staft_INFO{Prototype.m_Staft_INFO }
+	m_Staff_INFO{Prototype.m_Staff_INFO }
 {
 }
 
-HRESULT CStaft::Initialize_Prototype()
+HRESULT CStaff::Initialize_Prototype()
 {
 
 
 	return S_OK;
 }
 
-HRESULT CStaft::Initialize(void* pArg)
+HRESULT CStaff::Initialize(void* pArg)
 {
 
 	if (FAILED(Ready_Components()))
@@ -30,27 +30,27 @@ HRESULT CStaft::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (pArg != nullptr)
-		m_Staft_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
+		m_Staff_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
 	else
 		return E_FAIL;
 
 
-	m_pTransformCom->Set_Scale(m_Staft_INFO.vSize.x, m_Staft_INFO.vSize.y, 1.f);
+	m_pTransformCom->Set_Scale(m_Staff_INFO.vSize.x, m_Staff_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_Staft_INFO.vPos.x, m_Staft_INFO.vPos.y, 0.f));
+		_float3(m_Staff_INFO.vPos.x, m_Staff_INFO.vPos.y, 0.f));
 
-	m_vInitialPos = m_Staft_INFO.vPos;
+	m_vInitialPos = m_Staff_INFO.vPos;
 
-   // CInventory::GetInstance()->Add_Weapon(L"Staft", this);
+   // CInventory::GetInstance()->Add_Weapon(L"Staff", this);
     
 	return S_OK;
 }
 
-void CStaft::Priority_Update(_float fTimeDelta)
+void CStaff::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CStaft::Update(_float fTimeDelta)
+void CStaff::Update(_float fTimeDelta)
 {
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
@@ -80,7 +80,7 @@ void CStaft::Update(_float fTimeDelta)
 
 	return;
 }
-void CStaft::Attack(_float fTimeDelta)
+void CStaff::Attack(_float fTimeDelta)
 {
     if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
     {
@@ -151,14 +151,14 @@ void CStaft::Attack(_float fTimeDelta)
     }
 }
 
-void CStaft::Late_Update(_float fTimeDelta)
+void CStaff::Late_Update(_float fTimeDelta)
 {
 	
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CStaft::Render()
+HRESULT CStaff::Render()
 {
     D3DXMATRIX matOldView, matOldProj;
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -210,24 +210,24 @@ HRESULT CStaft::Render()
     return S_OK;
 }
 
-HRESULT CStaft::On_Collision()
+HRESULT CStaff::On_Collision()
 {
 		
 
 	return S_OK;
 }
 
-HRESULT CStaft::Ready_Components()
+HRESULT CStaff::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staft_1"), // 차징 단계 총 16장
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff_1"), // 차징 단계 총 16장
 		TEXT("Com_Texture_Staft_1"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
  		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staft_2"), // 차징이 다 되었는데도
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff_2"), // 차징이 다 되었는데도
 		TEXT("Com_Texture_Staft_2"), reinterpret_cast<CComponent**>(&m_pTextureCom_Second))))    // 계속 누르고 있으면 
 		return E_FAIL;                                                                       // 10장 무한루프
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staft_3"), // 발사 텍스쳐 총 5장
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff_3"), // 발사 텍스쳐 총 5장
 		TEXT("Com_Texture_Staft_3"), reinterpret_cast<CComponent**>(&m_pTextureCom_Third))))
 		return E_FAIL;
 
@@ -243,9 +243,9 @@ HRESULT CStaft::Ready_Components()
 	return S_OK;
 }
 
-CStaft* CStaft::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CStaff* CStaff::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CStaft* pInstance = new CStaft(pGraphic_Device);
+	CStaff* pInstance = new CStaff(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -259,9 +259,9 @@ CStaft* CStaft::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CStaft::Clone(void* pArg)
+CGameObject* CStaff::Clone(void* pArg)
 {
-	CStaft* pInstace = new CStaft(*this);
+	CStaff* pInstace = new CStaff(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -274,7 +274,7 @@ CGameObject* CStaft::Clone(void* pArg)
 	return pInstace;
 }
 
-void CStaft::Free()
+void CStaff::Free()
 {
 	__super::Free();
 

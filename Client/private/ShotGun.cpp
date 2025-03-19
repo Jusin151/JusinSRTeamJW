@@ -1,25 +1,25 @@
-﻿#include "ShutGun.h"
+﻿#include "ShotGun.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
 
-CShutGun::CShutGun(LPDIRECT3DDEVICE9 pGraphic_Device)
+CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
 {
 }
 
-CShutGun::CShutGun(const CShutGun& Prototype)
+CShotGun::CShotGun(const CShotGun& Prototype)
 	: CRanged_Weapon(Prototype),
 	m_ShotGun_INFO{Prototype.m_ShotGun_INFO }
 {
 }
 
-HRESULT CShutGun::Initialize_Prototype()
+HRESULT CShotGun::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CShutGun::Initialize(void* pArg)
+HRESULT CShotGun::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -39,11 +39,11 @@ HRESULT CShutGun::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CShutGun::Priority_Update(_float fTimeDelta)
+void CShotGun::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CShutGun::Update(_float fTimeDelta)
+void CShotGun::Update(_float fTimeDelta)
 {
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
@@ -72,7 +72,7 @@ void CShutGun::Update(_float fTimeDelta)
 	Attack(fTimeDelta);
 	return;
 }
-void CShutGun::Attack(_float fTimeDelta)
+void CShotGun::Attack(_float fTimeDelta)
 {
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
@@ -125,14 +125,14 @@ void CShutGun::Attack(_float fTimeDelta)
 		break;
 	}
 }
-void CShutGun::Late_Update(_float fTimeDelta)
+void CShotGun::Late_Update(_float fTimeDelta)
 {
 	
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CShutGun::Render()
+HRESULT CShotGun::Render()
 {
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -179,7 +179,7 @@ HRESULT CShutGun::Render()
 	return S_OK;
 }
 
-HRESULT CShutGun::On_Collision()
+HRESULT CShotGun::On_Collision()
 {
 	
 
@@ -187,31 +187,31 @@ HRESULT CShutGun::On_Collision()
 	return S_OK;
 }
 
-HRESULT CShutGun::Ready_Components()
+HRESULT CShotGun::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_ShotGun_1"),
-		TEXT("Com_Texture_ShutGun_1"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		TEXT("Com_Texture_ShotGun_1"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_ShotGun_2"),
-		TEXT("Com_Texture_ShutGun_2"), reinterpret_cast<CComponent**>(&m_pTextureCom_Second))))
+		TEXT("Com_Texture_ShotGun_2"), reinterpret_cast<CComponent**>(&m_pTextureCom_Second))))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_ShutGun"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer_ShotGun"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_ShutGun"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_ShotGun"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CShutGun* CShutGun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CShutGun* pInstance = new CShutGun(pGraphic_Device);
+	CShotGun* pInstance = new CShotGun(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -225,9 +225,9 @@ CShutGun* CShutGun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CShutGun::Clone(void* pArg)
+CGameObject* CShotGun::Clone(void* pArg)
 {
-	CShutGun* pInstace = new CShutGun(*this);
+	CShotGun* pInstace = new CShotGun(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -240,7 +240,7 @@ CGameObject* CShutGun::Clone(void* pArg)
 	return pInstace;
 }
 
-void CShutGun::Free()
+void CShotGun::Free()
 {
 	__super::Free();
 

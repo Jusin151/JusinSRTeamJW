@@ -6,6 +6,7 @@
 #include "CUI_Base.h"
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
+#include "Weapon_Base.h"
 
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -28,7 +29,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
-
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -562,7 +562,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Weapon_Claymore_Desc.Range = { 3.f };
 	Weapon_Claymore_Desc.Cooldown = { 1.f };
 	//Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Claymore"),
 		&Weapon_Claymore_Desc)))
 		return E_FAIL;
@@ -590,7 +590,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Weapon_Magnum_Desc.Range = { 3.f };
 	Weapon_Magnum_Desc.Cooldown = { 1.f };
 	//Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_Magnum"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore_Magnum"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Magnum"),
 		&Weapon_Magnum_Desc)))
 		return E_FAIL;
@@ -604,23 +604,23 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Weapon_ShotGun_Desc.Range = { 3.f };
 	Weapon_ShotGun_Desc.Cooldown = { 1.f };
 	//Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_ShotGun";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_Staft"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore_ShotGun"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
 		&Weapon_ShotGun_Desc)))
 		return E_FAIL;
 
-	CWeapon_Base::Weapon_DESC Weapon_Staft_Desc{}; // 스태프 원형객체
-	Weapon_Staft_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
-	Weapon_Staft_Desc.vPos = { -200.f,0.f };
-	Weapon_Staft_Desc.vSize = { 535,300.f };
-	Weapon_Staft_Desc.Damage = { 100.f };
-	Weapon_Staft_Desc.AttackSpeed = { 1.f };
-	Weapon_Staft_Desc.Range = { 3.f };
-	Weapon_Staft_Desc.Cooldown = { 1.f };
+	CWeapon_Base::Weapon_DESC Weapon_Staff_Desc{}; // 스태프 원형객체
+	Weapon_Staff_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	Weapon_Staff_Desc.vPos = { -200.f,0.f };
+	Weapon_Staff_Desc.vSize = { 535,300.f };
+	Weapon_Staff_Desc.Damage = { 100.f };
+	Weapon_Staff_Desc.AttackSpeed = { 1.f };
+	Weapon_Staff_Desc.Range = { 3.f };
+	Weapon_Staff_Desc.Cooldown = { 1.f };
 	//Weapon_Staft_Desc.TextureKey = L"Prototype_Component_Texture_Staft";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_CClaymore_ShutGun"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staft"),
-		&Weapon_Staft_Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore_Staff"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staff"),
+		&Weapon_Staff_Desc)))
 		return E_FAIL;
 
 

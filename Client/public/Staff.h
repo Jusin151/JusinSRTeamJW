@@ -11,20 +11,19 @@ class CVIBuffer_Rect;  // UI는 사각형으로
 END
 
 BEGIN(Client)
-class CShutGun final : public CRanged_Weapon
+class CStaff final : public CRanged_Weapon
 {
-private:
 	enum class State 
 	{
 		Idle,
-		Firing,
-		Reloading
+		Charging, 
+		Charged,
+		Firing
 	};
-
 private:
-	CShutGun(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CShutGun(const CShutGun& Prototype);
-	virtual ~CShutGun() = default;
+	CStaff(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CStaff(const CStaff& Prototype);
+	virtual ~CStaff() = default;
 
 public:
 	 HRESULT Initialize_Prototype();
@@ -34,23 +33,25 @@ public:
 	 void Attack(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
 	 HRESULT Render();
+	 Weapon_DESC m_Staff_INFO{};
 
 	 HRESULT On_Collision();
 
-private:
-	HRESULT Ready_Components();
+	 HRESULT Ready_Components();
 
 
 
-public:
-	static CShutGun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) ;
-	virtual void Free();
 private:
 	State m_eState = State::Idle;
-	Weapon_DESC m_ShotGun_INFO{};
-	_float t = {};
-	_float speed = { 0.1f };
+
+public:
+	static CStaff* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CGameObject* Clone(void* pArg) ;
+	virtual void Free();
+
+	_float t = {}; //
+	_float speed = { 0.1f }; //
 	_float2 m_vInitialPos = {};
+
 };
 END

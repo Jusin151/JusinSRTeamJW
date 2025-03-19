@@ -17,7 +17,7 @@ class CWeapon_Base abstract : public CGameObject
 public:
     enum WEAPON_ID
     {
-        Axe,Claymore,Magnum,ShutGun,Staft
+        Axe,Claymore,Magnum,ShotGun,Staff
     };
 
 public:

@@ -315,10 +315,10 @@
     <ClInclude Include="..\public\Axe.h">
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Staft.h">
+    <ClInclude Include="..\public\Staff.h">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ShutGun.h">
+    <ClInclude Include="..\public\ShotGun.h">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShutGun</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Inventory.h">
@@ -448,10 +448,10 @@
     <ClCompile Include="..\private\Axe.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staft.cpp">
+    <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ShutGun.cpp">
+    <ClCompile Include="..\private\ShotGun.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShutGun</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Inventory.cpp">
