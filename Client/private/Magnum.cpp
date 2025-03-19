@@ -1,6 +1,7 @@
 ﻿#include "Magnum.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
+#include "Item_Manager.h"
 
 CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -37,6 +38,8 @@ HRESULT CMagnum::Initialize(void* pArg)
 		_float3(m_Magnum_INFO.vPos.x, m_Magnum_INFO.vPos.y, 0.f));
 
 	m_vInitialPos = m_Magnum_INFO.vPos;
+
+	CItem_Manager::GetInstance()->Add_Weapon(L"Magnum", this);
 
 	return S_OK;
 }

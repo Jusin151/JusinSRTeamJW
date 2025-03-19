@@ -22,8 +22,6 @@ class CInventory final : public CGameObject
     }Inven_DESC;
 
 public:
-    enum HP_STATE { Default, Heated };
-private:
     CInventory(LPDIRECT3DDEVICE9 pGraphic_Device);
     CInventory(const CInventory& Prototype);
     virtual ~CInventory() = default;
@@ -72,5 +70,7 @@ protected:
     Inven_DESC m_Inven_INFO{};
 
     unordered_map<wstring, CWeapon_Base*> m_UIMap;
+
+    CWeapon_Base* m_pItem{};
 };
 END

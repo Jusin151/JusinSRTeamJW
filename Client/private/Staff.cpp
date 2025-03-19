@@ -1,8 +1,7 @@
 ﻿#include "Staff.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
-#include "Inventory.h"
-
+#include "Item_Manager.h"
 
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -59,7 +58,7 @@ HRESULT CStaff::Initialize(void* pArg)
     m_TextureRanges["Loop"] = { 17, 26 };
     m_TextureRanges["Attack"] = { 27, 31 };
 
-   // CInventory::GetInstance()->Add_Weapon(L"Staff", this);
+    CItem_Manager::GetInstance()->Add_Weapon(L"Staff", this);
     
 	return S_OK;
 }

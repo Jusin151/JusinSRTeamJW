@@ -1,7 +1,7 @@
 ﻿#include "ShotGun.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
-
+#include "Item_Manager.h"
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -41,6 +41,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
 
+	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
 	return S_OK;
 }

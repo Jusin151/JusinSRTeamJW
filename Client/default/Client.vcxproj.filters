@@ -325,6 +325,9 @@
       <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Icon.h" />
+    <ClInclude Include="..\Public\Item_Manager.h">
+      <Filter>96. Manager\Item_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -458,6 +461,9 @@
       <Filter>Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp" />
+    <ClCompile Include="..\Private\Item_Manager.cpp">
+      <Filter>96. Manager\Item_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
