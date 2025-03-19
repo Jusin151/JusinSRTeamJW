@@ -2,5 +2,5 @@
 
 void CParticle_System::Render()
 {
-	m_pGraphic_Device->SetStreamSourceFreq();
+	//m_pGraphic_Device->SetStreamSourceFreq();
 }

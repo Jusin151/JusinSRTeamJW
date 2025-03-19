@@ -9,9 +9,6 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CBackGround::CBackGround(const CBackGround& Prototype)
 	: CUI_Base(Prototype),
-	m_Back_pTextureCom(Prototype.m_Back_pTextureCom),
-	m_Back_pTransformCom(Prototype.m_Back_pTransformCom),
-	m_Back_pVIBufferCom(Prototype.m_Back_pVIBufferCom),
 	m_BackGround_INFO{ Prototype.m_BackGround_INFO },
 	m_pMaterial { Prototype.m_pMaterial }
 {
@@ -42,8 +39,8 @@ HRESULT CBackGround::Initialize(void* pArg)
 	//CUI_Manager::GetInstance()->AddUI(L"LOGO%d", this); // 얘는 나중에 캔버스랑 연동
 
 
-	m_Back_pTransformCom->Set_Scale(m_BackGround_INFO.BackGround_Desc.vSize.x, m_BackGround_INFO.BackGround_Desc.vSize.y, 1.f);
-	m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	m_pTransformCom->Set_Scale(m_BackGround_INFO.BackGround_Desc.vSize.x, m_BackGround_INFO.BackGround_Desc.vSize.y, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_BackGround_INFO.BackGround_Desc.vPos.x, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
 	return S_OK;
 }
@@ -67,7 +64,7 @@ void CBackGround::Update(_float fTimeDelta)
 
 
 	// 위치 설정
-	m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_BackGround_INFO.BackGround_Desc.vPos.x, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
 }
 
@@ -144,27 +141,27 @@ HRESULT CBackGround::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	// 그거 왼쪽으로 갈지 오른쪽으로 갈지를 안정해줬으
-	if (FAILED(m_Back_pTransformCom->Bind_Resource()))
+	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_Back_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
-	if (FAILED(m_Back_pVIBufferCom->Bind_Buffers()))
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-	if (FAILED(m_Back_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 	if (m_BackGround_INFO.fStack_MoveDistance != 0.f)
 	{
 		// 두 번째 이미지 렌더링 (첫 번째 이미지의 오른쪽에 할꺼임!)
-		m_Back_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 			_float3(m_BackGround_INFO.BackGround_Desc.vPos.x + m_BackGround_INFO.fMoveDistance, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
-		if (FAILED(m_Back_pTransformCom->Bind_Resource()))
+		if (FAILED(m_pTransformCom->Bind_Resource()))
 			return E_FAIL;
-		if (FAILED(m_Back_pTextureCom->Bind_Resource(0)))
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
 			return E_FAIL;
-		if (FAILED(m_Back_pVIBufferCom->Bind_Buffers()))
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 			return E_FAIL;
-		if (FAILED(m_Back_pVIBufferCom->Render()))
+		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 	}
 
@@ -181,17 +178,17 @@ HRESULT CBackGround::Render()
 HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 {
 	if (FAILED(__super::Add_Component(LEVEL_LOGO, strTextureTag,
-		TEXT("Com_Texture_Back"), reinterpret_cast<CComponent**>(&m_Back_pTextureCom))))
+		TEXT("Com_Texture_Back"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
    		return E_FAIL;
 
 
  	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Back"), reinterpret_cast<CComponent**>(&m_Back_pVIBufferCom))))
+		TEXT("Com_VIBuffer_Back"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Back"), reinterpret_cast<CComponent**>(&m_Back_pTransformCom), &tDesc)))
+		TEXT("Com_Transform_Back"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 
@@ -235,9 +232,5 @@ CGameObject* CBackGround::Clone(void* pArg)
 void CBackGround::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_Back_pTextureCom);
-	Safe_Release(m_Back_pTransformCom);
-	Safe_Release(m_Back_pVIBufferCom);
 	Safe_Release(m_pMaterial);
 }
