@@ -41,6 +41,7 @@ public:
 	CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 	CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
+	/*CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);*/
 #pragma endregion
 
 #pragma region RENDERER

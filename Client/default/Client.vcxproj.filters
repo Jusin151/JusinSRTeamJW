@@ -151,6 +151,9 @@
     <Filter Include="999. JsonLoader">
       <UniqueIdentifier>{614ded8b-fb5d-4e85-b052-74b2726d5d07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Sky">
+      <UniqueIdentifier>{9577e1b8-0648-4258-bdc6-c3a799c174cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -294,6 +297,9 @@
     <ClInclude Include="..\public\JsonLoader.h">
       <Filter>999. JsonLoader</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Sky.h">
+      <Filter>02.GameObjects\Sky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -410,6 +416,9 @@
     </ClCompile>
     <ClCompile Include="..\private\JsonLoader.cpp">
       <Filter>999. JsonLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sky.cpp">
+      <Filter>02.GameObjects\Sky</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

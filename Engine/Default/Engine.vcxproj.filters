@@ -160,6 +160,13 @@
     <ClInclude Include="..\public\Particle_System.h">
       <Filter>11. Particle\System</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\public\LandObject.h">
+      <Filter>02.GameObject\LandObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -306,6 +313,9 @@
     <Filter Include="11. Particle\Manager">
       <UniqueIdentifier>{d576c316-ab06-4fc2-96e5-f0d1f7958b43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\LandObject">
+      <UniqueIdentifier>{c5d5bdd8-efbb-4a30-a101-e079c9264fc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -448,5 +458,11 @@
     <None Include="..\..\Resources\Materials\TestMaterial.json">
       <Filter>04.Components\Material</Filter>
     </None>
+    <ClCompile Include="..\private\LandObject.cpp">
+      <Filter>02.GameObject\LandObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
