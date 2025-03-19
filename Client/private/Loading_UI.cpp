@@ -112,7 +112,7 @@ HRESULT CLoading_UI::Ready_Components()
 
 
 
-	return S_OK;
+ 	return S_OK;
 }
 
 CLoading_UI* CLoading_UI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
