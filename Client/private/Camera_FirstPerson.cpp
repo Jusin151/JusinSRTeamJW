@@ -49,7 +49,14 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 
 	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
 	if (nullptr == m_pPlayer)
-		return E_FAIL;
+	{
+		m_pPlayer = m_pGameInstance->Find_Object(LEVEL_EDITOR, TEXT("Layer_Player"));
+		if (nullptr == m_pPlayer)
+		{
+			return E_FAIL;
+		}
+	}
+		
 
 	Safe_AddRef(m_pPlayer);
 	
@@ -151,7 +158,7 @@ CGameObject* CCamera_FirstPerson::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CCamera_Free");
+		MSG_BOX("Failed to Created : CCamera_FirstPerson");
 		Safe_Release(pInstance);
 	}
 

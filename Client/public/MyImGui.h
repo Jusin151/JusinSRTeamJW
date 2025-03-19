@@ -1,39 +1,38 @@
 ﻿#pragma once
 
 #include "Base.h"
-#include "Editor.h"
-#include "../../Client/public/Structure.h"
+
 BEGIN(Engine)
-
-class CGraphic_Device;
+class CEditor;
 class CGameObject;
+class CGameInstance;
+END
 
-class CMyImGui final : public CBase
+BEGIN(Client)
+
+class CMyImGui  final : public CBase
 {
 private:
-	CMyImGui(CGraphic_Device* pGraphic_Device);
+	CMyImGui(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual ~CMyImGui() = default;
 public:
-	HRESULT Initialize(_uint iNumLevels, HWND hWnd, CGraphic_Device* pGraphic_Device);
+	HRESULT Initialize(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device);
 	void Update(_float fTimeDelta);
 	HRESULT Render();
-	HRESULT RegisterGameObject(CGameObject*);
-	HRESULT RegisterMainCamera(CGameObject*);
 
 private:
-	void ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers);
-	void ShowListInLayer(CLayer* pLayer);
+//	void ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers);
+	//void ShowListInLayer(CLayer* pLayer);
 	void ShowComponentsInGameObject(CGameObject* pGameObject);
 
 private:
 
-	void Show_Objects(_float fTimeDelta);
+	void Show_Objects();
 	void LoadImagesFromFolder(const _wstring& folderPath);
 	_wstring SelectFile();
 	_wstring SelectFolder();
 	HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
-	CEditor m_Editor;
 
 private:
 
@@ -64,12 +63,13 @@ private:
 
 private:
 	class CGameInstance*	m_pGameInstance = { nullptr };
-	class CGraphic_Device*	m_pGraphic_Device = { nullptr };
+	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };
 	_uint m_iNumLevels = {};
-	std::map<unsigned int, CGameObject*> m_gameObjects;
+	map<unsigned int, CGameObject*> m_gameObjects;
+	CEditor* m_Editor = { nullptr };
 	
 public:
-	static CMyImGui* Create(_uint iNumLevels, HWND hWnd, CGraphic_Device* pGraphic_Device);
+	static CMyImGui* Create(_uint iNumLevels,LPDIRECT3DDEVICE9 pGraphic_Device);
 	void Free();
 };
 

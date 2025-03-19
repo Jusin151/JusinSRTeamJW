@@ -10,7 +10,6 @@
 #include "Object_Manager.h"
 #include "Collider_Manager.h"
 #include "Prototype_Manager.h"
-#include "MyImgui.h"
 
 
 IMPLEMENT_SINGLETON(CGameInstance);
@@ -57,10 +56,6 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCollider_Manager)
 		return E_FAIL;
 
-	m_pMyImGui = CMyImGui::Create(EngineDesc.iNumLevels, EngineDesc.hWnd, m_pGraphic_Device);
-	if (nullptr == m_pMyImGui)
-		return E_FAIL;
-
 
 	m_pFont_Manager = CFont_Manager::Create(*ppOut);
 	if (nullptr == m_pFont_Manager)
@@ -79,10 +74,6 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pCollider_Manager->Update_Collison();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
-
-
-
-	m_pMyImGui->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Draw()
@@ -95,8 +86,6 @@ HRESULT CGameInstance::Draw()
 	m_pRenderer->Draw();
 
 	m_pLevel_Manager->Render();
-
-	m_pMyImGui->Render();
 
 	m_pGraphic_Device->Render_End();
 
@@ -263,8 +252,6 @@ void CGameInstance::Change_ClearColor(_float4 rgba)
 
 void CGameInstance::Release_Engine()
 {
-
-	Safe_Release(m_pMyImGui);
 
 	Safe_Release(m_pFont_Manager);
 

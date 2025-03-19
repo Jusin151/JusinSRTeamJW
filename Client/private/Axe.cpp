@@ -55,6 +55,8 @@ HRESULT CAxe::Initialize(void* pArg)
 		_float3(m_Axe_INFO.vPos.x, m_Axe_INFO.vPos.y, 0.f));
 
 	m_vInitialPos = m_Axe_INFO.vPos;
+
+	return S_OK;
 }
 
 void CAxe::Priority_Update(_float fTimeDelta)

@@ -74,10 +74,6 @@ public:
 
 #pragma endregion
 
-#pragma region MyImGui
-	HRESULT Register_GameObject(CGameObject* pGameObject);
-#pragma endregion
-
 #pragma region Graphic_Device
 	void Change_ClearColor(_float4 rgba);
 #pragma endregion
@@ -100,7 +96,6 @@ private:
 	class CSound_Manager*		m_pSound_Manager = { nullptr };
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
-	class CMyImGui*				m_pMyImGui = { nullptr };
 	class CFont_Manager*	    m_pFont_Manager = { nullptr };
 public:
 	void Release_Engine();

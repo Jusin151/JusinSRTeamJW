@@ -169,6 +169,9 @@
     <Filter Include="02.GameObjects\97. UI\05. ItemIcon">
       <UniqueIdentifier>{33781b4a-53c8-43fd-8994-421a11835195}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Editor">
+      <UniqueIdentifier>{45f9bd66-c000-430b-bcc3-934b1428b194}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -325,6 +328,12 @@
       <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Icon.h" />
+    <ClInclude Include="..\public\Level_Editor.h">
+      <Filter>01.Levels\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MyImGui.h">
+      <Filter>999. JsonLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -458,6 +467,12 @@
       <Filter>Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp" />
+    <ClCompile Include="..\private\Level_Editor.cpp">
+      <Filter>01.Levels\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MyImGui.cpp">
+      <Filter>999. JsonLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

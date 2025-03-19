@@ -42,7 +42,7 @@ HRESULT CRenderer::Render_Priority()
 {
 	for (auto& pGameObject : m_RenderObjects[RG_PRIORITY])
 	{
-		if (nullptr != pGameObject)
+		if (nullptr != pGameObject && pGameObject->IsActive())
 			pGameObject->Render();
 
 		Safe_Release(pGameObject);
@@ -56,7 +56,7 @@ HRESULT CRenderer::Render_NonBlend()
 {
 	for (auto& pGameObject : m_RenderObjects[RG_NONBLEND])
 	{
-		if (nullptr != pGameObject)
+		if (nullptr != pGameObject && pGameObject->IsActive())
 			pGameObject->Render();
 
 		Safe_Release(pGameObject);
@@ -70,7 +70,7 @@ HRESULT CRenderer::Render_Blend()
 {
 	for (auto& pGameObject : m_RenderObjects[RG_BLEND])
 	{
-		if (nullptr != pGameObject)
+		if (nullptr != pGameObject && pGameObject->IsActive())
 			pGameObject->Render();
 
 		Safe_Release(pGameObject);
@@ -86,7 +86,7 @@ HRESULT CRenderer::Render_Collider()
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_GREEN);
 	for (auto& pGameObject : m_RenderObjects[RG_COLLIDER])
 	{
-		if (nullptr != pGameObject)
+		if (nullptr != pGameObject && pGameObject->IsActive())
 		{
 			pGameObject->Render();
 		}
@@ -102,7 +102,7 @@ HRESULT CRenderer::Render_UI()
 {
 	for (auto& pGameObject : m_RenderObjects[RG_UI])
 	{
-		if (nullptr != pGameObject)
+		if (nullptr != pGameObject && pGameObject->IsActive())
 			pGameObject->Render();
 
 		Safe_Release(pGameObject);

@@ -9,6 +9,7 @@
 #include "GamePlay_Button.h"
 #include "Weapon_Headers.h"
 
+
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
 {
     // JSON 파일 로드
@@ -224,6 +225,54 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     OutputDebugString(errorMsg.c_str());
 
     return nullptr;
+}
+
+HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<string>& outClassNames)
+{
+    try
+    {
+        // JSON 파일 열기
+        ifstream file(filePath);
+        if (!file.is_open())
+        {
+            MSG_BOX("클래스 이름 JSON 파일을 찾을 수 없습니다.");
+            return E_FAIL;
+        }
+
+        // JSON 파싱
+        json jsonData;
+        file >> jsonData;
+        file.close();
+
+        outClassNames.clear();
+
+        if (jsonData.contains("classes") && jsonData["classes"].is_array())
+        {
+            for (const auto& className : jsonData["classes"])
+            {
+                if (className.is_string())
+                {
+                    outClassNames.push_back(className.get<string>());
+                }
+            }
+
+            return S_OK;
+        }
+        else
+        {
+            MSG_BOX("JSON 파일에 'classes' 배열이 없거나 형식이 잘못되었습니다.");
+            return E_FAIL;
+        }
+    }
+    catch (const json::exception& e)
+    {
+        return E_FAIL;
+    }
+    catch (const exception& e)
+    {
+
+        return E_FAIL;
+    }
 }
 
 _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
