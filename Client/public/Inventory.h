@@ -72,5 +72,7 @@ protected:
     unordered_map<wstring, CWeapon_Base*> m_UIMap;
 
     CWeapon_Base* m_pItem{};
+
+    _bool m_bFrist_off_Item{};
 };
 END

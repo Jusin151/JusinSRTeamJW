@@ -1,5 +1,6 @@
 ﻿#include "Item_Icon.h"
 #include "GameInstance.h"
+#include "Item_Icon.h"
 
 
 CItem_Icon::CItem_Icon(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -14,23 +15,20 @@ CItem_Icon::CItem_Icon(const CItem_Icon& Prototype)
 
 HRESULT CItem_Icon::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-	{
-		return E_FAIL;
-	}
-
+	
 	return S_OK;
 }
 
 HRESULT CItem_Icon::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
-
 		return E_FAIL;
 
-	m_Icon_INFO.vPos = { 0.f,0.f };
-	m_Icon_INFO.vSize = { 300.f,300.f };
-
+	if (pArg != nullptr)
+	{
+		m_Icon_INFO = *reinterpret_cast<Icon_DESC*>(pArg);	  
+	}
+	m_Icon_INFO.vSize = { 90.f,34.f };
 	m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x, m_Icon_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Icon_INFO.vPos.x, m_Icon_INFO.vPos.y, 0.f));
@@ -52,25 +50,52 @@ void CItem_Icon::Late_Update(_float fTimeDelta)
 
 HRESULT CItem_Icon::Render()
 {
+	D3DXMATRIX matOldView, matOldProj;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
 
-	return __super::Render();
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
 
+	D3DXMATRIX matProj;
+	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom->Bind_Resource(m_Icon_INFO.Icon_Image)))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
+	
+	return S_OK;
 }
 
 HRESULT CItem_Icon::Ready_Components()
 {
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Inven_Icon"),
-		TEXT("Com_Texture_Icon"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Icon"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer"),
-		TEXT("Com_VIBuffer_Icon"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Icon"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

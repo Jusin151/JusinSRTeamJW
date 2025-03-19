@@ -6,6 +6,7 @@
 
 BEGIN(Engine)
 class CTexture;
+class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로 할듯
 END
 
@@ -14,10 +15,17 @@ BEGIN(Client)
 
 class CItem_Icon final : public CGameObject
 {
+public:
+    enum Weapon_Type
+    {
+        Claymore,Axe,ShotGun,Magnum,Staff
+    };
     typedef struct tagIcon_INFO
     {
-        _float2 vPos;
-        _float2 vSize;
+        _float2 vPos{};
+        _float2 vSize{};
+        _uint Icon_Image{}; // 몇번째 이미지  위의 열거체 참고
+        _uint Icon_Index{}; // 인벤의 몇번째 칸에 넣을껀지
     }Icon_DESC;
 
 public:
@@ -33,7 +41,15 @@ public:
     virtual void Update(_float fTimeDelta)override;
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
-
+    
+    void Set_Select()
+    {
+        m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x*1.5f, m_Icon_INFO.vSize.y*1.5f, 1.f);
+    }
+    void Set_Base_Size()
+    {
+        m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x / 1.5f, m_Icon_INFO.vSize.y / 1.5f, 1.f);
+    }
 
 private:
     HRESULT Ready_Components();

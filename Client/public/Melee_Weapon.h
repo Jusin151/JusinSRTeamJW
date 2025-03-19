@@ -53,10 +53,7 @@ protected:
     CTransform* m_pColTransformCom = {nullptr};
     _bool m_bIsAnimating    { false};
 
-private:
-    _float m_fElapsedTime = 0.0f;
-    _int m_iCurrentFrame = 0;
-    const _float m_fFrameDuration = 2.0f;
+
     
 
 

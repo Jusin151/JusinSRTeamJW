@@ -57,6 +57,15 @@ HRESULT CClaymore::Initialize(void* pArg)
 	m_vInitialPos = m_Claymore_INFO.vPos;
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 
+	CItem_Icon::Icon_DESC Staff_Icon{};
+	Staff_Icon.Icon_Image = 2;
+	Staff_Icon.vPos = { 200.f,200.f };
+	Staff_Icon.Icon_Image = 4;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Claymore"),&Staff_Icon)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -66,8 +75,7 @@ void CClaymore::Priority_Update(_float fTimeDelta)
 
 void CClaymore::Update(_float fTimeDelta)
 {
-	if (!IsActive())
-		return;
+	
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{

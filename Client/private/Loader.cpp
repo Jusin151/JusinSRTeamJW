@@ -11,6 +11,7 @@
 #include "JsonLoader.h"
 #include "Sky.h"
 #include "Weapon_Headers.h"
+#include"Item_Icon.h"
 
 
 
@@ -137,10 +138,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
 		return E_FAIL;*/
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 카메라 원형객체
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 인벤 테스트 삭제 X
 		TEXT("Prototype_GameObject_Inven"),
 		CInventory::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 인벤 테스트 삭제 X
+    	TEXT("Prototype_GameObject_Icon"),
+    	CItem_Icon::Create(m_pGraphic_Device)))) 
+    	return E_FAIL;
 
   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 

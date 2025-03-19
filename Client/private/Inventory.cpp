@@ -27,12 +27,13 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	m_Inven_INFO.vSize = { 918.f,207.f };
 	m_Inven_INFO.vPos = { 0.f,170.f };
-
+	m_bFrist_off_Item = false;
 	m_pTransformCom->Set_Scale(m_Inven_INFO.vSize.x, m_Inven_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
 	 
-	m_pItem= CItem_Manager::GetInstance()->Get_Weapon(L"Claymore"); 
+	
+
 	return S_OK;
 }
 
@@ -43,12 +44,40 @@ void CInventory::Priority_Update(_float fTimeDelta)
 void CInventory::Update(_float fTimeDelta)
 {
 
+	if (GetAsyncKeyState('1') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Claymore");
+	}
+	if (GetAsyncKeyState('2') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Axe");
+	}
+	if (GetAsyncKeyState('3') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"ShotGun");
+	}
+	if (GetAsyncKeyState('4') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Magnum");
+	}
+	if (GetAsyncKeyState('5') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Staff");
+	}
+	
+		
+	
 }
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
+	if (!m_bFrist_off_Item)
+	{
+		CItem_Manager::GetInstance()->Weapon_UnEquip();
+		m_bFrist_off_Item = true;
+	}
 }
 
 

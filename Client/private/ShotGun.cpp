@@ -43,6 +43,15 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
+	CItem_Icon::Icon_DESC Staff_Icon{};
+	Staff_Icon.Icon_Image = 2;
+	Staff_Icon.vPos = { 100.f,200.f };
+	Staff_Icon.Icon_Image = 2;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_ShotGun"),&Staff_Icon)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -52,6 +61,9 @@ void CShotGun::Priority_Update(_float fTimeDelta)
 
 void CShotGun::Update(_float fTimeDelta)
 {
+	
+
+
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;  
