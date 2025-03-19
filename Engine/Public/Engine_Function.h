@@ -46,5 +46,28 @@ namespace Engine
 		}
 		return iRefCnt;
 	}
-	
+
+	//Helper Functions
+	inline float GetRandomFloat(float lowBound, float highBound)
+	{
+		if (lowBound >= highBound)
+			return lowBound;
+		float f = (rand() % 10000) * 0.0001f;
+
+		return (f * (highBound - lowBound)) + lowBound;
+	}
+
+	inline void GetRandomVector(D3DXVECTOR3* pOut, D3DXVECTOR3* pMin, D3DXVECTOR3* pMax)
+	{
+		pOut->x = GetRandomFloat(pMin->x, pMax->x);
+		pOut->y = GetRandomFloat(pMin->y, pMax->y);
+		pOut->z = GetRandomFloat(pMin->z, pMax->z);
+	}
+
+	inline DWORD FtoDW(float f)
+	{
+		return *((DWORD*)&f);
+	}
 }
+
+	

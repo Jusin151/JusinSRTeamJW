@@ -170,6 +170,15 @@
     <ClInclude Include="..\public\Picking.h">
       <Filter>06.Picking</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Bounding_Box.h">
+      <Filter>11. Particle\BoundingBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Bounding_Sphere.h">
+      <Filter>11. Particle\BoundingSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Snow_Particle_System.h">
+      <Filter>11. Particle\System\Snow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -328,6 +337,15 @@
     <Filter Include="06.Picking">
       <UniqueIdentifier>{32a800c3-1493-4e31-b204-a68049ab35ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="11. Particle\BoundingBox">
+      <UniqueIdentifier>{84b2f50f-ccfb-411a-995b-f71f33cba809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11. Particle\BoundingSphere">
+      <UniqueIdentifier>{b56d194f-22a9-406b-8804-3266e03d07b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11. Particle\System\Snow">
+      <UniqueIdentifier>{8d3f8de5-55c6-4dd5-ab74-c3d02e7c92c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -461,6 +479,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Particle_Manager.cpp">
       <Filter>11. Particle\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bounding_Box.cpp">
+      <Filter>11. Particle\BoundingBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bounding_Sphere.cpp">
+      <Filter>11. Particle\BoundingSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Snow_Particle_System.cpp">
+      <Filter>11. Particle\System\Snow</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Particle_System.cpp">
       <Filter>11. Particle\System</Filter>
