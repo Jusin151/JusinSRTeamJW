@@ -8,6 +8,9 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 #include "Material.h"
+#include "GameObject_Cube.h"
+#include "GameObject_Plane.h"
+#include "GameObject_Light.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -132,6 +135,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Base*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Base"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Base0.png"), 1))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -182,6 +192,18 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		CStructure::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Plane"),
+		CGameObject_Plane::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Cube"),
+		CGameObject_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Light"),
+		CGameObject_Light::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -149,13 +149,10 @@
       <Filter>999. JsonManager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Particle.h">
-      <Filter>11. Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Particle_Manager.h">
-      <Filter>11. Particle\Manager</Filter>
+      <Filter>04.Components\Particle</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Particle_System.h">
-      <Filter>11. Particle\System</Filter>
+      <Filter>04.Components\Particle\System</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="..\public\LandObject.h">
@@ -168,13 +165,13 @@
       <Filter>06.Picking</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Bounding_Box.h">
-      <Filter>11. Particle\BoundingBox</Filter>
+      <Filter>04.Components\Particle\BoundingBox</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Bounding_Sphere.h">
-      <Filter>11. Particle\BoundingSphere</Filter>
+      <Filter>04.Components\Particle\BoundingSphere</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Snow_Particle_System.h">
-      <Filter>11. Particle\System\Snow</Filter>
+      <Filter>04.Components\Particle\System\Snow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -307,19 +304,10 @@
     <Filter Include="999. JsonManager">
       <UniqueIdentifier>{98805492-c6cd-4d61-b83e-41954ffeb913}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11. Particle">
-      <UniqueIdentifier>{bdf0b877-c902-45c5-878e-268f1f0dbcc2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11. Particle\System">
-      <UniqueIdentifier>{78b61c9f-7a9d-4a4a-8739-3539d7837d68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11. Particle\Manager">
-      <UniqueIdentifier>{d576c316-ab06-4fc2-96e5-f0d1f7958b43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\LandObject">
       <UniqueIdentifier>{c5d5bdd8-efbb-4a30-a101-e079c9264fc3}</UniqueIdentifier>
     </Filter>
-<Filter Include="03.Prototype\Manager">
+    <Filter Include="03.Prototype\Manager">
       <UniqueIdentifier>{00500f36-ef8e-41b5-aa07-5e12106b1fa6}</UniqueIdentifier>
     </Filter>
     <Filter Include="05.Timers">
@@ -331,14 +319,23 @@
     <Filter Include="06.Picking">
       <UniqueIdentifier>{32a800c3-1493-4e31-b204-a68049ab35ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11. Particle\BoundingBox">
+    <Filter Include="04.Components\Light">
+      <UniqueIdentifier>{68a50fe1-5370-4371-8b1f-1916aa92b1be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle">
+      <UniqueIdentifier>{bdf0b877-c902-45c5-878e-268f1f0dbcc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System">
+      <UniqueIdentifier>{78b61c9f-7a9d-4a4a-8739-3539d7837d68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\Snow">
+      <UniqueIdentifier>{8d3f8de5-55c6-4dd5-ab74-c3d02e7c92c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\BoundingBox">
       <UniqueIdentifier>{84b2f50f-ccfb-411a-995b-f71f33cba809}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11. Particle\BoundingSphere">
+    <Filter Include="04.Components\Particle\BoundingSphere">
       <UniqueIdentifier>{b56d194f-22a9-406b-8804-3266e03d07b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11. Particle\System\Snow">
-      <UniqueIdentifier>{8d3f8de5-55c6-4dd5-ab74-c3d02e7c92c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -466,22 +463,19 @@
       <Filter>999. JsonManager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Particle.cpp">
-      <Filter>11. Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Particle_Manager.cpp">
-      <Filter>11. Particle\Manager</Filter>
+      <Filter>04.Components\Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Bounding_Box.cpp">
-      <Filter>11. Particle\BoundingBox</Filter>
+      <Filter>04.Components\Particle\BoundingBox</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Bounding_Sphere.cpp">
-      <Filter>11. Particle\BoundingSphere</Filter>
+      <Filter>04.Components\Particle\BoundingSphere</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Snow_Particle_System.cpp">
-      <Filter>11. Particle\System\Snow</Filter>
+      <Filter>04.Components\Particle\System\Snow</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Particle_System.cpp">
-      <Filter>11. Particle\System</Filter>
+      <Filter>04.Components\Particle\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-#include "Particle_Manager.h"
+﻿#include "Particle_Manager.h"
 
 CParticle_Manager::CParticle_Manager(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device(pGraphic_Device)

@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 #include	"Particle_System.h"
-class CSnow_Particle_System final : public CParticle_System
+BEGIN(Engine)
+class ENGINE_DLL CSnow_Particle_System final : public CParticle_System
 {
 	typedef struct tagSnowParticleDesc
 	{
@@ -22,3 +23,4 @@ public:
 	virtual void Free();
 };
 
+END

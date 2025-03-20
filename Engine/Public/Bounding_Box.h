@@ -1,5 +1,6 @@
-#pragma once
+﻿#pragma once
 #include "Base.h"
+BEGIN(Engine)
 class CBounding_Box final : public CBase
 {
 private:
@@ -17,3 +18,4 @@ private:
 	virtual void Free() override;
 };
 
+END
