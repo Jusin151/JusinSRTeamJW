@@ -15,7 +15,7 @@
     {
       "tag": "Prototype_Component_Texture_Terrain",
       "level": 4,
-      "path": "../../Resources/Textures/Terrain/Tile0.jpg",
+      "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "count": 1
     },
     {
@@ -61,14 +61,25 @@
       "count": 1
     },
     {
+      "tag": "Prototype_Component_Texture_Wall",
+      "level": 4,
+      "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
+      "count": 1
+    },
+    {
       "tag": "Prototype_Component_Texture_Crocman",
       "level": 4,
       "path": "../../Resources/Textures/Monster/Crocman/Crocman_%d.png",
-      "count": 27
+      "count": 1
     }
 
   ],
   "gameObjects": [
+    {
+      "tag": "Prototype_GameObject_Wall",
+      "level": 4,
+      "class": "CStructure"
+    },
     {
       "tag": "Prototype_GameObject_Crocman",
       "level": 4,

@@ -1,4 +1,5 @@
-﻿#include "MyImGui.h"
+﻿
+#include "MyImGui.h"
 #include "Transform.h"
 #include "Structure.h"
 #include "GameInstance.h"
@@ -50,6 +51,8 @@ HRESULT CMyImGui::Initialize(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device
 
 	ImGui_ImplDX9_Init(pGraphic_Device);
 
+	// ImGuizmo 초기화
+	ImGuizmo::Enable(true);
 	m_Editor = new CEditor;
 
 
@@ -63,32 +66,146 @@ void CMyImGui::Update(_float fTimeDelta)
 
 HRESULT CMyImGui::Render()
 {	// Start the Dear ImGui frame
+	//ImGui_ImplDX9_NewFrame();
+	//ImGui_ImplWin32_NewFrame();
+	//ImGui::NewFrame();
+	//ImGuiIO& io = ImGui::GetIO();
+	//CreateObject();
+	//Show_Objects();
+	////ShowLayerInMap(m_pGameInstance->m_pObject_Manager->m_pLayers);
+	//m_Editor->RenderUI();
+	//ImGui::EndFrame();
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	////D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
+	////m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
+	////ImGuiIO& io = ImGui::GetIO();
+
+	//ImGui::Render();
+	//ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
+
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	ImGuiIO& io = ImGui::GetIO();
+
+	// ImGuizmo는 매 프레임 시작시 호출해야 합니다
+	ImGuizmo::BeginFrame();
+
+	// 기존 코드 실행
 	CreateObject();
 	Show_Objects();
-	//ShowLayerInMap(m_pGameInstance->m_pObject_Manager->m_pLayers);
 	m_Editor->RenderUI();
+
 	ImGui::EndFrame();
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-	//D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
-	//m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
-	//ImGuiIO& io = ImGui::GetIO();
 
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
-
-
 	return S_OK;
 }
 
 void CMyImGui::Show_Objects()
 {
+
+	//ImGui::Begin("Objects");
+
+	//if (ImGui::Button("Close Window"))
+	//{
+	//	m_bShowObjectsWindow = false;
+	//	ImGui::End();
+	//	return;
+	//}
+
+	//// 선택된 오브젝트가 있고 인덱스가 유효한 경우
+	//if (m_pCurrentGameObject)
+	//{
+	//	ImGui::Separator();
+
+
+	//	// 트랜스폼 컴포넌트 가져오기
+	//	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+	//	string stLayerTag = ISerializable::WideToUtf8(m_pCurrentGameObject->Get_Tag());
+	//	if (pTransform != nullptr)
+	//	{
+	//		ImGui::Text(stLayerTag.c_str());
+	//		ImGui::Separator();
+	//		ImGui::Text("Object Position");
+
+	//		// 현재 위치 가져오기
+	//		_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
+	//		_float3 scale = pTransform->Compute_Scaled();
+	//		_float3 euler = pTransform->Get_EulerAngles();
+	//		_float3 rotation;
+	//		bool positionChanged = false;
+	//		bool scaleChanged = false;
+	//		bool rotationChanged = false;
+
+	//		// X 위치 조절
+	//		ImGui::Text("X"); ImGui::SameLine();
+	//		positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f,-FLT_MAX, FLT_MAX);
+
+	//		// Y 위치 조절
+	//		ImGui::Text("Y"); ImGui::SameLine();
+	//		positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
+
+	//		// Z 위치 조절
+	//		ImGui::Text("Z"); ImGui::SameLine();
+	//		positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
+
+	//		ImGui::Separator();
+	//		ImGui::Text("Object Scale");
+	//		// X 위치 조절
+	//		ImGui::Text("X"); ImGui::SameLine();
+	//		scaleChanged |= ImGui::DragFloat("ScaleX", &scale.x, 0.1f, 1.f, FLT_MAX);
+
+	//		// Y 위치 조절
+	//		ImGui::Text("Y"); ImGui::SameLine();
+	//		scaleChanged |= ImGui::DragFloat("ScaleY", &scale.y, 0.1f, 1.f, FLT_MAX);
+
+	//		// Z 위치 조절
+	//		ImGui::Text("Z"); ImGui::SameLine();
+	//		scaleChanged |= ImGui::DragFloat("ScaleZ", &scale.z, 0.1f, 1.f, FLT_MAX);
+
+	//		ImGui::Separator();
+	//		ImGui::Text("Object Rotation");
+	//		// X 위치 조절
+	//		ImGui::Text("X"); ImGui::SameLine();
+	//		rotationChanged |= ImGui::DragFloat("RotationX", &euler.x, 1.f, 0.f, 360.f);
+
+	//		// Y 위치 조절
+	//		ImGui::Text("Y"); ImGui::SameLine();
+	//		rotationChanged |= ImGui::DragFloat("RotationY", &euler.y, 1.f, 0.f, 360.f);
+
+	//		// Z 위치 조절
+	//		ImGui::Text("Z"); ImGui::SameLine();
+	//		rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
+
+
+	//		// 위치가 변경되면 트랜스폼 업데이트
+	//		if (positionChanged)
+	//		{
+	//			pTransform->Set_State(CTransform::STATE_POSITION, position);
+	//		}
+
+	//		if (scaleChanged)
+	//		{
+	//			pTransform->Set_Scale(scale.x, scale.y, scale.z);
+	//		}
+
+	//		if (rotationChanged)
+	//		{
+	//			pTransform->Rotate_EulerAngles(euler);
+	//		}
+	//	}
+	//}
+
+	//ImGui::End();
 
 	ImGui::Begin("Objects");
 
@@ -99,11 +216,13 @@ void CMyImGui::Show_Objects()
 		return;
 	}
 
+	// ImGuizmo 설정 UI 표시
+	ConfigureImGuizmo();
+
 	// 선택된 오브젝트가 있고 인덱스가 유효한 경우
 	if (m_pCurrentGameObject)
 	{
 		ImGui::Separator();
-
 
 		// 트랜스폼 컴포넌트 가져오기
 		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
@@ -125,7 +244,7 @@ void CMyImGui::Show_Objects()
 
 			// X 위치 조절
 			ImGui::Text("X"); ImGui::SameLine();
-			positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f,-FLT_MAX, FLT_MAX);
+			positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f, -FLT_MAX, FLT_MAX);
 
 			// Y 위치 조절
 			ImGui::Text("Y"); ImGui::SameLine();
@@ -163,7 +282,6 @@ void CMyImGui::Show_Objects()
 			ImGui::Text("Z"); ImGui::SameLine();
 			rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
 
-
 			// 위치가 변경되면 트랜스폼 업데이트
 			if (positionChanged)
 			{
@@ -179,6 +297,9 @@ void CMyImGui::Show_Objects()
 			{
 				pTransform->Rotate_EulerAngles(euler);
 			}
+
+			// 씬 뷰에 ImGuizmo 렌더링
+			RenderImGuizmo(pTransform);
 		}
 	}
 
@@ -577,6 +698,104 @@ _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 	_wstring relativePath = L"../../" + absolutePath.substr(absolutePath.find(L"Resources"));
 
 	return relativePath;
+}
+void CMyImGui::ConfigureImGuizmo()
+{
+	ImGui::Begin("Gizmo Controls");
+
+	if (ImGui::RadioButton("Translate", m_CurrentGizmoOperation == ImGuizmo::TRANSLATE))
+		m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Rotate", m_CurrentGizmoOperation == ImGuizmo::ROTATE))
+		m_CurrentGizmoOperation = ImGuizmo::ROTATE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Scale", m_CurrentGizmoOperation == ImGuizmo::SCALE))
+		m_CurrentGizmoOperation = ImGuizmo::SCALE;
+
+	ImGui::Separator();
+
+	ImGui::SameLine();
+	if (ImGui::RadioButton("World", m_CurrentGizmoMode == ImGuizmo::WORLD))
+		m_CurrentGizmoMode = ImGuizmo::WORLD;
+
+	ImGui::Checkbox("Use Snap", &m_bUseSnap);
+
+	if (m_bUseSnap)
+	{
+		ImGui::InputFloat3("Snap Values", m_SnapValue);
+	}
+
+	ImGui::End();
+}
+void CMyImGui::RenderImGuizmo(CTransform* pTransform)
+{
+	if (!pTransform)
+		return;
+
+	// 그래픽 디바이스에서 직접 뷰 및 투영 행렬 가져오기
+	D3DXMATRIX d3dViewMatrix, d3dProjMatrix;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &d3dViewMatrix);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &d3dProjMatrix);
+
+	// ImGuizmo에서 사용할 수 있는 float 배열로 변환
+	float viewMatrix[16], projMatrix[16];
+	memcpy(viewMatrix, &d3dViewMatrix, sizeof(float) * 16);
+	memcpy(projMatrix, &d3dProjMatrix, sizeof(float) * 16);
+
+	// 오브젝트의 월드 행렬 가져오기
+	_float4x4 worldMatrix = pTransform->Get_WorldMat();
+
+	// ImGuizmo 조작 영역 설정
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+
+	// 변환을 위한 임시 행렬
+	float matrix[16];
+	memcpy(matrix, &worldMatrix, sizeof(float) * 16);
+
+	// 스냅 값 설정
+	float snapValues[3] = { 0.0f, 0.0f, 0.0f };
+	if (m_bUseSnap)
+	{
+		snapValues[0] = m_SnapValue[0];
+		snapValues[1] = m_SnapValue[1];
+		snapValues[2] = m_SnapValue[2];
+	}
+
+	// 기즈모 조작 렌더링
+	bool manipulated = ImGuizmo::Manipulate(
+		viewMatrix,
+		projMatrix,
+		m_CurrentGizmoOperation,
+		m_CurrentGizmoMode,
+		matrix,
+		nullptr,
+		m_bUseSnap ? snapValues : nullptr
+	);
+	// 조작이 있었다면 트랜스폼 업데이트
+	if (manipulated)
+	{
+		// 행렬에서 위치, 회전, 크기 추출
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
+
+		// 트랜스폼 컴포넌트 업데이트
+		if (m_CurrentGizmoOperation == ImGuizmo::TRANSLATE)
+		{
+			_float3 newPosition = _float3(matrixTranslation[0], matrixTranslation[1], matrixTranslation[2]);
+			pTransform->Set_State(CTransform::STATE_POSITION, newPosition);
+		}
+		else if (m_CurrentGizmoOperation == ImGuizmo::ROTATE)
+		{
+			_float3 newRotation = _float3(matrixRotation[0], matrixRotation[1], matrixRotation[2]);
+			pTransform->Rotate_EulerAngles(newRotation);
+		}
+		else if (m_CurrentGizmoOperation == ImGuizmo::SCALE)
+		{
+			_float3 newScale = _float3(matrixScale[0], matrixScale[1], matrixScale[2]);
+			pTransform->Set_Scale(newScale.x, newScale.y, newScale.z);
+		}
+	}
 }
 _bool CMyImGui::IsMouseOverImGui()
 {

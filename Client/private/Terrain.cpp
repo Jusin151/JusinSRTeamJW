@@ -19,6 +19,9 @@ HRESULT CTerrain::Initialize_Prototype()
 
 HRESULT CTerrain::Initialize(void* pArg)
 {
+	m_tObjDesc.iLevel = LEVEL_GAMEPLAY;
+	m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Terrain");
+	INIT_PARENT(pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -94,7 +97,7 @@ HRESULT CTerrain::Render()
 HRESULT CTerrain::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
