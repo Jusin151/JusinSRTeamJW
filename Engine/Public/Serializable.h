@@ -31,6 +31,15 @@ class ENGINE_DLL ISerializable
         return wstrTo;
     }
 
+    static wchar_t* WStringToWChar(const wstring& wstr)
+    {
+        if (wstr.empty()) return nullptr;
+        size_t size = wstr.length() + 1;
+        wchar_t* wchars = new wchar_t[size];
+        wcscpy_s(wchars, size, wstr.c_str());
+        return wchars; // 주의: 호출자가 delete[] 해야 함
+    }
+
     static string WideToUtf8(const wstring& wstr)
     {
         if (wstr.empty()) return "";

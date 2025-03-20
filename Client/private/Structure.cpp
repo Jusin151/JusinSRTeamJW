@@ -21,29 +21,8 @@ HRESULT CStructure::Initialize_Prototype()
 
 HRESULT CStructure::Initialize(void* pArg)
 {
-	STRUCTURE_DESC* tStructureDesc = static_cast<STRUCTURE_DESC*>(pArg);
+	INIT_PARENT(pArg)
 
-	if (tStructureDesc)
-	{
-		m_tStructure_Desc = *tStructureDesc;
-
-		if (m_tStructure_Desc.stVIBuffer)
-			m_strVIBuffer = m_tStructure_Desc.stVIBuffer;
-
-		if (m_tStructure_Desc.stCollProtoTag)
-			m_strCollProtoTag = m_tStructure_Desc.stCollProtoTag;
-
-		if (m_tStructure_Desc.stTextureTag)
-			m_strTextureTag = m_tStructure_Desc.stTextureTag;
-
-		// 기존 텍스처 경로는 이미 wstring이므로 그대로 복사
-		m_tStructure_Desc.stTexturePath = m_tStructure_Desc.stTexturePath;
-
-		// 복사된 wstring의 c_str() 포인터를 할당
-		m_tStructure_Desc.stVIBuffer = m_strVIBuffer.c_str();
-		m_tStructure_Desc.stCollProtoTag = m_strCollProtoTag.c_str();
-		m_tStructure_Desc.stTextureTag = m_strTextureTag.c_str();
-	}
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -129,23 +108,23 @@ HRESULT CStructure::Release_RenderState()
 
 HRESULT CStructure::Ready_Components()
 {
-	_wstring str = m_tStructure_Desc.stTextureTag;
-	if (FAILED(m_pGameInstance->Find_Prototype(str)))
-	{
-		if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-			m_tStructure_Desc.stTextureTag,
-			CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-				m_tStructure_Desc.stTexturePath.c_str(), 1))))
-			return E_FAIL;
-	}
+	//_wstring str = m_tStructure_Desc.stTextureTag;
+	//if (FAILED(m_pGameInstance->Find_Prototype(str)))
+	//{
+	//	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+	//		m_tStructure_Desc.stTextureTag,
+	//		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+	//			m_tStructure_Desc.stTexturePath.c_str(), 1))))
+	//		return E_FAIL;
+	//}
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tStructure_Desc.stTextureTag,
+	if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tStructure_Desc.stVIBuffer,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
@@ -163,7 +142,7 @@ HRESULT CStructure::Ready_Components()
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tStructure_Desc.stCollProtoTag,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 

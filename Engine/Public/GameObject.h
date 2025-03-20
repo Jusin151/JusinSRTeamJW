@@ -16,6 +16,7 @@ public:
 	_wstring stBufferTag;
 	_uint iLevel;
 	_uint iProtoLevel;
+	_uint iPoolCount = 0;
 	}OBJECT_DESC;
 
 protected:
