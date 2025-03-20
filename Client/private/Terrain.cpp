@@ -19,6 +19,8 @@ HRESULT CTerrain::Initialize_Prototype()
 
 HRESULT CTerrain::Initialize(void* pArg)
 {
+	m_tObjDesc.iLevel = LEVEL_GAMEPLAY;
+	m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Terrain");
 	INIT_PARENT(pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;

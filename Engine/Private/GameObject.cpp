@@ -24,9 +24,13 @@ HRESULT CGameObject::Initialize_Prototype()
 
 HRESULT CGameObject::Initialize(void* pArg)
 {
+	if (pArg)
+	{
+
 	if (!static_cast<OBJECT_DESC*>(pArg)->stProtTag.empty())
 	{
 		m_tObjDesc = *static_cast<OBJECT_DESC*>(pArg);
+	}
 	}
 	return S_OK;
 }
