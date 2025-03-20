@@ -1,4 +1,4 @@
-#include "Snow_Particle_System.h"
+﻿#include "Snow_Particle_System.h"
 
 CSnow_Particle_System::CSnow_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CParticle_System{ pGraphic_Device }

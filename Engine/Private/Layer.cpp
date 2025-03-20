@@ -52,17 +52,17 @@ void CLayer::Update(_float fTimeDelta)
 
 void CLayer::Late_Update(_float fTimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
-	{
-		if (nullptr != pGameObject)
-		{
-			if (!pGameObject->IsActive())
-			{
-				m_pGameInstance->Return_Object(m_iPrototypeLevelIndex, pGameObject->Get_Tag(), pGameObject);
-			}
-			pGameObject->Late_Update(fTimeDelta);
-		}
-	}
+	//for (auto& pGameObject : m_GameObjects)
+	//{
+	//	if (nullptr != pGameObject)
+	//	{
+	//		if (!pGameObject->IsActive())
+	//		{
+	//			m_pGameInstance->Return_Object(m_iPrototypeLevelIndex, pGameObject->Get_Tag(), pGameObject);
+	//		}
+	//		pGameObject->Late_Update(fTimeDelta);
+	//	}
+	//}
 
 	// 풀에 반환하기 위해서 iterator로 돌림
 	auto iter = m_GameObjects.begin();

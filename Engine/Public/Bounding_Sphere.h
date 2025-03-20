@@ -1,5 +1,6 @@
-#pragma once
+﻿#pragma once
 #include "Base.h"
+BEGIN(Engine)
 class Bounding_Sphere final : public CBase
 {
 private:
@@ -13,4 +14,4 @@ private:
 
 	virtual void Free() override;
 };
-
+END

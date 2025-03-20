@@ -1,8 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "Component.h"
 #include "Bounding_Box.h"
 #include "Bounding_Sphere.h"
-class CParticle_System abstract : public CComponent
+
+BEGIN(Engine)
+
+class ENGINE_DLL CParticle_System abstract : public CComponent
 {
 protected:
 	CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -53,3 +56,4 @@ public:
 	void Free() override;
 };
 
+END

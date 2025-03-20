@@ -49,14 +49,12 @@ public:
 		auto it = m_Components.find(strComponentTag);
 		return it != m_Components.end() ? it->second : nullptr;
 	}
-
 public:
 	virtual json Serialize() override;
 	virtual void Deserialize(const json& j) override;
 
 public:
 	class CComponent* Find_Component(const _wstring& strComponentTag);
-
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance* m_pGameInstance = { nullptr };

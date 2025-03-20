@@ -127,8 +127,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>CD $(SolutionDir)
+CALL $(SolutionDir)\UpdateLib.bat
+CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -219,7 +220,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
     <ClInclude Include="..\public\Particle.h" />
-    <ClInclude Include="..\public\Particle_Manager.h" />
     <ClInclude Include="..\public\Particle_System.h" />
     <ClInclude Include="..\public\PickingSys.h" />
     <ClInclude Include="..\public\PoolManager.h" />
@@ -294,7 +294,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\private\Material.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
     <ClCompile Include="..\private\Particle.cpp" />
-    <ClCompile Include="..\private\Particle_Manager.cpp" />
     <ClCompile Include="..\private\PickingSys.cpp" />
     <ClCompile Include="..\private\PoolManager.cpp" />
     <ClCompile Include="..\private\Picking.cpp" />

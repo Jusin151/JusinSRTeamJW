@@ -1,4 +1,4 @@
-#include "Monster_Base.h"
+ï»¿#include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -85,9 +85,9 @@ HRESULT CMonster_Base::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.eType = CG_MONSTER;
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 

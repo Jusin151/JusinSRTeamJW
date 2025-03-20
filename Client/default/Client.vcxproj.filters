@@ -184,6 +184,18 @@
     <Filter Include="02.GameObjects\01.Monster\Crocman">
       <UniqueIdentifier>{5c9378ca-7b4e-42e2-9c6b-523b5aa3ec88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Base">
+      <UniqueIdentifier>{4e7e5cd3-a7b1-4280-9670-f41b0cd811e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Base\Cube">
+      <UniqueIdentifier>{e51546df-4bc3-4eeb-977c-f2d73dd0f618}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Base\Plane">
+      <UniqueIdentifier>{4bda81ff-8a8c-4202-b689-c3a1dada4b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Base\Light">
+      <UniqueIdentifier>{96e63922-b56a-4731-8852-a0e60db39308}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -357,6 +369,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Crocman.h">
       <Filter>02.GameObjects\01.Monster\Crocman</Filter>
+</ClInclude>
+    <ClInclude Include="..\public\GameObject_Cube.h">
+      <Filter>02.GameObjects\Base\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Plane.h">
+      <Filter>02.GameObjects\Base\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Light.h">
+      <Filter>02.GameObjects\Base\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -508,6 +529,15 @@
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Crocman.cpp">
       <Filter>02.GameObjects\01.Monster\Crocman</Filter>
+</ClCompile>
+    <ClCompile Include="..\private\GameObject_Cube.cpp">
+      <Filter>02.GameObjects\Base\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Plane.cpp">
+      <Filter>02.GameObjects\Base\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Light.cpp">
+      <Filter>02.GameObjects\Base\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
