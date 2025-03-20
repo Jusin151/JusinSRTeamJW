@@ -90,101 +90,99 @@ HRESULT CMyImGui::Render()
 void CMyImGui::Show_Objects()
 {
 
-	//ImGui::Begin("Objects");
+	ImGui::Begin("Objects");
 
-	//if (ImGui::Button("Close Window"))
-	//{
-	//	m_bShowObjectsWindow = false;
-	//	ImGui::End();
-	//	return;
-	//}
+	if (ImGui::Button("Close Window"))
+	{
+		m_bShowObjectsWindow = false;
+		ImGui::End();
+		return;
+	}
 
-	//// 선택된 오브젝트가 있고 인덱스가 유효한 경우
-	//if (selectedObjectIndex != -1 && selectedObjectIndex < gameObjects.size())
-	//{
-	//	ImGui::Separator();
-
-	//	// 선택된 게임 오브젝트 가져오기
-	//	auto it = gameObjects.begin();
-	//	std::advance(it, selectedObjectIndex);
-	//	CGameObject* pSelectedObject = *it;
-
-	//	// 트랜스폼 컴포넌트 가져오기
-	//	CTransform* pTransform = (CTransform*)pSelectedObject->Get_Component(TEXT("Com_Transform"));
-
-	//	if (pTransform != nullptr)
-	//	{
-	//		ImGui::Text("Object Position");
-
-	//		// 현재 위치 가져오기
-	//		_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
-	//		_float3 scale = pTransform->Compute_Scaled();
-	//		_float3 euler = pTransform->Get_EulerAngles();
-	//		_float3 rotation;
-	//		bool positionChanged = false;
-	//		bool scaleChanged = false;
-	//		bool rotationChanged = false;
-
-	//		// X 위치 조절
-	//		ImGui::Text("X"); ImGui::SameLine();
-	//		positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f,-FLT_MAX, FLT_MAX);
-
-	//		// Y 위치 조절
-	//		ImGui::Text("Y"); ImGui::SameLine();
-	//		positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
-
-	//		// Z 위치 조절
-	//		ImGui::Text("Z"); ImGui::SameLine();
-	//		positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
-
-	//		ImGui::Separator();
-	//		ImGui::Text("Object Scale");
-	//		// X 위치 조절
-	//		ImGui::Text("X"); ImGui::SameLine();
-	//		scaleChanged |= ImGui::DragFloat("ScaleX", &scale.x, 0.1f, 1.f, FLT_MAX);
-
-	//		// Y 위치 조절
-	//		ImGui::Text("Y"); ImGui::SameLine();
-	//		scaleChanged |= ImGui::DragFloat("ScaleY", &scale.y, 0.1f, 1.f, FLT_MAX);
-
-	//		// Z 위치 조절
-	//		ImGui::Text("Z"); ImGui::SameLine();
-	//		scaleChanged |= ImGui::DragFloat("ScaleZ", &scale.z, 0.1f, 1.f, FLT_MAX);
-
-	//		ImGui::Separator();
-	//		ImGui::Text("Object Rotation");
-	//		// X 위치 조절
-	//		ImGui::Text("X"); ImGui::SameLine();
-	//		rotationChanged |= ImGui::DragFloat("RotationX", &euler.x, 1.f, 0.f, 360.f);
-
-	//		// Y 위치 조절
-	//		ImGui::Text("Y"); ImGui::SameLine();
-	//		rotationChanged |= ImGui::DragFloat("RotationY", &euler.y, 1.f, 0.f, 360.f);
-
-	//		// Z 위치 조절
-	//		ImGui::Text("Z"); ImGui::SameLine();
-	//		rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
+	// 선택된 오브젝트가 있고 인덱스가 유효한 경우
+	if (m_pCurrentGameObject)
+	{
+		ImGui::Separator();
 
 
-	//		// 위치가 변경되면 트랜스폼 업데이트
-	//		if (positionChanged)
-	//		{
-	//			pTransform->Set_State(CTransform::STATE_POSITION, position);
-	//		}
+		// 트랜스폼 컴포넌트 가져오기
+		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+		string stLayerTag = ISerializable::WideToUtf8(m_pCurrentGameObject->Get_Tag());
+		if (pTransform != nullptr)
+		{
+			ImGui::Text(stLayerTag.c_str());
+			ImGui::Separator();
+			ImGui::Text("Object Position");
 
-	//		if (scaleChanged)
-	//		{
-	//			pTransform->Set_Scale(scale.x, scale.y, scale.z);
-	//		}
+			// 현재 위치 가져오기
+			_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
+			_float3 scale = pTransform->Compute_Scaled();
+			_float3 euler = pTransform->Get_EulerAngles();
+			_float3 rotation;
+			bool positionChanged = false;
+			bool scaleChanged = false;
+			bool rotationChanged = false;
 
-	//		if (rotationChanged)
-	//		{
-	//			pTransform->Rotate_EulerAngles(euler);
-	//		}
-	//	}
-	//}
+			// X 위치 조절
+			ImGui::Text("X"); ImGui::SameLine();
+			positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f,-FLT_MAX, FLT_MAX);
 
-	//ImGui::End();
+			// Y 위치 조절
+			ImGui::Text("Y"); ImGui::SameLine();
+			positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
+
+			// Z 위치 조절
+			ImGui::Text("Z"); ImGui::SameLine();
+			positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
+
+			ImGui::Separator();
+			ImGui::Text("Object Scale");
+			// X 위치 조절
+			ImGui::Text("X"); ImGui::SameLine();
+			scaleChanged |= ImGui::DragFloat("ScaleX", &scale.x, 0.1f, 1.f, FLT_MAX);
+
+			// Y 위치 조절
+			ImGui::Text("Y"); ImGui::SameLine();
+			scaleChanged |= ImGui::DragFloat("ScaleY", &scale.y, 0.1f, 1.f, FLT_MAX);
+
+			// Z 위치 조절
+			ImGui::Text("Z"); ImGui::SameLine();
+			scaleChanged |= ImGui::DragFloat("ScaleZ", &scale.z, 0.1f, 1.f, FLT_MAX);
+
+			ImGui::Separator();
+			ImGui::Text("Object Rotation");
+			// X 위치 조절
+			ImGui::Text("X"); ImGui::SameLine();
+			rotationChanged |= ImGui::DragFloat("RotationX", &euler.x, 1.f, 0.f, 360.f);
+
+			// Y 위치 조절
+			ImGui::Text("Y"); ImGui::SameLine();
+			rotationChanged |= ImGui::DragFloat("RotationY", &euler.y, 1.f, 0.f, 360.f);
+
+			// Z 위치 조절
+			ImGui::Text("Z"); ImGui::SameLine();
+			rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
+
+
+			// 위치가 변경되면 트랜스폼 업데이트
+			if (positionChanged)
+			{
+				pTransform->Set_State(CTransform::STATE_POSITION, position);
+			}
+
+			if (scaleChanged)
+			{
+				pTransform->Set_Scale(scale.x, scale.y, scale.z);
+			}
+
+			if (rotationChanged)
+			{
+				pTransform->Rotate_EulerAngles(euler);
+			}
+		}
+	}
+
+	ImGui::End();
 }
 
 void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
@@ -578,6 +576,11 @@ _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 	_wstring relativePath = L"../../" + absolutePath.substr(absolutePath.find(L"Resources"));
 
 	return relativePath;
+}
+_bool CMyImGui::IsMouseOverImGui()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	return io.WantCaptureMouse;
 }
 //
 //void CMyImGui::ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers)

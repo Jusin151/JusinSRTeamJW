@@ -151,7 +151,7 @@
         "LayerTag": "Layer_Crocman",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 4,
+          "Level":4,
           "ProtTag": "Prototype_GameObject_Crocman",
           "ProtTextureTag": "Prototype_Component_Texture_Crocman",
           "ProtoLevel": 4
