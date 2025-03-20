@@ -89,14 +89,6 @@ HRESULT CMyImGui::Render()
 
 void CMyImGui::Show_Objects()
 {
-	//const _wstring layerTag = L"Layer_Structure";
-
-	//// 레이어 찾기
-	//auto layerIt = m_pGameInstance->m_pObject_Manager->m_pLayers[3].find(layerTag);
-	//if (layerIt == m_pGameInstance->m_pObject_Manager->m_pLayers[3].end())
-	//{
-	//	return;
-	//}
 
 	//ImGui::Begin("Objects");
 
@@ -105,35 +97,6 @@ void CMyImGui::Show_Objects()
 	//	m_bShowObjectsWindow = false;
 	//	ImGui::End();
 	//	return;
-	//}
-
-	//auto& gameObjects = layerIt->second->m_GameObjects;
-	//ImGui::Text("Current Object count: %d", (int)gameObjects.size());
-
-	//// 현재 선택된 오브젝트 인덱스 저장 변수
-	//static int selectedObjectIndex = -1;
-
-	//// 각 게임 오브젝트에 대해 버튼 생성
-	//int i = 0;
-	//for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it, ++i)
-	//{
-	//	CGameObject* pGameObject = *it;
-
-	//	// 그룹 시작
-	//	ImGui::BeginGroup();
-
-	//	// 버튼 표시 (선택된 상태 표시)
-	//	std::string buttonLabel = "Select " + std::to_string(i);
-	//	if (selectedObjectIndex == i)
-	//		buttonLabel += " (Selected)";
-
-	//	if (ImGui::Button(buttonLabel.c_str()))
-	//	{
-	//		selectedObjectIndex = i;
-	//		m_bRenderSelectedCube = true;
-	//	}
-
-	//	ImGui::EndGroup();
 	//}
 
 	//// 선택된 오브젝트가 있고 인덱스가 유효한 경우

@@ -24,6 +24,7 @@ HRESULT CCrocman::Initialize_Prototype()
 
 HRESULT CCrocman::Initialize(void* pArg)
 {
+	INIT_PARENT(pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -86,7 +87,7 @@ HRESULT CCrocman::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	SetUp_RenderState();
+	//SetUp_RenderState();
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
@@ -146,7 +147,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		return;
 
 	_float3 vDist;
-	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+	//vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
 	// 거리로 판단해서 패턴 실행하도록 
 	if (vDist.LengthSq() > 5)
@@ -278,7 +279,7 @@ HRESULT CCrocman::Release_RenderState()
 HRESULT CCrocman::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Crocman"),
+	if (FAILED(__super::Add_Component(m_tObjDesc.iLevel,  m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 	_float3 fPos = { 10.f, 0.5f, 10.f };

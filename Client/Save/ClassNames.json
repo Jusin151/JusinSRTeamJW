@@ -1,7 +1,7 @@
 {
   "classes": [
     "CPlayer",
-    "CTestMonster",
+    "CCrocman",
     "CTerrain",
     "CStructure",
     "CCamera_Free",
