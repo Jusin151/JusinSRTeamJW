@@ -471,6 +471,7 @@
     <ClCompile Include="..\Private\Particle_System.cpp">
       <Filter>04.Components\Particle\System</Filter>
     </ClCompile>
+   <ClCompile Include="ImGuizmo.cpp" />
     <ClCompile Include="..\private\Light.cpp">
       <Filter>04.Components\Light</Filter>
     </ClCompile>

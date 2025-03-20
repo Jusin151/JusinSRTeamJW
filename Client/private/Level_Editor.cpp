@@ -62,10 +62,12 @@ void CLevel_Editor::Update(_float fTimeDelta)
 	{
 		dragObject = nullptr;
 		bInitialized = false;
+		//m_pImgui->Set_Object();
 	}
 	// 마우스 왼쪽 버튼이 눌린 경우
 	else
 	{
+		if (m_pImgui->IsMouseOverImGui()) return;
 		// 드래그 객체가 없으면 객체 선택
 		if (!dragObject)
 		{
@@ -88,6 +90,7 @@ void CLevel_Editor::Update(_float fTimeDelta)
 		// 선택된 객체가 있으면 이동 처리
 		if (dragObject)
 		{
+			m_pImgui->Set_Object(dragObject);
 			CTransform* pTransform = dynamic_cast<CTransform*>(dragObject->Get_Component(TEXT("Com_Transform")));
 			if (pTransform)
 			{

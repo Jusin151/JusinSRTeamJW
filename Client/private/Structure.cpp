@@ -211,7 +211,7 @@ json CStructure::Serialize()
 void CStructure::Deserialize(const json& j)
 {
 
-	//SET_TRANSFORM(j, m_pTransformCom);
+	SET_TRANSFORM(j, m_pTransformCom);
 	//if (j.contains("position")) 
 	//{
 	//	auto pos = j["position"];

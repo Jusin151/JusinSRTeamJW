@@ -19,95 +19,7 @@ public:
     // 레벨별 저장
     _bool SaveLevel(_uint iLevelID, const _wstring& filepath);
 
-    _bool LoadLevel(_uint iLevelID, const _wstring& filepath, const _wstring& specificLayer = L"")
-    {
-        // 파일 열기
-        ifstream file(filepath);
-        if (!file.is_open())
-        {
-            //MSG_BOX(L"레벨 파일을 열 수 없습니다.");
-            return false;
-        }
-
-        // JSON 파싱
-        json j;
-        file >> j;
-        file.close();
-
-        // 레벨 ID 확인
-        if (j["level"].get<_uint>() != iLevelID)
-        {
-            //MSG_BOX(L"레벨 ID가 일치하지 않습니다.");
-            return false;
-        }
-
-        // 레이어별 오브젝트 처리
-        for (auto& [layerTag, objects] : j["layers"].items())
-        {
-            // 레이어 태그를 wstring으로 변환
-            wstring wLayerTag = ISerializable::Utf8ToWide(layerTag);
-
-            if (!specificLayer.empty() && wLayerTag != specificLayer)
-                continue;
-            for (auto& objData : objects)
-            {
-                // 프로토타입 태그 결정
-                wstring protoTag = L"Prototype_GameObject_";
-
-                // LayerTag에서 "Layer_" 부분 제거하고 프로토타입 태그 생성
-                if (wLayerTag.find(L"Layer_") == 0)
-                    protoTag += wLayerTag.substr(6); // "Layer_" 이후 부분 사용
-                else
-                    protoTag += wLayerTag; // 그대로 사용
-
-                // FromPool 여부 확인
-                bool bFromPool = false;
-                if (objData.contains("FromPool"))
-                    bFromPool = objData["FromPool"].get<bool>();
-
-                CGameObject* pGameObject = nullptr;
-
-                // 오브젝트 생성
-                if (bFromPool)
-                {
-                    // 풀에서 객체 가져오기
-                    if (FAILED(m_pGameInstance->Add_GameObject_FromPool(
-                        iLevelID, iLevelID, wLayerTag.c_str())))
-                    {
-                        //MSG_BOX(L"오브젝트 풀에서 객체 생성 실패");
-                        continue;
-                    }
-
-                    // 방금 생성된 객체 가져오기
-                    pGameObject = m_pGameInstance->Find_Last_Object(iLevelID, wLayerTag.c_str());
-                }
-                else
-                {
-                    if (FAILED(m_pGameInstance->Add_GameObject(
-                        iLevelID, protoTag, iLevelID, wLayerTag)))
-                    {
-                        // MSG_BOX(L"프로토타입에서 객체 생성 실패");
-
-                      /*   if(FAILED(m_pGameInstance->Add_Prototype(iLevelID,protoTag,)))*/
-                        continue;
-                    }
-
-                    // 방금 생성된 객체 가져오기
-                    pGameObject = m_pGameInstance->Find_Last_Object(iLevelID, wLayerTag.c_str());
-                }
-
-                // 생성된 객체에 JSON 데이터 적용
-                if (pGameObject)
-                {
-                    ISerializable* pSerializable = dynamic_cast<ISerializable*>(pGameObject);
-                    if (pSerializable)
-                        pSerializable->Deserialize(objData);
-                }
-            }
-        }
-
-        return true;
-    }
+    _bool LoadLevel(_uint iLevelID, const _wstring& filepath);
 
     void RenderUI()
     {
@@ -166,7 +78,7 @@ public:
 
         ImGui::SameLine(); // 같은 줄에 배치
 
-        if (ImGui::Button("Load Level"))
+    /*    if (ImGui::Button("Load Level"))
         {
             wstring wSpecificLayer = L"";
             if (strlen(specificLayer) > 0)
@@ -183,7 +95,7 @@ public:
             {
                 MessageBox(nullptr, L"레벨 로드 실패!", L"로드 실패", MB_OK);
             }
-        }
+        }*/
 
         ImGui::End();
     }

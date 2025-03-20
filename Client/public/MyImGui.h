@@ -1,11 +1,13 @@
 ﻿#pragma once
-
 #include "Base.h"
+#include "Client_Defines.h"
+
 
 BEGIN(Engine)
 class CEditor;
 class CGameObject;
 class CGameInstance;
+class CTransform;
 END
 
 BEGIN(Client)
@@ -26,7 +28,7 @@ private:
 	void ShowComponentsInGameObject(CGameObject* pGameObject);
 
 private:
-
+#pragma region 에디터용
 	void Show_Objects();
 	void LoadImagesFromFolder(const _wstring& folderPath);
 	_wstring SelectFile();
@@ -34,12 +36,25 @@ private:
 	HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
 
+	// ImGuizmo 관련 함수 추가
+	void ConfigureImGuizmo();
+	void RenderImGuizmo(CTransform* pTransform);
+#pragma endregion
+public:
+	void Set_Object(CGameObject* pGameObject = nullptr) { m_pCurrentGameObject = pGameObject; }
+	_bool IsMouseOverImGui();
 private:
 
 	bool show_demo_window = true;
 	bool show_another_window = true;
 	_float4 clear_color = { 0.45f, 0.55f, 0.60f, 1.00f };
 
+
+	// ImGuizmo 관련 변수 추가
+	ImGuizmo::OPERATION m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	ImGuizmo::MODE m_CurrentGizmoMode = ImGuizmo::LOCAL;
+	bool m_bUseSnap = false;
+	float m_SnapValue[3] = { 1.0f, 1.0f, 1.0f };
 
 #pragma region 텍스쳐용 멤버 변수
 	vector<LPDIRECT3DTEXTURE9> m_Textures;
@@ -67,7 +82,7 @@ private:
 	_uint m_iNumLevels = {};
 	map<unsigned int, CGameObject*> m_gameObjects;
 	CEditor* m_Editor = { nullptr };
-	
+	CGameObject* m_pCurrentGameObject = { nullptr };
 public:
 	static CMyImGui* Create(_uint iNumLevels,LPDIRECT3DDEVICE9 pGraphic_Device);
 	void Free();

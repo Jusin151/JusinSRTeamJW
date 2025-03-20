@@ -12,12 +12,11 @@
                     "ProtTextureTag": "Prototype_Component_Texture",
                     "ProtoLevel": 4
                 },
-                "collider_tag": "",
                 "is_cube_collider": false,
                 "position": [
-                    -1.861861228942871,
-                    -0.0276930034160614,
-                    -2.1419923305511475
+                    -1.3601008653640747,
+                    1.6371073722839355,
+                    -1.9757874011993408
                 ],
                 "rotation": [
                     0.0,
@@ -28,10 +27,7 @@
                     1.0,
                     1.0,
                     1.0
-                ],
-                "texture_path": "",
-                "texture_tag": "",
-                "vibuffer": ""
+                ]
             },
             {
                 "FromPool": false,
@@ -44,12 +40,11 @@
                     "ProtTextureTag": "Prototype_Component_Texture",
                     "ProtoLevel": 4
                 },
-                "collider_tag": "",
                 "is_cube_collider": false,
                 "position": [
-                    14.325581550598145,
-                    15.111316680908203,
-                    11.869232177734375
+                    -1.3017568588256836,
+                    15.362762451171875,
+                    14.3873291015625
                 ],
                 "rotation": [
                     0.0,
@@ -60,10 +55,7 @@
                     1.0,
                     1.0,
                     1.0
-                ],
-                "texture_path": "",
-                "texture_tag": "",
-                "vibuffer": ""
+                ]
             },
             {
                 "FromPool": false,
@@ -76,12 +68,11 @@
                     "ProtTextureTag": "Prototype_Component_Texture",
                     "ProtoLevel": 4
                 },
-                "collider_tag": "",
                 "is_cube_collider": false,
                 "position": [
-                    -4.176449775695801,
-                    2.6222410202026367,
-                    1.765890121459961
+                    0.6455804109573364,
+                    1.674830675125122,
+                    -1.9963531494140625
                 ],
                 "rotation": [
                     0.0,
@@ -89,13 +80,10 @@
                     0.0
                 ],
                 "scale": [
+                    0.9999986886978149,
                     1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture_path": "",
-                "texture_tag": "",
-                "vibuffer": ""
+                    0.9999986886978149
+                ]
             },
             {
                 "FromPool": false,
@@ -108,12 +96,11 @@
                     "ProtTextureTag": "Prototype_Component_Texture",
                     "ProtoLevel": 4
                 },
-                "collider_tag": "",
                 "is_cube_collider": false,
                 "position": [
-                    -3.817276954650879,
-                    4.426197052001953,
-                    4.068734169006348
+                    -0.3552160859107971,
+                    1.6503102779388428,
+                    -1.9987082481384277
                 ],
                 "rotation": [
                     0.0,
@@ -124,10 +111,35 @@
                     1.0,
                     1.0,
                     1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Wall",
+                    "ProtTextureTag": "Prototype_Component_Texture_Wall",
+                    "ProtoLevel": 4
+                },
+                "is_cube_collider": false,
+                "position": [
+                    1.7184467315673828,
+                    19.546401977539063,
+                    18.47903060913086
                 ],
-                "texture_path": "",
-                "texture_tag": "",
-                "vibuffer": ""
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
             }
         ],
         "Layer_Camera": [
@@ -140,6 +152,20 @@
                     "Level": 4,
                     "ProtTag": "Prototype_GameObject_Camera_Free",
                     "ProtTextureTag": "",
+                    "ProtoLevel": 4
+                }
+            }
+        ],
+        "Layer_Terrain": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Terrain",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Terrain",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Terrain",
+                    "ProtTextureTag": "Prototype_Component_Texture_Terrain",
                     "ProtoLevel": 4
                 }
             }
