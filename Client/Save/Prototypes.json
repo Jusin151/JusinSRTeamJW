@@ -129,7 +129,7 @@
     {
       "tag": "Prototype_Component_Texture_Anubis",
       "level": 3,
-      "path": "../../Resources/Textures/Monster/Anubis/anubis_idle.png",
+      "path": "../../Resources/Textures/Monster/Anubis/anubis_%d.png",
       "count": 1
     },
     {

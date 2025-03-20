@@ -245,12 +245,7 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
             MSG_BOX("Ŭ���� �̸� JSON ������ ã�� �� �����ϴ�.");
             return E_FAIL;
         }
-        ifstream file(filePath);
-        if (!file.is_open())
-        {
-            MSG_BOX("Å¬·¡½º ÀÌ¸§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
-            return E_FAIL;
-        }
+
         json jsonData;
         file >> jsonData;
         file.close();
