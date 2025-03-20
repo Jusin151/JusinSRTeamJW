@@ -1,0 +1,33 @@
+{
+  "layers": {
+    "Layer_Camera": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Camera",
+        "OBJECT_DESC": {
+          "BufferTag": "",
+          "Level": 4,
+          "ProtTag": "Prototype_GameObject_Camera_Free",
+          "ProtTextureTag": "",
+          "ProtoLevel": 4
+        }
+      }
+    ],
+    "Layer_Player": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Player",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 4,
+          "ProtTag": "",
+          "ProtTextureTag": "Prototype_Component_Texture_Player",
+          "ProtoLevel": 4
+        }
+      }
+    ]
+  },
+  "level": 3
+}

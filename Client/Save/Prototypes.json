@@ -231,11 +231,6 @@
       "class": "CUI_Spell_Shop"
     },
     {
-      "tag": "Prototype_GameObject_Structure",
-      "level": 3,
-      "class": "CStructure"
-    },
-    {
       "tag": "Prototype_GameObject_Weapon_Axe",
       "level": 3,
       "class": "CAxe"
