@@ -54,7 +54,8 @@ HRESULT CMyImGui::Initialize(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device
 	// ImGuizmo 초기화
 	ImGuizmo::Enable(true);
 	m_Editor = new CEditor;
-
+	m_wstrSelectedTexturePath.clear();
+	memset(m_szSelectedPathBuffer, 0, sizeof(m_szSelectedPathBuffer));
 
 	return S_OK;
 }
@@ -65,27 +66,7 @@ void CMyImGui::Update(_float fTimeDelta)
 }
 
 HRESULT CMyImGui::Render()
-{	// Start the Dear ImGui frame
-	//ImGui_ImplDX9_NewFrame();
-	//ImGui_ImplWin32_NewFrame();
-	//ImGui::NewFrame();
-	//ImGuiIO& io = ImGui::GetIO();
-	//CreateObject();
-	//Show_Objects();
-	////ShowLayerInMap(m_pGameInstance->m_pObject_Manager->m_pLayers);
-	//m_Editor->RenderUI();
-	//ImGui::EndFrame();
-	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-	////D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
-	////m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
-	////ImGuiIO& io = ImGui::GetIO();
-
-	//ImGui::Render();
-	//ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
-
+{	
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -93,10 +74,9 @@ HRESULT CMyImGui::Render()
 
 	// ImGuizmo는 매 프레임 시작시 호출해야 합니다
 	ImGuizmo::BeginFrame();
-
-	// 기존 코드 실행
-	CreateObject();
 	Show_Objects();
+	ShowPrevTextureImage();
+
 	m_Editor->RenderUI();
 
 	ImGui::EndFrame();
@@ -109,202 +89,625 @@ HRESULT CMyImGui::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	return S_OK;
 }
-
 void CMyImGui::Show_Objects()
 {
+	ImGui::Begin("Editor");
 
-	//ImGui::Begin("Objects");
+	// 입력 처리
+	InputKey();
 
-	//if (ImGui::Button("Close Window"))
-	//{
-	//	m_bShowObjectsWindow = false;
-	//	ImGui::End();
-	//	return;
-	//}
-
-	//// 선택된 오브젝트가 있고 인덱스가 유효한 경우
-	//if (m_pCurrentGameObject)
-	//{
-	//	ImGui::Separator();
-
-
-	//	// 트랜스폼 컴포넌트 가져오기
-	//	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
-	//	string stLayerTag = ISerializable::WideToUtf8(m_pCurrentGameObject->Get_Tag());
-	//	if (pTransform != nullptr)
-	//	{
-	//		ImGui::Text(stLayerTag.c_str());
-	//		ImGui::Separator();
-	//		ImGui::Text("Object Position");
-
-	//		// 현재 위치 가져오기
-	//		_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
-	//		_float3 scale = pTransform->Compute_Scaled();
-	//		_float3 euler = pTransform->Get_EulerAngles();
-	//		_float3 rotation;
-	//		bool positionChanged = false;
-	//		bool scaleChanged = false;
-	//		bool rotationChanged = false;
-
-	//		// X 위치 조절
-	//		ImGui::Text("X"); ImGui::SameLine();
-	//		positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f,-FLT_MAX, FLT_MAX);
-
-	//		// Y 위치 조절
-	//		ImGui::Text("Y"); ImGui::SameLine();
-	//		positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
-
-	//		// Z 위치 조절
-	//		ImGui::Text("Z"); ImGui::SameLine();
-	//		positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
-
-	//		ImGui::Separator();
-	//		ImGui::Text("Object Scale");
-	//		// X 위치 조절
-	//		ImGui::Text("X"); ImGui::SameLine();
-	//		scaleChanged |= ImGui::DragFloat("ScaleX", &scale.x, 0.1f, 1.f, FLT_MAX);
-
-	//		// Y 위치 조절
-	//		ImGui::Text("Y"); ImGui::SameLine();
-	//		scaleChanged |= ImGui::DragFloat("ScaleY", &scale.y, 0.1f, 1.f, FLT_MAX);
-
-	//		// Z 위치 조절
-	//		ImGui::Text("Z"); ImGui::SameLine();
-	//		scaleChanged |= ImGui::DragFloat("ScaleZ", &scale.z, 0.1f, 1.f, FLT_MAX);
-
-	//		ImGui::Separator();
-	//		ImGui::Text("Object Rotation");
-	//		// X 위치 조절
-	//		ImGui::Text("X"); ImGui::SameLine();
-	//		rotationChanged |= ImGui::DragFloat("RotationX", &euler.x, 1.f, 0.f, 360.f);
-
-	//		// Y 위치 조절
-	//		ImGui::Text("Y"); ImGui::SameLine();
-	//		rotationChanged |= ImGui::DragFloat("RotationY", &euler.y, 1.f, 0.f, 360.f);
-
-	//		// Z 위치 조절
-	//		ImGui::Text("Z"); ImGui::SameLine();
-	//		rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
-
-
-	//		// 위치가 변경되면 트랜스폼 업데이트
-	//		if (positionChanged)
-	//		{
-	//			pTransform->Set_State(CTransform::STATE_POSITION, position);
-	//		}
-
-	//		if (scaleChanged)
-	//		{
-	//			pTransform->Set_Scale(scale.x, scale.y, scale.z);
-	//		}
-
-	//		if (rotationChanged)
-	//		{
-	//			pTransform->Rotate_EulerAngles(euler);
-	//		}
-	//	}
-	//}
-
-	//ImGui::End();
-
-	ImGui::Begin("Objects");
-
-	if (ImGui::Button("Close Window"))
+	// 탭 시스템 추가
+	if (ImGui::BeginTabBar("EditorTabs"))
 	{
-		m_bShowObjectsWindow = false;
-		ImGui::End();
-		return;
-	}
-
-	// ImGuizmo 설정 UI 표시
-	ConfigureImGuizmo();
-
-	// 선택된 오브젝트가 있고 인덱스가 유효한 경우
-	if (m_pCurrentGameObject)
-	{
-		ImGui::Separator();
-
-		// 트랜스폼 컴포넌트 가져오기
-		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
-		string stLayerTag = ISerializable::WideToUtf8(m_pCurrentGameObject->Get_Tag());
-		if (pTransform != nullptr)
+		// 통합된 인스펙터 탭 (오브젝트 속성 + 기즈모 컨트롤)
+		if (ImGui::BeginTabItem("Inspector"))
 		{
-			ImGui::Text(stLayerTag.c_str());
-			ImGui::Separator();
-			ImGui::Text("Object Position");
-
-			// 현재 위치 가져오기
-			_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
-			_float3 scale = pTransform->Compute_Scaled();
-			_float3 euler = pTransform->Get_EulerAngles();
-			_float3 rotation;
-			bool positionChanged = false;
-			bool scaleChanged = false;
-			bool rotationChanged = false;
-
-			// X 위치 조절
-			ImGui::Text("X"); ImGui::SameLine();
-			positionChanged |= ImGui::DragFloat("PositionX", &position.x, 0.1f, -FLT_MAX, FLT_MAX);
-
-			// Y 위치 조절
-			ImGui::Text("Y"); ImGui::SameLine();
-			positionChanged |= ImGui::DragFloat("PositionY", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
-
-			// Z 위치 조절
-			ImGui::Text("Z"); ImGui::SameLine();
-			positionChanged |= ImGui::DragFloat("PositionZ", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
-
-			ImGui::Separator();
-			ImGui::Text("Object Scale");
-			// X 위치 조절
-			ImGui::Text("X"); ImGui::SameLine();
-			scaleChanged |= ImGui::DragFloat("ScaleX", &scale.x, 0.1f, 1.f, FLT_MAX);
-
-			// Y 위치 조절
-			ImGui::Text("Y"); ImGui::SameLine();
-			scaleChanged |= ImGui::DragFloat("ScaleY", &scale.y, 0.1f, 1.f, FLT_MAX);
-
-			// Z 위치 조절
-			ImGui::Text("Z"); ImGui::SameLine();
-			scaleChanged |= ImGui::DragFloat("ScaleZ", &scale.z, 0.1f, 1.f, FLT_MAX);
-
-			ImGui::Separator();
-			ImGui::Text("Object Rotation");
-			// X 위치 조절
-			ImGui::Text("X"); ImGui::SameLine();
-			rotationChanged |= ImGui::DragFloat("RotationX", &euler.x, 1.f, 0.f, 360.f);
-
-			// Y 위치 조절
-			ImGui::Text("Y"); ImGui::SameLine();
-			rotationChanged |= ImGui::DragFloat("RotationY", &euler.y, 1.f, 0.f, 360.f);
-
-			// Z 위치 조절
-			ImGui::Text("Z"); ImGui::SameLine();
-			rotationChanged |= ImGui::DragFloat("RotationZ", &euler.z, 1.f, 0.f, 360.f);
-
-			// 위치가 변경되면 트랜스폼 업데이트
-			if (positionChanged)
-			{
-				pTransform->Set_State(CTransform::STATE_POSITION, position);
-			}
-
-			if (scaleChanged)
-			{
-				pTransform->Set_Scale(scale.x, scale.y, scale.z);
-			}
-
-			if (rotationChanged)
-			{
-				pTransform->Rotate_EulerAngles(euler);
-			}
-
-			// 씬 뷰에 ImGuizmo 렌더링
-			RenderImGuizmo(pTransform);
+			ShowInspectorTab();
+			ImGui::EndTabItem();
 		}
+
+		// 오브젝트 생성 탭
+		if (ImGui::BeginTabItem("Create Object"))
+		{
+			ShowCreateObjectTab();
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
 	}
 
 	ImGui::End();
 }
+
+
+void CMyImGui::ShowInspectorTab()
+{
+	// 오브젝트 선택 관련 정보
+	if (!m_pCurrentGameObject)
+	{
+		ImGui::Text("No object selected");
+		return;
+	}
+
+	// 트랜스폼 컴포넌트 가져오기
+	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+	string stLayerTag = ISerializable::WideToUtf8(m_pCurrentGameObject->Get_Tag());
+
+	if (pTransform == nullptr)
+	{
+		ImGui::Text("Selected object has no transform component");
+		return;
+	}
+
+	// 오브젝트 기본 정보
+	ImGui::Text("Selected Object: %s", stLayerTag.c_str());
+	ImGui::Separator();
+
+	// Gizmo 모드 선택 버튼
+	if (ImGui::RadioButton("Translate", m_CurrentGizmoOperation == ImGuizmo::TRANSLATE))
+		m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Rotate", m_CurrentGizmoOperation == ImGuizmo::ROTATE))
+		m_CurrentGizmoOperation = ImGuizmo::ROTATE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Scale", m_CurrentGizmoOperation == ImGuizmo::SCALE))
+		m_CurrentGizmoOperation = ImGuizmo::SCALE;
+
+	// 공간 모드 선택
+	if (ImGui::RadioButton("World Space", m_CurrentGizmoMode == ImGuizmo::WORLD))
+		m_CurrentGizmoMode = ImGuizmo::WORLD;
+
+	// Snap 설정
+	ImGui::Checkbox("Use Snap", &m_bUseSnap);
+	if (m_bUseSnap)
+	{
+		ImGui::InputFloat3("Snap Values", m_SnapValue);
+	}
+
+	ImGui::Separator();
+
+	// Transform 속성
+	ImGui::Text("Transform Properties");
+
+	// 현재 위치, 스케일, 회전값 가져오기
+	_float3 position = pTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 scale = pTransform->Compute_Scaled();
+	_float3 euler = pTransform->Get_EulerAngles();
+	bool positionChanged = false;
+	bool scaleChanged = false;
+	bool rotationChanged = false;
+
+	// 위치 컨트롤
+	if (ImGui::CollapsingHeader("Position", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::PushID("Position");
+		ImGui::Text("X"); ImGui::SameLine();
+		positionChanged |= ImGui::DragFloat("##X", &position.x, 0.1f, -FLT_MAX, FLT_MAX);
+
+		ImGui::Text("Y"); ImGui::SameLine();
+		positionChanged |= ImGui::DragFloat("##Y", &position.y, 0.1f, -FLT_MAX, FLT_MAX);
+
+		ImGui::Text("Z"); ImGui::SameLine();
+		positionChanged |= ImGui::DragFloat("##Z", &position.z, 0.1f, -FLT_MAX, FLT_MAX);
+		ImGui::PopID();
+	}
+
+	// 크기 컨트롤
+	if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::PushID("Scale");
+		ImGui::Text("X"); ImGui::SameLine();
+		scaleChanged |= ImGui::DragFloat("##X", &scale.x, 0.1f, 0.1f, FLT_MAX);
+
+		ImGui::Text("Y"); ImGui::SameLine();
+		scaleChanged |= ImGui::DragFloat("##Y", &scale.y, 0.1f, 0.1f, FLT_MAX);
+
+		ImGui::Text("Z"); ImGui::SameLine();
+		scaleChanged |= ImGui::DragFloat("##Z", &scale.z, 0.1f, 0.1f, FLT_MAX);
+		ImGui::PopID();
+	}
+
+	// 회전 컨트롤
+	if (ImGui::CollapsingHeader("Rotation", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::PushID("Rotation");
+		ImGui::Text("X"); ImGui::SameLine();
+		rotationChanged |= ImGui::DragFloat("##X", &euler.x, 1.0f, 0.0f, 360.0f);
+
+		ImGui::Text("Y"); ImGui::SameLine();
+		rotationChanged |= ImGui::DragFloat("##Y", &euler.y, 1.0f, 0.0f, 360.0f);
+
+		ImGui::Text("Z"); ImGui::SameLine();
+		rotationChanged |= ImGui::DragFloat("##Z", &euler.z, 1.0f, 0.0f, 360.0f);
+		ImGui::PopID();
+	}
+
+	// 트랜스폼에 변경사항 적용
+	if (positionChanged)
+	{
+		pTransform->Set_State(CTransform::STATE_POSITION, position);
+	}
+
+	if (scaleChanged)
+	{
+		pTransform->Set_Scale(scale.x, scale.y, scale.z);
+	}
+
+	if (rotationChanged)
+	{
+		pTransform->Rotate_EulerAngles(euler);
+	}
+
+	// 씬 뷰에 ImGuizmo 렌더링
+	RenderImGuizmo(pTransform);
+
+	// 단축키 안내
+	ImGui::Separator();
+	ImGui::BulletText("1: Translate Mode");
+	ImGui::BulletText("2: Rotate Mode");
+	ImGui::BulletText("3: Scale Mode");
+}
+
+
+
+// 오브젝트 생성 탭 내용
+void CMyImGui::ShowCreateObjectTab()
+{
+	static int selectedColliderType = 0;
+	static int selectedBufferType = 0;
+	static int selectedClassType = 0;
+	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube";
+	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube";
+	static char layerTagBuffer[128] = "Com_Collider";
+	static char objectLayerTagBuffer[256] = "Layer_";
+	static char textureTagBuffer[256] = "Prototype_Component_Texture";
+	static char objectClassTagBuffer[256] = "C";
+	static char objectProtoTagBuffer[256] = "Prototype_GameObject_";
+	static char protoJsonFileNameBuffer[256] = "Prototypes_For_Editor";
+	static _int iPoolingCount = 0;
+	static _int iLevel = 4;
+	static _int iProtoLevel = 4;
+
+	// JSON에서 로드한 클래스 이름 목록
+	static _bool bClassNamesLoaded = false;
+	static vector<string> classNames;
+	static vector<const char*> classNamesCStr;
+
+	// JSON 파일에서 클래스 이름 로드 (최초 한 번만 실행)
+	if (!bClassNamesLoaded)
+	{
+		CJsonLoader jsonLoader;
+		// JSON 파일 로드
+		if (SUCCEEDED(jsonLoader.LoadClassNamesFromJson("../Save/ClassNames.json", classNames)))
+		{
+			classNamesCStr.clear();
+			for (const auto& name : classNames)
+			{
+				classNamesCStr.push_back(name.c_str());
+			}
+			bClassNamesLoaded = true;
+		}
+		else
+		{
+			// 기본 클래스 이름 설정
+			classNames = {
+				"CPlayer", "CTestMonster", "CTerrain", "CStructure",
+				"CCamera_Free", "CCamera_FirstPerson",
+				"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
+				"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",
+				"CUI_Right_Display", "CUI_Bullet_Bar", "CUI_Menu",
+				"CGamePlay_Button", "CUI_Spell_Shop",
+				"CAxe", "CClaymore", "CMagnum", "CStaff", "CShotGun"
+			};
+
+			classNamesCStr.clear();
+			for (const auto& name : classNames)
+			{
+				classNamesCStr.push_back(name.c_str());
+			}
+			bClassNamesLoaded = true;
+		}
+	}
+
+	// 선택된 클래스 이름으로 업데이트
+	strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
+
+	// 충돌체 타입 배열
+	static const char* colliderTypes[] = { "Cube", "Sphere" };
+	static const char* colliderProtoNames[] = {
+		"Prototype_Component_Collider_Cube",
+		"Prototype_Component_Collider_Sphere"
+	};
+
+	// 버퍼 타입 배열
+	static const char* bufferTypes[] = { "Cube", "Rect","Terrain" };
+	static const char* bufferProtoNames[] = {
+		"Prototype_Component_VIBuffer_Cube",
+		"Prototype_Component_VIBuffer_Rect",
+		"Prototype_Component_VIBuffer_Terrain"
+	};
+
+	// UI 요소들 배치
+	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
+	{
+		strcpy_s(colliderNameBuffer, colliderProtoNames[selectedColliderType]);
+	}
+
+	if (ImGui::Combo("Buffer Type", &selectedBufferType, bufferTypes, IM_ARRAYSIZE(bufferTypes)))
+	{
+		strcpy_s(bufferNameBuffer, bufferProtoNames[selectedBufferType]);
+	}
+
+	if (ImGui::Combo("Class Type", &selectedClassType, classNamesCStr.data(), static_cast<int>(classNamesCStr.size())))
+	{
+		strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
+	}
+
+	ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
+	ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
+	ImGui::InputText("Object Proto Layer Tag", objectProtoTagBuffer, IM_ARRAYSIZE(objectProtoTagBuffer));
+	ImGui::InputText("Object Layer Tag", objectLayerTagBuffer, IM_ARRAYSIZE(objectLayerTagBuffer));
+	ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
+	ImGui::InputInt("Pool Count", &iPoolingCount);
+	ImGui::InputInt("Level", &iLevel);
+	ImGui::InputInt("ProtoLevel", &iProtoLevel);
+	ImGui::InputText("JSON Prototypes File Name", protoJsonFileNameBuffer, IM_ARRAYSIZE(protoJsonFileNameBuffer));
+	static _wstring selectedFolder;
+	static char selectedPathBuffer[512] = { 0 }; // 선택된 경로를 표시할 버퍼
+
+	// 이미 선택된 경로가 있으면 버퍼에 표시
+	if (selectedFolder.length() > 0 && selectedPathBuffer[0] == 0) {
+		strcpy_s(selectedPathBuffer, ISerializable::WideToUtf8(selectedFolder).c_str());
+	}
+
+	// 파일 선택 버튼
+	if (ImGui::Button("Select Texture"))
+	{
+		selectedFolder = SelectFile();
+		if (!selectedFolder.empty())
+		{
+			selectedFolder = GetRelativePath(selectedFolder);
+			strcpy_s(selectedPathBuffer, ISerializable::WideToUtf8(selectedFolder).c_str());
+
+			// 이미지 로드
+			LoadImagesFromFolder(selectedFolder.substr(0, selectedFolder.find_last_of(L"\\")));
+			m_bShowImageWindow = true;
+		}
+	}
+
+	// 선택된 파일 경로 표시
+	ImGui::SameLine();
+	ImGui::InputText("Selected Path", m_szSelectedPathBuffer, IM_ARRAYSIZE(m_szSelectedPathBuffer), ImGuiInputTextFlags_ReadOnly);
+
+	// 이미지 미리보기 섹션
+	ImGui::Separator();
+	ImGui::Text("Selected Texture Preview:");
+
+	// 텍스처가 로드되었는지 확인
+	if (!m_Textures.empty())
+	{
+		// ImGui에서 텍스처 ID 사용하기 위한 처리
+		ImTextureID texID = (ImTextureID)m_Textures[m_SelectedTextureIndex];
+
+		// 이미지 정보 가져오기
+		D3DSURFACE_DESC desc;
+		if (SUCCEEDED(m_Textures[m_SelectedTextureIndex]->GetLevelDesc(0, &desc)))
+		{
+			// 이미지 원본 크기
+			float originalWidth = (float)desc.Width;
+			float originalHeight = (float)desc.Height;
+
+			// 미리보기 크기 (적절히 조절)
+			float previewWidth = 200.0f;
+			float previewHeight = previewWidth * (originalHeight / originalWidth);
+
+			// 이미지 미리보기 표시
+			ImGui::Image(texID, ImVec2(previewWidth, previewHeight));
+
+			// 이미지 정보 표시
+			ImGui::Text("Size: %dx%d", desc.Width, desc.Height);
+			ImGui::Text("Format: %d", desc.Format);
+		}
+		else
+		{
+			ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f), "Failed to get texture info");
+		}
+	}
+	else
+	{
+		ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f), "No texture selected or failed to load");
+	}
+
+	// 생성 버튼 및 로직
+	if (ImGui::Button("Create"))
+	{
+		_wstring texturePath = selectedFolder;
+
+		// 선택된 텍스처가 있으면 해당 텍스처 경로 사용
+		if (!m_wstrSelectedTexturePath.empty())
+		{
+			texturePath = m_wstrSelectedTexturePath;
+		}
+
+		CreateObjectInstance(
+			protoJsonFileNameBuffer,
+			bufferNameBuffer, colliderNameBuffer, layerTagBuffer,
+			textureTagBuffer, objectClassTagBuffer, objectProtoTagBuffer,
+			objectLayerTagBuffer, iPoolingCount, iLevel, iProtoLevel, texturePath);
+	}
+}
+
+HRESULT CMyImGui::CreateObjectInstance(
+	const char* jsonFileNameBuffer,
+	const char* bufferNameBuffer, const char* colliderNameBuffer,
+	const char* layerTagBuffer, const char* textureTagBuffer,
+	const char* objectClassTagBuffer, const char* objectProtoTagBuffer,
+	const char* objectLayerTagBuffer, _int iPoolingCount,
+	_int iLevel, _int iProtoLevel, const _wstring& selectedFolder)
+{
+	wchar_t wBufferName[256] = {};
+	wchar_t wColliderName[256] = {};
+	wchar_t wLayerTag[128] = {};
+	wchar_t wtextureTag[256] = {};
+	wchar_t wobjectClassTag[256] = {};
+	wchar_t wobjectProtoTagBuffer[256] = {};
+	wchar_t wobjectLayerTagBuffer[256] = {};
+	wchar_t wprotoJsonFileNameBuffer[256] = {};
+	
+
+	// 문자열 변환
+	MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
+	MultiByteToWideChar(CP_ACP, 0, colliderNameBuffer, -1, wColliderName, 256);
+	MultiByteToWideChar(CP_ACP, 0, layerTagBuffer, -1, wLayerTag, 128);
+	MultiByteToWideChar(CP_ACP, 0, textureTagBuffer, -1, wtextureTag, 256);
+	MultiByteToWideChar(CP_ACP, 0, objectClassTagBuffer, -1, wobjectClassTag, 256);
+	MultiByteToWideChar(CP_ACP, 0, objectProtoTagBuffer, -1, wobjectProtoTagBuffer, 256);
+	MultiByteToWideChar(CP_ACP, 0, objectLayerTagBuffer, -1, wobjectLayerTagBuffer, 256);
+	MultiByteToWideChar(CP_ACP, 0, jsonFileNameBuffer, -1, wprotoJsonFileNameBuffer, 256);
+
+	CJsonLoader jsonLoader;
+	CBase* pGameObject = jsonLoader.Create_Object_ByClassName(ISerializable::WideToUtf8(wobjectClassTag), m_pGraphic_Device);
+
+	_wstring stProtoTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectProtoTagBuffer));
+	_wstring stLayerTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectLayerTagBuffer));
+	_wstring stClassName = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectClassTag));
+	_wstring stTextureTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wtextureTag));
+	_wstring stBufferTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wBufferName));
+
+	CGameObject::OBJECT_DESC tObjDesc{};
+	tObjDesc.iLevel = iLevel;
+	tObjDesc.iProtoLevel = iProtoLevel;
+	tObjDesc.stProtTag = stProtoTag;
+	tObjDesc.stBufferTag = wBufferName;
+	tObjDesc.stProtTextureTag = stTextureTag;
+	tObjDesc.iPoolCount = iPoolingCount;
+
+	bool textureCreated = false;
+	if (FAILED(m_pGameInstance->Find_Prototype(stTextureTag)))
+	{
+		if (FAILED(m_pGameInstance->Add_Prototype(iLevel, stTextureTag,
+			CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, ISerializable::WStringToWChar(selectedFolder), 1))))
+		{
+			return E_FAIL;
+		}
+		textureCreated = true;
+	}
+	bool prototypeCreated = false;
+	if (FAILED(m_pGameInstance->Find_Prototype(stProtoTag)))
+	{
+		if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
+		{
+			Safe_Release(pGameObject);
+			return E_FAIL;
+		}
+		prototypeCreated = true;
+	}
+
+	// 게임 오브젝트 추가
+	if (iPoolingCount != 0)
+	{
+		if (FAILED(m_pGameInstance->Reserve_Pool(iProtoLevel, stProtoTag,
+			stLayerTag, iPoolingCount, &tObjDesc)))
+		{
+			return E_FAIL;
+		}
+	}
+	else
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
+			iLevel, stLayerTag, &tObjDesc)))
+		{
+			return E_FAIL;
+		}
+	}
+
+
+	if (textureCreated || prototypeCreated) 
+	{
+		// 텍스처 파일이 선택되었으면 해당 정보 저장
+		int textureCount = 1; // 기본값
+
+		// 버퍼 정보 (지금은 기본값으로, 특별히 설정할 수 있는 UI가 있다면 그걸 사용)
+		int bufferWidth = 0;
+		int bufferHeight = 0;
+
+		// 특별한 경우에 버퍼 크기 설정 (예: 지형)
+		if (strcmp(bufferNameBuffer, "Prototype_Component_VIBuffer_Terrain") == 0)
+		{
+			bufferWidth = 256;  // 기본값, 필요하면 UI에서 입력받아 수정
+			bufferHeight = 256;
+		}
+
+		// JSON에 저장
+		SaveObjectToJson(
+			ISerializable::WideToUtf8(wprotoJsonFileNameBuffer),
+			stProtoTag,         // 오브젝트 태그
+			iProtoLevel,        // 오브젝트 레벨
+			stClassName,        // 클래스 이름
+			stTextureTag,       // 텍스처 태그
+			iLevel,             // 텍스처 레벨
+			selectedFolder,     // 텍스처 경로
+			textureCount,       // 텍스처 개수
+			stBufferTag,        // 버퍼 태그
+			3,                  // 버퍼 레벨 (기본값)
+			L"CVIBuffer_" + stBufferTag.substr(stBufferTag.find_last_of(L"_") + 1), // 버퍼 클래스 이름
+			bufferWidth,        // 버퍼 너비
+			bufferHeight        // 버퍼 높이
+		);
+	}
+
+	return S_OK;
+}
+
+HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& objectProtoTag, _int objectLevel, const _wstring& className, const _wstring& textureTag, _int textureLevel, const _wstring& texturePath, _int textureCount, const _wstring& bufferTag, _int bufferLevel, const _wstring& bufferClass, _int bufferWidth, _int bufferHeight)
+{
+
+	// JSON 객체 생성
+	json jsonData;
+	string JSON_FILE_PATH = "../Save/";
+
+	if (jsonFileName.empty()) 
+	{
+		JSON_FILE_PATH += "Prototypes_For_Editor.json";
+	}
+	else
+	{
+		if (jsonFileName.find(".json") == string::npos)
+		{
+			JSON_FILE_PATH += jsonFileName + ".json";
+		}
+		else
+		{
+			JSON_FILE_PATH += jsonFileName;
+		}
+	}
+	// 파일이 존재하는지 확인
+	ifstream inputFile(JSON_FILE_PATH);
+	if (inputFile.is_open()) {
+		// 기존 파일이 있으면 내용 로드
+		try {
+			inputFile >> jsonData;
+		}
+		catch (const json::parse_error& e) {
+			// 파싱 에러가 발생하면 새 JSON 객체 생성
+			OutputDebugStringA("JSON 파일 파싱 에러, 새 파일을 생성합니다.\n");
+			jsonData = json({
+				{"textures", json::array()},
+				{"gameObjects", json::array()},
+				{"buffers", json::array()}
+				});
+		}
+		inputFile.close();
+	}
+	else {
+		// 파일이 없으면 기본 구조 생성
+		jsonData = json({
+			{"textures", json::array()},
+			{"gameObjects", json::array()},
+			{"buffers", json::array()}
+			});
+	}
+
+	// 문자열 변환 함수
+	auto WStringToString = [](const _wstring& wstr) -> string {
+		if (wstr.empty()) return "";
+		int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+		if (bufferSize == 0) return "";
+		string str(bufferSize, 0);
+		WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], bufferSize, nullptr, nullptr);
+		str.resize(strlen(str.c_str())); // null 문자 제거
+		return str;
+		};
+
+	// 텍스처 정보 추가 (없는 경우에만)
+	if (!texturePath.empty() && !textureTag.empty()) {
+		string strTextureTag = WStringToString(textureTag);
+		string strTexturePath = WStringToString(texturePath);
+
+		// 이미 존재하는지 확인
+		bool textureExists = false;
+		for (auto& texture : jsonData["textures"]) {
+			if (texture["tag"] == strTextureTag) {
+				textureExists = true;
+				break;
+			}
+		}
+
+		// 존재하지 않으면 추가
+		if (!textureExists) {
+			jsonData["textures"].push_back({
+				{"tag", strTextureTag},
+				{"level", textureLevel},
+				{"path", strTexturePath},
+				{"count", textureCount}
+				});
+		}
+	}
+
+	// 게임 오브젝트 정보 추가 (없는 경우에만)
+	if (!objectProtoTag.empty() && !className.empty()) {
+		string strObjectTag = WStringToString(objectProtoTag);
+		string strClassName = WStringToString(className);
+
+		// 이미 존재하는지 확인
+		bool objectExists = false;
+		for (auto& gameObject : jsonData["gameObjects"]) {
+			if (gameObject["tag"] == strObjectTag) {
+				objectExists = true;
+				break;
+			}
+		}
+
+		// 존재하지 않으면 추가
+		if (!objectExists) {
+			jsonData["gameObjects"].push_back({
+				{"tag", strObjectTag},
+				{"level", objectLevel},
+				{"class", strClassName}
+				});
+		}
+	}
+
+	// 버퍼 정보 추가 (없는 경우에만)
+	if (!bufferTag.empty() && !bufferClass.empty()) {
+		string strBufferTag = WStringToString(bufferTag);
+		string strBufferClass = WStringToString(bufferClass);
+
+		// 이미 존재하는지 확인
+		bool bufferExists = false;
+		for (auto& buffer : jsonData["buffers"]) {
+			if (buffer["tag"] == strBufferTag) {
+				bufferExists = true;
+				break;
+			}
+		}
+
+		// 존재하지 않으면 추가
+		if (!bufferExists) {
+			jsonData["buffers"].push_back({
+				{"tag", strBufferTag},
+				{"level", bufferLevel},
+				{"class", strBufferClass},
+				{"width", bufferWidth},
+				{"height", bufferHeight}
+				});
+		}
+	}
+
+	// JSON 파일 저장
+	ofstream outputFile(JSON_FILE_PATH);
+	if (!outputFile.is_open()) {
+		OutputDebugStringA("JSON 파일을 저장할 수 없습니다.\n");
+		return E_FAIL;
+	}
+
+	outputFile << jsonData.dump(2); // 2는 들여쓰기 공백 수
+	outputFile.close();
+
+	OutputDebugStringA("객체 정보가 JSON 파일에 저장되었습니다.\n");
+	return S_OK;
+}
+
 
 void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
 {
@@ -315,6 +718,72 @@ void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
 			texture->Release();
 	}
 	m_Textures.clear();
+
+	// 경로가 폴더인지 파일인지 확인
+	DWORD fileAttributes = GetFileAttributesW(folderPath.c_str());
+
+	if (fileAttributes == INVALID_FILE_ATTRIBUTES)
+	{
+		// 경로가 존재하지 않음
+		return;
+	}
+
+	if (fileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+	{
+		// 폴더인 경우, 해당 폴더 내 이미지 파일들 로드
+		LoadImagesFromDirectoryPath(folderPath);
+	}
+	else
+	{
+		// 단일 파일인 경우, 해당 파일만 로드
+		LoadSingleImageFile(folderPath);
+	}
+}
+// 단일 이미지 파일 로드
+void CMyImGui::LoadSingleImageFile(const _wstring& filePath)
+{
+	m_TextureFilePaths.clear();
+
+	// 이미지 파일 확장자 확인
+	_wstring extension = filePath.substr(filePath.find_last_of(L"."));
+	transform(extension.begin(), extension.end(), extension.begin(), ::towlower);
+
+	vector<_wstring> imageExtensions = { L".png", L".jpg", L".jpeg", L".bmp", L".dds", L".tga" };
+
+	bool isImageFile = false;
+	for (const auto& ext : imageExtensions)
+	{
+		if (extension == ext)
+		{
+			isImageFile = true;
+			break;
+		}
+	}
+
+	if (isImageFile)
+	{
+		// 텍스처 로드
+		LPDIRECT3DTEXTURE9 texture = nullptr;
+		HRESULT hr = D3DXCreateTextureFromFileW(
+			m_pGraphic_Device,
+			filePath.c_str(),
+			&texture);
+
+		if (SUCCEEDED(hr))
+		{
+			m_Textures.push_back(texture);
+			m_TextureFilePaths.push_back(filePath); // 파일 경로 저장
+		}
+	}
+
+	// 선택된 인덱스 초기화
+	m_SelectedTextureIndex = 0;
+}
+
+// 폴더 내 모든 이미지 파일 로드
+void CMyImGui::LoadImagesFromDirectoryPath(const _wstring& folderPath)
+{
+	m_TextureFilePaths.clear();
 
 	// 이미지 파일 확장자 목록
 	vector<_wstring> imageExtensions = { L".png", L".jpg", L".jpeg", L".bmp", L".dds", L".tga" };
@@ -358,20 +827,114 @@ void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
 				// 텍스처 로드
 				LPDIRECT3DTEXTURE9 texture = nullptr;
 				HRESULT hr = D3DXCreateTextureFromFileW(
-					m_pGraphic_Device,  // Direct3D 디바이스
+					m_pGraphic_Device,
 					filePath.c_str(),
 					&texture);
 
 				if (SUCCEEDED(hr))
 				{
 					m_Textures.push_back(texture);
-
+					m_TextureFilePaths.push_back(filePath); // 파일 경로 저장
 				}
 			}
-
 		} while (FindNextFileW(hFind, &findData) != 0);
 
 		FindClose(hFind);
+	}
+
+	// 선택된 인덱스 초기화
+	m_SelectedTextureIndex = 0;
+}
+
+void CMyImGui::ShowPrevTextureImage()
+{
+	if (m_bShowImageWindow && !m_Textures.empty())
+	{
+		ImGui::Begin("Texture Preview", &m_bShowImageWindow);
+		// 현재 선택된 텍스처 표시
+		if (m_SelectedTextureIndex < m_Textures.size())
+		{
+			// 텍스처 정보
+			D3DSURFACE_DESC desc;
+			if (SUCCEEDED(m_Textures[m_SelectedTextureIndex]->GetLevelDesc(0, &desc)))
+			{
+				// 이미지 원본 크기
+				float originalWidth = (float)desc.Width;
+				float originalHeight = (float)desc.Height;
+				// 윈도우 크기에 맞게 이미지 크기 조절
+				ImVec2 contentSize = ImGui::GetContentRegionAvail();
+				float scale = min(contentSize.x / originalWidth, contentSize.y / originalHeight);
+				float displayWidth = originalWidth * scale;
+				float displayHeight = originalHeight * scale;
+				// 이미지 미리보기 표시
+				ImTextureID texID = (ImTextureID)m_Textures[m_SelectedTextureIndex];
+				ImGui::Image(texID, ImVec2(200.f, 200.f));
+				// 이미지 정보 표시
+				ImGui::Text("Size: %dx%d", desc.Width, desc.Height);
+				// 선택된 파일 경로 표시
+				if (m_SelectedTextureIndex < m_TextureFilePaths.size())
+				{
+					ImGui::Text("File: %s", ISerializable::WideToUtf8(m_TextureFilePaths[m_SelectedTextureIndex]).c_str());
+				}
+			}
+		}
+		// 여러 이미지가 로드된 경우 (폴더에서 로드한 경우)
+		if (m_Textures.size() > 1)
+		{
+			ImGui::Separator();
+			ImGui::Text("All loaded textures (click to select):");
+			// 썸네일 표시
+			float thumbnailSize = 50.0f;
+			int itemsPerRow = max(1, (int)(ImGui::GetContentRegionAvail().x / (thumbnailSize + 10.0f)));
+			for (size_t i = 0; i < m_Textures.size(); i++)
+			{
+				ImTextureID texID = (ImTextureID)m_Textures[i];
+				// 썸네일 배치 (한 줄에 여러 개)
+				if (i % itemsPerRow != 0)
+					ImGui::SameLine();
+				ImGui::BeginGroup();
+				// 선택된 텍스처 강조 표시
+				bool isSelected = (i == m_SelectedTextureIndex);
+				if (isSelected)
+				{
+					ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 0.5f, 0.0f, 1.0f));
+					ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
+				}
+				char btnId[32];
+				sprintf_s(btnId, "ImgBtn_%zu", i);
+				if (ImGui::ImageButton(btnId, texID, ImVec2(thumbnailSize, thumbnailSize)))
+				{
+					m_SelectedTextureIndex = i;
+					// 선택된 텍스처 경로 업데이트
+					if (i < m_TextureFilePaths.size())
+					{
+						// 클래스 멤버 변수에 직접 저장
+						m_wstrSelectedTexturePath = GetRelativePath(m_TextureFilePaths[i]);
+						// 화면 표시용 문자열 버퍼에 복사
+						strcpy_s(m_szSelectedPathBuffer, ISerializable::WideToUtf8(m_wstrSelectedTexturePath).c_str());
+					}
+				}
+				if (isSelected)
+				{
+					ImGui::PopStyleColor();
+					ImGui::PopStyleVar();
+				}
+
+				// 선택 표시 라벨 추가
+				if (isSelected)
+				{
+					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Selected");
+				}
+				else
+				{
+					ImGui::Text("Texture %d", (int)i + 1);
+				}
+				ImGui::EndGroup();
+			}
+			// 선택 버튼
+			ImGui::Separator();
+		}
+		ImGui::End();
 	}
 }
 
@@ -380,7 +943,7 @@ _wstring CMyImGui::SelectFile()
 	_wstring selectedPath;
 
 	// COM 초기화
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	HRESULT hr1 = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	IFileOpenDialog* pFileOpen;
 	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen));
@@ -431,7 +994,7 @@ _wstring CMyImGui::SelectFolder()
 	_wstring selectedPath;
 
 	// COM 초기화 (이미 초기화된 경우는 무시됨)
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	HRESULT hr1  = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	IFileOpenDialog* pFileOpen;
 	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen));
@@ -797,10 +1360,27 @@ void CMyImGui::RenderImGuizmo(CTransform* pTransform)
 		}
 	}
 }
+void CMyImGui::InputKey()
+{
+	if (m_pCurrentGameObject && !ImGui::GetIO().WantTextInput)
+	{
+		// W = 이동 모드
+		if (ImGui::IsKeyPressed(ImGuiKey_1))
+			m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
+
+		// E = 회전 모드
+		if (ImGui::IsKeyPressed(ImGuiKey_2))
+			m_CurrentGizmoOperation = ImGuizmo::ROTATE;
+
+		// R = 스케일 모드
+		if (ImGui::IsKeyPressed(ImGuiKey_3))
+			m_CurrentGizmoOperation = ImGuizmo::SCALE;
+	}
+}
 _bool CMyImGui::IsMouseOverImGui()
 {
 	ImGuiIO& io = ImGui::GetIO();
-	return io.WantCaptureMouse;
+	return io.WantCaptureMouse || io.WantCaptureKeyboard;
 }
 //
 //void CMyImGui::ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers)
@@ -887,7 +1467,12 @@ void CMyImGui::Free()
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
-
+	for (auto& texture : m_Textures)
+	{
+		if (texture)
+			texture->Release();
+	}
+	m_Textures.clear();
 	Safe_Release(m_Editor);
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pGraphic_Device);
