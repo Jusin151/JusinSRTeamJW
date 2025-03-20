@@ -70,7 +70,7 @@ void CLayer::Late_Update(_float fTimeDelta)
 	{
 		if (nullptr != *iter)
 		{
-			if (!(*iter)->IsActive() && (*iter)->Is_FromPool())
+			if (!(*iter)->IsActive()&& (*iter)->Is_FromPool())
 			{
 				m_pGameInstance->Return_Object(m_iPrototypeLevelIndex, (*iter)->Get_Tag(), *iter);
 				iter = m_GameObjects.erase(iter); // 요소 제거 후 반복자 업데이트
