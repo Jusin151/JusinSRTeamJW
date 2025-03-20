@@ -30,6 +30,7 @@ private:
 	HRESULT Ready_Layer_Episode_Button();
 	HRESULT Ready_Layer_Point_Shop_Button();
 
+
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
 

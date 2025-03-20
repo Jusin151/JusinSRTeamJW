@@ -22,8 +22,8 @@ HRESULT CMelee_Weapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pColliderCom->AddRef();
-	m_pColTransformCom->AddRef();
+	Safe_AddRef(m_pColliderCom);
+	Safe_AddRef(m_pColTransformCom);
 
 	return S_OK;
 }
@@ -51,7 +51,7 @@ void CMelee_Weapon::Update(_float fTimeDelta)
 
 
 
-	m_pColliderCom->Update_Collider();
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
 
 
 	Attack(fTimeDelta);

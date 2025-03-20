@@ -33,7 +33,7 @@ public:
 	virtual HRESULT Render() override;
 	COL_CUBE_DESC& Get_Desc() { return m_tDesc; }
 
-	virtual HRESULT Update_Collider() override;
+	virtual HRESULT Update_Collider(const _wstring& strLayerTag) override;
 
 private:
 	COL_CUBE_DESC		m_tDesc;

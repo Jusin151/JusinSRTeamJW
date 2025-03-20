@@ -160,10 +160,15 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
+    <ClInclude Include="..\public\Crocman.h" />
+    <ClInclude Include="..\public\GameObject_Cube.h" />
+    <ClInclude Include="..\public\GameObject_Light.h" />
+    <ClInclude Include="..\public\GameObject_Plane.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Inventory.h" />
@@ -175,6 +180,7 @@
     <ClInclude Include="..\public\Client_Enum.h" />
     <ClInclude Include="..\public\Magnum.h" />
     <ClInclude Include="..\public\Melee_Weapon.h" />
+    <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\ShotGun.h" />
@@ -220,10 +226,15 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
+    <ClCompile Include="..\private\Crocman.cpp" />
+    <ClCompile Include="..\private\GameObject_Cube.cpp" />
+    <ClCompile Include="..\private\GameObject_Light.cpp" />
+    <ClCompile Include="..\private\GameObject_Plane.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\private\JsonLoader.cpp" />
     <ClCompile Include="..\Private\Inventory.cpp" />
@@ -235,6 +246,7 @@
     <ClCompile Include="..\private\GamePlay_Button.cpp" />
     <ClCompile Include="..\private\Magnum.cpp" />
     <ClCompile Include="..\private\Melee_Weapon.cpp" />
+    <ClCompile Include="..\Private\Monster_Base.cpp" />
     <ClCompile Include="..\private\MyImGui.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />

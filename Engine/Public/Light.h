@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "GameObject.h"
+#include "Component.h"
 
 BEGIN(Engine)
 
-class ENGINE_DLL CLight final : public CGameObject
+class ENGINE_DLL CLight final : public CComponent
 {
 	enum LightType {LT_DIR, LT_POINT, LT_SPOT, LT_END};
 private:
