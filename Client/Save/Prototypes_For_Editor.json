@@ -59,10 +59,21 @@
       "level": 3,
       "path": "../../Resources/Textures/Inven/Inven.png",
       "count": 1
+    },
+    {
+      "tag": "Prototype_Component_Texture_Crocman",
+      "level": 4,
+      "path": "../../Resources/Textures/Monster/Crocman/Crocman_%d.png",
+      "count": 27
     }
 
   ],
   "gameObjects": [
+    {
+      "tag": "Prototype_GameObject_Crocman",
+      "level": 4,
+      "class": "CCrocman"
+    },
     {
       "tag": "Prototype_GameObject_",
       "level": 4,

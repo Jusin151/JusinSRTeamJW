@@ -28,12 +28,16 @@ HRESULT CMonster_Base::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f,0.5f,0.f));
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	CGameObject::OBJECT_DESC* pDesc = static_cast<CGameObject::OBJECT_DESC*>(pArg);
+	if (pDesc->iLevel != 4)
+	{
 
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
 	if (nullptr == m_pTarget)
 		return E_FAIL;
 
 	Safe_AddRef(m_pTarget);
+	}
 
 	return S_OK;
 }
@@ -44,7 +48,7 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 
 void CMonster_Base::Update(_float fTimeDelta)
 {
-	Look_Player();
+	//Look_Player();
 }
 
 void CMonster_Base::Late_Update(_float fTimeDelta)
@@ -70,7 +74,7 @@ HRESULT CMonster_Base::Ready_Components()
 {
 	
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,m_tObjDesc.stBufferTag,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 

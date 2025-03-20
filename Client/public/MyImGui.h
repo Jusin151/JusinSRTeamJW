@@ -67,6 +67,7 @@ private:
 	_uint m_iNumLevels = {};
 	map<unsigned int, CGameObject*> m_gameObjects;
 	CEditor* m_Editor = { nullptr };
+	CGameObject* m_pCurrentGameObject = { nullptr };
 	
 public:
 	static CMyImGui* Create(_uint iNumLevels,LPDIRECT3DDEVICE9 pGraphic_Device);
