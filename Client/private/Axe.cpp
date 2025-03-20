@@ -60,6 +60,15 @@ HRESULT CAxe::Initialize(void* pArg)
 
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this);
+
+	CItem_Icon::Icon_DESC Axe_Icon{};
+	Axe_Icon.Icon_Image = Axe; // 초기 이미지
+	Axe_Icon.Weapon_Type = CItem_Icon::Axe; // 선택되고 나서 되돌릴 이미지
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Axe"),&Axe_Icon)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -69,6 +78,36 @@ void CAxe::Priority_Update(_float fTimeDelta)
 
 void CAxe::Update(_float fTimeDelta)
 {
+
+		static bool bMotionPlayed = false;
+		static float fElapsedTime = 0.0f;
+
+		if (m_bIsActive && !bMotionPlayed)
+		{
+			fElapsedTime += fTimeDelta;
+
+			if (fElapsedTime <= 0.5f) // 0.5초 동안 y축을 50만큼 올리기
+			{
+				float t = fElapsedTime / 0.5f;
+				float yOffset = 50.0f * t;
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+					_float3(m_Axe_INFO.vPos.x, m_vInitialPos.y + yOffset, 0.f));
+			}
+			else if (fElapsedTime <= 1.0f) // 0.5초 동안 반동을 줘서 다시 돌아오기
+			{
+				float t = (fElapsedTime - 0.5f) / 0.5f;
+				float yOffset = 50.0f * (1.0f - t);
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+					_float3(m_Axe_INFO.vPos.x, m_vInitialPos.y + yOffset, 0.f));
+			}
+			else // 모션 완료
+			{
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+					_float3(m_Axe_INFO.vPos.x, m_vInitialPos.y, 0.f));
+				bMotionPlayed = true;
+			}
+		}
+
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;
@@ -92,7 +131,33 @@ void CAxe::Update(_float fTimeDelta)
 	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-	__super::Update(fTimeDelta);
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	{
+		m_bIsAnimating = true;
+		m_iCurrentFrame = 0;
+		m_fElapsedTime = 0.0f;
+	}
+	if (m_bIsAnimating)
+	{
+		m_fElapsedTime += fTimeDelta;
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+			if (m_iCurrentFrame < 11)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_bIsAnimating = false;
+				m_iCurrentFrame = 0;
+			}
+		}
+	}
+
+	return;
+
 }
 
 void CAxe::Late_Update(_float fTimeDelta)

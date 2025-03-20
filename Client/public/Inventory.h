@@ -68,9 +68,12 @@ protected:
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
     Inven_DESC m_Inven_INFO{};
+    _bool m_bRender{};
 
     unordered_map<wstring, CWeapon_Base*> m_UIMap;
 
     CWeapon_Base* m_pItem{};
+
+    _bool m_bFrist_off_Item{};
 };
 END

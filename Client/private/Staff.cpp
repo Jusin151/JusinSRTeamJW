@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 #include "Item_Manager.h"
+#include "Item_Icon.h"
 
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -59,6 +60,14 @@ HRESULT CStaff::Initialize(void* pArg)
     m_TextureRanges["Attack"] = { 27, 31 };
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Staff", this);
+
+    CItem_Icon::Icon_DESC Staff_Icon{};
+    Staff_Icon.Icon_Image = Staff;
+    Staff_Icon.Weapon_Type = CItem_Icon::Staff; // 선택되고 나서 되돌릴 이미지
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
+        LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Staff"),&Staff_Icon)))
+        return E_FAIL;
+
     
 	return S_OK;
 }
@@ -69,6 +78,7 @@ void CStaff::Priority_Update(_float fTimeDelta)
 
 void CStaff::Update(_float fTimeDelta)
 {
+   
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;  

@@ -1,4 +1,4 @@
-#include "Editor.h"
+ï»¿#include "Editor.h"
 
 CEditor::CEditor(): m_pGameInstance(CGameInstance::Get_Instance())
 {
@@ -25,7 +25,7 @@ _bool CEditor::SaveLevel(_uint iLevelID, const _wstring& filepath)
     j["level"] = iLevelID;
     j["layers"] = json::object();
 
-    // ·¹ÀÌ¾îº°·Î ¿ÀºêÁ§Æ® ±×·ìÈ­
+    // ë ˆì´ì–´ë³„ë¡œ ì˜¤ë¸Œì íŠ¸ ê·¸ë£¹í™”
     map<wstring, vector<json>> layerObjects;
 
     for (auto* obj : m_LevelObjects[iLevelID])
@@ -35,14 +35,14 @@ _bool CEditor::SaveLevel(_uint iLevelID, const _wstring& filepath)
         layerObjects[layerTag].push_back(objData);
     }
 
-    // ±×·ìÈ­µÈ ¿ÀºêÁ§Æ®¸¦ JSON¿¡ Ãß°¡
+    // ê·¸ë£¹í™”ëœ ì˜¤ë¸Œì íŠ¸ë¥¼ JSONì— ì¶”ê°€
     for (const auto& [layerTag, objects] : layerObjects)
     {
         string layerTagStr = ISerializable::WideToUtf8(layerTag);
         j["layers"][layerTagStr] = objects;
     }
 
-    // ÆÄÀÏ¿¡ ÀúÀå
+    // íŒŒì¼ì— ì €ì¥
     ofstream file(filepath);
     if (!file.is_open())
         return false;
