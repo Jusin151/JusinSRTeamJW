@@ -425,10 +425,11 @@ HRESULT CMyImGui::CreateObject()
 	};
 
 	// 버퍼 타입 배열
-	static const char* bufferTypes[] = { "Cube", "Rect" };
+	static const char* bufferTypes[] = { "Cube", "Rect","Terrain"};
 	static const char* bufferProtoNames[] = {
 		"Prototype_Component_VIBuffer_Cube",
-		"Prototype_Component_VIBuffer_Rect"
+		"Prototype_Component_VIBuffer_Rect",
+		"Prototype_Component_VIBuffer_Terrain"
 	};
 
 	// ImGui 컴포넌트 선택 인터페이스 표시
