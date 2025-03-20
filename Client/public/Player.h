@@ -4,6 +4,7 @@
 #include "Weapon_Base.h"
 #include "LandObject.h"
 #include "Inventory.h"
+#include "Item_Manager.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -33,15 +34,15 @@ public:
 	void Move(_float fTimeDelta);
 	CTransform* Get_TransForm() { return m_pTransformCom; }
 private:
-	CTexture*				m_pTextureCom = { nullptr };
-	CTransform*				m_pTransformCom = { nullptr };
-	CVIBuffer_Cube*			m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
 private:
 	POINT m_ptOldMousePos = {};
 	_float m_fMouseSensor = {};
 private:
-	CGameObject* m_pCamera = nullptr; 
-	CCollider_Cube*			m_pColliderCom = { nullptr };
+	CGameObject* m_pCamera = nullptr;
+	CCollider_Cube* m_pColliderCom = { nullptr };
 private: // 인벤관련
 	void Inven_Update(_float fTimeDelta);
 	_bool m_bInven_Render_State{};
@@ -49,13 +50,19 @@ private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
+private:
+	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
+	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
+	pair<_uint, _uint> m_iPlayerBullet{};//`` 현재/최대총알
+	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
 
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
-	CInventory* m_pInven={nullptr};
+	CInventory* m_pInven = { nullptr };
 	virtual void Free();
+	
 };
 
 

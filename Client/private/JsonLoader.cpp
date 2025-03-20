@@ -236,15 +236,19 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
 {
     try
     {
-        // JSON ÆÄÀÏ ¿­±â
+
+        ifstream file(filePath);
+        if (!file.is_open())
+        {
+            MSG_BOX("Ŭ���� �̸� JSON ������ ã�� �� �����ϴ�.");
+            return E_FAIL;
+        }
         ifstream file(filePath);
         if (!file.is_open())
         {
             MSG_BOX("Å¬·¡½º ÀÌ¸§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
             return E_FAIL;
         }
-
-        // JSON ÆÄ½Ì
         json jsonData;
         file >> jsonData;
         file.close();
@@ -265,7 +269,7 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
         }
         else
         {
-            MSG_BOX("JSON ÆÄÀÏ¿¡ 'classes' ¹è¿­ÀÌ ¾ø°Å³ª Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.");
+            MSG_BOX("JSON ���Ͽ� 'classes' �迭�� ���ų� ������ �߸��Ǿ����ϴ�.");
             return E_FAIL;
         }
     }
