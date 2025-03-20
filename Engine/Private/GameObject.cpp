@@ -24,6 +24,10 @@ HRESULT CGameObject::Initialize_Prototype()
 
 HRESULT CGameObject::Initialize(void* pArg)
 {
+	if (!static_cast<OBJECT_DESC*>(pArg)->stProtTag.empty())
+	{
+		m_tObjDesc = *static_cast<OBJECT_DESC*>(pArg);
+	}
 	return S_OK;
 }
 
@@ -60,6 +64,17 @@ json CGameObject::Serialize()
 	j["IsActive"] = m_bIsActive;
 	j["FromPool"] = m_bFromPool;
 	j["LayerTag"] = ISerializable::WideToUtf8(m_strLayerTag);
+
+
+	json objectDesc;
+	objectDesc["ProtTag"] = ISerializable::WideToUtf8(m_tObjDesc.stProtTag);
+	objectDesc["ProtTextureTag"] = ISerializable::WideToUtf8(m_tObjDesc.stProtTextureTag);
+	objectDesc["BufferTag"] = ISerializable::WideToUtf8(m_tObjDesc.stBufferTag);
+	objectDesc["Level"] = m_tObjDesc.iLevel;
+	objectDesc["ProtoLevel"] = m_tObjDesc.iProtoLevel;
+
+	j["OBJECT_DESC"] = objectDesc;
+
 	return j;
 }
 
@@ -71,6 +86,32 @@ void CGameObject::Deserialize(const json& j)
 		{
 			string layerTag = j["LayerTag"].get<string>();
 			m_strLayerTag = ISerializable::Utf8ToWide(layerTag);
+		}
+
+		if (j.contains("OBJECT_DESC"))
+		{
+			const json& objectDesc = j["OBJECT_DESC"];
+
+			if (objectDesc.contains("ProtTag"))
+			{
+				string protTag = objectDesc["ProtTag"].get<string>();
+				m_tObjDesc.stProtTag = ISerializable::Utf8ToWide(protTag);
+			}
+
+			if (objectDesc.contains("ProtTextureTag"))
+			{
+				string protTextureTag = objectDesc["ProtTextureTag"].get<string>();
+				m_tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(protTextureTag);
+			}
+
+			if (objectDesc.contains("BufferTag"))
+			{
+				string bufferTag = objectDesc["BufferTag"].get<string>();
+				m_tObjDesc.stBufferTag = ISerializable::Utf8ToWide(bufferTag);
+			}
+
+			if (objectDesc.contains("Level")) m_tObjDesc.iLevel = objectDesc["Level"];
+			if (objectDesc.contains("ProtoLevel")) m_tObjDesc.iProtoLevel = objectDesc["ProtoLevel"];
 		}
 }
 

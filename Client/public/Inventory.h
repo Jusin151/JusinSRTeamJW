@@ -27,16 +27,17 @@ public:
     virtual ~CInventory() = default;
 
 public:
-    virtual HRESULT Initialize_Prototype()override;
-    virtual HRESULT Initialize(void* pArg)override;
-    virtual void Priority_Update(_float fTimeDelta)override;
-    virtual void Update(_float fTimeDelta)override;
-    virtual void Late_Update(_float fTimeDelta)override;
-    virtual HRESULT Render()override;
-
-
+     HRESULT Initialize_Prototype()override;
+     HRESULT Initialize(void* pArg)override;
+     void Priority_Update(_float fTimeDelta)override;
+     void Update(_float fTimeDelta)override;
+     void Late_Update(_float fTimeDelta)override;
+     HRESULT Render()override;
 private:
     HRESULT Ready_Components();
+private:
+    void Equip(_float fTimeDelta);
+
 
 public:
     static CInventory* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -75,5 +76,8 @@ protected:
     CWeapon_Base* m_pItem{};
 
     _bool m_bFrist_off_Item{};
+
+    float fElapsedTime{};
+    bool bFirstUpdate = {};
 };
 END

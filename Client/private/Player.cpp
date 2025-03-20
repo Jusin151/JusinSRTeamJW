@@ -34,8 +34,20 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;*/
 
-
-	if (FAILED(Ready_Components()))
+	
+	if (!pArg)
+	{
+	m_tObjDesc.iLevel = 3;
+	m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
+	m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Player");
+	m_tObjDesc.iProtoLevel = 3;
+	}
+	else
+	{
+	OBJECT_DESC* pDesc = static_cast<OBJECT_DESC*>(pArg);
+	m_tObjDesc = *pDesc;
+	}
+ 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 1.f, 0.f));
@@ -43,7 +55,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
-	
+	m_iPlayerHP = { 100,100 };
+	m_iPlayerMP = { 50, 50 };
+	m_iPlayerBullet = { 0,0 }; // 총기류 마다 다른 총알 개수 받아올 예정
+	m_iPlayerEXP = { 0 , 100};
 
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
 	CPickingSys::Get_Instance()->Set_Player(this);
@@ -131,7 +146,7 @@ HRESULT CPlayer::On_Collision()
 
 	case CG_MONSTER_PROJECTILE:
 		temp += fPos;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
 		break;
 
 	default:
@@ -213,16 +228,16 @@ HRESULT CPlayer::Release_RenderState()
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	{
-		if (FAILED(__super::Add_Component(LEVEL_EDITOR, TEXT("Prototype_Component_Texture_Player"),
+		if (FAILED(__super::Add_Component(LEVEL_EDITOR, m_tObjDesc.stProtTextureTag,
 			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 			return E_FAIL;
 	}
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 

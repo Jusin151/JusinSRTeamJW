@@ -32,7 +32,7 @@ HRESULT CInventory::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
 	 
-	
+	bFirstUpdate = true;
 
 	return S_OK;
 }
@@ -43,55 +43,7 @@ void CInventory::Priority_Update(_float fTimeDelta)
 
 void CInventory::Update(_float fTimeDelta)
 {
-	static float fElapsedTime = 0.0f;
-	static bool bFirstUpdate = true;
-	bool bInputReceived = false;
-
-	if (GetAsyncKeyState('1') & 0x8000)
-	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Claymore");
-		bInputReceived = true;
-	}
-	if (GetAsyncKeyState('2') & 0x8000)
-	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Axe");
-		bInputReceived = true;
-	}
-	if (GetAsyncKeyState('3') & 0x8000)
-	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"ShotGun");
-		bInputReceived = true;
-	}
-	if (GetAsyncKeyState('4') & 0x8000)
-	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Magnum");
-		bInputReceived = true;
-	}
-	if (GetAsyncKeyState('5') & 0x8000)
-	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Staff");
-		bInputReceived = true;
-	}
-
-	if (bInputReceived)
-	{
-		fElapsedTime = 0.0f; // 입력이 있으면 타이머 초기화
-		m_bRender = true; // 입력이 있으면 인벤 창 보이기
-	}
-	else
-	{
-		fElapsedTime += fTimeDelta; // 입력이 없으면 타이머 증가
-	}
-
-	if (bFirstUpdate)
-	{
-		m_bRender = false; // 최초 업데이트 시 인벤 창 안보이게
-		bFirstUpdate = false;
-	}
-	else if (fElapsedTime >= 2.0f) // 2초 동안 입력이 없으면 렌더 창 끄기
-	{
-		m_bRender = false;
-	}
+	Equip(fTimeDelta); 
 }
 
 void CInventory::Late_Update(_float fTimeDelta)
@@ -146,6 +98,7 @@ HRESULT CInventory::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
+	return S_OK;
 }
 
 HRESULT CInventory::Ready_Components()
@@ -165,6 +118,61 @@ HRESULT CInventory::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CInventory::Equip(_float fTimeDelta)
+{
+
+	bool bInputReceived = false;
+
+	if (GetAsyncKeyState('1') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Claymore");
+		m_pItem = CItem_Manager::GetInstance()->Get_Weapon(L"Claymore");
+		bInputReceived = true;
+	}
+	if (GetAsyncKeyState('2') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Axe");
+		bInputReceived = true;
+	}
+	if (GetAsyncKeyState('3') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"ShotGun");
+		bInputReceived = true;
+	}
+	if (GetAsyncKeyState('4') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Magnum");
+		bInputReceived = true;
+	}
+	if (GetAsyncKeyState('5') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Staff");
+		bInputReceived = true;
+	}
+
+	if (bInputReceived)
+	{
+		fElapsedTime = 0.0f; // 입력이 있으면 타이머 초기화
+		m_bRender = true; // 입력이 있으면 인벤 창 보이기
+	}
+	else
+	{
+		fElapsedTime += fTimeDelta; // 입력이 없으면 타이머 증가
+	}
+
+	if (bFirstUpdate)
+	{
+		m_bRender = false; // 최초 업데이트 시 인벤 창 안보이게
+		bFirstUpdate = false;
+	}
+	else if (fElapsedTime >= 2.0f) // 2초 동안 입력이 없으면 렌더 창 끄기
+	{
+		m_bRender = false;
+	}
+
+
 }
 
 

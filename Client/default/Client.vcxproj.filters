@@ -181,6 +181,9 @@
     <Filter Include="02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun">
       <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Crocman">
+      <UniqueIdentifier>{5c9378ca-7b4e-42e2-9c6b-523b5aa3ec88}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Base">
       <UniqueIdentifier>{4e7e5cd3-a7b1-4280-9670-f41b0cd811e3}</UniqueIdentifier>
     </Filter>
@@ -364,6 +367,9 @@
     <ClInclude Include="..\Public\Item_Manager.h">
       <Filter>96. Manager\Item_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Crocman.h">
+      <Filter>02.GameObjects\01.Monster\Crocman</Filter>
+</ClInclude>
     <ClInclude Include="..\public\GameObject_Cube.h">
       <Filter>02.GameObjects\Base\Cube</Filter>
     </ClInclude>
@@ -517,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Manager.cpp">
       <Filter>96. Manager\Item_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Crocman.cpp">
+      <Filter>02.GameObjects\01.Monster\Crocman</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Cube.cpp">
       <Filter>02.GameObjects\Base\Cube</Filter>

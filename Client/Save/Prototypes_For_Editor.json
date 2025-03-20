@@ -1,6 +1,12 @@
 {
   "textures": [
     {
+      "tag": "Prototype_Component_Texture",
+      "level": 4,
+      "path": "../../Resources/Textures/Player/Player.png",
+      "count": 1
+    },
+    {
       "tag": "Prototype_Component_Texture_Player",
       "level": 4,
       "path": "../../Resources/Textures/Player/Player.png",
@@ -10,78 +16,6 @@
       "tag": "Prototype_Component_Texture_Terrain",
       "level": 3,
       "path": "../../Resources/Textures/Terrain/Tile0.jpg",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Default_PlayerUI",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Default_UI.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Left_Panel",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Hp_Bar",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Left/SR_HUD_bar_HP.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Player_Icon",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Left/Player_Icon/All/1_SR_face_unhurt_%d.png",
-      "count": 20
-    },
-    {
-      "tag": "Prototype_Component_Texture_MP_Bar",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Left/SR_HUD_bar_mana.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Mid_Panel",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Middle/SR_EXP_Bar.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Right_Panel",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Right/SR_HUD_bottom_right.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Bullet_Bar",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Right/SR_HUD_bar_ammo.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Menu_Panel",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Game_Menu.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Episode_Level_1_UI",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png",
-      "count": 21
-    },
-    {
-      "tag": "Prototype_Component_Texture_Point_Shop_UI",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_%d.png",
-      "count": 3
-    },
-    {
-      "tag": "Prototype_Component_Texture_Spell_Shop_UI",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Spell_UI/Spell_UI.png",
       "count": 1
     },
     {
@@ -135,18 +69,23 @@
   ],
   "gameObjects": [
     {
+      "tag": "Prototype_GameObject_",
+      "level": 4,
+      "class": "CStructure"
+    },
+    {
       "tag": "Prototype_GameObject_Player",
       "level": 4,
       "class": "CPlayer"
     },
     {
       "tag": "Prototype_GameObject_TestMonster",
-      "level": 3,
+      "level": 4,
       "class": "CTestMonster"
     },
     {
       "tag": "Prototype_GameObject_Terrain",
-      "level": 3,
+      "level": 4,
       "class": "CTerrain"
     },
     {
@@ -161,68 +100,8 @@
     },
     {
       "tag": "Prototype_GameObject_Monster",
-      "level": 3,
+      "level": 4,
       "class": "CTestMonster"
-    },
-    {
-      "tag": "Prototype_GameObject_Default_PlayerUI",
-      "level": 3,
-      "class": "CUI_Default_Panel"
-    },
-    {
-      "tag": "Prototype_GameObject_Left_Panel",
-      "level": 3,
-      "class": "CUI_Left_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Player_Icon",
-      "level": 3,
-      "class": "CUI_Player_Icon"
-    },
-    {
-      "tag": "Prototype_GameObject_Hp_Bar",
-      "level": 3,
-      "class": "CUI_HP_Bar"
-    },
-    {
-      "tag": "Prototype_GameObject_MP_Bar",
-      "level": 3,
-      "class": "CUI_MP_Bar"
-    },
-    {
-      "tag": "Prototype_GameObject_Mid_Panel",
-      "level": 3,
-      "class": "CUI_Mid_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Right_Bar",
-      "level": 3,
-      "class": "CUI_Right_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Bullet_Bar",
-      "level": 3,
-      "class": "CUI_Bullet_Bar"
-    },
-    {
-      "tag": "Prototype_GameObject_Menu_Panel",
-      "level": 3,
-      "class": "CUI_Menu"
-    },
-    {
-      "tag": "Prototype_GameObject_GamePlayer_Button",
-      "level": 3,
-      "class": "CGamePlay_Button"
-    },
-    {
-      "tag": "Prototype_GameObject_Spell_Shop_UI",
-      "level": 3,
-      "class": "CUI_Spell_Shop"
-    },
-    {
-      "tag": "Prototype_GameObject_Structure",
-      "level": 3,
-      "class": "CStructure"
     },
     {
       "tag": "Prototype_GameObject_Weapon_Axe",

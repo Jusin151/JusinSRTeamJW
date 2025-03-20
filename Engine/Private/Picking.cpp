@@ -54,7 +54,7 @@ void CPicking::Update()
 
 }
 
-_bool CPicking::Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+_bool CPicking::Picking_InWorld(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
 {
 	_float		fU, fV, fDist;
 
@@ -63,6 +63,24 @@ _bool CPicking::Picking(_float3& vPickedPos, const _float3& vPointA, const _floa
 	vPickedPos = m_vMousePos + m_vMouseRay * fDist;
 
 	return isPicked;
+}
+
+_bool CPicking::Picking_InLocal(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+{
+	_float		fU, fV, fDist;
+
+	_bool		isPicked = D3DXIntersectTri(&vPointA, &vPointB, &vPointC, &m_vLocalMousePos, &m_vLocalMouseRay, &fU, &fV, &fDist);
+
+	vPickedPos = m_vLocalMousePos + m_vLocalMouseRay * fDist;
+
+	return isPicked;
+}
+
+void CPicking::Transform_ToLocalSpace(const _float4x4& WorldMatrixInverse)
+{
+
+	D3DXVec3TransformCoord(&m_vLocalMousePos, &m_vMousePos, &WorldMatrixInverse);
+	D3DXVec3TransformNormal(&m_vLocalMouseRay, &m_vMouseRay, &WorldMatrixInverse);
 }
 
 CPicking* CPicking::Create(LPDIRECT3DDEVICE9 pGraphic_Device, HWND hWnd, _uint iWinSizeX, _uint iWinSizeY)

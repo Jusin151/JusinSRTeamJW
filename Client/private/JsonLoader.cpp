@@ -9,6 +9,7 @@
 #include "GamePlay_Button.h"
 #include "Weapon_Headers.h"
 #include "Anubis.h"
+#include "Crocman.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
@@ -103,62 +104,64 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
     {
         _wstring wLayerName = ISerializable::Utf8ToWide(layerName);
 
-        if (wLayerName == L"Layer_Structure")
+        for (const auto& objData : layerObjects)
         {
-            for (const auto& objData : layerObjects)
+            // OBJECT_DESC 구조체 생성
+            CGameObject::OBJECT_DESC tObjDesc{};
+
+            // JSON에서 OBJECT_DESC 정보 추출
+            if (objData.contains("OBJECT_DESC"))
             {
-                CStructure::STRUCTURE_DESC tDesc{};
-
-                wstring textureTag, vIBuffer, colliderTag;
-
-                if (objData.contains("texture_tag"))
-                    textureTag = ISerializable::Utf8ToWide(objData["texture_tag"].get<string>());
-
-                if (objData.contains("vibuffer"))
-                    vIBuffer = ISerializable::Utf8ToWide(objData["vibuffer"].get<string>());
-
-                if (objData.contains("collider_tag"))
-                    colliderTag = ISerializable::Utf8ToWide(objData["collider_tag"].get<string>());
-
-                if (objData.contains("texture_path"))
-                    tDesc.stTexturePath = ISerializable::Utf8ToWide(objData["texture_path"].get<string>());
-
-                tDesc.stTextureTag = textureTag.empty() ? nullptr : textureTag.c_str();
-                tDesc.stVIBuffer = vIBuffer.empty() ? nullptr : vIBuffer.c_str();
-                tDesc.stCollProtoTag = colliderTag.empty() ? nullptr : colliderTag.c_str();
-
-                if (objData.contains("transform") && objData["transform"].size() >= 1)
-                {
-                    auto& posData = objData["transform"][0];
-                    if (posData[0] == "position")
-                    {
-                        tDesc.vPos.x = posData[1].get<float>();
-                        tDesc.vPos.y = posData[2].get<float>();
-                        tDesc.vPos.z = posData[3].get<float>();
-                    }
-                }
-
-                if (FAILED(pGameInstance->Add_GameObject(eLevel,
-                    TEXT("Prototype_GameObject_Structure"),
-                    eLevel,
-                    wLayerName,
-                    &tDesc)))
-                    continue;
-
-                CGameObject* pGameObject = pGameInstance->Find_Last_Object(eLevel, wLayerName);
-                if (pGameObject)
-                    pGameObject->Deserialize(objData);
+                const json& objectDesc = objData["OBJECT_DESC"];
+                if (objectDesc.contains("ProtTag"))
+                    tObjDesc.stProtTag = ISerializable::Utf8ToWide(objectDesc["ProtTag"].get<string>());
+                if (objectDesc.contains("ProtTextureTag"))
+                    tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(objectDesc["ProtTextureTag"].get<string>());
+                if (objectDesc.contains("BufferTag"))
+                    tObjDesc.stBufferTag = ISerializable::Utf8ToWide(objectDesc["BufferTag"].get<string>());
+                if (objectDesc.contains("Level"))
+                    tObjDesc.iLevel = objectDesc["Level"];
+                if (objectDesc.contains("ProtoLevel"))
+                    tObjDesc.iProtoLevel = objectDesc["ProtoLevel"];
             }
-        }
-        else
-        {
-            //// Existing code for other layers...
-            //for (const auto& objData : layerObjects)
-            //{
-            //    // FromPool handling code
-            //    // Prototype determination code
-            //    // Rest of your existing implementation
-            //}
+
+            // 레이어 태그 가져오기
+            _wstring layerTag;
+            if (objData.contains("LayerTag"))
+                layerTag = ISerializable::Utf8ToWide(objData["LayerTag"].get<string>());
+            else
+                layerTag = wLayerName;
+
+            // FromPool 확인
+            bool bFromPool = false;
+            if (objData.contains("FromPool"))
+                bFromPool = objData["FromPool"];
+
+            // 필요한 프로토타입이 존재하는지 확인
+            if (tObjDesc.stProtTag.empty() || FAILED(pGameInstance->Find_Prototype(tObjDesc.stProtTag)))
+            {
+                // 프로토타입이 없는 경우 처리 (필요하다면 추가 로직)
+                continue;
+            }
+
+            // 객체 생성 또는 활성화 (OBJECT_DESC 전달)
+            if (bFromPool)
+            {
+                if (FAILED(pGameInstance->Acquire_Object(tObjDesc.iProtoLevel,
+                    layerTag, &tObjDesc)))
+                    continue;
+            }
+            else
+            {
+                if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
+                    tObjDesc.iLevel, layerTag, &tObjDesc)))
+                    continue;
+            }
+
+            // 생성된 객체를 찾아 나머지 데이터 역직렬화
+            CGameObject* pGameObject = pGameInstance->Find_Last_Object(tObjDesc.iLevel, layerTag);
+            if (pGameObject)
+                pGameObject->Deserialize(objData);
         }
     }
 
@@ -172,7 +175,7 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
     else if (className == "CTestMonster")
-        return CTestMonster::Create(pGraphic_Device);
+         return CTestMonster::Create(pGraphic_Device);
     else if (className == "CTerrain")
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")
@@ -221,6 +224,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CShotGun::Create(pGraphic_Device);
     else if (className == "CAnubis")
         return CAnubis::Create(pGraphic_Device);
+    else if (className == "CCrocman")
+        return CCrocman::Create(pGraphic_Device);
 
     wstring wClassName = ISerializable::Utf8ToWide(className);
     wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;
@@ -233,15 +238,14 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
 {
     try
     {
-        // JSON ÆÄÀÏ ¿­±â
+
         ifstream file(filePath);
         if (!file.is_open())
         {
-            MSG_BOX("Å¬·¡½º ÀÌ¸§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            MSG_BOX("Ŭ���� �̸� JSON ������ ã�� �� �����ϴ�.");
             return E_FAIL;
         }
 
-        // JSON ÆÄ½Ì
         json jsonData;
         file >> jsonData;
         file.close();
@@ -262,7 +266,7 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
         }
         else
         {
-            MSG_BOX("JSON ÆÄÀÏ¿¡ 'classes' ¹è¿­ÀÌ ¾ø°Å³ª Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.");
+            MSG_BOX("JSON ���Ͽ� 'classes' �迭�� ���ų� ������ �߸��Ǿ����ϴ�.");
             return E_FAIL;
         }
     }
@@ -282,7 +286,7 @@ _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
     if (layerName == L"Layer_Player")
         return L"Prototype_GameObject_Player";
     else if (layerName == L"Layer_Monster")
-        return L"Prototype_GameObject_Anubis";
+        return L"Prototype_GameObject_Crocman";
     else if (layerName == L"Layer_BackGround")
         return L"Prototype_GameObject_Terrain";
     else if (layerName == L"Layer_Camera")

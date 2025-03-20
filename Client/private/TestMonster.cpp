@@ -22,6 +22,7 @@ HRESULT CTestMonster::Initialize_Prototype()
 
 HRESULT CTestMonster::Initialize(void* pArg)
 {
+	INIT_PARENT(pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 

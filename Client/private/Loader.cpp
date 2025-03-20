@@ -153,7 +153,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	CJsonLoader jsonLoader;
- 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
+  	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

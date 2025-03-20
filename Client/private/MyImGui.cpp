@@ -6,7 +6,7 @@
 #include "JsonLoader.h"
 #include "Editor.h"
 
-inline string WStringToString(const wstring& wstr) 
+inline string WStringToString(const wstring& wstr)
 {
 	if (wstr.empty()) {
 		return "";
@@ -397,327 +397,216 @@ _wstring CMyImGui::SelectFolder()
 
 HRESULT CMyImGui::CreateObject()
 {
-	//static int selectedColliderType = 0;
-	//static int selectedBufferType = 0;
-	//static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube"; // 콜라이더 프로토타입
-	//static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube"; // 버퍼 프로토타입
-	//static char layerTagBuffer[128] = "Com_Collider"; // 콜라이더 컴포넌트 태그
-	//static char objectLayerTagBuffer[256] = "Layer_"; // 오브젝트 태그
-	//static char textureTagBuffer[256] = "Prototype_Component_Texture"; // 텍스쳐 태그
-	//static char objectClassTagBuffer[256] = "C"; // 클래스 이름
-	//static char objectProtoTagBuffer[256] = "Prototype_GameObject_"; // 프토로타입 태그
-	//static _int iPoolingCount = 0; // 풀링 할 개수
-	//static _int iLevel = 0; // 어느 레벨에 둘지
-	//static _int iProtoLevel = 0; // 어느 프로토 레벨에 둘지
-	//// 충돌체 타입 배열
-	//static const char* colliderTypes[] = { "Cube", "Sphere" };
-	//static const char* colliderProtoNames[] = {
-	//	"Prototype_Component_Collider_Cube",
-	//	"Prototype_Component_Collider_Sphere"
-	//};
+	static int selectedColliderType = 0;
+	static int selectedBufferType = 0;
+	static int selectedClassType = 0;
+	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube"; // 콜라이더 프로토타입
+	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube"; // 버퍼 프로토타입
+	static char layerTagBuffer[128] = "Com_Collider"; // 콜라이더 컴포넌트 태그
+	static char objectLayerTagBuffer[256] = "Layer_"; // 오브젝트 태그
+	static char textureTagBuffer[256] = "Prototype_Component_Texture"; // 텍스쳐 태그
+	static char objectClassTagBuffer[256] = "C"; // 클래스 이름
+	static char objectProtoTagBuffer[256] = "Prototype_GameObject_"; // 프토로타입 태그
+	static _int iPoolingCount = 0; // 풀링 할 개수
+	static _int iLevel = 4; // 어느 레벨에 둘지 (테스트용 에디터로)
+	static _int iProtoLevel = 4; // 어느 프로토 레벨에 둘지
 
-	//// 버퍼 타입 배열
-	//static const char* bufferTypes[] = { "Cube", "Rect" };
-	//static const char* bufferProtoNames[] = {
-	//	"Prototype_Component_VIBuffer_Cube",
-	//	"Prototype_Component_VIBuffer_Rect"
-	//};
+	// JSON에서 로드한 클래스 이름 목록
+	static _bool bClassNamesLoaded = false;
+	static vector<string> classNames;
+	static vector<const char*> classNamesCStr;
 
-	//// ImGui 컴포넌트 선택 인터페이스 표시
-	//ImGui::Begin("Object Attribute");
-
-	//// 충돌체 타입 드롭다운
-	//if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
-	//{
-	//	// 충돌체 타입이 변경되면 컴포넌트 이름 업데이트
-	//	strcpy_s(colliderNameBuffer, colliderProtoNames[selectedColliderType]);
-	//}
-
-	//// 버퍼 타입 드롭다운
-	//if (ImGui::Combo("Buffer Type", &selectedBufferType, bufferTypes, IM_ARRAYSIZE(bufferTypes)))
-	//{
-	//	strcpy_s(bufferNameBuffer, bufferProtoNames[selectedBufferType]);
-	//}
-
-	//// 충돌체 컴포넌트 이름 입력 필드
-	//ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
-
-	//// 레이어 태그 입력
-	//ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
-
-	//ImGui::InputText("Object Layer Tag", objectLayerTagBuffer, IM_ARRAYSIZE(objectLayerTagBuffer));
-
-	//// 충돌체 컴포넌트 이름 입력 필드
-	//ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
-
-	//ImGui::InputText("Class Name", objectClassTagBuffer, IM_ARRAYSIZE(objectClassTagBuffer));
-
-
-	//ImGui::InputInt("Pool Count", &iPoolingCount);
-	//ImGui::InputInt("Level", &iLevel);
-	//ImGui::InputInt("ProtoLevel", &iProtoLevel);
-
-	//static _wstring selectedFolder;
-	//if (ImGui::Button("Select Texture"))
-	//{
-	//	selectedFolder = SelectFile();
-	//	if (!selectedFolder.empty())
-	//	{
-	//		selectedFolder = GetRelativePath(selectedFolder);
-	//		m_bShowImageWindow = true;
-	//	}
-	//}
-
-	//// 생성 버튼
-	//if (ImGui::Button("Create"))
-	//{
-	//	// char에서 wchar_t로 문자열 변환을 위한 변수 및 버퍼
-	//	wchar_t wBufferName[256] = {};
-	//	wchar_t wColliderName[256] = {};
-	//	wchar_t wLayerTag[128] = {};
-	//	wchar_t wtextureTag[256] = {};
-	//	wchar_t wobjectClassTag[256] = {};
-	//	wchar_t wobjectProtoTagBuffer[256] = {};
-	//	wchar_t wobjectLayerTagBuffer[256] = {};
-
-	//	// MultiByteToWideChar 함수를 사용하여 변환
-	//	MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
-	//	MultiByteToWideChar(CP_ACP, 0, colliderNameBuffer, -1, wColliderName, 256);
-	//	MultiByteToWideChar(CP_ACP, 0, layerTagBuffer, -1, wLayerTag, 128);
-	//	MultiByteToWideChar(CP_ACP, 0, textureTagBuffer, -1, wtextureTag, 256);
-	//	MultiByteToWideChar(CP_ACP, 0, objectClassTagBuffer, -1, wobjectClassTag, 256);
-	//	MultiByteToWideChar(CP_ACP, 0, objectProtoTagBuffer, -1, wobjectProtoTagBuffer, 256);
-	//	MultiByteToWideChar(CP_ACP, 0, objectLayerTagBuffer, -1, wobjectLayerTagBuffer, 256);
-
-	//	// 구조체에 변환된 문자열 포인터 할당
-	//	CStructure::STRUCTURE_DESC stDesc;
-	//	stDesc.vPos = _float3(0.f, 0.f, 0.f);
-	//	stDesc.stVIBuffer = wBufferName;
-	//	stDesc.stCollProtoTag = wColliderName;
-	//	stDesc.stTextureTag = wtextureTag;
-	//	stDesc.stTexturePath = selectedFolder;
-
-	//	CJsonLoader jsonLoader;
-
-	//	CBase* pGameObject = jsonLoader.Create_Object_ByClassName(ISerializable::WideToUtf8(wobjectClassTag), m_pGraphic_Device);
-
-	//	_wstring stProtoTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectProtoTagBuffer));
-	//	_wstring stLayerTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectLayerTagBuffer));
-	//	if (SUCCEEDED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
-	//	{
-	//		// 게임 오브젝트 추가
-	//		if (iPoolingCount != 0)
-	//		{
-	//			if (FAILED(m_pGameInstance->Reserve_Pool(iProtoLevel, stProtoTag,
-	//				stLayerTag, iPoolingCount, &stDesc)))
-	//				return E_FAIL;
-	//		}
-	//		else
-	//		{
-	//			if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
-	//				iLevel, stLayerTag, &stDesc)))
-	//				return E_FAIL;
-	//		}
-	//	}
-	//}
-	//	ImGui::End();
-	//	return S_OK;
-
-static int selectedColliderType = 0;
-static int selectedBufferType = 0;
-static int selectedClassType = 0;
-static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube"; // 콜라이더 프로토타입
-static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube"; // 버퍼 프로토타입
-static char layerTagBuffer[128] = "Com_Collider"; // 콜라이더 컴포넌트 태그
-static char objectLayerTagBuffer[256] = "Layer_"; // 오브젝트 태그
-static char textureTagBuffer[256] = "Prototype_Component_Texture"; // 텍스쳐 태그
-static char objectClassTagBuffer[256] = "C"; // 클래스 이름
-static char objectProtoTagBuffer[256] = "Prototype_GameObject_"; // 프토로타입 태그
-static _int iPoolingCount = 0; // 풀링 할 개수
-static _int iLevel = 0; // 어느 레벨에 둘지
-static _int iProtoLevel = 0; // 어느 프로토 레벨에 둘지
-
-// JSON에서 로드한 클래스 이름 목록
-static _bool bClassNamesLoaded = false;
-static vector<string> classNames;
-static vector<const char*> classNamesCStr;
-
-// JSON 파일에서 클래스 이름 로드 (최초 한 번만 실행)
-if (!bClassNamesLoaded)
-{
-	CJsonLoader jsonLoader;
-	// JSON 파일 로드 (Data 폴더의 ClassNames.json 파일에서 로드)
-	if (SUCCEEDED(jsonLoader.LoadClassNamesFromJson("../Save/ClassNames.json", classNames)))
+	// JSON 파일에서 클래스 이름 로드 (최초 한 번만 실행)
+	if (!bClassNamesLoaded)
 	{
-		// std::string을 const char*로 변환하여 저장
-		classNamesCStr.clear();
-		for (const auto& name : classNames)
+		CJsonLoader jsonLoader;
+		// JSON 파일 로드 (Data 폴더의 ClassNames.json 파일에서 로드)
+		if (SUCCEEDED(jsonLoader.LoadClassNamesFromJson("../Save/ClassNames.json", classNames)))
 		{
-			classNamesCStr.push_back(name.c_str());
+			// std::string을 const char*로 변환하여 저장
+			classNamesCStr.clear();
+			for (const auto& name : classNames)
+			{
+				classNamesCStr.push_back(name.c_str());
+			}
+
+			bClassNamesLoaded = true;
 		}
-
-		bClassNamesLoaded = true;
-	}
-	else
-	{
-		// 로드 실패 시 기본값 설정 (Create_Object_ByClassName 함수에 있는 클래스들로 초기화)
-		classNames = {
-			"CPlayer", "CTestMonster", "CTerrain", "CStructure",
-			"CCamera_Free", "CCamera_FirstPerson",
-			"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
-			"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",
-			"CUI_Right_Display", "CUI_Bullet_Bar", "CUI_Menu",
-			"CGamePlay_Button", "CUI_Spell_Shop",
-			"CAxe", "CClaymore", "CMagnum", "CStaff", "CShotGun"
-		};
-
-		classNamesCStr.clear();
-		for (const auto& name : classNames)
+		else
 		{
-			classNamesCStr.push_back(name.c_str());
+			// 로드 실패 시 기본값 설정 (Create_Object_ByClassName 함수에 있는 클래스들로 초기화)
+			classNames = {
+				"CPlayer", "CTestMonster", "CTerrain", "CStructure",
+				"CCamera_Free", "CCamera_FirstPerson",
+				"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
+				"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",
+				"CUI_Right_Display", "CUI_Bullet_Bar", "CUI_Menu",
+				"CGamePlay_Button", "CUI_Spell_Shop",
+				"CAxe", "CClaymore", "CMagnum", "CStaff", "CShotGun"
+			};
+
+			classNamesCStr.clear();
+			for (const auto& name : classNames)
+			{
+				classNamesCStr.push_back(name.c_str());
+			}
+
+			bClassNamesLoaded = true;
 		}
-
-		bClassNamesLoaded = true;
 	}
-}
-// 선택된 클래스 이름으로 업데이트
-strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
-// 충돌체 타입 배열
-static const char* colliderTypes[] = { "Cube", "Sphere" };
-static const char* colliderProtoNames[] = {
-	"Prototype_Component_Collider_Cube",
-	"Prototype_Component_Collider_Sphere"
-};
-
-// 버퍼 타입 배열
-static const char* bufferTypes[] = { "Cube", "Rect" };
-static const char* bufferProtoNames[] = {
-	"Prototype_Component_VIBuffer_Cube",
-	"Prototype_Component_VIBuffer_Rect"
-};
-
-// ImGui 컴포넌트 선택 인터페이스 표시
-ImGui::Begin("Object Attribute");
-
-// 충돌체 타입 드롭다운
-if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
-{
-	// 충돌체 타입이 변경되면 컴포넌트 이름 업데이트
-	strcpy_s(colliderNameBuffer, colliderProtoNames[selectedColliderType]);
-}
-
-// 버퍼 타입 드롭다운
-if (ImGui::Combo("Buffer Type", &selectedBufferType, bufferTypes, IM_ARRAYSIZE(bufferTypes)))
-{
-	strcpy_s(bufferNameBuffer, bufferProtoNames[selectedBufferType]);
-}
-
-// 클래스 타입 드롭다운 (JSON에서 로드한 클래스 이름 사용)
-if (ImGui::Combo("Class Type", &selectedClassType, classNamesCStr.data(), static_cast<int>(classNamesCStr.size())))
-{
 	// 선택된 클래스 이름으로 업데이트
 	strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
-}
+	// 충돌체 타입 배열
+	static const char* colliderTypes[] = { "Cube", "Sphere" };
+	static const char* colliderProtoNames[] = {
+		"Prototype_Component_Collider_Cube",
+		"Prototype_Component_Collider_Sphere"
+	};
 
-// 충돌체 컴포넌트 이름 입력 필드
-ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
+	// 버퍼 타입 배열
+	static const char* bufferTypes[] = { "Cube", "Rect" };
+	static const char* bufferProtoNames[] = {
+		"Prototype_Component_VIBuffer_Cube",
+		"Prototype_Component_VIBuffer_Rect"
+	};
 
-// 레이어 태그 입력
-ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
+	// ImGui 컴포넌트 선택 인터페이스 표시
+	ImGui::Begin("Object Attribute");
 
-ImGui::InputText("Object Proto Layer Tag", objectProtoTagBuffer, IM_ARRAYSIZE(objectProtoTagBuffer));
-ImGui::InputText("Object Layer Tag", objectLayerTagBuffer, IM_ARRAYSIZE(objectLayerTagBuffer));
-
-// 충돌체 컴포넌트 이름 입력 필드
-ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
-
-ImGui::InputInt("Pool Count", &iPoolingCount);
-ImGui::InputInt("Level", &iLevel);
-ImGui::InputInt("ProtoLevel", &iProtoLevel);
-
-static _wstring selectedFolder;
-if (ImGui::Button("Select Texture"))
-{
-	selectedFolder = SelectFile();
-	if (!selectedFolder.empty())
+	// 충돌체 타입 드롭다운
+	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
 	{
-		selectedFolder = GetRelativePath(selectedFolder);
-		m_bShowImageWindow = true;
-	}
-}
-
-// 생성 버튼
-if (ImGui::Button("Create"))
-{
-	// char에서 wchar_t로 문자열 변환을 위한 변수 및 버퍼
-	wchar_t wBufferName[256] = {};
-	wchar_t wColliderName[256] = {};
-	wchar_t wLayerTag[128] = {};
-	wchar_t wtextureTag[256] = {};
-	wchar_t wobjectClassTag[256] = {};
-	wchar_t wobjectProtoTagBuffer[256] = {};
-	wchar_t wobjectLayerTagBuffer[256] = {};
-
-	// MultiByteToWideChar 함수를 사용하여 변환
-	MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
-	MultiByteToWideChar(CP_ACP, 0, colliderNameBuffer, -1, wColliderName, 256);
-	MultiByteToWideChar(CP_ACP, 0, layerTagBuffer, -1, wLayerTag, 128);
-	MultiByteToWideChar(CP_ACP, 0, textureTagBuffer, -1, wtextureTag, 256);
-	MultiByteToWideChar(CP_ACP, 0, objectClassTagBuffer, -1, wobjectClassTag, 256);
-	MultiByteToWideChar(CP_ACP, 0, objectProtoTagBuffer, -1, wobjectProtoTagBuffer, 256);
-	MultiByteToWideChar(CP_ACP, 0, objectLayerTagBuffer, -1, wobjectLayerTagBuffer, 256);
-
-	// 구조체에 변환된 문자열 포인터 할당
-	//CGameObject:: stDesc;
-
-
-	CJsonLoader jsonLoader;
-
-	CBase* pGameObject = jsonLoader.Create_Object_ByClassName(ISerializable::WideToUtf8(wobjectClassTag), m_pGraphic_Device);
-
-	_wstring stProtoTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectProtoTagBuffer));
-	_wstring stLayerTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectLayerTagBuffer));
-	_wstring stTextureTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wtextureTag));
-
-	CGameObject::OBJECT_DESC tObjDesc{};
-	tObjDesc.iLevel = iLevel;
-	tObjDesc.iProtoLevel = iProtoLevel;
-	tObjDesc.stProtTag = stProtoTag;
-	tObjDesc.stBufferTag = wBufferName;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(iLevel, stTextureTag,
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, selectedFolder.c_str(), 1))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
-	{
-		Safe_Release(pGameObject);
-		return E_FAIL;
+		// 충돌체 타입이 변경되면 컴포넌트 이름 업데이트
+		strcpy_s(colliderNameBuffer, colliderProtoNames[selectedColliderType]);
 	}
 
-	// 게임 오브젝트 추가
-	if (iPoolingCount != 0)
+	// 버퍼 타입 드롭다운
+	if (ImGui::Combo("Buffer Type", &selectedBufferType, bufferTypes, IM_ARRAYSIZE(bufferTypes)))
 	{
-		if (FAILED(m_pGameInstance->Reserve_Pool(iProtoLevel, stProtoTag,
-			stLayerTag, iPoolingCount, &tObjDesc)))
-			return E_FAIL;
+		strcpy_s(bufferNameBuffer, bufferProtoNames[selectedBufferType]);
 	}
-	else
+
+	// 클래스 타입 드롭다운 (JSON에서 로드한 클래스 이름 사용)
+	if (ImGui::Combo("Class Type", &selectedClassType, classNamesCStr.data(), static_cast<int>(classNamesCStr.size())))
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
-			iLevel, stLayerTag, &tObjDesc)))
-			return E_FAIL;
+		// 선택된 클래스 이름으로 업데이트
+		strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
 	}
-}
 
-//// JSON 저장 버튼 추가
-//if (ImGui::Button("Save Classes to JSON"))
-//{
-//	// classNames 벡터를 JSON 파일로 저장
-//	SaveClassNamesToJson("./Data/ClassNames.json", classNames);
-//}
+	// 충돌체 컴포넌트 이름 입력 필드
+	ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
 
-ImGui::End();
-return S_OK;
+	// 레이어 태그 입력
+	ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
+
+	ImGui::InputText("Object Proto Layer Tag", objectProtoTagBuffer, IM_ARRAYSIZE(objectProtoTagBuffer));
+	ImGui::InputText("Object Layer Tag", objectLayerTagBuffer, IM_ARRAYSIZE(objectLayerTagBuffer));
+
+	// 충돌체 컴포넌트 이름 입력 필드
+	ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
+
+	ImGui::InputInt("Pool Count", &iPoolingCount);
+	ImGui::InputInt("Level", &iLevel);
+	ImGui::InputInt("ProtoLevel", &iProtoLevel);
+
+	static _wstring selectedFolder;
+	if (ImGui::Button("Select Texture"))
+	{
+		selectedFolder = SelectFile();
+		if (!selectedFolder.empty())
+		{
+			selectedFolder = GetRelativePath(selectedFolder);
+			m_bShowImageWindow = true;
+		}
+	}
+
+	// 생성 버튼
+	if (ImGui::Button("Create"))
+	{
+		// char에서 wchar_t로 문자열 변환을 위한 변수 및 버퍼
+		wchar_t wBufferName[256] = {};
+		wchar_t wColliderName[256] = {};
+		wchar_t wLayerTag[128] = {};
+		wchar_t wtextureTag[256] = {};
+		wchar_t wobjectClassTag[256] = {};
+		wchar_t wobjectProtoTagBuffer[256] = {};
+		wchar_t wobjectLayerTagBuffer[256] = {};
+
+		// MultiByteToWideChar 함수를 사용하여 변환
+		MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
+		MultiByteToWideChar(CP_ACP, 0, colliderNameBuffer, -1, wColliderName, 256);
+		MultiByteToWideChar(CP_ACP, 0, layerTagBuffer, -1, wLayerTag, 128);
+		MultiByteToWideChar(CP_ACP, 0, textureTagBuffer, -1, wtextureTag, 256);
+		MultiByteToWideChar(CP_ACP, 0, objectClassTagBuffer, -1, wobjectClassTag, 256);
+		MultiByteToWideChar(CP_ACP, 0, objectProtoTagBuffer, -1, wobjectProtoTagBuffer, 256);
+		MultiByteToWideChar(CP_ACP, 0, objectLayerTagBuffer, -1, wobjectLayerTagBuffer, 256);
+
+		CJsonLoader jsonLoader;
+
+		CBase* pGameObject = jsonLoader.Create_Object_ByClassName(ISerializable::WideToUtf8(wobjectClassTag), m_pGraphic_Device);
+
+		_wstring stProtoTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectProtoTagBuffer));
+		_wstring stLayerTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectLayerTagBuffer));
+		_wstring stTextureTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wtextureTag));
+
+		CGameObject::OBJECT_DESC tObjDesc{};
+		tObjDesc.iLevel = iLevel;
+		tObjDesc.iProtoLevel = iProtoLevel;
+		tObjDesc.stProtTag = stProtoTag;
+		tObjDesc.stBufferTag = wBufferName;
+		tObjDesc.stProtTextureTag = stTextureTag;
+		tObjDesc.iPoolCount = iPoolingCount;
+
+		if (FAILED(m_pGameInstance->Find_Prototype(stTextureTag)))
+		{
+			if (FAILED(m_pGameInstance->Add_Prototype(iLevel, stTextureTag,
+				CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, ISerializable::WStringToWChar(selectedFolder), 1))))
+			{
+				ImGui::End();
+				return E_FAIL;
+			}
+		}
+
+		if (FAILED(m_pGameInstance->Find_Prototype(stProtoTag)))
+		{
+			if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
+			{
+				Safe_Release(pGameObject);
+				ImGui::End();
+				return E_FAIL;
+			}
+		}
+
+		// 게임 오브젝트 추가
+		if (iPoolingCount != 0)
+		{
+			if (FAILED(m_pGameInstance->Reserve_Pool(iProtoLevel, stProtoTag,
+				stLayerTag, iPoolingCount, &tObjDesc)))
+			{
+				ImGui::End();
+				return E_FAIL;
+			}
+		}
+		else
+		{
+			if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
+				iLevel, stLayerTag, &tObjDesc)))
+			{
+				ImGui::End();
+				return E_FAIL;
+			}
+		}
+	}
+
+	//// JSON 저장 버튼 추가
+	//if (ImGui::Button("Save Classes to JSON"))
+	//{
+	//	// classNames 벡터를 JSON 파일로 저장
+	//	SaveClassNamesToJson("./Data/ClassNames.json", classNames);
+	//}
+
+	ImGui::End();
+	return S_OK;
 }
 
 _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
@@ -793,7 +682,7 @@ void CMyImGui::ShowComponentsInGameObject(CGameObject* pGameObject)
 	//}
 }
 
-CMyImGui* CMyImGui::Create(_uint iNumLevels,LPDIRECT3DDEVICE9 pGraphic_Device)
+CMyImGui* CMyImGui::Create(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device)
 
 {
 	CMyImGui* pInstance = new CMyImGui(pGraphic_Device);

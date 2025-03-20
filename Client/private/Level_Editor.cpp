@@ -28,11 +28,14 @@ HRESULT CLevel_Editor::Initialize()
 	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+	//	return E_FAIL;
+
+	CJsonLoader jsonLoader;
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL.json", LEVEL_EDITOR);
 
 	m_pImgui = CMyImGui::Create(LEVEL_END, m_pGraphic_Device);
 	if (nullptr == m_pImgui)
