@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -9,7 +9,6 @@ class CTransform;
 class CVIBuffer_Rect;
 class CCollider_Sphere;
 class CCollider_Cube;
-
 END
 
 BEGIN(Client)
@@ -28,7 +27,7 @@ public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
-	// ¸¶Áö¸·¿¡ ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¹Ù¶óº¸µµ·Ï ÇÔ
+	// ë§ˆì§€ë§‰ì— í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ë°”ë¼ë³´ë„ë¡ í•¨
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
@@ -36,7 +35,7 @@ public:
 	virtual void Select_Pattern(_float fTimeDelta) PURE;
 	void Look_Player();
 
-	// texturecom´Â °¢ monster¿¡¼­ Ãß°¡
+	// texturecomëŠ” ê° monsterì—ì„œ ì¶”ê°€
 	HRESULT Ready_Components();
 
 protected:
@@ -45,14 +44,14 @@ protected:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
 
-	// ÀÏ´Ü ¸ó½ºÅÍ´Â ÇÃ·¹ÀÌ¾î¸¸ Å¸°ÙÀ¸·Î ÇÏµµ·Ï. ´Ù¸¥ °É Å¸°ÙÀ¸·Î ÇÏ´Â °ÍÀº ³ªÁß¿¡ ÇÏµµ·Ï
+	// ì¼ë‹¨ ëª¬ìŠ¤í„°ëŠ” í”Œë ˆì´ì–´ë§Œ íƒ€ê²Ÿìœ¼ë¡œ í•˜ë„ë¡. ë‹¤ë¥¸ ê±¸ íƒ€ê²Ÿìœ¼ë¡œ í•˜ëŠ” ê²ƒì€ ë‚˜ì¤‘ì— í•˜ë„ë¡
 	CGameObject*	m_pTarget = { nullptr };
 
-	// ¾Ö´Ï¸ŞÀÌ¼Ç µ¹¸®±â À§ÇØ.. ÇÑ ÇÁ·¹ÀÓ ½Ã°£, ÇöÀç ÇÁ·¹ÀÓ ¼ö, ±×¸®°í »óÅÂ ´ç ÅØ½ºÃÄ ¹üÀ§´Â ÀÚ½Ä¿¡¼­ ¼³Á¤
+	// ì• ë‹ˆë©”ì´ì…˜ ëŒë¦¬ê¸° ìœ„í•´.. í•œ í”„ë ˆì„ ì‹œê°„, í˜„ì¬ í”„ë ˆì„ ìˆ˜, ê·¸ë¦¬ê³  ìƒíƒœ ë‹¹ í…ìŠ¤ì³ ë²”ìœ„ëŠ” ìì‹ì—ì„œ ì„¤ì •
 	_float m_fElapsedTime = { 0.f };
 	_int m_iCurrentFrame = {0};
 
-	// ¸ó½ºÅÍ ÇöÀç »óÅÂ, ÀÌÀü »óÅÂ
+	// ëª¬ìŠ¤í„° í˜„ì¬ ìƒíƒœ, ì´ì „ ìƒíƒœ
 	MONSTERSTATE m_eCurState = { MS_IDLE };
 	MONSTERSTATE m_ePreState = { MS_IDLE };
 

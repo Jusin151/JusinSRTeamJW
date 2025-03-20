@@ -101,6 +101,7 @@ private:
 	class CPool_Manager*		m_pPool_Manager = { nullptr };
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 	class CFont_Manager*	    m_pFont_Manager = { nullptr };
+	class CPartilce_Manager*	m_pParticle_Manager = { nullptr };
 	/*class CPicking*				m_pPicking = { nullptr };*/
 
 public:
