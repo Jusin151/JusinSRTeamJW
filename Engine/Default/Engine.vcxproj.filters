@@ -477,6 +477,7 @@
     <ClCompile Include="..\Private\Particle_System.cpp">
       <Filter>04.Components\Particle\System</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuizmo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Materials\TestMaterial.json">

@@ -310,6 +310,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
+    <ClCompile Include="ImGuizmo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Materials\TestMaterial.json" />

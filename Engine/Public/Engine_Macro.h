@@ -52,9 +52,6 @@ unsigned int ClassName::Destroy_Instance()				\
 #pragma endregion
 
 #define INIT_PARENT(pArg) \
-    if (nullptr == pArg) { \
-        return E_FAIL; \
-    } \
     CGameObject::OBJECT_DESC* pDesc = static_cast<CGameObject::OBJECT_DESC*>(pArg); \
     if (FAILED(CGameObject::Initialize(pDesc))) { \
         return E_FAIL; \
