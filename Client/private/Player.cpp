@@ -58,6 +58,8 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
 
+	
+
 	__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
 
 }
