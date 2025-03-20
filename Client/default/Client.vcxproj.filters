@@ -196,6 +196,9 @@
     <Filter Include="02.GameObjects\Base\Light">
       <UniqueIdentifier>{96e63922-b56a-4731-8852-a0e60db39308}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Test">
+      <UniqueIdentifier>{3f541cfd-2ec0-44c5-a6a1-75724949080d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -369,7 +372,7 @@
     </ClInclude>
     <ClInclude Include="..\public\Crocman.h">
       <Filter>02.GameObjects\01.Monster\Crocman</Filter>
-</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\GameObject_Cube.h">
       <Filter>02.GameObjects\Base\Cube</Filter>
     </ClInclude>
@@ -379,6 +382,7 @@
     <ClInclude Include="..\public\GameObject_Light.h">
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Test.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -502,9 +506,6 @@
     <ClCompile Include="..\private\Axe.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Inventory.cpp">
       <Filter>Inven</Filter>
     </ClCompile>
@@ -542,6 +543,8 @@
     <ClCompile Include="..\private\ShotGun.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\private\Level_Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

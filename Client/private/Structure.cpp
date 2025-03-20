@@ -188,15 +188,12 @@ void CStructure::Free()
 json CStructure::Serialize()
 {
 	json j = __super::Serialize();
-	//j["texture_tag"] = WideToUtf8(m_tStructure_Desc.stTextureTag);
-	//j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath.c_str());
-	//j["vibuffer"] = WideToUtf8(m_tStructure_Desc.stVIBuffer);
-	//j["collider_tag"] = WideToUtf8(m_tStructure_Desc.stCollProtoTag);
 
-	j["texture_tag"] = WideToUtf8(m_strTextureTag);
-	j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); 
-	j["vibuffer"] = WideToUtf8(m_strVIBuffer);
-	j["collider_tag"] = WideToUtf8(m_strCollProtoTag);
+
+	//j["texture_tag"] = WideToUtf8(m_strTextureTag);
+	//j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); 
+	//j["vibuffer"] = WideToUtf8(m_strVIBuffer);
+	//j["collider_tag"] = WideToUtf8(m_strCollProtoTag);
 
 
 	j["is_cube_collider"] = m_bIsCubeCollider;
@@ -213,10 +210,25 @@ json CStructure::Serialize()
 
 void CStructure::Deserialize(const json& j)
 {
-	if (j.contains("position")) 
-	{
-		auto pos = j["position"];
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			_float3(pos[0], pos[1], pos[2]));
-	}
+
+	//SET_TRANSFORM(j, m_pTransformCom);
+	//if (j.contains("position")) 
+	//{
+	//	auto pos = j["position"];
+	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	//		_float3(pos[0], pos[1], pos[2]));
+	//}
+
+	//if (j.contains("rotation"))
+	//{
+	//	auto angle = j["rotation"];
+	//	m_pTransformCom->Rotate_EulerAngles(
+	//		_float3(angle[0], angle[1], angle[2]));
+	//}
+
+	//if (j.contains("scale"))
+	//{
+	//	auto scale = j["scale"];
+	//	m_pTransformCom->Set_Scale(scale[0], scale[1], scale[2]);
+	//}
 }
