@@ -9,6 +9,7 @@
 #include "GamePlay_Button.h"
 #include "Weapon_Headers.h"
 #include "Anubis.h"
+#include "Crocman.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
@@ -221,6 +222,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CShotGun::Create(pGraphic_Device);
     else if (className == "CAnubis")
         return CAnubis::Create(pGraphic_Device);
+    else if (className == "CCrocman")
+        return CCrocman::Create(pGraphic_Device);
 
     wstring wClassName = ISerializable::Utf8ToWide(className);
     wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;
@@ -282,7 +285,7 @@ _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
     if (layerName == L"Layer_Player")
         return L"Prototype_GameObject_Player";
     else if (layerName == L"Layer_Monster")
-        return L"Prototype_GameObject_Anubis";
+        return L"Prototype_GameObject_Crocman";
     else if (layerName == L"Layer_BackGround")
         return L"Prototype_GameObject_Terrain";
     else if (layerName == L"Layer_Camera")

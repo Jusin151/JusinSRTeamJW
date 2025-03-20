@@ -165,6 +165,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
+    <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Inventory.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
+    <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\private\JsonLoader.cpp" />
     <ClCompile Include="..\Private\Inventory.cpp" />
