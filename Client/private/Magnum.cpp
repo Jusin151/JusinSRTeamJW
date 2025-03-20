@@ -37,16 +37,15 @@ HRESULT CMagnum::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Magnum_INFO.vPos.x, m_Magnum_INFO.vPos.y, 0.f));
 
-	m_vInitialPos = m_Magnum_INFO.vPos;
-
+	m_vInitialPos.x = m_Magnum_INFO.vPos.x;
+	m_vInitialPos.y = m_Magnum_INFO.vPos.y;
 	CItem_Manager::GetInstance()->Add_Weapon(L"Magnum", this);
 
-	CItem_Icon::Icon_DESC Staff_Icon{};
-	Staff_Icon.Icon_Image = 2;
-	Staff_Icon.vPos = { -200.f,200.f };
-	Staff_Icon.Icon_Image = 3;
+	CItem_Icon::Icon_DESC Magunm{};
+	Magunm.Icon_Image = Magnum;
+	Magunm.Weapon_Type = CItem_Icon::Magnum; // 선택되고 나서 되돌릴 이미지
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Magnum"),&Staff_Icon)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Magnum"),&Magunm)))
 		return E_FAIL;
 
 
@@ -59,10 +58,6 @@ void CMagnum::Priority_Update(_float fTimeDelta)
 
 void CMagnum::Update(_float fTimeDelta)
 {
-	
-
-	
-
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{

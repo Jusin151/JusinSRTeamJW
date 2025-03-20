@@ -43,12 +43,11 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
-	CItem_Icon::Icon_DESC Staff_Icon{};
-	Staff_Icon.Icon_Image = 2;
-	Staff_Icon.vPos = { 100.f,200.f };
-	Staff_Icon.Icon_Image = 2;
+	CItem_Icon::Icon_DESC ShotGun_Icon{};
+	ShotGun_Icon.Icon_Image = ShotGun;
+	ShotGun_Icon.Weapon_Type = CItem_Icon::ShotGun; // 선택되고 나서 되돌릴 이미지
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_ShotGun"),&Staff_Icon)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_ShotGun"),&ShotGun_Icon)))
 		return E_FAIL;
 
 

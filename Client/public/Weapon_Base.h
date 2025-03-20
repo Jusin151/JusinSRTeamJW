@@ -17,7 +17,7 @@ class CWeapon_Base abstract : public CGameObject
 public:
     enum WEAPON_ID
     {
-        Axe, Claymore, Magnum, ShotGun, Staff
+        Claymore, Axe, ShotGun, Magnum, Staff
     };
 
 public:
@@ -62,6 +62,7 @@ public:
     _bool  Get_MouseClick() const { return m_bIsMouseClick; }
     void   Set_MouseClick(_bool type) { m_bIsMouseClick = type; }
     virtual wstring GetLayerID() { return L"Default"; }
+    _float3 GetInitialPos() const { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
 
 protected:
     bool m_bIsMouseOver = {};

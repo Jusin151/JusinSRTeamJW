@@ -41,23 +41,6 @@ public:
         }
         m_Weapon_Icon[tag] = pUI;
     }
-    void Set_Select_Icon(const wstring& tag, CItem_Icon* pUI)
-    {
-        for (auto& pair : m_Weapon_Icon)
-        {
-           
-                pair.second->Set_Base_Size();
-                break;
-           
-        }
-
-        auto it = m_Weapon_Icon.find(tag);
-        if (it != m_Weapon_Icon.end())
-        {
-            it->second->Set_Select();
-        }
-    }
-
     //혹시 몰라서 만들었음
     CWeapon_Base* Get_Weapon(const wstring& tag)
     {
@@ -68,8 +51,6 @@ public:
         }
         return nullptr;
     }
-
-
     CWeapon_Base* Weapon_Equip(const wstring& tag)
     {
         //원래 끼고 있던거 해제
@@ -87,26 +68,35 @@ public:
         if (it != m_UIMap.end())
         {
             it->second->SetActive(true);
+          
             return it->second;
         }
         return nullptr;
     }
-
     void Weapon_UnEquip()
     {
         //원래 끼고 있던거 해제
         for (auto& pair : m_UIMap)
-        {   
-                pair.second->SetActive(false);
-            
-        }
-      
+                pair.second->SetActive(false);  
     }
 
-  
+    _bool Get_Current_Weapon_Active(const wstring& tag)
+    {
 
+        auto it = m_UIMap.find(tag);
+        if (it != m_UIMap.end())
+        {
+            it->second->IsActive();
+
+            return it->second->IsActive();
+        }
+              
+    }
+    void Set_Inven_Render(_bool type){ Render_off = type;}
+    _bool Get_Inven_Render() { return Render_off; }
 private:
     unordered_map<wstring, CWeapon_Base*> m_UIMap;
     unordered_map<wstring, CItem_Icon*> m_Weapon_Icon;
+    _bool Render_off{};
 };
 END

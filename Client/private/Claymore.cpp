@@ -57,12 +57,11 @@ HRESULT CClaymore::Initialize(void* pArg)
 	m_vInitialPos = m_Claymore_INFO.vPos;
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 
-	CItem_Icon::Icon_DESC Staff_Icon{};
-	Staff_Icon.Icon_Image = 2;
-	Staff_Icon.vPos = { 200.f,200.f };
-	Staff_Icon.Icon_Image = 4;
+	CItem_Icon::Icon_DESC Claymore_Icon{};
+	Claymore_Icon.Icon_Image = Claymore;
+	Claymore_Icon.Weapon_Type = CItem_Icon::Claymore; // 선택되고 나서 되돌릴 이미지
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Claymore"),&Staff_Icon)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Claymore"),&Claymore_Icon)))
 		return E_FAIL;
 
 

@@ -1,6 +1,7 @@
 ﻿#include "Item_Icon.h"
 #include "GameInstance.h"
-#include "Item_Icon.h"
+#include "Item_Manager.h"
+
 
 
 CItem_Icon::CItem_Icon(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -15,7 +16,7 @@ CItem_Icon::CItem_Icon(const CItem_Icon& Prototype)
 
 HRESULT CItem_Icon::Initialize_Prototype()
 {
-	
+
 	return S_OK;
 }
 
@@ -26,19 +27,65 @@ HRESULT CItem_Icon::Initialize(void* pArg)
 
 	if (pArg != nullptr)
 	{
-		m_Icon_INFO = *reinterpret_cast<Icon_DESC*>(pArg);	  
+		m_Icon_INFO = *reinterpret_cast<Icon_DESC*>(pArg);
 	}
-	m_Icon_INFO.vSize = { 90.f,34.f };
+	m_Icon_INFO.vSize = { 90.f,34.f }; //초기 값
+
+	switch (m_Icon_INFO.Icon_Image)
+	{
+	case Client::CItem_Icon::Claymore:
+		m_Icon_INFO.vPos = { -400.f,200.f };
+		break;
+	case Client::CItem_Icon::Axe:
+		m_Icon_INFO.vPos = { -300.f,200.f };
+		break;
+	case Client::CItem_Icon::ShotGun:
+		m_Icon_INFO.vPos = { -200.f,200.f };
+		break;
+	case Client::CItem_Icon::Magnum:
+		m_Icon_INFO.vPos = { -100.f,200.f };
+		break;
+	case Client::CItem_Icon::Staff:
+		m_Icon_INFO.vPos = { 0.f,200.f };
+		break;
+	default:
+		break;
+	}
 	m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x, m_Icon_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Icon_INFO.vPos.x, m_Icon_INFO.vPos.y, 0.f));
+
+
+	m_ItemManager = CItem_Manager::GetInstance();
 	return S_OK;
 }
-
-
 void CItem_Icon::Update(_float fTimeDelta)
 {
+	static const unordered_map<wstring, Enum_Weapon> weaponMap = 
+	{
+		{L"Claymore", Claymore},
+		{L"Axe", Axe},
+		{L"ShotGun", ShotGun},
+		{L"Magnum", Magnum},
+		{L"Staff", Staff}
+	};
+	for (const auto& weapon : weaponMap)
+	{
+		if (m_ItemManager->Get_Current_Weapon_Active(weapon.first))
+		{
+			if (m_Icon_INFO.Icon_Image == weapon.second)
+			{
+				m_Icon_INFO.vSize = { 150.f, 75.f };
+			}
+			else
+			{
+				m_Icon_INFO.vSize = { 90.f, 34.f }; // 선택 되기 이전의 크기로
+			}
+			break;
+		}
+	}
 
+	m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x, m_Icon_INFO.vSize.y, 1.f);
 }
 
 void CItem_Icon::Late_Update(_float fTimeDelta)
@@ -50,6 +97,9 @@ void CItem_Icon::Late_Update(_float fTimeDelta)
 
 HRESULT CItem_Icon::Render()
 {
+	if (!m_ItemManager->Get_Inven_Render())
+		return S_OK;
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -78,7 +128,7 @@ HRESULT CItem_Icon::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-	
+
 	return S_OK;
 }
 

@@ -62,9 +62,8 @@ HRESULT CStaff::Initialize(void* pArg)
     CItem_Manager::GetInstance()->Add_Weapon(L"Staff", this);
 
     CItem_Icon::Icon_DESC Staff_Icon{};
-    Staff_Icon.Icon_Image = 2;
-    Staff_Icon.vPos = { 0.f,200.f };
-    Staff_Icon.Icon_Index = 0;
+    Staff_Icon.Icon_Image = Staff;
+    Staff_Icon.Weapon_Type = CItem_Icon::Staff; // 선택되고 나서 되돌릴 이미지
     if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
         LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Staff"),&Staff_Icon)))
         return E_FAIL;
@@ -80,8 +79,6 @@ void CStaff::Priority_Update(_float fTimeDelta)
 void CStaff::Update(_float fTimeDelta)
 {
    
-
-
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;  

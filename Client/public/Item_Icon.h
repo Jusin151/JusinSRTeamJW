@@ -16,9 +16,13 @@ BEGIN(Client)
 class CItem_Icon final : public CGameObject
 {
 public:
-    enum Weapon_Type
+    enum Enum_Weapon
     {
         Claymore,Axe,ShotGun,Magnum,Staff
+    };
+    enum Enum_Weapon_Selected
+    {
+      Claymore_Selected=5 , Axe_Selected, ShotGun_Selected, Magnum_Selected, Staff_Selected
     };
     typedef struct tagIcon_INFO
     {
@@ -26,6 +30,7 @@ public:
         _float2 vSize{};
         _uint Icon_Image{}; // 몇번째 이미지  위의 열거체 참고
         _uint Icon_Index{}; // 인벤의 몇번째 칸에 넣을껀지
+        Enum_Weapon Weapon_Type;
     }Icon_DESC;
 
 public:
@@ -35,21 +40,14 @@ private:
     CItem_Icon(const CItem_Icon& Prototype);
     virtual ~CItem_Icon() = default;
 
+
 public:
     virtual HRESULT Initialize_Prototype()override;
     virtual HRESULT Initialize(void* pArg)override;
     virtual void Update(_float fTimeDelta)override;
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
-    
-    void Set_Select()
-    {
-        m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x*1.5f, m_Icon_INFO.vSize.y*1.5f, 1.f);
-    }
-    void Set_Base_Size()
-    {
-        m_pTransformCom->Set_Scale(m_Icon_INFO.vSize.x / 1.5f, m_Icon_INFO.vSize.y / 1.5f, 1.f);
-    }
+
 
 private:
     HRESULT Ready_Components();
@@ -59,11 +57,21 @@ public:
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free();
 
+
+    void Set_Select_Icon(wstring tag)
+    {
+        wstring selectedTag = tag + L"_Selected"; 
+        Icon_isActive[tag] = {static_cast<Enum_Weapon_Selected>(stoi(selectedTag)), 1 }; 
+    }
+private:
+   class CItem_Manager* m_ItemManager= {nullptr};
 protected:
     CTexture* m_pTextureCom = { nullptr };
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
     Icon_DESC m_Icon_INFO{};
+
+     map<wstring,pair<Enum_Weapon_Selected,_uint>>Icon_isActive{};
 
 };
 END

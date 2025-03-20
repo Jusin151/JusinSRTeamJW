@@ -248,11 +248,6 @@
       "tag": "Prototype_GameObject_Inven",
       "level": 3,
       "class": "CInventory"
-    },
-    {
-      "tag": "Prototype_GameObject_Icon",
-      "level": 3,
-      "class": "CItem_Icon"
     }
   ],
   "buffers": [

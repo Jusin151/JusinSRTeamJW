@@ -39,7 +39,7 @@ public:
 
 	_float t = {}; //
 	_float speed = { 0.1f }; //
-	_float2 m_vInitialPos = {};
+	_float3 m_vInitialPos = {};
 
 };
 END

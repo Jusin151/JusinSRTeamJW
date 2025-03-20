@@ -61,12 +61,11 @@ HRESULT CAxe::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this);
 
-	CItem_Icon::Icon_DESC Staff_Icon{};
-	Staff_Icon.Icon_Image = 2;
-	Staff_Icon.vPos = { -100.f,200.f };
-	Staff_Icon.Icon_Image = 1;
+	CItem_Icon::Icon_DESC Axe_Icon{};
+	Axe_Icon.Icon_Image = Axe; // 초기 이미지
+	Axe_Icon.Weapon_Type = CItem_Icon::Axe; // 선택되고 나서 되돌릴 이미지
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Axe"),&Staff_Icon)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Axe"),&Axe_Icon)))
 		return E_FAIL;
 
 
