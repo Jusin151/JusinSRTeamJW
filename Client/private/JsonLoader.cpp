@@ -158,10 +158,10 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
                     continue;
             }
 
-            //// 생성된 객체를 찾아 나머지 데이터 역직렬화
-            //CGameObject* pGameObject = pGameInstance->Find_Last_Object(tObjDesc.iLevel, layerTag);
-            //if (pGameObject)
-            //    pGameObject->Deserialize(objData);
+            // 생성된 객체를 찾아 나머지 데이터 역직렬화
+            CGameObject* pGameObject = pGameInstance->Find_Last_Object(tObjDesc.iLevel, layerTag);
+            if (pGameObject)
+                pGameObject->Deserialize(objData);
         }
     }
 
