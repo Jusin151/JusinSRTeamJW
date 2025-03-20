@@ -36,13 +36,44 @@ private:
 	HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
 
+	void ShowInspectorTab();
+	void ShowCreateObjectTab();
+	HRESULT CreateObjectInstance(
+		const char* jsonFileNameBuffer,
+		const char* bufferNameBuffer, const char* colliderNameBuffer,
+		const char* layerTagBuffer, const char* textureTagBuffer,
+		const char* objectClassTagBuffer, const char* objectProtoTagBuffer,
+		const char* objectLayerTagBuffer, _int iPoolingCount,
+		_int iLevel, _int iProtoLevel, const _wstring& selectedFolder);
+	HRESULT SaveObjectToJson(
+		const string& jsonFileName,
+		const _wstring& objectProtoTag,
+		_int objectLevel,
+		const _wstring& className,
+		const _wstring& textureTag,
+		_int textureLevel,
+		const _wstring& texturePath,
+		_int textureCount,
+		const _wstring& bufferTag,
+		_int bufferLevel,
+		const _wstring& bufferClass,
+		_int bufferWidth,
+		_int bufferHeight);
+
 	// ImGuizmo 관련 함수 추가
 	void ConfigureImGuizmo();
 	void RenderImGuizmo(CTransform* pTransform);
+	void InputKey();
+
+	void LoadSingleImageFile(const _wstring& filePath);
+	void LoadImagesFromDirectoryPath(const _wstring& folderPath);
+	void ShowPrevTextureImage();
+
+
 #pragma endregion
 public:
 	void Set_Object(CGameObject* pGameObject = nullptr) { m_pCurrentGameObject = pGameObject; }
-	_bool IsMouseOverImGui();
+	static _bool IsMouseOverImGui();
 private:
 
 	bool show_demo_window = true;
@@ -58,8 +89,12 @@ private:
 
 #pragma region 텍스쳐용 멤버 변수
 	vector<LPDIRECT3DTEXTURE9> m_Textures;
-	_ulonglong m_SelectedTextureIndex = -1;
 	_bool m_bShowImageWindow = true;
+	_ulonglong m_SelectedTextureIndex = 0;
+	// 텍스처 파일 경로 저장
+	vector<_wstring> m_TextureFilePaths;
+	_wstring m_wstrSelectedTexturePath;   // 선택된 텍스처 경로
+	char m_szSelectedPathBuffer[512];     // 경로 표시용 버퍼
 #pragma endregion
 
 #pragma region 오브젝트용 멤버 변수
