@@ -136,9 +136,6 @@
     <ClInclude Include="..\Public\Collider_Cube.h">
       <Filter>04.Components\Collider\Cube</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Light.h">
-      <Filter>02.GameObject\Light</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Material.h">
       <Filter>04.Components\Material</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Snow_Particle_System.h">
       <Filter>04.Components\Particle\System\Snow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Light.h">
+      <Filter>04.Components\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -294,9 +294,6 @@
     </Filter>
     <Filter Include="95.Font\Manager">
       <UniqueIdentifier>{04681188-4679-4e2f-9f63-efd3c4e6a9db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\Light">
-      <UniqueIdentifier>{d7cb60dd-89f9-4c8f-9fa2-baa6d49a15d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\Material">
       <UniqueIdentifier>{3b77c23e-2248-495b-aecf-e1a12efb1e06}</UniqueIdentifier>
@@ -450,9 +447,6 @@
     <ClCompile Include="..\Private\Collider_Cube.cpp">
       <Filter>04.Components\Collider\Cube</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Light.cpp">
-      <Filter>02.GameObject\Light</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Material.cpp">
       <Filter>04.Components\Material</Filter>
     </ClCompile>
@@ -476,6 +470,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Particle_System.cpp">
       <Filter>04.Components\Particle\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Light.cpp">
+      <Filter>04.Components\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

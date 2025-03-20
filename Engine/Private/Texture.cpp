@@ -27,30 +27,12 @@ HRESULT CTexture::Initialize_Prototype(TYPE eType, const _tchar* pTextureFilePat
 		wsprintf(szTextureFileName, pTextureFilePath, i);
 
 		D3DXIMAGE_INFO imageInfo;
-
 		// 먼저 이미지 정보를 가져옴
 		if (FAILED(D3DXGetImageInfoFromFile(szTextureFileName, &imageInfo)))
 			return E_FAIL; // 이미지 정보를 가져오지 못한 경우
 
-		//// 비정규 텍스처 크기를 유지하도록 텍스처 생성
-		//if (FAILED(D3DXCreateTextureFromFileEx(
-		//	m_pGraphic_Device,
-		//	szTextureFileName,
-		//	imageInfo.Width,  // 원본 너비
-		//	imageInfo.Height, // 원본 높이
-		//	D3DX_DEFAULT,
-		//	0,
-		//	D3DFMT_UNKNOWN,
-		//	D3DPOOL_MANAGED,
-		//	D3DX_DEFAULT,
-		//	D3DX_DEFAULT,
-		//	0,
-		//	&imageInfo,
-		//	nullptr,
-		//	reinterpret_cast<IDirect3DTexture9**>(&pTexture)
-		//))) {
-		//	return E_FAIL; // 텍스처 생성 실패
-		//}
+		
+
 		HRESULT hr = eType == TYPE_2D ?
 			D3DXCreateTextureFromFileEx(
 				m_pGraphic_Device,
@@ -67,7 +49,19 @@ HRESULT CTexture::Initialize_Prototype(TYPE eType, const _tchar* pTextureFilePat
 				&imageInfo,
 				nullptr,
 				reinterpret_cast<IDirect3DTexture9**>(&pTexture)) :
-			D3DXCreateCubeTextureFromFile(m_pGraphic_Device, szTextureFileName, reinterpret_cast<IDirect3DCubeTexture9**>(&pTexture));
+			D3DXCreateCubeTextureFromFileEx(m_pGraphic_Device,
+				szTextureFileName,
+				D3DX_DEFAULT,
+				D3DX_DEFAULT,
+				0,
+				D3DFMT_UNKNOWN,
+				D3DPOOL_MANAGED,
+				D3DX_DEFAULT,
+				D3DX_DEFAULT,
+				0,
+				&imageInfo,
+				nullptr,
+				reinterpret_cast<IDirect3DCubeTexture9**>(&pTexture));
 
 		if (FAILED(hr))
 			return E_FAIL;
