@@ -42,9 +42,9 @@
                 },
                 "is_cube_collider": false,
                 "position": [
-                    14.325581550598145,
-                    15.111316680908203,
-                    11.869232177734375
+                    -1.3017568588256836,
+                    15.362762451171875,
+                    14.3873291015625
                 ],
                 "rotation": [
                     0.0,
@@ -98,9 +98,37 @@
                 },
                 "is_cube_collider": false,
                 "position": [
-                    -3.995584726333618,
-                    4.510251045227051,
-                    4.152789115905762
+                    -3.429260492324829,
+                    4.91374397277832,
+                    4.932777404785156
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Wall",
+                    "ProtTextureTag": "Prototype_Component_Texture_Wall",
+                    "ProtoLevel": 4
+                },
+                "is_cube_collider": false,
+                "position": [
+                    1.7184467315673828,
+                    19.546401977539063,
+                    18.47903060913086
                 ],
                 "rotation": [
                     0.0,
@@ -124,6 +152,20 @@
                     "Level": 4,
                     "ProtTag": "Prototype_GameObject_Camera_Free",
                     "ProtTextureTag": "",
+                    "ProtoLevel": 4
+                }
+            }
+        ],
+        "Layer_Terrain": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Terrain",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Terrain",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Terrain",
+                    "ProtTextureTag": "Prototype_Component_Texture_Terrain",
                     "ProtoLevel": 4
                 }
             }
