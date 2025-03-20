@@ -1,19 +1,53 @@
 {
-    "layers": {
-        "Layer_Camera": [
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_Camera"
-            }
+  "layers": {
+    "Layer_Camera": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Camera"
+      }
+    ],
+    "Layer_Player": [
+      {
+        "FromPool": true,
+        "IsActive": true,
+        "LayerTag": "Layer_Player"
+      }
+    ],
+    "Layer_Crocman": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Crocman",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Crocman",
+          "ProtTextureTag": "Prototype_Component_Texture_Crocman",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          -3.817276954650879,
+          4.426197052001953,
+          4.068734169006348
         ],
-        "Layer_Player": [
-            {
-                "FromPool": true,
-                "IsActive": true,
-                "LayerTag": "Layer_Player"
-            }
-        ]
-    },
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      }
+    ]
+  },
     "level": 3
 }

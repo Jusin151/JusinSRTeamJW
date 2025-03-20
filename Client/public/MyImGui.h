@@ -34,6 +34,9 @@ private:
 	HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
 
+public:
+	void Set_Object(CGameObject* pGameObject = nullptr) { m_pCurrentGameObject = pGameObject; }
+	_bool IsMouseOverImGui();
 private:
 
 	bool show_demo_window = true;
@@ -68,7 +71,6 @@ private:
 	map<unsigned int, CGameObject*> m_gameObjects;
 	CEditor* m_Editor = { nullptr };
 	CGameObject* m_pCurrentGameObject = { nullptr };
-	
 public:
 	static CMyImGui* Create(_uint iNumLevels,LPDIRECT3DDEVICE9 pGraphic_Device);
 	void Free();

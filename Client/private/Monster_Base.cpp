@@ -48,7 +48,7 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 
 void CMonster_Base::Update(_float fTimeDelta)
 {
-	//Look_Player();
+	Look_Player();
 }
 
 void CMonster_Base::Late_Update(_float fTimeDelta)
