@@ -231,15 +231,15 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
 {
     try
     {
-        // JSON ÆÄÀÏ ¿­±â
+        // JSON ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         ifstream file(filePath);
         if (!file.is_open())
         {
-            MSG_BOX("Å¬·¡½º ÀÌ¸§ JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            MSG_BOX("Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return E_FAIL;
         }
 
-        // JSON ÆÄ½Ì
+        // JSON ï¿½Ä½ï¿½
         json jsonData;
         file >> jsonData;
         file.close();
@@ -260,7 +260,7 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
         }
         else
         {
-            MSG_BOX("JSON ÆÄÀÏ¿¡ 'classes' ¹è¿­ÀÌ ¾ø°Å³ª Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.");
+            MSG_BOX("JSON ï¿½ï¿½ï¿½Ï¿ï¿½ 'classes' ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return E_FAIL;
         }
     }

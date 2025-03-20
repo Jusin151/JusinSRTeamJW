@@ -43,7 +43,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
-	
+	m_iPlayerHP = { 100,100 };
+	m_iPlayerMP = { 50, 50 };
+	m_iPlayerBullet = { 0,0 }; // 총기류 마다 다른 총알 개수 받아올 예정
+	m_iPlayerEXP = { 0 , 100};
 
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
 	CPickingSys::Get_Instance()->Set_Player(this);
