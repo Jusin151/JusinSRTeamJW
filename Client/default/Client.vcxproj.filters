@@ -497,8 +497,6 @@
       <Filter>02.GameObjects\02. Item\99. Weapon\CMeleeWeapon\Axe</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
-    </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Inventory.cpp">
@@ -520,7 +518,6 @@
     <ClCompile Include="..\Private\Item_Manager.cpp">
       <Filter>96. Manager\Item_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\GameObject_Cube.cpp">
       <Filter>02.GameObjects\Base\Cube</Filter>
     </ClCompile>
@@ -529,6 +526,12 @@
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Light.cpp">
       <Filter>02.GameObjects\Base\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShotGun.cpp">
+      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

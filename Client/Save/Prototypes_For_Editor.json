@@ -125,8 +125,13 @@
       "level": 3,
       "path": "../../Resources/Textures/Inven/Inven.png",
       "count": 1
+    },
+    {
+      "tag": "Prototype_Component_Texture_Base",
+      "level": 3,
+      "path": "../../Resources/Textures/Base0.png",
+      "count": 1
     }
-
   ],
   "gameObjects": [
     {

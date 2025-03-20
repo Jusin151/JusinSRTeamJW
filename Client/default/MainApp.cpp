@@ -142,6 +142,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/Base0.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Base*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Cube_Base"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
+			TEXT("../../Resources/Textures/Base0.png"), 1))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
