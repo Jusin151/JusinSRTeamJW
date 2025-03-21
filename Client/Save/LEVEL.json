@@ -200,6 +200,92 @@
                 ]
             }
         ],
+        "Layer_Wall": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Wall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Wall",
+                    "ProtTextureTag": "Prototype_Component_Texture_Wall",
+                    "ProtoLevel": 4
+                },
+                "is_cube_collider": false,
+                "position": [
+                    7.741977691650391,
+                    2.0,
+                    25.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Wall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Wall2",
+                    "ProtTextureTag": "Prototype_Component_Texture_Wall2",
+                    "ProtoLevel": 4
+                },
+                "is_cube_collider": false,
+                "position": [
+                    8.73536205291748,
+                    2.0,
+                    25.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Wall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Wall2",
+                    "ProtTextureTag": "Prototype_Component_Texture_Wall2",
+                    "ProtoLevel": 4
+                },
+                "is_cube_collider": false,
+                "position": [
+                    7.26904821395874,
+                    2.0000154972076416,
+                    24.500709533691406
+                ],
+                "rotation": [
+                    0.0,
+                    90,
+                    0
+                ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+        ],
         "Layer_ll": [
             {
                 "FromPool": false,
