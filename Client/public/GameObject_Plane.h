@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
 BEGIN(Engine)
@@ -15,9 +15,9 @@ private:
 	virtual ~CGameObject_Plane() = default;
 
 public:
-	/* ¿øÇüÀÌ È£ÃâÇÏ´Â ÇÔ¼ö. ¿À·¡°É¸± ¼ö ÀÖ´Â ÃÊ±âÈ­ÀÛ¾÷ */
+	/* ì›í˜•ì´ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜. ì˜¤ë˜ê±¸ë¦´ ìˆ˜ ìˆëŠ” ì´ˆê¸°í™”ì‘ì—… */
 	virtual HRESULT Initialize_Prototype() override;
-	/* »çº»ÀÌ È£ÃâÇÏ´Â ÇÔ¼ö. */
+	/* ì‚¬ë³¸ì´ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜. */
 	virtual HRESULT Initialize(void* pArg) override;
 
 	virtual void Priority_Update(_float fTimeDelta) override;
@@ -26,7 +26,7 @@ public:
 	virtual HRESULT Pre_Render();
 	virtual HRESULT Render() override;
 	virtual HRESULT Post_Render();
-	virtual void Reset() {}; // Â÷ÈÄ¿¡ ¿ÀºêÁ§Æ® Ç®¸µ¶§ SetActive°¡ true°¡ µÉ ¶§ ±âº»Á¤º¸ ´Ù½Ã ¼ÂÆÃÀ» À§ÇÑ ÇÔ¼ö
+	virtual void Reset() {}; // ì°¨í›„ì— ì˜¤ë¸Œì íŠ¸ í’€ë§ë•Œ SetActiveê°€ trueê°€ ë  ë•Œ ê¸°ë³¸ì •ë³´ ë‹¤ì‹œ ì…‹íŒ…ì„ ìœ„í•œ í•¨ìˆ˜
 
 private:
 	HRESULT Ready_Components();

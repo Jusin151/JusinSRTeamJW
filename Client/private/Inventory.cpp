@@ -151,6 +151,24 @@ void CInventory::Equip(_float fTimeDelta)
 		CItem_Manager::GetInstance()->Weapon_Equip(L"Staff");
 		bInputReceived = true;
 	}
+	if (GetAsyncKeyState('6') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Minigun");
+		bInputReceived = true;
+	}
+
+	if (GetAsyncKeyState('7') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Harvester");
+		bInputReceived = true;
+	}
+
+	if (GetAsyncKeyState('8') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->Weapon_Equip(L"Sonic");
+		bInputReceived = true;
+	}
+
 
 	if (bInputReceived)
 	{

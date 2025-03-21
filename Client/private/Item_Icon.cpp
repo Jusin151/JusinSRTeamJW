@@ -48,6 +48,15 @@ HRESULT CItem_Icon::Initialize(void* pArg)
 	case Client::CItem_Icon::Staff:
 		m_Icon_INFO.vPos = { 0.f,200.f };
 		break;
+	case Client::CItem_Icon::Minigun:
+		m_Icon_INFO.vPos = { 100.f,200.f };
+		break;
+	case Client::CItem_Icon::Harvester:
+		m_Icon_INFO.vPos = { 200.f,200.f };
+		break;
+	case Client::CItem_Icon::Sonic:
+		m_Icon_INFO.vPos = { 300.f,200.f };
+		break;
 	default:
 		break;
 	}
@@ -67,7 +76,10 @@ void CItem_Icon::Update(_float fTimeDelta)
 		{L"Axe", Axe},
 		{L"ShotGun", ShotGun},
 		{L"Magnum", Magnum},
-		{L"Staff", Staff}
+		{L"Staff", Staff},
+		{L"Staff", Minigun},
+		{L"Staff", Harvester},
+		{L"Staff", Sonic}
 	};
 	for (const auto& weapon : weaponMap)
 	{
