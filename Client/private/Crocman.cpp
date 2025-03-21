@@ -1,4 +1,4 @@
-#include "Crocman.h"
+ï»¿#include "Crocman.h"
 #include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
@@ -65,7 +65,7 @@ void CCrocman::Update(_float fTimeDelta)
 
 void CCrocman::Late_Update(_float fTimeDelta)
 {
-	// Ãæµ¹ ÆÇÁ¤
+	// ì¶©ëŒ íŒì •
 	On_Collision(fTimeDelta);
 
 
@@ -105,7 +105,7 @@ HRESULT CCrocman::On_Collision(_float fTimeDelta)
 		return E_FAIL;
 
 	
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
@@ -136,7 +136,7 @@ HRESULT CCrocman::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
+	// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
@@ -150,7 +150,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
      vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-	// °Å¸®·Î ÆÇ´ÜÇØ¼­ ÆĞÅÏ ½ÇÇàÇÏµµ·Ï 
+	// ê±°ë¦¬ë¡œ íŒë‹¨í•´ì„œ íŒ¨í„´ ì‹¤í–‰í•˜ë„ë¡ 
 	if (vDist.LengthSq() > 5)
 		Chasing(fTimeDelta);
 	else
@@ -159,7 +159,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 
 void CCrocman::Chasing(_float fTimeDelta)
 {
-	// ¸Â°í ¹Ù·Î ¾ÈÇÏµµ·Ï
+	// ë§ê³  ë°”ë¡œ ì•ˆí•˜ë„ë¡
 	if (m_eCurState == MS_HIT)
 	{
 		if (m_fElapsedTime >= 1.f)
@@ -190,7 +190,7 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"));
 
-	// ÀÏ´Ü Åõ»çÃ¼ ÆÇÁ¤À¸·Î ÇØ³õ°í ³ªÁß¿¡ ´Ù¸¥ enum »ç¿ëÇÏ¸é µÉµí?
+	// ì¼ë‹¨ íˆ¬ì‚¬ì²´ íŒì •ìœ¼ë¡œ í•´ë†“ê³  ë‚˜ì¤‘ì— ë‹¤ë¥¸ enum ì‚¬ìš©í•˜ë©´ ë ë“¯?
 	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
 }
 
@@ -258,13 +258,13 @@ void CCrocman::Select_Frame(_float fTimeDelta)
 
 HRESULT CCrocman::SetUp_RenderState()
 {
-	// ÀÏ´Ü Ãß°¡ÇØº¸±â
+	// ì¼ë‹¨ ì¶”ê°€í•´ë³´ê¸°
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }
@@ -289,9 +289,9 @@ HRESULT CCrocman::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 3.f, 1.f, 3.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
 
 

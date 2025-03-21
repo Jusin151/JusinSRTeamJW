@@ -118,7 +118,7 @@
       "tag": "Prototype_Component_Texture_Weapon_Icon",
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
-      "count": 5
+      "count": 8
     },
     {
       "tag": "Prototype_Component_Texture_Inven",
@@ -137,6 +137,42 @@
       "level": 3,
       "path": "../../Resources/Textures/Monster/Crocman/Crocman_%d.png",
       "count": 27
+    },
+    {
+      "level": 3,
+      "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
+      "tag": "Prototype_Component_Texture_Wall",
+      "count": 1
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\TEXTURE_DUNGEON_WALL_3blue.png",
+      "tag": "Prototype_Component_Texture_Wall2"
+
+      "tag": "Prototype_Component_Texture_Minigun",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Minigun/Minigun%d.png",
+      "count": 8
+    },
+    {
+      "tag": "Prototype_Component_Texture_Minigun_LeftHand",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Minigun/Left_Hand/Left_Hand%d.png",
+      "count": 3
+    },
+    {
+      "tag": "Prototype_Component_Texture_Harvester",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Harvester/Harvester%d.png",
+      "count": 27
+    },
+    {
+      "tag": "Prototype_Component_Texture_Sonic",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Sonic/sonic_launcher%d.png",
+      "count": 7
+
     }
   ],
   "gameObjects": [
@@ -259,6 +295,16 @@
       "tag": "Prototype_GameObject_Inven",
       "level": 3,
       "class": "CInventory"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Wall"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Wall2"
     }
   ],
   "buffers": [

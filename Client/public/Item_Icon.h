@@ -18,11 +18,13 @@ class CItem_Icon final : public CGameObject
 public:
     enum Enum_Weapon
     {
-        Claymore,Axe,ShotGun,Magnum,Staff
+        Claymore,Axe,ShotGun,Magnum,Staff,
+        Minigun,Harvester,Sonic
     };
     enum Enum_Weapon_Selected
     {
-      Claymore_Selected=5 , Axe_Selected, ShotGun_Selected, Magnum_Selected, Staff_Selected
+      Claymore_Selected=5 , Axe_Selected, ShotGun_Selected, Magnum_Selected, Staff_Selected,
+      Minigun_Selected, Harvester_Selected,Sonic_Selected
     };
     typedef struct tagIcon_INFO
     {
