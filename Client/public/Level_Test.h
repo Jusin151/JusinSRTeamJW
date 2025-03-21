@@ -19,11 +19,6 @@ public:
 	virtual HRESULT		Render() override;
 
 private:
-	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Particle(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-
-private:
 	CPickingSys*	m_pPickingSys = { nullptr };
 	class CMyImGui* m_pImgui = { nullptr };
 

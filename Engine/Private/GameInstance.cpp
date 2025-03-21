@@ -181,6 +181,11 @@ HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGam
 	return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);
 }
 
+HRESULT CGameInstance::Add_Light(CLight* pLight)
+{
+	return m_pRenderer->Add_Light(pLight);
+}
+
 #pragma endregion
 
 #pragma region TIMER_MANAGER

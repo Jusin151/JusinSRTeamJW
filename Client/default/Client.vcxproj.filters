@@ -217,6 +217,9 @@
     <Filter Include="02.GameObjects\Base\Sphere">
       <UniqueIdentifier>{4e0e0eef-612c-4974-b164-6c3d9dbca689}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\ParticleSystemTest">
+      <UniqueIdentifier>{e03b786e-420b-4bc3-8afc-6174f9e10a61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -420,6 +423,12 @@
     <ClInclude Include="..\public\GameObjects_Base.h">
       <Filter>02.GameObjects\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GameObject_Particle_Test.h">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particles.h">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -600,6 +609,9 @@
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Sphere.cpp">
       <Filter>02.GameObjects\Base\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Particle_Test.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

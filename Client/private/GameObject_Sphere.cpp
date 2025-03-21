@@ -44,7 +44,39 @@ void CGameObject_Sphere::Late_Update(_float fTimeDelta)
 
 HRESULT CGameObject_Sphere::Pre_Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+    //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+    D3DMATERIAL9 material;
+    ZeroMemory(&material, sizeof(D3DMATERIAL9));
+
+    // 확산광 (Diffuse) 설정: 흰색
+    material.Diffuse.r = 1.0f;
+    material.Diffuse.g = 1.0f;
+    material.Diffuse.b = 1.0f;
+    material.Diffuse.a = 1.0f;
+
+    // 주변광 (Ambient) 설정: 약한 회색
+    material.Ambient.r = 0.2f;
+    material.Ambient.g = 0.2f;
+    material.Ambient.b = 0.2f;
+    material.Ambient.a = 1.0f;
+
+    // 반사광 (Specular) 설정: 없음
+    material.Specular.r = 0.0f;
+    material.Specular.g = 0.0f;
+    material.Specular.b = 0.0f;
+    material.Specular.a = 1.0f;
+
+    // 방출광 (Emissive) 설정: 없음
+    material.Emissive.r = 0.0f;
+    material.Emissive.g = 0.0f;
+    material.Emissive.b = 0.0f;
+    material.Emissive.a = 1.0f;
+
+    // 광택 (Power) 설정: 0 (반사광 없음)
+    material.Power = 0.0f;
+
+    // 생성된 마테리얼을 디바이스에 설정
+    m_pGraphic_Device->SetMaterial(&material);
     return S_OK;
 }
 
@@ -71,7 +103,7 @@ HRESULT CGameObject_Sphere::Render()
 
 HRESULT CGameObject_Sphere::Post_Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
     return S_OK;
 }
 

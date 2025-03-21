@@ -1,27 +1,28 @@
-﻿#include "GameObject_Light.h"
+﻿#include "GameObject_Particle_Test.h"
 #include "Light.h"
-#include "Transform.h"
 #include "Texture.h"
+#include "Transform.h"
 #include "VIBuffer_Rect.h"
 #include "GameInstance.h"
+#include "Particles.h"
 
-CGameObject_Light::CGameObject_Light(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGameObject_Particle_Test::CGameObject_Particle_Test(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
 }
 
-CGameObject_Light::CGameObject_Light(const CGameObject& Prototype)
+CGameObject_Particle_Test::CGameObject_Particle_Test(const CGameObject& Prototype)
     : CGameObject{ Prototype }
 {
 
 }
 
-HRESULT CGameObject_Light::Initialize_Prototype()
+HRESULT CGameObject_Particle_Test::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CGameObject_Light::Initialize(void* pArg)
+HRESULT CGameObject_Particle_Test::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -31,22 +32,22 @@ HRESULT CGameObject_Light::Initialize(void* pArg)
     return S_OK;
 }
 
-void CGameObject_Light::Priority_Update(_float fTimeDelta)
+void CGameObject_Particle_Test::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CGameObject_Light::Update(_float fTimeDelta)
+void CGameObject_Particle_Test::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+    m_pParticleCom->Update(fTimeDelta);
 }
 
-void CGameObject_Light::Late_Update(_float fTimeDelta)
+void CGameObject_Particle_Test::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-    m_pGameInstance->Add_Light(m_pLightCom);
 }
 
-HRESULT CGameObject_Light::Pre_Render()
+HRESULT CGameObject_Particle_Test::Pre_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
@@ -57,7 +58,7 @@ HRESULT CGameObject_Light::Pre_Render()
     return S_OK;
 }
 
-HRESULT CGameObject_Light::Render()
+HRESULT CGameObject_Particle_Test::Render()
 {
     if(FAILED(m_pTextureCom->Bind_Resource(0)))
         return E_FAIL;
@@ -67,21 +68,23 @@ HRESULT CGameObject_Light::Render()
         return E_FAIL;
 
     Pre_Render();
-    if (FAILED(m_pVIBufferCom->Render()))
+    if (FAILED(m_pParticleCom->Render()))
         return E_FAIL;
+    /*if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;*/
     Post_Render();
 
     return S_OK;
 }
 
-HRESULT CGameObject_Light::Post_Render()
+HRESULT CGameObject_Particle_Test::Post_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
 }
 
-HRESULT CGameObject_Light::Ready_Components()
+HRESULT CGameObject_Particle_Test::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -90,9 +93,14 @@ HRESULT CGameObject_Light::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
-    /* For.Com_Light */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
-        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
+    CSnow_Particle_System::SNOWDESC     SnowDesc{};
+    SnowDesc.Bounding_Box.m_vMin = { 100, 100, 100};
+    SnowDesc.Bounding_Box.m_vMax = {-100, -100, -100};
+    SnowDesc.iNumParticles = 512;
+
+    /* For.Com_Particle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
+        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &SnowDesc)))
         return E_FAIL;
 
     /* For.Com_VIBuffer */
@@ -111,42 +119,42 @@ HRESULT CGameObject_Light::Ready_Components()
 }
 
 
-CGameObject_Light* CGameObject_Light::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGameObject_Particle_Test* CGameObject_Particle_Test::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CGameObject_Light* pInstance = new CGameObject_Light(pGraphic_Device);
+    CGameObject_Particle_Test* pInstance = new CGameObject_Particle_Test(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CGameObject_Light");
+        MSG_BOX("Failed to Created : CGameObject_Particle_Test");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject_Light* CGameObject_Light::Clone(void* pArg)
+CGameObject_Particle_Test* CGameObject_Particle_Test::Clone(void* pArg)
 {
-    CGameObject_Light* pInstance = new CGameObject_Light(*this);
+    CGameObject_Particle_Test* pInstance = new CGameObject_Particle_Test(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Created : CGameObject_Light");
+        MSG_BOX("Failed to Created : CGameObject_Particle_Test");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CGameObject_Light::Free()
+void CGameObject_Particle_Test::Free()
 {
     __super::Free();
-    Safe_Release(m_pLightCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pParticleCom);
     Safe_Release(m_pTransformCom);
 }
 
-json CGameObject_Light::Serialize()
+json CGameObject_Particle_Test::Serialize()
 {
     json j = __super::Serialize();
     auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -158,7 +166,7 @@ json CGameObject_Light::Serialize()
     return j;
 }
 
-void CGameObject_Light::Deserialize(const json& j)
+void CGameObject_Particle_Test::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }

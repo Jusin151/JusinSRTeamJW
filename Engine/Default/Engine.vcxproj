@@ -192,7 +192,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\Base.h" />
-    <ClInclude Include="..\public\Bounding_Box.h" />
+    <ClInclude Include="..\public\BoundingBox.h" />
     <ClInclude Include="..\public\Bounding_Sphere.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Collider.h" />
@@ -272,7 +272,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\Base.cpp" />
-    <ClCompile Include="..\private\Bounding_Box.cpp" />
     <ClCompile Include="..\private\Bounding_Sphere.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />

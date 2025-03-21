@@ -11,7 +11,7 @@ CGameObject_Cube::CGameObject_Cube(const CGameObject& Prototype)
 {
 
 }
-
+ 
 HRESULT CGameObject_Cube::Initialize_Prototype()
 {
     return S_OK;

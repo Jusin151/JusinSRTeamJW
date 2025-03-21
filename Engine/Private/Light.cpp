@@ -13,33 +13,48 @@ CLight::CLight(const CLight& Prototype)
 
 HRESULT CLight::Initialize_Prototype(LIGHTTYPE eType)
 {
-	m_eType = eType;
+	m_tInfo.eType			= eType; // 빛 타입은 이미 설정되어 있다고 가정
+	m_tInfo.fDiffuse		= { 1.0f, 1.0f, 1.0f, 1.0f }; // 흰색 확산광
+	m_tInfo.fAmbient		= { 0.2f, 0.2f, 0.2f, 1.0f }; // 약한 주변광
+	m_tInfo.fSpecular		= { 1.0f, 1.0f, 1.0f, 1.0f }; // 흰색 반사광
+	m_tInfo.fPosition		= { 0.0f, 10.0f, 0.0f }; // 빛의 위치 (위에서 아래로 비추는 방향을 가정)
+	m_tInfo.fDirection		= { 0.0f, -1.0f, 0.0f }; // 빛의 방향 (아래쪽)
+	m_tInfo.fAttenuation0	= 1.0f; // 감쇠 상수
+	m_tInfo.fAttenuation1	= 0.0f; // 감쇠 선형
+	m_tInfo.fAttenuation2	= 0.0f; // 감쇠 2차
+	m_tInfo.fFalloff		= 1.0f; // 스포트라이트 감쇠
+	m_tInfo.fRange			= 100.0f; // 빛의 범위
+	m_tInfo.fTheta			= D3DX_PI / 4; // 스포트라이트 내부 각도 (45도)
+	m_tInfo.fPhi			= D3DX_PI / 2; // 스포트라이트 외부 각도 (90도)
 	return S_OK;
 }
 
 HRESULT CLight::Initialize(void* pArg)
 {
-	LIGHT_DESC in = *reinterpret_cast<LIGHT_DESC*>(pArg);
-	memcpy(&m_tInfo, &in, sizeof(LIGHT_DESC));
+	if (nullptr != pArg)
+	{
+		LIGHT_DESC in = *reinterpret_cast<LIGHT_DESC*>(pArg);
+		memcpy(&m_tInfo, &in, sizeof(LIGHT_DESC));
+	}
 	return S_OK;
 }
 
 HRESULT CLight::Bind_Resouce(_uint iIndex)
 {
 	D3DLIGHT9 light = {};
-	light.Type = (D3DLIGHTTYPE)m_eType;
-	memcpy(&light.Diffuse,		&m_tInfo.m_fDiffuse,		sizeof(_float4));
-	memcpy(&light.Ambient,		&m_tInfo.m_fAmbient,		sizeof(_float4));
-	memcpy(&light.Specular,		&m_tInfo.m_fSpecular,		sizeof(_float4));
-	memcpy(&light.Position,		&m_tInfo.m_fPosition,		sizeof(_float3));
-	memcpy(&light.Direction,	&m_tInfo.m_fDirection,		sizeof(_float3));
-	memcpy(&light.Attenuation0, &m_tInfo.m_fAttenuation0,	sizeof(_float));
-	memcpy(&light.Attenuation1, &m_tInfo.m_fAttenuation1,	sizeof(_float));
-	memcpy(&light.Attenuation2, &m_tInfo.m_fAttenuation2,	sizeof(_float));
-	memcpy(&light.Falloff,		&m_tInfo.m_fFalloff,		sizeof(_float));
-	memcpy(&light.Range,		&m_tInfo.m_fRange,			sizeof(_float));
-	memcpy(&light.Theta,		&m_tInfo.m_fTheta,			sizeof(_float));
-	memcpy(&light.Phi,			&m_tInfo.m_fPhi,			sizeof(_float));
+	light.Type = (D3DLIGHTTYPE)m_tInfo.eType;
+	memcpy(&light.Diffuse,		&m_tInfo.fDiffuse,		sizeof(_float4));
+	memcpy(&light.Ambient,		&m_tInfo.fAmbient,		sizeof(_float4));
+	memcpy(&light.Specular,		&m_tInfo.fSpecular,		sizeof(_float4));
+	memcpy(&light.Position,		&m_tInfo.fPosition,		sizeof(_float3));
+	memcpy(&light.Direction,	&m_tInfo.fDirection,	sizeof(_float3));
+	memcpy(&light.Attenuation0, &m_tInfo.fAttenuation0,	sizeof(_float));
+	memcpy(&light.Attenuation1, &m_tInfo.fAttenuation1,	sizeof(_float));
+	memcpy(&light.Attenuation2, &m_tInfo.fAttenuation2,	sizeof(_float));
+	memcpy(&light.Falloff,		&m_tInfo.fFalloff,		sizeof(_float));
+	memcpy(&light.Range,		&m_tInfo.fRange,		sizeof(_float));
+	memcpy(&light.Theta,		&m_tInfo.fTheta,		sizeof(_float));
+	memcpy(&light.Phi,			&m_tInfo.fPhi,			sizeof(_float));
 
 	m_pGraphic_Device->SetLight(iIndex, &light);
 

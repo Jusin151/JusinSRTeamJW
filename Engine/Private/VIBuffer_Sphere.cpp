@@ -10,7 +10,6 @@ CVIBuffer_Sphere::CVIBuffer_Sphere(const CVIBuffer_Sphere& Prototype)
 	, m_fRadius{ Prototype.m_fRadius }
 	, m_iSlices{ Prototype.m_iSlices }
 	, m_iStacks{ Prototype.m_iStacks }
-	
 {
 }
 

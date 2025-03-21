@@ -17,6 +17,7 @@ private:
 
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
+	HRESULT Add_Light(class CLight* pLight);
 	HRESULT Draw();
 
 private:
@@ -24,8 +25,11 @@ private:
 
 private:
 	list<class CGameObject*>	m_RenderObjects[RG_END];
+	list<class CLight*>			m_Lights;
 
 private:
+	HRESULT Enable_Lights();
+	HRESULT Disable_Lights();
 	HRESULT Render_Priority();
 	HRESULT Render_NonBlend();
 	HRESULT Render_Blend();

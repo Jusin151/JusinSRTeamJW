@@ -17,11 +17,6 @@ HRESULT CLevel_Test::Initialize()
     CJsonLoader jsonLoader;
     if (FAILED(jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_TEST.json", LEVEL_TEST)))
         return E_FAIL;
-    /*if (FAILED(Ready_Layer_Camera(L"Layer_Camera")))
-        return E_FAIL;*/
-    /*if (FAILED(Ready_Layer_Particle(L"Layer_Cube")))
-        return E_FAIL;*/
-
     return S_OK;
 }
 
@@ -33,30 +28,6 @@ void CLevel_Test::Update(_float fTimeDelta)
 HRESULT CLevel_Test::Render()
 {
     SetWindowText(g_hWnd, TEXT("테스트 레벨입니다."));
-    return S_OK;
-}
-
-HRESULT CLevel_Test::Ready_Layer_Camera(const _wstring& strLayerTag)
-{
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_TEST, TEXT("Prototype_GameObject_Camera_Free"),
-    	LEVEL_TEST, strLayerTag)))
-    	return E_FAIL;
-    return S_OK;
-}
-
-HRESULT CLevel_Test::Ready_Layer_Particle(const _wstring& strLayerTag)
-{
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Cube"),
-        LEVEL_TEST, strLayerTag)))
-        return E_FAIL;
-    return S_OK;
-}
-
-HRESULT CLevel_Test::Ready_Layer_BackGround(const _wstring& strLayerTag)
-{
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_TEST, TEXT("Prototype_GameObject_Camera_Free"),
-    	LEVEL_TEST, strLayerTag)))
-    	return E_FAIL;
     return S_OK;
 }
 

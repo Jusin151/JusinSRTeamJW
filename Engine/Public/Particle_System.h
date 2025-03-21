@@ -1,12 +1,17 @@
 ﻿#pragma once
 #include "Component.h"
-#include "Bounding_Box.h"
+#include "BoundingBox.h"
 #include "Bounding_Sphere.h"
 
 BEGIN(Engine)
 
 class ENGINE_DLL CParticle_System abstract : public CComponent
 {
+public:
+	typedef struct tagParticleSystemDesc
+	{
+		DWORD	VBSize;
+	} PARTICLEDESC;
 protected:
 	CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CParticle_System(const CParticle_System& Prototype);
@@ -38,10 +43,10 @@ public:
 protected:
 	class CTexture*				m_pTextureCom = { nullptr };
 protected:
+	_wstring				strName = {};
 	D3DXVECTOR3				m_vPos = {};
-	_wstring strName = {};
 	IDirect3DVertexBuffer9* m_VB = { nullptr };
-	CBounding_Box			m_Bounding_Box = {};
+	BOUNDINGBOX				m_Bounding_Box = {};
 	_float					m_fEmit_Rate = {};
 	_float					m_fSize = {};
 	_uint					m_iMaxParticles = {};
@@ -52,7 +57,7 @@ protected:
 	DWORD	m_VBBatchSize;
 	
 public:
-	static CParticle_System* Clone(void* pArg);
+	virtual CParticle_System* Clone(void* pArg) override;
 	void Free() override;
 };
 

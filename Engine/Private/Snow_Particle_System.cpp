@@ -19,18 +19,34 @@ HRESULT CSnow_Particle_System::Initialize_Prototype()
 
 HRESULT CSnow_Particle_System::Initialize(void* pArg)
 {
-	SNOWDESC desc = *reinterpret_cast<SNOWDESC*>(pArg);
-	m_Bounding_Box = desc.pBounding_Box;
+	
+	SNOWDESC desc;
+	if (nullptr == pArg)
+	{
+		SNOWDESC desc = *reinterpret_cast<SNOWDESC*>(pArg);
+		m_Bounding_Box = desc.Bounding_Box;
+		m_fSize = 0.8f;
+		m_VBSize = 2048;
+		m_VBOffset = 0;
+		m_VBBatchSize = 512;
+	}
+	desc = *reinterpret_cast<SNOWDESC*>(pArg);
+	m_Bounding_Box = desc.Bounding_Box;
 	m_fSize = 0.8f;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 
+	PARTICLEDESC pDesc = { m_VBSize };
+
+	if (FAILED(__super::Initialize(&pDesc)))
+		return E_FAIL;
+	
 	for (_uint i = 0; i < desc.iNumParticles; ++i)
 	{
 		Add_Particle();
 	}
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void CSnow_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
@@ -60,6 +76,32 @@ void CSnow_Particle_System::Update(float fTimeDelta)
 			Reset_Particle(&i);
 		}
 	}
+}
+
+CSnow_Particle_System* CSnow_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CSnow_Particle_System* pInstance = new CSnow_Particle_System(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created : CSnow_Particle_System");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CSnow_Particle_System* CSnow_Particle_System::Clone(void* pArg)
+{
+	CSnow_Particle_System* pInstance = new CSnow_Particle_System(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed to Created : CSnow_Particle_System");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CSnow_Particle_System::Free()

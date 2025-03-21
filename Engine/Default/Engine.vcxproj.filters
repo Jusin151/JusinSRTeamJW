@@ -161,7 +161,7 @@
     <ClInclude Include="..\public\Picking.h">
       <Filter>06.Picking</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Bounding_Box.h">
+    <ClInclude Include="..\public\BoundingBox.h">
       <Filter>04.Components\Particle\BoundingBox</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Bounding_Sphere.h">
@@ -464,9 +464,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Particle.cpp">
       <Filter>04.Components\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Bounding_Box.cpp">
-      <Filter>04.Components\Particle\BoundingBox</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Bounding_Sphere.cpp">
       <Filter>04.Components\Particle\BoundingSphere</Filter>

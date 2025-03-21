@@ -56,6 +56,11 @@ HRESULT CParticle_System::Initialize_Prototype()
 
 HRESULT CParticle_System::Initialize(void* pArg)
 {
+	if (nullptr != pArg)
+	{
+		PARTICLEDESC desc = *reinterpret_cast<PARTICLEDESC*>(pArg);
+		m_VBSize = desc.VBSize;
+	}
 	HRESULT hr = m_pGraphic_Device->CreateVertexBuffer(
 		m_VBSize * sizeof(ATTRIBUTE),
 		D3DUSAGE_DYNAMIC | D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY,
@@ -175,6 +180,7 @@ HRESULT CParticle_System::Render()
 					numParticlesInBatch = 0;
 				}
 			}
+			i++;
 		}
 
 		m_VB->Unlock();

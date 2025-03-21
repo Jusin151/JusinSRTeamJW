@@ -169,6 +169,7 @@
     <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
+    <ClInclude Include="..\public\GameObject_Particle_Test.h" />
     <ClInclude Include="..\public\GameObject_Plane.h" />
     <ClInclude Include="..\public\GameObject_Sphere.h" />
     <ClInclude Include="..\public\Harvester.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="..\public\Minigun.h" />
     <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
+    <ClInclude Include="..\public\Particles.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
@@ -240,6 +242,7 @@
     <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\private\GameObject_Cube.cpp" />
     <ClCompile Include="..\private\GameObject_Light.cpp" />
+    <ClCompile Include="..\private\GameObject_Particle_Test.cpp" />
     <ClCompile Include="..\private\GameObject_Plane.cpp" />
     <ClCompile Include="..\private\GameObject_Sphere.cpp" />
     <ClCompile Include="..\private\Harvester.cpp" />
