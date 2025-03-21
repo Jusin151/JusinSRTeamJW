@@ -150,6 +150,8 @@
       "path": "../../Resources\\Textures\\Map\\TEXTURE_DUNGEON_WALL_3blue.png",
       "tag": "Prototype_Component_Texture_Wall2"
 
+    },
+    {
       "tag": "Prototype_Component_Texture_Minigun",
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Minigun/Minigun%d.png",

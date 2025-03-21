@@ -112,6 +112,26 @@
       "class": "CStructure",
       "level": 4,
       "tag": "Prototype_GameObject_Wall2"
+    },
+    {
+      "class": "CPlayer",
+      "level": 4,
+      "tag": "Prototype_GameObject_Player2"
+    },
+    {
+      "class": "CPlayer",
+      "level": 4,
+      "tag": "Prototype_GameObject_Player25"
+    },
+    {
+      "class": "CStructure",
+      "level": 4,
+      "tag": "Prototype_GameObject_Player2555"
+    },
+    {
+      "class": "CStructure",
+      "level": 4,
+      "tag": "Prototype_GameObject_Player25556"
     }
   ],
   "textures": [
@@ -210,6 +230,30 @@
       "level": 4,
       "path": "../../Resources\\Textures\\Map\\TEXTURE_DUNGEON_WALL_3blue.png",
       "tag": "Prototype_Component_Texture_Wall2"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Weapon\\Magnum\\magnum_shoot0.png",
+      "tag": "Prototype_Component_Texture_Player2"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Weapon\\Harvester\\Harvester0.png",
+      "tag": "Prototype_Component_Texture_Player25"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Weapon\\Magnum\\magnum_shoot0.png",
+      "tag": "Prototype_Component_Texture_Player255"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Monster\\Anubis\\anubis_18.png",
+      "tag": "Prototype_Component_Texture_Player2556"
     }
   ]
 }

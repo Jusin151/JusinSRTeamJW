@@ -268,6 +268,12 @@ void CMyImGui::ShowCreateObjectTab()
 	static _int iLevel = 4;
 	static _int iProtoLevel = 4;
 
+	// 기존 프로토타입 변수 추가
+	static bool bPrototypesLoaded = false;
+	static vector<PrototypeInfo> prototypeInfos;
+	static vector<const char*> prototypeNames;
+	static int selectedPrototypeIndex = -1;
+
 	// JSON에서 로드한 클래스 이름 목록
 	static _bool bClassNamesLoaded = false;
 	static vector<string> classNames;
@@ -309,6 +315,120 @@ void CMyImGui::ShowCreateObjectTab()
 		}
 	}
 
+	// 프로토타입 목록 로드 (최초 한 번만 실행)
+	if (!bPrototypesLoaded)
+	{
+		if (SUCCEEDED(LoadPrototypesFromJson("Prototypes_For_Editor", prototypeInfos)))
+		{
+			prototypeNames.clear();
+			for (const auto& info : prototypeInfos)
+			{
+				prototypeNames.push_back(info.tag.c_str());
+			}
+			bPrototypesLoaded = true;
+		}
+	}
+
+	// 컴포넌트 타입 선택 UI 앞에 추가
+	ImGui::Separator();
+	ImGui::Text("Use Existing Prototype:");
+
+	// 프로토타입 콤보박스
+	if (ImGui::Combo("Prototypes", &selectedPrototypeIndex, prototypeNames.data(), static_cast<int>(prototypeNames.size())))
+	{
+		if (selectedPrototypeIndex >= 0 && selectedPrototypeIndex < prototypeInfos.size())
+		{
+			// 선택된 프로토타입 정보로 UI 필드 업데이트
+			const auto& info = prototypeInfos[selectedPrototypeIndex];
+
+			// 클래스 타입 업데이트
+			for (size_t i = 0; i < classNames.size(); ++i)
+			{
+				if (classNames[i] == info.className)
+				{
+					selectedClassType = static_cast<int>(i);
+					strcpy_s(objectClassTagBuffer, info.className.c_str());
+					break;
+				}
+			}
+
+			// 프로토타입 태그
+			strcpy_s(objectProtoTagBuffer, info.tag.c_str());
+
+			// 텍스처 태그
+			strcpy_s(textureTagBuffer, info.textureTag.c_str());
+
+			// 버퍼 타입 업데이트 - 수정된 부분
+			if (info.bufferTag == "Prototype_Component_VIBuffer_Cube")
+			{
+				selectedBufferType = 0;
+				strcpy_s(bufferNameBuffer, "Prototype_Component_VIBuffer_Cube");
+			}
+			else if (info.bufferTag == "Prototype_Component_VIBuffer_Rect")
+			{
+				selectedBufferType = 1;
+				strcpy_s(bufferNameBuffer, "Prototype_Component_VIBuffer_Rect");
+			}
+			else if (info.bufferTag == "Prototype_Component_VIBuffer_Terrain")
+			{
+				selectedBufferType = 2;
+				strcpy_s(bufferNameBuffer, "Prototype_Component_VIBuffer_Terrain");
+			}
+
+			// 레벨 업데이트
+			iLevel = 4; // 기본값
+			iProtoLevel = info.level;
+
+			// 선택된 텍스처 경로 업데이트
+			m_wstrSelectedTexturePath = ISerializable::Utf8ToWide(info.texturePath);
+			strcpy_s(m_szSelectedPathBuffer, info.texturePath.c_str());
+
+			// 텍스처 미리보기 로드
+			if (!m_wstrSelectedTexturePath.empty())
+			{
+				LoadImagesFromFolder(m_wstrSelectedTexturePath);
+				m_bShowImageWindow = true;
+			}
+		}
+	}
+
+	// 프로토타입으로부터 게임 오브젝트 생성 버튼
+	if (selectedPrototypeIndex >= 0 && ImGui::Button("Create From Selected Prototype"))
+	{
+		if (selectedPrototypeIndex < prototypeInfos.size())
+		{
+			const auto& info = prototypeInfos[selectedPrototypeIndex];
+			_wstring protoTag = ISerializable::Utf8ToWide(info.tag);
+			_wstring layerTag = ISerializable::Utf8ToWide(objectLayerTagBuffer);
+
+			CGameObject::OBJECT_DESC tObjDesc{};
+			tObjDesc.iLevel = iLevel;
+			tObjDesc.iProtoLevel = info.level;
+			tObjDesc.stProtTag = protoTag;
+			tObjDesc.stBufferTag = ISerializable::Utf8ToWide(info.bufferTag);
+			tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(info.textureTag);
+			tObjDesc.iPoolCount = iPoolingCount;
+
+			// 게임 오브젝트 추가
+			if (iPoolingCount != 0)
+			{
+				m_pGameInstance->Reserve_Pool(info.level, protoTag, layerTag, iPoolingCount, &tObjDesc);
+			}
+			else
+			{
+				m_pGameInstance->Add_GameObject(info.level, protoTag, iLevel, layerTag, &tObjDesc);
+			}
+		}
+	}
+
+	// 프로토타입 목록 새로고침 버튼
+	if (ImGui::Button("Refresh Prototypes"))
+	{
+		bPrototypesLoaded = false;  // 다음 프레임에 재로드하도록 설정
+	}
+
+	ImGui::Separator();
+
 	// 선택된 클래스 이름으로 업데이트
 	strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
 
@@ -326,7 +446,6 @@ void CMyImGui::ShowCreateObjectTab()
 		"Prototype_Component_VIBuffer_Rect",
 		"Prototype_Component_VIBuffer_Terrain"
 	};
-
 	// UI 요소들 배치
 	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
 	{
@@ -501,6 +620,10 @@ HRESULT CMyImGui::CreateObjectInstance(
 			return E_FAIL;
 		}
 		prototypeCreated = true;
+	}
+	else
+	{
+		Safe_Release(pGameObject);
 	}
 
 	// 게임 오브젝트 추가
@@ -708,6 +831,114 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& ob
 	return S_OK;
 }
 
+HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes)
+{
+    string JSON_FILE_PATH = "../Save/";
+    if (jsonFileName.empty())
+    {
+        JSON_FILE_PATH += "Prototypes_For_Editor.json";
+    }
+    else
+    {
+        if (jsonFileName.find(".json") == string::npos)
+        {
+            JSON_FILE_PATH += jsonFileName + ".json";
+        }
+        else
+        {
+            JSON_FILE_PATH += jsonFileName;
+        }
+    }
+    
+    // 파일 열기
+    ifstream inputFile(JSON_FILE_PATH);
+    if (!inputFile.is_open())
+    {
+        return E_FAIL;
+    }
+    
+    // JSON 파싱
+    json jsonData;
+    try
+    {
+        inputFile >> jsonData;
+    }
+    catch(const json::parse_error& e)
+    {
+        inputFile.close();
+        return E_FAIL;
+    }
+    inputFile.close();
+    
+    outPrototypes.clear();
+    
+    // 프로토타입 정보 추출
+    if (jsonData.contains("gameObjects") && jsonData["gameObjects"].is_array())
+    {
+        for (const auto& obj : jsonData["gameObjects"])
+        {
+            PrototypeInfo info;
+            info.tag = obj["tag"].get<string>();
+            info.level = obj["level"].get<int>();
+            info.className = obj["class"].get<string>();
+            
+            // 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall")
+            string objBaseName = info.tag;
+            size_t lastUnderscorePos = objBaseName.find_last_of("_");
+            if (lastUnderscorePos != string::npos && lastUnderscorePos + 1 < objBaseName.length())
+            {
+                objBaseName = objBaseName.substr(lastUnderscorePos + 1);
+            }
+            
+            // 관련 텍스처 찾기 (이름 패턴 매칭)
+            if (jsonData.contains("textures") && jsonData["textures"].is_array())
+            {
+                bool textureFound = false;
+                
+                // 정확한 이름 매칭 (예: "Prototype_Component_Texture_Wall")
+                string specificTextureName = "Prototype_Component_Texture_" + objBaseName;
+                
+                for (const auto& tex : jsonData["textures"])
+                {
+                    string texTag = tex["tag"].get<string>();
+                    
+                    // 정확한 이름 매칭 시도
+                    if (texTag == specificTextureName)
+                    {
+                        info.textureTag = texTag;
+                        info.texturePath = tex["path"].get<string>();
+                        info.textureCount = tex["count"].get<int>();
+                        textureFound = true;
+                        break;
+                    }
+                }
+                
+                // 정확한 매칭 실패 시 기본 텍스처 사용
+                if (!textureFound && !jsonData["textures"].empty())
+                {
+                    const auto& defaultTex = jsonData["textures"][0];
+                    info.textureTag = defaultTex["tag"].get<string>();
+                    info.texturePath = defaultTex["path"].get<string>();
+                    info.textureCount = defaultTex["count"].get<int>();
+                }
+            }
+            
+            // 버퍼 태그는 클래스에 따라 기본값 설정
+            if (info.className == "CTerrain")
+            {
+                info.bufferTag = "Prototype_Component_VIBuffer_Terrain";
+            }
+            else
+            {
+                info.bufferTag = "Prototype_Component_VIBuffer_Cube"; // 기본값
+            }
+            
+            outPrototypes.push_back(info);
+        }
+    }
+    
+    return S_OK;
+}
 
 void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
 {
@@ -1040,220 +1271,6 @@ _wstring CMyImGui::SelectFolder()
 	return selectedPath;
 }
 
-HRESULT CMyImGui::CreateObject()
-{
-	static int selectedColliderType = 0;
-	static int selectedBufferType = 0;
-	static int selectedClassType = 0;
-	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube"; // 콜라이더 프로토타입
-	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube"; // 버퍼 프로토타입
-	static char layerTagBuffer[128] = "Com_Collider"; // 콜라이더 컴포넌트 태그
-	static char objectLayerTagBuffer[256] = "Layer_"; // 오브젝트 태그
-	static char textureTagBuffer[256] = "Prototype_Component_Texture"; // 텍스쳐 태그
-	static char objectClassTagBuffer[256] = "C"; // 클래스 이름
-	static char objectProtoTagBuffer[256] = "Prototype_GameObject_"; // 프토로타입 태그
-	static _int iPoolingCount = 0; // 풀링 할 개수
-	static _int iLevel = 4; // 어느 레벨에 둘지 (테스트용 에디터로)
-	static _int iProtoLevel = 4; // 어느 프로토 레벨에 둘지
-
-	// JSON에서 로드한 클래스 이름 목록
-	static _bool bClassNamesLoaded = false;
-	static vector<string> classNames;
-	static vector<const char*> classNamesCStr;
-
-	// JSON 파일에서 클래스 이름 로드 (최초 한 번만 실행)
-	if (!bClassNamesLoaded)
-	{
-		CJsonLoader jsonLoader;
-		// JSON 파일 로드 (Data 폴더의 ClassNames.json 파일에서 로드)
-		if (SUCCEEDED(jsonLoader.LoadClassNamesFromJson("../Save/ClassNames.json", classNames)))
-		{
-			// std::string을 const char*로 변환하여 저장
-			classNamesCStr.clear();
-			for (const auto& name : classNames)
-			{
-				classNamesCStr.push_back(name.c_str());
-			}
-
-			bClassNamesLoaded = true;
-		}
-		else
-		{
-			// 로드 실패 시 기본값 설정 (Create_Object_ByClassName 함수에 있는 클래스들로 초기화)
-			classNames = {
-				"CPlayer", "CTestMonster", "CTerrain", "CStructure",
-				"CCamera_Free", "CCamera_FirstPerson",
-				"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
-				"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",
-				"CUI_Right_Display", "CUI_Bullet_Bar", "CUI_Menu",
-				"CGamePlay_Button", "CUI_Spell_Shop",
-				"CAxe", "CClaymore", "CMagnum", "CStaff", "CShotGun"
-			};
-
-			classNamesCStr.clear();
-			for (const auto& name : classNames)
-			{
-				classNamesCStr.push_back(name.c_str());
-			}
-
-			bClassNamesLoaded = true;
-		}
-	}
-	// 선택된 클래스 이름으로 업데이트
-	strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
-	// 충돌체 타입 배열
-	static const char* colliderTypes[] = { "Cube", "Sphere" };
-	static const char* colliderProtoNames[] = {
-		"Prototype_Component_Collider_Cube",
-		"Prototype_Component_Collider_Sphere"
-	};
-
-	// 버퍼 타입 배열
-	static const char* bufferTypes[] = { "Cube", "Rect","Terrain"};
-	static const char* bufferProtoNames[] = {
-		"Prototype_Component_VIBuffer_Cube",
-		"Prototype_Component_VIBuffer_Rect",
-		"Prototype_Component_VIBuffer_Terrain"
-	};
-
-	// ImGui 컴포넌트 선택 인터페이스 표시
-	ImGui::Begin("Object Attribute");
-
-	// 충돌체 타입 드롭다운
-	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
-	{
-		// 충돌체 타입이 변경되면 컴포넌트 이름 업데이트
-		strcpy_s(colliderNameBuffer, colliderProtoNames[selectedColliderType]);
-	}
-
-	// 버퍼 타입 드롭다운
-	if (ImGui::Combo("Buffer Type", &selectedBufferType, bufferTypes, IM_ARRAYSIZE(bufferTypes)))
-	{
-		strcpy_s(bufferNameBuffer, bufferProtoNames[selectedBufferType]);
-	}
-
-	// 클래스 타입 드롭다운 (JSON에서 로드한 클래스 이름 사용)
-	if (ImGui::Combo("Class Type", &selectedClassType, classNamesCStr.data(), static_cast<int>(classNamesCStr.size())))
-	{
-		// 선택된 클래스 이름으로 업데이트
-		strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
-	}
-
-	// 충돌체 컴포넌트 이름 입력 필드
-	ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
-
-	// 레이어 태그 입력
-	ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
-
-	ImGui::InputText("Object Proto Layer Tag", objectProtoTagBuffer, IM_ARRAYSIZE(objectProtoTagBuffer));
-	ImGui::InputText("Object Layer Tag", objectLayerTagBuffer, IM_ARRAYSIZE(objectLayerTagBuffer));
-
-	// 충돌체 컴포넌트 이름 입력 필드
-	ImGui::InputText("Texture Tag", textureTagBuffer, IM_ARRAYSIZE(textureTagBuffer));
-
-	ImGui::InputInt("Pool Count", &iPoolingCount);
-	ImGui::InputInt("Level", &iLevel);
-	ImGui::InputInt("ProtoLevel", &iProtoLevel);
-
-	static _wstring selectedFolder;
-	if (ImGui::Button("Select Texture"))
-	{
-		selectedFolder = SelectFile();
-		if (!selectedFolder.empty())
-		{
-			selectedFolder = GetRelativePath(selectedFolder);
-			m_bShowImageWindow = true;
-		}
-	}
-
-	// 생성 버튼
-	if (ImGui::Button("Create"))
-	{
-		// char에서 wchar_t로 문자열 변환을 위한 변수 및 버퍼
-		wchar_t wBufferName[256] = {};
-		wchar_t wColliderName[256] = {};
-		wchar_t wLayerTag[128] = {};
-		wchar_t wtextureTag[256] = {};
-		wchar_t wobjectClassTag[256] = {};
-		wchar_t wobjectProtoTagBuffer[256] = {};
-		wchar_t wobjectLayerTagBuffer[256] = {};
-
-		// MultiByteToWideChar 함수를 사용하여 변환
-		MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
-		MultiByteToWideChar(CP_ACP, 0, colliderNameBuffer, -1, wColliderName, 256);
-		MultiByteToWideChar(CP_ACP, 0, layerTagBuffer, -1, wLayerTag, 128);
-		MultiByteToWideChar(CP_ACP, 0, textureTagBuffer, -1, wtextureTag, 256);
-		MultiByteToWideChar(CP_ACP, 0, objectClassTagBuffer, -1, wobjectClassTag, 256);
-		MultiByteToWideChar(CP_ACP, 0, objectProtoTagBuffer, -1, wobjectProtoTagBuffer, 256);
-		MultiByteToWideChar(CP_ACP, 0, objectLayerTagBuffer, -1, wobjectLayerTagBuffer, 256);
-
-		CJsonLoader jsonLoader;
-
-		CBase* pGameObject = jsonLoader.Create_Object_ByClassName(ISerializable::WideToUtf8(wobjectClassTag), m_pGraphic_Device);
-
-		_wstring stProtoTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectProtoTagBuffer));
-		_wstring stLayerTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wobjectLayerTagBuffer));
-		_wstring stTextureTag = ISerializable::Utf8ToWide(ISerializable::WideToUtf8(wtextureTag));
-
-		CGameObject::OBJECT_DESC tObjDesc{};
-		tObjDesc.iLevel = iLevel;
-		tObjDesc.iProtoLevel = iProtoLevel;
-		tObjDesc.stProtTag = stProtoTag;
-		tObjDesc.stBufferTag = wBufferName;
-		tObjDesc.stProtTextureTag = stTextureTag;
-		tObjDesc.iPoolCount = iPoolingCount;
-
-		if (FAILED(m_pGameInstance->Find_Prototype(stTextureTag)))
-		{
-			if (FAILED(m_pGameInstance->Add_Prototype(iLevel, stTextureTag,
-				CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, ISerializable::WStringToWChar(selectedFolder), 1))))
-			{
-				ImGui::End();
-				return E_FAIL;
-			}
-		}
-
-		if (FAILED(m_pGameInstance->Find_Prototype(stProtoTag)))
-		{
-			if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
-			{
-				Safe_Release(pGameObject);
-				ImGui::End();
-				return E_FAIL;
-			}
-		}
-
-		// 게임 오브젝트 추가
-		if (iPoolingCount != 0)
-		{
-			if (FAILED(m_pGameInstance->Reserve_Pool(iProtoLevel, stProtoTag,
-				stLayerTag, iPoolingCount, &tObjDesc)))
-			{
-				ImGui::End();
-				return E_FAIL;
-			}
-		}
-		else
-		{
-			if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
-				iLevel, stLayerTag, &tObjDesc)))
-			{
-				ImGui::End();
-				return E_FAIL;
-			}
-		}
-	}
-
-	//// JSON 저장 버튼 추가
-	//if (ImGui::Button("Save Classes to JSON"))
-	//{
-	//	// classNames 벡터를 JSON 파일로 저장
-	//	SaveClassNamesToJson("./Data/ClassNames.json", classNames);
-	//}
-
-	ImGui::End();
-	return S_OK;
-}
 
 _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 {
