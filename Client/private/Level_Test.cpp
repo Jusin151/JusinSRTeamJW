@@ -21,33 +21,56 @@ HRESULT CLevel_Test::Initialize()
 
 void CLevel_Test::Update(_float fTimeDelta)
 {
+    int a = 10;
 }
 
 HRESULT CLevel_Test::Render()
 {
-    return E_NOTIMPL;
+    SetWindowText(g_hWnd, TEXT("테스트 레벨입니다."));
+    return S_OK;
 }
 
 HRESULT CLevel_Test::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-    return E_NOTIMPL;
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_TEST, TEXT("Prototype_GameObject_Camera_Free"),
+    	LEVEL_TEST, strLayerTag)))
+    	return E_FAIL;
+    return S_OK;
 }
 
 HRESULT CLevel_Test::Ready_Layer_Particle(const _wstring& strLayerTag)
 {
-    return E_NOTIMPL;
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_TEST, TEXT("Prototype_GameObject_Camera_Free"),
+        LEVEL_TEST, strLayerTag)))
+        return E_FAIL;
+    return S_OK;
 }
 
 HRESULT CLevel_Test::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
-    return E_NOTIMPL;
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_TEST, TEXT("Prototype_GameObject_Camera_Free"),
+    	LEVEL_TEST, strLayerTag)))
+    	return E_FAIL;
+    return S_OK;
 }
 
 CLevel_Test* CLevel_Test::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    return nullptr;
+    CLevel_Test* pInstance = new CLevel_Test(pGraphic_Device);
+
+    if (FAILED(pInstance->Initialize()))
+    {
+        MSG_BOX("Failed to Created : CLevel_Test");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
 }
 
 void CLevel_Test::Free()
 {
+    __super::Free();
+
+    Safe_Release(m_pPickingSys);
+    CPickingSys::Destroy_Instance();
 }

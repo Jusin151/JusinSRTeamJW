@@ -382,7 +382,9 @@
     <ClInclude Include="..\public\GameObject_Light.h">
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Level_Test.h" />
+    <ClInclude Include="..\public\Level_Test.h">
+      <Filter>01.Levels\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -537,14 +539,16 @@
     <ClCompile Include="..\private\GameObject_Light.cpp">
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\ShotGun.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\ShotGun</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp" />
-    <ClCompile Include="..\private\Level_Test.cpp" />
+    <ClCompile Include="..\private\Level_Test.cpp">
+      <Filter>01.Levels\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
