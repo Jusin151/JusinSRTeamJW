@@ -211,6 +211,12 @@
     <Filter Include="02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic">
       <UniqueIdentifier>{7ab84fed-b442-4374-9c6a-80505151f63b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02. Item\1. Icons">
+      <UniqueIdentifier>{f10e4e00-882e-4088-a361-9eb40fe2c912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Base\Sphere">
+      <UniqueIdentifier>{4e0e0eef-612c-4974-b164-6c3d9dbca689}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -363,7 +369,6 @@
     <ClInclude Include="..\public\Inventory.h">
       <Filter>Inven</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Item_Icon.h" />
     <ClInclude Include="..\Public\Monster_Base.h">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClInclude>
@@ -390,6 +395,30 @@
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Light.h">
       <Filter>02.GameObjects\Base\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Staff.h">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Icon.h">
+      <Filter>02.GameObjects\02. Item\1. Icons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Test.h">
+      <Filter>01.Levels\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Harvester.h">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\04. Harvester</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Minigun.h">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\03. Minigun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sonic.h">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Sphere.h">
+      <Filter>02.GameObjects\Base\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObjects_Base.h">
+      <Filter>02.GameObjects\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -517,7 +546,6 @@
     <ClCompile Include="..\Private\Inventory.cpp">
       <Filter>Inven</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Item_Icon.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClCompile>
@@ -545,9 +573,6 @@
     <ClCompile Include="..\private\GameObject_Light.cpp">
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\ShotGun.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\01 .ShotGun</Filter>
     </ClCompile>
@@ -566,6 +591,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Icon.cpp">
+      <Filter>02.GameObjects\02. Item\1. Icons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Sphere.cpp">
+      <Filter>02.GameObjects\Base\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

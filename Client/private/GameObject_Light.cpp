@@ -1,8 +1,7 @@
-﻿#include "GameObject_Cube.h"
+﻿#include "GameObject_Light.h"
+#include "Light.h"
 #include "Transform.h"
-#include "Texture.h"
 #include "VIBuffer_Cube.h"
-#include "GameObject_Light.h"
 
 CGameObject_Light::CGameObject_Light(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
@@ -50,9 +49,6 @@ HRESULT CGameObject_Light::Pre_Render()
 
 HRESULT CGameObject_Light::Render()
 {
-    if (FAILED(m_pTextureCom->Bind_Resource(0)))
-        return E_FAIL;
-
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
 
@@ -89,9 +85,9 @@ HRESULT CGameObject_Light::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture"),
+    /*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;
+        return E_FAIL;*/
 
     return S_OK;
 }
@@ -126,4 +122,15 @@ CGameObject_Light* CGameObject_Light::Clone(void* pArg)
 void CGameObject_Light::Free()
 {
     __super::Free();
+}
+
+json CGameObject_Light::Serialize()
+{
+    json j = __super::Serialize();
+    return j;
+}
+
+void CGameObject_Light::Deserialize(const json& j)
+{
+    SET_TRANSFORM(j, m_pTransformCom);
 }

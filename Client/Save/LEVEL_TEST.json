@@ -1,33 +1,143 @@
 {
-  "layers": {
-    "Layer_Camera": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Camera",
-        "OBJECT_DESC": {
-          "BufferTag": "",
-          "Level": 4,
-          "ProtTag": "Prototype_GameObject_Camera_Free",
-          "ProtTextureTag": "",
-          "ProtoLevel": 4
-        }
-      }
-    ],
-    "Layer_Player": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Player",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Cube",
-          "Level": 4,
-          "ProtTag": "",
-          "ProtTextureTag": "Prototype_Component_Texture_Player",
-          "ProtoLevel": 4
-        }
-      }
-    ]
-  },
-  "level": 3
-}
+    "layers": {
+        "Layer_Camera": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Camera",
+                "OBJECT_DESC": {
+                    "BufferTag": "",
+                    "Level": 5,
+                    "ProtTag": "Prototype_GameObject_Camera_Free",
+                    "ProtTextureTag": "",
+                    "ProtoLevel": 5
+                }
+            }
+        ],
+        "Layer_Terrain": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Terrain",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Terrain",
+                    "Level": 5,
+                    "ProtTag": "Prototype_GameObject_Terrain",
+                    "ProtTextureTag": "Prototype_Component_Texture_Terrain",
+                    "ProtoLevel": 5
+                }
+            }
+        ],
+        "Layer_GameObject": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_GameObject",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 5,
+                    "ProtTag": "Prototype_GameObject_Cube",
+                    "ProtTextureTag": "Prototype_Component_Cube_Base",
+                    "ProtoLevel": 0
+                },
+                "is_cube_collider": false,
+                "position": [
+                    0.0,
+                    1.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_GameObject",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 5,
+                    "ProtTag": "Prototype_GameObject_Cube",
+                    "ProtTextureTag": "Prototype_Component_Cube_Base",
+                    "ProtoLevel": 0
+                },
+                "is_cube_collider": false,
+                "position": [
+                    0.0,
+                    0.0,
+                    -1.5
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_GameObject",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 5,
+                    "ProtTag": "Prototype_GameObject_Light",
+                    "ProtoLevel": 0
+                },
+                "position": [
+                    0.0,
+                    5.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_GameObject",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Sphere",
+                    "Level": 5,
+                    "ProtTag": "Prototype_GameObject_Sphere",
+                    "ProtoLevel": 0
+                },
+                "position": [
+                    0.0,
+                    0.0,
+                    2.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        ]
+    },
+    "level": 5
+  }

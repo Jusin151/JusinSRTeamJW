@@ -42,7 +42,7 @@ void CLayer::Priority_Update(_float fTimeDelta)
 
 void CLayer::Update(_float fTimeDelta)
 {
- 	for (auto& pGameObject : m_GameObjects)
+  	for (auto& pGameObject : m_GameObjects)
 	{
 		if (nullptr != pGameObject&&pGameObject->IsActive())
 			pGameObject->Update(fTimeDelta);

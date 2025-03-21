@@ -195,6 +195,12 @@ HRESULT CLoader::Loading_For_Editor()
 
 HRESULT CLoader::Loading_For_Test()
 {
+
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TEST, // 카메라 원형객체
+	//	TEXT("Prototype_GameObject_Camera_Free"),
+	//	CCamera_Free::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+
 	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 	CJsonLoader jsonLoader;
 	// JSON 로더를 사용하여 모든 프로토타입 로드

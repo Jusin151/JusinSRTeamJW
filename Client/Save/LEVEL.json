@@ -156,6 +156,20 @@
                 }
             }
         ],
+        "Layer_GameObject_Cube": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_GameObject_Cube",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 4,
+                    "ProtTag": "Prototype_GameObject_Cube",
+                    "ProtTextureTag": "Prototype_Component_Texture_Base",
+                    "ProtoLevel": 0
+                }
+            }
+        ],
         "Layer_Terrain": [
             {
                 "FromPool": false,

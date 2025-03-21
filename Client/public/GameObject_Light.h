@@ -3,12 +3,9 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-class CTexture;
+class CLight;
 class CTransform;
 class CVIBuffer_Cube;
-class CCollider_Sphere;
-class CCollider_Cube;
-class CLight;
 END
 
 class CGameObject_Light final : public CGameObject
@@ -23,10 +20,11 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	/* 사본이 호출하는 함수. */
 	virtual HRESULT Initialize(void* pArg) override;
-
+public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
+public:
 	virtual HRESULT Pre_Render();
 	virtual HRESULT Render() override;
 	virtual HRESULT Post_Render();
@@ -34,14 +32,16 @@ public:
 
 private:
 	HRESULT Ready_Components();
-	CTexture*		m_pTextureCom = { nullptr };
+	CLight*			m_pLightCom		= { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
-	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
+	CVIBuffer_Cube* m_pVIBufferCom	= { nullptr };
+	
 
 public:
 	static CGameObject_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject_Light* Clone(void* pArg) override;
 	virtual void Free() override;
 
-	
+	virtual json Serialize() override;
+	virtual void Deserialize(const json& j) override;
 };

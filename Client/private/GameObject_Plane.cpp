@@ -126,3 +126,12 @@ void CGameObject_Plane::Free()
 {
     __super::Free();
 }
+
+json CGameObject_Plane::Serialize()
+{
+    return json();
+}
+
+void CGameObject_Plane::Deserialize(const json& j)
+{
+}

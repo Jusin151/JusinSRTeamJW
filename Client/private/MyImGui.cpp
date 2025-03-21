@@ -291,7 +291,7 @@ void CMyImGui::ShowCreateObjectTab()
 		{
 			// 기본 클래스 이름 설정
 			classNames = {
-				"CPlayer", "CTestMonster", "CTerrain", "CStructure",
+				"CGameObject_Cube", "CGameObject_Plane", "CGameObject_Light","CPlayer", "CTestMonster", "CTerrain", "CStructure",
 				"CCamera_Free", "CCamera_FirstPerson",
 				"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
 				"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",
@@ -1081,7 +1081,7 @@ HRESULT CMyImGui::CreateObject()
 		{
 			// 로드 실패 시 기본값 설정 (Create_Object_ByClassName 함수에 있는 클래스들로 초기화)
 			classNames = {
-				"CPlayer", "CTestMonster", "CTerrain", "CStructure",
+				"CGameObject_Cube", "CGameObject_Plane", "CGameObject_Light", "CPlayer", "CTestMonster", "CTerrain", "CStructure",
 				"CCamera_Free", "CCamera_FirstPerson",
 				"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
 				"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",

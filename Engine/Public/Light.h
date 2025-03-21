@@ -12,7 +12,7 @@ class ENGINE_DLL CLight final : public CComponent
 		_float4 m_fDiffuse = {};
 		_float4 m_fAmbient = {};
 		_float4 m_fSpecular = {};
-		_float3 m_fPosiotn = {};
+		_float3 m_fPosition = {};
 		_float3 m_fDirection = {};
 		_float	m_fAttenuation0 = {};
 		_float	m_fAttenuation1 = {};
@@ -26,6 +26,8 @@ private:
 	CLight(PDIRECT3DDEVICE9 pGraphic_Device);
 	CLight(const CLight& Prototype);
 	virtual ~CLight() = default;
+public:
+	void Set_Position(const _float3& position) { memcpy(&m_tInfo.m_fPosition, &position, sizeof(position)); }
 
 public:
 	virtual HRESULT Initialize_Prototype(LIGHTTYPE eType);

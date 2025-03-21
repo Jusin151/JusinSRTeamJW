@@ -15,8 +15,14 @@ CLevel_Test::CLevel_Test(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Test::Initialize()
 {
     CJsonLoader jsonLoader;
-    jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_TEST.json", LEVEL_TEST);
-    return E_NOTIMPL;
+    if (FAILED(jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_TEST.json", LEVEL_TEST)))
+        return E_FAIL;
+    /*if (FAILED(Ready_Layer_Camera(L"Layer_Camera")))
+        return E_FAIL;*/
+    /*if (FAILED(Ready_Layer_Particle(L"Layer_Cube")))
+        return E_FAIL;*/
+
+    return S_OK;
 }
 
 void CLevel_Test::Update(_float fTimeDelta)
@@ -40,7 +46,7 @@ HRESULT CLevel_Test::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Test::Ready_Layer_Particle(const _wstring& strLayerTag)
 {
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_TEST, TEXT("Prototype_GameObject_Camera_Free"),
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Cube"),
         LEVEL_TEST, strLayerTag)))
         return E_FAIL;
     return S_OK;
@@ -60,7 +66,7 @@ CLevel_Test* CLevel_Test::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
     if (FAILED(pInstance->Initialize()))
     {
-        MSG_BOX("Failed to Created : CLevel_Test");
+         MSG_BOX("Failed to Created : CLevel_Test");
         Safe_Release(pInstance);
     }
 

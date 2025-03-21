@@ -1,23 +1,24 @@
-﻿#include "GameObject_Cube.h"
+﻿#include "GameObject_Sphere.h"
 #include "GameInstance.h"
+#include "VIBuffer_Sphere.h"
 
-CGameObject_Cube::CGameObject_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGameObject_Sphere::CGameObject_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
 }
 
-CGameObject_Cube::CGameObject_Cube(const CGameObject& Prototype)
+CGameObject_Sphere::CGameObject_Sphere(const CGameObject& Prototype)
     : CGameObject{ Prototype }
 {
 
 }
 
-HRESULT CGameObject_Cube::Initialize_Prototype()
+HRESULT CGameObject_Sphere::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CGameObject_Cube::Initialize(void* pArg)
+HRESULT CGameObject_Sphere::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -27,26 +28,27 @@ HRESULT CGameObject_Cube::Initialize(void* pArg)
     return S_OK;
 }
 
-void CGameObject_Cube::Priority_Update(_float fTimeDelta)
+void CGameObject_Sphere::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CGameObject_Cube::Update(_float fTimeDelta)
+void CGameObject_Sphere::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 }
 
-void CGameObject_Cube::Late_Update(_float fTimeDelta)
+void CGameObject_Sphere::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CGameObject_Cube::Pre_Render()
+HRESULT CGameObject_Sphere::Pre_Render()
 {
-    return E_NOTIMPL;
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+    return S_OK;
 }
 
-HRESULT CGameObject_Cube::Render()
+HRESULT CGameObject_Sphere::Render()
 {
     if (FAILED(m_pTextureCom->Bind_Resource(0)))
         return E_FAIL;
@@ -67,12 +69,13 @@ HRESULT CGameObject_Cube::Render()
     return S_OK;
 }
 
-HRESULT CGameObject_Cube::Post_Render()
+HRESULT CGameObject_Sphere::Post_Render()
 {
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
     return S_OK;
 }
 
-HRESULT CGameObject_Cube::Ready_Components()
+HRESULT CGameObject_Sphere::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -82,12 +85,12 @@ HRESULT CGameObject_Cube::Ready_Components()
         return E_FAIL;
 
     /* For.Com_VIBuffer */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Sphere"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Cube_Base"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Base"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -95,7 +98,7 @@ HRESULT CGameObject_Cube::Ready_Components()
 }
 
 
-json CGameObject_Cube::Serialize()
+json CGameObject_Sphere::Serialize()
 {
     json j = __super::Serialize();
 
@@ -114,14 +117,14 @@ json CGameObject_Cube::Serialize()
     return j;
 }
 
-void CGameObject_Cube::Deserialize(const json& j)
+void CGameObject_Sphere::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }
 
-CGameObject_Cube* CGameObject_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGameObject_Sphere* CGameObject_Sphere::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CGameObject_Cube* pInstance = new CGameObject_Cube(pGraphic_Device);
+    CGameObject_Sphere* pInstance = new CGameObject_Sphere(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
@@ -132,20 +135,20 @@ CGameObject_Cube* CGameObject_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     return pInstance;
 }
 
-CGameObject_Cube* CGameObject_Cube::Clone(void* pArg)
+CGameObject_Sphere* CGameObject_Sphere::Clone(void* pArg)
 {
-    CGameObject_Cube* pInstance = new CGameObject_Cube(*this);
+    CGameObject_Sphere* pInstance = new CGameObject_Sphere(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Created : CGameObject_Cube");
+        MSG_BOX("Failed to Created : CGameObject_Sphere");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CGameObject_Cube::Free()
+void CGameObject_Sphere::Free()
 {
     __super::Free();
     Safe_Release(m_pTextureCom);
