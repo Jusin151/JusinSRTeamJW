@@ -100,8 +100,10 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
     json j;
     file >> j;
 
-    for (const auto& [layerName, layerObjects] : j["layers"].items())
+    for (const auto& item : j["layers"].items())
     {
+        const auto& layerName = item.key(); //first;    // 키 (문자열)
+        const auto& layerObjects = item.value(); // 값 (JSON 객체)
         _wstring wLayerName = ISerializable::Utf8ToWide(layerName);
 
         for (const auto& objData : layerObjects)

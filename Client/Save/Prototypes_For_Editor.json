@@ -1,136 +1,204 @@
 {
-  "textures": [
+  "buffers": [
     {
-      "tag": "Prototype_Component_Texture",
-      "level": 4,
-      "path": "../../Resources/Textures/Player/Player.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Player",
-      "level": 4,
-      "path": "../../Resources/Textures/Player/Player.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Terrain",
+      "class": "CVIBuffer_Terrain",
+      "height": 256,
       "level": 3,
-      "path": "../../Resources/Textures/Terrain/Tile0.jpg",
-      "count": 1
+      "tag": "Prototype_Component_VIBuffer_Terrain",
+      "width": 256
     },
     {
-      "tag": "Prototype_Component_Texture_Axe",
+      "class": "CVIBuffer_Cube",
+      "height": 0,
       "level": 3,
-      "path": "../../Resources/Textures/Weapon/Axe/axe_attack%d.png",
-      "count": 10
+      "tag": "Prototype_Component_VIBuffer_Cube",
+      "width": 0
     },
     {
-      "tag": "Prototype_Component_Texture_Claymore",
+      "class": "CVIBuffer_Rect",
+      "height": 0,
       "level": 3,
-      "path": "../../Resources/Textures/Weapon/Claymoreee/claymore_pwI%d.png",
-      "count": 14
-    },
-    {
-      "tag": "Prototype_Component_Texture_Magnum",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Magnum/magnum_shoot%d.png",
-      "count": 6
-    },
-    {
-      "tag": "Prototype_Component_Texture_Staff",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Staff/Default/Staff_%d.png",
-      "count": 32
-    },
-    {
-      "tag": "Prototype_Component_Texture_ShotGun",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/ShotGun/ShotGun_%d.png",
-      "count": 17
-    },
-    {
-      "tag": "Prototype_Component_Texture_Weapon_Icon",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
-      "count": 5
-    },
-    {
-      "tag": "Prototype_Component_Texture_Inven",
-      "level": 3,
-      "path": "../../Resources/Textures/Inven/Inven.png",
-      "count": 1
+      "tag": "Prototype_Component_VIBuffer_Rect",
+      "width": 0
     }
-
   ],
   "gameObjects": [
     {
-      "tag": "Prototype_GameObject_",
+      "class": "CStructure",
       "level": 4,
-      "class": "CStructure"
+      "tag": "Prototype_GameObject_Wall"
     },
     {
-      "tag": "Prototype_GameObject_Player",
+      "class": "CCrocman",
       "level": 4,
-      "class": "CPlayer"
+      "tag": "Prototype_GameObject_Crocman"
     },
     {
-      "tag": "Prototype_GameObject_TestMonster",
+      "class": "CStructure",
       "level": 4,
-      "class": "CTestMonster"
+      "tag": "Prototype_GameObject_"
     },
     {
-      "tag": "Prototype_GameObject_Terrain",
+      "class": "CPlayer",
       "level": 4,
-      "class": "CTerrain"
+      "tag": "Prototype_GameObject_Player"
     },
     {
-      "tag": "Prototype_GameObject_Camera_Free",
+      "class": "CTestMonster",
       "level": 4,
-      "class": "CCamera_Free"
+      "tag": "Prototype_GameObject_TestMonster"
     },
     {
-      "tag": "Prototype_GameObject_Camera_FirstPerson",
+      "class": "CTerrain",
       "level": 4,
-      "class": "CCamera_FirstPerson"
+      "tag": "Prototype_GameObject_Terrain"
     },
     {
-      "tag": "Prototype_GameObject_Monster",
+      "class": "CCamera_Free",
       "level": 4,
-      "class": "CTestMonster"
+      "tag": "Prototype_GameObject_Camera_Free"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Axe",
+      "class": "CCamera_FirstPerson",
+      "level": 4,
+      "tag": "Prototype_GameObject_Camera_FirstPerson"
+    },
+    {
+      "class": "CTestMonster",
+      "level": 4,
+      "tag": "Prototype_GameObject_Monster"
+    },
+    {
+      "class": "CAxe",
       "level": 3,
-      "class": "CAxe"
+      "tag": "Prototype_GameObject_Weapon_Axe"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore",
+      "class": "CClaymore",
       "level": 3,
-      "class": "CClaymore"
+      "tag": "Prototype_GameObject_Weapon_Claymore"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore_Magnum",
+      "class": "CMagnum",
       "level": 3,
-      "class": "CMagnum"
+      "tag": "Prototype_GameObject_Weapon_Claymore_Magnum"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore_Staff",
+      "class": "CStaff",
       "level": 3,
-      "class": "CStaff"
+      "tag": "Prototype_GameObject_Weapon_Claymore_Staff"
     },
     {
-      "tag": "Prototype_GameObject_Weapon_Claymore_ShotGun",
+      "class": "CShotGun",
       "level": 3,
-      "class": "CShotGun"
+      "tag": "Prototype_GameObject_Weapon_Claymore_ShotGun"
+    },
+    {
+      "class": "CStructure",
+      "level": 4,
+      "tag": "Prototype_GameObject_Test1"
+    },
+    {
+      "class": "CStructure",
+      "level": 4,
+      "tag": "Prototype_GameObject_tt"
+    },
+    {
+      "class": "CStructure",
+      "level": 0,
+      "tag": "Prototype_GameObject_ll"
     }
   ],
-  "buffers": [
+  "textures": [
     {
-      "tag": "Prototype_Component_VIBuffer_Terrain",
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources/Textures/Player/Player.png",
+      "tag": "Prototype_Component_Texture"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources/Textures/Player/Player.png",
+      "tag": "Prototype_Component_Texture_Player"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
+      "tag": "Prototype_Component_Texture_Terrain"
+    },
+    {
+      "count": 10,
       "level": 3,
-      "class": "CVIBuffer_Terrain",
-      "width": 256,
-      "height": 256
+      "path": "../../Resources/Textures/Weapon/Axe/axe_attack%d.png",
+      "tag": "Prototype_Component_Texture_Axe"
+    },
+    {
+      "count": 14,
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Claymoreee/claymore_pwI%d.png",
+      "tag": "Prototype_Component_Texture_Claymore"
+    },
+    {
+      "count": 6,
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Magnum/magnum_shoot%d.png",
+      "tag": "Prototype_Component_Texture_Magnum"
+    },
+    {
+      "count": 32,
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Staff/Default/Staff_%d.png",
+      "tag": "Prototype_Component_Texture_Staff"
+    },
+    {
+      "count": 17,
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/ShotGun/ShotGun_%d.png",
+      "tag": "Prototype_Component_Texture_ShotGun"
+    },
+    {
+      "count": 5,
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
+      "tag": "Prototype_Component_Texture_Weapon_Icon"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources/Textures/Inven/Inven.png",
+      "tag": "Prototype_Component_Texture_Inven"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
+      "tag": "Prototype_Component_Texture_Wall"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources/Textures/Monster/Crocman/Crocman_%d.png",
+      "tag": "Prototype_Component_Texture_Crocman"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Map\\texture_egypt_door_frame0065.png",
+      "tag": "Prototype_Component_Texture_Test1"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Monster\\Anubis\\anubis_0.png",
+      "tag": "Prototype_Component_Texture22"
+    },
+    {
+      "count": 1,
+      "level": 4,
+      "path": "../../Resources\\Textures\\Monster\\Anubis\\anubis_0.png",
+      "tag": "Prototype_Component_Texturell"
     }
   ]
 }

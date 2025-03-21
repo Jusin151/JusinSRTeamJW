@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #pragma warning (disable : 4251)
-
+#define NOMINMAX
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -34,11 +34,12 @@ using json = nlohmann::json;
 
 using namespace FMOD;
 #pragma endregion
-
 #pragma region IMGUI
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
+#include "../../External Libraries/ImGuizmo-master/ImGuizmo.h" 
 #pragma endregion
 
 #ifdef _DEBUG

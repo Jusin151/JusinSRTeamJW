@@ -1,5 +1,6 @@
 ﻿#include "Camera_Free.h"
 #include "PickingSys.h" // 테스트 용으로 헤더 추가
+#include "MyImGui.h"
 
 CCamera_Free::CCamera_Free(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCamera { pGraphic_Device }
@@ -92,6 +93,8 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	_float3 vTargetVelocity = _float3(0.f, 0.f, 0.f);
 
 	/* 카메라의 움직임 제어 */
+
+
 	if (GetKeyState('W') & 0x8000)
 	{
 		vTargetVelocity.z += 1.f * fSpeed;
@@ -116,6 +119,7 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	{
 		vTargetVelocity.y += 1.f * fSpeed;
 	}
+ 
 
 	// 속도 벡터 업데이트 (부드러운 감속 적용)
 	m_vCurrentVelocity.x = Lerp(m_vCurrentVelocity.x, vTargetVelocity.x, 1.0f - powf(m_fDamping, fTimeDelta * 60.f));

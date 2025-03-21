@@ -141,6 +141,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/Base0.png"), 1))))
 		return E_FAIL;
+	//"I:\BamtoliyaGithub\JusinSRTeamJW\Resources\Textures\Base0.dds"
+	/* For.Prototype_Component_Texture_Cube_Base*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Cube_Base"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
+			TEXT("../../Resources/Textures/XYZ.dds"), 1))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
@@ -186,12 +193,6 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
-	
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, 
-		TEXT("Prototype_GameObject_Structure"),
-		CStructure::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Plane"),
 		CGameObject_Plane::Create(m_pGraphic_Device))))
