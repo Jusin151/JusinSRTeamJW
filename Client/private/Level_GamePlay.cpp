@@ -625,6 +625,44 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		&Weapon_Staff_Desc)))
 		return E_FAIL;
 
+	CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
+	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
+	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
+	Weapon_Minigun_Desc.vSize = { 545,395.f };
+	Weapon_Minigun_Desc.Damage = { 100.f };
+	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
+	Weapon_Minigun_Desc.Range = { 3.f };
+	Weapon_Minigun_Desc.Cooldown = { 1.f };
+  	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Minigun"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
+		&Weapon_Minigun_Desc)))
+		return E_FAIL;
+
+	CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
+	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
+	Weapon_Harvester_Desc.vPos = { 200.f,0.f };
+	Weapon_Harvester_Desc.vSize = { 285.f,300.f };
+	Weapon_Harvester_Desc.Damage = { 100.f };
+	Weapon_Harvester_Desc.AttackSpeed = { 1.f };
+	Weapon_Harvester_Desc.Range = { 3.f };
+	Weapon_Harvester_Desc.Cooldown = { 1.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harvester"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Harvester"),
+		&Weapon_Harvester_Desc)))
+		return E_FAIL;
+
+	CWeapon_Base::Weapon_DESC Weapon_Sonic_Desc{}; // 소닉 원형객체
+	Weapon_Sonic_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Sonic;
+	Weapon_Sonic_Desc.vPos = { 0.f,0.f };
+	Weapon_Sonic_Desc.vSize = { 436.f,316.f };
+	Weapon_Sonic_Desc.Damage = { 100.f };
+	Weapon_Sonic_Desc.AttackSpeed = { 1.f };
+	Weapon_Sonic_Desc.Range = { 3.f };
+	Weapon_Sonic_Desc.Cooldown = { 1.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sonic"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Sonic"),
+		&Weapon_Sonic_Desc)))
+		return E_FAIL;
 
 
 	return S_OK;

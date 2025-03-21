@@ -149,6 +149,21 @@ HRESULT CLoader::Loading_For_GamePlay()
     	CItem_Icon::Create(m_pGraphic_Device)))) 
     	return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 미니건 테스트 삭제 X
+		TEXT("Prototype_GameObject_Minigun"),
+		CMinigun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 하베스터 테스트 삭제 X
+		TEXT("Prototype_GameObject_Harvester"),
+		CHarvester::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 소닉 테스트 삭제 X
+		TEXT("Prototype_GameObject_Sonic"),
+		CSonic::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
