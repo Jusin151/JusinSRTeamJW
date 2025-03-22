@@ -60,6 +60,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iPlayerBullet = { 0,0 }; // 총기류 마다 다른 총알 개수 받아올 예정
 	m_iPlayerEXP = { 0 , 100};
 
+	m_iMiddlePointX = g_iWinSizeX / 2;
+
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
@@ -171,12 +173,34 @@ void CPlayer::Move(_float fTimeDelta)
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+		m_pTransformCom->Go_Left(fTimeDelta);
+		
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+		m_pTransformCom->Go_Right(fTimeDelta);
+		
 	}
+
+	POINT ptMouse{};
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	_int iDist = abs(ptMouse.x - m_iMiddlePointX);
+
+	if (ptMouse.x - m_iMiddlePointX > 0)
+	{
+		if(iDist > 320)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * 1.25f);
+	}
+	else if (ptMouse.x - m_iMiddlePointX < 0 )
+	{
+		if (iDist > 320)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * 1.25f);
+	}
+	
+	
+
 }
 
 void CPlayer::Inven_Update(_float fTimeDelta)
