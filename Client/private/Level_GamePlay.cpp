@@ -22,6 +22,7 @@ HRESULT CLevel_GamePlay::Initialize()
 {
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
 	CJsonLoader jsonLoader;
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
