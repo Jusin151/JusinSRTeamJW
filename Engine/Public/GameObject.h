@@ -68,7 +68,7 @@ protected:
 	_wstring m_strObjectName;
 	OBJECT_DESC m_tObjDesc{};
 protected:
-	HRESULT Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
+	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 	class CComponent* Find(const _wstring strComponentTag);
 
 public:
