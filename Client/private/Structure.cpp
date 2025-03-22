@@ -41,7 +41,7 @@ void CStructure::Update(_float fTimeDelta)
 
 	if (m_bIsCubeCollider)
 	{
-		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Sphere"));
+		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Sphere"), m_pTransformCom->Compute_Scaled());
 	}
 	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
 }

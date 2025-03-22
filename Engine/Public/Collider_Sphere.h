@@ -19,7 +19,7 @@ public:
 	virtual HRESULT Render() override;
 	_float Get_Radius() { return m_fRadius; }
 
-	virtual HRESULT Update_Collider(const _wstring& strLayerTag) override;
+	virtual HRESULT Update_Collider(const _wstring& strLayerTag, _float3 fScale) override;
 private:
 	// 반지름
 	_float m_fRadius = {1.f};

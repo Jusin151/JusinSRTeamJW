@@ -46,7 +46,7 @@ void CAnubis::Update(_float fTimeDelta)
 
 	__super::Update(fTimeDelta);
 
-	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 }
@@ -135,7 +135,7 @@ void CAnubis::Select_Pattern(_float fTimeDelta)
 
 void CAnubis::Attack_Melee()
 {
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"));
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
 }

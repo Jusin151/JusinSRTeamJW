@@ -56,7 +56,7 @@ void CCrocman::Update(_float fTimeDelta)
 
 	if (m_eCurState != MS_DEATH)
 	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
@@ -187,7 +187,7 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 	if (m_eCurState != MS_ATTACK)
 		m_eCurState = MS_ATTACK;
 
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"));
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	// 일단 투사체 판정으로 해놓고 나중에 다른 enum 사용하면 될듯?
 	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);

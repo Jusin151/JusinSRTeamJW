@@ -81,7 +81,7 @@ void CPlayer::Update(_float fTimeDelta)
 	Move(fTimeDelta); 
 
 	Inven_Update(fTimeDelta);
-	m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 	
 
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
