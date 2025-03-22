@@ -1,4 +1,4 @@
-#include "Light.h"
+﻿#include "Light.h"
 
 CLight::CLight(PDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent { pGraphic_Device }

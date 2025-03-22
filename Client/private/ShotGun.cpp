@@ -50,6 +50,8 @@ HRESULT CShotGun::Initialize(void* pArg)
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_ShotGun"),&ShotGun_Icon)))
 		return E_FAIL;
 
+	__super::Ready_Picking();
+
 
 	return S_OK;
 }
@@ -60,7 +62,7 @@ void CShotGun::Priority_Update(_float fTimeDelta)
 
 void CShotGun::Update(_float fTimeDelta)
 {
-	
+	__super::Picking_Object();
 
 
 	if (GetAsyncKeyState('W') & 0x8000)
@@ -153,6 +155,12 @@ void CShotGun::Late_Update(_float fTimeDelta)
 
 HRESULT CShotGun::Render()
 {
+	if (m_bWall)
+		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+	if (m_bMonster)
+		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);

@@ -52,6 +52,8 @@ HRESULT CHarvester::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	__super::Ready_Picking();
+
 	return S_OK;
 }
 
@@ -61,8 +63,7 @@ void CHarvester::Priority_Update(_float fTimeDelta)
 
 void CHarvester::Update(_float fTimeDelta)
 {
-
-
+	__super::Picking_Object();
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
@@ -128,7 +129,7 @@ void CHarvester::Attack(_float fTimeDelta)
 		break;
 
 	case State::Reloading:
-		if (m_fElapsedTime >= 0.02f)
+		if (m_fElapsedTime >= 0.06f)
 		{
 			m_fElapsedTime = 0.0f;
 			if (m_iCurrentFrame < m_TextureRanges["Reloading"].second)
@@ -154,6 +155,14 @@ void CHarvester::Late_Update(_float fTimeDelta)
 
 HRESULT CHarvester::Render()
 {
+
+
+	if (m_bWall)
+		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+	if (m_bMonster)
+		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);

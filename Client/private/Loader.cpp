@@ -12,6 +12,7 @@
 #include "Sky.h"
 #include "Weapon_Headers.h"
 #include"Item_Icon.h"
+#include "Weapon_Effect.h"
 
 
 
@@ -163,6 +164,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 		TEXT("Prototype_GameObject_Sonic"),
 		CSonic::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_Weapon_Effect"),
+		CWeapon_Effect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 
   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 

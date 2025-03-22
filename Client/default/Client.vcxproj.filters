@@ -208,6 +208,15 @@
     <Filter Include="02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic">
       <UniqueIdentifier>{7ab84fed-b442-4374-9c6a-80505151f63b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\03. Effect">
+      <UniqueIdentifier>{4afeedf8-41a2-4efd-a88e-bd80cb51356e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02. Item\99. Effect">
+      <UniqueIdentifier>{0d29bfdd-941c-412b-80d6-fc08a217fbcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02. Item\99. Effect\Weapon_Effect">
+      <UniqueIdentifier>{f5025a2e-8e58-4924-8cd2-b4de6fc133c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -360,7 +369,6 @@
     <ClInclude Include="..\public\Inventory.h">
       <Filter>Inven</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Item_Icon.h" />
     <ClInclude Include="..\Public\Monster_Base.h">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClInclude>
@@ -399,6 +407,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Sonic.h">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Base.h">
+      <Filter>02.GameObjects\02. Item\99. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Effect.h">
+      <Filter>02.GameObjects\02. Item\99. Effect\Weapon_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Icon.h">
+      <Filter>Inven</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -523,13 +540,9 @@
     <ClCompile Include="..\private\Axe.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\CMeleeWeapon\Axe</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staft</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Inventory.cpp">
       <Filter>Inven</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Item_Icon.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClCompile>
@@ -571,6 +584,16 @@
     </ClCompile>
     <ClCompile Include="..\private\Sonic.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\Private\Effect_Base.cpp">
+      <Filter>02.GameObjects\02. Item\99. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Weapon_Effect.cpp">
+      <Filter>02.GameObjects\02. Item\99. Effect\Weapon_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Icon.cpp">
+      <Filter>Inven</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
