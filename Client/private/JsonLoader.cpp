@@ -10,6 +10,7 @@
 #include "Weapon_Headers.h"
 #include "Anubis.h"
 #include "Crocman.h"
+#include "PointShop.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
@@ -177,7 +178,7 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
     else if (className == "CTestMonster")
-         return CTestMonster::Create(pGraphic_Device);
+        return CTestMonster::Create(pGraphic_Device);
     else if (className == "CTerrain")
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")
@@ -228,6 +229,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CAnubis::Create(pGraphic_Device);
     else if (className == "CCrocman")
         return CCrocman::Create(pGraphic_Device);
+    else if (className == "CPointShop")
+        return CPointShop::Create(pGraphic_Device);
 
     wstring wClassName = ISerializable::Utf8ToWide(className);
     wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;

@@ -26,13 +26,51 @@ HRESULT CPointShop::Initialize(void* pArg)
         return E_FAIL;
 
     // 포인트 상점 전용 텍스처 컴포넌트 추가
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Point_Shop_UI"),
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     // 상점 위치 및 크기 설정
-    m_pTransformCom->Set_Scale(804.f, 482.f, 1.0f);
+    m_pTransformCom->Set_Scale(1.f, 1.f, 1.0f);
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.f, 0.f));
+    m_bIsOpen = true;
+    return S_OK;
+}
+
+void CPointShop::Priority_Update(_float fTimeDelta)
+{
+  
+}
+
+void CPointShop::Update(_float fTimeDelta)
+{
+}
+
+void CPointShop::Late_Update(_float fTimeDelta)
+{
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+}
+
+HRESULT CPointShop::Render()
+{
+
+    // 상점이 열려있을 때만 렌더링
+    if (m_bIsOpen)
+    {
+        if (m_pTextureCom && m_pVIBufferCom)
+        {
+            if (FAILED(m_pTextureCom->Bind_Resource(0)))
+                return E_FAIL;
+
+            if (FAILED(SetUp_RenderState()))
+                return E_FAIL;
+            if (FAILED(m_pVIBufferCom->Render()))
+                return E_FAIL;
+            if (FAILED(Release_RenderState()))
+                return E_FAIL;
+        }
+    }
 
     return S_OK;
 }

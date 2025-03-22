@@ -37,26 +37,12 @@ void CShop::Update(_float fTimeDelta)
 
 void CShop::Late_Update(_float fTimeDelta)
 {
+
 }
 
 HRESULT CShop::Render()
 {
-    // 상점이 열려있을 때만 렌더링
-    if (m_bIsOpen)
-    {
-        if (m_pTextureCom && m_pVIBufferCom)
-        {
-            if (FAILED(m_pTextureCom->Bind_Resource(0)))
-                return E_FAIL;
 
-            if (FAILED(SetUp_RenderState()))
-                return E_FAIL;
-            if (FAILED(m_pVIBufferCom->Render()))
-                return E_FAIL;
-            if (FAILED(Release_RenderState()))
-                return E_FAIL;
-        }
-    }
     return S_OK;
 }
 
@@ -89,6 +75,7 @@ HRESULT CShop::SetUp_RenderState()
     if (nullptr == m_pGraphic_Device)
         return E_FAIL;
 
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     // 알파 블렌딩 활성화
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

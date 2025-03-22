@@ -179,10 +179,20 @@
       "level": 3,
       "path": "../../Resources/Textures/Weapon/BulletHole/TEXTURE_bulletHole_%d.png",
       "count": 4
-
+    },
+    {
+      "tag": "Prototype_Component_Texture_Point_Shop",
+      "level": 3,
+      "path": "../../Resources/Textures/Map/Hub/texture_hub_stat_station.png",
+      "count": 1
     }
   ],
   "gameObjects": [
+    {
+      "tag": "Prototype_GameObject_PointShop",
+      "level": 3,
+      "class": "CPointShop"
+    },
     {
       "tag": "Prototype_GameObject_Player",
       "level": 3,

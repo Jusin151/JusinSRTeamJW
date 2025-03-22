@@ -13,7 +13,10 @@ public:
     // 기본 상속 함수
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
-
+    virtual void Priority_Update(_float fTimeDelta)override;
+    virtual void Update(_float fTimeDelta)override;
+    virtual void Late_Update(_float fTimeDelta)override;
+    virtual HRESULT Render()override;
     // Shop 인터페이스 구현
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
