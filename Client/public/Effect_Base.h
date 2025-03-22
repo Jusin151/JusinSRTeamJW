@@ -24,8 +24,11 @@ public:
     };
     struct EFFECT_DESC
     {
-        _float2 vPos = {};
-        _float2 vScale = {};
+        _float3 vPos = {};
+        _float3 vScale = {};
+        _float3 vRight = {};
+        _float3 vUp = {};
+        _float3 vLook = {};
         _float fLifeTime = {};
         EFFECT_TYPE eType = EFFECT_TYPE::NONE;
     };

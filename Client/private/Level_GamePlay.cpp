@@ -665,15 +665,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		&Weapon_Sonic_Desc)))
 		return E_FAIL;
 
-	CEffect_Base::EFFECT_DESC Weapon_Effect{};
-	Weapon_Effect.eType = CEffect_Base::EFFECT_TYPE::BULLET_HIT;
-	Weapon_Effect.fLifeTime = 1.f;
-	Weapon_Effect.vPos = { 20.f,20.f };
-	Weapon_Effect.vScale = { 300.f,300.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Effect"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Effect"),
-		&Weapon_Effect)))
-		return E_FAIL;
+
 
 	return S_OK;
 }

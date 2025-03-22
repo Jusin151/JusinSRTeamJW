@@ -1,5 +1,6 @@
-#include "Weapon_Effect.h"
+Ôªø#include "Weapon_Effect.h"
 #include "GameInstance.h"
+#include "Player.h"
 
 CWeapon_Effect::CWeapon_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect_Base{ pGraphic_Device }
@@ -20,19 +21,30 @@ HRESULT CWeapon_Effect::Initialize_Prototype()
 
 HRESULT CWeapon_Effect::Initialize(void* pArg)
 {
-	if(pArg!=nullptr )
-	m_Weapon_Effect_INFO  = *reinterpret_cast<EFFECT_DESC*>(pArg);
+	if (pArg)
+		m_Weapon_Effect_INFO = *reinterpret_cast<EFFECT_DESC*>(pArg);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(m_Weapon_Effect_INFO.vPos.x, m_Weapon_Effect_INFO.vPos.y, 20.f));
-	m_pTransformCom->Set_Scale(m_Weapon_Effect_INFO.vScale.x, m_Weapon_Effect_INFO.vScale.y, 1.f);
+	m_pTransformCom->Set_State(
+		CTransform::STATE_POSITION,
+		m_Weapon_Effect_INFO.vPos
+	);
+	m_pTransformCom->Set_Scale(
+		m_Weapon_Effect_INFO.vScale.x,
+		m_Weapon_Effect_INFO.vScale.y,
+		m_Weapon_Effect_INFO.vScale.z
+	);
 
 
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_Weapon_Effect_INFO.vRight);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, m_Weapon_Effect_INFO.vUp);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_Weapon_Effect_INFO.vLook);
 
 	return S_OK;
 }
+
 
 void CWeapon_Effect::Priority_Update(_float fTimeDelta)
 {
@@ -42,10 +54,9 @@ void CWeapon_Effect::Priority_Update(_float fTimeDelta)
 
 void CWeapon_Effect::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(m_Weapon_Effect_INFO.vPos.x, m_Weapon_Effect_INFO.vPos.y, 20.f));
-	m_pTransformCom->Set_Scale(m_Weapon_Effect_INFO.vScale.x, m_Weapon_Effect_INFO.vScale.y, 1.f);
+	
+	
 
-	m_Weapon_Effect_INFO;
 
 	int a = 10;
 }
@@ -59,12 +70,12 @@ void CWeapon_Effect::Late_Update(_float fTimeDelta)
 }
 HRESULT CWeapon_Effect::SetUp_RenderState()
 {
-	// ¿œ¥‹ √ﬂ∞°«ÿ∫∏±‚
+	// ÏùºÎã® Ï∂îÍ∞ÄÌï¥Î≥¥Í∏∞
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // æÀ∆ƒ ∞™¿Ã ±‚¡ÿ∫∏¥Ÿ ≈©∏È «»ºø ∑ª¥ı∏µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±‚¡ÿ∞™ º≥¡§ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ÏïåÌåå Í∞íÏù¥ Í∏∞Ï§ÄÎ≥¥Îã§ ÌÅ¨Î©¥ ÌîΩÏÖÄ Î†åÎçîÎßÅ
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // Í∏∞Ï§ÄÍ∞í ÏÑ§Ï†ï (0~255)
 
 	return S_OK;
 }
@@ -123,7 +134,7 @@ CWeapon_Effect* CWeapon_Effect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("ø˛∆˘¿Ã∆Â∆Æ UI ø¯∫ª ª˝º∫ Ω«∆– ");
+		MSG_BOX("Ïõ®Ìè∞Ïù¥ÌéôÌä∏ UI ÏõêÎ≥∏ ÏÉùÏÑ± Ïã§Ìå® ");
 
 		Safe_Release(pInstance);
 	}
@@ -139,7 +150,7 @@ CGameObject* CWeapon_Effect::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("ø˛∆˘¿Ã∆Â∆Æ UI ∫π¡¶ Ω«∆–");
+		MSG_BOX("Ïõ®Ìè∞Ïù¥ÌéôÌä∏ UI Î≥µÏ†ú Ïã§Ìå®");
 
 		Safe_Release(pInstace);
 	}
