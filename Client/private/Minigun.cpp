@@ -66,6 +66,7 @@ HRESULT CMinigun::Initialize(void* pArg)
         LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Minigun"),&Minigun_Icon)))
         return E_FAIL;
 
+    __super::Ready_Picking();
     
 	return S_OK;
 }
@@ -76,7 +77,9 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 
 void CMinigun::Update(_float fTimeDelta)
 {
-   
+    __super::Picking_Object();
+
+
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;  
@@ -107,6 +110,7 @@ void CMinigun::Update(_float fTimeDelta)
 }
 void CMinigun::Attack(_float fTimeDelta)
 {
+
     if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
     {
         if (m_eState == State::Idle || m_eState == State::Firing)
@@ -186,6 +190,12 @@ void CMinigun::Late_Update(_float fTimeDelta)
 
 HRESULT CMinigun::Render()
 {
+
+    if (m_bWall)
+        m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+    if (m_bMonster)
+        m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+
     D3DXMATRIX matOldView, matOldProj;
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);

@@ -1,5 +1,7 @@
 ﻿#include "Ranged_Weapon.h"
 #include "GameInstance.h"
+#include "Collider.h"
+#include "PickingSys.h"
 
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{ pGraphic_Device }
@@ -12,6 +14,7 @@ CRanged_Weapon::CRanged_Weapon(const CRanged_Weapon& Prototype)
 }
 void CRanged_Weapon::Priority_Update(_float fTimeDelta)
 {
+	
 }
 
 void CRanged_Weapon::Update(_float fTimeDelta)
@@ -57,12 +60,67 @@ HRESULT CRanged_Weapon::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
+
 	return S_OK;
 }
 
 HRESULT CRanged_Weapon::Ready_Components()
 {
 	return E_NOTIMPL;
+}
+
+HRESULT CRanged_Weapon::Ready_Picking()
+{
+	m_pPickingSys = CPickingSys::Get_Instance();
+
+
+	return S_OK;
+}
+
+HRESULT CRanged_Weapon::Picking_Object()
+{
+
+ 	m_pPickingSys->Update();
+
+	static CGameObject* dragObject = nullptr;
+
+	auto ColliderVec = m_pGameInstance->Get_Colliders();
+	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
+	{
+		dragObject = nullptr;
+	}
+	else
+	{
+		for (auto& colliderList : ColliderVec)
+		{
+			for (auto& collider : colliderList)
+			{
+				if (m_pPickingSys->Ray_Intersection(collider))
+				{
+
+					if (collider->Get_Owner()->Get_Tag() == L"Layer_Playre")
+						continue;
+
+					if (collider->Get_Owner()->Get_Tag() == L"Layer_Wall")
+						m_bWall = true;
+					else
+						m_bWall = false;
+
+					if (collider->Get_Owner()->Get_Tag() == L"Layer_Crocman")
+						m_bMonster = true;
+					else
+						m_bMonster = false;
+					break;
+				}
+
+			}
+		}
+
+	}
+
+
+
+	return S_OK;
 }
 
 void CRanged_Weapon::Free()

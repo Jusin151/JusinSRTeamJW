@@ -57,8 +57,6 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
 	m_GamePlayer_Button_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Button_INFO.Button_Desc.vPos.x, m_Button_INFO.Button_Desc.vPos.y, 0.1f));
 
-	// 예: "MainFont"라는 태그로 폰트를 등록
-
 
 	return S_OK;
 }
@@ -143,12 +141,14 @@ void CGamePlay_Button::Point_Shop_Update()
 {
 	if (!m_Button_INFO.bDisplay_On)
 	{
-		if (GetKeyState('i') & 0x8000)
+		if (GetKeyState('I') & 0x8000)
 		{
 			if (!m_bKeyPressed)
 			{
 				if (m_Button_INFO.strUIName == L"Level_Point_Shop_Display")
 					m_bOpen_Display = true;
+
+
 				m_bIsVisible = !m_bIsVisible;
 				m_bKeyPressed = true;
 			}

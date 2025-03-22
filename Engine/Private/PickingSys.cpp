@@ -20,7 +20,6 @@ HRESULT CPickingSys::Initialize(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device, CG
 	auto colliderVec = m_pGameInstance->Get_Colliders();
 	return S_OK;
 }
-
 void CPickingSys::Update()
 {
 	POINT pt;
