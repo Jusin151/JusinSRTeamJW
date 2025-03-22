@@ -48,7 +48,8 @@ HRESULT CPrototype_Manager::Find_Prototype(const _wstring& strPrototypeTag)
 	{
 		for (const auto& Pair : m_pPrototypes[i])
 		{
-			if (Pair.first == strPrototypeTag) return S_OK;
+			if (Pair.first == strPrototypeTag)
+				return S_OK;
 		}
 	}
 	return E_FAIL;

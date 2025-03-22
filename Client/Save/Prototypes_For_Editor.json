@@ -55,7 +55,7 @@
     },
     {
       "class": "CCamera_Free",
-      "level": 4,
+      "level": 0,
       "tag": "Prototype_GameObject_Camera_Free"
     },
     {
@@ -96,51 +96,30 @@
     {
       "class": "CStructure",
       "level": 4,
-      "tag": "Prototype_GameObject_Test1"
-    },
-    {
-      "class": "CStructure",
-      "level": 4,
-      "tag": "Prototype_GameObject_tt"
-    },
-    {
-      "class": "CStructure",
-      "level": 0,
-      "tag": "Prototype_GameObject_ll"
-    },
-    {
-      "class": "CStructure",
-      "level": 4,
       "tag": "Prototype_GameObject_Wall2"
     },
     {
-      "class": "CPlayer",
-      "level": 4,
-      "tag": "Prototype_GameObject_Player2"
-    },
-    {
-      "class": "CPlayer",
-      "level": 4,
-      "tag": "Prototype_GameObject_Player25"
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Floor1"
     },
     {
       "class": "CStructure",
-      "level": 4,
-      "tag": "Prototype_GameObject_Player2555"
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Ceil1"
     },
     {
       "class": "CStructure",
-      "level": 4,
-      "tag": "Prototype_GameObject_Player25556"
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall2"
     }
   ],
   "textures": [
-    {
-      "count": 1,
-      "level": 4,
-      "path": "../../Resources/Textures/Player/Player.png",
-      "tag": "Prototype_Component_Texture"
-    },
     {
       "count": 1,
       "level": 4,
@@ -210,50 +189,32 @@
     {
       "count": 1,
       "level": 4,
-      "path": "../../Resources\\Textures\\Map\\texture_egypt_door_frame0065.png",
-      "tag": "Prototype_Component_Texture_Test1"
-    },
-    {
-      "count": 1,
-      "level": 4,
-      "path": "../../Resources\\Textures\\Monster\\Anubis\\anubis_0.png",
-      "tag": "Prototype_Component_Texture22"
-    },
-    {
-      "count": 1,
-      "level": 4,
-      "path": "../../Resources\\Textures\\Monster\\Anubis\\anubis_0.png",
-      "tag": "Prototype_Component_Texturell"
-    },
-    {
-      "count": 1,
-      "level": 4,
       "path": "../../Resources\\Textures\\Map\\TEXTURE_DUNGEON_WALL_3blue.png",
       "tag": "Prototype_Component_Texture_Wall2"
     },
     {
       "count": 1,
-      "level": 4,
-      "path": "../../Resources\\Textures\\Weapon\\Magnum\\magnum_shoot0.png",
-      "tag": "Prototype_Component_Texture_Player2"
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\ShopTile.png",
+      "tag": "Prototype_Component_Texture_Hub_Floor1"
     },
     {
       "count": 1,
-      "level": 4,
-      "path": "../../Resources\\Textures\\Weapon\\Harvester\\Harvester0.png",
-      "tag": "Prototype_Component_Texture_Player25"
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_stoneceiling_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Ceil1"
     },
     {
       "count": 1,
-      "level": 4,
-      "path": "../../Resources\\Textures\\Weapon\\Magnum\\magnum_shoot0.png",
-      "tag": "Prototype_Component_Texture_Player255"
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_02.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall1"
     },
     {
       "count": 1,
-      "level": 4,
-      "path": "../../Resources\\Textures\\Monster\\Anubis\\anubis_18.png",
-      "tag": "Prototype_Component_Texture_Player2556"
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall2"
     }
   ]
 }
