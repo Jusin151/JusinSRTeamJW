@@ -48,6 +48,7 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_HP_Bar_INFO.vPos.x, m_HP_Bar_INFO.vPos.y, 0.f));
+
 	return S_OK;
 }
 

@@ -388,7 +388,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 	}
 
 
-
 	return S_OK;
 }
 
@@ -629,8 +628,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 
 	CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
 	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
-	Weapon_Minigun_Desc.vPos = { 240.f,-240.f };
-	Weapon_Minigun_Desc.vSize = { 436,316.f };
+	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
+	Weapon_Minigun_Desc.vSize = { 959,347.f };
 	Weapon_Minigun_Desc.Damage = { 100.f };
 	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
 	Weapon_Minigun_Desc.Range = { 3.f };
@@ -639,6 +638,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
 		&Weapon_Minigun_Desc)))
 		return E_FAIL;
+
 
 	CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
 	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;

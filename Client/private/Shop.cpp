@@ -1,4 +1,4 @@
-#include "Shop.h"
+ï»¿#include "Shop.h"
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -16,12 +16,12 @@ HRESULT CShop::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CShop::Initialize(void* pArg) // ÀÚ½Ä¿¡¼­ ¹«Á¶°Ç __Super:: ·Î ºÎ¸£±â
+HRESULT CShop::Initialize(void* pArg) // ìì‹ì—ì„œ ë¬´ì¡°ê±´ __Super:: ë¡œ ë¶€ë¥´ê¸°
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    // »óÁ¡ ±âº» ¼³Á¤
+    // ìƒì  ê¸°ë³¸ ì„¤ì •
     m_bIsOpen = false;
 
     return S_OK;
@@ -41,7 +41,7 @@ void CShop::Late_Update(_float fTimeDelta)
 
 HRESULT CShop::Render()
 {
-    // »óÁ¡ÀÌ ¿­·ÁÀÖÀ» ¶§¸¸ ·»´õ¸µ
+    // ìƒì ì´ ì—´ë ¤ìˆì„ ë•Œë§Œ ë Œë”ë§
     if (m_bIsOpen)
     {
         if (m_pTextureCom && m_pVIBufferCom)
@@ -65,14 +65,14 @@ HRESULT CShop::On_Collision()
     if (nullptr == m_pColliderCom)
         return E_FAIL;
 
-    // ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+    // ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
     if (m_pColliderCom->Get_Other_Type() == CG_END)
         return S_OK;
 
     switch (m_pColliderCom->Get_Other_Type())
     {
     case CG_PLAYER:
-        // »óÈ£ ÀÛ¿ëÀÌ ´­·È´Ù¸é
+        // ìƒí˜¸ ì‘ìš©ì´ ëˆŒë ¸ë‹¤ë©´
         // m_bIsOpen = true;
         break;
     default:
@@ -89,12 +89,12 @@ HRESULT CShop::SetUp_RenderState()
     if (nullptr == m_pGraphic_Device)
         return E_FAIL;
 
-    // ¾ËÆÄ ºí·»µù È°¼ºÈ­
+    // ì•ŒíŒŒ ë¸”ë Œë”© í™œì„±í™”
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-    // Z ¹öÆÛ ¼³Á¤
+    // Z ë²„í¼ ì„¤ì •
     m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
@@ -130,10 +130,10 @@ HRESULT CShop::Ready_Components()
     /* Collider Component */
     CCollider::COL_DESC	ColliderDesc = {};
     ColliderDesc.pOwner = this;
-    // ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+    // ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
     ColliderDesc.fScale = m_pTransformCom->Compute_Scaled();
     ColliderDesc.eType = CG_SHOP;
-    // ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+    // ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
     ColliderDesc.fLocalPos = { 0.f, 0.f, 0.0f };
 
 
@@ -148,9 +148,9 @@ void CShop::Free()
 {
     __super::Free();
 
-    // »óÁ¡ ¾ÆÀÌÅÛ ÇØÁ¦
+    // ìƒì  ì•„ì´í…œ í•´ì œ
 
-    // ÄÄÆ÷³ÍÆ® ÇØÁ¦
+    // ì»´í¬ë„ŒíŠ¸ í•´ì œ
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);

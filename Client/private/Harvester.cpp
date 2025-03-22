@@ -115,6 +115,7 @@ void CHarvester::Attack(_float fTimeDelta)
 	case State::Firing:
 		if (m_fElapsedTime >= 0.02f)
 		{
+
 			m_fElapsedTime = 0.0f;
 			if (m_iCurrentFrame < m_TextureRanges["Firing"].second)
 			{

@@ -154,6 +154,7 @@ void CInventory::Equip(_float fTimeDelta)
 	if (GetAsyncKeyState('6') & 0x8000)
 	{
 		CItem_Manager::GetInstance()->Weapon_Equip(L"Minigun");
+	
 		bInputReceived = true;
 	}
 

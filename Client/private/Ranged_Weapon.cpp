@@ -193,7 +193,7 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                 Weapon_Effect.vRight = vWallRight;  
                 Weapon_Effect.vUp = vWallUp;     
                 Weapon_Effect.vLook = vWallLook;  
-                Weapon_Effect.vScale = { 0.1f, 0.1f, 0.1f };
+                Weapon_Effect.vScale = { 0.5f, 0.5f, 0.5f };
 
                 if (FAILED(m_pGameInstance->Add_GameObject(
                     LEVEL_GAMEPLAY,
@@ -203,9 +203,7 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                     &Weapon_Effect)))
                 {
                     return E_FAIL;
-                }
-
-              
+                }         
                 m_bWall = true;
             }
             else

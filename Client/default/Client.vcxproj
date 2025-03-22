@@ -191,6 +191,7 @@
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
     <ClInclude Include="..\public\Staff.h" />
+    <ClInclude Include="..\Public\Staff_Bullet.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\Private\Staff_Bullet.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />
