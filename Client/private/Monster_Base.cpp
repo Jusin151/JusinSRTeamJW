@@ -26,18 +26,8 @@ HRESULT CMonster_Base::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f,0.5f,0.f));
+
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	CGameObject::OBJECT_DESC* pDesc = static_cast<CGameObject::OBJECT_DESC*>(pArg);
-	if (pDesc->iLevel != 4)
-	{
-
-	m_pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
-	if (nullptr == m_pTarget)
-		return E_FAIL;
-
-	Safe_AddRef(m_pTarget);
-	}
 
 	return S_OK;
 }
@@ -72,7 +62,7 @@ void CMonster_Base::Look_Player()
 
 HRESULT CMonster_Base::Ready_Components()
 {
-	
+
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC,m_tObjDesc.stBufferTag,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -84,6 +74,7 @@ HRESULT CMonster_Base::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
@@ -113,5 +104,4 @@ void CMonster_Base::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
-	Safe_Release(m_pTarget);
 }
