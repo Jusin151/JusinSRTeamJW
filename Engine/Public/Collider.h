@@ -72,6 +72,11 @@ public:
 		m_eOtherType = eOtherType;
 	}
 
+	_float Get_Radius() const 
+	{
+		return max(max(m_fScale.x, m_fScale.y), m_fScale.z) * 0.5f;
+	}
+
 	_float3 Get_MTV() { return m_fMTV; }
 
 	void Set_MTV(_float3 fMTV) { m_fMTV = fMTV; }
