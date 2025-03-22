@@ -4,7 +4,14 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Camera"
+        "LayerTag": "Layer_Camera",
+        "OBJECT_DESC": {
+          "BufferTag": "",
+          "Level": 4,
+          "ProtTag": "Prototype_GameObject_Camera_Free",
+          "ProtTextureTag": "",
+          "ProtoLevel": 4
+        }
       }
     ],
     "Layer_Player": [
@@ -91,7 +98,7 @@
         "is_cube_collider": false,
         "position": [
           8.73536205291748,
-         1.0,
+          1.0,
           25.0
         ],
         "rotation": [

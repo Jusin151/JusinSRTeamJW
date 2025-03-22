@@ -60,16 +60,22 @@ unsigned int ClassName::Destroy_Instance()				\
 
 #define SET_TRANSFORM(jsonObj, transformCom) \
 do { \
-    if ((jsonObj).contains("position")) { \
-        auto _pos = (jsonObj)["position"]; \
-        (transformCom)->Set_State(CTransform::STATE_POSITION, _float3(_pos[0], _pos[1], _pos[2])); \
+    if ((jsonObj).contains("position") && (jsonObj)["position"].is_array()) { \
+        auto& _pos = (jsonObj)["position"]; \
+        if (_pos.size() >= 3 && _pos[0].is_number() && _pos[1].is_number() && _pos[2].is_number()) { \
+            (transformCom)->Set_State(CTransform::STATE_POSITION, _float3(_pos[0], _pos[1], _pos[2])); \
+        } \
     } \
-    if ((jsonObj).contains("rotation")) { \
-        auto _angle = (jsonObj)["rotation"]; \
-        (transformCom)->Rotate_EulerAngles(_float3(_angle[0], _angle[1], _angle[2])); \
+    if ((jsonObj).contains("rotation") && (jsonObj)["rotation"].is_array()) { \
+        auto& _angle = (jsonObj)["rotation"]; \
+        if (_angle.size() >= 3 && _angle[0].is_number() && _angle[1].is_number() && _angle[2].is_number()) { \
+            (transformCom)->Rotate_EulerAngles(_float3(_angle[0], _angle[1], _angle[2])); \
+        } \
     } \
-    if ((jsonObj).contains("scale")) { \
-        auto _scale = (jsonObj)["scale"]; \
-        (transformCom)->Set_Scale(_scale[0], _scale[1], _scale[2]); \
+    if ((jsonObj).contains("scale") && (jsonObj)["scale"].is_array()) { \
+        auto& _scale = (jsonObj)["scale"]; \
+        if (_scale.size() >= 3 && _scale[0].is_number() && _scale[1].is_number() && _scale[2].is_number()) { \
+            (transformCom)->Set_Scale(_scale[0], _scale[1], _scale[2]); \
+        } \
     } \
 } while(0)

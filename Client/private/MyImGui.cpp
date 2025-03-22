@@ -265,7 +265,7 @@ void CMyImGui::ShowCreateObjectTab()
 	static char objectProtoTagBuffer[256] = "Prototype_GameObject_";
 	static char protoJsonFileNameBuffer[256] = "Prototypes_For_Editor";
 	static _int iPoolingCount = 0;
-	static _int iLevel = 4;
+	static _int iLevel = 3;
 	static _int iProtoLevel = 4;
 
 	// 기존 프로토타입 변수 추가
@@ -882,24 +882,25 @@ HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<Prot
             info.level = obj["level"].get<int>();
             info.className = obj["class"].get<string>();
             
-            // 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall")
-            string objBaseName = info.tag;
-            size_t lastUnderscorePos = objBaseName.find_last_of("_");
-            if (lastUnderscorePos != string::npos && lastUnderscorePos + 1 < objBaseName.length())
-            {
-                objBaseName = objBaseName.substr(lastUnderscorePos + 1);
-            }
-            
-            // 관련 텍스처 찾기 (이름 패턴 매칭)
-            if (jsonData.contains("textures") && jsonData["textures"].is_array())
-            {
-                bool textureFound = false;
-                
-                // 정확한 이름 매칭 (예: "Prototype_Component_Texture_Wall")
-                string specificTextureName = "Prototype_Component_Texture_" + objBaseName;
-                
-                for (const auto& tex : jsonData["textures"])
-                {
+			// 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall", "Prototype_GameObject_Hub_Floor1" -> "Hub_Floor1")
+			string objBaseName = info.tag;
+			string prefix = "Prototype_GameObject_";
+			size_t prefixPos = objBaseName.find(prefix);
+			if (prefixPos == 0 && objBaseName.length() > prefix.length())
+			{
+				objBaseName = objBaseName.substr(prefix.length());
+			}
+
+			// 관련 텍스처 찾기 (이름 패턴 매칭)
+			if (jsonData.contains("textures") && jsonData["textures"].is_array())
+			{
+				bool textureFound = false;
+
+				// 정확한 이름 매칭 (예: "Prototype_Component_Texture_Wall" 또는 "Prototype_Component_Texture_Hub_Floor1")
+				string specificTextureName = "Prototype_Component_Texture_" + objBaseName;
+
+				for (const auto& tex : jsonData["textures"])
+				{
                     string texTag = tex["tag"].get<string>();
                     
                     // 정확한 이름 매칭 시도
