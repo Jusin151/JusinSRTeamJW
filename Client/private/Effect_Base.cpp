@@ -1,4 +1,4 @@
-#include "Effect_Base.h"
+﻿#include "Effect_Base.h"
 
 CEffect_Base::CEffect_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }

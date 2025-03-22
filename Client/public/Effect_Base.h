@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -8,7 +8,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î ÇÒµí
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ í• ë“¯
 END
 
 BEGIN(Client)
@@ -18,9 +18,9 @@ class CEffect_Base abstract : public CGameObject
 public:
     enum class EFFECT_TYPE
     {
-        NONE, // ±âº»°ª
-        BULLET_HIT, // ÃÑ¾Ë ÈçÀû
-        SLASH, // ±ÙÁ¢ ÈçÀû
+        NONE, // ê¸°ë³¸ê°’
+        BULLET_HIT, // ì´ì•Œ í”ì 
+        SLASH, // ê·¼ì ‘ í”ì 
     };
     struct EFFECT_DESC
     {
@@ -54,9 +54,9 @@ protected:
     CTransform* m_pTransformCom = {};
     EFFECT_DESC m_Weapon_Effect_INFO{};
 
-protected: // ÀÌÆåÆ® °ü·Ã
-    _float m_fLifeTime = {}; // ÃÖ´ë ¸îÃÊ±îÁö ³²°ÔÇÒ²«Áö
-    _float m_fCurrentTime = {}; // ÇöÀç ½Ã°£
-    _bool m_bDead = {}; // µØÁö¸é Active È°¼ºÈ­
+protected: // ì´í™íŠ¸ ê´€ë ¨
+    _float m_fLifeTime = {}; // ìµœëŒ€ ëª‡ì´ˆê¹Œì§€ ë‚¨ê²Œí• ê»€ì§€
+    _float m_fCurrentTime = {}; // í˜„ì¬ ì‹œê°„
+    _bool m_bDead = {}; // ë’ˆì§€ë©´ Active í™œì„±í™”
 };
 END

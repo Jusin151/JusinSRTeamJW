@@ -54,7 +54,7 @@ void CWeapon_Effect::Update(_float fTimeDelta)
 void CWeapon_Effect::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+		return;	
 
 }
 HRESULT CWeapon_Effect::SetUp_RenderState()
@@ -62,7 +62,6 @@ HRESULT CWeapon_Effect::SetUp_RenderState()
 	// 일단 추가해보기
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
@@ -72,7 +71,6 @@ HRESULT CWeapon_Effect::SetUp_RenderState()
 HRESULT CWeapon_Effect::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	return S_OK;
 }
