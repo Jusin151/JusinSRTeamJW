@@ -31,14 +31,22 @@ HRESULT CCrocman::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f, 1.f, 20.f));
 
 	return S_OK;
 }
 
 void CCrocman::Priority_Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+	{
+		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+		if (nullptr == pTarget)
+			return;
 
+		SetTarget(pTarget);
+		Safe_AddRef(pTarget);
+		
+	}
 
 	if (m_iCurrentFrame > 26)
 	{
@@ -49,6 +57,9 @@ void CCrocman::Priority_Update(_float fTimeDelta)
 
 void CCrocman::Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+		return;
+
 	Select_Pattern(fTimeDelta);
 
 	__super::Update(fTimeDelta);
@@ -65,6 +76,9 @@ void CCrocman::Update(_float fTimeDelta)
 
 void CCrocman::Late_Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+		return;
+
 	// 충돌 판정
 	On_Collision(fTimeDelta);
 
@@ -97,6 +111,11 @@ HRESULT CCrocman::Render()
 
 
 	return S_OK;
+}
+
+void CCrocman::Deserialize(const json& j)
+{
+	SET_TRANSFORM(j, m_pTransformCom);
 }
 
 HRESULT CCrocman::On_Collision(_float fTimeDelta)
@@ -151,7 +170,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
      vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
 	// 거리로 판단해서 패턴 실행하도록 
-	if (vDist.LengthSq() > 5)
+	if (vDist.LengthSq() > 4)
 		Chasing(fTimeDelta);
 	else
 		Attack_Melee(fTimeDelta);
@@ -334,4 +353,5 @@ void CCrocman::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pAttackCollider);
+	Safe_Release(m_pTarget);
 }

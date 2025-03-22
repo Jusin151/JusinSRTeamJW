@@ -18,6 +18,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
+	virtual void Deserialize(const json& j) override;
 
 public:
 	virtual HRESULT On_Collision(_float fTimeDelta) override;

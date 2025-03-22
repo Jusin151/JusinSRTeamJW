@@ -38,6 +38,10 @@ public:
 	// texturecom는 각 monster에서 추가
 	HRESULT Ready_Components();
 
+	// 트리거가 없어지거나 트리거 설정을 안하면 이제 플레이어로 타겟을 바꾸도록 유도... 플레이어가 없으면 동작 x.
+	void SetTarget(CGameObject* pTarget) { if (nullptr == m_pTarget) m_pTarget = pTarget; }
+	
+	CGameObject* Get_Target() { return m_pTarget; }
 protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
