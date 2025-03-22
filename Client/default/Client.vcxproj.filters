@@ -217,6 +217,9 @@
     <Filter Include="02.GameObjects\02. Item\99. Effect\Weapon_Effect">
       <UniqueIdentifier>{f5025a2e-8e58-4924-8cd2-b4de6fc133c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\04. Shop">
+      <UniqueIdentifier>{84d12add-d9e5-444d-98fb-b954035fc18d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -417,6 +420,12 @@
     <ClInclude Include="..\Public\Item_Icon.h">
       <Filter>Inven</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Shop.h">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PointShop.h">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -594,6 +603,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp">
       <Filter>Inven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shop.cpp">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PointShop.cpp">
+      <Filter>02.GameObjects\04. Shop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

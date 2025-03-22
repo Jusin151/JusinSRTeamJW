@@ -185,7 +185,9 @@
     <ClInclude Include="..\public\Minigun.h" />
     <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
+    <ClInclude Include="..\public\PointShop.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
+    <ClInclude Include="..\public\Shop.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
     <ClInclude Include="..\public\Staff.h" />
@@ -256,7 +258,9 @@
     <ClCompile Include="..\private\Minigun.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp" />
     <ClCompile Include="..\private\MyImGui.cpp" />
+    <ClCompile Include="..\private\PointShop.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
+    <ClCompile Include="..\private\Shop.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
