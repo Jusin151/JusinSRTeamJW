@@ -1,5 +1,4 @@
 ﻿#include "GameObject_Particle_Test.h"
-#include "Light.h"
 #include "Texture.h"
 #include "Transform.h"
 #include "VIBuffer_Rect.h"
@@ -67,11 +66,12 @@ HRESULT CGameObject_Particle_Test::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+
     Pre_Render();
     if (FAILED(m_pParticleCom->Render()))
         return E_FAIL;
-    /*if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;*/
     Post_Render();
 
     return S_OK;
@@ -94,8 +94,8 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
         return E_FAIL;
 
     CSnow_Particle_System::SNOWDESC     SnowDesc{};
-    SnowDesc.Bounding_Box.m_vMin = { 100, 100, 100};
-    SnowDesc.Bounding_Box.m_vMax = {-100, -100, -100};
+    SnowDesc.Bounding_Box.m_vMin = { -10, -10, -10};
+    SnowDesc.Bounding_Box.m_vMax = { 10, 10, 10};
     SnowDesc.iNumParticles = 512;
 
     /* For.Com_Particle */
@@ -111,9 +111,7 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
     /* For.Com_Texture */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Light"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;
-
-    
+        return E_FAIL;    
 
     return S_OK;
 }

@@ -33,12 +33,11 @@ void CParticle_System::Remove_Dead_Particles()
 CParticle_System::CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent{ pGraphic_Device }
 {
-	Safe_AddRef(m_pGraphic_Device);
+
 }
 
 CParticle_System::CParticle_System(const CParticle_System& Prototype)
 	: CComponent{ Prototype },
-	m_pTextureCom{Prototype.m_pTextureCom},
 	m_Bounding_Box{Prototype.m_Bounding_Box},
 	m_fEmit_Rate{ Prototype.m_fEmit_Rate },
 	m_fSize{ Prototype.m_fSize },
@@ -218,4 +217,5 @@ CParticle_System* CParticle_System::Clone(void* pArg)
 void CParticle_System::Free()
 {
 	__super::Free();
+	Safe_Release(m_VB);
 }

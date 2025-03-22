@@ -83,9 +83,6 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	
-
-	
 
 	return S_OK;
 }

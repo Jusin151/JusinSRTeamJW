@@ -10,7 +10,7 @@ CGameObject_Light::CGameObject_Light(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
-CGameObject_Light::CGameObject_Light(const CGameObject& Prototype)
+CGameObject_Light::CGameObject_Light(const CGameObject_Light& Prototype)
     : CGameObject{ Prototype }
 {
 
@@ -91,7 +91,7 @@ HRESULT CGameObject_Light::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Light */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Direction"),
         TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
         return E_FAIL;
 

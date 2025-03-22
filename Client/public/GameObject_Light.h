@@ -13,7 +13,7 @@ class CGameObject_Light final : public CGameObject
 {
 private:
 	CGameObject_Light(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CGameObject_Light(const CGameObject& Prototype);
+	CGameObject_Light(const CGameObject_Light& Prototype);
 	virtual ~CGameObject_Light() = default;
 
 public:
@@ -32,13 +32,13 @@ public:
 	virtual void Reset() {}; // 차후에 오브젝트 풀링때 SetActive가 true가 될 때 기본정보 다시 셋팅을 위한 함수
 
 private:
-	HRESULT Ready_Components();
+	HRESULT			Ready_Components();
 	CLight*			m_pLightCom		= { nullptr };
 	CTexture*		m_pTextureCom	= { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom	= { nullptr };
 public:
-	static CGameObject_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static	CGameObject_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject_Light* Clone(void* pArg) override;
 	virtual void Free() override;
 

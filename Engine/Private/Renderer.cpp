@@ -73,6 +73,7 @@ HRESULT CRenderer::Disable_Lights()
 	for (auto& pLight : m_Lights)
 	{
 		m_pGraphic_Device->LightEnable(index++, FALSE);
+		Safe_Release(pLight);
 	}
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_Lights.clear();

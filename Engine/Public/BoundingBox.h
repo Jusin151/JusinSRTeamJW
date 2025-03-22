@@ -13,12 +13,12 @@ typedef struct tagBoundingBox
 	bool Is_Point_Inside(D3DXVECTOR3& p) 
 	{
 		if (
-			p.x <= m_vMin.x &&
-			p.y <= m_vMin.y &&
-			p.z <= m_vMin.z &&
-			p.x >= m_vMax.x &&
-			p.y >= m_vMax.y &&
-			p.z >= m_vMax.z)
+			p.x >= m_vMin.x &&
+			p.y >= m_vMin.y &&
+			p.z >= m_vMin.z &&
+			p.x <= m_vMax.x &&
+			p.y <= m_vMax.y &&
+			p.z <= m_vMax.z)
 			return true;
 		return false;
 	} 

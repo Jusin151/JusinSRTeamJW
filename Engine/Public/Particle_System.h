@@ -41,11 +41,9 @@ public:
 	void Remove_Dead_Particles();
 
 protected:
-	class CTexture*				m_pTextureCom = { nullptr };
-protected:
 	_wstring				strName = {};
 	D3DXVECTOR3				m_vPos = {};
-	IDirect3DVertexBuffer9* m_VB = { nullptr };
+	LPDIRECT3DVERTEXBUFFER9 m_VB = { nullptr };
 	BOUNDINGBOX				m_Bounding_Box = {};
 	_float					m_fEmit_Rate = {};
 	_float					m_fSize = {};

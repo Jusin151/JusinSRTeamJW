@@ -3,7 +3,6 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-class CLight;
 class CTransform;
 class CTexture;
 class CVIBuffer_Rect;

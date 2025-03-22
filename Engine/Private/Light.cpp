@@ -6,8 +6,8 @@ CLight::CLight(PDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CLight::CLight(const CLight& Prototype)
-	:	CComponent{ Prototype },
-		m_tInfo{ Prototype.m_tInfo }
+	:	CComponent{ Prototype }
+	,	m_tInfo{ Prototype.m_tInfo }
 {
 }
 
