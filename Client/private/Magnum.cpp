@@ -93,14 +93,20 @@ void CMagnum::Update(_float fTimeDelta)
 }
 void CMagnum::Attack(_float fTimeDelta)
 {
-	__super::Picking_Object();
-
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
-		m_bIsAnimating = true;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
-
+		if (!m_bHasFired)
+		{
+			m_bIsAnimating = true;
+			m_iCurrentFrame = 0;
+			m_fElapsedTime = 0.0f;
+			m_bHasFired = true; // 발사 상태를 true로 설정
+			__super::Picking_Object(); // 클릭 한 번에 한 번만 호출
+		}
+	}
+	else
+	{
+		m_bHasFired = false; // 버튼을 떼면 다시 발사 가능하도록 설정
 	}
 
 	if (m_bIsAnimating)
@@ -121,6 +127,7 @@ void CMagnum::Attack(_float fTimeDelta)
 		}
 	}
 }
+
 
 void CMagnum::Late_Update(_float fTimeDelta)
 {

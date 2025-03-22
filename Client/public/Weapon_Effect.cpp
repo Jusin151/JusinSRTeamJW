@@ -31,16 +31,16 @@ HRESULT CWeapon_Effect::Initialize(void* pArg)
 		CTransform::STATE_POSITION,
 		m_Weapon_Effect_INFO.vPos
 	);
-	m_pTransformCom->Set_Scale(
-		m_Weapon_Effect_INFO.vScale.x,
-		m_Weapon_Effect_INFO.vScale.y,
-		m_Weapon_Effect_INFO.vScale.z
-	);
-
 
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_Weapon_Effect_INFO.vRight);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, m_Weapon_Effect_INFO.vUp);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_Weapon_Effect_INFO.vLook);
+
+	m_pTransformCom->Set_Scale(
+		m_Weapon_Effect_INFO.vScale.x,
+		m_Weapon_Effect_INFO.vScale.y,
+		m_Weapon_Effect_INFO.vScale.z);
+
 
 	return S_OK;
 }
@@ -55,7 +55,11 @@ void CWeapon_Effect::Priority_Update(_float fTimeDelta)
 void CWeapon_Effect::Update(_float fTimeDelta)
 {
 	
-	
+	m_pTransformCom->Set_Scale(
+		m_Weapon_Effect_INFO.vScale.x,
+		m_Weapon_Effect_INFO.vScale.y,
+		m_Weapon_Effect_INFO.vScale.z
+	);
 
 
 	int a = 10;

@@ -55,6 +55,7 @@ protected:
     _int m_iCurrentFrame = 0;
     const _float m_fFrameDuration = 2.0f;
     _bool m_bIsAnimating{};
+    bool m_bHasFired = { false }; // 발사가 한번만 되게 하는거
 protected:
     CPickingSys* m_pPickingSys = { nullptr }; // 피킹 객체
     _bool m_bWall = { false };   // 벽체크용 변수

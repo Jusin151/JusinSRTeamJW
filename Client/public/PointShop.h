@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Shop.h"
 
 BEGIN(Client)
@@ -10,11 +10,11 @@ private:
     virtual ~CPointShop() = default;
 
 public:
-    // ±âº» »ó¼Ó ÇÔ¼ö
+    // ê¸°ë³¸ ìƒì† í•¨ìˆ˜
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
 
-    // Shop ÀÎÅÍÆäÀÌ½º ±¸Çö
+    // Shop ì¸í„°í˜ì´ìŠ¤ êµ¬í˜„
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
     virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) override;

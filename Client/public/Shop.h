@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
 
@@ -25,14 +25,14 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
-	// »óÁ¡ °øÅë ±â´É
-	virtual HRESULT Open_Shop() = 0;  //  »óÁ¡ ¿­±â
-	virtual HRESULT Close_Shop() = 0;  //  »óÁ¡ ´İ±â
-	virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) = 0;  // ¾ÆÀÌÅÛ ±¸¸Å
-	virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) = 0;  // ¾ÆÀÌÅÛ ÆÇ¸Å
+	// ìƒì  ê³µí†µ ê¸°ëŠ¥
+	virtual HRESULT Open_Shop() = 0;  //  ìƒì  ì—´ê¸°
+	virtual HRESULT Close_Shop() = 0;  //  ìƒì  ë‹«ê¸°
+	virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) = 0;  // ì•„ì´í…œ êµ¬ë§¤
+	virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) = 0;  // ì•„ì´í…œ íŒë§¤
 
-	virtual void Refresh_Shop_Items() = 0;  // »óÁ¡ ¾ÆÀÌÅÛ »õ·Î°íÄ§
-	virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) = 0;  // ±¸¸Å °¡´É ¿©ºÎ È®ÀÎ
+	virtual void Refresh_Shop_Items() = 0;  // ìƒì  ì•„ì´í…œ ìƒˆë¡œê³ ì¹¨
+	virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) = 0;  // êµ¬ë§¤ ê°€ëŠ¥ ì—¬ë¶€ í™•ì¸
 
 
 	HRESULT On_Collision();
@@ -48,10 +48,10 @@ protected:
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
 
-	// »óÁ¡º°·Î ´Ù¸¦ ¼ö ÀÖ´Â ¾ÆÀÌÅÛ ÃÊ±âÈ­ ÇÔ¼ö
+	// ìƒì ë³„ë¡œ ë‹¤ë¥¼ ìˆ˜ ìˆëŠ” ì•„ì´í…œ ì´ˆê¸°í™” í•¨ìˆ˜
 	virtual HRESULT Ready_ShopItems() = 0;
 public:
-	////static CShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device); ÀÚ½Ä¿¡¼­ ±¸Çö
+	////static CShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device); ìì‹ì—ì„œ êµ¬í˜„
 	//virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
