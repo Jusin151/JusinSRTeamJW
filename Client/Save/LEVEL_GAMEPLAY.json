@@ -48,6 +48,40 @@
         "vibuffer": ""
       }
     ],
+    "Layer_Harpoonguy": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Harpoonguy",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Harpoonguy",
+          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          10.0,
+          0.5,
+          0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      }
+    ],
     "Layer_Wall": [
       {
         "FromPool": false,
@@ -91,7 +125,7 @@
         "is_cube_collider": false,
         "position": [
           8.73536205291748,
-         1.0,
+          1.0,
           25.0
         ],
         "rotation": [

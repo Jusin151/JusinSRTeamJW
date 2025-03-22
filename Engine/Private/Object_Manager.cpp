@@ -55,11 +55,11 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 	return S_OK;
 }
 
-HRESULT CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag,void* pArg)
+CGameObject* CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag,void* pArg)
 {
 	CGameObject* pGameObject = m_pGameInstance->Acquire_Object(iPrototypeLevelIndex, strLayerTag, pArg);
 	if (nullptr == pGameObject)
-		return E_FAIL;
+		return nullptr;
 	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
 	if (nullptr == pLayer)
 	{
@@ -74,7 +74,7 @@ HRESULT CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _ui
 
 	pGameObject->Set_Tag(strLayerTag);
 	pGameObject->SetActive(true);
-	return S_OK;
+	return pGameObject;
 }
 
 void CObject_Manager::Priority_Update(_float fTimeDelta)

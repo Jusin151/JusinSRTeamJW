@@ -77,7 +77,7 @@ private:
 
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
-	_float3 m_vEulerAngles{};
+	_float3					m_vEulerAngles{};
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

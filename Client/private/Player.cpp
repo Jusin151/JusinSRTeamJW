@@ -146,7 +146,7 @@ HRESULT CPlayer::On_Collision()
 
 		break;
 
-	case CG_MONSTER_PROJECTILE:
+	case CG_MONSTER_PROJECTILE_CUBE:
 		temp += fPos;
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
 		break;

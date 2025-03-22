@@ -170,6 +170,7 @@
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
     <ClInclude Include="..\public\GameObject_Plane.h" />
+    <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="..\public\Minigun.h" />
     <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
+    <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
@@ -226,6 +228,7 @@
     <ClInclude Include="..\public\Weapon_Headers.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Harpoon.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -241,6 +244,8 @@
     <ClCompile Include="..\private\GameObject_Cube.cpp" />
     <ClCompile Include="..\private\GameObject_Light.cpp" />
     <ClCompile Include="..\private\GameObject_Plane.cpp" />
+    <ClCompile Include="..\private\Harpoon.cpp" />
+    <ClCompile Include="..\private\Harpoonguy.cpp" />
     <ClCompile Include="..\private\Harvester.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\private\JsonLoader.cpp" />
@@ -256,6 +261,7 @@
     <ClCompile Include="..\private\Minigun.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp" />
     <ClCompile Include="..\private\MyImGui.cpp" />
+    <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />

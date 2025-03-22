@@ -139,6 +139,18 @@
       "count": 27
     },
     {
+      "tag": "Prototype_Component_Texture_Harpoon",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoon.png",
+      "count": 1
+    },
+    {
+      "tag": "Prototype_Component_Texture_Harpoonguy",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoonguy_%d.png",
+      "count": 27
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -197,6 +209,16 @@
       "tag": "Prototype_GameObject_Crocman",
       "level": 3,
       "class": "CCrocman"
+    },
+    {
+      "tag": "Prototype_GameObject_Harpoonguy",
+      "level": 3,
+      "class": "CHarpoonguy"
+    },
+    {
+      "tag": "Prototype_GameObject_Harpoon",
+      "level": 3,
+      "class": "CHarpoon"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

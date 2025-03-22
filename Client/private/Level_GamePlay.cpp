@@ -42,6 +42,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 	//	return E_FAIL;
 
+	/*if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), TEXT("Layer_Monster_Projectile_Harpoon"), 10)))
+		return E_FAIL;*/
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
 		return E_FAIL;

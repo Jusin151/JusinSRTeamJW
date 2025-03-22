@@ -1,0 +1,5 @@
+0 idle
+1 hit
+2 ~ 7 walk
+8 ~ 17 attack
+18 ~ 26 death

@@ -1,5 +1,4 @@
 ﻿#include "Crocman.h"
-#include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -194,7 +193,7 @@ void CCrocman::Chasing(_float fTimeDelta)
 
 void CCrocman::Attack_Melee(_float fTimeDelta)
 {
-	if (m_eCurState == MS_IDLE)
+	if (m_eCurState != MS_ATTACK)
 	{
 		if (m_fElapsedTime >= 1.f)
 			m_eCurState = MS_ATTACK;
@@ -203,13 +202,10 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 	}
 
 
-	if (m_eCurState != MS_ATTACK)
-		m_eCurState = MS_ATTACK;
-
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	// 일단 투사체 판정으로 해놓고 나중에 다른 enum 사용하면 될듯?
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
 }
 
 void CCrocman::Select_Frame(_float fTimeDelta)
@@ -305,7 +301,7 @@ HRESULT CCrocman::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
+	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 3.f, 1.f, 3.f };

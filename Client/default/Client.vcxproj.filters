@@ -217,6 +217,21 @@
     <Filter Include="02.GameObjects\02. Item\99. Effect\Weapon_Effect">
       <UniqueIdentifier>{f5025a2e-8e58-4924-8cd2-b4de6fc133c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\04. Projectile">
+      <UniqueIdentifier>{ccd1d59f-607a-4134-a831-666fe16af916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Base">
+      <UniqueIdentifier>{69fb4e61-ac52-48ac-b63f-1f0116b5c9fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster">
+      <UniqueIdentifier>{28bfa489-507d-412d-a795-602332d9ca91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Player">
+      <UniqueIdentifier>{252ce31a-b7e4-4405-be6f-228660436acc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster\Harpoon">
+      <UniqueIdentifier>{ef6b5376-937b-4951-bcaf-f838c26f9b2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -417,6 +432,15 @@
     <ClInclude Include="..\Public\Item_Icon.h">
       <Filter>Inven</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Harpoonguy.h">
+      <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Projectile_Base.h">
+      <Filter>02.GameObjects\04. Projectile\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Harpoon.h">
+      <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -594,6 +618,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp">
       <Filter>Inven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Harpoonguy.cpp">
+      <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Projectile_Base.cpp">
+      <Filter>02.GameObjects\04. Projectile\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Harpoon.cpp">
+      <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

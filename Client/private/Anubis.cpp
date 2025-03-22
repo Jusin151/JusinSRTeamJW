@@ -137,7 +137,7 @@ void CAnubis::Attack_Melee()
 {
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
 }
 
 HRESULT CAnubis::SetUp_RenderState()
@@ -171,7 +171,7 @@ HRESULT CAnubis::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
+	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 3.f, 1.f, 3.f };
