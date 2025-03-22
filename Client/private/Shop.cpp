@@ -114,19 +114,7 @@ HRESULT CShop::Ready_Components()
     //    TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
     //    return E_FAIL;
 
-    /* Collider Component */
-    CCollider::COL_DESC	ColliderDesc = {};
-    ColliderDesc.pOwner = this;
-    // 이걸로 콜라이더 크기 설정
-    ColliderDesc.fScale = m_pTransformCom->Compute_Scaled();
-    ColliderDesc.eType = CG_SHOP;
-    // 오브젝트와 상대적인 거리 설정
-    ColliderDesc.fLocalPos = { 0.f, 0.f, 0.0f };
 
-
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
-        TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
-        return E_FAIL;
 
     return S_OK;
 }

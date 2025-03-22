@@ -25,6 +25,8 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+
+
     // 포인트 상점 전용 텍스처 컴포넌트 추가
     if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
@@ -44,6 +46,8 @@ void CPointShop::Priority_Update(_float fTimeDelta)
 
 void CPointShop::Update(_float fTimeDelta)
 {
+  auto vPos =   m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+  int a = 0;
 }
 
 void CPointShop::Late_Update(_float fTimeDelta)
