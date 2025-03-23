@@ -13936,13 +13936,6 @@
         ]
       }
     ],
-    "Layer_Camera": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Camera"
-      }
-    ],
     "Layer_Player": [
       {
         "FromPool": true,
