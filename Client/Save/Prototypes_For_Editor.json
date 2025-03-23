@@ -117,6 +117,31 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_Hub_Wall2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall4"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall5"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Floor2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall6"
     }
   ],
   "textures": [
@@ -215,6 +240,36 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_brickwall_02.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall3"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_brickwall_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall4"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_02.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall5"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_stonefloor_01.png",
+      "tag": "Prototype_Component_Texture_Floor2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall6"
     }
   ]
 }
