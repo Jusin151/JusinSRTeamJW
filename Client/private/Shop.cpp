@@ -64,6 +64,7 @@ void CShop::Late_Update(_float fTimeDelta)
 
 HRESULT CShop::Render()
 {
+
     // 상점이 열려있을 때만 렌더링
     if (m_bIsOpen)
     {
@@ -148,7 +149,6 @@ HRESULT CShop::SetUp_RenderState()
     if (nullptr == m_pGraphic_Device)
         return E_FAIL;
 
-    // 알파 블렌딩 활성화
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -185,6 +185,7 @@ HRESULT CShop::Ready_Components()
     //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Shop"),
     //    TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
     //    return E_FAIL;
+
 
     /* Collider Component */
     CCollider::COL_DESC	ColliderDesc = {};

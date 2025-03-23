@@ -24,6 +24,14 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+
+    return S_OK;
+}
+
+void CPointShop::Priority_Update(_float fTimeDelta)
+{
+  
+
   
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -39,16 +47,18 @@ HRESULT CPointShop::Initialize(void* pArg)
 
 void CPointShop::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CPointShop::Update(_float fTimeDelta)
 {
-    __super::Update(fTimeDelta);
 
+    __super::Update(fTimeDelta);
 }
 
 void CPointShop::Late_Update(_float fTimeDelta)
 {
+
     __super::Late_Update(fTimeDelta);
 }
 
@@ -73,6 +83,7 @@ HRESULT CPointShop::Release_RenderState()
 
 HRESULT CPointShop::Render()
 {
+
 
     if (FAILED(m_pTextureCom->Bind_Resource(0)))
         return E_FAIL;

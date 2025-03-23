@@ -47,6 +47,12 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
 		return E_FAIL;
 
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_PointShop"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -166,7 +172,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 	//	LEVEL_GAMEPLAY, strLayerTag)))
 	//	return E_FAIL;
 	// 오브젝트 풀에 등록
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 1000)))
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 1)))
 		return E_FAIL;
 
 	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가

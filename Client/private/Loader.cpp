@@ -185,7 +185,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 
-  	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
+   	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	CJsonLoader jsonLoader;

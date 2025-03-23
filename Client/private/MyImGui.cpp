@@ -257,7 +257,7 @@ void CMyImGui::ShowCreateObjectTab()
 	static int selectedBufferType = 0;
 	static int selectedClassType = 0;
 	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube";
-	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube";
+	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Rect";
 	static char layerTagBuffer[128] = "Com_Collider";
 	static char objectLayerTagBuffer[256] = "Layer_";
 	static char textureTagBuffer[256] = "Prototype_Component_Texture";
@@ -375,8 +375,26 @@ void CMyImGui::ShowCreateObjectTab()
 				strcpy_s(bufferNameBuffer, "Prototype_Component_VIBuffer_Terrain");
 			}
 
+			string protoTag = info.tag;
+			string extractedName = "";
+			string prefix = "Prototype_GameObject_";
+			if (protoTag.find(prefix) == 0)
+			{
+				extractedName = protoTag.substr(prefix.length());
+			}
+			else 
+			{
+				// 접두사가 없는 경우 그대로 사용
+				extractedName = protoTag;
+			}
+
+			// Layer_ 접두사와 추출된 이름을 합쳐서 레이어 태그 생성
+			string layerTag = "Layer_" + extractedName;
+			strcpy_s(objectLayerTagBuffer, layerTag.c_str());
+
+
 			// 레벨 업데이트
-			iLevel = 4; // 기본값
+			iLevel = 3; // 기본값
 			iProtoLevel = info.level;
 
 			// 선택된 텍스처 경로 업데이트

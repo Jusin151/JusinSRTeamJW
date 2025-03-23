@@ -54,15 +54,15 @@ public:
 
         ImGui::Begin("Editor");
 
-        static char filepath[256] = "../Save/LEVEL.json";
-        static int currentLevel = 1;
+        static char filepath[256] = "../Save/LEVEL_Hub.json";
+        static int currentLevel = 3;
         static char specificLayer[128] = ""; // 특정 레이어 이름을 저장할 버퍼
 
         ImGui::InputText("File Path", filepath, sizeof(filepath));
         ImGui::InputInt("Level ID", &currentLevel);
 
         // 특정 레이어 입력 필드 추가
-        ImGui::InputText("Specific Layer (빈칸=모든 레이어)", specificLayer, sizeof(specificLayer));
+       // ImGui::InputText("Specific Layer (빈칸=모든 레이어)", specificLayer, sizeof(specificLayer));
 
         if (ImGui::Button("Save Level"))
         {
