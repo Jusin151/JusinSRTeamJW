@@ -159,6 +159,13 @@ void CStaff::Attack(_float fTimeDelta)
     case State::Firing: //발사
         if (m_fElapsedTime >= 0.02f)
         {
+
+            _float2 Weapon = m_Staff_INFO.vPos;
+
+            if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Staff_Bullet"),
+                LEVEL_GAMEPLAY, TEXT("Layer_Staff_Bullet"),&Weapon)))
+                return ;
+
             m_fElapsedTime = 0.0f;
             if (m_iCurrentFrame < m_TextureRanges["Attack"].second)
             {

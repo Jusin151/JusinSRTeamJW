@@ -14,6 +14,16 @@ BEGIN(Client)
 
 class CMyImGui  final : public CBase
 {
+	struct PrototypeInfo
+	{
+		string tag;             // 게임 오브젝트 태그
+		string className;       // 클래스 이름
+		int level;              // 레벨
+		string textureTag;      // 관련 텍스처 태그 (매칭할 예정)
+		string texturePath;     // 텍스처 경로
+		int textureCount;       // 텍스처 개수
+		string bufferTag;       // 관련 버퍼 태그
+	};
 private:
 	CMyImGui(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual ~CMyImGui() = default;
@@ -33,7 +43,7 @@ private:
 	void LoadImagesFromFolder(const _wstring& folderPath);
 	_wstring SelectFile();
 	_wstring SelectFolder();
-	HRESULT CreateObject();
+	//HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
 
 	void ShowInspectorTab();
@@ -59,7 +69,7 @@ private:
 		const _wstring& bufferClass,
 		_int bufferWidth,
 		_int bufferHeight);
-
+	HRESULT LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes);
 	// ImGuizmo 관련 함수 추가
 	void ConfigureImGuizmo();
 	void RenderImGuizmo(CTransform* pTransform);

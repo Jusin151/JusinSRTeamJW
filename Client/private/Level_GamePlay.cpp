@@ -7,6 +7,7 @@
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
 #include "Weapon_Base.h"
+#include "Effect_Base.h"
 
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -21,6 +22,7 @@ HRESULT CLevel_GamePlay::Initialize()
 {
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
 	CJsonLoader jsonLoader;
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
@@ -384,7 +386,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 	}
 
 
-
 	return S_OK;
 }
 
@@ -626,7 +627,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
 	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
 	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
-	Weapon_Minigun_Desc.vSize = { 545,395.f };
+	Weapon_Minigun_Desc.vSize = { 959,347.f };
 	Weapon_Minigun_Desc.Damage = { 100.f };
 	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
 	Weapon_Minigun_Desc.Range = { 3.f };
@@ -636,10 +637,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		&Weapon_Minigun_Desc)))
 		return E_FAIL;
 
+
 	CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
 	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
-	Weapon_Harvester_Desc.vPos = { 200.f,0.f };
-	Weapon_Harvester_Desc.vSize = { 285.f,300.f };
+	Weapon_Harvester_Desc.vPos = { 80.f,-213.f };
+	Weapon_Harvester_Desc.vSize = { 356.f,375.f };
 	Weapon_Harvester_Desc.Damage = { 100.f };
 	Weapon_Harvester_Desc.AttackSpeed = { 1.f };
 	Weapon_Harvester_Desc.Range = { 3.f };
@@ -651,7 +653,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 
 	CWeapon_Base::Weapon_DESC Weapon_Sonic_Desc{}; // 소닉 원형객체
 	Weapon_Sonic_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Sonic;
-	Weapon_Sonic_Desc.vPos = { 0.f,0.f };
+	Weapon_Sonic_Desc.vPos = { 270.f,-200.f };
 	Weapon_Sonic_Desc.vSize = { 436.f,316.f };
 	Weapon_Sonic_Desc.Damage = { 100.f };
 	Weapon_Sonic_Desc.AttackSpeed = { 1.f };
@@ -661,6 +663,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Sonic"),
 		&Weapon_Sonic_Desc)))
 		return E_FAIL;
+
 
 
 	return S_OK;

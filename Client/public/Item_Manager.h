@@ -84,13 +84,12 @@ public:
     {
 
         auto it = m_UIMap.find(tag);
-        if (it != m_UIMap.end())
+        if (it == m_UIMap.end()) // 동완아 반환하는 함수는 꼭 이렇게 다 반환하도록
         {
-            it->second->IsActive();
-
-            return it->second->IsActive();
+            return false;  
         }
-              
+     
+        return it->second->IsActive();
     }
     void Set_Inven_Render(_bool type){ Render_off = type;}
     _bool Get_Inven_Render() { return Render_off; }

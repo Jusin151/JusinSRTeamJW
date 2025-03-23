@@ -92,7 +92,6 @@ HRESULT CCrocman::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-
 	Release_RenderState();
 
 

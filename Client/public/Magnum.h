@@ -34,12 +34,14 @@ private:
 
 public:
 	static CMagnum* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg);
+	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free();
 
 	_float t = {}; //
 	_float speed = { 0.1f }; //
 	_float3 m_vInitialPos = {};
+
+	 bool m_bHasFired = false;
 
 };
 END

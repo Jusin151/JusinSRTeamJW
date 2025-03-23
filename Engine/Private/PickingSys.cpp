@@ -20,7 +20,6 @@ HRESULT CPickingSys::Initialize(HWND hWnd, LPDIRECT3DDEVICE9 pGraphic_Device, CG
 	auto colliderVec = m_pGameInstance->Get_Colliders();
 	return S_OK;
 }
-
 void CPickingSys::Update()
 {
 	POINT pt;
@@ -126,6 +125,145 @@ _bool CPickingSys::Ray_Intersection(CCollider* pCollider)
     return false;
 }
 
+// Ray_Intersection()를 오버로드하거나 시그니처 수정
+bool CPickingSys::Ray_Intersection(CCollider* pCollider, _float3* pOutHitPos)
+{
+    // 예시: Sphere라면
+    CCollider_Sphere* pSphere = dynamic_cast<CCollider_Sphere*>(pCollider);
+    if (pSphere)
+    {
+        // (1) 판별식(discriminant) 구하기
+        _float3 vCenter = pSphere->Get_State(CTransform::STATE_POSITION);
+        _float3 vOc = m_Ray.vOrigin - vCenter;
+        float r = pSphere->Get_Radius(); // 구의 반지름
+
+        float a = m_Ray.vDir.Dot(m_Ray.vDir);        // 보통 1
+        float b = 2.f * m_Ray.vDir.Dot(vOc);
+        float c = vOc.Dot(vOc) - r * r;
+        float discriminant = b * b - 4.f * a * c;
+        if (discriminant < 0.f)
+            return false; // 충돌X
+
+        // (2) t값 2개 중 하나 선택(가장 작은 양수)
+        discriminant = sqrtf(discriminant);
+        float t1 = (-b - discriminant) / (2.f * a);
+        float t2 = (-b + discriminant) / (2.f * a);
+
+        // 둘 중 더 작은 양수 t를 채택
+        float t = -1.f;
+        if (t1 >= 0.f && t2 >= 0.f) t = min(t1, t2);
+        else if (t1 >= 0.f)        t = t1;
+        else if (t2 >= 0.f)        t = t2;
+        else return false; // 둘 다 음수 => 뒤쪽 충돌
+
+        // (3) 진짜 충돌 위치
+        _float3 vHitPos = m_Ray.vOrigin + m_Ray.vDir * t;
+        if (pOutHitPos)
+            *pOutHitPos = vHitPos;
+
+        return true;
+    }
+
+    CCollider_Cube* pCube = dynamic_cast<CCollider_Cube*>(pCollider);
+    if (pCube)
+    {
+        // pCube의 축 정보와 반치 크기를 가져옴
+        _float3 vDirX = pCube->Get_Desc().fAxisX.GetNormalized();
+        _float3 vDirY = pCube->Get_Desc().fAxisY.GetNormalized();
+        _float3 vDirZ = pCube->Get_Desc().fAxisZ.GetNormalized();
+        _float fHalfSize[3] = {
+            pCube->Get_Desc().fAxisX.Length() * 0.5f,
+            pCube->Get_Desc().fAxisY.Length() * 0.5f,
+            pCube->Get_Desc().fAxisZ.Length() * 0.5f
+        };
+
+        // OBB의 로컬 좌표계로 변환: pCube->Get_Desc().fPos는 OBB 중심 위치
+        _float3 vLocalOrigin = m_Ray.vOrigin - pCube->Get_Desc().fPos;
+
+        _float3 vLocalDir, vLocalPos;
+        vLocalDir.x = m_Ray.vDir.Dot(vDirX);
+        vLocalDir.y = m_Ray.vDir.Dot(vDirY);
+        vLocalDir.z = m_Ray.vDir.Dot(vDirZ);
+        vLocalPos.x = vLocalOrigin.Dot(vDirX);
+        vLocalPos.y = vLocalOrigin.Dot(vDirY);
+        vLocalPos.z = vLocalOrigin.Dot(vDirZ);
+
+        _float fMin = -FLT_MAX;
+        _float fMax = FLT_MAX;
+        for (int i = 0; i < 3; i++)
+        {
+            float localDir = (&vLocalDir.x)[i];
+            float localPos = (&vLocalPos.x)[i];
+            float halfSize = fHalfSize[i];
+
+            if (fabs(localDir) < FLT_EPSILON)
+            {
+                if (localPos < -halfSize || localPos > halfSize)
+                    return false;
+            }
+            else
+            {
+                float t1 = (-halfSize - localPos) / localDir;
+                float t2 = (halfSize - localPos) / localDir;
+                if (t1 > t2)
+                {
+                    float temp = t1;
+                    t1 = t2;
+                    t2 = temp;
+                }
+                fMin = max(fMin, t1);
+                fMax = min(fMax, t2);
+                if (fMin > fMax)
+                    return false;
+            }
+        }
+        if (fMin <= fMax && fMax >= 0.0f)
+        {
+            float t;
+            if (fMin >= 0.0f)
+                t = fMin;
+            else
+                t = fMax;
+            if (pOutHitPos)
+                *pOutHitPos = m_Ray.vOrigin + m_Ray.vDir * t;
+            return true;
+        }
+        return false;
+    }
+    return false;
+    return false;
+}
+
+_float3 CPickingSys::Get_Mouse_Effect()
+{
+    POINT pt;
+    GetCursorPos(&pt);
+    ScreenToClient(m_Hwnd, &pt);
+
+    D3DVIEWPORT9 vp;
+    m_pGraphic_Device->GetViewport(&vp);
+
+    D3DXMATRIX matProj, matView, matWorld;
+    m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matProj);
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixIdentity(&matWorld);
+
+    D3DXVECTOR3 vMousePos((float)pt.x, (float)pt.y, 0.0f);
+    D3DXVECTOR3 vMousePosFar((float)pt.x, (float)pt.y, 1.0f);
+
+    D3DXVECTOR3 vRayOrigin, vRayDir;
+    D3DXVec3Unproject(&vRayOrigin, &vMousePos, &vp, &matProj, &matView, &matWorld);
+    D3DXVec3Unproject(&vRayDir, &vMousePosFar, &vp, &matProj, &matView, &matWorld);
+    vRayDir -= vRayOrigin;
+    D3DXVec3Normalize(&vRayDir, &vRayDir);
+
+    // Assuming the ray intersects with a plane at z = 0
+    float t = -vRayOrigin.z / vRayDir.z;
+    D3DXVECTOR3 vIntersection = vRayOrigin + t * vRayDir;
+
+    return _float3(vIntersection.x, vIntersection.y, vIntersection.z);
+
+}
 _bool CPickingSys::Sphere_lntersection(CCollider_Sphere* pColliderSp)
 {
 	if (pColliderSp == nullptr|| pColliderSp->Get_Owner() == m_pPlayer) return false;

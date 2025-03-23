@@ -10,7 +10,6 @@ CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CStructure::CStructure(const CStructure& Prototype)
 	:CGameObject{ Prototype }
-	,m_tStructure_Desc(Prototype.m_tStructure_Desc)
 {
 }
 
@@ -29,7 +28,6 @@ HRESULT CStructure::Initialize(void* pArg)
 	
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_tStructure_Desc.vPos);
 	return S_OK;
 }
 
@@ -43,7 +41,7 @@ void CStructure::Update(_float fTimeDelta)
 
 	if (m_bIsCubeCollider)
 	{
-		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Sphere"));
+		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Cube"));
 	}
 	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
 }
@@ -119,7 +117,7 @@ HRESULT CStructure::Ready_Components()
 	//}
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
+	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -142,8 +140,8 @@ HRESULT CStructure::Ready_Components()
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -151,7 +149,7 @@ HRESULT CStructure::Ready_Components()
 
 CStructure* CStructure::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CStructure* pInstance = new CStructure(pGraphic_Device);
+  	CStructure* pInstance = new CStructure(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -183,6 +181,7 @@ void CStructure::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+
 }
 
 json CStructure::Serialize()

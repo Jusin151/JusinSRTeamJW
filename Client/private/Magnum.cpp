@@ -3,6 +3,8 @@
 #include "CUI_Manager.h"
 #include "Item_Manager.h"
 
+
+
 CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
 {
@@ -12,12 +14,12 @@ CMagnum::CMagnum(const CMagnum& Prototype)
 	: CRanged_Weapon(Prototype),
 	m_Magnum_INFO{ Prototype.m_Magnum_INFO }
 {
+	
 }
 
 HRESULT CMagnum::Initialize_Prototype()
 {
-
-
+ 
 
 	return S_OK;
 }
@@ -32,6 +34,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
+	
 
  	m_pTransformCom->Set_Scale(m_Magnum_INFO.vSize.x, m_Magnum_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -48,6 +51,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Magnum"),&Magunm)))
 		return E_FAIL;
 
+	__super::Ready_Picking();
 
 	return S_OK;
 }
@@ -58,6 +62,7 @@ void CMagnum::Priority_Update(_float fTimeDelta)
 
 void CMagnum::Update(_float fTimeDelta)
 {
+    	
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
@@ -90,10 +95,20 @@ void CMagnum::Attack(_float fTimeDelta)
 {
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
-		m_bIsAnimating = true;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
+		if (!m_bHasFired)
+		{
+			m_bIsAnimating = true;
+			m_iCurrentFrame = 0;
+			m_fElapsedTime = 0.0f;
+			m_bHasFired = true; // 발사 상태를 true로 설정
+			__super::Picking_Object(); // 클릭 한 번에 한 번만 호출
+		}
 	}
+	else
+	{
+		m_bHasFired = false; // 버튼을 떼면 다시 발사 가능하도록 설정
+	}
+
 	if (m_bIsAnimating)
 	{
 		m_fElapsedTime += fTimeDelta;
@@ -113,14 +128,22 @@ void CMagnum::Attack(_float fTimeDelta)
 	}
 }
 
+
 void CMagnum::Late_Update(_float fTimeDelta)
 {
+	
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
 HRESULT CMagnum::Render()
 {
+		if (m_bWall)
+		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+	if (m_bMonster)
+		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+
 
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
@@ -208,7 +231,7 @@ CGameObject* CMagnum::Clone(void* pArg)
 void CMagnum::Free()
 {
 	__super::Free();
-
+	Safe_Release(m_pPickingSys);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

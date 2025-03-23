@@ -173,7 +173,18 @@
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Sonic/sonic_launcher%d.png",
       "count": 7
-
+    },
+    {
+      "tag": "Prototype_Component_Texture_Weapon_Effect",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/BulletHole/TEXTURE_bulletHole_%d.png",
+      "count": 4
+    },
+    {
+      "tag": "Prototype_Component_Texture_Weapon_Bullet",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png",
+      "count": 7
     }
   ],
   "gameObjects": [
