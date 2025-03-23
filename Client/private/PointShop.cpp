@@ -24,20 +24,11 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-
-    return S_OK;
-}
-
-void CPointShop::Priority_Update(_float fTimeDelta)
-{
-  
-
-  
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.f, 1.f, 10.f));
-      
+
     m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
 
 

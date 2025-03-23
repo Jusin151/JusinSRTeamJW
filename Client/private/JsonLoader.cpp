@@ -150,8 +150,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
             // 객체 생성 또는 활성화 (OBJECT_DESC 전달)
             if (bFromPool)
             {
-                if (FAILED(pGameInstance->Acquire_Object(tObjDesc.iProtoLevel,
-                    layerTag, &tObjDesc)))
+                if (!pGameInstance->Acquire_Object(tObjDesc.iProtoLevel,
+                    layerTag, &tObjDesc))
                     continue;
             }
             else

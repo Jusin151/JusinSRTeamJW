@@ -19,7 +19,6 @@ public:
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
 
-
     // Shop 인터페이스 구현
 
     virtual HRESULT Open_Shop() override;
@@ -30,7 +29,7 @@ public:
     virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
-    HRESULT Render()override;
+
 
 protected:
     virtual HRESULT Ready_ShopItems() override;
@@ -41,12 +40,5 @@ public:
     static CPointShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
-
-private:
-
-    // CShop을(를) 통해 상속됨
-    void Priority_Update(_float fTimeDelta) override;
-    void Update(_float fTimeDelta) override;
-    void Late_Update(_float fTimeDelta) override;
 };
 END
