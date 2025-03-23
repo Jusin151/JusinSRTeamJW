@@ -57,6 +57,10 @@ private:
 	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
 
 
+	// 회전 시킬 기준 점..
+	_int			  m_iMiddlePointX = {};
+
+
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -11,6 +11,8 @@
 #include "Anubis.h"
 #include "Crocman.h"
 #include "PointShop.h"
+#include "Harpoon.h"
+#include "Harpoonguy.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
@@ -229,6 +231,11 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CAnubis::Create(pGraphic_Device);
     else if (className == "CCrocman")
         return CCrocman::Create(pGraphic_Device);
+    else if (className == "CHarpoonguy")
+        return CHarpoonguy::Create(pGraphic_Device);
+    else if (className == "CHarpoon")
+        return CHarpoon::Create(pGraphic_Device);
+
     else if (className == "CPointShop")
         return CPointShop::Create(pGraphic_Device);
 
@@ -290,8 +297,12 @@ _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
 {
     if (layerName == L"Layer_Player")
         return L"Prototype_GameObject_Player";
-    else if (layerName == L"Layer_Monster")
+    else if (layerName == L"Layer_Monster_Crocman")
         return L"Prototype_GameObject_Crocman";
+    else if (layerName == L"Layer_Monster_Harpoonguy")
+        return L"Prototype_GameObject_Harpoonguy";
+    else if (layerName == L"Layer_Monster_Projectile_Harpoon")
+        return L"Prototype_GameObject_Harpoon";
     else if (layerName == L"Layer_BackGround")
         return L"Prototype_GameObject_Terrain";
     else if (layerName == L"Layer_Camera")

@@ -41,6 +41,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 	//	return E_FAIL;
 
+	/*if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), TEXT("Layer_Monster_Projectile_Harpoon"), 10)))
+		return E_FAIL;*/
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
 		return E_FAIL;
@@ -174,8 +177,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+	if(nullptr ==(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
+	
 	return S_OK;
 }
 
@@ -427,18 +431,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 1)))
 		return E_FAIL;
 
-
-
-	CTransform::TRANSFORM_DESC randTransDesc{};
-
-
-
+	/*CTransform::TRANSFORM_DESC randTransDesc{};
 
 	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
 	randTransDesc.fSpeedPerSec = 10.f;
 	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag, &randTransDesc)))
-		return E_FAIL;
+
+	if (nullptr ==(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag, &randTransDesc)))
+		return E_FAIL;*/
 
 
 	return S_OK;
@@ -449,7 +449,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Crocman"), strLayerTag, 10)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+	if(nullptr ==(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

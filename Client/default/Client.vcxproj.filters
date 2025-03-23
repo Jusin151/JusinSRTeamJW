@@ -235,6 +235,21 @@
     <Filter Include="02.GameObjects\ParticleSystemTest">
       <UniqueIdentifier>{e03b786e-420b-4bc3-8afc-6174f9e10a61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\04. Projectile">
+      <UniqueIdentifier>{ccd1d59f-607a-4134-a831-666fe16af916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Base">
+      <UniqueIdentifier>{69fb4e61-ac52-48ac-b63f-1f0116b5c9fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster">
+      <UniqueIdentifier>{28bfa489-507d-412d-a795-602332d9ca91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Player">
+      <UniqueIdentifier>{252ce31a-b7e4-4405-be6f-228660436acc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster\Harpoon">
+      <UniqueIdentifier>{ef6b5376-937b-4951-bcaf-f838c26f9b2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -465,6 +480,15 @@
     <ClInclude Include="..\public\GameObject_Particle_Firework.h">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Harpoonguy.h">
+      <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Projectile_Base.h">
+      <Filter>02.GameObjects\04. Projectile\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Harpoon.h">
+      <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -673,6 +697,15 @@
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Particle_Firework.cpp">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Harpoonguy.cpp">
+      <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Projectile_Base.cpp">
+      <Filter>02.GameObjects\04. Projectile\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Harpoon.cpp">
+      <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

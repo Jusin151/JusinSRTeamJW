@@ -152,9 +152,9 @@ void CStaff_Bullet::Select_Pattern(_float fTimeDelta)
 
 void CStaff_Bullet::Attack_Melee()
 {
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"));
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
 }
 
 HRESULT CStaff_Bullet::SetUp_RenderState()
@@ -198,7 +198,7 @@ HRESULT CStaff_Bullet::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
+	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

@@ -1,5 +1,4 @@
 ﻿#include "Crocman.h"
-#include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -31,14 +30,22 @@ HRESULT CCrocman::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(20.f, 1.f, 20.f));
 
 	return S_OK;
 }
 
 void CCrocman::Priority_Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+	{
+		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+		if (nullptr == pTarget)
+			return;
 
+		SetTarget(pTarget);
+		Safe_AddRef(pTarget);
+		
+	}
 
 	if (m_iCurrentFrame > 26)
 	{
@@ -49,6 +56,9 @@ void CCrocman::Priority_Update(_float fTimeDelta)
 
 void CCrocman::Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+		return;
+
 	Select_Pattern(fTimeDelta);
 
 	__super::Update(fTimeDelta);
@@ -56,7 +66,7 @@ void CCrocman::Update(_float fTimeDelta)
 
 	if (m_eCurState != MS_DEATH)
 	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
@@ -65,6 +75,9 @@ void CCrocman::Update(_float fTimeDelta)
 
 void CCrocman::Late_Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+		return;
+
 	// 충돌 판정
 	On_Collision(fTimeDelta);
 
@@ -97,6 +110,11 @@ HRESULT CCrocman::Render()
 
 
 	return S_OK;
+}
+
+void CCrocman::Deserialize(const json& j)
+{
+	SET_TRANSFORM(j, m_pTransformCom);
 }
 
 HRESULT CCrocman::On_Collision(_float fTimeDelta)
@@ -151,7 +169,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
      vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
 	// 거리로 판단해서 패턴 실행하도록 
-	if (vDist.LengthSq() > 5)
+	if (vDist.LengthSq() > 4)
 		Chasing(fTimeDelta);
 	else
 		Attack_Melee(fTimeDelta);
@@ -176,7 +194,7 @@ void CCrocman::Chasing(_float fTimeDelta)
 
 void CCrocman::Attack_Melee(_float fTimeDelta)
 {
-	if (m_eCurState == MS_IDLE)
+	if (m_eCurState != MS_ATTACK)
 	{
 		if (m_fElapsedTime >= 1.f)
 			m_eCurState = MS_ATTACK;
@@ -185,13 +203,10 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 	}
 
 
-	if (m_eCurState != MS_ATTACK)
-		m_eCurState = MS_ATTACK;
-
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"));
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	// 일단 투사체 판정으로 해놓고 나중에 다른 enum 사용하면 될듯?
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE, m_pAttackCollider);
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
 }
 
 void CCrocman::Select_Frame(_float fTimeDelta)
@@ -287,7 +302,7 @@ HRESULT CCrocman::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
+	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 3.f, 1.f, 3.f };
@@ -334,4 +349,5 @@ void CCrocman::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pAttackCollider);
+	Safe_Release(m_pTarget);
 }

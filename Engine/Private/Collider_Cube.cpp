@@ -39,7 +39,7 @@ HRESULT CCollider_Cube::Render()
 }
 
 
-HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag)
+HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag, _float3 fScale)
 {
 
 	if (nullptr == m_pOwner)
@@ -55,9 +55,9 @@ HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag)
 	_float3 fLook = pTransfrom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 	_float3 fObjectPos = pTransfrom->Get_State(CTransform::STATE_POSITION);
 
-	Set_State(CTransform::STATE_RIGHT, fRight * m_fScale.x);
-	Set_State(CTransform::STATE_UP, fUp * m_fScale.y);
-	Set_State(CTransform::STATE_LOOK, fLook * m_fScale.z);
+	Set_State(CTransform::STATE_RIGHT, fRight * fScale.x);
+	Set_State(CTransform::STATE_UP, fUp * fScale.y);
+	Set_State(CTransform::STATE_LOOK, fLook * fScale.z);
 	Set_State(CTransform::STATE_POSITION, fObjectPos);
 
 

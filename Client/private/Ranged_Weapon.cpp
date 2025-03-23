@@ -107,8 +107,12 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
             // 플레이어 콜라이더라면 스킵
             if (collider->Get_Owner()->Get_Tag() == L"Layer_Player")
                 continue;
+            // 바닥이면 무시
+            if (collider->Get_Owner()->Get_Tag().find(L"Floor")!=wstring::npos)
+                continue;
 
             // 벽 태그인 경우
+
             if (collider->Get_Owner()->Get_Tag().find(L"Wall")!=wstring::npos)
             {
                 // ----  벽 Transform에서 평면 정의 ----
@@ -126,7 +130,7 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                 _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
                 float denom = vWallNormal.Dot(vRayDir);
-                if (fabs(denom) < 1e-6f)
+                if (fabs(denom) < 1e-7f)
                     continue; // 레이가 평면과 거의 평행 => 교차 안 함
 
                 float t = vWallNormal.Dot(vTilePos - vRayOrigin) / denom;
@@ -151,8 +155,8 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                     );
 
                     // 범위 밖이면 스킵
-                    if (vLocalHit.x < -0.5f || vLocalHit.x > 0.5f ||
-                        vLocalHit.y < -0.5f || vLocalHit.y > 0.5f)
+                    if (vLocalHit.x < -0.55f || vLocalHit.x > 0.55f ||
+                        vLocalHit.y < -0.55f || vLocalHit.y > 0.55f)
                     {
                         continue; // 타일 표면 밖 => 탄흔 안 찍음
                     }

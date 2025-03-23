@@ -47,7 +47,7 @@ void CShop::Update(_float fTimeDelta)
 
 
 
-    m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
+    m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
     m_pGameInstance->Add_Collider(CG_SHOP, m_pColliderCom);
 
