@@ -79,6 +79,12 @@
       "count": 3
     },
     {
+      "tag": "Prototype_Component_Texture_Point_Shop",
+      "level": 3,
+      "path": "../../Resources/Textures/Shop/Point_Shop%d.png",
+      "count": 1
+    },
+    {
       "tag": "Prototype_Component_Texture_Spell_Shop_UI",
       "level": 3,
       "path": "../../Resources/Textures/UI/Spell_UI/Spell_UI.png",

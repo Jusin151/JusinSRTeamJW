@@ -21,9 +21,14 @@ public:
     virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) override;
     virtual void Refresh_Shop_Items() override;
     virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
+    HRESULT SetUp_RenderState();
+    HRESULT Release_RenderState();
+    HRESULT Render()override;
 
 protected:
     virtual HRESULT Ready_ShopItems() override;
+private:
+    HRESULT Ready_Components();
 
 public:
     static CPointShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -31,5 +36,10 @@ public:
     virtual void Free() override;
 
 private:
+
+    // CShop을(를) 통해 상속됨
+    void Priority_Update(_float fTimeDelta) override;
+    void Update(_float fTimeDelta) override;
+    void Late_Update(_float fTimeDelta) override;
 };
 END

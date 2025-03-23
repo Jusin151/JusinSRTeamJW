@@ -98,8 +98,9 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
             if (nullptr == collider || nullptr == collider->Get_Owner())
                 continue;
 
-            // 2) 먼저 OBB 교차로 “맞았는지” 판정
+            // 먼저 OBB 교차로 맞았는지 판정
             _float3 vHitPos = {};
+
             if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
                 continue; // 충돌X
 
@@ -107,10 +108,10 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
             if (collider->Get_Owner()->Get_Tag() == L"Layer_Player")
                 continue;
 
-            // 3) 벽 태그인 경우
+            // 벽 태그인 경우
             if (collider->Get_Owner()->Get_Tag() == L"Layer_Wall")
             {
-                // ---- [A] 벽 Transform에서 평면 정의 ----
+                // ----  벽 Transform에서 평면 정의 ----
                 CTransform* pWallTransform = static_cast<CTransform*>(
                     collider->Get_Owner()->Get_Component(L"Com_Transform"));
 
@@ -119,7 +120,7 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                 // 타일 노멀(LOOK) - “정면 방향”이라고 가정
                 _float3 vWallNormal = pWallTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
 
-                // ---- [B] Ray-Plane 교차 ----
+                // ---- Ray-Plane 교차 ----
                 // (PickingSys::m_Ray에 vOrigin, vDir이 있다고 가정)
                 _float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
                 _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
