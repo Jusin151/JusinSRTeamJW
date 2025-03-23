@@ -1,4 +1,4 @@
-#include "Staff_Bullet.h"
+ï»¿#include "Staff_Bullet.h"
 #include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
@@ -45,15 +45,15 @@ void CStaff_Bullet::Priority_Update(_float fTimeDelta)
 
 void CStaff_Bullet::Update(_float fTimeDelta)
 {
-	// ÅºÈ¯ÀÌ ¾ÕÀ¸·Î ³ª°¡µµ·Ï À§Ä¡ ¾÷µ¥ÀÌÆ®
+	// íƒ„í™˜ì´ ì•ìœ¼ë¡œ ë‚˜ê°€ë„ë¡ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
 	m_pTransformCom->Go_Straight(fTimeDelta * m_fSpeed);
 
-	// ¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ®
+	// ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ ì—…ë°ì´íŠ¸
 	m_fElapsedTime += fTimeDelta;
-	if (m_fElapsedTime >= 0.1f) // ÇÁ·¹ÀÓ´ç 0.1ÃÊ
+	if (m_fElapsedTime >= 0.1f) // í”„ë ˆì„ë‹¹ 0.1ì´ˆ
 	{
 		m_fElapsedTime = 0.0f;
-		m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // 0ºÎÅÍ 6±îÁö ¹İº¹
+		m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // 0ë¶€í„° 6ê¹Œì§€ ë°˜ë³µ
 	}
 }
 
@@ -92,7 +92,7 @@ HRESULT CStaff_Bullet::On_Collision(_float fTimeDelta)
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
@@ -121,7 +121,7 @@ HRESULT CStaff_Bullet::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
+	// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
@@ -141,13 +141,13 @@ void CStaff_Bullet::Attack_Melee()
 
 HRESULT CStaff_Bullet::SetUp_RenderState()
 {
-	// ÀÏ´Ü Ãß°¡ÇØº¸±â
+	// ì¼ë‹¨ ì¶”ê°€í•´ë³´ê¸°
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }
@@ -182,9 +182,9 @@ HRESULT CStaff_Bullet::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.eType = CG_MONSTER_PROJECTILE;
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
 
 

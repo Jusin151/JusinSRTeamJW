@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Monster_Base.h"
 
@@ -14,7 +14,7 @@ public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
-	// ¸¶Áö¸·¿¡ ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¹Ù¶óº¸µµ·Ï ÇÔ
+	// ë§ˆì§€ë§‰ì— í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ë°”ë¼ë³´ë„ë¡ í•¨
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
@@ -22,7 +22,7 @@ public:
 
 public:
 	virtual HRESULT On_Collision(_float fTimeDelta) override;
-	// ÀÏ´Ü ÂÑ¾Æ°¡´Â ÆĞÅÏ¸¸
+	// ì¼ë‹¨ ì«“ì•„ê°€ëŠ” íŒ¨í„´ë§Œ
 	virtual void Select_Pattern(_float fTimeDelta) override;
 
 	void Attack_Melee();
@@ -31,12 +31,12 @@ private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 
-	// ÅØ½ºÃ³ Ãß°¡ 
+	// í…ìŠ¤ì²˜ ì¶”ê°€ 
 	HRESULT Ready_Components();
 
 
 private:
-	// °ø°İ ¶§ ¸¸µé Äİ¶óÀÌ´õ
+	// ê³µê²© ë•Œ ë§Œë“¤ ì½œë¼ì´ë”
 	CCollider_Cube* m_pAttackCollider = { nullptr };
 
 public:
@@ -44,8 +44,8 @@ public:
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-	_float m_fSpeed = 10.0f; // ÅºÈ¯ ¼Óµµ
-	_float m_fElapsedTime = 0.0f; // ¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓ ½Ã°£
-	_int m_iCurrentFrame = 0; // ÇöÀç ¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓ
+	_float m_fSpeed = 10.0f; // íƒ„í™˜ ì†ë„
+	_float m_fElapsedTime = 0.0f; // ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ ì‹œê°„
+	_int m_iCurrentFrame = 0; // í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„
 };
 
