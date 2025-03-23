@@ -50,8 +50,9 @@ HRESULT CPlayer::Initialize(void* pArg)
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 1.f, 0.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-8.3f, 1.f, 8.f));
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -97,9 +98,6 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-
-
-
 }
 
 HRESULT CPlayer::Render()

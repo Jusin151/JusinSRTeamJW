@@ -27,9 +27,9 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.f, 1.f, 10.f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-7.2f, 0.8f, 1.7f));
 
-    m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
+    m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
 
     return S_OK;

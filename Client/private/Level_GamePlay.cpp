@@ -27,8 +27,8 @@ HRESULT CLevel_GamePlay::Initialize()
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
 
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+	//	return E_FAIL;
 
 
 
@@ -145,7 +145,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//			_float3 vIntersectPoint = (vRayDir * t);
 	//			D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
 	//			_float3 vNewPos;
-	//			D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);
+	//			D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);ddw
 
 	//			// 객체 위치 업데이트
 	//			pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
