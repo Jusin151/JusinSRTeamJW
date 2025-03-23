@@ -109,7 +109,7 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                 continue;
 
             // 벽 태그인 경우
-            if (collider->Get_Owner()->Get_Tag() == L"Layer_Wall")
+            if (collider->Get_Owner()->Get_Tag().find(L"Wall")!=wstring::npos)
             {
                 // ----  벽 Transform에서 평면 정의 ----
                 CTransform* pWallTransform = static_cast<CTransform*>(

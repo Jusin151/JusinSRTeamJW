@@ -7,12 +7,6 @@
       "count": 1
     },
     {
-      "tag": "Prototype_Component_Texture_Terrain",
-      "level": 3,
-      "path": "../../Resources/Textures/Terrain/Tile0.jpg",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Default_PlayerUI",
       "level": 3,
       "path": "../../Resources/Textures/UI/Default_UI.png",
@@ -191,6 +185,60 @@
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png",
       "count": 7
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\ShopTile.png",
+      "tag": "Prototype_Component_Texture_Hub_Floor1"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_stoneceiling_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Ceil1"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_02.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall1"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_brickwall_02.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall3"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_brickwall_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall4"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_02.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall5"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_stonefloor_01.png",
+      "tag": "Prototype_Component_Texture_Floor2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_01.png",
+      "tag": "Prototype_Component_Texture_Hub_Wall6"
     }
   ],
   "gameObjects": [
@@ -213,11 +261,6 @@
       "tag": "Prototype_GameObject_Crocman",
       "level": 3,
       "class": "CCrocman"
-    },
-    {
-      "tag": "Prototype_GameObject_Terrain",
-      "level": 3,
-      "class": "CTerrain"
     },
     {
       "tag": "Prototype_GameObject_Camera_Free",
@@ -328,6 +371,52 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_Wall2"
+    },
+
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Floor1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Ceil1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall4"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall5"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Floor2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Wall6"
     }
   ],
   "buffers": [
