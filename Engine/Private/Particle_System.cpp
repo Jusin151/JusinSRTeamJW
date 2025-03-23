@@ -61,7 +61,7 @@ HRESULT CParticle_System::Initialize(void* pArg)
 		m_VBSize = desc.VBSize;
 	}
 	HRESULT hr = m_pGraphic_Device->CreateVertexBuffer(
-		m_VBSize * sizeof(ATTRIBUTE),
+		m_VBSize * sizeof(PARTICLE),
 		D3DUSAGE_DYNAMIC | D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY,
 		D3DFVF_XYZ | D3DFVF_DIFFUSE,
 		D3DPOOL_DEFAULT,
@@ -115,37 +115,34 @@ HRESULT CParticle_System::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG); // 정점 색상만 사용
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);    // 정점 색상 지정
 
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1); // 텍스처 알파값 사용
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);  // 텍스처에서 알파값 가져옴
 
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
 	return S_OK;
 }
 
 HRESULT CParticle_System::Render()
 {
+	Pre_Render();
 	if (!m_Particles.empty())
 	{
-		Pre_Render();
-
-		//m_pGraphic_Device->SetTexture(0, )//
 		m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
-		m_pGraphic_Device->SetStreamSource(0, m_VB, 0, sizeof(ATTRIBUTE));
-
-
-		ATTRIBUTE* v = 0;
+		m_pGraphic_Device->SetStreamSource(0, m_VB, 0, sizeof(PARTICLE));
 
 		if (m_VBOffset >= m_VBSize)
 			m_VBOffset = 0;
 
+		PARTICLE* v = 0;
+
 		m_VB->Lock(
-			m_VBOffset * sizeof(ATTRIBUTE),
-			m_VBBatchSize * sizeof(ATTRIBUTE),
+			m_VBOffset * sizeof(PARTICLE),
+			m_VBBatchSize * sizeof(PARTICLE),
 			(void**)&v,
 			m_VBOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
 
@@ -171,8 +168,8 @@ HRESULT CParticle_System::Render()
 					if (m_VBOffset >= m_VBSize) m_VBOffset = 0;
 
 					m_VB->Lock(
-						m_VBOffset * sizeof(ATTRIBUTE),
-						m_VBBatchSize * sizeof(ATTRIBUTE),
+						m_VBOffset * sizeof(PARTICLE),
+						m_VBBatchSize * sizeof(PARTICLE),
 						(void**)&v,
 						m_VBOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
 
@@ -190,12 +187,9 @@ HRESULT CParticle_System::Render()
 		}
 
 		m_VBOffset += m_VBBatchSize;
-
-
-		Post_Render();
 	}
-	//m_pGraphic_Device->SetStreamSourceFreq();
 
+	Post_Render();
 	return S_OK;
 }
 

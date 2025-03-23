@@ -52,8 +52,7 @@ void CSnow_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 		GetRandomFloat(0.0f, 1.0f) * -10.0f,
 		0.0f
 	};
-	
-	pAttribute->vColor = D3DCOLOR_XRGB(255, 255, 255); //D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+	 pAttribute->vColor = D3DCOLOR_XRGB(255, 255, 255);//D3DCOLOR_COLORVALUE(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
 void CSnow_Particle_System::Update(float fTimeDelta)

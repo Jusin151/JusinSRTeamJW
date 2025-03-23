@@ -115,6 +115,20 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/Light.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Snow*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Snow"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Particle/snowflake.dds"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Flare*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Flare"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Particle/flare.bmp"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Cube_Base*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Cube_Base"),

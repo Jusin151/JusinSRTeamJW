@@ -223,7 +223,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\Light.h" />
     <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
-    <ClInclude Include="..\public\Particle.h" />
     <ClInclude Include="..\public\Particle_System.h" />
     <ClInclude Include="..\public\PickingSys.h" />
     <ClInclude Include="..\public\PoolManager.h" />
@@ -298,7 +297,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\private\Light.cpp" />
     <ClCompile Include="..\private\Material.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
-    <ClCompile Include="..\private\Particle.cpp" />
     <ClCompile Include="..\private\PickingSys.cpp" />
     <ClCompile Include="..\private\PoolManager.cpp" />
     <ClCompile Include="..\private\Picking.cpp" />

@@ -43,7 +43,7 @@ void CGameObject_Light::Update(_float fTimeDelta)
 void CGameObject_Light::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-    m_pGameInstance->Add_Light(m_pLightCom);
+    //m_pGameInstance->Add_Light(m_pLightCom);
 }
 
 HRESULT CGameObject_Light::Pre_Render()

@@ -76,7 +76,7 @@ HRESULT CGameObject_Sphere::Pre_Render()
     material.Power = 0.0f;
 
     // 생성된 마테리얼을 디바이스에 설정
-    m_pGraphic_Device->SetMaterial(&material);
+    //m_pGraphic_Device->SetMaterial(&material);
     return S_OK;
 }
 

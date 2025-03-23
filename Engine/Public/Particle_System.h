@@ -11,6 +11,7 @@ public:
 	typedef struct tagParticleSystemDesc
 	{
 		DWORD	VBSize;
+		_wstring strShaderPath;
 	} PARTICLEDESC;
 protected:
 	CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
