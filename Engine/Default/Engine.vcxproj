@@ -127,9 +127,13 @@
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>CD $(SolutionDir)
+CALL $(SolutionDir)\UpdateLib.bat
+CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -191,7 +195,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\Base.h" />
-    <ClInclude Include="..\public\Bounding_Box.h" />
+    <ClInclude Include="..\public\BoundingBox.h" />
     <ClInclude Include="..\public\Bounding_Sphere.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Collider.h" />
@@ -207,6 +211,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\Public\Engine_Macro.h" />
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
+    <ClInclude Include="..\Public\Firework_Particle_System.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
@@ -218,7 +223,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\Light.h" />
     <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
-    <ClInclude Include="..\public\Particle.h" />
     <ClInclude Include="..\public\Particle_System.h" />
     <ClInclude Include="..\public\PickingSys.h" />
     <ClInclude Include="..\public\PoolManager.h" />
@@ -236,6 +240,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
+    <ClInclude Include="..\Public\VIBuffer_Sphere.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="resource.h" />
@@ -270,7 +275,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\Base.cpp" />
-    <ClCompile Include="..\private\Bounding_Box.cpp" />
     <ClCompile Include="..\private\Bounding_Sphere.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
@@ -278,6 +282,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\Private\Collider_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\Collider_Sphere.cpp" />
+    <ClCompile Include="..\Private\Firework_Particle_System.cpp" />
     <ClCompile Include="..\Private\Particle_System.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\private\Editor.cpp" />
@@ -292,7 +297,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\private\Light.cpp" />
     <ClCompile Include="..\private\Material.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
-    <ClCompile Include="..\private\Particle.cpp" />
     <ClCompile Include="..\private\PickingSys.cpp" />
     <ClCompile Include="..\private\PoolManager.cpp" />
     <ClCompile Include="..\private\Picking.cpp" />
@@ -309,6 +313,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Sphere.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
     <ClCompile Include="ImGuizmo.cpp" />
   </ItemGroup>

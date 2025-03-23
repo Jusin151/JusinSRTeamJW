@@ -132,7 +132,7 @@
     </PreBuildEvent>
     <FxCompile>
       <ShaderModel>3.0</ShaderModel>
-      <EntryPointName>PS</EntryPointName>
+      <EntryPointName>main</EntryPointName>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,9 +167,13 @@
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
+    <ClInclude Include="..\public\GameObject_Particle_Firework.h" />
+    <ClInclude Include="..\public\GameObject_Particle_Test.h" />
     <ClInclude Include="..\public\GameObject_Plane.h" />
+    <ClInclude Include="..\public\GameObject_Sphere.h" />
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
@@ -178,6 +182,7 @@
     <ClInclude Include="..\public\Inventory.h" />
     <ClInclude Include="..\Public\Item_Icon.h" />
     <ClInclude Include="..\public\Level_Editor.h" />
+    <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -187,11 +192,15 @@
     <ClInclude Include="..\public\Minigun.h" />
     <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
+    <ClInclude Include="..\public\PointShop.h" />
+    <ClInclude Include="..\public\Particles.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
+    <ClInclude Include="..\public\Shop.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
     <ClInclude Include="..\public\Staff.h" />
+    <ClInclude Include="..\Public\Staff_Bullet.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
@@ -243,7 +252,10 @@
     <ClCompile Include="..\Private\Effect_Base.cpp" />
     <ClCompile Include="..\private\GameObject_Cube.cpp" />
     <ClCompile Include="..\private\GameObject_Light.cpp" />
+    <ClCompile Include="..\private\GameObject_Particle_Firework.cpp" />
+    <ClCompile Include="..\private\GameObject_Particle_Test.cpp" />
     <ClCompile Include="..\private\GameObject_Plane.cpp" />
+    <ClCompile Include="..\private\GameObject_Sphere.cpp" />
     <ClCompile Include="..\private\Harpoon.cpp" />
     <ClCompile Include="..\private\Harpoonguy.cpp" />
     <ClCompile Include="..\private\Harvester.cpp" />
@@ -252,6 +264,7 @@
     <ClCompile Include="..\Private\Inventory.cpp" />
     <ClCompile Include="..\Private\Item_Icon.cpp" />
     <ClCompile Include="..\private\Level_Editor.cpp" />
+    <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\Logo_Button.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
@@ -261,11 +274,14 @@
     <ClCompile Include="..\private\Minigun.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp" />
     <ClCompile Include="..\private\MyImGui.cpp" />
+    <ClCompile Include="..\private\PointShop.cpp" />
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
+    <ClCompile Include="..\private\Shop.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\Private\Staff_Bullet.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />
@@ -303,6 +319,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\Shader\VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -315,7 +335,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <DeploymentContent>false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </DeploymentContent>

@@ -62,7 +62,7 @@ void CShotGun::Priority_Update(_float fTimeDelta)
 
 void CShotGun::Update(_float fTimeDelta)
 {
-	__super::Picking_Object();
+
 
 
 	if (GetAsyncKeyState('W') & 0x8000)
@@ -101,6 +101,9 @@ void CShotGun::Attack(_float fTimeDelta)
 			m_eState = State::Firing;
 			m_iCurrentFrame = m_TextureRanges["Firing"].first;
 			m_fElapsedTime = 0.0f;
+
+			__super::Picking_Object();
+			CUI_Manager::GetInstance()->Set_Bullet(1);
 		}
 	}
 
@@ -148,9 +151,7 @@ void CShotGun::Attack(_float fTimeDelta)
 
 void CShotGun::Late_Update(_float fTimeDelta)
 {
-	
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CShotGun::Render()

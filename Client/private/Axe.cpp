@@ -79,85 +79,9 @@ void CAxe::Priority_Update(_float fTimeDelta)
 void CAxe::Update(_float fTimeDelta)
 {
 
-		static bool bMotionPlayed = false;
-		static float fElapsedTime = 0.0f;
+	__super::Update(fTimeDelta);
 
-		if (m_bIsActive && !bMotionPlayed)
-		{
-			fElapsedTime += fTimeDelta;
-
-			if (fElapsedTime <= 0.5f) // 0.5초 동안 y축을 50만큼 올리기
-			{
-				float t = fElapsedTime / 0.5f;
-				float yOffset = 50.0f * t;
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-					_float3(m_Axe_INFO.vPos.x, m_vInitialPos.y + yOffset, 0.f));
-			}
-			else if (fElapsedTime <= 1.0f) // 0.5초 동안 반동을 줘서 다시 돌아오기
-			{
-				float t = (fElapsedTime - 0.5f) / 0.5f;
-				float yOffset = 50.0f * (1.0f - t);
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-					_float3(m_Axe_INFO.vPos.x, m_vInitialPos.y + yOffset, 0.f));
-			}
-			else // 모션 완료
-			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-					_float3(m_Axe_INFO.vPos.x, m_vInitialPos.y, 0.f));
-				bMotionPlayed = true;
-			}
-		}
-
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
-	{
-		t += speed;
-	}
-
-	float v = 20.0f;  // 폭을 설정 하는변수
-	_float3 vNewPos;
-	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		m_bIsAnimating = true;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
-	}
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 11)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-				m_iCurrentFrame = 0;
-			}
-		}
-	}
-
-	return;
-
+	Attack(fTimeDelta);
 }
 
 void CAxe::Late_Update(_float fTimeDelta)
@@ -165,14 +89,12 @@ void CAxe::Late_Update(_float fTimeDelta)
 	if(m_bIsAnimating)
 		On_Collision();
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CAxe::Render()
 {
 	
-
 	return __super::Render();
 }
 
@@ -261,4 +183,34 @@ void CAxe::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+}
+
+void CAxe::Attack(_float fTimeDelta)
+{
+	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+	{
+		m_bIsAnimating = true;
+		m_iCurrentFrame = 0;
+		m_fElapsedTime = 0.0f;
+	}
+
+	if (m_bIsAnimating)
+	{
+		m_fElapsedTime += fTimeDelta;
+
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+
+			if (m_iCurrentFrame < 10)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_bIsAnimating = false;
+				m_iCurrentFrame = 0;
+			}
+		}
+	}
 }

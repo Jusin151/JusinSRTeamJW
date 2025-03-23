@@ -10,6 +10,7 @@
 #include "Weapon_Headers.h"
 #include "Anubis.h"
 #include "Crocman.h"
+#include "PointShop.h"
 #include "Harpoon.h"
 #include "Harpoonguy.h"
 
@@ -151,8 +152,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
             // 객체 생성 또는 활성화 (OBJECT_DESC 전달)
             if (bFromPool)
             {
-                if (FAILED(pGameInstance->Acquire_Object(tObjDesc.iProtoLevel,
-                    layerTag, &tObjDesc)))
+                if (!pGameInstance->Acquire_Object(tObjDesc.iProtoLevel,
+                    layerTag, &tObjDesc))
                     continue;
             }
             else
@@ -179,7 +180,7 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
     else if (className == "CTestMonster")
-         return CTestMonster::Create(pGraphic_Device);
+        return CTestMonster::Create(pGraphic_Device);
     else if (className == "CTerrain")
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")
@@ -235,6 +236,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     else if (className == "CHarpoon")
         return CHarpoon::Create(pGraphic_Device);
 
+    else if (className == "CPointShop")
+        return CPointShop::Create(pGraphic_Device);
 
     wstring wClassName = ISerializable::Utf8ToWide(className);
     wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;

@@ -10,53 +10,50 @@ CVIBuffer_Cube::CVIBuffer_Cube(const CVIBuffer& Prototype)
 {
 }
 
+
 HRESULT CVIBuffer_Cube::Initialize_Prototype()
 {
-
 	m_iNumVertices = 8;
-	m_iVertexStride = sizeof(VTXPOSTEX);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+	m_iVertexStride = sizeof(VTXCUBE);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
 	m_iNumPritimive = 12;
 
 	m_iIndexStride = 2;
 	m_iNumIndices = 36;
-	m_eIndexFormat = D3DFMT_INDEX16; 
+	m_eIndexFormat = D3DFMT_INDEX16;
 
 #pragma region VERTEX_BUFFER
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXPOSTEX* pVertices = { nullptr };
+	VTXCUBE* pVertices = { nullptr };
 
 
-	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
-	// 앞면 (z = -0.5)
 	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
-	pVertices[0].vTexcoord = _float2(0.f, 0.f);
+	pVertices[0].vTexcoord = pVertices[0].vPosition;
 
 	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
-	pVertices[1].vTexcoord = _float2(1.f, 0.f);
+	pVertices[1].vTexcoord = pVertices[1].vPosition;
 
 	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
-	pVertices[2].vTexcoord = _float2(1.f, 1.f);
+	pVertices[2].vTexcoord = pVertices[2].vPosition;
 
 	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
-	pVertices[3].vTexcoord = _float2(0.f, 1.f);
+	pVertices[3].vTexcoord = pVertices[3].vPosition;
 
-	// 뒷면 (z = 0.5)
 	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
-	pVertices[4].vTexcoord = _float2(0.f, 0.f);
+	pVertices[4].vTexcoord = pVertices[4].vPosition;
 
 	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
-	pVertices[5].vTexcoord = _float2(1.f, 0.f);
+	pVertices[5].vTexcoord = pVertices[5].vPosition;
 
 	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
-	pVertices[6].vTexcoord = _float2(1.f, 1.f);
+	pVertices[6].vTexcoord = pVertices[6].vPosition;
 
 	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
-	pVertices[7].vTexcoord = _float2(0.f, 1.f);
-
+	pVertices[7].vTexcoord = pVertices[7].vPosition;
 
 	m_pVB->Unlock();
 #pragma endregion
@@ -69,66 +66,156 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
-	_uint iIndex = 0;
-	// 앞
-	pIndices[iIndex++] = 0;
-	pIndices[iIndex++] = 1;
-	pIndices[iIndex++] = 2;
+	/* +x */
+	pIndices[0] = 1; pIndices[1] = 5; pIndices[2] = 6;
+	pIndices[3] = 1; pIndices[4] = 6; pIndices[5] = 2;
 
-	pIndices[iIndex++] = 0;
-	pIndices[iIndex++] = 2;
-	pIndices[iIndex++] = 3;
+	/* -x */
+	pIndices[6] = 4; pIndices[7] = 0; pIndices[8] = 3;
+	pIndices[9] = 4; pIndices[10] = 3; pIndices[11] = 7;
 
-	// 오른쪽
-	pIndices[iIndex++] = 1;
-	pIndices[iIndex++] = 5;
-	pIndices[iIndex++] = 6;
-			 
-	pIndices[iIndex++] = 1;
-	pIndices[iIndex++] = 6;
-	pIndices[iIndex++] = 2;
 
-	// 왼쪽
-	pIndices[iIndex++] = 4;
-	pIndices[iIndex++] = 0;
-	pIndices[iIndex++] = 3;
+	/* +y */
+	pIndices[12] = 4; pIndices[13] = 5; pIndices[14] = 1;
+	pIndices[15] = 4; pIndices[16] = 1; pIndices[17] = 0;
 
-	pIndices[iIndex++] = 4;
-	pIndices[iIndex++] = 3;
-	pIndices[iIndex++] = 7;
+	/* -y */
+	pIndices[18] = 3; pIndices[19] = 2; pIndices[20] = 6;
+	pIndices[21] = 3; pIndices[22] = 6; pIndices[23] = 7;
 
-	// 뒤
-	pIndices[iIndex++] = 5;
-	pIndices[iIndex++] = 4;
-	pIndices[iIndex++] = 7;
+	/* +z */
+	pIndices[24] = 5; pIndices[25] = 4; pIndices[26] = 7;
+	pIndices[27] = 5; pIndices[28] = 7; pIndices[29] = 6;
 
-	pIndices[iIndex++] = 5;
-	pIndices[iIndex++] = 7;
-	pIndices[iIndex++] = 6;
-
-	// 아래
-	pIndices[iIndex++] = 3;
-	pIndices[iIndex++] = 2;
-	pIndices[iIndex++] = 6;
-
-	pIndices[iIndex++] = 3;
-	pIndices[iIndex++] = 6;
-	pIndices[iIndex++] = 7;
-
-	// 위
-	pIndices[iIndex++] = 4;
-	pIndices[iIndex++] = 5;
-	pIndices[iIndex++] = 1;
-
-	pIndices[iIndex++] = 4;
-	pIndices[iIndex++] = 1;
-	pIndices[iIndex++] = 0;
+	/* -z */
+	pIndices[30] = 0; pIndices[31] = 1; pIndices[32] = 2;
+	pIndices[33] = 0; pIndices[34] = 2; pIndices[35] = 3;
 
 	m_pIB->Unlock();
 #pragma endregion
 
 	return S_OK;
 }
+
+//HRESULT CVIBuffer_Cube::Initialize_Prototype()
+//{
+//
+//	m_iNumVertices = 8;
+//	m_iVertexStride = sizeof(VTXPOSTEX);
+//	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+//	m_iNumPritimive = 12;
+//
+//	m_iIndexStride = 2;
+//	m_iNumIndices = 36;
+//	m_eIndexFormat = D3DFMT_INDEX16; 
+//
+//#pragma region VERTEX_BUFFER
+//	if (FAILED(__super::Create_VertexBuffer()))
+//		return E_FAIL;
+//
+//	VTXPOSTEX* pVertices = { nullptr };
+//
+//
+//	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+//
+//	// 앞면 (z = -0.5)
+//	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
+//	pVertices[0].vTexcoord = _float2(0.f, 0.f);
+//
+//	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
+//	pVertices[1].vTexcoord = _float2(1.f, 0.f);
+//
+//	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
+//	pVertices[2].vTexcoord = _float2(1.f, 1.f);
+//
+//	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+//	pVertices[3].vTexcoord = _float2(0.f, 1.f);
+//
+//	// 뒷면 (z = 0.5)
+//	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
+//	pVertices[4].vTexcoord = _float2(0.f, 0.f);
+//
+//	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
+//	pVertices[5].vTexcoord = _float2(1.f, 0.f);
+//
+//	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
+//	pVertices[6].vTexcoord = _float2(1.f, 1.f);
+//
+//	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
+//	pVertices[7].vTexcoord = _float2(0.f, 1.f);
+//
+//
+//	m_pVB->Unlock();
+//#pragma endregion
+//
+//#pragma region INDEX_BUFFER
+//	if (FAILED(__super::Create_IndexBuffer()))
+//		return E_FAIL;
+//
+//	_ushort* pIndices = { nullptr };
+//
+//	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
+//
+//	_uint iIndex = 0;
+//	// 앞
+//	pIndices[iIndex++] = 0;
+//	pIndices[iIndex++] = 1;
+//	pIndices[iIndex++] = 2;
+//
+//	pIndices[iIndex++] = 0;
+//	pIndices[iIndex++] = 2;
+//	pIndices[iIndex++] = 3;
+//
+//	// 오른쪽
+//	pIndices[iIndex++] = 1;
+//	pIndices[iIndex++] = 5;
+//	pIndices[iIndex++] = 6;
+//			 
+//	pIndices[iIndex++] = 1;
+//	pIndices[iIndex++] = 6;
+//	pIndices[iIndex++] = 2;
+//
+//	// 왼쪽
+//	pIndices[iIndex++] = 4;
+//	pIndices[iIndex++] = 0;
+//	pIndices[iIndex++] = 3;
+//
+//	pIndices[iIndex++] = 4;
+//	pIndices[iIndex++] = 3;
+//	pIndices[iIndex++] = 7;
+//
+//	// 뒤
+//	pIndices[iIndex++] = 5;
+//	pIndices[iIndex++] = 4;
+//	pIndices[iIndex++] = 7;
+//
+//	pIndices[iIndex++] = 5;
+//	pIndices[iIndex++] = 7;
+//	pIndices[iIndex++] = 6;
+//
+//	// 아래
+//	pIndices[iIndex++] = 3;
+//	pIndices[iIndex++] = 2;
+//	pIndices[iIndex++] = 6;
+//
+//	pIndices[iIndex++] = 3;
+//	pIndices[iIndex++] = 6;
+//	pIndices[iIndex++] = 7;
+//
+//	// 위
+//	pIndices[iIndex++] = 4;
+//	pIndices[iIndex++] = 5;
+//	pIndices[iIndex++] = 1;
+//
+//	pIndices[iIndex++] = 4;
+//	pIndices[iIndex++] = 1;
+//	pIndices[iIndex++] = 0;
+//
+//	m_pIB->Unlock();
+//#pragma endregion
+//
+//	return S_OK;
+//}
 //HRESULT CVIBuffer_Cube::Initialize_Prototype()
 //{
 //    // 큐브의 각 면은 4개의 버텍스가 필요하므로 (6면 x 4버텍스 = 24)
@@ -349,6 +436,5 @@ CComponent* CVIBuffer_Cube::Clone(void* pArg)
 void CVIBuffer_Cube::Free()
 {
 	__super::Free();
-
 
 }

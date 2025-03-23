@@ -1,0 +1,31 @@
+{
+  "textures": [
+    {
+      "tag": "Prototype_Component_Texture_Terrain",
+      "level": 5,
+      "path": "../../Resources/Textures/Terrain/Tile0.jpg",
+      "count": 1
+    }
+  ],
+  "gameObjects": [
+    {
+      "class": "CCamera_Free",
+      "level": 5,
+      "tag": "Prototype_GameObject_Camera_Free"
+    },
+    {
+      "class": "CTerrain",
+      "level": 5,
+      "tag": "Prototype_GameObject_Terrain"
+    }
+  ],
+  "buffers": [
+    {
+      "class": "CVIBuffer_Terrain",
+      "height": 256,
+      "level": 5,
+      "tag": "Prototype_Component_VIBuffer_Terrain",
+      "width": 256
+    }
+  ]
+}

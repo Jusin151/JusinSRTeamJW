@@ -1,7 +1,5 @@
 ﻿#include "GameObject_Cube.h"
-#include "Transform.h"
-#include "Texture.h"
-#include "VIBuffer_Cube.h"
+#include "GameInstance.h"
 
 CGameObject_Cube::CGameObject_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
@@ -13,7 +11,7 @@ CGameObject_Cube::CGameObject_Cube(const CGameObject& Prototype)
 {
 
 }
-
+ 
 HRESULT CGameObject_Cube::Initialize_Prototype()
 {
     return S_OK;
@@ -40,6 +38,7 @@ void CGameObject_Cube::Update(_float fTimeDelta)
 
 void CGameObject_Cube::Late_Update(_float fTimeDelta)
 {
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CGameObject_Cube::Pre_Render()
@@ -96,6 +95,30 @@ HRESULT CGameObject_Cube::Ready_Components()
 }
 
 
+json CGameObject_Cube::Serialize()
+{
+    json j = __super::Serialize();
+
+
+    //j["texture_tag"] = WideToUtf8(m_strTextureTag);
+    //j["texture_path"] = WideToUtf8(m_tStructure_Desc.stTexturePath); 
+    //j["vibuffer"] = WideToUtf8(m_strVIBuffer);
+    //j["collider_tag"] = WideToUtf8(m_strCollProtoTag);
+
+    auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    auto scale = m_pTransformCom->Compute_Scaled();
+    auto angle = m_pTransformCom->Get_EulerAngles();
+    j["position"] = { pos.x, pos.y, pos.z };
+    j["rotation"] = { angle.x, angle.y, angle.z };
+    j["scale"] = { scale.x, scale.y, scale.z };
+    return j;
+}
+
+void CGameObject_Cube::Deserialize(const json& j)
+{
+    SET_TRANSFORM(j, m_pTransformCom);
+}
+
 CGameObject_Cube* CGameObject_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
     CGameObject_Cube* pInstance = new CGameObject_Cube(pGraphic_Device);
@@ -125,4 +148,7 @@ CGameObject_Cube* CGameObject_Cube::Clone(void* pArg)
 void CGameObject_Cube::Free()
 {
     __super::Free();
+    Safe_Release(m_pTextureCom);
+    Safe_Release(m_pTransformCom);
+    Safe_Release(m_pVIBufferCom);
 }

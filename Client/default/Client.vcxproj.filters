@@ -172,6 +172,9 @@
     <Filter Include="02.GameObjects\Base\Light">
       <UniqueIdentifier>{96e63922-b56a-4731-8852-a0e60db39308}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Test">
+      <UniqueIdentifier>{3f541cfd-2ec0-44c5-a6a1-75724949080d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="95. Observer">
       <UniqueIdentifier>{8b4fde5c-1b52-47bc-803e-5b1714c72707}</UniqueIdentifier>
     </Filter>
@@ -211,11 +214,26 @@
     <Filter Include="02.GameObjects\03. Effect">
       <UniqueIdentifier>{4afeedf8-41a2-4efd-a88e-bd80cb51356e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\02. Item\99. Effect">
-      <UniqueIdentifier>{0d29bfdd-941c-412b-80d6-fc08a217fbcd}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\04. Shop">
+      <UniqueIdentifier>{84d12add-d9e5-444d-98fb-b954035fc18d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\02. Item\99. Effect\Weapon_Effect">
+    <Filter Include="02.GameObjects\03. Effect\Weapon_Effect">
       <UniqueIdentifier>{f5025a2e-8e58-4924-8cd2-b4de6fc133c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\07. Bullet">
+      <UniqueIdentifier>{b1e81861-522f-4200-ae5b-24fe47de35c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\07. Bullet\Staff_Bullet">
+      <UniqueIdentifier>{955e4864-d944-4aa4-be2c-d09b04657345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02. Item\1. Icons">
+      <UniqueIdentifier>{f10e4e00-882e-4088-a361-9eb40fe2c912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Base\Sphere">
+      <UniqueIdentifier>{4e0e0eef-612c-4974-b164-6c3d9dbca689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\ParticleSystemTest">
+      <UniqueIdentifier>{e03b786e-420b-4bc3-8afc-6174f9e10a61}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\04. Projectile">
       <UniqueIdentifier>{ccd1d59f-607a-4134-a831-666fe16af916}</UniqueIdentifier>
@@ -414,23 +432,53 @@
     <ClInclude Include="..\public\Staff.h">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Minigun.h">
-      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\03. Minigun</Filter>
+    <ClInclude Include="..\Public\Item_Icon.h">
+      <Filter>02.GameObjects\02. Item\1. Icons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Test.h">
+      <Filter>01.Levels\Test</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Harvester.h">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\04. Harvester</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Minigun.h">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\03. Minigun</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Sonic.h">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effect_Base.h">
-      <Filter>02.GameObjects\02. Item\99. Effect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Weapon_Effect.h">
-      <Filter>02.GameObjects\02. Item\99. Effect\Weapon_Effect</Filter>
+      <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Icon.h">
       <Filter>Inven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shop.h">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PointShop.h">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Base.h">
+      <Filter>02.GameObjects\03. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Staff_Bullet.h">
+      <Filter>02.GameObjects\07. Bullet\Staff_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Sphere.h">
+      <Filter>02.GameObjects\Base\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObjects_Base.h">
+      <Filter>02.GameObjects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Particle_Test.h">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particles.h">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Particle_Firework.h">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Harpoonguy.h">
       <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
@@ -594,9 +642,6 @@
     <ClCompile Include="..\private\GameObject_Light.cpp">
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\ShotGun.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\01 .ShotGun</Filter>
     </ClCompile>
@@ -610,14 +655,48 @@
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\05. Sonic</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp" />
-    <ClCompile Include="..\Private\Effect_Base.cpp">
-      <Filter>02.GameObjects\02. Item\99. Effect</Filter>
+    <ClCompile Include="..\private\Level_Test.cpp">
+      <Filter>01.Levels\Test</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Icon.cpp">
+      <Filter>02.GameObjects\02. Item\1. Icons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Sphere.cpp">
+      <Filter>02.GameObjects\Base\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Particle_Test.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp">
-      <Filter>02.GameObjects\02. Item\99. Effect\Weapon_Effect</Filter>
+      <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp">
       <Filter>Inven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shop.cpp">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PointShop.cpp">
+      <Filter>02.GameObjects\04. Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Base.cpp">
+      <Filter>02.GameObjects\03. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Staff_Bullet.cpp">
+      <Filter>02.GameObjects\07. Bullet\Staff_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Particle_Firework.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Harpoonguy.cpp">
       <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
@@ -638,6 +717,9 @@
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\VertexShader.hlsl">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

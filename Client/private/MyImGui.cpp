@@ -257,7 +257,7 @@ void CMyImGui::ShowCreateObjectTab()
 	static int selectedBufferType = 0;
 	static int selectedClassType = 0;
 	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube";
-	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Cube";
+	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Rect";
 	static char layerTagBuffer[128] = "Com_Collider";
 	static char objectLayerTagBuffer[256] = "Layer_";
 	static char textureTagBuffer[256] = "Prototype_Component_Texture";
@@ -265,7 +265,7 @@ void CMyImGui::ShowCreateObjectTab()
 	static char objectProtoTagBuffer[256] = "Prototype_GameObject_";
 	static char protoJsonFileNameBuffer[256] = "Prototypes_For_Editor";
 	static _int iPoolingCount = 0;
-	static _int iLevel = 4;
+	static _int iLevel = 3;
 	static _int iProtoLevel = 4;
 
 	// 기존 프로토타입 변수 추가
@@ -297,7 +297,7 @@ void CMyImGui::ShowCreateObjectTab()
 		{
 			// 기본 클래스 이름 설정
 			classNames = {
-				"CPlayer", "CTestMonster", "CTerrain", "CStructure",
+				"CGameObject_Cube", "CGameObject_Plane", "CGameObject_Light","CPlayer", "CTestMonster", "CTerrain", "CStructure",
 				"CCamera_Free", "CCamera_FirstPerson",
 				"CUI_Default_Panel", "CUI_Left_Display", "CUI_Player_Icon",
 				"CUI_HP_Bar", "CUI_MP_Bar", "CUI_Mid_Display",
@@ -375,8 +375,26 @@ void CMyImGui::ShowCreateObjectTab()
 				strcpy_s(bufferNameBuffer, "Prototype_Component_VIBuffer_Terrain");
 			}
 
+			string protoTag = info.tag;
+			string extractedName = "";
+			string prefix = "Prototype_GameObject_";
+			if (protoTag.find(prefix) == 0)
+			{
+				extractedName = protoTag.substr(prefix.length());
+			}
+			else 
+			{
+				// 접두사가 없는 경우 그대로 사용
+				extractedName = protoTag;
+			}
+
+			// Layer_ 접두사와 추출된 이름을 합쳐서 레이어 태그 생성
+			string layerTag = "Layer_" + extractedName;
+			strcpy_s(objectLayerTagBuffer, layerTag.c_str());
+
+
 			// 레벨 업데이트
-			iLevel = 4; // 기본값
+			iLevel = 3; // 기본값
 			iProtoLevel = info.level;
 
 			// 선택된 텍스처 경로 업데이트
@@ -882,24 +900,25 @@ HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<Prot
             info.level = obj["level"].get<int>();
             info.className = obj["class"].get<string>();
             
-            // 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall")
-            string objBaseName = info.tag;
-            size_t lastUnderscorePos = objBaseName.find_last_of("_");
-            if (lastUnderscorePos != string::npos && lastUnderscorePos + 1 < objBaseName.length())
-            {
-                objBaseName = objBaseName.substr(lastUnderscorePos + 1);
-            }
-            
-            // 관련 텍스처 찾기 (이름 패턴 매칭)
-            if (jsonData.contains("textures") && jsonData["textures"].is_array())
-            {
-                bool textureFound = false;
-                
-                // 정확한 이름 매칭 (예: "Prototype_Component_Texture_Wall")
-                string specificTextureName = "Prototype_Component_Texture_" + objBaseName;
-                
-                for (const auto& tex : jsonData["textures"])
-                {
+			// 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall", "Prototype_GameObject_Hub_Floor1" -> "Hub_Floor1")
+			string objBaseName = info.tag;
+			string prefix = "Prototype_GameObject_";
+			size_t prefixPos = objBaseName.find(prefix);
+			if (prefixPos == 0 && objBaseName.length() > prefix.length())
+			{
+				objBaseName = objBaseName.substr(prefix.length());
+			}
+
+			// 관련 텍스처 찾기 (이름 패턴 매칭)
+			if (jsonData.contains("textures") && jsonData["textures"].is_array())
+			{
+				bool textureFound = false;
+
+				// 정확한 이름 매칭 (예: "Prototype_Component_Texture_Wall" 또는 "Prototype_Component_Texture_Hub_Floor1")
+				string specificTextureName = "Prototype_Component_Texture_" + objBaseName;
+
+				for (const auto& tex : jsonData["textures"])
+				{
                     string texTag = tex["tag"].get<string>();
                     
                     // 정확한 이름 매칭 시도

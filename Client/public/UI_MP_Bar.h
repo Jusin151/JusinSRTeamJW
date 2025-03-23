@@ -35,14 +35,22 @@ private:
 private:
 	HRESULT Ready_Components();
 
+public:
+	void Set_MP(_int type)
+	{
+			m_iMp -= type;
+			if (m_iMp < 0 || m_iMp > 100)
+				m_iMp = 0; // 최소 마나 제한
 
+			Update_Mp_Bar();
+	}
 public:
 	static CUI_MP_Bar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
 private:
-	_float m_fMp{};  // ü��
+	_uint m_iMp{};  // ü��
 };
 
 

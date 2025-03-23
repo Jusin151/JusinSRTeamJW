@@ -40,7 +40,7 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
-	m_fHealth = 100.f;
+	m_iHealth = 100;
 
 
 	m_pTransformCom->Set_Scale(m_HP_Bar_INFO.vSize.x, m_HP_Bar_INFO.vSize.y, 1.f);
@@ -48,6 +48,7 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_HP_Bar_INFO.vPos.x, m_HP_Bar_INFO.vPos.y, 0.f));
+
 	return S_OK;
 }
 
@@ -57,16 +58,7 @@ void CUI_HP_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Bar::Update(_float fTimeDelta)
 {
-	m_eHp_State = Default;
-	if (GetAsyncKeyState('8') & 0x8000)
-	{
-		m_eHp_State = Heated;
-		m_fHealth -= 1.f;
-		if (m_fHealth < 0.f)
-			m_fHealth = 0.f; // 최소 체력 제한
 
-		Update_HP_Bar(); 
-	}
 }
 
 void CUI_HP_Bar::Late_Update(_float fTimeDelta)
@@ -76,7 +68,7 @@ void CUI_HP_Bar::Late_Update(_float fTimeDelta)
 }
 void CUI_HP_Bar::Update_HP_Bar()
 {
-	_float fHP_Ratio = m_fHealth / 100.f;
+	_float fHP_Ratio = m_iHealth / 100.f;
 
 	if (fHP_Ratio < 0.f)
 		fHP_Ratio = 0.f;
@@ -92,7 +84,7 @@ void CUI_HP_Bar::Update_HP_Bar()
 	pVertices[2].vTexcoord.x = fHP_Ratio; // 우측 하단
 
 	//  정점 위치  (오른쪽부터 점점 줄어들게) 
-	float fNewWidth = m_HP_Bar_INFO.vSize.x * fHP_Ratio;
+	_float fNewWidth = m_HP_Bar_INFO.vSize.x * fHP_Ratio;
 	pVertices[1].vPosition.x = -0.5f + fNewWidth / m_HP_Bar_INFO.vSize.x;
 	pVertices[2].vPosition.x = -0.5f + fNewWidth / m_HP_Bar_INFO.vSize.x;
 
@@ -103,8 +95,41 @@ void CUI_HP_Bar::Update_HP_Bar()
 HRESULT CUI_HP_Bar::Render()
 {
 	
-	return __super::Render();
+	D3DXMATRIX matOldView, matOldProj;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
 
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIX matProj;
+	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
+
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iHealth), _float2(-522.f, 325.0f),_float2(10.f,20.f) ,_float3(1.f, 1.f, 1.f));
+
+	 return S_OK;
 }
 
 HRESULT CUI_HP_Bar::Ready_Components()

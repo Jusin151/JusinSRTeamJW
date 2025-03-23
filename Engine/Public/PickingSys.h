@@ -23,6 +23,9 @@ public:
 public:
 	void Set_CameraTransform(class CTransform* pCamTransform) { m_pCamTransform = pCamTransform; Safe_AddRef(m_pCamTransform); }
 	_bool Ray_Intersection(class CCollider* pCollider);
+	_bool Ray_Intersection(CCollider* pCollider, _float3* pHitpos);
+	bool RayPlaneIntersection(const _float3& vRayOrigin, const _float3& vRayDir, const _float3& vPlanePos, const _float3& vPlaneNormal, _float3* pOutHitPos);
+	_float3 Get_Mouse_Effect();
 	void Set_Player(class CGameObject* pPlayer) { m_pPlayer = pPlayer; }
 	const _float3& Get_Mouse_WorldPos() const { return m_Ray.vOrigin; };
 	const Ray& Get_Ray() const { return m_Ray; }

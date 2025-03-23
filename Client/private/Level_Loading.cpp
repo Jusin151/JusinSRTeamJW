@@ -4,6 +4,7 @@
 #include "Level_GamePlay.h"
 #include "Level_Logo.h"
 #include "Level_Editor.h"
+#include "Level_Test.h"
 #include "Loader.h"
 
 #include "GameInstance.h"
@@ -53,6 +54,10 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				break;
 			case LEVEL_EDITOR:
 				pLevel = CLevel_Editor::Create(m_pGraphic_Device);
+				break;
+			case LEVEL_TEST:
+				pLevel = CLevel_Test::Create(m_pGraphic_Device);
+				break;
 			}
 
 			if (nullptr == pLevel)

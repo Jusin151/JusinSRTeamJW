@@ -19,7 +19,6 @@ namespace Engine
 		D3DXVECTOR2		vTexcoord;
 	}VTXPOSTEX;
 
-
 	typedef struct tagVector3 : public D3DXVECTOR3
 	{
 		tagVector3() : D3DXVECTOR3(0.0f, 0.0f, 0.0f) {}

@@ -3,10 +3,11 @@
 BEGIN(Engine)
 class ENGINE_DLL CSnow_Particle_System final : public CParticle_System
 {
-	typedef struct tagSnowParticleDesc
+public:
+	typedef struct tagSnowParticleDesc : tagParticleSystemDesc
 	{
-		CBounding_Box pBounding_Box;
-		_uint		  iNumParticles;
+		BOUNDINGBOX		Bounding_Box;
+		_uint			iNumParticles;
 	}SNOWDESC;
 private:
 	CSnow_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -19,7 +20,8 @@ public:
 	virtual void Update(float fTimeDelta) override;
 
 public:
-	static CSnow_Particle_System* Clone(void* pArg);
+	static CSnow_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CSnow_Particle_System* Clone(void* pArg) override;
 	virtual void Free();
 };
 

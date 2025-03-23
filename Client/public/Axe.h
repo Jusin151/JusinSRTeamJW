@@ -38,9 +38,7 @@ public:
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 
-	_float t = {}; //
-	_float speed = { 0.1f }; //
-	_float2 m_vInitialPos = {};
+	void Attack(_float fTimeDelta);
 
 };
 END

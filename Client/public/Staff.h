@@ -4,11 +4,13 @@
 #include "GameObject.h"
 #include "Ranged_Weapon.h"
 
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로
 END
+
 
 BEGIN(Client)
 class CStaff final : public CRanged_Weapon
@@ -20,6 +22,7 @@ class CStaff final : public CRanged_Weapon
 		Charged,
 		Firing
 	};
+
 private:
 	CStaff(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CStaff(const CStaff& Prototype);
@@ -52,6 +55,10 @@ public:
 	_float t = {}; //
 	_float speed = { 0.1f }; //
 	_float2 m_vInitialPos = {};
+
+
+
+
 
 };
 END

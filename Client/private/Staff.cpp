@@ -68,7 +68,6 @@ HRESULT CStaff::Initialize(void* pArg)
         LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Staff"),&Staff_Icon)))
         return E_FAIL;
 
-    
 	return S_OK;
 }
 
@@ -116,6 +115,7 @@ void CStaff::Attack(_float fTimeDelta)
             m_eState = State::Charging;
             m_iCurrentFrame = m_TextureRanges["Charging"].first;
             m_fElapsedTime = 0.0f;
+            m_bHasFired = false; // 발사 상태 초기화
         }
     }
     else
@@ -163,6 +163,13 @@ void CStaff::Attack(_float fTimeDelta)
             if (m_iCurrentFrame < m_TextureRanges["Attack"].second)
             {
                 m_iCurrentFrame++;
+                if (!m_bHasFired) // 발사 상태가 false일 때만 발사
+                {
+                    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Staff_Bullet"),
+                        LEVEL_GAMEPLAY, TEXT("Layer_Staff_Bullet"))))
+                        return;
+                    m_bHasFired = true; // 발사 상태를 true로 설정
+                }
             }
             else
             {
@@ -179,11 +186,12 @@ void CStaff::Attack(_float fTimeDelta)
 }
 
 
+
 void CStaff::Late_Update(_float fTimeDelta)
 {
-	
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
+    __super::Late_Update(fTimeDelta);
+
+
 }
 
 HRESULT CStaff::Render()

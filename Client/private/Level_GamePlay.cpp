@@ -20,18 +20,15 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
-	CJsonLoader jsonLoader;
-	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
-
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
+	CJsonLoader jsonLoader;
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
-	
 
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
-
-
+	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -50,6 +47,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
 		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_PointShop"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -143,7 +146,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//			_float3 vIntersectPoint = (vRayDir * t);
 	//			D3DXVec3Add(&vIntersectPoint, &vRayOrigin, &vIntersectPoint);
 	//			_float3 vNewPos;
-	//			D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);
+	//			D3DXVec3Add(&vNewPos, &vIntersectPoint, &vDragOffset);ddw
 
 	//			// 객체 위치 업데이트
 	//			pTransform->Set_State(CTransform::STATE_POSITION, vNewPos);
@@ -170,7 +173,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 	//	LEVEL_GAMEPLAY, strLayerTag)))
 	//	return E_FAIL;
 	// 오브젝트 풀에 등록
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 1000)))
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 1)))
 		return E_FAIL;
 
 	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가
@@ -299,6 +302,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 
 HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 {
+
+	//객체화 연습중 삭제  x
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
+		return E_FAIL;
+
+
+
 	CGamePlay_Button::GamePlayer_Button_Desc Level_Poinst_Shop_Display{}; // 포인트 상점
 	Level_Poinst_Shop_Display.Button_Desc.vSize = { 804.f,482.f };
 	Level_Poinst_Shop_Display.Button_Desc.vPos = { 0.f,0.f };
@@ -391,7 +402,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 			}
 		
 	}
-
 
 
 	return S_OK;
@@ -630,8 +640,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 
 	CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
 	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
-	Weapon_Minigun_Desc.vPos = { 240.f,-240.f };
-	Weapon_Minigun_Desc.vSize = { 436,316.f };
+	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
+	Weapon_Minigun_Desc.vSize = { 959,347.f };
 	Weapon_Minigun_Desc.Damage = { 100.f };
 	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
 	Weapon_Minigun_Desc.Range = { 3.f };
@@ -640,6 +650,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
 		&Weapon_Minigun_Desc)))
 		return E_FAIL;
+
 
 	CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
 	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
@@ -667,15 +678,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		&Weapon_Sonic_Desc)))
 		return E_FAIL;
 
-	CEffect_Base::EFFECT_DESC Weapon_Effect{};
-	Weapon_Effect.eType = CEffect_Base::EFFECT_TYPE::BULLET_HIT;
-	Weapon_Effect.fLifeTime = 1.f;
-	Weapon_Effect.vPos = { 20.f,20.f };
-	Weapon_Effect.vScale = { 300.f,300.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Effect"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Effect"),
-		&Weapon_Effect)))
-		return E_FAIL;
+
 
 	return S_OK;
 }

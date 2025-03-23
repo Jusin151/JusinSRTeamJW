@@ -8,9 +8,9 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 #include "Material.h"
-#include "GameObject_Cube.h"
-#include "GameObject_Plane.h"
-#include "GameObject_Light.h"
+#include "GameObjects_Base.h"
+#include "Light.h"
+#include "Particles.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -35,37 +35,6 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
-
-	D3DLIGHT9			LightDesc{};
-
-	LightDesc.Type = D3DLIGHT_DIRECTIONAL;
-	LightDesc.Direction = _float3(1.f, -1.f, 1.f);
-	//LightDesc.Position = _float3(10.f, 3.f, 10.f);
-	//LightDesc.Range = 10.f;
-	//LightDesc.Attenuation1 = 1.3f;
-	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);	
-	m_pGraphic_Device->SetLight(0, &LightDesc);
-
-	//LightDesc.Type = D3DLIGHT_POINT;
-	///*LightDesc.Direction = _float3(1.f, -1.f, 1.f);*/
-	//LightDesc.Position = _float3(20.f, 3.f, 10.f);
-	//LightDesc.Range = 10.f;
-	//LightDesc.Attenuation1 = 1.3f;
-	//LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//m_pGraphic_Device->SetLight(1, &LightDesc);
-
-	
-
-	D3DMATERIAL9		MtrlDesc{};
-	
-	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	MtrlDesc.Ambient = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
-
-	m_pGraphic_Device->SetMaterial(&MtrlDesc);
-	m_pGraphic_Device->LightEnable(0, true);
-	/*m_pGraphic_Device->LightEnable(1, true);*/
 
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
@@ -114,9 +83,6 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	
-
-	
 
 	return S_OK;
 }
@@ -141,12 +107,57 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/Base0.png"), 1))))
 		return E_FAIL;
-	//"I:\BamtoliyaGithub\JusinSRTeamJW\Resources\Textures\Base0.dds"
+
+	/* For.Prototype_Component_Texture_Light*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Light"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Light.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Snow*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Snow"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Particle/snowflake.dds"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Flare*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Flare"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Particle/flare_alpha.dds"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Cube_Base*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Cube_Base"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
 			TEXT("../../Resources/Textures/XYZ.dds"), 1))))
+		return E_FAIL;
+
+
+	/* For.Prototype_Component_Light_Point*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+		CLight::Create(m_pGraphic_Device, CLight::LT_POINT))))
+		return E_FAIL;
+	/* For.Prototype_Component_Light_Direction*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Light_Direction"),
+		CLight::Create(m_pGraphic_Device, CLight::LT_DIR))))
+		return E_FAIL;
+	/* For.Prototype_Component_Light_Spot*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Light_Spot"),
+		CLight::Create(m_pGraphic_Device, CLight::LT_SPOT))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Snow*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
+		CSnow_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Firework*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
+		CFirework_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
@@ -158,8 +169,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_VIBuffer_Cube*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,  TEXT("Prototype_Component_VIBuffer_Cube"),
 		CVIBuffer_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* For.Prototype_Component_VIBuffer_Sphere*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Sphere"),
+		CVIBuffer_Sphere::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Collider_Sphere */
@@ -180,6 +196,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
 		return E_FAIL;
 
+	
 	return S_OK;
 }
 
@@ -202,9 +219,22 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		CGameObject_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Sphere"),
+		CGameObject_Sphere::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Light"),
 		CGameObject_Light::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Particle_System_Test"),
+		CGameObject_Particle_Test::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Particle_System_Firework"),
+		CGameObject_Particle_Firework::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
 
 	return S_OK;
 }
@@ -236,10 +266,4 @@ void CMainApp::Free()
 
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
-	
-	
-
-	
-
-
 }

@@ -104,7 +104,7 @@ HRESULT CGameInstance::Draw()
 void CGameInstance::Clear(_uint iLevelIndex)
 {
 	/* 특정 레벨의 자원을 삭제한다. */
-	
+
 	/* 특정 레벨의 객체을 삭제한다. */
 	m_pObject_Manager->Clear(iLevelIndex);
 
@@ -178,6 +178,11 @@ CGameObject* CGameInstance::Find_Last_Object(_uint iLevelIndex, const _wstring& 
 HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
 {
 	return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);
+}
+
+HRESULT CGameInstance::Add_Light(CLight* pLight)
+{
+	return m_pRenderer->Add_Light(pLight);
 }
 
 #pragma endregion

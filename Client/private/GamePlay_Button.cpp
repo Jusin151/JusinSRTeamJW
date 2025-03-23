@@ -147,8 +147,6 @@ void CGamePlay_Button::Point_Shop_Update()
 			{
 				if (m_Button_INFO.strUIName == L"Level_Point_Shop_Display")
 					m_bOpen_Display = true;
-
-
 				m_bIsVisible = !m_bIsVisible;
 				m_bKeyPressed = true;
 			}
