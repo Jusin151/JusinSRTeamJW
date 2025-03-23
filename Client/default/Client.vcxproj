@@ -170,6 +170,7 @@
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
     <ClInclude Include="..\public\GameObject_Plane.h" />
+    <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
@@ -228,7 +229,6 @@
     <ClInclude Include="..\public\Weapon_Headers.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Harpoon.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />

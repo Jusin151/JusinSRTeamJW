@@ -28,6 +28,8 @@ private:
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
 
+private:
+	_float m_fRotateTime = {};
 public:
 	static CHarpoon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;

@@ -438,7 +438,7 @@
     <ClInclude Include="..\public\Projectile_Base.h">
       <Filter>02.GameObjects\04. Projectile\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Harpoon.h">
+    <ClInclude Include="..\public\Harpoon.h">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClInclude>
   </ItemGroup>

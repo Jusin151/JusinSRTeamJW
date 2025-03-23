@@ -55,14 +55,14 @@ void CHarpoon::Priority_Update(_float fTimeDelta)
 void CHarpoon::Update(_float fTimeDelta)
 {
 
-	
+	m_fRotateTime += fTimeDelta;
 
 	CPlayer* m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 	m_pTransformCom->LookAt(m_vPos - m_vDir);
 	
 	m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), D3DXToRadian(-90.f));
 	
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fTimeDelta );
+	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fRotateTime);
 	
 	
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
