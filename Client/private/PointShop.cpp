@@ -27,7 +27,7 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-7.2f, 0.8f, 1.7f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-7.2f, 0.6f, 1.7f));
 
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
@@ -45,6 +45,11 @@ void CPointShop::Update(_float fTimeDelta)
 {
 
     __super::Update(fTimeDelta);
+
+    if (m_bIsOpen)
+    {
+        Open_Shop();
+    }
 }
 
 void CPointShop::Late_Update(_float fTimeDelta)
@@ -105,11 +110,11 @@ HRESULT CPointShop::Ready_ShopItems()
 
 HRESULT CPointShop::Open_Shop()
 {
-    // 이미 열려있다면 무시
-    if (m_bIsOpen)
-        return S_OK;
+    //// 이미 열려있다면 무시
+    //if (m_bIsOpen)
+    //    return S_OK;
 
-    m_bIsOpen = true;
+   // m_bIsOpen = true;
 
     // 상점 버튼 활성화 (기존 Ready_Layer_Point_Shop_Button 함수 호출 대신)
     for (int i = 0; i < 12; ++i)

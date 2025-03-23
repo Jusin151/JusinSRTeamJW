@@ -178,10 +178,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CStaff_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
-	//	TEXT("Prototype_GameObject_Point_Shop"),
-	//	CPointShop::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_Point_Shop"),
+		CPointShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 
 
