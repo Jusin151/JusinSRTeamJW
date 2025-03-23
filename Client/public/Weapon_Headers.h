@@ -9,3 +9,11 @@
 #include "Minigun.h" //  총기사진 8장 왼손사진 3장
 #include "Harvester.h" // 하베스터 27장
 #include "Sonic.h" //7장
+
+typedef struct Bullet_Base_INFO
+{
+	_float3 Player_RIght{};
+	_float3 Player_Up{};
+	_float3 Player_Look{};
+	_float3 Player_Pos{};
+}Player_INFO;

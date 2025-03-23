@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Shop.h"
 
 BEGIN(Client)
@@ -10,23 +10,32 @@ private:
     virtual ~CPointShop() = default;
 
 public:
-    // ±âº» »ó¼Ó ÇÔ¼ö
+    // ê¸°ë³¸ ìƒì† í•¨ìˆ˜
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
+
     virtual void Priority_Update(_float fTimeDelta)override;
     virtual void Update(_float fTimeDelta)override;
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
-    // Shop ÀÎÅÍÆäÀÌ½º ±¸Çö
+
+
+    // Shop ì¸í„°í˜ì´ìŠ¤ êµ¬í˜„
+
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
     virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) override;
     virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) override;
     virtual void Refresh_Shop_Items() override;
     virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
+    HRESULT SetUp_RenderState();
+    HRESULT Release_RenderState();
+    HRESULT Render()override;
 
 protected:
     virtual HRESULT Ready_ShopItems() override;
+private:
+    HRESULT Ready_Components();
 
 public:
     static CPointShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -34,5 +43,10 @@ public:
     virtual void Free() override;
 
 private:
+
+    // CShopì„(ë¥¼) í†µí•´ ìƒì†ë¨
+    void Priority_Update(_float fTimeDelta) override;
+    void Update(_float fTimeDelta) override;
+    void Late_Update(_float fTimeDelta) override;
 };
 END

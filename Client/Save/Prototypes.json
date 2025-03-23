@@ -79,6 +79,12 @@
       "count": 3
     },
     {
+      "tag": "Prototype_Component_Texture_Point_Shop",
+      "level": 3,
+      "path": "../../Resources/Textures/Shop/Point_Shop%d.png",
+      "count": 1
+    },
+    {
       "tag": "Prototype_Component_Texture_Spell_Shop_UI",
       "level": 3,
       "path": "../../Resources/Textures/UI/Spell_UI/Spell_UI.png",
@@ -185,6 +191,12 @@
       "level": 3,
       "path": "../../Resources/Textures/Map/Hub/texture_hub_stat_station.png",
       "count": 1
+    },
+    {
+      "tag": "Prototype_Component_Texture_Weapon_Bullet",
+      "level": 3,
+      "path": "../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png",
+      "count": 7
     }
   ],
   "gameObjects": [

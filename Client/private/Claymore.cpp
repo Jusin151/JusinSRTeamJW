@@ -74,32 +74,9 @@ void CClaymore::Priority_Update(_float fTimeDelta)
 
 void CClaymore::Update(_float fTimeDelta)
 {
-	
-
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;  
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
-	{
-		t += speed;
-	}
-
-	float v = 20.0f;  // 폭을 설정 하는변수
-	_float3 vNewPos;
-	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 	__super::Update(fTimeDelta);
+
+	Attack(fTimeDelta);
 }
 
 void CClaymore::Late_Update(_float fTimeDelta)
@@ -110,14 +87,12 @@ void CClaymore::Late_Update(_float fTimeDelta)
 	if(m_bIsAnimating)
 		On_Collision();
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CClaymore::Render()
 {
 	
-
 	return __super::Render();
 }
 
@@ -206,4 +181,32 @@ void CClaymore::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+}
+void CClaymore::Attack(_float fTimeDelta)
+{
+	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+	{
+		m_bIsAnimating = true;
+		m_iCurrentFrame = 0;
+		m_fElapsedTime = 0.0f;
+	}
+
+	if (m_bIsAnimating)
+	{
+		m_fElapsedTime += fTimeDelta;
+
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+
+			if (m_iCurrentFrame < 13)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_bIsAnimating = false;
+			}
+		}
+	}
 }

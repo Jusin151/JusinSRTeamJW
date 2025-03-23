@@ -18,6 +18,7 @@ class CMinigun final : public CRanged_Weapon
 		Idle,
 		Charging, 
 		Charged,
+		Loop,
 		Firing
 	};
 private:
@@ -52,6 +53,7 @@ public:
 	_float t = {}; //
 	_float speed = { 0.1f }; //
 	_float2 m_vInitialPos = {};
+	_float m_fHoldTime = {};
 
 };
 END

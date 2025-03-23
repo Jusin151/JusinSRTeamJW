@@ -13,6 +13,7 @@
 #include "UI_Right_Display.h"
 #include "UI_Mid_Display.h"
 #include "UI_HP_Bar.h"
+#include "UI_MP_Bar.h"
 #include "UI_Bullet_Bar.h"
 #include "UI_Player_Icon.h"
 #include "UI_HP_Bar.h"

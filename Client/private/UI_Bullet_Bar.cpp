@@ -35,7 +35,7 @@ HRESULT CUI_Bullet_Bar::Initialize(void* pArg)
 		m_Bullet_Bar_INFO.vPos += CUI_Manager::GetInstance()->GetRightPanel_Pos();
 		Set_Position(m_Bullet_Bar_INFO.vPos);
 		Set_Size(m_Bullet_Bar_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"Bullet", this);
+		CUI_Manager::GetInstance()->AddUI(L"Bullet_Bar", this);
 	}
 	else
 		return E_FAIL;
@@ -54,14 +54,7 @@ void CUI_Bullet_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_Bullet_Bar::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState('0') & 0x8000)
-	{
-		m_fBullet -= 1.f;
-		if (m_fBullet < 0.f)
-			m_fBullet = 0.f; // 최소 체력 제한
-
-		Update_Bullet_Bar();
-	}
+	
 }
 
 void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
@@ -71,7 +64,7 @@ void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
 }
 void CUI_Bullet_Bar::Update_Bullet_Bar()
 {
-	_float fBullet_Ratio = m_fBullet / 100.f;
+	_float fBullet_Ratio = m_iBullet / 100.f;
 	if (fBullet_Ratio < 0.f)
 		fBullet_Ratio = 0.f;
 	if (fBullet_Ratio > 1.f)
@@ -98,7 +91,14 @@ void CUI_Bullet_Bar::Update_Bullet_Bar()
 HRESULT CUI_Bullet_Bar::Render()
 {
 
-	return __super::Render();
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iBullet), _float2(583.f, 320.0f), _float2(15.f, 25.f), _float3(1.f, 1.f, 1.f));
+
+
+	return S_OK;
 }
 
 HRESULT CUI_Bullet_Bar::Ready_Components()

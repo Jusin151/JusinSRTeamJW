@@ -1,6 +1,6 @@
 ﻿#include "Client_Defines.h"
 #include "GameObject.h"
-#include "CUI_Base.h"
+#include "UI_Headers.h"
 
 class CUI_Manager
 {
@@ -94,6 +94,28 @@ public:
         }
         return _float2(99999, 99999);
     }
+
+    void Set_HP(_uint Damage)
+    {
+        CUI_Base* pUI = GetUI(L"Hp_Bar");
+       
+        dynamic_cast<CUI_HP_Bar*>(pUI)->Set_Damage(Damage);  
+    }
+    void Set_MP(_uint type)
+    {
+        CUI_Base* pUI = GetUI(L"MP_Bar");
+
+        dynamic_cast<CUI_MP_Bar*>(pUI)->Set_MP(type);
+    }
+    void Set_Bullet(_uint type)
+    {
+        CUI_Base* pUI = GetUI(L"Bullet_Bar");
+
+        dynamic_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
+    }
+
+
+private:
     unordered_map<wstring, CUI_Base*> m_UIMap;
 
 };

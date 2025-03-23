@@ -41,7 +41,7 @@ public:
 	_float speed = { 0.1f }; //
 	_float3 m_vInitialPos = {};
 
-
+	 bool m_bHasFired = false;
 
 };
 END

@@ -32,5 +32,7 @@ public:
      CGameObject* Clone(void* pArg);
      HRESULT Render()override;
       void Free()override;
+
+      CGameObject* m_pTarget{nullptr};
 };
 END

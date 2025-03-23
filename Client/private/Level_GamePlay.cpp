@@ -22,6 +22,7 @@ HRESULT CLevel_GamePlay::Initialize()
 {
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
 	CJsonLoader jsonLoader;
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
@@ -299,6 +300,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 
 HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 {
+
+	//객체화 연습중 삭제  x
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
+		return E_FAIL;
+
+
+
 	CGamePlay_Button::GamePlayer_Button_Desc Level_Poinst_Shop_Display{}; // 포인트 상점
 	Level_Poinst_Shop_Display.Button_Desc.vSize = { 804.f,482.f };
 	Level_Poinst_Shop_Display.Button_Desc.vPos = { 0.f,0.f };
@@ -391,7 +400,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 			}
 		
 	}
-
 
 
 	return S_OK;
@@ -634,8 +642,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 
 	CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
 	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
-	Weapon_Minigun_Desc.vPos = { 240.f,-240.f };
-	Weapon_Minigun_Desc.vSize = { 436,316.f };
+	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
+	Weapon_Minigun_Desc.vSize = { 959,347.f };
 	Weapon_Minigun_Desc.Damage = { 100.f };
 	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
 	Weapon_Minigun_Desc.Range = { 3.f };
@@ -644,6 +652,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
 		&Weapon_Minigun_Desc)))
 		return E_FAIL;
+
 
 	CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
 	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
@@ -671,15 +680,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		&Weapon_Sonic_Desc)))
 		return E_FAIL;
 
-	CEffect_Base::EFFECT_DESC Weapon_Effect{};
-	Weapon_Effect.eType = CEffect_Base::EFFECT_TYPE::BULLET_HIT;
-	Weapon_Effect.fLifeTime = 1.f;
-	Weapon_Effect.vPos = { 20.f,20.f };
-	Weapon_Effect.vScale = { 300.f,300.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Effect"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Effect"),
-		&Weapon_Effect)))
-		return E_FAIL;
+
 
 	return S_OK;
 }

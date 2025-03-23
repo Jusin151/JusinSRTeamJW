@@ -1,6 +1,8 @@
-#include "Shop.h"
+ï»¿#include "Shop.h"
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
+#include "Player.h"
+
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject(pGraphic_Device)
 {
@@ -16,12 +18,20 @@ HRESULT CShop::Initialize_Prototype()
     return S_OK;
 }
 
-HRESULT CShop::Initialize(void* pArg) // ÀÚ½Ä¿¡¼­ ¹«Á¶°Ç __Super:: ·Î ºÎ¸£±â
+HRESULT CShop::Initialize(void* pArg) // ìì‹ì—ì„œ ë¬´ì¡°ê±´ __Super:: ë¡œ ë¶€ë¥´ê¸°
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    // »óÁ¡ ±âº» ¼³Á¤
+    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+    if (m_pPlayer == nullptr)
+        return E_FAIL;
+    else
+        Safe_AddRef(m_pPlayer);
+
+
+
+    // ìƒì  ê¸°ë³¸ ì„¤ì •
     m_bIsOpen = false;
 
     return S_OK;
@@ -33,55 +43,117 @@ void CShop::Priority_Update(_float fTimeDelta)
 
 void CShop::Update(_float fTimeDelta)
 {
+    LookAtPlayer(fTimeDelta);
+
+    m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
+
+    m_pGameInstance->Add_Collider(CG_SHOP, m_pColliderCom);
+
+    On_Collision();
 }
+
 
 void CShop::Late_Update(_float fTimeDelta)
 {
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+        return;
+
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
 
 }
 
 HRESULT CShop::Render()
 {
 
+    // ìƒì ì´ ì—´ë ¤ìˆì„ ë•Œë§Œ ë Œë”ë§
+    if (m_bIsOpen)
+    {
+        if (m_pTextureCom && m_pVIBufferCom)
+        {
+            if (FAILED(m_pTextureCom->Bind_Resource(0)))
+                return E_FAIL;
+
+            if (FAILED(SetUp_RenderState()))
+                return E_FAIL;
+            if (FAILED(m_pVIBufferCom->Render()))
+                return E_FAIL;
+            if (FAILED(Release_RenderState()))
+                return E_FAIL;
+        }
+    }
     return S_OK;
 }
 
+void CShop::LookAtPlayer(_float fTimeDelta)
+{
+    if (TEXT("Layer_Player") != m_pPlayer->Get_Tag())
+        return;
+
+    m_pTransformCom->LookAt(static_cast<CPlayer*>(m_pPlayer)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+
+}
+
+
+
 HRESULT CShop::On_Collision()
 {
-    if (nullptr == m_pColliderCom)
+    // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì™€ ìƒì ì˜ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜´
+    CTransform* pPlayerTransform = static_cast<CTransform*>(m_pPlayer->Get_Component(L"Com_Transform"));
+    if (nullptr == pPlayerTransform)
         return E_FAIL;
 
-    // ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
-    if (m_pColliderCom->Get_Other_Type() == CG_END)
-        return S_OK;
+    _float3 vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+    _float3 vShopPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-    switch (m_pColliderCom->Get_Other_Type())
+    _float3 asd = vPlayerPos - vShopPos;
+
+    float fDistanceSq = asd.LengthSq();
+
+    // í”Œë ˆì´ì–´ì™€ ìƒì  ì‚¬ì´ ê±°ë¦¬ê°€ 25 ì´í•˜ (ì¦‰, 5 ë‹¨ìœ„ ì´í•˜)ì¼ ë•Œë§Œ ì¶©ëŒë¡œ ê°„ì£¼
+    const float fThresholdSq = 25.0f; // 5^2
+
+    if (fDistanceSq <= fThresholdSq)
     {
-    case CG_PLAYER:
-        // »óÈ£ ÀÛ¿ëÀÌ ´­·È´Ù¸é
-        // m_bIsOpen = true;
-        break;
-    default:
-        break;
+      
+     bPlayer_Check = true;
+     Open_Shop(); 
     }
+
+    
+//switch (m_pColliderCom->Get_Other_Type())
+//{
+//case CG_PLAYER:
+//    // í”Œë ˆì´ì–´ì™€ ì¶©ëŒí•œ ê²½ìš° ìƒí˜¸ ì‘ìš© ì²˜ë¦¬ (ì˜ˆ: ìƒì  ì—´ê¸°)
+//    if (!m_bIsOpen)
+//    {
+//        Open_Shop();
+//        // í•„ìš”ì— ë”°ë¼ m_bIsOpen = true;ë¥¼ ì§ì ‘ ì„¤ì •í•  ìˆ˜ ìˆìŒ.
+//    }
+//    break;
+//default:
+//    break;
+//}
+
+
+
 
     m_pColliderCom->Set_Other_Type(CG_END);
 
     return S_OK;
 }
 
+
+
 HRESULT CShop::SetUp_RenderState()
 {
     if (nullptr == m_pGraphic_Device)
         return E_FAIL;
 
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    // ¾ËÆÄ ºí·»µù È°¼ºÈ­
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-    // Z ¹öÆÛ ¼³Á¤
+    // Z ë²„í¼ ì„¤ì •
     m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
@@ -115,7 +187,19 @@ HRESULT CShop::Ready_Components()
     //    return E_FAIL;
 
 
+    /* Collider Component */
+    CCollider::COL_DESC	ColliderDesc = {};
+    ColliderDesc.eType = CG_SHOP;
+    ColliderDesc.pOwner = this;
+    // ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
+    ColliderDesc.fScale = { 100.f,100.f,100.f };
+    // ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
+    ColliderDesc.fLocalPos = { 10.f, 10.f, 10.5f };
 
+    /* For.Com_Collider_Sphere */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -123,11 +207,12 @@ void CShop::Free()
 {
     __super::Free();
 
-    // »óÁ¡ ¾ÆÀÌÅÛ ÇØÁ¦
+    // ìƒì  ì•„ì´í…œ í•´ì œ
 
-    // ÄÄÆ÷³ÍÆ® ÇØÁ¦
+    // ì»´í¬ë„ŒíŠ¸ í•´ì œ
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pColliderCom);
+    Safe_Release(m_pPlayer);
 }
