@@ -4,7 +4,7 @@ BEGIN(Engine)
 class ENGINE_DLL CSnow_Particle_System final : public CParticle_System
 {
 public:
-	typedef struct tagSnowParticleDesc
+	typedef struct tagSnowParticleDesc : tagParticleSystemDesc
 	{
 		BOUNDINGBOX		Bounding_Box;
 		_uint			iNumParticles;

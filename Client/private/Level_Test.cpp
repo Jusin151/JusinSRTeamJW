@@ -1,4 +1,4 @@
-#include "Level_Test.h"
+ï»¿#include "Level_Test.h"
 #include "GameInstance.h"
 #include "PickingSys.h"
 #include "MyImGui.h"
@@ -27,7 +27,7 @@ void CLevel_Test::Update(_float fTimeDelta)
 
 HRESULT CLevel_Test::Render()
 {
-    SetWindowText(g_hWnd, TEXT("Å×½ºÆ® ·¹º§ÀÔ´Ï´Ù."));
+    SetWindowText(g_hWnd, TEXT("í…ŒìŠ¤íŠ¸ ë ˆë²¨ìž…ë‹ˆë‹¤."));
     return S_OK;
 }
 

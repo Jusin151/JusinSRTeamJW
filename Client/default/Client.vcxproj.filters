@@ -624,5 +624,8 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Shader\VertexShader.hlsl">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

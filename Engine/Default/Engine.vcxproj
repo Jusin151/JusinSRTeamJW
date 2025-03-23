@@ -131,6 +131,9 @@
 CALL $(SolutionDir)\UpdateLib.bat
 CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -208,6 +211,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\Public\Engine_Macro.h" />
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
+    <ClInclude Include="..\Public\Firework_Particle_System.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
@@ -279,6 +283,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\Private\Collider_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\Collider_Sphere.cpp" />
+    <ClCompile Include="..\Private\Firework_Particle_System.cpp" />
     <ClCompile Include="..\Private\Particle_System.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\private\Editor.cpp" />

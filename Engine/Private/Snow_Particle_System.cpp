@@ -19,25 +19,15 @@ HRESULT CSnow_Particle_System::Initialize_Prototype()
 
 HRESULT CSnow_Particle_System::Initialize(void* pArg)
 {
-	
-	SNOWDESC desc;
-	if (nullptr == pArg)
-	{
-		SNOWDESC desc = *reinterpret_cast<SNOWDESC*>(pArg);
-		m_Bounding_Box = desc.Bounding_Box;
-		m_fSize = 0.8f;
-		m_VBSize = 2048;
-		m_VBOffset = 0;
-		m_VBBatchSize = 512;
-	}
-	desc = *reinterpret_cast<SNOWDESC*>(pArg);
+	SNOWDESC desc = *reinterpret_cast<SNOWDESC*>(pArg);
 	m_Bounding_Box = desc.Bounding_Box;
 	m_fSize = 0.8f;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
+	m_iMaxParticles = desc.iNumParticles;
 
-	PARTICLEDESC pDesc = { m_VBSize };
+	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath };
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
@@ -76,6 +66,8 @@ void CSnow_Particle_System::Update(float fTimeDelta)
 			Reset_Particle(&i);
 		}
 	}
+
+	__super::Late_Update(fTimeDelta);
 }
 
 CSnow_Particle_System* CSnow_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

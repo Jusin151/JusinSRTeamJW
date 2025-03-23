@@ -176,6 +176,9 @@
     <ClInclude Include="..\Public\VIBuffer_Sphere.h">
       <Filter>04.Components\VIBuffer\Sphere</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Firework_Particle_System.h">
+      <Filter>04.Components\Particle\System\Firework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -340,6 +343,9 @@
     <Filter Include="04.Components\VIBuffer\Sphere">
       <UniqueIdentifier>{c73b601a-e2dd-4c44-8030-51ac34f88b55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Firework">
+      <UniqueIdentifier>{83e6c290-b3d7-4b05-a68c-186b1870d125}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -482,6 +488,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Sphere.cpp">
       <Filter>04.Components\VIBuffer\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Firework_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Firework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-#include "Light.h"
+ï»¿#include "Light.h"
 
 CLight::CLight(PDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent { pGraphic_Device }
@@ -13,19 +13,19 @@ CLight::CLight(const CLight& Prototype)
 
 HRESULT CLight::Initialize_Prototype(LIGHTTYPE eType)
 {
-	m_tInfo.eType			= eType; // ºû Å¸ÀÔÀº ÀÌ¹Ì ¼³Á¤µÇ¾î ÀÖ´Ù°í °¡Á¤
-	m_tInfo.fDiffuse		= { 1.0f, 1.0f, 1.0f, 1.0f }; // Èò»ö È®»ê±¤
-	m_tInfo.fAmbient		= { 0.2f, 0.2f, 0.2f, 1.0f }; // ¾àÇÑ ÁÖº¯±¤
-	m_tInfo.fSpecular		= { 1.0f, 1.0f, 1.0f, 1.0f }; // Èò»ö ¹Ý»ç±¤
-	m_tInfo.fPosition		= { 0.0f, 10.0f, 0.0f }; // ºûÀÇ À§Ä¡ (À§¿¡¼­ ¾Æ·¡·Î ºñÃß´Â ¹æÇâÀ» °¡Á¤)
-	m_tInfo.fDirection		= { 0.0f, -1.0f, 0.0f }; // ºûÀÇ ¹æÇâ (¾Æ·¡ÂÊ)
-	m_tInfo.fAttenuation0	= 1.0f; // °¨¼è »ó¼ö
-	m_tInfo.fAttenuation1	= 0.0f; // °¨¼è ¼±Çü
-	m_tInfo.fAttenuation2	= 0.0f; // °¨¼è 2Â÷
-	m_tInfo.fFalloff		= 1.0f; // ½ºÆ÷Æ®¶óÀÌÆ® °¨¼è
-	m_tInfo.fRange			= 100.0f; // ºûÀÇ ¹üÀ§
-	m_tInfo.fTheta			= D3DX_PI / 4; // ½ºÆ÷Æ®¶óÀÌÆ® ³»ºÎ °¢µµ (45µµ)
-	m_tInfo.fPhi			= D3DX_PI / 2; // ½ºÆ÷Æ®¶óÀÌÆ® ¿ÜºÎ °¢µµ (90µµ)
+	m_tInfo.eType			= eType; // ë¹› íƒ€ìž…ì€ ì´ë¯¸ ì„¤ì •ë˜ì–´ ìžˆë‹¤ê³  ê°€ì •
+	m_tInfo.fDiffuse		= { 1.0f, 1.0f, 1.0f, 1.0f }; // í°ìƒ‰ í™•ì‚°ê´‘
+	m_tInfo.fAmbient		= { 0.2f, 0.2f, 0.2f, 1.0f }; // ì•½í•œ ì£¼ë³€ê´‘
+	m_tInfo.fSpecular		= { 1.0f, 1.0f, 1.0f, 1.0f }; // í°ìƒ‰ ë°˜ì‚¬ê´‘
+	m_tInfo.fPosition		= { 0.0f, 10.0f, 0.0f }; // ë¹›ì˜ ìœ„ì¹˜ (ìœ„ì—ì„œ ì•„ëž˜ë¡œ ë¹„ì¶”ëŠ” ë°©í–¥ì„ ê°€ì •)
+	m_tInfo.fDirection		= { 0.0f, -1.0f, 0.0f }; // ë¹›ì˜ ë°©í–¥ (ì•„ëž˜ìª½)
+	m_tInfo.fAttenuation0	= 1.0f; // ê°ì‡  ìƒìˆ˜
+	m_tInfo.fAttenuation1	= 0.0f; // ê°ì‡  ì„ í˜•
+	m_tInfo.fAttenuation2	= 0.0f; // ê°ì‡  2ì°¨
+	m_tInfo.fFalloff		= 1.0f; // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ê°ì‡ 
+	m_tInfo.fRange			= 100.0f; // ë¹›ì˜ ë²”ìœ„
+	m_tInfo.fTheta			= D3DX_PI / 4; // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ë‚´ë¶€ ê°ë„ (45ë„)
+	m_tInfo.fPhi			= D3DX_PI / 2; // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ì™¸ë¶€ ê°ë„ (90ë„)
 	return S_OK;
 }
 
