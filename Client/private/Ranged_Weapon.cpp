@@ -27,6 +27,7 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 
 void CRanged_Weapon::Late_Update(_float fTimeDelta)
 {
+    __super::Late_Update(fTimeDelta);
 }
 
 HRESULT CRanged_Weapon::Render()
@@ -259,6 +260,11 @@ void CRanged_Weapon::Attack(_float fTimeDelta)
 		}
 	}
     
+}
+
+void CRanged_Weapon::Move_Hand(_float fTimeDelta)
+{
+    __super::Move_Hand(fTimeDelta);
 }
 
 

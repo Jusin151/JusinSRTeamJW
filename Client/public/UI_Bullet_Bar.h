@@ -40,11 +40,19 @@ public:
 	static CUI_Bullet_Bar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+public:
+	void Set_Bullet(_int Bullet)
+	{
+     	m_iBullet -= Bullet;
+		if (m_iBullet < 0 || m_iBullet > 100)
+			m_iBullet = 0; // 최소 체력 제한
 
+		Update_Bullet_Bar();	
 
+	}
 
 private:
-	_float m_fBullet{100.f};
+	_int m_iBullet{100};
 };
 END
 

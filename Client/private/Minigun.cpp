@@ -121,6 +121,7 @@ void CMinigun::Attack(_float fTimeDelta)
             m_eState = State::Firing;
             m_iCurrentFrame = m_TextureRanges["Attack"].first;
             __super::Picking_Object(); // 프레임이 변경될 때마다 호출
+            CUI_Manager::GetInstance()->Set_Bullet(1);
             m_fElapsedTime = 0.0f;
         }
     }
@@ -167,12 +168,12 @@ void CMinigun::Attack(_float fTimeDelta)
             if (m_iCurrentFrame < m_TextureRanges["Attack"].second)
             {
                 m_iCurrentFrame++;
-                __super::Picking_Object(); // 프레임이 변경될 때마다 호출
+                //__super::Picking_Object(); // 프레임이 변경될 때마다 호출
             }
             else
             {
                 m_iCurrentFrame = m_TextureRanges["Attack"].first; // Attack 상태 유지
-                __super::Picking_Object(); // 프레임이 변경될 때마다 호출
+                //__super::Picking_Object(); // 프레임이 변경될 때마다 호출
             }
         }
         break;
@@ -187,9 +188,7 @@ void CMinigun::Attack(_float fTimeDelta)
 
 void CMinigun::Late_Update(_float fTimeDelta)
 {
-
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-        return;
+    __super::Late_Update(fTimeDelta);;
 }
 HRESULT CMinigun::Render()
 {

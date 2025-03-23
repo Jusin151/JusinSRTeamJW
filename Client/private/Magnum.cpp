@@ -38,7 +38,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 
  	m_pTransformCom->Set_Scale(m_Magnum_INFO.vSize.x, m_Magnum_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_Magnum_INFO.vPos.x, m_Magnum_INFO.vPos.y, 0.f));
+		_float3(m_Magnum_INFO.vPos.x, m_Magnum_INFO.vPos.y, 0.0f));
 
 	m_vInitialPos.x = m_Magnum_INFO.vPos.x;
 	m_vInitialPos.y = m_Magnum_INFO.vPos.y;
@@ -102,6 +102,9 @@ void CMagnum::Attack(_float fTimeDelta)
 			m_fElapsedTime = 0.0f;
 			m_bHasFired = true; // 발사 상태를 true로 설정
 			__super::Picking_Object(); // 클릭 한 번에 한 번만 호출
+			CUI_Manager::GetInstance()->Set_HP(10);
+			CUI_Manager::GetInstance()->Set_MP(10);
+			CUI_Manager::GetInstance()->Set_Bullet(1);
 		}
 	}
 	else
@@ -131,10 +134,7 @@ void CMagnum::Attack(_float fTimeDelta)
 
 void CMagnum::Late_Update(_float fTimeDelta)
 {
-	
-
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CMagnum::Render()

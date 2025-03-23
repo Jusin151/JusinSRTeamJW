@@ -61,6 +61,10 @@ protected:
     _bool m_bWall = { false };   // 벽체크용 변수
     _bool m_bMonster = { false }; // 몬스터 체크용 변수
 
+
+    // CWeapon_Base을(를) 통해 상속됨
+    void Move_Hand(_float fTimeDelta) override;
+
 };
 
 END
