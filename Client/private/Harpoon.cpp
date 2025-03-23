@@ -1,4 +1,4 @@
-#include "Harpoon.h"
+ï»¿#include "Harpoon.h"
 #include "GameObject.h"
 #include "GameInstance.h"
 #include "Collider_Cube.h"
@@ -114,7 +114,7 @@ HRESULT CHarpoon::On_Collision(_float fTimeDelta)
 		return E_FAIL;
 
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
@@ -134,7 +134,7 @@ HRESULT CHarpoon::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
+	// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
@@ -145,8 +145,8 @@ HRESULT CHarpoon::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }
@@ -170,9 +170,9 @@ HRESULT CHarpoon::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 0.5f, 0.5f, 0.5f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),

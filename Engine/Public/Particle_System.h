@@ -9,9 +9,11 @@ class ENGINE_DLL CParticle_System abstract : public CComponent
 {
 public:
 	typedef struct tagParticleSystemDesc
-	{
+	{		
 		DWORD	VBSize;
 		_wstring strShaderPath;
+		_wstring strTexturePath;
+		_float fSize;
 	} PARTICLEDESC;
 protected:
 	typedef struct tagInstancedData
@@ -46,19 +48,24 @@ public:
 	virtual void Add_Particle();
 	virtual void Reset();
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute);
-	
+
 public:
+	void Set_Origin(const _float3& vOrigin) { m_vPos = vOrigin; }
 	bool IsEmpty();
 	bool IsDead();
 	void Remove_Dead_Particles();
 
 protected:
-	_wstring						m_strName = {};
+
 	D3DXVECTOR3						m_vPos = {};
 	LPDIRECT3DVERTEXBUFFER9			m_PointVB = { nullptr };
+	LPDIRECT3DTEXTURE9				m_pTexture = { nullptr };
+
+	//인스턴싱 변수
 	LPDIRECT3DVERTEXBUFFER9			m_InstanceVB = { nullptr };
 	LPDIRECT3DVERTEXDECLARATION9	m_pVertexDecl = { nullptr };
 	LPDIRECT3DVERTEXSHADER9			m_pVertexShader = { nullptr };
+
 	BOUNDINGBOX						m_Bounding_Box = {};
 	_float							m_fEmit_Rate = {};
 	_float							m_fSize = {};

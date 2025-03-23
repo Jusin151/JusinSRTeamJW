@@ -9,7 +9,8 @@ CEffect_Base::CEffect_Base(const CEffect_Base& Prototype)
 	: CGameObject(Prototype),
 	m_pTextureCom{ Prototype.m_pTextureCom },
 	m_pTransformCom{ Prototype.m_pTransformCom },
-	m_pVIBufferCom{ Prototype.m_pVIBufferCom }
+	m_pVIBufferCom{ Prototype.m_pVIBufferCom },
+	m_pParticleCom{ Prototype.m_pParticleCom }
 {
 }
 
@@ -56,6 +57,6 @@ void CEffect_Base::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
-
+	Safe_Release(m_pParticleCom);
 }
 

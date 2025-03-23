@@ -4,7 +4,7 @@ BEGIN(Engine)
 class ENGINE_DLL CFirework_Particle_System final : public CParticle_System
 {
 public:
-	typedef struct tagFireWorkParticleDesc
+	typedef struct tagFireWorkParticleDesc : tagParticleSystemDesc
 	{
 		BOUNDINGBOX		Bounding_Box;
 		_float3			vOrigin;

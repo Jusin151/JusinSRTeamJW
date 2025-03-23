@@ -1,6 +1,7 @@
 ﻿#include "Weapon_Effect.h"
 #include "GameInstance.h"
 #include "Player.h"
+#include "Firework_Particle_System.h"
 
 CWeapon_Effect::CWeapon_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect_Base{ pGraphic_Device }
@@ -32,6 +33,8 @@ HRESULT CWeapon_Effect::Initialize(void* pArg)
 		m_Weapon_Effect_INFO.vPos
 	);
 
+	m_pParticleCom->Set_Origin(m_Weapon_Effect_INFO.vPos);
+
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_Weapon_Effect_INFO.vRight);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, m_Weapon_Effect_INFO.vUp);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_Weapon_Effect_INFO.vLook);
@@ -61,6 +64,7 @@ void CWeapon_Effect::Update(_float fTimeDelta)
 		m_Weapon_Effect_INFO.vScale.z
 	);
 
+	m_pParticleCom->Update(fTimeDelta);
 
 	int a = 10;
 }
@@ -107,6 +111,8 @@ HRESULT CWeapon_Effect::Render()
 		return E_FAIL;
 
 	Release_RenderState();
+	if (FAILED(m_pParticleCom->Render()))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -126,6 +132,18 @@ HRESULT CWeapon_Effect::Ready_Components()
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		return E_FAIL;
+
+	CFirework_Particle_System::FIREWORKDESC     FireworkDesc{};
+	FireworkDesc.fSize = 0.2f;
+	FireworkDesc.Bounding_Box.m_vMin = { -2, -2, -2 };
+	FireworkDesc.Bounding_Box.m_vMax = { 2, 2, 2 };
+	FireworkDesc.vOrigin = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	FireworkDesc.iNumParticles = 100;
+	FireworkDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
+		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
 		return E_FAIL;
 
 	return S_OK;

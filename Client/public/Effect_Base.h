@@ -5,9 +5,11 @@
 #include "Transform.h"
 #include "Texture.h"
 #include "VIBuffer_Rect.h"
+#include "Particle_System.h"
 
 BEGIN(Engine)
 class CTexture;
+class CParticle_System;
 class CVIBuffer_Rect;  // UI는 사각형으로 할듯
 END
 
@@ -55,6 +57,7 @@ protected:
     CTexture* m_pTextureCom = {};
     CVIBuffer_Rect* m_pVIBufferCom = {};
     CTransform* m_pTransformCom = {};
+    CParticle_System* m_pParticleCom = {};
     EFFECT_DESC m_Weapon_Effect_INFO{};
 
 protected: // 이펙트 관련

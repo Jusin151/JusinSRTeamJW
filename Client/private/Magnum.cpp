@@ -139,7 +139,7 @@ void CMagnum::Late_Update(_float fTimeDelta)
 
 HRESULT CMagnum::Render()
 {
-		if (m_bWall)
+	if (m_bWall)
 		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
 	if (m_bMonster)
 		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));

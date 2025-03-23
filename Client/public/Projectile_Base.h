@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -36,7 +36,7 @@ public:
 	virtual HRESULT Render()override;
 	virtual HRESULT On_Collision(_float fTimeDelta) PURE;
 
-	// collider,texture´Â ÀÚ½Ä¿¡¼­ Ãß°¡
+	// collider,textureëŠ” ìì‹ì—ì„œ ì¶”ê°€
 	HRESULT Ready_Components();
 
 	
@@ -45,7 +45,7 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
-	// Åõ»çÃ¼ µû¶ó¼­ ´Ù¸¦ ¼ö ÀÖ¾î¼­ ¿øÇÏ´Â°Å·Î ÀÚ½Ä¿¡¼­ ¼³Á¤ÇÏ¸é µÉµí?
+	// íˆ¬ì‚¬ì²´ ë”°ë¼ì„œ ë‹¤ë¥¼ ìˆ˜ ìˆì–´ì„œ ì›í•˜ëŠ”ê±°ë¡œ ìì‹ì—ì„œ ì„¤ì •í•˜ë©´ ë ë“¯?
 	CCollider* m_pColliderCom = { nullptr };
 
 	_float3 m_vPos;

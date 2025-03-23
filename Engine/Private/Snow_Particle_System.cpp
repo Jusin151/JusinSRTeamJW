@@ -27,7 +27,7 @@ HRESULT CSnow_Particle_System::Initialize(void* pArg)
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
 
-	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath };
+	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;

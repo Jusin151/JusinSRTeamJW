@@ -1,4 +1,4 @@
-#include "Harpoonguy.h"
+ï»¿#include "Harpoonguy.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -80,7 +80,7 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	// Ãæµ¹ ÆÇÁ¤
+	// ì¶©ëŒ íŒì •
 	On_Collision(fTimeDelta);
 
 
@@ -124,7 +124,7 @@ HRESULT CHarpoonguy::On_Collision(_float fTimeDelta)
 		return E_FAIL;
 
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
@@ -155,7 +155,7 @@ HRESULT CHarpoonguy::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
+	// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
 	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
@@ -173,7 +173,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 
 	Shooting(fTimeDelta);
 
-	// °Å¸®·Î ÆÇ´ÜÇØ¼­ ÆÐÅÏ ½ÇÇàÇÏµµ·Ï 
+	// ê±°ë¦¬ë¡œ íŒë‹¨í•´ì„œ íŒ¨í„´ ì‹¤í–‰í•˜ë„ë¡ 
 	/*if (vDist.LengthSq() > 10)
 		Chasing(fTimeDelta);
 	else
@@ -185,7 +185,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 
 void CHarpoonguy::Chasing(_float fTimeDelta)
 {
-	// ¸Â°í ¹Ù·Î ¾ÈÇÏµµ·Ï
+	// ë§žê³  ë°”ë¡œ ì•ˆí•˜ë„ë¡
 	if (m_eCurState == MS_HIT)
 	{
 		if (m_fElapsedTime >= 1.f)
@@ -300,8 +300,8 @@ HRESULT CHarpoonguy::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }

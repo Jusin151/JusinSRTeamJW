@@ -19,26 +19,16 @@ HRESULT CFirework_Particle_System::Initialize_Prototype()
 
 HRESULT CFirework_Particle_System::Initialize(void* pArg)
 {
-	FIREWORKDESC desc;
-	if (nullptr == pArg)
-	{
-		FIREWORKDESC desc = *reinterpret_cast<FIREWORKDESC*>(pArg);
-		m_Bounding_Box = desc.Bounding_Box;
-		m_vPos = desc.vOrigin;
-		m_fSize = 0.8f;
-		m_VBSize = 2048;
-		m_VBOffset = 0;
-		m_VBBatchSize = 512;
-	}
-	desc = *reinterpret_cast<FIREWORKDESC*>(pArg);
+	FIREWORKDESC desc = *reinterpret_cast<FIREWORKDESC*>(pArg);
 	m_Bounding_Box = desc.Bounding_Box;
 	m_vPos = desc.vOrigin;
-	m_fSize = 0.8f;
+	m_fSize = desc.fSize;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
+	m_iMaxParticles = desc.iNumParticles;
 
-	PARTICLEDESC pDesc = { m_VBSize };
+	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
@@ -66,7 +56,7 @@ void CFirework_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 		1.0f);
 
 	pAttribute->fAge = 0.0f;
-	pAttribute->fLifetime = 100.0f; // lives for 2 seconds
+	pAttribute->fLifetime = 2.0f; // lives for 2 seconds
 }
 
 void CFirework_Particle_System::Update(float fTimeDelta)
@@ -92,6 +82,8 @@ HRESULT CFirework_Particle_System::Pre_Render()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 155); // 기준값 설정 (0~255)
 
 	// read, but don't write particles to z-buffer
 	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);

@@ -20,19 +20,19 @@ protected:
     virtual ~CWeapon_Effect() = default;
 
 public:
-     HRESULT Initialize_Prototype()override;
-     HRESULT Initialize(void* pArg)override;
-     void Priority_Update(_float fTimeDelta)override;
-     void Update(_float fTimeDelta)override;
-     void Late_Update(_float fTimeDelta)override;
-     HRESULT SetUp_RenderState();
-     HRESULT Release_RenderState();
-     HRESULT Ready_Components()override;
-     static CWeapon_Effect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-     CGameObject* Clone(void* pArg);
-     HRESULT Render()override;
-      void Free()override;
+    HRESULT Initialize_Prototype()override;
+    HRESULT Initialize(void* pArg)override;
+    void Priority_Update(_float fTimeDelta)override;
+    void Update(_float fTimeDelta)override;
+    void Late_Update(_float fTimeDelta)override;
+    HRESULT SetUp_RenderState();
+    HRESULT Release_RenderState();
+    HRESULT Ready_Components()override;
+    static CWeapon_Effect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CGameObject* Clone(void* pArg);
+    HRESULT Render()override;
+    void Free()override;
 
-      CGameObject* m_pTarget{nullptr};
+    CGameObject* m_pTarget{nullptr};
 };
 END

@@ -59,8 +59,6 @@ HRESULT CGameObject_Particle_Test::Pre_Render()
 
 HRESULT CGameObject_Particle_Test::Render()
 {
-    if(FAILED(m_pTextureCom->Bind_Resource(0)))
-        return E_FAIL;
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -99,31 +97,17 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
     SnowDesc.iNumParticles = 512;
     SnowDesc.strShaderPath = L"VertexShader.hlsl";
 
+    SnowDesc.strTexturePath = L"../../Resources/Textures/Particle/snowflake.dds";
+
     /* For.Com_Particle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
         TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &SnowDesc)))
         return E_FAIL;
 
-    //CFirework_Particle_System::FIREWORKDESC     FireworkDesc{};
-    //FireworkDesc.Bounding_Box.m_vMin = { -2, -2, -2 };
-    //FireworkDesc.Bounding_Box.m_vMax = { 2, 2, 2 };
-    //FireworkDesc.vOrigin = { 5.0f, 5.0f, 0.0f }; //m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-    //FireworkDesc.iNumParticles = 512;
-
-    ///* For.Com_Particle */
-    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
-    //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
-    //    return E_FAIL;
-
     /* For.Com_VIBuffer */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
-
-    /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Snow"),
-        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;    
 
     return S_OK;
 }
@@ -158,7 +142,6 @@ CGameObject_Particle_Test* CGameObject_Particle_Test::Clone(void* pArg)
 void CGameObject_Particle_Test::Free()
 {
     __super::Free();
-    Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pParticleCom);
     Safe_Release(m_pTransformCom);

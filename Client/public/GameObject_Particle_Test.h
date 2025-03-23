@@ -34,7 +34,6 @@ public:
 private:
 	HRESULT Ready_Components();
 	CParticle_System*	m_pParticleCom	= { nullptr };
-	CTexture*			m_pTextureCom	= { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom	= { nullptr };
 public:

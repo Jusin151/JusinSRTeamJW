@@ -55,9 +55,10 @@ HRESULT CParticle_System::Initialize_Prototype()
 
 HRESULT CParticle_System::Initialize(void* pArg)
 {
+	PARTICLEDESC desc = {};
 	if (nullptr != pArg)
 	{
-		PARTICLEDESC desc = *reinterpret_cast<PARTICLEDESC*>(pArg);
+		desc = *reinterpret_cast<PARTICLEDESC*>(pArg);
 		m_VBSize = desc.VBSize;
 	}
 	HRESULT hr = m_pGraphic_Device->CreateVertexBuffer(
@@ -66,6 +67,29 @@ HRESULT CParticle_System::Initialize(void* pArg)
 		D3DFVF_XYZ | D3DFVF_DIFFUSE,
 		D3DPOOL_DEFAULT,
 		&m_PointVB, 0);
+
+	//wsprintf(szTextureFileName, desc.strTexturePath, 0);
+
+	D3DXIMAGE_INFO imageInfo;
+	// 먼저 이미지 정보를 가져옴
+	if (FAILED(D3DXGetImageInfoFromFile(desc.strTexturePath.c_str(), &imageInfo)))
+		return E_FAIL; // 이미지 정보를 가져오지 못한 경우
+
+
+	hr = D3DXCreateTextureFromFileEx(m_pGraphic_Device,
+		desc.strTexturePath.c_str(),
+		imageInfo.Width,  // 원본 너비
+		imageInfo.Height, // 원본 높이
+		D3DX_DEFAULT,
+		0,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_MANAGED,
+		D3DX_DEFAULT,
+		D3DX_DEFAULT,
+		0,
+		&imageInfo,
+		nullptr,
+		&m_pTexture);
 	return hr;
 }
 
@@ -132,6 +156,7 @@ HRESULT CParticle_System::Render()
 	Pre_Render();
 	if (!m_Particles.empty())
 	{
+		m_pGraphic_Device->SetTexture(0, m_pTexture);
 		m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 		m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
 
@@ -212,4 +237,5 @@ void CParticle_System::Free()
 {
 	__super::Free();
 	Safe_Release(m_PointVB);
+	Safe_Release(m_pTexture);
 }
