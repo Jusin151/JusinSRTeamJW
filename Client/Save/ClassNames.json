@@ -1,5 +1,8 @@
 {
   "classes": [
+    "CGameObject_Cube",
+    "CGameObject_Plane",
+    "CGameObject_Light",
     "CPlayer",
     "CCrocman",
     "CTerrain",

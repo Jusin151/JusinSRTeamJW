@@ -111,19 +111,6 @@ HRESULT CBackGround::Render()
 
 	if(nullptr != m_pMaterial) m_pMaterial->Bind_Resource();
 
-	D3DLIGHT9 light;
-	ZeroMemory(&light, sizeof(D3DLIGHT9));
-	light.Type = D3DLIGHT_DIRECTIONAL; // 방향성 광원
-	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 확산광 색상 (빨간색)
-	light.Ambient = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f); // 주변광 색상
-	light.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f); // 반사광 색상
-	light.Direction = D3DXVECTOR3(0.0f, 0.0f, -1.0f); // 빛의 방향
-
-	m_pGraphic_Device->SetLight(0, &light); // 0번 라이트 설정
-	m_pGraphic_Device->LightEnable(0, TRUE); // 0번 라이트 활성화
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE); // 라이팅 활성화
-
-
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -168,9 +155,6 @@ HRESULT CBackGround::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE); // 라이팅 비활성화
-	m_pGraphic_Device->LightEnable(0, FALSE); // 0번 라이트 비활성화
 
 	return S_OK;
 }

@@ -53,23 +53,6 @@ void CTerrain::Late_Update(_float fTimeDelta)
 
 HRESULT CTerrain::Render()
 {
-	D3DLIGHT9 d3dLight;
-	ZeroMemory(&d3dLight, sizeof(d3dLight));
-	d3dLight.Type = D3DLIGHT_DIRECTIONAL;
-	d3dLight.Diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
-	//d3dLight.Ambient = { 1.0f, 0.0f, 1.0f };
-	//d3dLight.Specular = { 1.0f, 0.0f, 1.0f };
-	d3dLight.Direction = { 0.0f, -1.0f, -1.0f };
-	//d3dLight.Position = { 0.0f, 1000.f, 0.f };
-	HRESULT   hr = m_pGraphic_Device->SetLight(0, &d3dLight);
-	if (SUCCEEDED(hr))
-	{
-		m_pGraphic_Device->LightEnable(0, true);
-		m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
-		m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		m_pGraphic_Device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
-	}
-
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
@@ -79,18 +62,8 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	//m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_GREEN);
-	/* 정점을 그린다. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	/*m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);*/
-
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
-	
-
     return S_OK;
 }
 
@@ -102,7 +75,7 @@ HRESULT CTerrain::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(__super::Add_Component(LEVEL_TEST, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 

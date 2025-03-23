@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Base.h"
 BEGIN(Engine)
-class Bounding_Sphere final : public CBase
+class ENGINE_DLL Bounding_Sphere final : public CBase
 {
 private:
 	Bounding_Sphere();

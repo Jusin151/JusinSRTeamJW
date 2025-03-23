@@ -41,6 +41,13 @@ void CLevel_Logo::Update(_float fTimeDelta)
 			return;
 	}
 
+	if (GetKeyState('T') & 0x8000)
+	{
+		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_TEST))))
+			return;
+	}
+
 }
 
 HRESULT CLevel_Logo::Render()

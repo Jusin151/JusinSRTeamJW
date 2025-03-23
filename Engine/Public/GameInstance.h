@@ -46,6 +46,7 @@ public:
 
 #pragma region RENDERER
 	HRESULT Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
+	HRESULT Add_Light(class CLight* pLight);
 #pragma endregion
 
 #pragma region TIMER_MANAGER

@@ -1,12 +1,29 @@
 ﻿#pragma once
 #include "Component.h"
-#include "Bounding_Box.h"
+#include "BoundingBox.h"
 #include "Bounding_Sphere.h"
 
 BEGIN(Engine)
 
 class ENGINE_DLL CParticle_System abstract : public CComponent
 {
+public:
+	typedef struct tagParticleSystemDesc
+	{
+		DWORD	VBSize;
+		_wstring strShaderPath;
+	} PARTICLEDESC;
+protected:
+	typedef struct tagInstancedData
+	{
+		_float3 vOffset;
+		DWORD	instanceColor;
+	}INSTNACEDATA;
+	typedef struct tagParticleVertex
+	{
+		_float3 vPosition;
+		DWORD	vColor;
+	}PARTICLEVTX;
 protected:
 	CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CParticle_System(const CParticle_System& Prototype);
@@ -36,23 +53,24 @@ public:
 	void Remove_Dead_Particles();
 
 protected:
-	class CTexture*				m_pTextureCom = { nullptr };
-protected:
-	D3DXVECTOR3				m_vPos = {};
-	_wstring strName = {};
-	IDirect3DVertexBuffer9* m_VB = { nullptr };
-	CBounding_Box			m_Bounding_Box = {};
-	_float					m_fEmit_Rate = {};
-	_float					m_fSize = {};
-	_uint					m_iMaxParticles = {};
-	list<ATTRIBUTE>			m_Particles = {};
+	_wstring						m_strName = {};
+	D3DXVECTOR3						m_vPos = {};
+	LPDIRECT3DVERTEXBUFFER9			m_PointVB = { nullptr };
+	LPDIRECT3DVERTEXBUFFER9			m_InstanceVB = { nullptr };
+	LPDIRECT3DVERTEXDECLARATION9	m_pVertexDecl = { nullptr };
+	LPDIRECT3DVERTEXSHADER9			m_pVertexShader = { nullptr };
+	BOUNDINGBOX						m_Bounding_Box = {};
+	_float							m_fEmit_Rate = {};
+	_float							m_fSize = {};
+	_uint							m_iMaxParticles = {};
+	list<ATTRIBUTE>					m_Particles = {};
 	
 	DWORD	m_VBSize;
 	DWORD	m_VBOffset;
 	DWORD	m_VBBatchSize;
 	
 public:
-	static CParticle_System* Clone(void* pArg);
+	virtual CParticle_System* Clone(void* pArg) override;
 	void Free() override;
 };
 

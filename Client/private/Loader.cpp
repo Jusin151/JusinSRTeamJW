@@ -69,6 +69,9 @@ HRESULT CLoader::Loading()
 	case LEVEL_EDITOR:
 		hr = Loading_For_Editor();
 		break;
+	case LEVEL_TEST:
+		hr = Loading_For_Test();
+		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -204,6 +207,25 @@ HRESULT CLoader::Loading_For_Editor()
 	CJsonLoader jsonLoader;
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Editor.json")))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Test()
+{
+
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TEST, // 카메라 원형객체
+	//	TEXT("Prototype_GameObject_Camera_Free"),
+	//	CCamera_Free::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
+	CJsonLoader jsonLoader;
+	// JSON 로더를 사용하여 모든 프로토타입 로드
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

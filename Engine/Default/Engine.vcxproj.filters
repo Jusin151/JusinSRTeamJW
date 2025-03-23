@@ -145,9 +145,6 @@
     <ClInclude Include="..\public\Editor.h">
       <Filter>999. JsonManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Particle.h">
-      <Filter>04.Components\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Particle_System.h">
       <Filter>04.Components\Particle\System</Filter>
     </ClInclude>
@@ -161,7 +158,7 @@
     <ClInclude Include="..\public\Picking.h">
       <Filter>06.Picking</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Bounding_Box.h">
+    <ClInclude Include="..\public\BoundingBox.h">
       <Filter>04.Components\Particle\BoundingBox</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Bounding_Sphere.h">
@@ -172,6 +169,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Light.h">
       <Filter>04.Components\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Sphere.h">
+      <Filter>04.Components\VIBuffer\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Firework_Particle_System.h">
+      <Filter>04.Components\Particle\System\Firework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +337,12 @@
     <Filter Include="04.Components\Particle\BoundingSphere">
       <UniqueIdentifier>{b56d194f-22a9-406b-8804-3266e03d07b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\Sphere">
+      <UniqueIdentifier>{c73b601a-e2dd-4c44-8030-51ac34f88b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\Firework">
+      <UniqueIdentifier>{83e6c290-b3d7-4b05-a68c-186b1870d125}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -456,12 +465,6 @@
     <ClCompile Include="..\private\Editor.cpp">
       <Filter>999. JsonManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Particle.cpp">
-      <Filter>04.Components\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Bounding_Box.cpp">
-      <Filter>04.Components\Particle\BoundingBox</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Bounding_Sphere.cpp">
       <Filter>04.Components\Particle\BoundingSphere</Filter>
     </ClCompile>
@@ -471,9 +474,17 @@
     <ClCompile Include="..\Private\Particle_System.cpp">
       <Filter>04.Components\Particle\System</Filter>
     </ClCompile>
-   <ClCompile Include="ImGuizmo.cpp" />
     <ClCompile Include="..\private\Light.cpp">
       <Filter>04.Components\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo.cpp">
+      <Filter>External Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Sphere.cpp">
+      <Filter>04.Components\VIBuffer\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Firework_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Firework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

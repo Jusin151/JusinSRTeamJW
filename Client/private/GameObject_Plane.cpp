@@ -1,4 +1,5 @@
 ﻿#include "GameObject_Plane.h"
+#include "GameInstance.h"
 #include "Transform.h"
 #include "Texture.h"
 #include "VIBuffer_Rect.h"
@@ -40,6 +41,7 @@ void CGameObject_Plane::Update(_float fTimeDelta)
 
 void CGameObject_Plane::Late_Update(_float fTimeDelta)
 {
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CGameObject_Plane::Pre_Render()
@@ -125,4 +127,13 @@ CGameObject_Plane* CGameObject_Plane::Clone(void* pArg)
 void CGameObject_Plane::Free()
 {
     __super::Free();
+}
+
+json CGameObject_Plane::Serialize()
+{
+    return json();
+}
+
+void CGameObject_Plane::Deserialize(const json& j)
+{
 }

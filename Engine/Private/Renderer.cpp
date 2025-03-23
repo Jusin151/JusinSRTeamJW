@@ -1,5 +1,6 @@
 ﻿#include "Renderer.h"
 #include "GameObject.h"
+#include "Light.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -20,14 +21,28 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pRende
 	return S_OK;
 }
 
+HRESULT CRenderer::Add_Light(CLight* pLight)
+{
+	if (nullptr == pLight)
+		return E_FAIL;
+	m_Lights.push_back(pLight);
+	Safe_AddRef(pLight);
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw()
 {
+	/*if (FAILED(Enable_Lights()))
+		return E_FAIL;*/
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
 	if (FAILED(Render_NonBlend()))
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
+	/*if (FAILED(Disable_Lights()))
+		return E_FAIL;*/
 	if (FAILED(Render_Collider()))
 		return E_FAIL;
 	if (FAILED(Render_UI()))
@@ -35,6 +50,33 @@ HRESULT CRenderer::Draw()
 	
 	
 
+	return S_OK;
+}
+
+HRESULT CRenderer::Enable_Lights()
+{
+	int index = 0;
+	for (auto& pLight : m_Lights)
+	{
+		pLight->Bind_Resouce(index);
+		m_pGraphic_Device->LightEnable(index++, TRUE);
+	}
+ 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
+	return S_OK;
+}
+
+HRESULT CRenderer::Disable_Lights()
+{
+	int index = 0;
+	for (auto& pLight : m_Lights)
+	{
+		m_pGraphic_Device->LightEnable(index++, FALSE);
+		Safe_Release(pLight);
+	}
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_Lights.clear();
 	return S_OK;
 }
 
@@ -120,6 +162,12 @@ CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CRenderer::Free()
 {
 	__super::Free();
+
+	for (auto& pLight : m_Lights)
+	{
+		Safe_Release(pLight);
+	}
+	m_Lights.clear();
 
 	for (auto& ObjectList : m_RenderObjects)
 	{

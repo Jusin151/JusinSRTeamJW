@@ -14,6 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\default\Editor.vcxproj", "{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shader", "Shader", "{B8D4F3F1-5265-476E-B43D-5762688585BD}"
+	ProjectSection(SolutionItems) = preProject
+		Shader\VertexShader.hlsl = Shader\VertexShader.hlsl
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
