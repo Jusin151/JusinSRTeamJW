@@ -126,7 +126,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Flare"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Particle/flare.bmp"), 1))))
+			TEXT("../../Resources/Textures/Particle/flare_alpha.dds"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Cube_Base*/
@@ -228,6 +228,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Particle_System_Test"),
 		CGameObject_Particle_Test::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Particle_System_Firework"),
+		CGameObject_Particle_Firework::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 

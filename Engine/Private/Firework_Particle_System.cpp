@@ -90,10 +90,10 @@ HRESULT CFirework_Particle_System::Pre_Render()
 {
 	__super::Pre_Render();
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-	//// read, but don't write particles to z-buffer
+	// read, but don't write particles to z-buffer
 	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
 	return S_OK;

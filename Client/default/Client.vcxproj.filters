@@ -462,6 +462,9 @@
     <ClInclude Include="..\public\Particles.h">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GameObject_Particle_Firework.h">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -667,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Staff_Bullet.cpp">
       <Filter>02.GameObjects\07. Bullet\Staff_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Particle_Firework.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -65,7 +65,7 @@ HRESULT CParticle_System::Initialize(void* pArg)
 		D3DUSAGE_DYNAMIC | D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY,
 		D3DFVF_XYZ | D3DFVF_DIFFUSE,
 		D3DPOOL_DEFAULT,
-		&m_VB, 0);
+		&m_PointVB, 0);
 	return hr;
 }
 
@@ -133,14 +133,14 @@ HRESULT CParticle_System::Render()
 	if (!m_Particles.empty())
 	{
 		m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
-		m_pGraphic_Device->SetStreamSource(0, m_VB, 0, sizeof(PARTICLE));
+		m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
 
 		if (m_VBOffset >= m_VBSize)
 			m_VBOffset = 0;
 
 		PARTICLE* v = 0;
 
-		m_VB->Lock(
+		m_PointVB->Lock(
 			m_VBOffset * sizeof(PARTICLE),
 			m_VBBatchSize * sizeof(PARTICLE),
 			(void**)&v,
@@ -159,7 +159,7 @@ HRESULT CParticle_System::Render()
 
 				if (numParticlesInBatch == m_VBBatchSize)
 				{
-					m_VB->Unlock();
+					m_PointVB->Unlock();
 
 					m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_VBOffset, m_VBBatchSize);
 
@@ -167,7 +167,7 @@ HRESULT CParticle_System::Render()
 
 					if (m_VBOffset >= m_VBSize) m_VBOffset = 0;
 
-					m_VB->Lock(
+					m_PointVB->Lock(
 						m_VBOffset * sizeof(PARTICLE),
 						m_VBBatchSize * sizeof(PARTICLE),
 						(void**)&v,
@@ -179,7 +179,7 @@ HRESULT CParticle_System::Render()
 			i++;
 		}
 
-		m_VB->Unlock();
+		m_PointVB->Unlock();
 
 		if (numParticlesInBatch)
 		{
@@ -211,5 +211,5 @@ CParticle_System* CParticle_System::Clone(void* pArg)
 void CParticle_System::Free()
 {
 	__super::Free();
-	Safe_Release(m_VB);
+	Safe_Release(m_PointVB);
 }

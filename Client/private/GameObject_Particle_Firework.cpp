@@ -1,27 +1,27 @@
-﻿#include "GameObject_Particle_Test.h"
+﻿#include "GameObject_Particle_Firework.h"
 #include "Texture.h"
 #include "Transform.h"
 #include "VIBuffer_Rect.h"
 #include "GameInstance.h"
 #include "Particles.h"
 
-CGameObject_Particle_Test::CGameObject_Particle_Test(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGameObject_Particle_Firework::CGameObject_Particle_Firework(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
 }
 
-CGameObject_Particle_Test::CGameObject_Particle_Test(const CGameObject& Prototype)
+CGameObject_Particle_Firework::CGameObject_Particle_Firework(const CGameObject& Prototype)
     : CGameObject{ Prototype }
 {
 
 }
 
-HRESULT CGameObject_Particle_Test::Initialize_Prototype()
+HRESULT CGameObject_Particle_Firework::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CGameObject_Particle_Test::Initialize(void* pArg)
+HRESULT CGameObject_Particle_Firework::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -31,22 +31,22 @@ HRESULT CGameObject_Particle_Test::Initialize(void* pArg)
     return S_OK;
 }
 
-void CGameObject_Particle_Test::Priority_Update(_float fTimeDelta)
+void CGameObject_Particle_Firework::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CGameObject_Particle_Test::Update(_float fTimeDelta)
+void CGameObject_Particle_Firework::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
     m_pParticleCom->Update(fTimeDelta);
 }
 
-void CGameObject_Particle_Test::Late_Update(_float fTimeDelta)
+void CGameObject_Particle_Firework::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 }
 
-HRESULT CGameObject_Particle_Test::Pre_Render()
+HRESULT CGameObject_Particle_Firework::Pre_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
@@ -57,7 +57,7 @@ HRESULT CGameObject_Particle_Test::Pre_Render()
     return S_OK;
 }
 
-HRESULT CGameObject_Particle_Test::Render()
+HRESULT CGameObject_Particle_Firework::Render()
 {
     if(FAILED(m_pTextureCom->Bind_Resource(0)))
         return E_FAIL;
@@ -77,14 +77,14 @@ HRESULT CGameObject_Particle_Test::Render()
     return S_OK;
 }
 
-HRESULT CGameObject_Particle_Test::Post_Render()
+HRESULT CGameObject_Particle_Firework::Post_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
 }
 
-HRESULT CGameObject_Particle_Test::Ready_Components()
+HRESULT CGameObject_Particle_Firework::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -93,27 +93,27 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
-    CSnow_Particle_System::SNOWDESC     SnowDesc{};
-    SnowDesc.Bounding_Box.m_vMin = { -10, -10, -10};
-    SnowDesc.Bounding_Box.m_vMax = { 10, 10, 10};
-    SnowDesc.iNumParticles = 512;
-    SnowDesc.strShaderPath = L"VertexShader.hlsl";
-
-    /* For.Com_Particle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
-        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &SnowDesc)))
-        return E_FAIL;
-
-    //CFirework_Particle_System::FIREWORKDESC     FireworkDesc{};
-    //FireworkDesc.Bounding_Box.m_vMin = { -2, -2, -2 };
-    //FireworkDesc.Bounding_Box.m_vMax = { 2, 2, 2 };
-    //FireworkDesc.vOrigin = { 5.0f, 5.0f, 0.0f }; //m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-    //FireworkDesc.iNumParticles = 512;
+    //CSnow_Particle_System::SNOWDESC     SnowDesc{};
+    //SnowDesc.Bounding_Box.m_vMin = { -10, -10, -10};
+    //SnowDesc.Bounding_Box.m_vMax = { 10, 10, 10};
+    //SnowDesc.iNumParticles = 512;
+    //SnowDesc.strShaderPath = L"VertexShader.hlsl";
 
     ///* For.Com_Particle */
-    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
-    //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
+    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
+    //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &SnowDesc)))
     //    return E_FAIL;
+
+    CFirework_Particle_System::FIREWORKDESC     FireworkDesc{};
+    FireworkDesc.Bounding_Box.m_vMin = { -2, -2, -2 };
+    FireworkDesc.Bounding_Box.m_vMax = { 2, 2, 2 };
+    FireworkDesc.vOrigin = { 5.0f, 5.0f, 0.0f }; //m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    FireworkDesc.iNumParticles = 512;
+
+    /* For.Com_Particle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
+        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
+        return E_FAIL;
 
     /* For.Com_VIBuffer */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -121,7 +121,7 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Snow"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Flare"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;    
 
@@ -129,33 +129,33 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
 }
 
 
-CGameObject_Particle_Test* CGameObject_Particle_Test::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGameObject_Particle_Firework* CGameObject_Particle_Firework::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CGameObject_Particle_Test* pInstance = new CGameObject_Particle_Test(pGraphic_Device);
+    CGameObject_Particle_Firework* pInstance = new CGameObject_Particle_Firework(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CGameObject_Particle_Test");
+        MSG_BOX("Failed to Created : CGameObject_Particle_Firework");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject_Particle_Test* CGameObject_Particle_Test::Clone(void* pArg)
+CGameObject_Particle_Firework* CGameObject_Particle_Firework::Clone(void* pArg)
 {
-    CGameObject_Particle_Test* pInstance = new CGameObject_Particle_Test(*this);
+    CGameObject_Particle_Firework* pInstance = new CGameObject_Particle_Firework(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Created : CGameObject_Particle_Test");
+        MSG_BOX("Failed to Created : CGameObject_Particle_Firework");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CGameObject_Particle_Test::Free()
+void CGameObject_Particle_Firework::Free()
 {
     __super::Free();
     Safe_Release(m_pTextureCom);
@@ -164,7 +164,7 @@ void CGameObject_Particle_Test::Free()
     Safe_Release(m_pTransformCom);
 }
 
-json CGameObject_Particle_Test::Serialize()
+json CGameObject_Particle_Firework::Serialize()
 {
     json j = __super::Serialize();
     auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -176,7 +176,7 @@ json CGameObject_Particle_Test::Serialize()
     return j;
 }
 
-void CGameObject_Particle_Test::Deserialize(const json& j)
+void CGameObject_Particle_Firework::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }
