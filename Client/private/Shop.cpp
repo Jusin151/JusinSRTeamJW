@@ -45,11 +45,23 @@ void CShop::Update(_float fTimeDelta)
 {
     LookAtPlayer(fTimeDelta);
 
+
+
     m_pColliderCom->Update_Collider(TEXT("Com_Transform"));
 
     m_pGameInstance->Add_Collider(CG_SHOP, m_pColliderCom);
 
-    On_Collision();
+    if (SUCCEEDED(On_Collision()))
+    {
+        if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+        {
+            m_bIsOpen = true;
+        }
+    }
+    else
+    {
+        m_bIsOpen = false;
+    }
 }
 
 
@@ -64,7 +76,6 @@ void CShop::Late_Update(_float fTimeDelta)
 
 HRESULT CShop::Render()
 {
-
     // 상점이 열려있을 때만 렌더링
     if (m_bIsOpen)
     {
@@ -86,11 +97,32 @@ HRESULT CShop::Render()
 
 void CShop::LookAtPlayer(_float fTimeDelta)
 {
-    if (TEXT("Layer_Player") != m_pPlayer->Get_Tag())
+    if (!m_pPlayer)
         return;
 
-    m_pTransformCom->LookAt(static_cast<CPlayer*>(m_pPlayer)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+    CTransform* pPlayerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
+    // 플레이어의 look 벡터 가져오기 (플레이어가 바라보는 방향)
+    _float3 vPlayerLook = pPlayerTransform->Get_State(CTransform::STATE_LOOK);
+
+    vPlayerLook.y = 0.0f;
+    vPlayerLook.Normalize();
+
+    _float3 vShopLook = -vPlayerLook;  // 벡터 방향 반전
+
+    // 직교 기저를 계산하여 트랜스폼 설정
+    _float3 vUp = _float3(0.0f, 1.0f, 0.0f);  // 월드 업 벡터
+    _float3 vRight = vUp.Cross(vShopLook);
+    vRight.Normalize();
+
+    // 직교 기저를 보장하기 위해 업 벡터 재계산
+    _float3 vNewUp = vShopLook.Cross(vRight);
+    vNewUp.Normalize();
+
+    // 상점의 회전 행렬 설정
+    m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+    m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
+    m_pTransformCom->Set_State(CTransform::STATE_LOOK, vShopLook);
 }
 
 
@@ -105,19 +137,21 @@ HRESULT CShop::On_Collision()
     _float3 vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
     _float3 vShopPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-    _float3 asd = vPlayerPos - vShopPos;
+    /*_float3 asd = vPlayerPos - vShopPos;
 
-    float fDistanceSq = asd.LengthSq();
+    float fDistanceSq = asd.LengthSq();*/
 
     // 플레이어와 상점 사이 거리가 25 이하 (즉, 5 단위 이하)일 때만 충돌로 간주
-    const float fThresholdSq = 25.0f; // 5^2
-
-    if (fDistanceSq <= fThresholdSq)
+    const float fThresholdSq = 3.f; // 5^2
+    _float tmpDist = _float3::Distance(vPlayerPos, vShopPos);
+     if (tmpDist <= fThresholdSq)
     {
+         return S_OK;
       
-     bPlayer_Check = true;
-     Open_Shop(); 
+   /* bPlayer_Check = true;
+     m_bIsOpen = true;*/
     }
+   
 
     
 //switch (m_pColliderCom->Get_Other_Type())
@@ -139,7 +173,7 @@ HRESULT CShop::On_Collision()
 
     m_pColliderCom->Set_Other_Type(CG_END);
 
-    return S_OK;
+    return E_FAIL;
 }
 
 
