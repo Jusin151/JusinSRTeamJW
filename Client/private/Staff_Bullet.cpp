@@ -29,8 +29,19 @@ HRESULT CStaff_Bullet::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	m_Player_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Player_RIght = m_Player_Transform->Get_State(CTransform::STATE_RIGHT);
+	Player_Up = m_Player_Transform->Get_State(CTransform::STATE_UP);
+	Player_Look = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
+	Player_Pos = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.5f, 0.f));
+
+	Player_Pos.y -= 0.5f;
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, Player_RIght);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, Player_Up);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, Player_Look);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Player_Pos);
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 
 	
@@ -45,17 +56,24 @@ void CStaff_Bullet::Priority_Update(_float fTimeDelta)
 
 void CStaff_Bullet::Update(_float fTimeDelta)
 {
-	// 탄환이 앞으로 나가도록 위치 업데이트
+	
 	m_pTransformCom->Go_Straight(fTimeDelta * m_fSpeed);
 
-	// 애니메이션 프레임 업데이트
 	m_fElapsedTime += fTimeDelta;
-	if (m_fElapsedTime >= 0.1f) // 프레임당 0.1초
+	if (m_fElapsedTime >= 0.05f) 
 	{
 		m_fElapsedTime = 0.0f;
-		m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // 0부터 6까지 반복
+		if (m_iCurrentFrame < 6) 
+		{
+			m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // 팀장님이 알려준
+		}
+		else
+		{
+			m_iCurrentFrame = 6;
+		}
 	}
 }
+
 
 
 void CStaff_Bullet::Late_Update(_float fTimeDelta)

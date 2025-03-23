@@ -40,7 +40,7 @@ HRESULT CUI_MP_Bar::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fMp = 50.f;
+	m_iMp = 50;
 	m_pTransformCom->Set_Scale(m_MP_INFO.vSize.x, m_MP_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_MP_INFO.vPos.x, m_MP_INFO.vPos.y, 0.f));
@@ -53,15 +53,7 @@ void CUI_MP_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_MP_Bar::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState('9') & 0x8000)
-	{
-		m_fMp -= 1.f;
-		if (m_fMp < 0.f)
-			m_fMp = 0.f; // 최소 마나 제한
-
-
-	   Update_Mp_Bar();
-	}
+	
 }
 
 void CUI_MP_Bar::Late_Update(_float fTimeDelta)
@@ -71,7 +63,7 @@ void CUI_MP_Bar::Late_Update(_float fTimeDelta)
 }
 void CUI_MP_Bar::Update_Mp_Bar()
 {
-	_float fHP_Ratio = m_fMp / 50.f;
+	_float fHP_Ratio = m_iMp / 50.f;
 
 	if (fHP_Ratio < 0.f)
 		fHP_Ratio = 0.f;
@@ -97,7 +89,14 @@ void CUI_MP_Bar::Update_Mp_Bar()
 
 HRESULT CUI_MP_Bar::Render()
 {
-	return __super::Render();
+	
+
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+
+	 m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iMp), _float2(-547.f, 298.0f), _float2(10.f, 20.f), _float3(1.f, 1.f, 1.f));
+
+	 return S_OK;
 }
 
 HRESULT CUI_MP_Bar::Ready_Components()
@@ -124,7 +123,7 @@ CUI_MP_Bar* CUI_MP_Bar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("깂빟 UI 썝蹂 깮꽦 떎뙣 ");
+		MSG_BOX("Mana UI,can't Create ");
 		Safe_Release(pInstance);
 	}
 
@@ -138,7 +137,7 @@ CGameObject* CUI_MP_Bar::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("깂빟 UI 蹂듭젣 떎뙣");
+		MSG_BOX("Mana UI ,Can't Clone");
 		Safe_Release(pInstace);
 	}
 

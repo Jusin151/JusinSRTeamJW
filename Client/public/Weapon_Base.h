@@ -54,7 +54,7 @@ public:
     virtual HRESULT Ready_Components();
     virtual  void Free();
     virtual void Attack(_float fTimeDelta)PURE;
-
+    virtual void Move_Hand(_float fTimeDelta);
 protected:
     CTexture* m_pTextureCom = {};
     CVIBuffer_Rect* m_pVIBufferCom = {};
@@ -82,6 +82,11 @@ protected:
     _float m_fElapsedTime = 0.0f;
     _int m_iCurrentFrame = 0;
     const _float m_fFrameDuration = 2.0f;
+protected:
+    _float t = {}; //
+    _float speed = { 0.1f }; //
+    _float2 m_vInitialPos = {};
+
 
 };
 END

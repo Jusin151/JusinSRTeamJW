@@ -14,6 +14,7 @@
 #include"Item_Icon.h"
 #include "Weapon_Effect.h"
 #include "Staff_Bullet.h"
+#include "PointShop.h"
 
 
 
@@ -175,6 +176,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
 		TEXT("Prototype_GameObject_Staff_Bullet"),
 		CStaff_Bullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_Point_Shop"),
+		CPointShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

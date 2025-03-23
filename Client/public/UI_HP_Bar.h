@@ -43,10 +43,19 @@ public:
 	virtual void Free();
 public:
 	HP_STATE Get_HpState() { return m_eHp_State; }
-	void Set_Health(_float fHealth) { m_fHealth = fHealth; }
-	_float Get_Health() { return m_fHealth; }
+	void Set_Damage(_int Damage) 
+	{ 
+		
+		m_iHealth -= Damage;
+			if (m_iHealth < 0 || m_iHealth > 100)
+				m_iHealth = 0; // 최소 체력 제한
+
+			Update_HP_Bar();
+		
+	}
+	_uint Get_Health() { return m_iHealth; }
 private:
-	_float m_fHealth{};
+	_uint m_iHealth{};
 	HP_STATE m_eHp_State{};
 
 };

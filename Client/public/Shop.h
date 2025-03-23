@@ -18,11 +18,11 @@ protected:
 	virtual ~CShop() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype()override;
-	virtual HRESULT Initialize(void* pArg)override;
-	virtual void Priority_Update(_float fTimeDelta)override;
-	virtual void Update(_float fTimeDelta)override;
-	virtual void Late_Update(_float fTimeDelta)override;
+	virtual HRESULT Initialize_Prototype()PURE;
+	virtual HRESULT Initialize(void* pArg)PURE;
+	virtual void Priority_Update(_float fTimeDelta)PURE;
+	virtual void Update(_float fTimeDelta)PURE;
+	virtual void Late_Update(_float fTimeDelta)PURE;
 	virtual HRESULT Render()override;
 
 	// 상점 공통 기능
@@ -33,6 +33,8 @@ public:
 
 	virtual void Refresh_Shop_Items() = 0;  // 상점 아이템 새로고침
 	virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) = 0;  // 구매 가능 여부 확인
+
+	virtual void LookAtPlayer(_float fTimeDelta);
 
 
 	HRESULT On_Collision();
@@ -50,6 +52,9 @@ protected:
 
 	// 상점별로 다를 수 있는 아이템 초기화 함수
 	virtual HRESULT Ready_ShopItems() = 0;
+
+	CGameObject* m_pPlayer = { nullptr }; // 상점이 늘 플레이어를 쳐다보게 하기 위해서 선언
+	_bool bPlayer_Check = {};
 public:
 	////static CShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device); 자식에서 구현
 	//virtual CGameObject* Clone(void* pArg) override;
