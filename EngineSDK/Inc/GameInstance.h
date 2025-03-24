@@ -22,6 +22,8 @@ public:
 	void Update_Engine(_float fTimeDelta);
 	HRESULT Draw();	
 	void Clear(_uint iLevelIndex);
+	_float Compute_Random_Normal();
+	_float Compute_Random(_float fMin, _float fMax);
 
 #pragma region LEVEL_MANAGER
 public:
@@ -49,7 +51,9 @@ public:
 #pragma endregion
 
 #pragma region PICKING
-	_bool Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC);
+	void Transform_Picking_ToLocalSpace(const _float4x4& WorldMatrixInverse);
+	_bool Picking_InWorld(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC);
+	_bool Picking_InLocal(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC);
 #pragma endregion
 
 private:
