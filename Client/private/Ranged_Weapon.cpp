@@ -80,7 +80,7 @@ HRESULT CRanged_Weapon::Ready_Picking()
 	return S_OK;
 }
 
-HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공부점..
+HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우지마셈.. 공부점..
 {
     //  매 프레임마다 마우스/레이 갱신
     m_pPickingSys->Update();
@@ -201,27 +201,41 @@ HRESULT CRanged_Weapon::Picking_Object() // 요거 주석 지우지마셈.. 공�
                 Weapon_Effect.vLook = vWallLook;  
                 Weapon_Effect.vScale = { 0.5f, 0.5f, 0.5f };
 
-                if (FAILED(m_pGameInstance->Add_GameObject(
-                    LEVEL_GAMEPLAY,
-                    TEXT("Prototype_GameObject_Weapon_Effect"),
-                    LEVEL_GAMEPLAY,
-                    TEXT("Layer_Weapon_Effect"),
-                    &Weapon_Effect)))
+          
+                for (int i = 0; i < EffectNum; ++i)
                 {
-                    return E_FAIL;
-                }         
+                   
+                    float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4;
+                    float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4;
+                    _float3 vRandomEffectPos = vEffectPos;
+                    vRandomEffectPos.x += offsetX;
+                    vRandomEffectPos.y += offsetY;
+
+                    Weapon_Effect.vPos = vRandomEffectPos;
+
+                    if (FAILED(m_pGameInstance->Add_GameObject(
+                        LEVEL_GAMEPLAY,
+                        TEXT("Prototype_GameObject_Weapon_Effect"),
+                        LEVEL_GAMEPLAY,
+                        TEXT("Layer_Weapon_Effect"),
+                        &Weapon_Effect)))
+                    {
+                        return E_FAIL;
+                    }
+                }
                 m_bWall = true;
+
             }
             else
             {
-                // 다른 태그(예: 몬스터)라면
+                // 몬스터라면
                 if (collider->Get_Owner()->Get_Tag() == L"Layer_Crocman")
                     m_bMonster = true;
                 else
                     m_bMonster = false;
             }
 
-            // 4) 1개만 처리하고 break 할지, 계속 처리할지 결정
+            //1개만 처리하고 break 할지, 계속 처리할지 결정
             break;
         }
     }

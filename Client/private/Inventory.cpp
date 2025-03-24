@@ -158,13 +158,13 @@ void CInventory::Equip(_float fTimeDelta)
 		bInputReceived = true;
 	}
 
-	/*if (GetAsyncKeyState('7') & 0x8000)
+	if (GetAsyncKeyState('7') & 0x8000)
 	{
 		CItem_Manager::GetInstance()->Weapon_Equip(L"Harvester");
 		bInputReceived = true;
 	}
 
-	if (GetAsyncKeyState('8') & 0x8000)
+	/*if (GetAsyncKeyState('8') & 0x8000)
 	{
 		CItem_Manager::GetInstance()->Weapon_Equip(L"Sonic");
 		bInputReceived = true;

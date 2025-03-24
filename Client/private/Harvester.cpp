@@ -63,7 +63,7 @@ void CHarvester::Priority_Update(_float fTimeDelta)
 
 void CHarvester::Update(_float fTimeDelta)
 {
-	__super::Picking_Object();
+	__super::Picking_Object(8);
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
@@ -157,10 +157,10 @@ HRESULT CHarvester::Render()
 {
 
 
-	if (m_bWall)
-		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
-	if (m_bMonster)
-		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+	//if (m_bWall)
+	//	m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+	//if (m_bMonster)
+	//	m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
 
 
 	D3DXMATRIX matOldView, matOldProj;
