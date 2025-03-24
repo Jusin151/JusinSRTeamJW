@@ -22,10 +22,10 @@ HRESULT CEffect::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	/*m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_pGameInstance->Compute_Random(0.f, 10.f), 
 			0.0f , 
-			m_pGameInstance->Compute_Random(0.f, 10.f)));
+			m_pGameInstance->Compute_Random(0.f, 10.f)));*/
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 	//	_float3(rand() % 10,
