@@ -143,7 +143,7 @@ HRESULT CPointShop::Open_Shop()
     Refresh_Shop_Items();
 
     return S_OK;
-}
+}//뭘봐 ㅋ
 
 HRESULT CPointShop::Close_Shop()
 {
