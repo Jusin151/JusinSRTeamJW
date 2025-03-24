@@ -1,47 +1,39 @@
-﻿#include "UI_Mid_Display.h"
+﻿#include "Exp_Bar.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-CUI_Mid_Display::CUI_Mid_Display(LPDIRECT3DDEVICE9 pGraphic_Device)
+CExp_Bar::CExp_Bar(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
 }
 
-CUI_Mid_Display::CUI_Mid_Display(const CUI_Mid_Display& Prototype)
+CExp_Bar::CExp_Bar(const CExp_Bar& Prototype)
 	: CUI_Base(Prototype),
 	m_EXP_INFO{ Prototype.m_EXP_INFO }
 {
 }
 
-HRESULT CUI_Mid_Display::Initialize_Prototype()
+HRESULT CExp_Bar::Initialize_Prototype()
 {
-	
-
 
 	return S_OK;
 }
 
-HRESULT CUI_Mid_Display::Initialize(void* pArg)
+HRESULT CExp_Bar::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
-
 		return E_FAIL;
-
 	if (pArg != nullptr)
-	{
-		m_EXP_INFO = *reinterpret_cast<UI_Child_Desc*>(pArg);
-		
-
+	{	
 			m_EXP_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
 			Set_Position(m_EXP_INFO.vPos);
 			Set_Size(m_EXP_INFO.vSize);
-			CUI_Manager::GetInstance()->AddUI(L"Mid_Panel", this);
-			iCurrent_Image = 0;
+			CUI_Manager::GetInstance()->AddUI(L"Exp_Black_Bar", this);	
 	}
 	else
 		return E_FAIL;
 
-
+	m_fExp = 100.f;
 
 
 	m_pTransformCom->Set_Scale(m_EXP_INFO.vSize.x, m_EXP_INFO.vSize.y, 1.f);
@@ -50,29 +42,29 @@ HRESULT CUI_Mid_Display::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_Mid_Display::Priority_Update(_float fTimeDelta)
+void CExp_Bar::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_Mid_Display::Update(_float fTimeDelta)
+void CExp_Bar::Update(_float fTimeDelta)
+{
+		
+}
+
+void CExp_Bar::Update_Exp_Bar()
 {
 	
 }
 
-void CUI_Mid_Display::Update_Exp_Bar()
-{
-	
-}
-
-void CUI_Mid_Display::Late_Update(_float fTimeDelta)
+void CExp_Bar::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CUI_Mid_Display::Render()
+HRESULT CExp_Bar::Render()
 {
-	
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -92,7 +84,7 @@ HRESULT CUI_Mid_Display::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(iCurrent_Image)))
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -107,18 +99,17 @@ HRESULT CUI_Mid_Display::Render()
 	return S_OK;
 }
 
-HRESULT CUI_Mid_Display::Ready_Components()
+HRESULT CExp_Bar::Ready_Components()
 {
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Mid_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Exp_Bar"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
- 		return E_FAIL;
-
-
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
-	
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_EXP"),
+			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+			return E_FAIL;
+
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -128,9 +119,9 @@ HRESULT CUI_Mid_Display::Ready_Components()
 	return S_OK;
 }
 
-CUI_Mid_Display* CUI_Mid_Display::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CExp_Bar* CExp_Bar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_Mid_Display* pInstance = new CUI_Mid_Display(pGraphic_Device);
+	CExp_Bar* pInstance = new CExp_Bar(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -142,9 +133,9 @@ CUI_Mid_Display* CUI_Mid_Display::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CUI_Mid_Display::Clone(void* pArg)
+CGameObject* CExp_Bar::Clone(void* pArg)
 {
-	CUI_Mid_Display* pInstace = new CUI_Mid_Display(*this);
+	CExp_Bar* pInstace = new CExp_Bar(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
@@ -155,7 +146,7 @@ CGameObject* CUI_Mid_Display::Clone(void* pArg)
 	return pInstace;
 }
 
-void CUI_Mid_Display::Free()
+void CExp_Bar::Free()
 {
 	__super::Free();
 

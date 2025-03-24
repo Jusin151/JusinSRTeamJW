@@ -97,21 +97,30 @@ public:
 
     void Set_HP(_uint Damage)
     {
+        CUI_Base* pHp_UI = GetUI(L"Hp_Bar");
+        CUI_Base* pPlayer_Icon = GetUI(L"Player_Icon");
+        static_cast<CUI_HP_Bar*>(pHp_UI)->Set_Damage(Damage);
+        static_cast<CUI_Player_Icon*>(pPlayer_Icon)->Set_Hp_Event();
+
+    }
+    _uint Get_Hp()
+    {
         CUI_Base* pUI = GetUI(L"Hp_Bar");
-       
-        dynamic_cast<CUI_HP_Bar*>(pUI)->Set_Damage(Damage);  
+
+        return static_cast<CUI_HP_Bar*>(pUI)->Get_Health();
     }
     void Set_MP(_uint type)
     {
         CUI_Base* pUI = GetUI(L"MP_Bar");
 
-        dynamic_cast<CUI_MP_Bar*>(pUI)->Set_MP(type);
+        static_cast<CUI_MP_Bar*>(pUI)->Set_MP(type);
     }
+
     void Set_Bullet(_uint type)
     {
         CUI_Base* pUI = GetUI(L"Bullet_Bar");
 
-        dynamic_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
+        static_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
     }
 
 

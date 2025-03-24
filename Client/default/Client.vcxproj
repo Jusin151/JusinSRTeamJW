@@ -167,6 +167,7 @@
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\Public\Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
+    <ClCompile Include="..\Private\Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\Private\Effect_Base.cpp" />

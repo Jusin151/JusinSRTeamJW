@@ -109,15 +109,6 @@
     <Filter Include="02.GameObjects\97. UI\03.Loading">
       <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\99. Button">
-      <UniqueIdentifier>{73274f6f-b41f-4990-b6ff-c4914cad5197}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\99. Button\Logo_Button">
-      <UniqueIdentifier>{d3cf93ef-aaf9-4523-8f17-2af6ed80d2fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\99. Button\GamePlay">
-      <UniqueIdentifier>{3a797ae8-32eb-4d17-9b9d-8c6e82a13066}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\97. UI\04.Shop">
       <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
     </Filter>
@@ -250,6 +241,18 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\Harpoon">
       <UniqueIdentifier>{ef6b5376-937b-4951-bcaf-f838c26f9b2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\20. Button">
+      <UniqueIdentifier>{73274f6f-b41f-4990-b6ff-c4914cad5197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\20. Button\Logo_Button">
+      <UniqueIdentifier>{d3cf93ef-aaf9-4523-8f17-2af6ed80d2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\20. Button\GamePlay">
+      <UniqueIdentifier>{3a797ae8-32eb-4d17-9b9d-8c6e82a13066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar">
+      <UniqueIdentifier>{460ac096-fb49-4033-97f0-46923468ccad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -349,10 +352,10 @@
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Logo_Button.h">
-      <Filter>02.GameObjects\97. UI\99. Button\Logo_Button</Filter>
+      <Filter>02.GameObjects\20. Button\Logo_Button</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GamePlay_Button.h">
-      <Filter>02.GameObjects\97. UI\99. Button\GamePlay</Filter>
+      <Filter>02.GameObjects\20. Button\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Structs.h">
       <Filter>97. Hong_Headers</Filter>
@@ -489,6 +492,9 @@
     <ClInclude Include="..\public\Harpoon.h">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Exp_Bar.h">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -571,10 +577,10 @@
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Logo_Button.cpp">
-      <Filter>02.GameObjects\97. UI\99. Button\Logo_Button</Filter>
+      <Filter>02.GameObjects\20. Button\Logo_Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GamePlay_Button.cpp">
-      <Filter>02.GameObjects\97. UI\99. Button\GamePlay</Filter>
+      <Filter>02.GameObjects\20. Button\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp">
       <Filter>02.GameObjects\99. Camera\FirstPerson</Filter>
@@ -706,6 +712,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Harpoon.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Exp_Bar.cpp">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
