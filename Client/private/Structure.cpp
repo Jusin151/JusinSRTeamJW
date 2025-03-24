@@ -15,6 +15,8 @@ CStructure::CStructure(const CStructure& Prototype)
 
 HRESULT CStructure::Initialize_Prototype()
 {
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 	return S_OK;
 }
 
@@ -79,27 +81,67 @@ HRESULT CStructure::On_Collision(_float fTimeDelta)
 
 HRESULT CStructure::SetUp_RenderState()
 {
+	// 현재 샘플러 상태 값을 저장하여 렌더링 후 복원할 수 있도록 함
+	m_pGraphic_Device->GetSamplerState(0, D3DSAMP_ADDRESSU, &originalAddressU);
+	m_pGraphic_Device->GetSamplerState(0, D3DSAMP_ADDRESSV, &originalAddressV);
+
+	// 텍스처 좌표가 0-1 범위를 벗어날 때 반복되도록 샘플러 상태 설정
+	// D3DTADDRESS_WRAP: UV 좌표가 1을 초과하면 다시 0부터 시작 (텍스처 반복)
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
+	// 텍스처 행렬 설정 - 객체의 크기에 맞게 텍스처를 변환
+	D3DXMATRIX matTexture;
+
+	// 현재 객체의 스케일 값을 가져옴
+	// 이 값은 텍스처가 객체에 얼마나 반복될지를 결정
+	_float3 scale = m_pTransformCom->Compute_Scaled();
+
+	// 스케일 값으로 텍스처 변환 행렬 생성
+	// scale.x > 1: X축으로 텍스처가 여러 번 반복됨
+	// scale.y > 1: Y축으로 텍스처가 여러 번 반복됨
+	// scale.x 또는 y < 1: 텍스처의 일부만 표시됨
+	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
+
+	// 생성된 텍스처 변환 행렬을 첫 번째 텍스처 스테이지에 적용
+	m_pGraphic_Device->SetTransform(D3DTS_TEXTURE0, &matTexture);
+
+	// 텍스처 변환을 활성화 (2D 텍스처 좌표에 대해)
+	// D3DTTFF_COUNT2: u, v 두 좌표에 대해 변환 적용 (2D)
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
+
+	// 추가적인 렌더 상태 설정
+
+	// 컬링 비활성화 - 모든 면(앞면, 뒷면)이 렌더링됨
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
 
+	// 알파 테스트 활성화 - 투명도가 있는 텍스처 처리를 위함
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	/*m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);*/
+	// 알파 참조값 설정 - 이 값보다 큰 알파값을 가진 픽셀만 렌더링
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	// 알파 비교 함수 설정 - 픽셀의 알파값이 참조값보다 크면 렌더링
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	return S_OK;
 }
 
 HRESULT CStructure::Release_RenderState()
 {
+	// 기본 컬링 모드로 복원 (반시계 방향 면만 렌더링 - 일반적인 앞면)
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	// 알파 테스트 비활성화
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	// 텍스처 변환 비활성화 - 다른 객체 렌더링에 영향을 주지 않도록 함
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
+
+	// 원래 샘플러 상태로 복원
+	// 렌더링 시작 전에 저장해둔 원래 값을 사용
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, originalAddressU);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, originalAddressV);
 
 	return S_OK;
 }

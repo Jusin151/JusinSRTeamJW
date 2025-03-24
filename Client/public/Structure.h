@@ -50,7 +50,7 @@ private:
 	_wstring m_strVIBuffer;
 	_wstring m_strCollProtoTag;
 	_wstring m_strTextureTag;
-
+	DWORD originalAddressU, originalAddressV;
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
