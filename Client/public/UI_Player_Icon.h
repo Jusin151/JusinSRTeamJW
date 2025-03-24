@@ -38,22 +38,23 @@ private:
 private:
 	HRESULT Ready_Components();
 	void Update_Animation(_float fTimeDelta);
-
 	void Update_Hit_Animation(_float fTimeDelta);
 
 public:
 	static CUI_Player_Icon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+public: //UI 매니저 호출용
+	void Set_Hp_Event();
 private:
 	_float m_fElapsedTime = 0.0f; 
 	_int m_iCurrentFrame = 0; 
-	const _float m_fFrameDuration = 2.0f;  // ������ �ð� 
-	const _int m_iFrameCount = 4; // �� ������ �� (0���� 3����)
+	const _float m_fFrameDuration = 2.0f;  
+	const _int m_iFrameCount = 4; 
 private:
-	bool m_bIsHit = {}; // �ǰ� ����!
+	bool m_bIsHit = {}; // 
 	_float m_fHitElapsedTime = 0.0f; 
-	const _float m_fHitDuration = 1.0f; // �ǰ� �̹��� ���� �ð�
+	const _float m_fHitDuration = 1.0f; 
 
 private:
 	_float m_fHealth{100.f};

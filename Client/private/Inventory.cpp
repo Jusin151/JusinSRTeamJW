@@ -164,10 +164,16 @@ void CInventory::Equip(_float fTimeDelta)
 		bInputReceived = true;
 	}
 
-	if (GetAsyncKeyState('8') & 0x8000)
+	/*if (GetAsyncKeyState('8') & 0x8000)
 	{
 		CItem_Manager::GetInstance()->Weapon_Equip(L"Sonic");
 		bInputReceived = true;
+	}*/
+
+	if (GetAsyncKeyState('Q') & 0x8000)
+	{
+		CItem_Manager::GetInstance()->All_Weapon_Off();
+		
 	}
 
 

@@ -39,7 +39,13 @@
     {
       "tag": "Prototype_Component_Texture_Mid_Panel",
       "level": 3,
-      "path": "../../Resources/Textures/UI/Middle/SR_EXP_Bar.png",
+      "path": "../../Resources/Textures/UI/Middle/SR_EXP_Bar%d.png",
+      "count": 1
+    },
+    {
+      "tag": "Prototype_Component_Texture_Exp_Bar",
+      "level": 3,
+      "path": "../../Resources/Textures/UI/Middle/SR_EXP_BlackBar%d.png",
       "count": 1
     },
     {

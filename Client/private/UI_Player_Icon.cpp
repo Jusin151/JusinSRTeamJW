@@ -44,8 +44,7 @@ HRESULT CUI_Player_Icon::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
-	m_fHealth = 100.f;
-
+	 
 	m_PlayerICon_pTransformCom->Set_Scale(m_PlayerICon_INFO.vSize.x, m_PlayerICon_INFO.vSize.y, 1.f);
 	m_PlayerICon_pTransformCom->Set_State(CTransform::STATE_POSITION,
 	_float3(m_PlayerICon_INFO.vPos.x, m_PlayerICon_INFO.vPos.y, 0.f));
@@ -60,19 +59,17 @@ void CUI_Player_Icon::Priority_Update(_float fTimeDelta)
 	
 
 }
+void CUI_Player_Icon::Set_Hp_Event()
+{
+	m_bIsHit = true;
+	m_fHitElapsedTime = 0.0f;
+}
 
 void CUI_Player_Icon::Update(_float fTimeDelta)
 {
-	if (GetKeyState('8') & 0x8000)
-	{
-		m_fHealth -= 1.f;
-		if (m_fHealth < 0.f)
-			m_fHealth = 0.f;
-		m_bIsHit = true;           
-		m_fHitElapsedTime = 0.0f;    
-	}
+	m_fHealth = CUI_Manager::GetInstance()->Get_Hp();
 
-	
+
 	if (m_bIsHit)
 		Update_Hit_Animation(fTimeDelta);
 	else
@@ -83,7 +80,7 @@ void CUI_Player_Icon::Update(_float fTimeDelta)
 void CUI_Player_Icon::Update_Animation(_float fTimeDelta)
 {
 	int defaultStart = 0, defaultCount = 4;
-	if (m_fHealth >= 70)
+ 	if (m_fHealth >= 70)
 	{
 		defaultStart = 0;    // 0~3
 		defaultCount = 4;

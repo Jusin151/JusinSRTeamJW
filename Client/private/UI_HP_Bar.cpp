@@ -36,6 +36,7 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 		Set_Position(m_HP_Bar_INFO.vPos);
 		Set_Size(m_HP_Bar_INFO.vSize);
 		CUI_Manager::GetInstance()->AddUI(L"Hp_Bar", this);
+
 	}
 	else
 		return E_FAIL;
@@ -114,7 +115,7 @@ HRESULT CUI_HP_Bar::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(iCurrent_Image)))
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
