@@ -150,8 +150,7 @@ void CHarvester::Attack(_float fTimeDelta)
 void CHarvester::Late_Update(_float fTimeDelta)
 {
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-		return;
+	__super::Late_Update(fTimeDelta);;
 }
 
 HRESULT CHarvester::Render()

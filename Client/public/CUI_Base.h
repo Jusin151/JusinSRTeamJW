@@ -31,6 +31,7 @@ public:
         _float2 vPos;
         _float2 vSize;
         _float fAlpha;
+        _bool bFlag={false};
     }UI_Child_Desc;
 
     typedef struct tagBackGround
@@ -96,6 +97,7 @@ protected:
     CVIBuffer_Rect* m_pVIBufferCom = nullptr;
     CTransform* m_pTransformCom = nullptr;
 
+
 public:   
     void Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
     _float2 Get_Position() const { return m_vPos; }
@@ -114,10 +116,13 @@ protected:
         _float2 m_vPos = {};  // UI 화면 좌표
         _float2 m_vSize = {};  // UI 크기
         _float  m_fAlpha = {};        // 투명도?
-
+        _uint iCurrent_Image{};
+        
         bool m_bIsMouseOver = {};
         bool m_bIsMouseClick = {};
-    
+protected:
+        // 상태별 시작 인덱스 관리  텍스쳐컴객체
+     map<string, pair<int, int>> m_TextureRanges{};
 };
 
 END
