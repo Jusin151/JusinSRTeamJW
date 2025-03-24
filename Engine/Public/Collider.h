@@ -81,6 +81,10 @@ public:
 
 	void Set_MTV(_float3 fMTV) { m_fMTV = fMTV; }
 
+	_float Get_Depth() { return m_fDepth; }
+	// mtv의 길이 저장해놓음
+	void Set_Depth(_float fDepth) { m_fDepth = fDepth; }
+
 	_float3 Get_Scale() { return m_fScale; }
 	void Set_Scale(_float3 fScale) { m_fScale = fScale; }
 

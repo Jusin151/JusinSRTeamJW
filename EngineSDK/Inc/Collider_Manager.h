@@ -30,6 +30,9 @@ public:
 
 	// enum으로 원하는 타입만 충돌 처리 하도록
 	void Update_Collison();
+	
+	// 벽 충돌할거 먼저 충돌 처리
+	void Update_Collision_Structure();
 
 	// 거리로만
 	void Collison_Sphere_To_Sphere( list<CCollider*> src, list<CCollider*> dst);
@@ -50,12 +53,17 @@ public:
 
 	// 각 기본 축으로 먼저 내적하면서 확인
 	_bool Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst);
+
+
 	
 	// 추가 계산이 필요하면 이제 외적해서 축을 추가로 구하기
 	void Calc_Cross_Axes(CCollider* src, CCollider* dst);
 
 	// 추가한 축으로 내적 계산해서 값 비교
-	bool Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst);
+	_bool Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst);
+
+	// aabb 구현, 벽 충돌에서만 사용
+	_bool Calc_AABB(CCollider* src, CCollider* dst);
 
 private:
 

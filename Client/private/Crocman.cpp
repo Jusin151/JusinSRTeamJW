@@ -127,9 +127,10 @@ HRESULT CCrocman::On_Collision(_float fTimeDelta)
 	if (m_pColliderCom->Get_Other_Type() == CG_END)
 		return S_OK;
 
-	_float3 fMTV = m_pColliderCom->Get_MTV();
+	
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 temp = { 1.f, 0.f, 1.f };
+	_float3 vMtv = m_pColliderCom->Get_MTV();
+	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
 	switch (m_pColliderCom->Get_Other_Type())
 	{
@@ -143,12 +144,15 @@ HRESULT CCrocman::On_Collision(_float fTimeDelta)
 
 	case CG_WEAPON:
 
-		temp += fPos;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
+		
 
 		m_eCurState = MS_DEATH;
 
+		break;
+
+	case CG_STRUCTURE_WALL:
+		fPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		break;
 	default:
 		break;
@@ -189,7 +193,7 @@ void CCrocman::Chasing(_float fTimeDelta)
 	else if (m_eCurState != MS_WALK)
 		m_eCurState = MS_WALK;
 
-	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.25f);
+	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.15f);
 }
 
 void CCrocman::Attack_Melee(_float fTimeDelta)

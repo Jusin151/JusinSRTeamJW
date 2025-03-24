@@ -50,9 +50,9 @@ HRESULT CPlayer::Initialize(void* pArg)
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-8.3f, 1.f, 8.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-8.3f, 1.0f, 8.f));
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
+	//m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -81,6 +81,9 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	
+		
+
 	Move(fTimeDelta); 
 
 	Inven_Update(fTimeDelta);
@@ -128,8 +131,10 @@ HRESULT CPlayer::Render()
 HRESULT CPlayer::On_Collision()
 {
 	
-	_float3 temp = { 0.f,0.f, -5.f };
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float3 vMtv = m_pColliderCom->Get_MTV();
+	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
@@ -145,10 +150,12 @@ HRESULT CPlayer::On_Collision()
 		break;
 
 	case CG_MONSTER_PROJECTILE_CUBE:
-		temp += fPos;
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
 		break;
 
+	case CG_STRUCTURE_WALL:
+		fPos += vMove * 0.5f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		break;
 	default:
 		break;
 	}
@@ -163,20 +170,20 @@ void CPlayer::Move(_float fTimeDelta)
 {
 	if (GetKeyState('W') & 0x8000)
 	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
+		m_pTransformCom->Go_Backward(fTimeDelta * 0.5f);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
-		m_pTransformCom->Go_Left(fTimeDelta);
+		m_pTransformCom->Go_Left(fTimeDelta * 0.5f);
 		
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
-		m_pTransformCom->Go_Right(fTimeDelta);
+		m_pTransformCom->Go_Right(fTimeDelta * 0.5f);
 		
 	}
 
@@ -276,7 +283,7 @@ HRESULT CPlayer::Ready_Components()
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.5f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	/* For.Com_Collider_Sphere */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),

@@ -130,6 +130,9 @@ HRESULT CHarpoon::On_Collision(_float fTimeDelta)
 		
 
 		break;
+	case CG_STRUCTURE_WALL:
+		m_bIsActive = false;
+		break;
 	default:
 		break;
 	}

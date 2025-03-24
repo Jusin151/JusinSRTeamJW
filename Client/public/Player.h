@@ -30,7 +30,7 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	HRESULT On_Collision();
+	virtual HRESULT On_Collision()override;
 	void Move(_float fTimeDelta);
 	CTransform* Get_TransForm() { return m_pTransformCom; }
 private:
