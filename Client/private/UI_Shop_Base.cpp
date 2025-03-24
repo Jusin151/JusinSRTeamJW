@@ -78,7 +78,7 @@ void CUI_Shop_Base::Update(_float fTimeDelta)
 
 void CUI_Shop_Base::Late_Update(_float fTimeDelta)
 {
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI_BACKGROUND, this)))
         return; 
 }
 
@@ -95,6 +95,8 @@ HRESULT CUI_Shop_Base::Render()
     D3DXMATRIX matProj;
     D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
+
+
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

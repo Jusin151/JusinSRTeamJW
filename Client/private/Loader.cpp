@@ -183,7 +183,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CStaff_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 테스트 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 에피소드 UI 삭제 X
+		TEXT("Prototype_GameObject_UI_Episode"),
+		CUI_Episode::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
 		TEXT("Prototype_GameObject_Point_Shop"),
 		CPointShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -193,12 +199,25 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CUI_Point_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 에피소드 UI 삭제 X
-		TEXT("Prototype_GameObject_UI_Episode"),
-		CUI_Episode::Create(m_pGraphic_Device))))
+
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
+		TEXT("Prototype_GameObject_GamePlayer_Button"),
+		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	// 메뉴바 안의 시작버튼 선택시
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Start_Select.png"), 1))))
+		return E_FAIL;
+	// 메뉴바 안의 시작버튼 선택시
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Button_Point_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png"), 1))))
+		return E_FAIL;
 
+	// 메뉴바 안의 시작버튼 선택시
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png"), 1))))
+		return E_FAIL;
 
 
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));

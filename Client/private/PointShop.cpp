@@ -38,12 +38,12 @@ HRESULT CPointShop::Initialize(void* pArg)
 
 void CPointShop::Priority_Update(_float fTimeDelta)
 {
-
+    m_bIsActive = true;
 }
 
 void CPointShop::Update(_float fTimeDelta)
 {
-
+   
     __super::Update(fTimeDelta);
 
     if (m_bIsOpen)

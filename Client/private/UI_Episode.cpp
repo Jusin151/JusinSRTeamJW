@@ -119,35 +119,35 @@ HRESULT CUI_Episode::Register_Buttons()
 
 void CUI_Episode::Create_Episode_Buttons()
 {
-    vector<CGamePlay_Button::GamePlayer_Button_Desc> vecEpisodeButtons(5);
+    //vector<CGamePlay_Button::GamePlayer_Button_Desc> vecEpisodeButtons(5);
 
-    for (int i = 0; i < 5; ++i)
-    {
-        vecEpisodeButtons[i].Button_Desc.vSize = { 180.f, 40.f };
-        vecEpisodeButtons[i].Button_Desc.vPos = { -300.f + i * 150.f, 200.f };
-        vecEpisodeButtons[i].strTexture_Default_Tag = L"Prototype_Component_Texture_Episode_Button";
-        vecEpisodeButtons[i].strUIName = L"Episode_Button_" + to_wstring(i);
+    //for (int i = 0; i < 5; ++i)
+    //{
+    //    vecEpisodeButtons[i].Button_Desc.vSize = { 180.f, 40.f };
+    //    vecEpisodeButtons[i].Button_Desc.vPos = { -300.f + i * 150.f, 200.f };
+    //    vecEpisodeButtons[i].strTexture_Default_Tag = L"Prototype_Component_Texture_Episode_Button";
+    //    vecEpisodeButtons[i].strUIName = L"Episode_Button_" + to_wstring(i);
 
-        if (FAILED(m_pGameInstance->Add_GameObject(
-            LEVEL_GAMEPLAY,
-            TEXT("Prototype_GameObject_GamePlayer_Button"),
-            LEVEL_LOGO,
-            TEXT("Layer_Episode_UI"),
-            &vecEpisodeButtons[i])))
-            continue;
+    //    if (FAILED(m_pGameInstance->Add_GameObject(
+    //        LEVEL_GAMEPLAY,
+    //        TEXT("Prototype_GameObject_GamePlayer_Button"),
+    //        LEVEL_LOGO,
+    //        TEXT("Layer_Episode_UI"),
+    //        &vecEpisodeButtons[i])))
+    //        continue;
 
-        CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(
-            m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecEpisodeButtons[i].strUIName.c_str()));
+    //    CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(
+    //        m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecEpisodeButtons[i].strUIName.c_str()));
 
-        if (pButton)
-        {
-            pButton->SetOnClickCallback([i]()
-                {
-                OutputDebugString((L"[EpisodeUI] Stage Button Clicked: " + to_wstring(i) + L"\n").c_str());
-                // TODO: 에피소드 진입 처리 또는 스테이지 전환
-                });
-        }
-    }
+    //    if (pButton)
+    //    {
+    //        pButton->SetOnClickCallback([i]()
+    //            {
+    //            OutputDebugString((L"[EpisodeUI] Stage Button Clicked: " + to_wstring(i) + L"\n").c_str());
+    //            // TODO: 에피소드 진입 처리 또는 스테이지 전환
+    //            });
+    //    }
+    //}
 }
 
 CUI_Episode* CUI_Episode::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

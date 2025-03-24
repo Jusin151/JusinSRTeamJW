@@ -45,7 +45,7 @@ private:
 	HRESULT Register_Buttons() override;
 
 	void CreatePointShopButtons();
-
+	vector<wstring> m_strBurron_Text{};
 
 };
 

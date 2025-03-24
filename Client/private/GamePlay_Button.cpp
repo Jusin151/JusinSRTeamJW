@@ -30,20 +30,31 @@ HRESULT CGamePlay_Button::Initialize(void* pArg)
         return E_FAIL;
 
     m_pTransformCom->Set_Scale(m_Button_Info.Button_Desc.vSize.x, m_Button_Info.Button_Desc.vSize.y, 1.f);
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        _float3(m_Button_Info.Button_Desc.vPos.x, m_Button_Info.Button_Desc.vPos.y, 0.1f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(m_Button_Info.Button_Desc.vPos.x,
+        m_Button_Info.Button_Desc.vPos.y, 0.f));
 
     return S_OK;
 }
 
-void CGamePlay_Button::Priority_Update(_float fTimeDelta) {}
+void CGamePlay_Button::Priority_Update(_float fTimeDelta)
+{
+}
 
 void CGamePlay_Button::Update(_float fTimeDelta)
 {
-    if (isPick(g_hWnd) && (GetKeyState(VK_LBUTTON) & 0x8000))
+    if (isPick(g_hWnd))
     {
-        if (m_OnClick)
-            m_OnClick();
+        if (m_OnMouse)  
+            m_OnMouse();
+
+        if (GetKeyState(VK_LBUTTON) & 0x8000)
+        {
+            if (m_OnClick) m_OnClick();
+        }
+    }
+    else 
+    { 
+        m_strMouseOnText.clear();
     }
 }
 
@@ -71,31 +82,31 @@ HRESULT CGamePlay_Button::Render()
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+    if (FAILED(m_pTransformCom->Bind_Resource())) return E_FAIL;
+    if (FAILED(m_pTextureCom->Bind_Resource(0))) return E_FAIL;
+    if (FAILED(m_pVIBufferCom->Bind_Buffers())) return E_FAIL;
+    if (FAILED(m_pVIBufferCom->Render())) return E_FAIL;
 
-    if (FAILED(m_pTransformCom->Bind_Resource()))
-        return E_FAIL;
-    if (FAILED(m_pTextureCom->Bind_Resource(0)))
-        return E_FAIL;
-    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-        return E_FAIL;
-    if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
-
+    if (m_OnMouse && !m_strMouseOnText.empty())
+    { 
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(-20.f,100.f),
+            _float2(12.f, 20.f),
+            _float3(1.f, 1.f, 0.f));
+    }
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
-
-
     return S_OK;
 }
 
-
-
 HRESULT CGamePlay_Button::Ready_Components()
 {
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_Button_Info.strTexture_Default_Tag,
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Button_Point_Shop"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
@@ -126,7 +137,8 @@ _bool CGamePlay_Button::isPick(HWND hWnd)
         static_cast<_float>(screenHeight / 2 - ptMouse.y)
     };
 
-    RECT rcUI = {
+    RECT rcUI =
+    {
         _long(m_vPos.x - m_vSize.x * 0.5f),
         _long(m_vPos.y - m_vSize.y * 0.5f),
         _long(m_vPos.x + m_vSize.x * 0.5f),
@@ -136,15 +148,11 @@ _bool CGamePlay_Button::isPick(HWND hWnd)
     return PtInRect(&rcUI, POINT{ LONG(vMousePos.x), LONG(vMousePos.y) });
 }
 
-void CGamePlay_Button::SetOnClickCallback(std::function<void()> callback)
-{
-    m_OnClick = callback;
-}
-
 CGamePlay_Button* CGamePlay_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
     CGamePlay_Button* pInstance = new CGamePlay_Button(pGraphic_Device);
-    if (FAILED(pInstance->Initialize_Prototype())) {
+    if (FAILED(pInstance->Initialize_Prototype())) 
+    {
         MSG_BOX("GamePlay_Button Create Failed");
         Safe_Release(pInstance);
     }
@@ -154,7 +162,8 @@ CGamePlay_Button* CGamePlay_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 CGameObject* CGamePlay_Button::Clone(void* pArg)
 {
     CGamePlay_Button* pInstance = new CGamePlay_Button(*this);
-    if (FAILED(pInstance->Initialize(pArg))) {
+    if (FAILED(pInstance->Initialize(pArg))) 
+    {
         MSG_BOX("GamePlay_Button Clone Failed");
         Safe_Release(pInstance);
     }

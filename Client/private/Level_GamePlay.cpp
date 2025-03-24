@@ -34,8 +34,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
-	if (FAILED(Ready_Layer_Shop()))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
@@ -47,6 +45,10 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Episode_UI()))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
 		return E_FAIL;
 
 
@@ -61,7 +63,7 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_PointShop"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
 
@@ -310,26 +312,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Shop()
-{
 
-	//CUI_Base::UI_Child_Desc Spell_Shop_UI{};  // 스펠샵
-	//Spell_Shop_UI.vSize = { 847.f,508.f };
-	//Spell_Shop_UI.fAlpha = 1.0f;
-	//Spell_Shop_UI.vPos = { 0.f,00.f }; 
-
-	//if (FAILED(m_pGameInstance->Add_GameObject
-	//(LEVEL_GAMEPLAY,
-	//	TEXT("Prototype_GameObject_Spell_Shop_UI"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop_1"), &Spell_Shop_UI)))
- //		return E_FAIL;
-
-
-	//Ready_Layer_Episode_Button();
-	//Ready_Layer_Point_Shop_Button();
-
- 	return S_OK;
-}
 	
 
 HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드 스테이지는 레벨안의 스테이지
@@ -427,10 +410,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 {
 
-	//객체화 연습중 삭제  x
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
-		return E_FAIL;
+
 
 
 

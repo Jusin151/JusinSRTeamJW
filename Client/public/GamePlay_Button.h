@@ -12,6 +12,7 @@ END
 
 BEGIN(Client)
 
+//얘는 버튼 기능만 담당
 class CGamePlay_Button : public CUI_Base
 {
 public:
@@ -35,9 +36,9 @@ public:
     virtual void Late_Update(_float fTimeDelta) override;
     virtual HRESULT Render() override;
 
-
-    void SetOnClickCallback(function<void()> callback);
-
+public: // 클릭 관련 함수
+    void SetOnClickCallback(function<void()> callback) {m_OnClick = callback;}
+    void SetOnMouseCallback(function<void()> callback) { m_OnMouse = callback; }
 protected:
     HRESULT Ready_Components();
     _bool isPick(HWND hWnd);
@@ -48,8 +49,13 @@ private:
     CTransform* m_pTransformCom = nullptr;
 
     GamePlayer_Button_Desc m_Button_Info;
-    function<void()> m_OnClick;
 
+public:
+    wstring m_strMouseOnText{};
+   
+private:
+    function<void()> m_OnMouse = { nullptr }; //마우스가 위에 있는지
+    function<void()> m_OnClick = { nullptr }; //마우스가 클릭 했는지
     _bool m_bVisible = true;
 
 public:

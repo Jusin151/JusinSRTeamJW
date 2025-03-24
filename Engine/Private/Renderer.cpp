@@ -45,6 +45,10 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;*/
 	if (FAILED(Render_Collider()))
 		return E_FAIL;
+	if (FAILED(Render_UI_Background()))
+		return E_FAIL;
+	if (FAILED(Render_UI_Button()))
+		return E_FAIL;
 	if (FAILED(Render_UI()))
 		return E_FAIL;
 	
@@ -137,6 +141,33 @@ HRESULT CRenderer::Render_Collider()
 	m_RenderObjects[RG_COLLIDER].clear();
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_UI_Background()
+{
+	for (auto& pGameObject : m_RenderObjects[RG_UI_BACKGROUND])
+	{
+		if (nullptr != pGameObject && pGameObject->IsActive())
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderObjects[RG_UI_BACKGROUND].clear();
+
+	return S_OK;
+}
+HRESULT CRenderer::Render_UI_Button()
+{
+	for (auto& pGameObject : m_RenderObjects[RG_UI_BUTTON])
+	{
+		if (nullptr != pGameObject && pGameObject->IsActive())
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderObjects[RG_UI_BUTTON].clear();
+
 	return S_OK;
 }
 
