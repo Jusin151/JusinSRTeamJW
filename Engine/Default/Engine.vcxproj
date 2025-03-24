@@ -197,6 +197,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\public\BoundingBox.h" />
     <ClInclude Include="..\public\Bounding_Sphere.h" />
+    <ClInclude Include="..\Public\BlendObject.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
@@ -276,6 +277,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </ClCompile>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Bounding_Sphere.cpp" />
+    <ClCompile Include="..\private\BlendObject.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />

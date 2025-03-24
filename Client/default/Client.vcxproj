@@ -220,6 +220,7 @@
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h" />
     <ClInclude Include="..\public\CUI_WeaponIcon.h" />
+    <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="..\private\UI_Right_Display.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />
     <ClCompile Include="..\private\Default_Menu.cpp" />
+    <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />

@@ -253,6 +253,9 @@
     <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar">
       <UniqueIdentifier>{460ac096-fb49-4033-97f0-46923468ccad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{f6d5f84e-7269-4309-9a5f-7c4b2c234cd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -495,6 +498,9 @@
     <ClInclude Include="..\Public\Exp_Bar.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Effect.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -715,6 +721,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Exp_Bar.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
