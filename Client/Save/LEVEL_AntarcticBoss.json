@@ -1,5 +1,399 @@
 {
     "layers": {
+        "Layer_AntBossWall": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    12.067000389099121,
+                    3.9981608390808105,
+                    29.55153465270996
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    60.0,
+                    11.800000190734863,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    42.65509033203125,
+                    3.998910665512085,
+                    0.10671444982290268
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    60.0,
+                    11.800000190734863,
+                    0.9999993443489075
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    12.066949844360352,
+                    4.0,
+                    -30.002410888671875
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    60.0,
+                    11.800000190734863,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    9.0,
+                    4.0,
+                    18.19983673095703
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    10.0,
+                    0.9999997615814209
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    9.0,
+                    4.0,
+                    -19.28569984436035
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    10.0,
+                    0.9999999403953552
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    29.899017333984375,
+                    4.0,
+                    -21.878507614135742
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    32.40943908691406,
+                    4.0,
+                    -19.285999298095703
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    10.0,
+                    0.9999999403953552
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    32.409000396728516,
+                    4.0,
+                    18.200000762939453
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    5.999999046325684,
+                    10.0,
+                    0.9999997019767761
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    29.89900016784668,
+                    4.0,
+                    20.756999969482422
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    11.531000137329102,
+                    4.0,
+                    20.756738662719727
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    11.530694961547852,
+                    4.0,
+                    -21.81231689453125
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    6.000000476837158,
+                    10.0,
+                    0.9999998211860657
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    1.7758013370894332e-07,
+                    6.0,
+                    -2.69983172416687
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    9.100000381469727,
+                    0.9999994039535522
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    0.5189630389213562,
+                    5.0,
+                    14.948248863220215
+                ],
+                "rotation": [
+                    0.0,
+                    92.0,
+                    0.0
+                ],
+                "scale": [
+                    29.999998092651367,
+                    11.0,
+                    0.9999995827674866
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    4.368868076198851e-07,
+                    5.0,
+                    -19.023237228393555
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    26.999998092651367,
+                    11.0,
+                    0.9999999403953552
+                ]
+            }
+        ],
         "Layer_AntCeil1": [
             {
                 "FromPool": false,
@@ -14,8 +408,8 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    0.0,
-                    0.9862291812896729,
+                    -13.970293998718262,
+                    0.9868353009223938,
                     -1.6469202041625977
                 ],
                 "rotation": [
@@ -42,7 +436,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    7.949109077453613,
+                    -5.168996810913086,
                     0.9860000014305115,
                     -2.5746355056762695
                 ],
@@ -64,7 +458,7 @@
                 "IsActive": true,
                 "LayerTag": "Layer_AntFloor1",
                 "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
                     "Level": 3,
                     "ProtTag": "Prototype_GameObject_AntFloor1",
                     "ProtTextureTag": "Prototype_Component_Texture_AntFloor1",
@@ -72,9 +466,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    0.0,
-                    -5.510600566864014,
-                    2.8467550805544306e-07
+                    13.391366958618164,
+                    -0.5,
+                    4.797095243702643e-06
                 ],
                 "rotation": [
                     90.0,
@@ -82,9 +476,9 @@
                     0.0
                 ],
                 "scale": [
-                    30.0,
-                    30.0,
-                    0.9999996423721313
+                    60.0,
+                    60.0,
+                    0.009999999776482582
                 ]
             }
         ],
@@ -102,7 +496,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    0.0,
+                    -12.982858657836914,
                     0.0,
                     -4.0
                 ],
@@ -130,7 +524,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    0.0,
+                    -12.982999801635742,
                     0.0,
                     1.0
                 ],
@@ -158,7 +552,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -3.485546350479126,
+                    -16.45302963256836,
                     0.0,
                     -1.5334689617156982
                 ],
@@ -186,9 +580,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    3.4931998252868652,
-                    0.0,
-                    -3.020764793859598e-08
+                    -9.491840362548828,
+                    -9.180605411529541e-05,
+                    0.005054381210356951
                 ],
                 "rotation": [
                     0.0,
@@ -214,7 +608,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    9.362245559692383,
+                    -3.511599063873291,
                     0.0,
                     -0.1851608157157898
                 ],
@@ -242,7 +636,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    8.497819900512695,
+                    -4.624192714691162,
                     0.0,
                     -4.999685764312744
                 ],
@@ -270,7 +664,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    4.37176513671875,
+                    -8.525903701782227,
                     0.0,
                     -1.0089690685272217
                 ],
