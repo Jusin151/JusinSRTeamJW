@@ -7,6 +7,7 @@ class CLight;
 class CTransform;
 class CTexture;
 class CVIBuffer_Rect;
+class CMaterial;
 END
 
 class CGameObject_Light final : public CGameObject
@@ -37,6 +38,7 @@ private:
 	CTexture*		m_pTextureCom	= { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom	= { nullptr };
+
 public:
 	static	CGameObject_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject_Light* Clone(void* pArg) override;

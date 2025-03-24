@@ -33,16 +33,16 @@ HRESULT CRenderer::Add_Light(CLight* pLight)
 
 HRESULT CRenderer::Draw()
 {
-	/*if (FAILED(Enable_Lights()))
-		return E_FAIL;*/
+	if (FAILED(Enable_Lights()))
+		return E_FAIL;
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
 	if (FAILED(Render_NonBlend()))
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
-	/*if (FAILED(Disable_Lights()))
-		return E_FAIL;*/
+	if (FAILED(Disable_Lights()))
+		return E_FAIL;
 	if (FAILED(Render_Collider()))
 		return E_FAIL;
 	if (FAILED(Render_UI()))

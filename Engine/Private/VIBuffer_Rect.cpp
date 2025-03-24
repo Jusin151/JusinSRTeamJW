@@ -14,8 +14,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 {
 
 	m_iNumVertices = 4;
-	m_iVertexStride = sizeof(VTXPOSTEX);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+	m_iVertexStride = sizeof(VTXNORTEX);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
 	m_iNumPritimive = 2;
 
 	m_iIndexStride = 2;
@@ -28,11 +28,11 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXPOSTEX* pVertices = { nullptr };
+	VTXNORTEX* pVertices = { nullptr };
 
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
-
+	D3DXVECTOR3 vNormal = { 0.0f, 1.0f, 0.f };
 	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
@@ -40,10 +40,22 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
 	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
-	pVertices[2].vTexcoord = _float2(1.f, 1.f);		
+	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
 	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
+
+
+	D3DXVECTOR3 temp1 = pVertices[1].vPosition - pVertices[0].vPosition;
+	D3DXVECTOR3 temp2 = pVertices[2].vPosition - pVertices[0].vPosition;
+
+	D3DXVec3Cross(&vNormal, &temp1, &temp2);
+	D3DXVec3Normalize(&vNormal, &vNormal);
+
+	pVertices[0].vNormal = vNormal;
+	pVertices[1].vNormal = vNormal;
+	pVertices[2].vNormal = vNormal;
+	pVertices[3].vNormal = vNormal;
 
 	m_pVB->Unlock();
 #pragma endregion
