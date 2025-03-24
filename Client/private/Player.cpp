@@ -77,14 +77,19 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	//{
 	//	pTransform->Go_Straight(fTimeDelta);
 	//}
+	_float3 fpos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	if (fpos.y != 1.f)
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(fpos.x, 1.f, fpos.z));
+	}
+
 }
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	
-		
 
 	Move(fTimeDelta); 
+	
 
 	Inven_Update(fTimeDelta);
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
@@ -168,23 +173,35 @@ HRESULT CPlayer::On_Collision()
 
 void CPlayer::Move(_float fTimeDelta)
 {
+	m_fShakeTime += fTimeDelta * 10.f;
+
+	float shakeAmount = 0.05f; // 흔들림 강도
+	_float3 shake = {
+		sin(m_fShakeTime) * shakeAmount,
+		cos(m_fShakeTime) * shakeAmount,
+		0.f
+	};
+
 	if (GetKeyState('W') & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta * 0.5f);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
+
 		m_pTransformCom->Go_Left(fTimeDelta * 0.5f);
-		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
 		m_pTransformCom->Go_Right(fTimeDelta * 0.5f);
-		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 
 	POINT ptMouse{};
@@ -195,13 +212,13 @@ void CPlayer::Move(_float fTimeDelta)
 
 	if (ptMouse.x - m_iMiddlePointX > 0)
 	{
-		if(iDist > 320)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * 1.25f);
+		if(iDist > 160)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * 1.5f);
 	}
 	else if (ptMouse.x - m_iMiddlePointX < 0 )
 	{
-		if (iDist > 320)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * 1.25f);
+		if (iDist > 160)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * 1.5f);
 	}
 	
 	

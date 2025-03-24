@@ -60,6 +60,9 @@ private:
 	// 회전 시킬 기준 점..
 	_int			  m_iMiddlePointX = {};
 
+	_float			m_fShakeTime = {};
+
+
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
