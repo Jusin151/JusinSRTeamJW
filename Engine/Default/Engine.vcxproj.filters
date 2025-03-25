@@ -89,6 +89,12 @@
     <ClInclude Include="..\public\Picking.h">
       <Filter>06.Picking</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BlendObject.h">
+      <Filter>02.GameObject\BlendObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shader.h">
+      <Filter>04.Components\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -169,6 +175,12 @@
     <Filter Include="06.Picking">
       <UniqueIdentifier>{32a800c3-1493-4e31-b204-a68049ab35ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\BlendObject">
+      <UniqueIdentifier>{44e28a63-b2a2-4c0e-9d13-cbb5b6c81309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Shader">
+      <UniqueIdentifier>{910bf93e-f950-4279-803b-b86512bdab9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -239,6 +251,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Picking.cpp">
       <Filter>06.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BlendObject.cpp">
+      <Filter>02.GameObject\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader.cpp">
+      <Filter>04.Components\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

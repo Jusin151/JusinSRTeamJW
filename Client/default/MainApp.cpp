@@ -13,10 +13,6 @@ CMainApp::CMainApp()
 HRESULT CMainApp::Initialize()
 {
 
-	// 3월 18일 랜드오브젝트와 평면의 방정식
-	// 플레이어 지형타기까지 완료 
-	// 스카이큐브 까지 완료
-	// dds 감지기능 완료
 
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;

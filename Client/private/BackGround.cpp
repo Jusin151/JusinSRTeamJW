@@ -22,10 +22,10 @@ HRESULT CBackGround::Initialize(void* pArg)
 {
 	UIOBJECT_DESC		Desc{};	
 
-	Desc.fSizeX = 200;
-	Desc.fSizeY = 200;
-	Desc.fX = g_iWinSizeX - Desc.fSizeX * 0.5f;
-	Desc.fY = g_iWinSizeY - Desc.fSizeY * 0.5f;
+	Desc.fSizeX = g_iWinSizeX;
+	Desc.fSizeY = g_iWinSizeY;
+	Desc.fX = g_iWinSizeX  * 0.5f;
+	Desc.fY = g_iWinSizeY  * 0.5f;
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -80,9 +80,26 @@ HRESULT CBackGround::Render()
 
 	__super::Begin();
 
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	m_pTextureCom->Bind_Resource(m_pShaderCom, "g_Texture", 1);
+
+	/* 이제부터 어떤 쉐이더로 그린다. */
+	m_pShaderCom->Begin(0);
+
+
 	/* 정점을 그린다. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+
+	/* 쉐이더로 그리는 작업을 멈추낟. */
+	m_pShaderCom->End();
 
 	__super::End();
 
@@ -106,6 +123,14 @@ HRESULT CBackGround::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom))))
 		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Shader_Rect"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	
+
 	
 
 	
@@ -143,6 +168,7 @@ void CBackGround::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);

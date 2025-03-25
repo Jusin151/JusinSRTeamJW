@@ -40,13 +40,16 @@ HRESULT CVIBuffer::Render()
 
     m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, 0, m_iNumPritimive);
 
+    
     return S_OK;
 }
 
-_float3 CVIBuffer::Compute_PickedPosition()
+_float3 CVIBuffer::Compute_PickedPosition(const _float4x4* pWorldMatrixInverse)
 {
     _uint   iIndices[3] = {};
     _float3 vPickedPos = {};
+
+    m_pGameInstance->Transform_Picking_ToLocalSpace(*pWorldMatrixInverse);
 
     for (size_t i = 0; i < m_iNumPritimive; i++)
     {
@@ -56,7 +59,7 @@ _float3 CVIBuffer::Compute_PickedPosition()
         memcpy(&iIndices[1], pIndices + m_iIndexStride, m_iIndexStride);
         memcpy(&iIndices[2], pIndices + m_iIndexStride * 2, m_iIndexStride);               
 
-        if (true == m_pGameInstance->Picking(vPickedPos, m_pVertexPositions[iIndices[0]], m_pVertexPositions[iIndices[1]], m_pVertexPositions[iIndices[2]]))
+        if (true == m_pGameInstance->Picking_InLocal(vPickedPos, m_pVertexPositions[iIndices[0]], m_pVertexPositions[iIndices[1]], m_pVertexPositions[iIndices[2]]))
             break;
     }
 
@@ -67,6 +70,7 @@ HRESULT CVIBuffer::Bind_Buffers()
 {
     /* 정점버퍼를 장치에 바인딩한다. */
     m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, m_iVertexStride);    
+    // m_pGraphic_Device->SetStreamSource(1, m_pVB1, 0, m_iVertexStride);
 
     m_pGraphic_Device->SetIndices(m_pIB);
 

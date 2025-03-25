@@ -1,5 +1,6 @@
 ﻿#include "Renderer.h"
 #include "GameObject.h"
+#include "BlendObject.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -62,9 +63,19 @@ HRESULT CRenderer::Render_NonBlend()
 
 	return S_OK;
 }
+//
+//_bool Compare(CGameObject* pSour, CGameObject* pDest)
+//{
+//	return dynamic_cast<CBlendObject*>(pSour)->Get_Depth() > dynamic_cast<CBlendObject*>(pDest)->Get_Depth();
+//}
 
 HRESULT CRenderer::Render_Blend()
 {
+	m_RenderObjects[RG_BLEND].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+	{
+		return dynamic_cast<CBlendObject*>(pSour)->Get_Depth() > dynamic_cast<CBlendObject*>(pDest)->Get_Depth();
+	});
+
 	for (auto& pGameObject : m_RenderObjects[RG_BLEND])
 	{
 		if (nullptr != pGameObject)

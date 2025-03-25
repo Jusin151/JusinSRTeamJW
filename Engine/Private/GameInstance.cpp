@@ -91,6 +91,16 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pPrototype_Manager->Clear(iLevelIndex);
 }
 
+_float CGameInstance::Compute_Random_Normal()
+{
+	return rand() / static_cast<_float>(RAND_MAX);	
+}
+
+_float CGameInstance::Compute_Random(_float fMin, _float fMax)
+{
+	return fMin + (fMax - fMin) * Compute_Random_Normal();	
+}
+
 #pragma region LEVEL_MANAGER
 
 HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
@@ -154,9 +164,17 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 
 #pragma endregion
 #pragma region PICKING
-_bool CGameInstance::Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+void CGameInstance::Transform_Picking_ToLocalSpace(const _float4x4& WorldMatrixInverse)
 {
-	return m_pPicking->Picking(vPickedPos, vPointA, vPointB, vPointC);
+	m_pPicking->Transform_ToLocalSpace(WorldMatrixInverse);
+}
+_bool CGameInstance::Picking_InWorld(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+{
+	return m_pPicking->Picking_InWorld(vPickedPos, vPointA, vPointB, vPointC);
+}
+_bool CGameInstance::Picking_InLocal(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+{
+	return m_pPicking->Picking_InLocal(vPickedPos, vPointA, vPointB, vPointC);
 }
 
 #pragma endregion

@@ -1,6 +1,8 @@
 ﻿#include "Terrain.h"
 #include "GameInstance.h"
 
+
+
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject { pGraphic_Device }
 {
@@ -33,9 +35,11 @@ void CTerrain::Priority_Update(_float fTimeDelta)
 
 void CTerrain::Update(_float fTimeDelta)
 {
+	
+
 	if (GetKeyState(VK_LBUTTON) & 0x8000)
 	{
-		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition();
+		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition(m_pTransformCom->Get_WorldMatrix_Inverse());
 		int a = 10;
 	}
 	
