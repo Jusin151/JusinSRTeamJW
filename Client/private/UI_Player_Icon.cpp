@@ -67,7 +67,7 @@ void CUI_Player_Icon::Set_Hp_Event()
 
 void CUI_Player_Icon::Update(_float fTimeDelta)
 {
-	m_fHealth = CUI_Manager::GetInstance()->Get_Hp();
+	m_fHealth =static_cast<_float>(CUI_Manager::GetInstance()->Get_Hp());
 
 
 	if (m_bIsHit)

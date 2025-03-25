@@ -64,9 +64,9 @@ _bool CEditor::LoadLevel(_uint iLevelID, const _wstring& filepath)
     try {
         file >> j;
     }
-    catch (const exception& e) {
+    catch (const exception&) {
         // JSON 파싱 오류 처리
-        MSG_BOX("Failed to parse level file: %s", e.what());
+        MSG_BOX("Failed to parse level file");
         return false;
     }
     file.close();
@@ -74,7 +74,7 @@ _bool CEditor::LoadLevel(_uint iLevelID, const _wstring& filepath)
     // 2. 레벨 ID 확인
     _uint savedLevelID = j["level"];
     if (savedLevelID != iLevelID) {
-        MSG_BOX("Warning: Saved level ID (%d) differs from target level ID (%d)", savedLevelID, iLevelID);
+        MSG_BOX("Warning: Saved level ID differs from target level ID");
         // 계속 진행할지 결정 (여기서는 계속 진행)
     }
 
@@ -147,7 +147,7 @@ _bool CEditor::LoadLevel(_uint iLevelID, const _wstring& filepath)
                 // 프로토타입이 있으면 해당 프로토타입으로 게임 오브젝트 추가
                 if (FAILED(m_pGameInstance->Add_GameObject(objDesc.iProtoLevel, protoTag,
                     objDesc.iLevel, layerTag, &objDesc))) {
-                    MSG_BOX("Failed to add game object: %ls", protoTag.c_str());
+                    MSG_BOX("Failed to add game object");
                     continue;
                 }
             }

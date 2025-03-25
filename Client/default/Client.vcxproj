@@ -182,10 +182,11 @@
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
+    <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\Item_Icon.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Inventory.h" />
-    <ClInclude Include="..\Public\Item_Icon.h" />
     <ClInclude Include="..\public\Level_Editor.h" />
     <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
@@ -256,6 +257,8 @@
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
+    <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\Item_Icon.cpp" />
     <ClCompile Include="..\private\UI_Episode.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\Exp_Bar.cpp" />
@@ -274,7 +277,6 @@
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\private\JsonLoader.cpp" />
     <ClCompile Include="..\Private\Inventory.cpp" />
-    <ClCompile Include="..\Private\Item_Icon.cpp" />
     <ClCompile Include="..\private\Level_Editor.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />

@@ -166,9 +166,6 @@
     <Filter Include="02.GameObjects\03. Effect\Weapon_Effect">
       <UniqueIdentifier>{f5025a2e-8e58-4924-8cd2-b4de6fc133c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\02. Item\1. Icons">
-      <UniqueIdentifier>{f10e4e00-882e-4088-a361-9eb40fe2c912}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Base\Sphere">
       <UniqueIdentifier>{4e0e0eef-612c-4974-b164-6c3d9dbca689}</UniqueIdentifier>
     </Filter>
@@ -438,9 +435,6 @@
     <ClInclude Include="..\public\Staff.h">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Item_Icon.h">
-      <Filter>02.GameObjects\02. Item\1. Icons</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Level_Test.h">
       <Filter>01.Levels\Test</Filter>
     </ClInclude>
@@ -514,6 +508,12 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CUI_WeaponIcon.h" />
+    <ClInclude Include="..\public\Item.h">
+      <Filter>02.GameObjects\02. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item_Icon.h">
+      <Filter>Inven</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -689,9 +689,6 @@
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Item_Icon.cpp">
-      <Filter>02.GameObjects\02. Item\1. Icons</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\GameObject_Sphere.cpp">
       <Filter>02.GameObjects\Base\Sphere</Filter>
     </ClCompile>
@@ -749,6 +746,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item.cpp">
+      <Filter>02.GameObjects\02. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item_Icon.cpp">
+      <Filter>Inven</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
