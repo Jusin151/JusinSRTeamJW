@@ -76,45 +76,6 @@
     <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\04.UI_MENU">
       <UniqueIdentifier>{d5070475-8403-4ebf-9ecb-4b46d5e0e6a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\05.UI_WEAPON">
-      <UniqueIdentifier>{bc73a85d-d6db-4ebf-9040-f2fab1b41e36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\06.UI_DIALOGUE">
-      <UniqueIdentifier>{243758be-2338-4d7a-95d3-c5ff27d7ca16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display">
-      <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\00.HP">
-      <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\01.MP">
-      <UniqueIdentifier>{22ef7993-c622-41ab-a771-c7c40a0eef04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\02.PlayerIcon">
-      <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\03.Key">
-      <UniqueIdentifier>{0141b836-8067-408c-812f-01969b88986a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\02.UI_Right_Display">
-      <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\02.UI_Right_Display\Bullet">
-      <UniqueIdentifier>{3092ab4c-01b9-4ffc-952f-2ee449a62a90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display">
-      <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\03.Loading">
-      <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\04.Shop">
-      <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\04.Shop\Spell_Shop_UI">
-      <UniqueIdentifier>{2f9e9709-fb90-48ce-92b9-13633bdd18a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\98. Terrain">
       <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
     </Filter>
@@ -132,9 +93,6 @@
     </Filter>
     <Filter Include="Inven">
       <UniqueIdentifier>{09a4a540-e0c5-4137-aa67-00aa62d9aff5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\97. UI\05. ItemIcon">
-      <UniqueIdentifier>{33781b4a-53c8-43fd-8994-421a11835195}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\01.Monster\Base">
       <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
@@ -205,17 +163,8 @@
     <Filter Include="02.GameObjects\03. Effect">
       <UniqueIdentifier>{4afeedf8-41a2-4efd-a88e-bd80cb51356e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\04. Shop">
-      <UniqueIdentifier>{84d12add-d9e5-444d-98fb-b954035fc18d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\03. Effect\Weapon_Effect">
       <UniqueIdentifier>{f5025a2e-8e58-4924-8cd2-b4de6fc133c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\07. Bullet">
-      <UniqueIdentifier>{b1e81861-522f-4200-ae5b-24fe47de35c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\07. Bullet\Staff_Bullet">
-      <UniqueIdentifier>{955e4864-d944-4aa4-be2c-d09b04657345}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\02. Item\1. Icons">
       <UniqueIdentifier>{f10e4e00-882e-4088-a361-9eb40fe2c912}</UniqueIdentifier>
@@ -241,18 +190,71 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\Harpoon">
       <UniqueIdentifier>{ef6b5376-937b-4951-bcaf-f838c26f9b2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\20. Button">
+    <Filter Include="02.GameObjects\05. Shop">
+      <UniqueIdentifier>{84d12add-d9e5-444d-98fb-b954035fc18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\06. Bullet">
+      <UniqueIdentifier>{b1e81861-522f-4200-ae5b-24fe47de35c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\06. Bullet\Staff_Bullet">
+      <UniqueIdentifier>{955e4864-d944-4aa4-be2c-d09b04657345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\07. Button">
       <UniqueIdentifier>{73274f6f-b41f-4990-b6ff-c4914cad5197}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\20. Button\Logo_Button">
+    <Filter Include="02.GameObjects\07. Button\Logo_Button">
       <UniqueIdentifier>{d3cf93ef-aaf9-4523-8f17-2af6ed80d2fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\20. Button\GamePlay">
+    <Filter Include="02.GameObjects\07. Button\GamePlay">
       <UniqueIdentifier>{3a797ae8-32eb-4d17-9b9d-8c6e82a13066}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar">
+    <Filter Include="02.GameObjects\97. UI\04.Shop_UI">
+      <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\04.Shop_UI\Spell_Shop_UI">
+      <UniqueIdentifier>{2f9e9709-fb90-48ce-92b9-13633bdd18a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\04.Shop_UI\Point_Shop_UI">
+      <UniqueIdentifier>{9cfdb4bb-54c7-40db-b9c7-d970f0e43056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\04.Shop_UI\Weapon_Shop_UI">
+      <UniqueIdentifier>{9d47c3ef-ed31-447b-80ee-301a6688fd5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\03.Loading_UI">
+      <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI">
+      <UniqueIdentifier>{5ee92552-ce15-4a68-9c76-e2163edb686f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display">
+      <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\00.HP">
+      <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\01.MP">
+      <UniqueIdentifier>{22ef7993-c622-41ab-a771-c7c40a0eef04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\02.PlayerIcon">
+      <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\03.Key">
+      <UniqueIdentifier>{0141b836-8067-408c-812f-01969b88986a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\02.UI_Right_Display">
+      <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\02.UI_Right_Display\Bullet">
+      <UniqueIdentifier>{3092ab4c-01b9-4ffc-952f-2ee449a62a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\03.UI_Mid_Display">
+      <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\00. Player_UI\03.UI_Mid_Display\Exp_Bar">
       <UniqueIdentifier>{460ac096-fb49-4033-97f0-46923468ccad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\97. UI\Episode_UI">
+      <UniqueIdentifier>{40d34720-5164-43b6-b12f-de38d7fdbaef}</UniqueIdentifier>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{f6d5f84e-7269-4309-9a5f-7c4b2c234cd7}</UniqueIdentifier>
     </Filter>
@@ -298,28 +300,22 @@
       <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Left_Display.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CUI_WeaponIcon.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\05.UI_WEAPON</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Right_Display.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\02.UI_Right_Display</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\02.UI_Right_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\04.UI_MENU</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_Dialogue.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\06.UI_DIALOGUE</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\UI_Mid_Display.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\03.UI_Mid_Display</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Default_Panel.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\00.UI_PANEL</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Loading_UI.h">
-      <Filter>02.GameObjects\97. UI\03.Loading</Filter>
+      <Filter>02.GameObjects\97. UI\03.Loading_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Camera_Free.h">
       <Filter>02.GameObjects\99. Camera\Free</Filter>
@@ -328,22 +324,22 @@
       <Filter>02.GameObjects\97. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_Bar.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\00.HP</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\00.HP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Bullet_Bar.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\02.UI_Right_Display\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Player_Icon.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\00.Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_MP_Bar.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\01.MP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Spell_Shop.h">
-      <Filter>02.GameObjects\97. UI\04.Shop\Spell_Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\04.Shop_UI\Spell_Shop_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TestMonster.h">
       <Filter>02.GameObjects\01.Monster</Filter>
@@ -355,10 +351,10 @@
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Logo_Button.h">
-      <Filter>02.GameObjects\20. Button\Logo_Button</Filter>
+      <Filter>02.GameObjects\07. Button\Logo_Button</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GamePlay_Button.h">
-      <Filter>02.GameObjects\20. Button\GamePlay</Filter>
+      <Filter>02.GameObjects\07. Button\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Structs.h">
       <Filter>97. Hong_Headers</Filter>
@@ -460,16 +456,16 @@
       <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Shop.h">
-      <Filter>02.GameObjects\04. Shop</Filter>
+      <Filter>02.GameObjects\05. Shop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PointShop.h">
-      <Filter>02.GameObjects\04. Shop</Filter>
+      <Filter>02.GameObjects\05. Shop</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Base.h">
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Staff_Bullet.h">
-      <Filter>02.GameObjects\07. Bullet\Staff_Bullet</Filter>
+      <Filter>02.GameObjects\06. Bullet\Staff_Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Sphere.h">
       <Filter>02.GameObjects\Base\Sphere</Filter>
@@ -496,7 +492,19 @@
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Exp_Bar.h">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Point_Shop.h">
+      <Filter>02.GameObjects\97. UI\04.Shop_UI\Point_Shop_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_WeaponShop_UI.h">
+      <Filter>02.GameObjects\97. UI\04.Shop_UI\Weapon_Shop_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Shop_Base.h">
+      <Filter>02.GameObjects\97. UI\04.Shop_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Episode.h">
+      <Filter>02.GameObjects\97. UI\Episode_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
@@ -535,7 +543,7 @@
       <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Mid_Display.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\03.UI_Mid_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Default_Panel.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\00.UI_PANEL</Filter>
@@ -544,37 +552,37 @@
       <Filter>02.GameObjects\99. Camera\Free</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_UI.cpp">
-      <Filter>02.GameObjects\97. UI\03.Loading</Filter>
+      <Filter>02.GameObjects\97. UI\03.Loading_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Right_Display.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\02.UI_Right_Display</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\02.UI_Right_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Left_Display.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CUI_Base.cpp">
       <Filter>02.GameObjects\97. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_HP_Bar.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\00.HP</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\00.HP</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_Icon.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Bullet_Bar.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\02.UI_Right_Display\Bullet</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\02.UI_Right_Display\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\00.Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_MP_Bar.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\01.UI_Left_Display\01.MP</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\01.UI_Left_Display\01.MP</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Menu.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\04.UI_MENU</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp">
-      <Filter>02.GameObjects\97. UI\04.Shop\Spell_Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\04.Shop_UI\Spell_Shop_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TestMonster.cpp">
       <Filter>02.GameObjects\01.Monster</Filter>
@@ -583,10 +591,10 @@
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Logo_Button.cpp">
-      <Filter>02.GameObjects\20. Button\Logo_Button</Filter>
+      <Filter>02.GameObjects\07. Button\Logo_Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GamePlay_Button.cpp">
-      <Filter>02.GameObjects\20. Button\GamePlay</Filter>
+      <Filter>02.GameObjects\07. Button\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp">
       <Filter>02.GameObjects\99. Camera\FirstPerson</Filter>
@@ -693,10 +701,10 @@
       <Filter>Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Shop.cpp">
-      <Filter>02.GameObjects\04. Shop</Filter>
+      <Filter>02.GameObjects\05. Shop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PointShop.cpp">
-      <Filter>02.GameObjects\04. Shop</Filter>
+      <Filter>02.GameObjects\05. Shop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
@@ -705,7 +713,7 @@
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Staff_Bullet.cpp">
-      <Filter>02.GameObjects\07. Bullet\Staff_Bullet</Filter>
+      <Filter>02.GameObjects\06. Bullet\Staff_Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Particle_Firework.cpp">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
@@ -720,7 +728,19 @@
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Exp_Bar.cpp">
-      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\03.UI_Mid_Display\Exp_Bar</Filter>
+      <Filter>02.GameObjects\97. UI\00. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Point_Shop.cpp">
+      <Filter>02.GameObjects\97. UI\04.Shop_UI\Point_Shop_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp">
+      <Filter>02.GameObjects\97. UI\04.Shop_UI\Weapon_Shop_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Shop_Base.cpp">
+      <Filter>02.GameObjects\97. UI\04.Shop_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Episode.cpp">
+      <Filter>02.GameObjects\97. UI\Episode_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
