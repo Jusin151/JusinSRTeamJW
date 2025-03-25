@@ -2,6 +2,7 @@
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 #include "Player.h"
+#include "CollisionObject.h"
 
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject(pGraphic_Device)
@@ -30,6 +31,7 @@ HRESULT CShop::Initialize(void* pArg) // 자식에서 무조건 __Super:: 로 �
         Safe_AddRef(m_pPlayer);
 
 
+    
 
     // 상점 기본 설정
     m_bIsOpen = false;
@@ -171,7 +173,6 @@ HRESULT CShop::On_Collision()
 
 
 
-    m_pColliderCom->Set_Other_Type(CG_END);
 
     return E_FAIL;
 }
@@ -223,8 +224,8 @@ HRESULT CShop::Ready_Components()
 
     /* Collider Component */
     CCollider::COL_DESC	ColliderDesc = {};
-    ColliderDesc.eType = CG_SHOP;
-    ColliderDesc.pOwner = this;
+  
+    //ColliderDesc.pOwner = (this);
     // 이걸로 콜라이더 크기 설정
     ColliderDesc.fScale = { 100.f,100.f,100.f };
     // 오브젝트와 상대적인 거리 설정

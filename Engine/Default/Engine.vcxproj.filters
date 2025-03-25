@@ -185,6 +185,9 @@
     <ClInclude Include="..\public\Shader.h">
       <Filter>04.Components\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CollisionObject.h">
+      <Filter>02.GameObject\CollisionObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -361,6 +364,9 @@
     <Filter Include="04.Components\Shader">
       <UniqueIdentifier>{910bf93e-f950-4279-803b-b86512bdab9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\CollisionObject">
+      <UniqueIdentifier>{cc85b9de-7121-4190-ad4e-34cff5b1f04d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -506,6 +512,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Projectile_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CollisionObject.cpp">
+      <Filter>02.GameObject\CollisionObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

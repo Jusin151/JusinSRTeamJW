@@ -5,6 +5,7 @@
 #include "LandObject.h"
 #include "Inventory.h"
 #include "Item_Manager.h"
+#include "CollisionObject.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -16,7 +17,7 @@ END
 
 BEGIN(Client)
 
-class CPlayer final : public CLandObject
+class CPlayer final : public CCollisionObject
 {
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -30,7 +31,7 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	HRESULT On_Collision();
+	virtual HRESULT On_Collision(CCollisionObject* other)override;
 	void Move(_float fTimeDelta);
 	CTransform* Get_TransForm() { return m_pTransformCom; }
 private:
@@ -59,6 +60,9 @@ private:
 
 	// 회전 시킬 기준 점..
 	_int			  m_iMiddlePointX = {};
+
+	_float			m_fShakeTime = {};
+
 
 
 public:

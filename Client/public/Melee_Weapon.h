@@ -41,7 +41,7 @@ public:
     virtual HRESULT Ready_Components();
     void Free();
     CGameObject* Clone(void* pArg) ;
-
+    virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
 
 public:
 

@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "CollisionObject.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -12,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CProjectile_Base abstract : public CGameObject
+class CProjectile_Base abstract : public CCollisionObject
 {
 public:
 	typedef struct tagProjectileDesc {
@@ -34,7 +35,7 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	virtual HRESULT On_Collision(_float fTimeDelta) PURE;
+	virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
 
 	// collider,texture는 자식에서 추가
 	HRESULT Ready_Components();
