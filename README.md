@@ -25,8 +25,7 @@ case WM_SYSCOMMAND:
             return 0;
         break;
     }
-```
-주석처리 해주세요
+``` 주석처리 해주세요
 
 
 ## 빌드 속도 높이기
