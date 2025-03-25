@@ -429,7 +429,39 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_UI()
+{
+	CUI_Base::UI_Desc uiDesc{};
+	uiDesc.vPos = { 0.f, 0.f };
+	uiDesc.vSize = { 804.f, 482.f };
 
+	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_UI_Point_Shop"),
+		LEVEL_GAMEPLAY,
+		TEXT("Layer_UI_Point_Shop"),
+		&uiDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Episode_UI()
+{
+	CUI_Base::UI_Desc uiDesc{};
+	uiDesc.vPos = { 0.f, -200.f };
+	uiDesc.vSize = { 900.f, 120.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_UI_Episode"),
+		LEVEL_GAMEPLAY,
+		TEXT("Layer_UI_Episode"),
+		&uiDesc)))
+ 		return E_FAIL;
+
+	return S_OK;
+}
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
