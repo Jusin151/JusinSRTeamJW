@@ -202,6 +202,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Point_Shop"),
+		CUI_Point_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
+		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
 		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
