@@ -63,7 +63,7 @@ void CHarvester::Priority_Update(_float fTimeDelta)
 
 void CHarvester::Update(_float fTimeDelta)
 {
-	__super::Picking_Object(8);
+	//__super::Picking_Object(8);
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
