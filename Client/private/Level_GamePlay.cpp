@@ -41,6 +41,17 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Weapon()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Point_Shop_UI()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Episode_UI()))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
+		return E_FAIL;
+
+
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 	//	return E_FAIL;
 
@@ -413,113 +424,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드
 		LEVEL_LOGO, TEXT("Layer_Episode_7"),
 		&Level_5_Level_Stage_Desc)))
 		return E_FAIL;
-
-
-	return S_OK;
-}
-
-HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
-{
-
-	//객체화 연습중 삭제  x
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
-		return E_FAIL;
-
-
-
-	CGamePlay_Button::GamePlayer_Button_Desc Level_Poinst_Shop_Display{}; // 포인트 상점
-	Level_Poinst_Shop_Display.Button_Desc.vSize = { 804.f,482.f };
-	Level_Poinst_Shop_Display.Button_Desc.vPos = { 0.f,0.f };
-	Level_Poinst_Shop_Display.strTexture_Default_Tag = { L"Prototype_Component_Texture_Point_Shop_UI" };
-	Level_Poinst_Shop_Display.strUIName = { L"Level_Point_Shop_Display" };
-	Level_Poinst_Shop_Display.Button_type = Button_type::Point_Shop;
-
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Point_Shop_Display"),
-		&Level_Poinst_Shop_Display)))
-		return E_FAIL;
-
-	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(12);
-
-	vecButtonDescs[0].Button_Desc.vPos.y = 197.f;
-	vecButtonDescs[1].Button_Desc.vPos.y = 197.f;
-
-	vecButtonDescs[2].Button_Desc.vPos.y = 155.f;
-	vecButtonDescs[3].Button_Desc.vPos.y = 155.f;
-
-	vecButtonDescs[4].Button_Desc.vPos.y = 113.f;
-	vecButtonDescs[5].Button_Desc.vPos.y = 113.f;
-
-	vecButtonDescs[6].Button_Desc.vPos.y = 70.f;
-	vecButtonDescs[7].Button_Desc.vPos.y = 70.f;
-
-	vecButtonDescs[8].Button_Desc.vPos.y = 28.f;
-	vecButtonDescs[9].Button_Desc.vPos.y = 28.f;
-
-	vecButtonDescs[10].Button_Desc.vPos.y = -16.f;
-	vecButtonDescs[11].Button_Desc.vPos.y = -16.f;
-
-
-
-	for (int i = 0; i < 6; ++i)
-	{
-		for (int j = 0; j < 2; ++j)
-		{
-			int index = i * 2 + j;
-			vecButtonDescs[index].Button_Desc.vSize = { 211.f, 32.f };
-			vecButtonDescs[index].Button_Desc.vPos.x = { 221.f*j+47.f }; // 위치 조정
-			vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI"; // 컴포넌트
-			vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_" + to_wstring(index); // UI 등록 이름
-			vecButtonDescs[index].Button_type = Button_type::Point_Shop;
-			vecButtonDescs[index].Point_Shop_Num = index;
-			vecButtonDescs[index].Point_Shop_Seleted[0] = true;
-
-			if (FAILED(m_pGameInstance->Add_GameObject(
-				LEVEL_GAMEPLAY,
-				TEXT("Prototype_GameObject_GamePlayer_Button"),
-				LEVEL_LOGO,
-				TEXT("Layer_Point_Shop_Selected"),
-				&vecButtonDescs[index])))
-			{
-				return E_FAIL;
-			}
-		}
-	}
-
-	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecSmallButtonDescs(4);
-
-	vecSmallButtonDescs[0].Point_Shop_Seleted[12] = true; 
-	vecSmallButtonDescs[1].Point_Shop_Seleted[13] = true;
-	vecSmallButtonDescs[2].Point_Shop_Seleted[14] = true;
-	vecSmallButtonDescs[3].Point_Shop_Seleted[15] = true;
-
-	vecSmallButtonDescs[0].Button_Desc.vPos.y = 130.f;
-	vecSmallButtonDescs[1].Button_Desc.vPos.y = 66.f;
-	vecSmallButtonDescs[2].Button_Desc.vPos.y = 2.f;
-	vecSmallButtonDescs[3].Button_Desc.vPos.y = -58.f;
-
-	for(int i = 0; i < 4; ++i)
-	{
-		vecSmallButtonDescs[i].Button_Desc.vSize = { 50.f,50.f };
-		vecSmallButtonDescs[i].Button_Desc.vPos.x ={ -349.f}; // 위치 조정
-		vecSmallButtonDescs[i].strTexture_Default_Tag = L"Prototype_Component_Texture_Point_Shop_UI";
-		vecSmallButtonDescs[i].strUIName = L"Level_Point_Shop_Small_Button" + to_wstring(i);
-		vecSmallButtonDescs[i].Button_type = Button_type::Point_Shop;
-		vecSmallButtonDescs[i].Point_Shop_Num = 12+i;
-
-			if (FAILED(m_pGameInstance->Add_GameObject(
-				LEVEL_GAMEPLAY,
-				TEXT("Prototype_GameObject_GamePlayer_Button"),
-				LEVEL_LOGO,
-				TEXT("Layer_Point_Shop_Selected"+ to_wstring(i)),
-				&vecSmallButtonDescs[i])))
-			{
-				return E_FAIL;
-			}
-		
-	}
 
 
 	return S_OK;
