@@ -152,7 +152,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	/*For.Prototype_Component_Shader*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		CShader::Create(m_pGraphic_Device, L"../Bin/ShaderFiles/Shader_Rect.hlsl"))))
+		CShader::Create(m_pGraphic_Device, L"../../Shader/Shader_Rect.hlsl"))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Particle_Snow*/
