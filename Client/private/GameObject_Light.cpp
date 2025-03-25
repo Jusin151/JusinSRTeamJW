@@ -43,7 +43,7 @@ void CGameObject_Light::Update(_float fTimeDelta)
 void CGameObject_Light::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-    //m_pGameInstance->Add_Light(m_pLightCom);
+    m_pGameInstance->Add_Light(m_pLightCom);
 }
 
 HRESULT CGameObject_Light::Pre_Render()
@@ -90,9 +90,11 @@ HRESULT CGameObject_Light::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
+    CLight::LIGHT_INIT lDesc{ L"../../Resources/Lights/TestLight.json" };
+
     /* For.Com_Light */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Direction"),
-        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
         return E_FAIL;
 
     /* For.Com_VIBuffer */
@@ -155,10 +157,12 @@ json CGameObject_Light::Serialize()
     j["position"] = { pos.x, pos.y, pos.z };
     j["rotation"] = { angle.x, angle.y, angle.z };
     j["scale"] = { scale.x, scale.y, scale.z };
+    
     return j;
 }
 
 void CGameObject_Light::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
+    m_pLightCom->Set_Position(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }

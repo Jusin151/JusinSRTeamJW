@@ -33,8 +33,25 @@ HRESULT CLight::Initialize(void* pArg)
 {
 	if (nullptr != pArg)
 	{
-		LIGHT_DESC in = *reinterpret_cast<LIGHT_DESC*>(pArg);
-		memcpy(&m_tInfo, &in, sizeof(LIGHT_DESC));
+		//LIGHT_DESC in = *reinterpret_cast<LIGHT_DESC*>(pArg);
+		//memcpy(&m_tInfo, &in, sizeof(LIGHT_DESC));
+		LIGHT_INIT file = *reinterpret_cast<LIGHT_INIT*>(pArg);
+		ifstream f(file.strLightPath);
+		json data = json::parse(f);
+		if (data["Type"] == "Point") m_tInfo.eType = LT_POINT;
+		else if (data["Type"] == "Spot") m_tInfo.eType = LT_SPOT;
+		else if (data["Type"] == "Direction") m_tInfo.eType = LT_DIR;
+		m_tInfo.fDiffuse = { data["Diffuse"]["x"], data["Diffuse"]["z"], data["Diffuse"]["y"], data["Diffuse"]["w"] };
+		m_tInfo.fAmbient = { data["Ambient"]["x"], data["Ambient"]["z"], data["Ambient"]["y"], data["Ambient"]["w"] };
+		m_tInfo.fSpecular = { data["Specular"]["x"], data["Specular"]["z"], data["Specular"]["y"], data["Specular"]["w"] };
+		m_tInfo.fDirection = { data["Direction"]["x"], data["Direction"]["y"], data["Direction"]["z"] };
+		m_tInfo.fAttenuation0 = { data["Attenuation0"] };
+		m_tInfo.fAttenuation1 = { data["Attenuation1"] };
+		m_tInfo.fAttenuation2 = { data["Attenuation2"] };
+		m_tInfo.fFalloff = { data["Falloff"] };
+		m_tInfo.fRange = { data["Range"] };
+		m_tInfo.fTheta = { D3DX_PI / data["Theta"] };
+		m_tInfo.fPhi = { D3DX_PI / data["Phi"] };
 	}
 	return S_OK;
 }

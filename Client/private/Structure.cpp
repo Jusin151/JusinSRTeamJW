@@ -53,6 +53,8 @@ void CStructure::Late_Update(_float fTimeDelta)
 
 HRESULT CStructure::Render()
 {
+	if (FAILED(m_pMaterialCom->Bind_Resource()))
+		return E_FAIL;
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
@@ -144,6 +146,11 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -181,7 +188,7 @@ void CStructure::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
-
+	Safe_Release(m_pMaterialCom);
 }
 
 json CStructure::Serialize()

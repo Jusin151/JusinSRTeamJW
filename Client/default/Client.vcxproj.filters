@@ -255,6 +255,8 @@
     </Filter>
     <Filter Include="02.GameObjects\97. UI\Episode_UI">
       <UniqueIdentifier>{40d34720-5164-43b6-b12f-de38d7fdbaef}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{f6d5f84e-7269-4309-9a5f-7c4b2c234cd7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -504,6 +506,9 @@
     <ClInclude Include="..\public\UI_Episode.h">
       <Filter>02.GameObjects\97. UI\Episode_UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Effect.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -736,6 +741,9 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Episode.cpp">
       <Filter>02.GameObjects\97. UI\Episode_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

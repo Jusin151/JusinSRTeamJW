@@ -9,6 +9,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer;
 class CCollider;
+class CMaterial;
 END
 
 BEGIN(Client)
@@ -45,6 +46,7 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CMaterial* m_pMaterialCom = { nullptr };
 	_bool m_bIsCubeCollider = { false };
 	STRUCTURE_DESC m_tStructure_Desc;
 	_wstring m_strVIBuffer;

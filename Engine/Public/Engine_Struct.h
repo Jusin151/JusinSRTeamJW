@@ -134,6 +134,7 @@ namespace Engine
 	typedef struct tagVertexCube
 	{
 		D3DXVECTOR3		vPosition;
+		D3DXVECTOR3		vNormal;
 		D3DXVECTOR3		vTexcoord;
 	}VTXCUBE;
 

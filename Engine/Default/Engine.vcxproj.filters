@@ -176,6 +176,9 @@
     <ClInclude Include="..\Public\Firework_Particle_System.h">
       <Filter>04.Components\Particle\System\Firework</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BlendObject.h">
+      <Filter>02.GameObject\BlendObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -343,6 +346,9 @@
     <Filter Include="04.Components\Particle\System\Firework">
       <UniqueIdentifier>{83e6c290-b3d7-4b05-a68c-186b1870d125}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\BlendObject">
+      <UniqueIdentifier>{44e28a63-b2a2-4c0e-9d13-cbb5b6c81309}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -499,6 +505,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Picking.cpp">
       <Filter>06.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BlendObject.cpp">
+      <Filter>02.GameObject\BlendObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
