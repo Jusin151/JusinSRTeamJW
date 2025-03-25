@@ -10,19 +10,7 @@ BEGIN(Engine)
 class CRenderer final : public CBase
 {
 public:
-	enum RENDERGROUP
-	{
-		RG_PRIORITY,
-		RG_NONBLEND,
-		RG_COLLIDER,
-		RG_BLEND,
-		RG_UI_BACKGROUND,  //  UI 배경
-		RG_UI_BUTTON,      //  UI 버튼
-		RG_UI,             // 원래 UI
-		RG_IMGUI,
-		RG_END
-	};
-
+	enum RENDERGROUP { RG_PRIORITY, RG_NONBLEND, RG_COLLIDER, RG_BLEND, RG_UI, RG_IMGUI, RG_END };
 private:
 	CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual ~CRenderer() = default;
@@ -46,13 +34,7 @@ private:
 	HRESULT Render_NonBlend();
 	HRESULT Render_Blend();
 	HRESULT Render_Collider();
-
-	HRESULT Render_UI_Background();
-
-	HRESULT Render_UI_Button();
-
 	HRESULT Render_UI();
-
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

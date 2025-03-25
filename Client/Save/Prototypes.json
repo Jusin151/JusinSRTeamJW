@@ -73,9 +73,15 @@
       "count": 21
     },
     {
-      "tag": "Prototype_Component_Texture_UI_Episode",
+      "tag": "Prototype_Component_Texture_Point_Shop_UI",
       "level": 3,
-      "path": "../../Resources/Textures/UI/Episode_UI/Episode_Display.png",
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_%d.png",
+      "count": 3
+    },
+    {
+      "tag": "Prototype_Component_Texture_Spell_Shop_UI",
+      "level": 3,
+      "path": "../../Resources/Textures/UI/Spell_UI/Spell_UI.png",
       "count": 1
     },
     {
@@ -187,6 +193,12 @@
       "count": 4
     },
     {
+      "tag": "Prototype_Component_Texture_Point_Shop",
+      "level": 3,
+      "path": "../../Resources/Textures/Map/Hub/texture_hub_stat_station.png",
+      "count": 1
+    },
+    {
       "tag": "Prototype_Component_Texture_Weapon_Bullet",
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png",
@@ -245,33 +257,14 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall6"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Logo/SR_Start_Select.png",
-      "tag": "Prototype_Component_Texture_Point_Shop"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png",
-      "tag": "Prototype_Component_Texture_UI_Point_Shop"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
-      "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
-      "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
     }
   ],
   "gameObjects": [
+    {
+      "tag": "Prototype_GameObject_PointShop",
+      "level": 3,
+      "class": "CPointShop"
+    },
     {
       "tag": "Prototype_GameObject_Player",
       "level": 3,
@@ -363,6 +356,16 @@
       "class": "CUI_Menu"
     },
     {
+      "tag": "Prototype_GameObject_GamePlayer_Button",
+      "level": 3,
+      "class": "CGamePlay_Button"
+    },
+    {
+      "tag": "Prototype_GameObject_Spell_Shop_UI",
+      "level": 3,
+      "class": "CUI_Spell_Shop"
+    },
+    {
       "tag": "Prototype_GameObject_Weapon_Axe",
       "level": 3,
       "class": "CAxe"
@@ -402,6 +405,7 @@
       "level": 3,
       "tag": "Prototype_GameObject_Wall2"
     },
+
     {
       "class": "CStructure",
       "level": 3,

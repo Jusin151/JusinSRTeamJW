@@ -38,12 +38,12 @@ HRESULT CPointShop::Initialize(void* pArg)
 
 void CPointShop::Priority_Update(_float fTimeDelta)
 {
-    m_bIsActive = true;
+
 }
 
 void CPointShop::Update(_float fTimeDelta)
 {
-   
+
     __super::Update(fTimeDelta);
 
     if (m_bIsOpen)
@@ -143,7 +143,7 @@ HRESULT CPointShop::Open_Shop()
     Refresh_Shop_Items();
 
     return S_OK;
-}//뭘봐 ㅋ
+}
 
 HRESULT CPointShop::Close_Shop()
 {
