@@ -77,7 +77,7 @@ void CUI_HP_Bar::Update_HP_Bar()
 		fHP_Ratio = 1.f;
 
 
-	VTXPOSTEX* pVertices = nullptr;
+	VTXNORTEX* pVertices = nullptr;
 	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
 	//  (오른쪽부터 점점 안 보이게)
