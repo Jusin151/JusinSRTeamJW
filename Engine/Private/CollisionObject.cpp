@@ -42,11 +42,11 @@ void CCollisionObject::Take_Damage(CCollisionObject* other)
 
 	if (other == nullptr)
 		return;
-	
+
 	if (Get_Damage() >= 0)
 		other->Set_Hp(other->Get_Hp() - Get_Damage());
-	
-	
+
+
 }
 
 void CCollisionObject::Free()
