@@ -9,11 +9,19 @@ class CTexture;
 class CTransform;
 class CVIBuffer;
 class CCollider;
+class CMaterial;
 END
 
 BEGIN(Client)
 class CStructure : public CCollisionObject
 {
+	enum class STRUCTURE_TYPE : uint8_t // 1바이트로 설정
+	{
+		NORMAL,
+		BOSS_FLOOR,  // 파도 효과가 있는 바닥
+		BOSS_WALL,  // 보스 벽
+		// 필요에 따라 더 추가 가능
+	};
 public:
 	typedef struct tagStructureDesc : public CTransform::TRANSFORM_DESC
 	{
@@ -45,11 +53,19 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CMaterial* m_pMaterialCom = { nullptr };
 	_bool m_bIsCubeCollider = { false };
 	STRUCTURE_DESC m_tStructure_Desc;
 	_wstring m_strVIBuffer;
 	_wstring m_strCollProtoTag;
 	_wstring m_strTextureTag;
+	_ulong originalAddressU{}, originalAddressV{};
+
+#pragma region 텍스쳐 스케일에 따라 반복
+	_float m_fWaveTime = 0.f;   // 물결 애니메이션용 시간 변수
+	_float m_fWaveSpeed = 0.5f;  // 물결 속도
+	STRUCTURE_TYPE m_eStructureType = { STRUCTURE_TYPE::NORMAL };
+#pragma endregion
 
 private:
 	HRESULT SetUp_RenderState();

@@ -126,13 +126,11 @@
       <AdditionalDependencies>Engine.lib;d3dx9.LIB;fmodstudio_vc.lib;fsbank_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
     <FxCompile>
-      <ShaderModel>3.0</ShaderModel>
-      <EntryPointName>main</EntryPointName>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,6 +153,12 @@
       <AdditionalDependencies>Engine.lib;d3dx9.LIB;fmodstudio_vc.lib;fsbank_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../EngineSDK/Lib/;$(SolutionDir)External Libraries\fmod\core\lib\x64;$(SolutionDir)External Libraries\fmod\fsbank\lib\x64;$(SolutionDir)External Libraries\fmod\studio\lib\x64</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
     <PreBuildEvent>
       <Command>python $(SolutionDir)convert_encoding.py</Command>
     </PreBuildEvent>
@@ -167,6 +171,7 @@
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\Public\Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
@@ -194,9 +199,12 @@
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\public\PointShop.h" />
     <ClInclude Include="..\public\Particles.h" />
+    <ClInclude Include="..\public\UI_Episode.h" />
+    <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\Shop.h" />
+    <ClInclude Include="..\Public\UI_Shop_Base.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
     <ClInclude Include="..\public\Staff.h" />
@@ -204,7 +212,6 @@
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
-    <ClInclude Include="..\public\CUI_Dialogue.h" />
     <ClInclude Include="..\public\Default_Menu.h" />
     <ClInclude Include="..\public\GamePlay_Button.h" />
     <ClInclude Include="..\public\Structure.h" />
@@ -218,6 +225,7 @@
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h" />
     <ClInclude Include="..\public\CUI_WeaponIcon.h" />
+    <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
@@ -235,6 +243,7 @@
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
+    <ClInclude Include="..\Public\UI_WeaponShop_UI.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -246,6 +255,9 @@
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
+    <ClCompile Include="..\private\UI_Episode.cpp" />
+    <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
+    <ClCompile Include="..\Private\Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\Private\Effect_Base.cpp" />
@@ -277,6 +289,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
@@ -288,6 +301,7 @@
     <ClCompile Include="..\private\UI_Right_Display.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />
     <ClCompile Include="..\private\Default_Menu.cpp" />
+    <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
     <ClCompile Include="..\private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
@@ -302,6 +316,7 @@
     <ClCompile Include="..\private\UI_Left_Display.cpp" />
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
+    <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
@@ -317,10 +332,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\Shader\Shader_Rect.hlsl" />
     <FxCompile Include="..\..\Shader\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="..\bin\ShaderFiles\Shader_Rect.hlsl" />
     <FxCompile Include="PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

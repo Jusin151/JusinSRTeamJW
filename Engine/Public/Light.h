@@ -8,6 +8,10 @@ class ENGINE_DLL CLight final : public CComponent
 {
 public:
 	enum LIGHTTYPE {LT_POINT = 1, LT_SPOT, LT_DIR, LT_END};
+	typedef struct tagLightFilePath
+	{
+		_wstring strLightPath;
+	} LIGHT_INIT;
 	typedef struct tagLightDesc{
 		LIGHTTYPE	eType			= {};
 		_float4		fDiffuse		= {};

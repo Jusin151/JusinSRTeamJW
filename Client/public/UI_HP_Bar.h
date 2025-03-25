@@ -54,6 +54,7 @@ public:
 		
 	}
 	_uint Get_Health() { return m_iHealth; }
+
 private:
 	_uint m_iHealth{};
 	HP_STATE m_eHp_State{};

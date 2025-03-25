@@ -16,9 +16,7 @@ CUI_HP_Bar::CUI_HP_Bar(const CUI_HP_Bar& Prototype)
 HRESULT CUI_HP_Bar::Initialize_Prototype()
 {
 	if (FAILED(Ready_Components()))
-	{
 		return E_FAIL;
-	}
 
 	return S_OK;
 }
@@ -36,6 +34,7 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 		Set_Position(m_HP_Bar_INFO.vPos);
 		Set_Size(m_HP_Bar_INFO.vSize);
 		CUI_Manager::GetInstance()->AddUI(L"Hp_Bar", this);
+
 	}
 	else
 		return E_FAIL;
@@ -76,7 +75,7 @@ void CUI_HP_Bar::Update_HP_Bar()
 		fHP_Ratio = 1.f;
 
 
-	VTXPOSTEX* pVertices = nullptr;
+	VTXNORTEX* pVertices = nullptr;
 	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
 	//  (오른쪽부터 점점 안 보이게)
@@ -114,7 +113,7 @@ HRESULT CUI_HP_Bar::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(iCurrent_Image)))
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;

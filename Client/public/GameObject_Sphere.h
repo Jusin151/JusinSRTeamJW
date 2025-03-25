@@ -8,6 +8,7 @@ class CTransform;
 class CVIBuffer_Sphere;
 class CCollider_Sphere;
 class CCollider_Cube;
+class CMaterial;
 END
 
 class CGameObject_Sphere final : public CGameObject
@@ -38,6 +39,7 @@ private:
 	CTexture*			m_pTextureCom	= { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Sphere*	m_pVIBufferCom	= { nullptr };
+	CMaterial*			m_pMaterialCom  = { nullptr };
 
 public:
 	virtual json Serialize() override;

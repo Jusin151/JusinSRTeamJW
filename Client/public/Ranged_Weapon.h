@@ -40,7 +40,7 @@ public:
     virtual HRESULT Render()override;
     virtual HRESULT Ready_Components();
     virtual HRESULT Ready_Picking();
-    virtual HRESULT Picking_Object();
+    virtual HRESULT Picking_Object(_uint EffectNum);
     void Free();
 
 

@@ -102,7 +102,7 @@ void CShotGun::Attack(_float fTimeDelta)
 			m_iCurrentFrame = m_TextureRanges["Firing"].first;
 			m_fElapsedTime = 0.0f;
 
-			__super::Picking_Object();
+			__super::Picking_Object(5);
 			CUI_Manager::GetInstance()->Set_Bullet(1);
 		}
 	}
@@ -149,6 +149,7 @@ void CShotGun::Attack(_float fTimeDelta)
 	}
 }
 
+
 void CShotGun::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
@@ -156,10 +157,10 @@ void CShotGun::Late_Update(_float fTimeDelta)
 
 HRESULT CShotGun::Render()
 {
-	if (m_bWall)
+	/*if (m_bWall)
 		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
 	if (m_bMonster)
-		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
+		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));*/
 
 
 	D3DXMATRIX matOldView, matOldProj;

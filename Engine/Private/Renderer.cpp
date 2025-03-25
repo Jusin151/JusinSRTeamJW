@@ -33,17 +33,21 @@ HRESULT CRenderer::Add_Light(CLight* pLight)
 
 HRESULT CRenderer::Draw()
 {
-	/*if (FAILED(Enable_Lights()))
-		return E_FAIL;*/
+	if (FAILED(Enable_Lights()))
+		return E_FAIL;
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
 	if (FAILED(Render_NonBlend()))
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
-	/*if (FAILED(Disable_Lights()))
-		return E_FAIL;*/
+	if (FAILED(Disable_Lights()))
+		return E_FAIL;
 	if (FAILED(Render_Collider()))
+		return E_FAIL;
+	if (FAILED(Render_UI_Background()))
+		return E_FAIL;
+	if (FAILED(Render_UI_Button()))
 		return E_FAIL;
 	if (FAILED(Render_UI()))
 		return E_FAIL;
@@ -55,15 +59,20 @@ HRESULT CRenderer::Draw()
 
 HRESULT CRenderer::Enable_Lights()
 {
-	int index = 0;
-	for (auto& pLight : m_Lights)
+
+	if (!m_Lights.empty())
 	{
-		pLight->Bind_Resouce(index);
-		m_pGraphic_Device->LightEnable(index++, TRUE);
+
+		int index = 0;
+		for (auto& pLight : m_Lights)
+		{
+			pLight->Bind_Resouce(index);
+			m_pGraphic_Device->LightEnable(index++, TRUE);
+		}
+		m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		m_pGraphic_Device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
 	}
- 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
 	return S_OK;
 }
 
@@ -76,6 +85,7 @@ HRESULT CRenderer::Disable_Lights()
 		Safe_Release(pLight);
 	}
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
 	m_Lights.clear();
 	return S_OK;
 }
@@ -137,6 +147,33 @@ HRESULT CRenderer::Render_Collider()
 	m_RenderObjects[RG_COLLIDER].clear();
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_UI_Background()
+{
+	for (auto& pGameObject : m_RenderObjects[RG_UI_BACKGROUND])
+	{
+		if (nullptr != pGameObject && pGameObject->IsActive())
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderObjects[RG_UI_BACKGROUND].clear();
+
+	return S_OK;
+}
+HRESULT CRenderer::Render_UI_Button()
+{
+	for (auto& pGameObject : m_RenderObjects[RG_UI_BUTTON])
+	{
+		if (nullptr != pGameObject && pGameObject->IsActive())
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderObjects[RG_UI_BUTTON].clear();
+
 	return S_OK;
 }
 

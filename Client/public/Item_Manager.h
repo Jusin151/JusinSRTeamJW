@@ -91,6 +91,19 @@ public:
      
         return it->second->IsActive();
     }
+    void All_Weapon_Off()
+    {
+
+        for (auto& pair : m_UIMap)
+        {
+            if (pair.second->IsActive())
+            {
+                pair.second->SetActive(false);
+                break;
+            }
+        }
+    }
+
     void Set_Inven_Render(_bool type){ Render_off = type;}
     _bool Get_Inven_Render() { return Render_off; }
 private:

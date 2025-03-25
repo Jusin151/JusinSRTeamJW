@@ -1,6 +1,6 @@
-// RedLightPixelShader.hlsl
+ï»¿// RedLightPixelShader.hlsl
 sampler TextureSampler : register(s0);
-float4 g_RedLightColor : register(c0); // »¡°£ ºû »ö»ó
+float4 g_RedLightColor : register(c0); // Â»Â¡Â°Â£ ÂºÃ» Â»Ã¶Â»Ã³
 
 struct VS_OUTPUT
 {
@@ -11,6 +11,6 @@ struct VS_OUTPUT
 float4 PS(VS_OUTPUT input) : SV_Target
 {
     float4 texColor = tex2D(TextureSampler, input.TexCoord);
-    float4 finalColor = texColor * g_RedLightColor; // ÅØ½ºÃ³ »ö»ó°ú »¡°£ ºû »ö»ó °öÇÏ±â
+    float4 finalColor = texColor * g_RedLightColor; // Ã…Ã˜Â½ÂºÃƒÂ³ Â»Ã¶Â»Ã³Â°Ãº Â»Â¡Â°Â£ ÂºÃ» Â»Ã¶Â»Ã³ Â°Ã¶Ã‡ÃÂ±Ã¢
     return finalColor;
 }

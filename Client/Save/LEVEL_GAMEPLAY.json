@@ -230,6 +230,32 @@
       {
         "FromPool": false,
         "IsActive": true,
+        "LayerTag": "Layer_GameObject",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 5,
+          "ProtTag": "Prototype_GameObject_Light",
+          "ProtoLevel": 0
+        },
+        "position": [
+          0.0,
+          2.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
         "LayerTag": "Layer_Hub_Ceil1",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Cube",

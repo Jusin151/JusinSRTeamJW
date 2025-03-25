@@ -176,6 +176,15 @@
     <ClInclude Include="..\Public\Firework_Particle_System.h">
       <Filter>04.Components\Particle\System\Firework</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BlendObject.h">
+      <Filter>02.GameObject\BlendObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Projectile_Particle_System.h">
+      <Filter>04.Components\Particle\System\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shader.h">
+      <Filter>04.Components\Shader</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\CollisionObject.h">
       <Filter>02.GameObject\CollisionObject</Filter>
     </ClInclude>
@@ -346,6 +355,15 @@
     <Filter Include="04.Components\Particle\System\Firework">
       <UniqueIdentifier>{83e6c290-b3d7-4b05-a68c-186b1870d125}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\BlendObject">
+      <UniqueIdentifier>{44e28a63-b2a2-4c0e-9d13-cbb5b6c81309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\Projectile">
+      <UniqueIdentifier>{f30b5435-a479-4423-bb01-4908717064af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Shader">
+      <UniqueIdentifier>{910bf93e-f950-4279-803b-b86512bdab9b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObject\CollisionObject">
       <UniqueIdentifier>{cc85b9de-7121-4190-ad4e-34cff5b1f04d}</UniqueIdentifier>
     </Filter>
@@ -492,6 +510,9 @@
     <ClCompile Include="..\Private\Firework_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Firework</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Projectile_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Projectile</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\CollisionObject.cpp">
       <Filter>02.GameObject\CollisionObject</Filter>
     </ClCompile>
@@ -508,6 +529,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Picking.cpp">
       <Filter>06.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BlendObject.cpp">
+      <Filter>02.GameObject\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader.cpp">
+      <Filter>04.Components\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

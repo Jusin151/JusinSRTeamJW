@@ -23,6 +23,7 @@ public:
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
+	void Update_Exp_Bar();
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
@@ -39,6 +40,6 @@ public:
 	virtual void Free();
 
 private:
-	_float m_fExp{};  // 체력
+	_float m_fExp{};  
 };
 END

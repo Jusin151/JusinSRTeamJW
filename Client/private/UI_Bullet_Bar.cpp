@@ -70,7 +70,7 @@ void CUI_Bullet_Bar::Update_Bullet_Bar()
 	if (fBullet_Ratio > 1.f)
 		fBullet_Ratio = 1.f;
 
-	VTXPOSTEX* pVertices = nullptr;
+	VTXNORTEX* pVertices = nullptr;
 	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
 	// 전체 이미지가 보이는 상태(fBullet_Ratio==1)면 좌측 texcoord.x = 0,

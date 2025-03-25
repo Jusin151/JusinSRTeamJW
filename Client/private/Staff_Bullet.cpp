@@ -36,16 +36,18 @@ HRESULT CStaff_Bullet::Initialize(void* pArg)
 	Player_Pos = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
 
 
+    Player_Pos += Player_Look * 0.8f; 
+	Player_Pos += Player_RIght * 0.1f;
 	Player_Pos.y -= 0.5f;
-
+	
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, Player_RIght);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, Player_Up);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, Player_Look);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Player_Pos);
-	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 
 	
-
+	m_fSpeed = 5.f;
 	return S_OK;
 }
 
@@ -60,7 +62,7 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 	m_pTransformCom->Go_Straight(fTimeDelta * m_fSpeed);
 
 	m_fElapsedTime += fTimeDelta;
-	if (m_fElapsedTime >= 0.05f) 
+	if (m_fElapsedTime >= 0.02f) 
 	{
 		m_fElapsedTime = 0.0f;
 		if (m_iCurrentFrame < 6) 
@@ -79,7 +81,7 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 void CStaff_Bullet::Late_Update(_float fTimeDelta)
 {
 	
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this)))
 		return;
 }
 

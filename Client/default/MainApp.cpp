@@ -21,10 +21,6 @@ CMainApp::CMainApp()
 HRESULT CMainApp::Initialize()
 {
 
-	// 3월 18일 랜드오브젝트와 평면의 방정식
-	// 플레이어 지형타기까지 완료 
-	// 스카이큐브 까지 완료
-	// dds 감지기능 완료
 
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;
@@ -101,6 +97,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if(FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_EXP"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Base*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Base"),
@@ -148,6 +148,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	/* For.Prototype_Component_Light_Spot*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Light_Spot"),
 		CLight::Create(m_pGraphic_Device, CLight::LT_SPOT))))
+		return E_FAIL;
+
+	/*For.Prototype_Component_Shader*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+		CShader::Create(m_pGraphic_Device, L"../Bin/ShaderFiles/Shader_Rect.hlsl"))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Particle_Snow*/

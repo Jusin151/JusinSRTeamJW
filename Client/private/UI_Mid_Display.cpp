@@ -30,13 +30,18 @@ HRESULT CUI_Mid_Display::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		m_EXP_INFO = *reinterpret_cast<UI_Child_Desc*>(pArg);
-		m_EXP_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
-		Set_Position(m_EXP_INFO.vPos);
-		Set_Size(m_EXP_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"Mid_Panel", this);
+		
+
+			m_EXP_INFO.vPos += CUI_Manager::GetInstance()->GetParent_Pos();
+			Set_Position(m_EXP_INFO.vPos);
+			Set_Size(m_EXP_INFO.vSize);
+			CUI_Manager::GetInstance()->AddUI(L"Mid_Panel", this);
+			iCurrent_Image = 0;
 	}
 	else
 		return E_FAIL;
+
+
 
 
 	m_pTransformCom->Set_Scale(m_EXP_INFO.vSize.x, m_EXP_INFO.vSize.y, 1.f);
@@ -51,6 +56,12 @@ void CUI_Mid_Display::Priority_Update(_float fTimeDelta)
 
 void CUI_Mid_Display::Update(_float fTimeDelta)
 {
+	
+}
+
+void CUI_Mid_Display::Update_Exp_Bar()
+{
+	
 }
 
 void CUI_Mid_Display::Late_Update(_float fTimeDelta)
@@ -62,18 +73,52 @@ void CUI_Mid_Display::Late_Update(_float fTimeDelta)
 HRESULT CUI_Mid_Display::Render()
 {
 	
-	return __super::Render();
+	D3DXMATRIX matOldView, matOldProj;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
+
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIX matProj;
+	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom->Bind_Resource(iCurrent_Image)))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
+
+	return S_OK;
 }
 
 HRESULT CUI_Mid_Display::Ready_Components()
 {
+
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Mid_Panel"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
  		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
- 		return E_FAIL;
+
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+	
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),

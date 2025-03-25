@@ -15,7 +15,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 {
 	m_iNumVertices = 8;
 	m_iVertexStride = sizeof(VTXCUBE);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
 	m_iNumPritimive = 12;
 
 	m_iIndexStride = 2;
@@ -33,29 +33,36 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 
 	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[0].vTexcoord = pVertices[0].vPosition;
+	pVertices[0].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = pVertices[1].vPosition;
+	pVertices[1].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[2].vTexcoord = pVertices[2].vPosition;
+	pVertices[2].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[3].vTexcoord = pVertices[3].vPosition;
+	pVertices[3].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[4].vTexcoord = pVertices[4].vPosition;
+	pVertices[4].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[5].vTexcoord = pVertices[5].vPosition;
+	pVertices[5].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[6].vTexcoord = pVertices[6].vPosition;
+	pVertices[6].vNormal = { 0.f, 0.f, 0.f };
 
 	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = pVertices[7].vPosition;
-
-	m_pVB->Unlock();
+	pVertices[7].vNormal = { 0.f, 0.f, 0.f };
+	
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -92,7 +99,44 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[33] = 0; pIndices[34] = 2; pIndices[35] = 3;
 
 	m_pIB->Unlock();
+	
 #pragma endregion
+	// 각 면의 노멀 계산 (인덱스 버퍼 기반)
+	D3DXVECTOR3 faceNormals[12]; // 12개의 삼각형 면
+	for (int i = 0; i < 12; ++i)
+	{
+		D3DXVECTOR3 v0 = pVertices[pIndices[i * 3]].vPosition;
+		D3DXVECTOR3 v1 = pVertices[pIndices[i * 3 + 1]].vPosition;
+		D3DXVECTOR3 v2 = pVertices[pIndices[i * 3 + 2]].vPosition;
+
+		D3DXVECTOR3 edge1 = v1 - v0;
+		D3DXVECTOR3 edge2 = v2 - v0;
+		D3DXVec3Cross(&faceNormals[i], &edge1, &edge2); // 외적
+		D3DXVec3Normalize(&faceNormals[i], &faceNormals[i]); // 정규화
+	}
+
+	// 각 정점의 노멀 계산 (면 노멀 평균)
+	for (int i = 0; i < 8; ++i)
+	{
+		D3DXVECTOR3 vertexNormal = { 0.f, 0.f, 0.f };
+		int numFaces = 0;
+
+		// 정점 i가 사용되는 모든 면을 찾아서 노멀을 더함
+		for (int j = 0; j < 12; ++j) // 12 triangles
+		{
+			if (pIndices[j * 3] == i || pIndices[j * 3 + 1] == i || pIndices[j * 3 + 2] == i)
+			{
+				vertexNormal += faceNormals[j];
+				numFaces++;
+			}
+		}
+
+		// 평균 계산 및 정규화
+		vertexNormal /= (float)numFaces;
+		D3DXVec3Normalize(&pVertices[i].vNormal, &vertexNormal);
+	}
+
+	m_pVB->Unlock();
 
 	return S_OK;
 }
