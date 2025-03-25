@@ -62,8 +62,8 @@ HRESULT CUI_Base::Ready_Components()
 void CUI_Base::Free()
 {
 	__super::Free();
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
 

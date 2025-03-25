@@ -47,12 +47,6 @@ public:
 
     }BackGround_DESC;
 
-    typedef struct tagDefault_UI
-    {
-        _float2 vPos;
-        _float2 vSize;
-    }UI_Desc;
-
 protected:
     CUI_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
     CUI_Base(const CUI_Base& Prototype);
@@ -117,7 +111,6 @@ public:
     _float2  m_vRelativePosition = {};
     CUI_Base* Parent = nullptr;
     unordered_map<wstring, CUI_Base*> Childs;
-    UI_Desc m_Shop_INFO{};
 protected:
         UI_Parent_Desc m_UIBase_INFO{};
         _float2 m_vPos = {};  // UI 화면 좌표

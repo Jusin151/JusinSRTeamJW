@@ -15,9 +15,6 @@
 #include "Weapon_Effect.h"
 #include "Staff_Bullet.h"
 #include "PointShop.h"
-#include "UI_Point_Shop.h"
-#include "UI_Episode.h"
-#include "UI_WeaponShop_UI.h"
 
 
 
@@ -184,30 +181,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CStaff_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
-		TEXT("Prototype_GameObject_GamePlayer_Button"),
-		CGamePlay_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 에피소드 UI 삭제 X
-		TEXT("Prototype_GameObject_UI_Episode"),
-		CUI_Episode::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 테스트 삭제 X
 		TEXT("Prototype_GameObject_Point_Shop"),
 		CPointShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Point_Shop"),
-		CUI_Point_Shop::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
-		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
 		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
