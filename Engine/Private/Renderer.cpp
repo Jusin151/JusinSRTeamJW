@@ -1,6 +1,7 @@
 ﻿#include "Renderer.h"
 #include "GameObject.h"
 #include "Light.h"
+#include "Collider.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -136,16 +137,28 @@ HRESULT CRenderer::Render_Collider()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_GREEN);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+	m_pGraphic_Device->SetTexture(0, nullptr);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE); // 텍스처 알파값 사용
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);  // 텍스처에서 알파값 가져옴
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);  // 정점에서 알파값 가져옴
+	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_INVSRCALPHA);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	for (auto& pGameObject : m_RenderObjects[RG_COLLIDER])
 	{
 		if (nullptr != pGameObject && pGameObject->IsActive())
 		{
-			pGameObject->Render();
+			pGameObject->Render();	
 		}
 		Safe_Release(pGameObject);
 	}
 	m_RenderObjects[RG_COLLIDER].clear();
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	m_pGraphic_Device->SetRenderState(D3DRS_DEPTHBIAS, 0);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
 	return S_OK;
 }

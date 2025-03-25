@@ -37,7 +37,6 @@ HRESULT CVIBuffer::Render()
 {  
     /* 정점들을 이용해서 정해놓은 방식대로 도형들을 그려라.  */
     /*m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_iNumPritimive);*/
-    
     m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, 0, m_iNumPritimive);
     
     return S_OK;
@@ -65,6 +64,13 @@ _float3 CVIBuffer::Compute_PickedPosition()
 
 HRESULT CVIBuffer::Bind_Buffers()
 {
+    DWORD state;
+    m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &state);
+    if (state == D3DFILL_WIREFRAME)
+    {
+
+    }
+
     /* 정점버퍼를 장치에 바인딩한다. */
     m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, m_iVertexStride);    
 
