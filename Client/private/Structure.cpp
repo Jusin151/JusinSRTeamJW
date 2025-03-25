@@ -123,7 +123,12 @@ HRESULT CStructure::SetUp_RenderState()
 	else
 	{
 #pragma region 텍스쳐 스케일에 따라 반복
-		D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
+	//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
+		D3DXVECTOR2 vScaleFactor(scale.x, -scale.y);
+		D3DXVECTOR2 vOffsetFactor(0.5f, 0.5f); // Y축 반전을 위한 오프셋 조정
+
+		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
+			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
 #pragma endregion
 	}
 

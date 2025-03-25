@@ -162,6 +162,16 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_AntBossWall"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntWall2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntWall3"
     }
   ],
   "textures": [
@@ -314,6 +324,18 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_BossWall.png",
       "tag": "Prototype_Component_Texture_AntBossWall"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_2.png",
+      "tag": "Prototype_Component_Texture_AntWall2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_1.png",
+      "tag": "Prototype_Component_Texture_AntWall3"
     }
   ]
 }
