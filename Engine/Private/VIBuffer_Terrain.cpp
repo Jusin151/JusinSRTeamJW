@@ -98,12 +98,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			pVertices[iIndices[1]].vNormal += vNormal;
 			pVertices[iIndices[2]].vNormal += vNormal;
 
-
-
 			pIndices[iNumIndices++] = iIndices[0];
 			pIndices[iNumIndices++] = iIndices[2];
 			pIndices[iNumIndices++] = iIndices[3];
-
 
 			vSourDir = pVertices[iIndices[2]].vPosition - pVertices[iIndices[0]].vPosition;
 			vDestDir = pVertices[iIndices[3]].vPosition - pVertices[iIndices[2]].vPosition;

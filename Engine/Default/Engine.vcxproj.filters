@@ -179,6 +179,9 @@
     <ClInclude Include="..\Public\BlendObject.h">
       <Filter>02.GameObject\BlendObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Projectile_Particle_System.h">
+      <Filter>04.Components\Particle\System\Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -349,6 +352,9 @@
     <Filter Include="02.GameObject\BlendObject">
       <UniqueIdentifier>{44e28a63-b2a2-4c0e-9d13-cbb5b6c81309}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Projectile">
+      <UniqueIdentifier>{f30b5435-a479-4423-bb01-4908717064af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -491,6 +497,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Firework_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Firework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Projectile_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
