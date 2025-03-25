@@ -182,6 +182,9 @@
     <ClInclude Include="..\Public\Projectile_Particle_System.h">
       <Filter>04.Components\Particle\System\Projectile</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Shader.h">
+      <Filter>04.Components\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -355,6 +358,9 @@
     <Filter Include="04.Components\Particle\System\Projectile">
       <UniqueIdentifier>{f30b5435-a479-4423-bb01-4908717064af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Shader">
+      <UniqueIdentifier>{910bf93e-f950-4279-803b-b86512bdab9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -517,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="..\private\BlendObject.cpp">
       <Filter>02.GameObject\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader.cpp">
+      <Filter>04.Components\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

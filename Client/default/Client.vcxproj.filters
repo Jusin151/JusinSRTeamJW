@@ -256,6 +256,9 @@
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{f6d5f84e-7269-4309-9a5f-7c4b2c234cd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97.ShaderFiles">
+      <UniqueIdentifier>{344b97c5-1616-4e8e-8974-bd771f8a83bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -738,6 +741,11 @@
     </FxCompile>
     <FxCompile Include="..\..\Shader\VertexShader.hlsl">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\bin\ShaderFiles\Shader_Rect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

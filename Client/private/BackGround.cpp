@@ -134,27 +134,18 @@ HRESULT CBackGround::Render()
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
+
+	m_pTransformCom->Bind_Resource();
+
+
+	__super::Begin();
+
+	/* 정점을 그린다. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	if (m_BackGround_INFO.fStack_MoveDistance != 0.f)
-	{
-		// 두 번째 이미지 렌더링 (첫 번째 이미지의 오른쪽에 할꺼임!)
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			_float3(m_BackGround_INFO.BackGround_Desc.vPos.x + m_BackGround_INFO.fMoveDistance, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
-		if (FAILED(m_pTransformCom->Bind_Resource()))
-			return E_FAIL;
-		if (FAILED(m_pTextureCom->Bind_Resource(0)))
-			return E_FAIL;
-		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-			return E_FAIL;
-		if (FAILED(m_pVIBufferCom->Render()))
-			return E_FAIL;
-	}
+	__super::End();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
 	return S_OK;
 }
@@ -174,7 +165,7 @@ HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
-
+	
 
 
 
@@ -216,5 +207,9 @@ CGameObject* CBackGround::Clone(void* pArg)
 void CBackGround::Free()
 {
 	__super::Free();
-	Safe_Release(m_pMaterial);
+
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+
 }

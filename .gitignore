@@ -404,3 +404,4 @@ FodyWeavers.xsd
 *.sln.iml
 EngineSDK/Lib/Engine.lib
 Client/default/imgui.ini
+EngineSDK

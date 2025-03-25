@@ -91,6 +91,13 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
 
+	lstrcpy(m_szLoadingText, TEXT("셰이더을(를) 로딩중입니다."));
+	/* For.Prototype_Component_Shader_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Shader_Rect"),
+		CShader::Create(m_pGraphic_Device, TEXT("../Bin/ShaderFiles/Shader_Rect.hlsl")))))
+		return E_FAIL;
+
+
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
