@@ -59,15 +59,20 @@ HRESULT CRenderer::Draw()
 
 HRESULT CRenderer::Enable_Lights()
 {
-	int index = 0;
-	for (auto& pLight : m_Lights)
+
+	if (!m_Lights.empty())
 	{
-		pLight->Bind_Resouce(index);
-		m_pGraphic_Device->LightEnable(index++, TRUE);
+
+		int index = 0;
+		for (auto& pLight : m_Lights)
+		{
+			pLight->Bind_Resouce(index);
+			m_pGraphic_Device->LightEnable(index++, TRUE);
+		}
+		m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		m_pGraphic_Device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
 	}
- 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
 	return S_OK;
 }
 
@@ -80,6 +85,7 @@ HRESULT CRenderer::Disable_Lights()
 		Safe_Release(pLight);
 	}
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
 	m_Lights.clear();
 	return S_OK;
 }
