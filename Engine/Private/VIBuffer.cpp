@@ -48,7 +48,7 @@ _float3 CVIBuffer::Compute_PickedPosition()
     _uint   iIndices[3] = {};
     _float3 vPickedPos = {};
 
-    /*for (size_t i = 0; i < m_iNumPritimive; i++)
+    for (size_t i = 0; i < m_iNumPritimive; i++)
     {
         _byte* pIndices = static_cast<_byte*>(m_pIndices) + m_iIndexStride * i * 3;        
 
@@ -58,7 +58,7 @@ _float3 CVIBuffer::Compute_PickedPosition()
 
         if (true == m_pGameInstance->Picking(vPickedPos, m_pVertexPositions[iIndices[0]], m_pVertexPositions[iIndices[1]], m_pVertexPositions[iIndices[2]]))
             break;
-    }*/
+    }
 
     return vPickedPos;
 }
