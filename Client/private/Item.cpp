@@ -82,15 +82,15 @@ HRESULT CItem::On_Collision(_float fTimeDelta)
 		return E_FAIL;
 
 	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
-		return S_OK;
+	//if (m_pColliderCom->Get_Other_Type() == CG_END)
+	//	return S_OK;
 
-	if (m_pColliderCom->Get_Other_Type() == CG_PLAYER)
-	{
-		Use_Item();
-	}
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
+	//if (m_pColliderCom->Get_Other_Type() == CG_PLAYER)
+	//{
+	//	Use_Item();
+	//}
+	//// 충돌 처리 하고 다시 type을 수정
+	//m_pColliderCom->Set_Other_Type(CG_END);
 	return E_FAIL;
 }
 
