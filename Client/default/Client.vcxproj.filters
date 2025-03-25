@@ -255,6 +255,7 @@
     </Filter>
     <Filter Include="02.GameObjects\97. UI\Episode_UI">
       <UniqueIdentifier>{40d34720-5164-43b6-b12f-de38d7fdbaef}</UniqueIdentifier>
+		</Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{f6d5f84e-7269-4309-9a5f-7c4b2c234cd7}</UniqueIdentifier>
     </Filter>
