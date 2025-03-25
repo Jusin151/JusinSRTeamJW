@@ -255,7 +255,7 @@
     </Filter>
     <Filter Include="02.GameObjects\97. UI\Episode_UI">
       <UniqueIdentifier>{40d34720-5164-43b6-b12f-de38d7fdbaef}</UniqueIdentifier>
-		</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{f6d5f84e-7269-4309-9a5f-7c4b2c234cd7}</UniqueIdentifier>
     </Filter>
@@ -513,6 +513,7 @@
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CUI_WeaponIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -763,8 +764,9 @@
     <FxCompile Include="..\..\Shader\VertexShader.hlsl">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <FxCompile Include="..\..\Shader\Shader_Rect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
     <FxCompile Include="..\bin\ShaderFiles\Shader_Rect.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
