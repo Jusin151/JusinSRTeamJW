@@ -12,6 +12,7 @@
 #include "Crocman.h"
 #include "PointShop.h"
 #include "Harpoon.h"
+#include "Item.h"
 #include "Harpoonguy.h"
 
 
@@ -235,7 +236,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CHarpoonguy::Create(pGraphic_Device);
     else if (className == "CHarpoon")
         return CHarpoon::Create(pGraphic_Device);
-
+    else if(className =="CItem")
+		return CItem::Create(pGraphic_Device);
     else if (className == "CPointShop")
         return CPointShop::Create(pGraphic_Device);
 
@@ -254,7 +256,7 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
         ifstream file(filePath);
         if (!file.is_open())
         {
-            MSG_BOX("Ŭ���� �̸� JSON ������ ã�� �� �����ϴ�.");
+            MSG_BOX("클래스 이름 JSON 파일을 찾을 수 없습니다.");
             return E_FAIL;
         }
 
@@ -278,17 +280,19 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string& filePath, vector<strin
         }
         else
         {
-            MSG_BOX("JSON ���Ͽ� 'classes' �迭�� ���ų� ������ �߸��Ǿ����ϴ�.");
+            MSG_BOX("JSON 파일에 'classes' 배열이 없거나 형식이 잘못되었습니다.");
             return E_FAIL;
         }
     }
-    catch (const json::exception& e)
+    catch (const json::exception&)
     {
+        MSG_BOX("JSON 파싱 오류가 발생했습니다.");
         return E_FAIL;
     }
-    catch (const exception& e)
+    catch (const exception&)
     {
 
+        MSG_BOX("예외가 발생했습니다.");
         return E_FAIL;
     }
 }

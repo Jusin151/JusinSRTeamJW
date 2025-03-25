@@ -25,7 +25,7 @@ HRESULT CUIObject::Initialize(void* pArg)
 	m_pGraphic_Device->GetViewport(&ViewportDesc);
 
 	/* w, h, n, f : ºäº¼·ýÀ» ¼³Á¤ÇÑ´Ù */
-	D3DXMatrixOrthoLH(&m_ProjMatrix, ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f);
+	D3DXMatrixOrthoLH(&m_ProjMatrix, static_cast<_float> (ViewportDesc.Width), static_cast<_float> (ViewportDesc.Height), 0.f, 1.f);
 
 	UIOBJECT_DESC* pDesc = static_cast<UIOBJECT_DESC*>(pArg);
 	
@@ -77,7 +77,7 @@ _bool CUIObject::isPick(HWND hWnd)
 	GetCursorPos(&ptMouse);
 	ScreenToClient(hWnd, &ptMouse);
 
-	RECT			rcUI = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+	RECT			rcUI = { LONG(m_fX - m_fSizeX * 0.5f), LONG(m_fY - m_fSizeY * 0.5f), LONG(m_fX + m_fSizeX * 0.5f),LONG(m_fY + m_fSizeY * 0.5f) };
 
 	return PtInRect(&rcUI, ptMouse);	
 }

@@ -166,13 +166,13 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
-	for (size_t i = 0; i < m_iNumVerticesZ; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX; j++)
+		for (_uint j = 0; j < m_iNumVerticesX; j++)
 		{
 			_uint			iIndex = i * m_iNumVerticesX + j;
 
-			m_pVertexPositions[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
+			m_pVertexPositions[iIndex] = pVertices[iIndex].vPosition = _float3(static_cast<_float>(j), (pPixels[iIndex] & 0x000000ff) / 10.f, static_cast<_float>(i));
 			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
 		}
@@ -194,9 +194,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 
 	_uint		iNumIndices = { 0 };
 
-	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		for (_uint j = 0; j < m_iNumVerticesX - 1; j++)
 		{
 			_uint			iIndex = i * m_iNumVerticesX + j;
 

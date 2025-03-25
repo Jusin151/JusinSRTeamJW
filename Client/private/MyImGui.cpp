@@ -729,7 +729,7 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& ob
 		try {
 			inputFile >> jsonData;
 		}
-		catch (const json::parse_error& e) {
+		catch (const json::parse_error& ) {
 			// 파싱 에러가 발생하면 새 JSON 객체 생성
 			OutputDebugStringA("JSON 파일 파싱 에러, 새 파일을 생성합니다.\n");
 			jsonData = json({
@@ -881,7 +881,7 @@ HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<Prot
     {
         inputFile >> jsonData;
     }
-    catch(const json::parse_error& e)
+    catch(const json::parse_error&)
     {
         inputFile.close();
         return E_FAIL;
