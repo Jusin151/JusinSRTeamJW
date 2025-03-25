@@ -1,6 +1,7 @@
 ﻿#include "PointShop.h"
 #include "GameInstance.h"
 #include "Player.h"  // 플레이어 정보 접근용
+#include "UI_Point_Shop.h"
 
 CPointShop::CPointShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
@@ -117,30 +118,17 @@ HRESULT CPointShop::Open_Shop()
    // m_bIsOpen = true;
 
     // 상점 버튼 활성화 (기존 Ready_Layer_Point_Shop_Button 함수 호출 대신)
-    for (int i = 0; i < 12; ++i)
-    {
-        // 일반 아이템 버튼 활성화
-        CGameObject* pButton = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_Selected"));
-        if (pButton)
-            pButton->SetActive(true);
-    }
-
-    for (int i = 0; i < 4; ++i)
-    {
-        // 특별 아이템 버튼 활성화
-        CGameObject* pSmallButton = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,
-            TEXT("Layer_Point_Shop_Selected") + to_wstring(i));
-        if (pSmallButton)
-            pSmallButton->SetActive(true);
-    }
+   
 
     // 포인트 상점 디스플레이 활성화
-    CGameObject* pDisplay = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_Display"));
+    CGameObject* pDisplay = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_UI_Point_Shop"));
     if (pDisplay)
-        pDisplay->SetActive(true);
-
+    {
+        static_cast<CUI_Point_Shop*>(pDisplay)->SetActive(true);
+        static_cast<CUI_Point_Shop*>(pDisplay)->m_bOnUI = true;
+    }
     // 상점 아이템 새로고침
-    Refresh_Shop_Items();
+     Refresh_Shop_Items();
 
     return S_OK;
 }//뭘봐 ㅋ

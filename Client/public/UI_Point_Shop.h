@@ -56,7 +56,7 @@ private:
 
 	_bool bSkill_Button_Active{};
 	_bool bStat_Button_Active{};
-
+public:
 	_bool m_bOnUI = { false };
 };
 

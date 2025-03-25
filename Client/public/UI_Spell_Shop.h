@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Shop_Base.h"
+#include "GamePlay_Button.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -34,15 +35,13 @@ private:
 private:
 	HRESULT Ready_Texture();
 
-	HRESULT Ready_Skill_Button_Text();
+	HRESULT Ready_Spell_Button_Text();
 
-	HRESULT Ready_Stat_Button_Text();
 
 	HRESULT Render();
 
 	void Create_SkillButton();
 
-	void Create_StatButton();
 
 
 public:
@@ -54,14 +53,13 @@ private:
 	HRESULT Register_Buttons() override;
 
 private:
-	vector<wstring> m_str_Skill_MouseOn_Text{}; // 스킬 버튼 마우스 올리면 보이는 텍스트
-	vector<wstring> m_str_Skill_Default_Text{}; // 스킬 버튼안에 보여지는 텍스트'
+	vector<wstring> m_str_Spell_Text{};  // 스펠 설명
+	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
 
-	vector<wstring> m_str_Stat_MouseOn_Text{}; // 스탯 버튼 마우스 올리면 보이는 텍스트
-	vector<wstring> m_str_Stat_Default_Text{}; // 스탯 버튼안에 보여지는 텍스트
 
 	_bool m_bOnUI = { false };
 
+	CGamePlay_Button* m_pSelectedSpellButton = { nullptr };
 };
 
 END

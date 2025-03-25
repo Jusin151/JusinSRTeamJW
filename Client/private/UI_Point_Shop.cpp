@@ -68,6 +68,8 @@ void CUI_Point_Shop::Priority_Update(_float fTimeDelta)
 void CUI_Point_Shop::Update(_float fTimeDelta)
 {
     m_bIsActive = m_bOnUI;
+
+
 } 
 
 void CUI_Point_Shop::Late_Update(_float fTimeDelta)
@@ -195,7 +197,8 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
     {
         for (int j = 0; j < 2; ++j)
         {
-            int index = i * 2 + j;
+            int index = j * 6 + i; // 👉 가로 우선 정렬!
+
             vecButtonDescs[index].Button_Desc.vSize = { 211.f, 32.f };
             vecButtonDescs[index].Button_Desc.vPos = { 221.f * j + 47.f, 197.f - i * 42.f };
             vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Skill"; // 컴포넌트
@@ -378,4 +381,5 @@ void CUI_Point_Shop::Free()
 {
     __super::Free();
 }
+
 

@@ -249,7 +249,7 @@
     {
       "count": 1,
       "level": 3,
-      "path": "../../Resources/Textures/UI/Logo/SR_Start_Select.png",
+      "path": "../../Resources/Textures/Shop/Point_Shop%d.png",
       "tag": "Prototype_Component_Texture_Point_Shop"
     },
     {

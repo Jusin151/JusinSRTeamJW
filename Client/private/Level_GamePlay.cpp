@@ -412,7 +412,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop_UI()
 
 	if (FAILED(m_pGameInstance->Add_GameObject(
 		LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_UI_Point_Shop"),
+		TEXT("Prototype_GameObject_UI_Point_Shop"), // 포인트샵_UI 클론
 		LEVEL_GAMEPLAY,
 		TEXT("Layer_UI_Point_Shop"),
 		&Point_Shop_UI)))
@@ -430,17 +430,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop_UI()
 		&Weapon_Shop_UI)))
 		return E_FAIL;
 
-	//CUI_Base::UI_Desc Point_Shop_UI{};
-	//Point_Shop_UI.vPos = { 0.f, 0.f };
-	//Point_Shop_UI.vSize = { 804.f, 482.f };
+	CUI_Base::UI_Desc Spell_Shop_UI{};
+	Spell_Shop_UI.vPos = { 0.f, 0.f };
+	Spell_Shop_UI.vSize = { 804.f, 482.f };
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(
-	//	LEVEL_GAMEPLAY,
-	//	TEXT("Prototype_GameObject_UI_Point_Shop"),
-	//	LEVEL_GAMEPLAY,
-	//	TEXT("Layer_UI_Point_Shop"),
-	//	&Point_Shop_UI)))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_UI_Spell_Shop"),
+		LEVEL_GAMEPLAY,
+		TEXT("Layer_UI_Spell_Shop"),
+		&Spell_Shop_UI)))
+		return E_FAIL;
 
 
 	CUI_Base::UI_Desc Episode_UI{};
