@@ -205,19 +205,26 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// 메뉴바 안의 시작버튼 선택시
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Start_Select.png"), 1))))
-		return E_FAIL;
-	// 메뉴바 안의 시작버튼 선택시
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Button_Point_Shop"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png"), 1))))
-		return E_FAIL;
+	//// 포인트상점의 월드 객체
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
+	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_Start_Select.png"), 1))))
+	//	return E_FAIL;
 
-	// 메뉴바 안의 시작버튼 선택시
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png"), 1))))
-		return E_FAIL;
+	//// 포인트상점의 기본 디스플레이
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
+	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png"), 1))))
+	//	return E_FAIL;
+
+	//// 포인트상점의 특성 버튼
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Button_Point_Shop_Skill"),
+	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png"), 1))))
+	//	return E_FAIL;
+
+
+	//// 포인트상점의 스탯 버튼
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Button_Point_Shop_Stat"),
+	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png"), 1))))
+	//	return E_FAIL;
 
 
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));

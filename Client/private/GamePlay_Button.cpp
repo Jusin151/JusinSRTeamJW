@@ -51,10 +51,12 @@ void CGamePlay_Button::Update(_float fTimeDelta)
         {
             if (m_OnClick) m_OnClick();
         }
+        m_bVisible = true;
     }
     else 
     { 
         m_strMouseOnText.clear();
+        m_bVisible = false;
     }
 }
 
@@ -66,6 +68,9 @@ void CGamePlay_Button::Late_Update(_float fTimeDelta)
 
 HRESULT CGamePlay_Button::Render()
 {
+    if (!m_bVisible)
+        return S_OK;
+
     D3DXMATRIX matOldView, matOldProj;
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -87,15 +92,7 @@ HRESULT CGamePlay_Button::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers())) return E_FAIL;
     if (FAILED(m_pVIBufferCom->Render())) return E_FAIL;
 
-    if (m_OnMouse && !m_strMouseOnText.empty())
-    { 
-        m_pGameInstance->Render_Font_Size(
-            L"MainFont",
-            m_strMouseOnText,
-            _float2(-20.f,100.f),
-            _float2(12.f, 20.f),
-            _float3(1.f, 1.f, 0.f));
-    }
+    Render_Button_TexT();
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
@@ -104,9 +101,32 @@ HRESULT CGamePlay_Button::Render()
     return S_OK;
 }
 
+void CGamePlay_Button::Render_Button_TexT()
+{
+    if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_STAT) //왼쪽 스탯 버튼 
+    {
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(-360.f,120.f),
+            _float2(8.f, 18.f), //글자 크기
+            _float3(1.f, 1.f, 0.f)); // R G B
+    }
+    if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_SKILL) // 오른쪽 스탯 버튼
+    {
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(0.f, 50.f),
+            _float2(8.f, 18.f),
+            _float3(1.f, 1.f, 0.f));
+    }
+}
+
 HRESULT CGamePlay_Button::Ready_Components()
 {
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Button_Point_Shop"),
+  
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_Button_Info.strTexture_Default_Tag,
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 

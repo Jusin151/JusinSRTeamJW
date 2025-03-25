@@ -245,6 +245,30 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall6"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources/Textures/UI/Logo/SR_Start_Select.png",
+      "tag": "Prototype_Component_Texture_Point_Shop"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png",
+      "tag": "Prototype_Component_Texture_UI_Point_Shop"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
+      "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
+      "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
     }
   ],
   "gameObjects": [

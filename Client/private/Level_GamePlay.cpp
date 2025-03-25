@@ -412,8 +412,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_Button()
 
 
 
-
-
 	//CGmePlay_Button::GamePlayer_Button_Desc Level_Poinst_Shop_Display{}; // 포인트 상점
 	//Level_Poinst_Shop_Display.Button_Desc.vSize = { 804.f,482.f };
 	//Level_Poinst_Shop_Display.Button_Desc.vPos = { 0.f,0.f };

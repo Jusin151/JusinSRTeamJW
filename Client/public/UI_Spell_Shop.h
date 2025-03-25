@@ -34,6 +34,16 @@ private:
 private:
 	HRESULT Ready_Texture();
 
+	HRESULT Ready_Skill_Button_Text();
+
+	HRESULT Ready_Stat_Button_Text();
+
+	HRESULT Render();
+
+	void Create_SkillButton();
+
+	void Create_StatButton();
+
 
 public:
 	static CUI_Spell_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -43,6 +53,12 @@ public:
 private:
 	HRESULT Register_Buttons() override;
 
+private:
+	vector<wstring> m_str_Skill_MouseOn_Text{}; // 스킬 버튼 마우스 올리면 보이는 텍스트
+	vector<wstring> m_str_Skill_Default_Text{}; // 스킬 버튼안에 보여지는 텍스트'
+
+	vector<wstring> m_str_Stat_MouseOn_Text{}; // 스탯 버튼 마우스 올리면 보이는 텍스트
+	vector<wstring> m_str_Stat_Default_Text{}; // 스탯 버튼안에 보여지는 텍스트
 
 };
 
