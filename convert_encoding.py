@@ -15,7 +15,7 @@ def convert_to_utf8(dir_path):
 
     for root, _, files in os.walk(dir_path):
         for file in files:
-            if file.endswith((".cpp", ".h", ".hlsl")):
+            if file.endswith((".cpp", ".h")):
                 file_path = os.path.join(root, file)
                 try:
                     convert_file_encoding(file_path)
