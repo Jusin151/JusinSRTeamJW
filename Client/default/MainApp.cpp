@@ -150,6 +150,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CLight::Create(m_pGraphic_Device, CLight::LT_SPOT))))
 		return E_FAIL;
 
+	/*For.Prototype_Component_Shader*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+		CShader::Create(m_pGraphic_Device, L"../Bin/ShaderFiles/Shader_Rect.hlsl"))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Particle_Snow*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
 		CSnow_Particle_System::Create(m_pGraphic_Device))))

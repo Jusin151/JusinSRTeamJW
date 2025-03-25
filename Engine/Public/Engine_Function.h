@@ -68,6 +68,18 @@ namespace Engine
 	{
 		return *((DWORD*)&f);
 	}
+
+	inline D3DXVECTOR4 DWORDToFloat4_Color(DWORD color) {
+		D3DXVECTOR4 result;
+
+		// Extract the individual color components (8 bits each)
+		result.w = ((color >> 24) & 0xFF) / 255.0f; // Alpha (most significant byte)
+		result.x = ((color >> 16) & 0xFF) / 255.0f; // Red
+		result.y = ((color >> 8) & 0xFF) / 255.0f;  // Green
+		result.z = (color & 0xFF) / 255.0f;         // Blue
+
+		return result;
+	}
 }
 
 	

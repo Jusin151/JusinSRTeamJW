@@ -5,6 +5,7 @@
 #include "CUI_Base.h"
 
 BEGIN(Engine)
+class CShader;
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로
@@ -31,13 +32,9 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	//CTexture*			m_pTextureCom{};
-	//CTransform*			m_pTransformCom{};
-	//CVIBuffer_Rect*		m_pVIBufferCom{};  // UI는 사각형이므로 Rect 버퍼 사용
-	CMaterial*			m_pMaterial{};
-
+	CShader*			m_pShaderCom	= { nullptr };
+	CMaterial*			m_pMaterial		= { nullptr };
 	BackGround_DESC		m_BackGround_INFO{};
-
 	_float				accumulatedDistance{};
 private:
 	 HRESULT Ready_Components(const _wstring& strTextureTag=L"");

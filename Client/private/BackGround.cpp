@@ -77,38 +77,6 @@ void CBackGround::Late_Update(_float fTimeDelta)
 
 HRESULT CBackGround::Render()
 {	
-	//// 픽셀 셰이더 로드 및 설정
-	//IDirect3DPixelShader9* pPixelShader = nullptr;
-	//LPD3DXBUFFER pShaderBuffer = nullptr;
-	//LPD3DXBUFFER pErrorBuffer = nullptr;
-
-	//HRESULT hr = D3DXCompileShaderFromFile(L"TestPixelShader.hlsl", nullptr, nullptr, "PS", "ps_3_0", D3DXSHADER_DEBUG, &pShaderBuffer, &pErrorBuffer, nullptr);
-	//if (FAILED(hr))
-	//{
-	//	if (pErrorBuffer)
-	//	{
-	//		OutputDebugStringA((char*)pErrorBuffer->GetBufferPointer());
-	//		pErrorBuffer->Release();
-	//	}
-	//	return E_FAIL;
-	//}
-
-	//hr = m_pGraphic_Device->CreatePixelShader((DWORD*)pShaderBuffer->GetBufferPointer(), &pPixelShader);
-	//if (FAILED(hr))
-	//{
-	//	pShaderBuffer->Release();
-	//	return E_FAIL;
-	//}
-
-	//m_pGraphic_Device->SetPixelShader(pPixelShader);
-
-	//// 빛 정보 설정
-	//D3DXVECTOR3 lightDirection(0.0f, 0.0f, -1.0f); // 빛의 방향 (예시)
-	//D3DXCOLOR lightColor(1.0f, 0.0f, 0.0f, 1.0f); // 빨간 빛 (예시)
-
-	//m_pGraphic_Device->SetPixelShaderConstantF(0, (float*)&lightDirection, 1);
-	//m_pGraphic_Device->SetPixelShaderConstantF(1, (float*)&lightColor, 1);
-
 	if(nullptr != m_pMaterial) m_pMaterial->Bind_Resource();
 
 	D3DXMATRIX matOldView, matOldProj;
@@ -134,27 +102,18 @@ HRESULT CBackGround::Render()
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
+
+	m_pTransformCom->Bind_Resource();
+
+
+	//__super::Begin();
+
+	/* 정점을 그린다. */
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	if (m_BackGround_INFO.fStack_MoveDistance != 0.f)
-	{
-		// 두 번째 이미지 렌더링 (첫 번째 이미지의 오른쪽에 할꺼임!)
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			_float3(m_BackGround_INFO.BackGround_Desc.vPos.x + m_BackGround_INFO.fMoveDistance, m_BackGround_INFO.BackGround_Desc.vPos.y, 0.f));
-		if (FAILED(m_pTransformCom->Bind_Resource()))
-			return E_FAIL;
-		if (FAILED(m_pTextureCom->Bind_Resource(0)))
-			return E_FAIL;
-		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-			return E_FAIL;
-		if (FAILED(m_pVIBufferCom->Render()))
-			return E_FAIL;
-	}
+	//__super::End();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
 	return S_OK;
 }
@@ -174,9 +133,11 @@ HRESULT CBackGround::Ready_Components(const _wstring& strTextureTag)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
-
-
-
+	
+	//쉐이더 추가
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
 
 	//마테리얼 추가
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
@@ -216,5 +177,11 @@ CGameObject* CBackGround::Clone(void* pArg)
 void CBackGround::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pMaterial);
+	Safe_Release(m_pShaderCom);
+
 }
