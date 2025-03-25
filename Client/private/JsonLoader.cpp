@@ -1,7 +1,6 @@
 ﻿#include "JsonLoader.h"
 #include <Player.h>
 #include <Terrain.h>
-#include <TestMonster.h>
 #include <Structure.h>
 #include <Camera_Free.h>
 #include <Camera_FirstPerson.h>
@@ -179,8 +178,6 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
     // ê¸°ë³¸ ê²Œìž„ ì˜¤ë¸Œì íŠ¸
     if (className == "CPlayer")
         return CPlayer::Create(pGraphic_Device);
-    else if (className == "CTestMonster")
-        return CTestMonster::Create(pGraphic_Device);
     else if (className == "CTerrain")
         return CTerrain::Create(pGraphic_Device);
     else if (className == "CStructure")

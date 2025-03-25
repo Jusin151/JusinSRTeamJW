@@ -210,7 +210,6 @@
     <ClInclude Include="..\public\Structure.h" />
     <ClInclude Include="..\public\UI_Headers.h" />
     <ClInclude Include="..\Public\UI_Bullet_Bar.h" />
-    <ClInclude Include="..\Public\TestMonster.h" />
     <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_Left_Display.h" />
     <ClInclude Include="..\public\CUI_Manager.h">
@@ -285,7 +284,6 @@
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />
-    <ClCompile Include="..\Private\TestMonster.cpp" />
     <ClCompile Include="..\Private\UI_Player_Icon.cpp" />
     <ClCompile Include="..\private\UI_Right_Display.cpp" />
     <ClCompile Include="..\private\CUI_Base.cpp" />

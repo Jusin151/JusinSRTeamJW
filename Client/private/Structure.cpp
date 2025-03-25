@@ -4,12 +4,12 @@
 #include "Collider_Cube.h"
 
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CGameObject{ pGraphic_Device }
+	:CCollisionObject{ pGraphic_Device }
 {
 }
 
 CStructure::CStructure(const CStructure& Prototype)
-	:CGameObject{ Prototype }
+	:CCollisionObject{ Prototype }
 {
 }
 
@@ -84,9 +84,10 @@ HRESULT CStructure::Render()
 	return S_OK;
 }
 
-HRESULT CStructure::On_Collision(_float fTimeDelta)
+HRESULT CStructure::On_Collision(CCollisionObject* ohter)
 {
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 
 HRESULT CStructure::SetUp_RenderState()
@@ -148,12 +149,12 @@ HRESULT CStructure::Ready_Components()
 	// 바닥
 	if (m_tObjDesc.stProtTextureTag.find(L"Floor") != wstring::npos)
 	{
-		ColliderDesc.eType = CG_STRUCTURE_FLOOR;
+		m_eType = CG_STRUCTURE_FLOOR;
 	}
 	// 벽 태그인 경우
 	else if (m_tObjDesc.stProtTextureTag.find(L"Wall") != wstring::npos)
 	{
-		ColliderDesc.eType = CG_STRUCTURE_WALL;
+		m_eType = CG_STRUCTURE_WALL;
 	}
 	
 	ColliderDesc.pOwner = this;

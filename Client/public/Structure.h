@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Client_Defines.h"
 #include "Transform.h"
-#include "GameObject.h"
+#include "CollisionObject.h"
 #include "Serializable.h"
 
 BEGIN(Engine)
@@ -12,7 +12,7 @@ class CCollider;
 END
 
 BEGIN(Client)
-class CStructure : public CGameObject
+class CStructure : public CCollisionObject
 {
 public:
 	typedef struct tagStructureDesc : public CTransform::TRANSFORM_DESC
@@ -38,7 +38,7 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	HRESULT On_Collision(_float fTimeDelta);
+	virtual HRESULT On_Collision(CCollisionObject* other) override;
 
 private:
 	CTexture* m_pTextureCom = { nullptr };

@@ -1,5 +1,6 @@
 ﻿#include "Collider_Sphere.h"
 #include "GameObject.h"
+#include "CollisionObject.h"
 #include "Transform.h"
 
 CCollider_Sphere::CCollider_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -26,7 +27,6 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
     m_fLocalPos = tDesc->fLocalPos;
     m_fScale = tDesc->fScale;
     m_pOwner = tDesc->pOwner;
-    m_eType = tDesc->eType;
 
     m_fRadius = m_fScale.Length() / 4.f;
 

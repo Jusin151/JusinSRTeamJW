@@ -3,6 +3,7 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 #include "GameObject.h"
+#include "CollisionObject.h"
 
 
 
@@ -65,6 +66,7 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
+				// 처리 전에 거리 짧은 순으로 정렬
 				m_pColliders[CG_STRUCTURE_WALL].sort([srcEntry](const CCollider* a, const CCollider* b) {
 					_float3 distA = (a->Get_State(CTransform::STATE_POSITION) -srcEntry->Get_State(CTransform::STATE_POSITION));
 					_float3 distB = (b->Get_State(CTransform::STATE_POSITION) - srcEntry->Get_State(CTransform::STATE_POSITION));
@@ -73,15 +75,19 @@ void CCollider_Manager::Update_Collision_Structure()
 
 				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 				{
+					// 일정 거리 넘어가면 다음으로
 					if (Check_Cube_Distance(srcEntry, dstEntry))
 						break;
+
+					// 일단 가장 가까운 콜라이더만 충돌처리하고 넘어가기
 					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 					{
-						srcEntry->Set_Other_Type(dstEntry->Get_Type());
-						dstEntry->Set_Other_Type(srcEntry->Get_Type());
+						
 						//srcEntry->Set_State(CTransform::STATE_POSITION, srcEntry->Get_MTV());
-						(srcEntry->Get_Owner())->On_Collision();
+						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
 						break;
+						
 					}
 
 				}
@@ -102,11 +108,8 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 		{
 			if (Calc_Sphere_To_Sphere(srcEntry, dstEntry))
 			{
-				// 충돌한 collider의 타입을 기록함
-				// 이제 object lateupdate에서 판정해서 타입별로 충돌 처리 하도록
-
-				srcEntry->Set_Other_Type(dstEntry->Get_Type());
-				dstEntry->Set_Other_Type(srcEntry->Get_Type());
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
 				
 			}
 		}
@@ -124,11 +127,8 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 		{
 			if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 			{
-				// 충돌한 collider의 타입을 기록함
-				// 이제 object lateupdate에서 판정해서 타입별로 충돌 처리 하도록
-				srcEntry->Set_Other_Type(dstEntry->Get_Type());
-				dstEntry->Set_Other_Type(srcEntry->Get_Type());
-
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
 			}
 		}
 	}

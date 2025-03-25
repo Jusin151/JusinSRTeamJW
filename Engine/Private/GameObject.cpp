@@ -52,11 +52,6 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-HRESULT CGameObject::On_Collision()
-{
-	return S_OK;
-}
-
 void CGameObject::SetActive(_bool bIsActive)
 {
 	if (bIsActive == true && m_bIsActive == false)

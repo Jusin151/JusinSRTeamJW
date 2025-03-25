@@ -30,6 +30,8 @@ HRESULT CCrocman::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_eType = CG_MONSTER;
+
 
 	return S_OK;
 }
@@ -78,9 +80,6 @@ void CCrocman::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	// 충돌 판정
-	On_Collision(fTimeDelta);
-
 
 	Select_Frame(fTimeDelta);
 
@@ -117,14 +116,15 @@ void CCrocman::Deserialize(const json& j)
 	SET_TRANSFORM(j, m_pTransformCom);
 }
 
-HRESULT CCrocman::On_Collision(_float fTimeDelta)
+HRESULT CCrocman::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
-
+	if (nullptr == other)
+		return S_OK;
 	
 	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
+	if (other->Get_Type() == CG_END)
 		return S_OK;
 
 	
@@ -132,7 +132,7 @@ HRESULT CCrocman::On_Collision(_float fTimeDelta)
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
-	switch (m_pColliderCom->Get_Other_Type())
+	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
 
@@ -158,8 +158,7 @@ HRESULT CCrocman::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
+	
 
 	return S_OK;
 }
@@ -210,7 +209,7 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	// 일단 투사체 판정으로 해놓고 나중에 다른 enum 사용하면 될듯?
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	m_pGameInstance->Add_Collider(CG_MONSTER, m_pAttackCollider);
 }
 
 void CCrocman::Select_Frame(_float fTimeDelta)
@@ -306,7 +305,6 @@ HRESULT CCrocman::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 3.f, 1.f, 3.f };

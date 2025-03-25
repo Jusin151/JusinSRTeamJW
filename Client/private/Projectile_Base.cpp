@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CProjectile_Base::CProjectile_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CCollisionObject{ pGraphic_Device }
 {
 }
 
 CProjectile_Base::CProjectile_Base(const CProjectile_Base& Prototype)
-	: CGameObject{ Prototype }
+	: CCollisionObject{ Prototype }
 {
 }
 

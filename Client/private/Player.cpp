@@ -8,12 +8,12 @@
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLandObject{ pGraphic_Device }
+	: CCollisionObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CLandObject( Prototype )
+	: CCollisionObject( Prototype )
 {
 }
 
@@ -56,10 +56,16 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
+	
+	// 이거 나중에 수정 필요할듯?
+
 	m_iPlayerHP = { 100,100 };
 	m_iPlayerMP = { 50, 50 };
 	m_iPlayerBullet = { 0,0 }; // 총기류 마다 다른 총알 개수 받아올 예정
 	m_iPlayerEXP = { 0 , 100};
+
+	m_eType = CG_PLAYER;
+	m_iHp = m_iPlayerHP.first;
 
 	m_iMiddlePointX = g_iWinSizeX / 2;
 
@@ -77,12 +83,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	//{
 	//	pTransform->Go_Straight(fTimeDelta);
 	//}
-	_float3 fpos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	if (fpos.y != 1.f)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(fpos.x, 1.f, fpos.z));
-	}
-
 }
 
 void CPlayer::Update(_float fTimeDelta)
@@ -103,8 +103,11 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	// 충돌 판정
-	On_Collision();
+	if (m_iHp <= 0)
+	{
+		m_bIsActive = false;
+		return;
+	}
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
@@ -133,22 +136,23 @@ HRESULT CPlayer::Render()
 	return S_OK;
 }
 
-HRESULT CPlayer::On_Collision()
+HRESULT CPlayer::On_Collision(CCollisionObject* other)
 {
+	if (nullptr == m_pColliderCom)
+		return E_FAIL;
+
+	if (nullptr == other)
+		return S_OK;
+	if (other->Get_Type() == CG_END)
+		return S_OK;
 	
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
-	if (nullptr == m_pColliderCom)
-		return E_FAIL;
 
-	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
-		return S_OK;
-
-	switch (m_pColliderCom -> Get_Other_Type())
+	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
 
@@ -165,43 +169,30 @@ HRESULT CPlayer::On_Collision()
 		break;
 	}
 
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
+	
 
 	return S_OK;
 }
 
 void CPlayer::Move(_float fTimeDelta)
 {
-	m_fShakeTime += fTimeDelta * 10.f;
-
-	float shakeAmount = 0.05f; // 흔들림 강도
-	_float3 shake = {
-		sin(m_fShakeTime) * shakeAmount,
-		cos(m_fShakeTime) * shakeAmount,
-		0.f
-	};
 
 	if (GetKeyState('W') & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta * 0.5f);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
 
 		m_pTransformCom->Go_Left(fTimeDelta * 0.5f);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
 		m_pTransformCom->Go_Right(fTimeDelta * 0.5f);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
 
 	POINT ptMouse{};
@@ -295,7 +286,6 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_PLAYER;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

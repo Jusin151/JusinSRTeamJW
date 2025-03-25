@@ -17,10 +17,8 @@ public:
 		_float3					fScale = {};
 
 		// 누가 가지고 있는지
-		class CGameObject*      pOwner = { nullptr };
+		class CCollisionObject*      pOwner = { nullptr };
 
-		// Owner에 따라 바꿔주기
-		COLLIDERGROUP			eType = { CG_END };
 	}COL_DESC;
 
 protected:
@@ -50,28 +48,6 @@ public:
 		m_WorldMatrix = worldMat;
 	}
 
-
-	COLLIDERGROUP	Get_Type()
-	{
-		return m_eType;
-	}
-
-	void Set_Type(COLLIDERGROUP eType)
-	{
-		m_eType = eType;
-	}
-	
-
-	COLLIDERGROUP	Get_Other_Type()
-	{
-		return m_eOtherType;
-	}
-
-	void	Set_Other_Type(COLLIDERGROUP eOtherType)
-	{
-		m_eOtherType = eOtherType;
-	}
-
 	_float Get_Radius() const 
 	{
 		return max(max(m_fScale.x, m_fScale.y), m_fScale.z) * 0.5f;
@@ -88,8 +64,8 @@ public:
 	_float3 Get_Scale() { return m_fScale; }
 	void Set_Scale(_float3 fScale) { m_fScale = fScale; }
 
-	void Set_Owner(class CGameObject* pOwner) { m_pOwner = pOwner; }
-	class CGameObject* Get_Owner() const { return m_pOwner; }
+	void Set_Owner(class CCollisionObject* pOwner) { m_pOwner = pOwner; }
+	class CCollisionObject* Get_Owner() const { return m_pOwner; }
 
 	void Set_bCollsion() { m_bIsCollision = true; }
 	_bool Get_bCollision() { return m_bIsCollision; }
@@ -107,12 +83,7 @@ protected:
 	_float3					m_fMTV = {0.f, 0.f, 0.f};
 	_float					m_fDepth = {0.f};
 
-	// 내 타입은 object에서 설정. 
-	// 상대 타입은 충돌하면 collidermanager에서 수정해서 다르게 충돌 처리 하도록 
-	// 나중에 수정 하면 좋을듯?
-	COLLIDERGROUP			m_eType = { CG_END };
-	COLLIDERGROUP			m_eOtherType = { CG_END };
-	class CGameObject*		m_pOwner = { nullptr };
+	class CCollisionObject*		m_pOwner = { nullptr };
 
 	// 충돌 여러번 안하기 위해 사용할 변수
 	_bool					m_bIsCollision = { false };

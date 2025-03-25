@@ -105,7 +105,7 @@ HRESULT CLevel_Editor::Ready_Layer_BackGround(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+	if (nullptr == (m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 	return S_OK;
 }
@@ -143,7 +143,7 @@ HRESULT CLevel_Editor::Ready_Layer_Player(const _wstring& strLayerTag)
 	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
 	randTransDesc.fSpeedPerSec = 10.f;
 	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_EDITOR, LEVEL_EDITOR, strLayerTag, &randTransDesc)))
+	if (nullptr == (m_pGameInstance->Add_GameObject_FromPool(LEVEL_EDITOR, LEVEL_EDITOR, strLayerTag, &randTransDesc)))
 		return E_FAIL;
 
 
@@ -157,7 +157,7 @@ HRESULT CLevel_Editor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+	if (nullptr == (m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
