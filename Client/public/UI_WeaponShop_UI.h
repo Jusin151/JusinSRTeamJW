@@ -33,15 +33,15 @@ private:
 
 private:
 	HRESULT Ready_Texture();
-
-	HRESULT Ready_Skill_Button_Text();
-
-
-public:
-	HRESULT Ready_Stat_Button_Text();
-	HRESULT Render();
+	HRESULT Ready_01_Page_Weapon_Button_Text();
+	HRESULT Ready_02_Page_Weapon_Button_Text();
+	HRESULT Ready_03_Page_Weapon_Button_Text();
+	HRESULT Ready_04_Page_Weapon_Button_Text();
 	void Create_SkillButton();
-	void Create_StatButton();
+public:
+
+	HRESULT Render();
+	
 	static CUI_WeaponShop_UI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
@@ -50,11 +50,9 @@ private:
 	HRESULT Register_Buttons() override;
 
 private:
-	vector<wstring> m_str_Skill_MouseOn_Text{}; // 스킬 버튼 마우스 올리면 보이는 텍스트
-	vector<wstring> m_str_Skill_Default_Text{}; // 스킬 버튼안에 보여지는 텍스트'
+	vector<wstring> m_str_Weapon_MouseOn_Text{}; // 스킬 버튼 쿨릭하면 오른쪽에 보여질 텍스트
 
-	vector<wstring> m_str_Stat_MouseOn_Text{}; // 스탯 버튼 마우스 올리면 보이는 텍스트
-	vector<wstring> m_str_Stat_Default_Text{}; // 스탯 버튼안에 보여지는 텍스트
+	_bool m_bOnUI = { false };
 };
 
 END

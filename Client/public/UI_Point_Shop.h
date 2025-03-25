@@ -54,6 +54,10 @@ private:
 	vector<wstring> m_str_Stat_MouseOn_Text{}; // 스탯 버튼 마우스 올리면 보이는 텍스트
 	vector<wstring> m_str_Stat_Default_Text{}; // 스탯 버튼안에 보여지는 텍스트
 
+	_bool bSkill_Button_Active{};
+	_bool bStat_Button_Active{};
+
+	_bool m_bOnUI = { false };
 };
 
 END

@@ -17,6 +17,7 @@
 #include "PointShop.h"
 #include "UI_Point_Shop.h"
 #include "UI_Episode.h"
+#include "UI_WeaponShop_UI.h"
 
 
 
@@ -183,11 +184,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CStaff_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
+		TEXT("Prototype_GameObject_GamePlayer_Button"),
+		CGamePlay_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 에피소드 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Episode"),
 		CUI_Episode::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
 		TEXT("Prototype_GameObject_Point_Shop"),
@@ -196,14 +202,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Point_Shop"),
-		CUI_Point_Shop::Create(m_pGraphic_Device))))
+		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+		//// 웨폰상점  UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop_Display"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Upgrade_Weapon_UI/lweaponshop.png"), 1))))
+		return E_FAIL;
+
+	//// 웨폰상점 선택 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop_Selected"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Upgrade_Weapon_UI/Weapon_Selected.png"), 1))))
 		return E_FAIL;
 
 
- 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
-		TEXT("Prototype_GameObject_GamePlayer_Button"),
-		CGamePlay_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	//// 포인트상점의 월드 객체
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),

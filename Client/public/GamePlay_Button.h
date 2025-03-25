@@ -35,6 +35,7 @@ public:
         UI_Parent_Desc Button_Desc{};
         wstring strTexture_Default_Tag{};
         wstring strUIName{};
+        _bool bActive{};
         BUTTON_TYPE_ENUM Button_Type{}; 
     };
 
@@ -50,8 +51,8 @@ public:
     virtual void Update(_float fTimeDelta) override;
     virtual void Late_Update(_float fTimeDelta) override;
     virtual HRESULT Render() override;
-    void Render_Button_TexT();
-
+    void Render_MouseOn_Button_TexT();
+    void Render_MouseClick_Button_TexT();
 public: 
     void SetOnClickCallback(function<void()> callback)
     {
@@ -74,6 +75,7 @@ private:
 
 public:
     wstring m_strMouseOnText{};
+    wstring m_str_Weapon_Click_Text{};
    
 private:
     function<void()> m_OnMouse = { nullptr }; //마우스가 위에

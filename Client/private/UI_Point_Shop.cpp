@@ -27,6 +27,8 @@ HRESULT CUI_Point_Shop::Initialize(void* pArg)
     else
         return E_FAIL;
 
+    m_bOnUI = false;
+
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -65,7 +67,7 @@ void CUI_Point_Shop::Priority_Update(_float fTimeDelta)
 
 void CUI_Point_Shop::Update(_float fTimeDelta)
 {
-	
+    m_bIsActive = m_bOnUI;
 } 
 
 void CUI_Point_Shop::Late_Update(_float fTimeDelta)
@@ -198,6 +200,7 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
             vecButtonDescs[index].Button_Desc.vPos = { 221.f * j + 47.f, 197.f - i * 42.f };
             vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Skill"; // 컴포넌트
             vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_" + to_wstring(index); // 혹시 몰라서.
+            vecButtonDescs[index].bActive = m_bOnUI;
             vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_SKILL;
             if (FAILED(m_pGameInstance->Add_GameObject(
                 LEVEL_GAMEPLAY,
@@ -263,7 +266,8 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
                             pButton->SetOnMouseCallback([this,pButton, index]()
                                 {
                                 pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                                });
+                                }
+                            );
                         }
 
                     });
@@ -290,6 +294,7 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
             vecButtonDescs[index].Button_Desc.vPos.x = { -349.f };
             vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Stat"; // 컴포넌트
             vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_Stat_" + to_wstring(index); // 혹시 몰라서.
+            vecButtonDescs[index].bActive = m_bOnUI;
             vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_STAT;
             if (FAILED(m_pGameInstance->Add_GameObject(
                 LEVEL_GAMEPLAY,

@@ -42,6 +42,8 @@ void CGamePlay_Button::Priority_Update(_float fTimeDelta)
 
 void CGamePlay_Button::Update(_float fTimeDelta)
 {
+    m_bIsActive = m_Button_Info.bActive;
+
     if (isPick(g_hWnd))
     {
         if (m_OnMouse)  
@@ -92,7 +94,8 @@ HRESULT CGamePlay_Button::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers())) return E_FAIL;
     if (FAILED(m_pVIBufferCom->Render())) return E_FAIL;
 
-    Render_Button_TexT();
+    Render_MouseOn_Button_TexT();
+    Render_MouseClick_Button_TexT();
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
@@ -101,7 +104,7 @@ HRESULT CGamePlay_Button::Render()
     return S_OK;
 }
 
-void CGamePlay_Button::Render_Button_TexT()
+void CGamePlay_Button::Render_MouseOn_Button_TexT()
 {
     if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_STAT) //왼쪽 스탯 버튼 
     {
@@ -122,6 +125,22 @@ void CGamePlay_Button::Render_Button_TexT()
             _float3(1.f, 1.f, 0.f));
     }
 }
+
+void CGamePlay_Button::Render_MouseClick_Button_TexT()
+{
+
+    if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == WEAPON_SHOP_BUTTON) // 오른쪽 스탯 버튼
+    {
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(135.f, -100.f),
+            _float2(8.f, 18.f),
+            _float3(1.f, 1.f, 0.f));
+    }
+}
+
+
 
 HRESULT CGamePlay_Button::Ready_Components()
 {
