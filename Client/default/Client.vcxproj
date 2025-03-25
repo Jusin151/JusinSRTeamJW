@@ -195,9 +195,12 @@
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\public\PointShop.h" />
     <ClInclude Include="..\public\Particles.h" />
+    <ClInclude Include="..\public\UI_Episode.h" />
+    <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\Shop.h" />
+    <ClInclude Include="..\Public\UI_Shop_Base.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
     <ClInclude Include="..\public\Staff.h" />
@@ -205,7 +208,6 @@
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
     <ClInclude Include="..\public\CUI_Base.h" />
-    <ClInclude Include="..\public\CUI_Dialogue.h" />
     <ClInclude Include="..\public\Default_Menu.h" />
     <ClInclude Include="..\public\GamePlay_Button.h" />
     <ClInclude Include="..\public\Structure.h" />
@@ -238,6 +240,7 @@
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
+    <ClInclude Include="..\Public\UI_WeaponShop_UI.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -249,6 +252,8 @@
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
+    <ClCompile Include="..\private\UI_Episode.cpp" />
+    <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
@@ -281,6 +286,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
@@ -308,6 +314,7 @@
     <ClCompile Include="..\private\UI_Left_Display.cpp" />
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
+    <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />

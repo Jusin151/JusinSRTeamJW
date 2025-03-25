@@ -27,12 +27,8 @@ private:
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Weapon();
-	HRESULT Ready_Layer_Shop();
 	HRESULT Ready_Layer_Episode_Button();
-	HRESULT Ready_Layer_Point_Shop_Button();
-
-	HRESULT Ready_Layer_Point_Shop_UI();
-	HRESULT Ready_Layer_Episode_UI();
+	HRESULT Ready_Layer_Shop_UI();
 
 private:
 	CPickingSys* m_pPickingSys = { nullptr };

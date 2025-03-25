@@ -20,7 +20,7 @@ public:
 	virtual HRESULT Render();
 public:
 	virtual _float3 Compute_HeightPosition(const _float3& vPosition) { return vPosition; }
-	_float3 Compute_PickedPosition(const _float4x4* pWorldMatrixInverse);
+	_float3 Compute_PickedPosition();
 
 public:
 	HRESULT Bind_Buffers();

@@ -202,11 +202,11 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우�
                 Weapon_Effect.vScale = { 0.5f, 0.5f, 0.5f };
 
           
-                for (int i = 0; i < EffectNum; ++i)
+                for (_uint i = 0; i < EffectNum; ++i)
                 {
                    
-                    float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4;
-                    float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4;
+                    _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
+                    _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
                     _float3 vRandomEffectPos = vEffectPos;
                     vRandomEffectPos.x += offsetX;
                     vRandomEffectPos.y += offsetY;

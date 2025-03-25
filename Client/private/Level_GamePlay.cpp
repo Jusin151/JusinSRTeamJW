@@ -8,7 +8,9 @@
 #include "JsonLoader.h"
 #include "Weapon_Base.h"
 #include "Effect_Base.h"
-
+#include "UI_Shop_Base.h"
+#include "UI_Point_Shop.h"
+#include "UI_Episode.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device },
@@ -32,8 +34,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
-	if (FAILED(Ready_Layer_Shop()))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
@@ -41,10 +41,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Weapon()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Point_Shop_UI()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Episode_UI()))
+	if (FAILED(Ready_Layer_Shop_UI())) 
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
@@ -63,7 +60,7 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_PointShop"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
 
@@ -312,157 +309,154 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Shop()
-{
 
-	CUI_Base::UI_Child_Desc Spell_Shop_UI{};  // 스펠샵
-	Spell_Shop_UI.vSize = { 847.f,508.f };
-	Spell_Shop_UI.fAlpha = 1.0f;
-	Spell_Shop_UI.vPos = { 0.f,00.f }; 
-
-	if (FAILED(m_pGameInstance->Add_GameObject
-	(LEVEL_GAMEPLAY,
-		TEXT("Prototype_GameObject_Spell_Shop_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop_1"), &Spell_Shop_UI)))
-		return E_FAIL;
-
-
-	Ready_Layer_Episode_Button();
-	Ready_Layer_Point_Shop_Button();
-
-	return S_OK;
-}
-
-#include "GamePlay_Button.h"
-
-// ...
+	
 
 HRESULT CLevel_GamePlay::Ready_Layer_Episode_Button() // 레벨은 큰 라운드 스테이지는 레벨안의 스테이지
 {
-	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Display{}; // 레벨 5 이미지의 첫번째 스테이지
-	Level_1_Display.Button_Desc.vSize = { 846.f,508.f };
-	Level_1_Display.Button_Desc.vPos = { 0.f,0.f };
-	Level_1_Display.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-	Level_1_Display.strUIName = { L"Level_1_Display" };
-	Level_1_Display.Button_type = Button_type::Episode;
-	Level_1_Display.bDisplay_On = true;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Episode_0"),
-		&Level_1_Display)))
-		return E_FAIL;
+	//CGamePlay_Button::GamePlayer_Button_Desc Level_1_Display{}; // 레벨 5 이미지의 첫번째 스테이지
+	//Level_1_Display.Button_Desc.vSize = { 846.f,508.f };
+	//Level_1_Display.Button_Desc.vPos = { 0.f,0.f };
+	//Level_1_Display.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	//Level_1_Display.strUIName = { L"Level_1_Display" };
+	//Level_1_Display.Button_type = Button_type::Episode;
+	//Level_1_Display.bDisplay_On = true;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+	//	LEVEL_LOGO, TEXT("Layer_Episode_0"),
+	//	&Level_1_Display)))
+	//	return E_FAIL;
 
 
 
-    CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{}; // 왼쪽 레벨 1 이미지 ( ex 후드쓴 개구리 
-    Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
-    Level_1_Icon_Desc.Button_Desc.vPos = { -320.f,184.f };
-    Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-    Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
-    Level_1_Icon_Desc.Episode_Button_Type.bLevel_Icon_Button_Flag = true;
-	Level_1_Icon_Desc.Button_type = Button_type::Episode;
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
-        LEVEL_LOGO, TEXT("Layer_Episode_2"), 
-        &Level_1_Icon_Desc)))
-        return E_FAIL;
+ //   CGamePlay_Button::GamePlayer_Button_Desc Level_1_Icon_Desc{}; // 왼쪽 레벨 1 이미지 ( ex 후드쓴 개구리 
+ //   Level_1_Icon_Desc.Button_Desc.vSize = { 147.f,72.f };
+ //   Level_1_Icon_Desc.Button_Desc.vPos = { -320.f,184.f };
+ //   Level_1_Icon_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+ //   Level_1_Icon_Desc.strUIName = { L"Level_1_Icon" };
+ //   Level_1_Icon_Desc.Episode_Button_Type.bLevel_Icon_Button_Flag = true;
+	//Level_1_Icon_Desc.Button_type = Button_type::Episode;
+ //   if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY,TEXT("Prototype_GameObject_GamePlayer_Button"),
+ //       LEVEL_LOGO, TEXT("Layer_Episode_2"), 
+ //       &Level_1_Icon_Desc)))
+ //       return E_FAIL;
 
-	CGamePlay_Button::GamePlayer_Button_Desc Level_1_Level_Stage_Desc{}; // 레벨 1 이미지의 첫번째 스테이지
-	Level_1_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
-	Level_1_Level_Stage_Desc.Button_Desc.vPos = { -112.f,121.f };
-	Level_1_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-	Level_1_Level_Stage_Desc.strUIName = { L"Level_1_01_Stage" };
-	Level_1_Level_Stage_Desc.Episode_Button_Type.bLevel_01_Stage_Button_Flag = true;
-	Level_1_Level_Stage_Desc.Button_type = Button_type::Episode;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Episode_3"),
-		&Level_1_Level_Stage_Desc)))
-		return E_FAIL;
+	//CGamePlay_Button::GamePlayer_Button_Desc Level_1_Level_Stage_Desc{}; // 레벨 1 이미지의 첫번째 스테이지
+	//Level_1_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	//Level_1_Level_Stage_Desc.Button_Desc.vPos = { -112.f,121.f };
+	//Level_1_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	//Level_1_Level_Stage_Desc.strUIName = { L"Level_1_01_Stage" };
+	//Level_1_Level_Stage_Desc.Episode_Button_Type.bLevel_01_Stage_Button_Flag = true;
+	//Level_1_Level_Stage_Desc.Button_type = Button_type::Episode;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+	//	LEVEL_LOGO, TEXT("Layer_Episode_3"),
+	//	&Level_1_Level_Stage_Desc)))
+	//	return E_FAIL;
 
-	CGamePlay_Button::GamePlayer_Button_Desc Level_2_Level_Stage_Desc{}; // 레벨 2 이미지의 첫번째 스테이지
-	Level_2_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
-	Level_2_Level_Stage_Desc.Button_Desc.vPos = { 87.f,121.f };
-	Level_2_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-	Level_2_Level_Stage_Desc.strUIName = { L"Level_1_02_Stage" };
-	Level_2_Level_Stage_Desc.Episode_Button_Type.bLevel_02_Stage_Button_Flag = true;
-	Level_2_Level_Stage_Desc.Button_type = Button_type::Episode;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Episode_4"),
-		&Level_2_Level_Stage_Desc)))
-		return E_FAIL;
+	//CGamePlay_Button::GamePlayer_Button_Desc Level_2_Level_Stage_Desc{}; // 레벨 2 이미지의 첫번째 스테이지
+	//Level_2_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	//Level_2_Level_Stage_Desc.Button_Desc.vPos = { 87.f,121.f };
+	//Level_2_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	//Level_2_Level_Stage_Desc.strUIName = { L"Level_1_02_Stage" };
+	//Level_2_Level_Stage_Desc.Episode_Button_Type.bLevel_02_Stage_Button_Flag = true;
+	//Level_2_Level_Stage_Desc.Button_type = Button_type::Episode;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+	//	LEVEL_LOGO, TEXT("Layer_Episode_4"),
+	//	&Level_2_Level_Stage_Desc)))
+	//	return E_FAIL;
 
-	CGamePlay_Button::GamePlayer_Button_Desc Level_3_Level_Stage_Desc{}; // 레벨 3 이미지의 첫번째 스테이지
-	Level_3_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
-	Level_3_Level_Stage_Desc.Button_Desc.vPos = { 288.f,121.f };
-	Level_3_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-	Level_3_Level_Stage_Desc.strUIName = { L"Level_1_03_Stage" };
-	Level_3_Level_Stage_Desc.Episode_Button_Type.bLevel_03_Stage_Button_Flag = true;
-	Level_3_Level_Stage_Desc.Button_type = Button_type::Episode;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Episode_5"),
-		&Level_3_Level_Stage_Desc)))
-		return E_FAIL;
+	//CGamePlay_Button::GamePlayer_Button_Desc Level_3_Level_Stage_Desc{}; // 레벨 3 이미지의 첫번째 스테이지
+	//Level_3_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	//Level_3_Level_Stage_Desc.Button_Desc.vPos = { 288.f,121.f };
+	//Level_3_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	//Level_3_Level_Stage_Desc.strUIName = { L"Level_1_03_Stage" };
+	//Level_3_Level_Stage_Desc.Episode_Button_Type.bLevel_03_Stage_Button_Flag = true;
+	//Level_3_Level_Stage_Desc.Button_type = Button_type::Episode;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+	//	LEVEL_LOGO, TEXT("Layer_Episode_5"),
+	//	&Level_3_Level_Stage_Desc)))
+	//	return E_FAIL;
 
-	CGamePlay_Button::GamePlayer_Button_Desc Level_4_Level_Stage_Desc{}; // 레벨 4 이미지의 첫번째 스테이지
-	Level_4_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
-	Level_4_Level_Stage_Desc.Button_Desc.vPos = { -112.f,-76.f };
-	Level_4_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-	Level_4_Level_Stage_Desc.strUIName = { L"Level_1_04_Stage" };
-	Level_4_Level_Stage_Desc.Episode_Button_Type.bLevel_04_Stage_Button_Flag = true;
-	Level_4_Level_Stage_Desc.Button_type = Button_type::Episode;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Episode_6"),
-		&Level_4_Level_Stage_Desc)))
-		return E_FAIL;
+	//CGamePlay_Button::GamePlayer_Button_Desc Level_4_Level_Stage_Desc{}; // 레벨 4 이미지의 첫번째 스테이지
+	//Level_4_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	//Level_4_Level_Stage_Desc.Button_Desc.vPos = { -112.f,-76.f };
+	//Level_4_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	//Level_4_Level_Stage_Desc.strUIName = { L"Level_1_04_Stage" };
+	//Level_4_Level_Stage_Desc.Episode_Button_Type.bLevel_04_Stage_Button_Flag = true;
+	//Level_4_Level_Stage_Desc.Button_type = Button_type::Episode;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+	//	LEVEL_LOGO, TEXT("Layer_Episode_6"),
+	//	&Level_4_Level_Stage_Desc)))
+	//	return E_FAIL;
 
-	CGamePlay_Button::GamePlayer_Button_Desc Level_5_Level_Stage_Desc{}; // 레벨 5 이미지의 첫번째 스테이지
-	Level_5_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
-	Level_5_Level_Stage_Desc.Button_Desc.vPos = { 87.f,-76.f };
-	Level_5_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
-	Level_5_Level_Stage_Desc.strUIName = { L"Level_1_05_Stage" };
-	Level_5_Level_Stage_Desc.Episode_Button_Type.bLevel_05_Stage_Button_Flag = true;
-	Level_5_Level_Stage_Desc.Button_type = Button_type::Episode;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
-		LEVEL_LOGO, TEXT("Layer_Episode_7"),
-		&Level_5_Level_Stage_Desc)))
-		return E_FAIL;
+	//CGamePlay_Button::GamePlayer_Button_Desc Level_5_Level_Stage_Desc{}; // 레벨 5 이미지의 첫번째 스테이지
+	//Level_5_Level_Stage_Desc.Button_Desc.vSize = { 192.f,192.f };
+	//Level_5_Level_Stage_Desc.Button_Desc.vPos = { 87.f,-76.f };
+	//Level_5_Level_Stage_Desc.strTexture_Default_Tag = { L"Prototype_Component_Texture_Episode_Level_1_UI" };
+	//Level_5_Level_Stage_Desc.strUIName = { L"Level_1_05_Stage" };
+	//Level_5_Level_Stage_Desc.Episode_Button_Type.bLevel_05_Stage_Button_Flag = true;
+	//Level_5_Level_Stage_Desc.Button_type = Button_type::Episode;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GamePlayer_Button"),
+	//	LEVEL_LOGO, TEXT("Layer_Episode_7"),
+	//	&Level_5_Level_Stage_Desc)))
+	//	return E_FAIL;
 
 
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Point_Shop_UI()
+HRESULT CLevel_GamePlay::Ready_Layer_Shop_UI()
 {
-	CUI_Base::UI_Desc uiDesc{};
-	uiDesc.vPos = { 0.f, 0.f };
-	uiDesc.vSize = { 804.f, 482.f };
+	CUI_Base::UI_Desc Point_Shop_UI{};
+	Point_Shop_UI.vPos = { 0.f, 0.f };
+	Point_Shop_UI.vSize = { 804.f, 482.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(
 		LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_UI_Point_Shop"),
 		LEVEL_GAMEPLAY,
 		TEXT("Layer_UI_Point_Shop"),
-		&uiDesc)))
+		&Point_Shop_UI)))
 		return E_FAIL;
 
-	return S_OK;
-}
+	CUI_Base::UI_Desc Weapon_Shop_UI{};
+	Weapon_Shop_UI.vPos = { 0.f, 0.f };
+	Weapon_Shop_UI.vSize = { 804.f, 482.f };
 
-HRESULT CLevel_GamePlay::Ready_Layer_Episode_UI()
-{
-	CUI_Base::UI_Desc uiDesc{};
-	uiDesc.vPos = { 0.f, -200.f };
-	uiDesc.vSize = { 900.f, 120.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
+		LEVEL_GAMEPLAY,
+		TEXT("Layer_UI_Weapon_Shop"),
+		&Weapon_Shop_UI)))
+		return E_FAIL;
+
+	//CUI_Base::UI_Desc Point_Shop_UI{};
+	//Point_Shop_UI.vPos = { 0.f, 0.f };
+	//Point_Shop_UI.vSize = { 804.f, 482.f };
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(
+	//	LEVEL_GAMEPLAY,
+	//	TEXT("Prototype_GameObject_UI_Point_Shop"),
+	//	LEVEL_GAMEPLAY,
+	//	TEXT("Layer_UI_Point_Shop"),
+	//	&Point_Shop_UI)))
+	//	return E_FAIL;
+
+
+	CUI_Base::UI_Desc Episode_UI{};
+	Episode_UI.vPos = { 0.f, -200.f };
+	Episode_UI.vSize = { 900.f, 120.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(
 		LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_UI_Episode"),
 		LEVEL_GAMEPLAY,
 		TEXT("Layer_UI_Episode"),
-		&uiDesc)))
- 		return E_FAIL;
+		&Episode_UI)))
+		return E_FAIL;
 
 	return S_OK;
 }
-
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera_FirstPerson"),

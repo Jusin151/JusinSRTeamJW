@@ -91,11 +91,11 @@ void CPlayer::Update(_float fTimeDelta)
 	
 	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
 
-	if (GetKeyState(VK_LBUTTON) < 0)
+	/*if (GetKeyState(VK_LBUTTON) < 0)
 	{
 		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition(m_pTransformCom->Get_WorldMatrix_Inverse());
 		int a = 10;
-	}
+	}*/
 		
 
 }
