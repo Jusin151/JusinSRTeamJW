@@ -46,6 +46,7 @@ private:
 	void Billboarding(_float fTimeDelta);
 	void Bind_ResourceByType();
 	void Use_Item();
+	void Init_TextureTag();
 
 private:
 	CTexture* m_pTextureCom = { nullptr };

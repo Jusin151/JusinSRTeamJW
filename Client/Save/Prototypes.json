@@ -269,9 +269,20 @@
       "level": 3,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
       "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
+    },
+    {
+      "count": 86,
+      "level": 3,
+      "path": "../../Resources/Textures/Item/Item%d.png",
+      "tag": "Prototype_Component_Texture_Items"
     }
   ],
   "gameObjects": [
+    {
+      "tag": "Prototype_GameObject_Item",
+      "level": 3,
+      "class": "CItem"
+    },
     {
       "tag": "Prototype_GameObject_Player",
       "level": 3,

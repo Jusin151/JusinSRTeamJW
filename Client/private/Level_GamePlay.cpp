@@ -49,6 +49,12 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Item"))))
+		return E_FAIL;
+
+
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 	//	return E_FAIL;
 

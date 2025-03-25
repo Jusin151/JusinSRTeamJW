@@ -101,8 +101,8 @@ HRESULT CStructure::SetUp_RenderState()
 	// 보스 맵 물결 효과 
 	if (m_eStructureType==STRUCTURE_TYPE::BOSS_FLOOR)
 	{
-		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.3f;
-		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.25f;
+		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.5f;
+		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.5f;
 
 		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
 		D3DXVECTOR2 vOffsetFactor(fOffsetU, fOffsetV);
