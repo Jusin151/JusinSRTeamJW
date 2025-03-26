@@ -16,11 +16,20 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+public:
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
 	virtual void Update(float fTimeDelta) override;
+	void Set_Dir(_float3 vDir) { m_vDir = -vDir; }
+
+public:
+	virtual HRESULT Render() override;
+
 
 private:
-	_float		m_fInterval;
+	_float		m_fInterval = {};
+	_float		m_fElapsedTime = {};
+	_float3		m_vDir = {};
+	_float		m_fWidth = {};
 
 public:
 	static CProjectile_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

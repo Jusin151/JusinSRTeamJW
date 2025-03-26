@@ -265,6 +265,9 @@
     <Filter Include="02.GameObjects\97. UI\03.Shop_UI\Weapon_Shop_UI">
       <UniqueIdentifier>{9d47c3ef-ed31-447b-80ee-301a6688fd5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\ParticleSystemTest\GameObject_Projectile">
+      <UniqueIdentifier>{4b83ef07-387f-447c-ab07-c77551e73154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -504,14 +507,12 @@
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_WeaponIcon.h" />
     <ClInclude Include="..\public\Item.h">
       <Filter>02.GameObjects\02. Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Item_Icon.h">
       <Filter>Inven</Filter>
     </ClInclude>
-
     <ClInclude Include="..\public\PointShop.h">
       <Filter>02.GameObjects\05. Shop\PointShop</Filter>
     </ClInclude>
@@ -521,7 +522,12 @@
     <ClInclude Include="..\public\SpellShop.h">
       <Filter>02.GameObjects\05. Shop\SpellShop</Filter>
     </ClInclude>
-
+    <ClInclude Include="..\public\CUI_WeaponIcon.h">
+      <Filter>02.GameObjects\97. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Projectile_Test.h">
+      <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -684,7 +690,6 @@
     <ClCompile Include="..\private\Sonic.cpp">
       <Filter>02.GameObjects\08. Weapon\Ranged Weapon\05. Sonic</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp">
       <Filter>01.Levels\Test</Filter>
     </ClCompile>
@@ -761,9 +766,15 @@
     <ClCompile Include="..\private\SpellShop.cpp">
       <Filter>02.GameObjects\05. Shop\SpellShop</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Episode.cpp">
+      <Filter>02.GameObjects\97. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Projectile_Test.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">
