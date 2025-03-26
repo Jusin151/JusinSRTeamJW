@@ -34,6 +34,8 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 
 	m_eType = CG_MONSTER;
 
+	m_iHp = 30;
+
 	return S_OK;
 }
 
@@ -49,6 +51,9 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 		Safe_AddRef(pTarget);
 
 	}
+
+	if (m_iHp <= 0)
+		m_eCurState = MS_DEATH;
 
 	if (m_iCurrentFrame > 26)
 	{
@@ -129,28 +134,22 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
-	_float3 fMTV = m_pColliderCom->Get_MTV();
+	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 temp = { 1.f, 0.f, 1.f };
+	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
 
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-		//m_pTransformCom->Go_Backward(fTimeDelta);
-
 		m_eCurState = MS_HIT;
+		Take_Damage(other);
+		fPos -= vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		break;
 
 	case CG_WEAPON:
-
-		temp += fPos;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, temp);
-
-		m_eCurState = MS_DEATH;
-
+		m_eCurState = MS_HIT;
 		break;
 	default:
 		break;
@@ -165,35 +164,47 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	if (m_eCurState == MS_DEATH)
 		return;
 
-	
-
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-	Shooting(fTimeDelta);
 
-	// 거리로 판단해서 패턴 실행하도록 
-	/*if (vDist.LengthSq() > 10)
-		Chasing(fTimeDelta);
-	else
+	switch (m_eCurState)
 	{
+	case MS_IDLE:
+		if (vDist.LengthSq() > 90)
+			Chasing(fTimeDelta);
+		else
+		{
+			Shooting(fTimeDelta);
+		}
+		break;
+	case MS_WALK:
+		Chasing(fTimeDelta);
+		break;
+	case MS_HIT:
+		// 맞고 바로 안바뀌도록
+		if (m_fElapsedTime >= 0.5f)
+			m_eCurState = MS_IDLE;
+		else
+			return;
+
+		break;
+	case MS_ATTACK:
 		Shooting(fTimeDelta);
-	}*/
+		break;
+
+	default:
+		break;
+	}
+
+	
 		
 }
 
 void CHarpoonguy::Chasing(_float fTimeDelta)
 {
-	// 맞고 바로 안하도록
-	if (m_eCurState == MS_HIT)
-	{
-		if (m_fElapsedTime >= 1.f)
-			m_eCurState = MS_WALK;
-		else
-			return;
-	}
 
-	else if (m_eCurState != MS_WALK)
+	if (m_eCurState != MS_WALK)
 		m_eCurState = MS_WALK;
 
 	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.25f);
@@ -203,7 +214,7 @@ void CHarpoonguy::Shooting(_float fTimeDelta)
 {
 	if (m_eCurState != MS_ATTACK)
 	{
-		if (m_fElapsedTime >= 1.f)
+		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_ATTACK;
 		else
 			return;
@@ -213,17 +224,12 @@ void CHarpoonguy::Shooting(_float fTimeDelta)
 	{
 
 		CProjectile_Base::PROJ_DESC pDesc = {};
-		pDesc.fSpeed = 1.f;
+		pDesc.fSpeed = 2.f;
 		pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-		//CHarpoon* pProj =  static_cast<CHarpoon*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_Harpoon"), &pDesc));
-
+		// 오브젝트 풀링으로 변경 필요
 		m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_Harpoon"), &pDesc);
-		
-		//m_pGameInstance->Acquire_Object(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_Harpoon"), &pDes);
-
-	
 
 		m_iCurrentFrame++;
 	}
@@ -244,6 +250,13 @@ void CHarpoonguy::Select_Frame(_float fTimeDelta)
 		m_iCurrentFrame = 0;
 		break;
 	case MS_WALK:
+		if (m_iCurrentFrame == 7)
+		{
+			m_eCurState = MS_IDLE;
+			m_iCurrentFrame = 0;
+			return;
+		}
+
 		if (m_iCurrentFrame < 2 || m_iCurrentFrame > 7)
 			m_iCurrentFrame = 2;
 
@@ -263,6 +276,8 @@ void CHarpoonguy::Select_Frame(_float fTimeDelta)
 		if (m_iCurrentFrame == 17)
 		{
 			m_eCurState = MS_IDLE;
+			m_iCurrentFrame = 0;
+			return;
 		}
 
 		if (m_iCurrentFrame < 8 || m_iCurrentFrame > 17)

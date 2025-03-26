@@ -67,7 +67,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_eType = CG_PLAYER;
 	m_iHp = m_iPlayerHP.first;
 
-	m_iMiddlePointX = g_iWinSizeX / 2;
 
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
 	CPickingSys::Get_Instance()->Set_Player(this);
@@ -95,6 +94,7 @@ void CPlayer::Update(_float fTimeDelta)
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 	
 
+	
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 	
 	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
@@ -110,11 +110,11 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	if (m_iHp <= 0)
+	/*if (m_iHp <= 0)
 	{
 		m_bIsActive = false;
 		return;
-	}
+	}*/
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
@@ -202,23 +202,24 @@ void CPlayer::Move(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta * 0.5f);
 	}
 
+	
 	POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	_int iDist = abs(ptMouse.x - m_iMiddlePointX);
+	LONG iDist = abs(ptMouse.x - m_lMiddlePointX);
 
-	if (ptMouse.x - m_iMiddlePointX > 0)
+	if (ptMouse.x - m_lMiddlePointX > 0)
 	{
-		if(iDist > 160)
+		if (iDist > 160)
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iDist * 0.005f);
 	}
-	else if (ptMouse.x - m_iMiddlePointX < 0 )
+	else if (ptMouse.x - m_lMiddlePointX < 0)
 	{
 		if (iDist > 160)
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * iDist * 0.005f);
 	}
-	
+
 	
 
 }

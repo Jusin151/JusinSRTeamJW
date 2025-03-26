@@ -74,6 +74,9 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 
 	Shaking(fTimeDelta);
 
+
+
+
 	__super::Update_VP_Matrices();
 
 }

@@ -43,6 +43,7 @@ HRESULT CHarpoon::Initialize(void* pArg)
 	
 
 	m_eType = CG_MONSTER_PROJECTILE_CUBE;
+	m_iAp = 5;
 	
 
 	return S_OK;
@@ -122,12 +123,12 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 
 	_float3 fMTV = m_pColliderCom->Get_MTV();
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 temp = { 1.f, 0.f, 1.f };
 
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
 
+		Take_Damage(other);
 		m_bIsActive = false;
 		
 

@@ -65,6 +65,7 @@ HRESULT CClaymore::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_eType = CG_WEAPON;
+	m_iAp = 15;
 
 	return S_OK;
 }
@@ -119,7 +120,8 @@ HRESULT CClaymore::On_Collision(CCollisionObject* other)
 	case CG_MONSTER:
 
 		// 나중에 공격력 만들어서 추가하는 식으로
-	
+			Take_Damage(other);
+			m_bAttack = true;
 		break;
 
 	default:
@@ -193,6 +195,7 @@ void CClaymore::Attack(_float fTimeDelta)
 	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
 	{
 		m_bIsAnimating = true;
+		m_bAttack = false;
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.0f;
 	}
