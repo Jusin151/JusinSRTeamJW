@@ -259,6 +259,7 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Icon.cpp" />
+    <ClCompile Include="..\private\UI_Episode.cpp" />
     <ClCompile Include="..\private\SpellShop.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\Exp_Bar.cpp" />

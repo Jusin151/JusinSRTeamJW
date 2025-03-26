@@ -99,6 +99,28 @@ CGameObject* CLayer::Find_Last_Object()
 	return m_GameObjects.back();
 
 }
+HRESULT CLayer::Remove_GameObject(CGameObject* pGameObject)
+{
+	auto	iter = m_GameObjects.erase(remove_if(m_GameObjects.begin(), m_GameObjects.end(), [&](CGameObject* pTarget) {
+
+		if (pTarget == pGameObject)
+		{
+			if (!pTarget->Is_FromPool())
+			{
+				Safe_Release(pTarget);
+				pTarget = nullptr;
+			}
+			else
+			{
+				m_pGameInstance->Return_Object(m_iPrototypeLevelIndex, pGameObject->Get_Tag(), pGameObject);
+			}
+			return true;
+		}
+		return false;
+		}));
+
+	return S_OK;
+}
 CLayer* CLayer::Create(_uint iPrototypeLevelIndex)
 {
 	CLayer* pLayer = new CLayer();

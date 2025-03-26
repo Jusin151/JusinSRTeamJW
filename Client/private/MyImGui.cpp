@@ -66,7 +66,7 @@ void CMyImGui::Update(_float fTimeDelta)
 }
 
 HRESULT CMyImGui::Render()
-{	
+{
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -246,6 +246,8 @@ void CMyImGui::ShowInspectorTab()
 	ImGui::BulletText("1: Translate Mode");
 	ImGui::BulletText("2: Rotate Mode");
 	ImGui::BulletText("3: Scale Mode");
+	Remove_Object();
+
 }
 
 
@@ -382,7 +384,7 @@ void CMyImGui::ShowCreateObjectTab()
 			{
 				extractedName = protoTag.substr(prefix.length());
 			}
-			else 
+			else
 			{
 				// 접두사가 없는 경우 그대로 사용
 				extractedName = protoTag;
@@ -590,7 +592,7 @@ HRESULT CMyImGui::CreateObjectInstance(
 	wchar_t wobjectProtoTagBuffer[256] = {};
 	wchar_t wobjectLayerTagBuffer[256] = {};
 	wchar_t wprotoJsonFileNameBuffer[256] = {};
-	
+
 
 	// 문자열 변환
 	MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
@@ -663,7 +665,7 @@ HRESULT CMyImGui::CreateObjectInstance(
 	}
 
 
-	if (textureCreated || prototypeCreated) 
+	if (textureCreated || prototypeCreated)
 	{
 		// 텍스처 파일이 선택되었으면 해당 정보 저장
 		int textureCount = 1; // 기본값
@@ -700,14 +702,14 @@ HRESULT CMyImGui::CreateObjectInstance(
 	return S_OK;
 }
 
-HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& objectProtoTag, _int objectLevel, const _wstring& className, const _wstring& textureTag, _int textureLevel, const _wstring& texturePath, _int textureCount, const _wstring& bufferTag, _int bufferLevel, const _wstring& bufferClass, _int bufferWidth, _int bufferHeight)
+HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName, const _wstring& objectProtoTag, _int objectLevel, const _wstring& className, const _wstring& textureTag, _int textureLevel, const _wstring& texturePath, _int textureCount, const _wstring& bufferTag, _int bufferLevel, const _wstring& bufferClass, _int bufferWidth, _int bufferHeight)
 {
 
 	// JSON 객체 생성
 	json jsonData;
 	string JSON_FILE_PATH = "../Save/";
 
-	if (jsonFileName.empty()) 
+	if (jsonFileName.empty())
 	{
 		JSON_FILE_PATH += "Prototypes_For_Editor.json";
 	}
@@ -729,7 +731,8 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& ob
 		try {
 			inputFile >> jsonData;
 		}
-		catch (const json::parse_error& ) {
+		catch (const json::parse_error&) {
+
 			// 파싱 에러가 발생하면 새 JSON 객체 생성
 			OutputDebugStringA("JSON 파일 파싱 에러, 새 파일을 생성합니다.\n");
 			jsonData = json({
@@ -849,57 +852,74 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& ob
 	return S_OK;
 }
 
+void CMyImGui::Remove_Object()
+{
+	ImGui::Separator();
+	static _int iLevel = 3;
+	ImGui::InputInt("Level", &iLevel);
+	if (ImGui::Button("Remove Current Object"))
+	{
+		if (m_pCurrentGameObject)
+		{
+
+			// 선택된 오브젝트 삭제
+			m_pGameInstance->Remove_Object((_uint)iLevel, m_pCurrentGameObject->Get_Tag(), m_pCurrentGameObject);
+			m_pCurrentGameObject = nullptr;
+		}
+	}
+}
+
 HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes)
 {
-    string JSON_FILE_PATH = "../Save/";
-    if (jsonFileName.empty())
-    {
-        JSON_FILE_PATH += "Prototypes_For_Editor.json";
-    }
-    else
-    {
-        if (jsonFileName.find(".json") == string::npos)
-        {
-            JSON_FILE_PATH += jsonFileName + ".json";
-        }
-        else
-        {
-            JSON_FILE_PATH += jsonFileName;
-        }
-    }
-    
-    // 파일 열기
-    ifstream inputFile(JSON_FILE_PATH);
-    if (!inputFile.is_open())
-    {
-        return E_FAIL;
-    }
-    
-    // JSON 파싱
-    json jsonData;
-    try
-    {
-        inputFile >> jsonData;
-    }
-    catch(const json::parse_error&)
-    {
-        inputFile.close();
-        return E_FAIL;
-    }
-    inputFile.close();
-    
-    outPrototypes.clear();
-    
-    // 프로토타입 정보 추출
-    if (jsonData.contains("gameObjects") && jsonData["gameObjects"].is_array())
-    {
-        for (const auto& obj : jsonData["gameObjects"])
-        {
-            PrototypeInfo info;
-            info.tag = obj["tag"].get<string>();
-            info.level = obj["level"].get<int>();
-            info.className = obj["class"].get<string>();
-            
+
+	string JSON_FILE_PATH = "../Save/";
+	if (jsonFileName.empty())
+	{
+		JSON_FILE_PATH += "Prototypes_For_Editor.json";
+	}
+	else
+	{
+		if (jsonFileName.find(".json") == string::npos)
+		{
+			JSON_FILE_PATH += jsonFileName + ".json";
+		}
+		else
+		{
+			JSON_FILE_PATH += jsonFileName;
+		}
+	}
+
+	// 파일 열기
+	ifstream inputFile(JSON_FILE_PATH);
+	if (!inputFile.is_open())
+	{
+		return E_FAIL;
+	}
+
+	// JSON 파싱
+	json jsonData;
+	try
+	{
+		inputFile >> jsonData;
+	}
+	catch (const json::parse_error&)
+	{
+		inputFile.close();
+		return E_FAIL;
+	}
+	inputFile.close();
+
+	outPrototypes.clear();
+
+	// 프로토타입 정보 추출
+	if (jsonData.contains("gameObjects") && jsonData["gameObjects"].is_array())
+	{
+		for (const auto& obj : jsonData["gameObjects"])
+		{
+			PrototypeInfo info;
+			info.tag = obj["tag"].get<string>();
+			info.level = obj["level"].get<int>();
+			info.className = obj["class"].get<string>();
 			// 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall", "Prototype_GameObject_Hub_Floor1" -> "Hub_Floor1")
 			string objBaseName = info.tag;
 			string prefix = "Prototype_GameObject_";
@@ -919,44 +939,44 @@ HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<Prot
 
 				for (const auto& tex : jsonData["textures"])
 				{
-                    string texTag = tex["tag"].get<string>();
-                    
-                    // 정확한 이름 매칭 시도
-                    if (texTag == specificTextureName)
-                    {
-                        info.textureTag = texTag;
-                        info.texturePath = tex["path"].get<string>();
-                        info.textureCount = tex["count"].get<int>();
-                        textureFound = true;
-                        break;
-                    }
-                }
-                
-                // 정확한 매칭 실패 시 기본 텍스처 사용
-                if (!textureFound && !jsonData["textures"].empty())
-                {
-                    const auto& defaultTex = jsonData["textures"][0];
-                    info.textureTag = defaultTex["tag"].get<string>();
-                    info.texturePath = defaultTex["path"].get<string>();
-                    info.textureCount = defaultTex["count"].get<int>();
-                }
-            }
-            
-            // 버퍼 태그는 클래스에 따라 기본값 설정
-            if (info.className == "CTerrain")
-            {
-                info.bufferTag = "Prototype_Component_VIBuffer_Terrain";
-            }
-            else
-            {
-                info.bufferTag = "Prototype_Component_VIBuffer_Cube"; // 기본값
-            }
-            
-            outPrototypes.push_back(info);
-        }
-    }
-    
-    return S_OK;
+					string texTag = tex["tag"].get<string>();
+
+					// 정확한 이름 매칭 시도
+					if (texTag == specificTextureName)
+					{
+						info.textureTag = texTag;
+						info.texturePath = tex["path"].get<string>();
+						info.textureCount = tex["count"].get<int>();
+						textureFound = true;
+						break;
+					}
+				}
+
+				// 정확한 매칭 실패 시 기본 텍스처 사용
+				if (!textureFound && !jsonData["textures"].empty())
+				{
+					const auto& defaultTex = jsonData["textures"][0];
+					info.textureTag = defaultTex["tag"].get<string>();
+					info.texturePath = defaultTex["path"].get<string>();
+					info.textureCount = defaultTex["count"].get<int>();
+				}
+			}
+
+			// 버퍼 태그는 클래스에 따라 기본값 설정
+			if (info.className == "CTerrain")
+			{
+				info.bufferTag = "Prototype_Component_VIBuffer_Terrain";
+			}
+			else
+			{
+				info.bufferTag = "Prototype_Component_VIBuffer_Cube"; // 기본값
+			}
+
+			outPrototypes.push_back(info);
+		}
+	}
+
+	return S_OK;
 }
 
 void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
@@ -1244,7 +1264,7 @@ _wstring CMyImGui::SelectFolder()
 	_wstring selectedPath;
 
 	// COM 초기화 (이미 초기화된 경우는 무시됨)
-	HRESULT hr1  = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	HRESULT hr1 = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	IFileOpenDialog* pFileOpen;
 	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen));
@@ -1323,6 +1343,8 @@ void CMyImGui::ConfigureImGuizmo()
 	{
 		ImGui::InputFloat3("Snap Values", m_SnapValue);
 	}
+
+
 
 	ImGui::End();
 }

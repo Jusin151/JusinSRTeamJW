@@ -172,6 +172,16 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_AntWall3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Hub_Floor3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Magma"
     }
   ],
   "textures": [
@@ -336,6 +346,18 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_1.png",
       "tag": "Prototype_Component_Texture_AntWall3"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\TEXTURE_HUB_FLOOR_1.png",
+      "tag": "Prototype_Component_Texture_Hub_Floor3"
+    },
+    {
+      "count": 4,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Hub\\magma%d.png",
+      "tag": "Prototype_Component_Texture_Magma"
     }
   ]
 }

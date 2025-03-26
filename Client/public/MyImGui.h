@@ -69,6 +69,7 @@ private:
 		const _wstring& bufferClass,
 		_int bufferWidth,
 		_int bufferHeight);
+	void Remove_Object();
 	HRESULT LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes);
 	// ImGuizmo 관련 함수 추가
 	void ConfigureImGuizmo();
