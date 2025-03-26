@@ -61,9 +61,8 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
         return E_FAIL;
 
     CProjectile_Particle_System::TRAILDESC particleDesc = {};
-    particleDesc.iNumParticles = { 5 };
-    particleDesc.fIntervaltime = { 1.0f };
-    particleDesc.strTexturePath = L"../../Resources/Textures/Particle/snowflake.dds";
+    particleDesc.iNumParticles = { 1 };
+    particleDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 
     /* For.Com_Particle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
@@ -83,7 +82,9 @@ void CGameObject_Projectile_Test::Update(_float fTimeDelta)
     m_pParticleCom->Update(fTimeDelta);
     
     m_pTransformCom->Go(m_vDir, fTimeDelta);
-    m_pParticleCom->Set_Origin(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+    dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+    //m_pParticleCom->Set_Origin(m_vDir);
 }
 
 void CGameObject_Projectile_Test::Late_Update(_float fTimeDelta)
