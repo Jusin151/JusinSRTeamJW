@@ -32,6 +32,7 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_eType = CG_MONSTER;
 
 	return S_OK;
 }
@@ -80,13 +81,11 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	// 충돌 판정
-	On_Collision(fTimeDelta);
 
 
 	Select_Frame(fTimeDelta);
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
+	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
@@ -118,21 +117,23 @@ void CHarpoonguy::Deserialize(const json& j)
 	SET_TRANSFORM(j, m_pTransformCom);
 }
 
-HRESULT CHarpoonguy::On_Collision(_float fTimeDelta)
+HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
+	if (nullptr == other)
+		return S_OK;
 
 	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
+	if (other->Get_Type() == CG_END)
 		return S_OK;
 
 	_float3 fMTV = m_pColliderCom->Get_MTV();
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 temp = { 1.f, 0.f, 1.f };
 
-	switch (m_pColliderCom->Get_Other_Type())
+	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
 
@@ -155,8 +156,6 @@ HRESULT CHarpoonguy::On_Collision(_float fTimeDelta)
 		break;
 	}
 
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
 }
@@ -171,15 +170,15 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-	Shooting(fTimeDelta);
+	//Shooting(fTimeDelta);
 
-	// 거리로 판단해서 패턴 실행하도록 
-	/*if (vDist.LengthSq() > 10)
+	//거리로 판단해서 패턴 실행하도록 
+	if (vDist.LengthSq() > 10)
 		Chasing(fTimeDelta);
 	else
 	{
 		Shooting(fTimeDelta);
-	}*/
+	}
 		
 }
 
@@ -301,7 +300,7 @@ HRESULT CHarpoonguy::SetUp_RenderState()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // 기준값 설정 (0~255)
 
 	return S_OK;
 }

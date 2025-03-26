@@ -25,6 +25,8 @@ HRESULT CMelee_Weapon::Initialize(void* pArg)
 	Safe_AddRef(m_pColliderCom);
 	Safe_AddRef(m_pColTransformCom);
 
+	m_eType = CG_WEAPON;
+
 	return S_OK;
 }
 
@@ -104,7 +106,6 @@ HRESULT CMelee_Weapon::Ready_Components()
 {
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_WEAPON;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

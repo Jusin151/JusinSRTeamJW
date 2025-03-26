@@ -42,7 +42,7 @@ HRESULT CHarpoon::Initialize(void* pArg)
 	}
 	
 
-	
+	m_eType = CG_MONSTER_PROJECTILE_CUBE;
 	
 
 	return S_OK;
@@ -78,10 +78,6 @@ void CHarpoon::Update(_float fTimeDelta)
 
 void CHarpoon::Late_Update(_float fTimeDelta)
 {
-	On_Collision(fTimeDelta);
-
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
@@ -108,21 +104,24 @@ HRESULT CHarpoon::Render()
 	return S_OK;
 }
 
-HRESULT CHarpoon::On_Collision(_float fTimeDelta)
+HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
+	if (nullptr == other)
+		return S_OK;
+
 
 	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
+	if (other->Get_Type() == CG_END)
 		return S_OK;
 
 	_float3 fMTV = m_pColliderCom->Get_MTV();
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 temp = { 1.f, 0.f, 1.f };
 
-	switch (m_pColliderCom->Get_Other_Type())
+	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
 
@@ -130,12 +129,13 @@ HRESULT CHarpoon::On_Collision(_float fTimeDelta)
 		
 
 		break;
+	case CG_STRUCTURE_WALL:
+		m_bIsActive = false;
+		break;
 	default:
 		break;
 	}
 
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
 
 	return S_OK;
 }
@@ -168,7 +168,6 @@ HRESULT CHarpoon::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER_PROJECTILE_CUBE;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 0.5f, 0.5f, 0.5f };

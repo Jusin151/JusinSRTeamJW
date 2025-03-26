@@ -116,6 +116,13 @@ namespace Engine
 			if (y != other.y) return y < other.y;
 			return z < other.z;
 		}
+
+		bool IsParallel(const tagVector3& other)
+		{
+			// 외적이 0이면 평행 (오차 허용)
+			return this->Cross(other).LengthSq() < 1e-6f;
+		}
+
 		static float Distance(const tagVector3& a, const tagVector3& b)
 		{
 			tagVector3 tmpVector = a - b;
@@ -152,6 +159,12 @@ namespace Engine
 		float		fSize;
 		static const DWORD FVF;
 	} PARTICLE;
+
+	typedef struct tagVertexPositionColor
+	{
+		D3DXVECTOR3 vPosition;
+		D3DCOLOR	vColor;
+	} VTXPOSCOL;
 
 	//const PARTICLE::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 

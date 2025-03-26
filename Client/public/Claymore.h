@@ -27,7 +27,7 @@ public:
 	 HRESULT Render();
 	 Weapon_DESC m_Claymore_INFO{};
 
-	 HRESULT On_Collision();
+	virtual HRESULT On_Collision(CCollisionObject* other);
 
 private:
 	HRESULT Ready_Components();

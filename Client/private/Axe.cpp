@@ -68,6 +68,7 @@ HRESULT CAxe::Initialize(void* pArg)
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Axe"),&Axe_Icon)))
 		return E_FAIL;
 
+	m_eType = CG_WEAPON;
 
 	return S_OK;
 }
@@ -86,8 +87,6 @@ void CAxe::Update(_float fTimeDelta)
 
 void CAxe::Late_Update(_float fTimeDelta)
 {
-	if(m_bIsAnimating)
-		On_Collision();
 
 	__super::Late_Update(fTimeDelta);
 }
@@ -98,18 +97,24 @@ HRESULT CAxe::Render()
 	return __super::Render();
 }
 
-HRESULT CAxe::On_Collision()
+HRESULT CAxe::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
+	if (!m_bIsAnimating)
+		return S_OK;
+
+	if (nullptr == other)
+		return S_OK;
+
 	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
+	if (other->Get_Type() == CG_END)
 		return S_OK;
 
 	
 
-	switch (m_pColliderCom->Get_Other_Type()) //여기서 디버깅 잡히나?
+	switch (other->Get_Type()) //여기서 디버깅 잡히나?
 	{
 	case CG_MONSTER:
 
@@ -121,8 +126,7 @@ HRESULT CAxe::On_Collision()
 		break;
 	}
 
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
+	
 
 	return S_OK;
 }

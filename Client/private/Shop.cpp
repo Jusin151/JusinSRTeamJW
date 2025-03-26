@@ -2,6 +2,7 @@
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 #include "Player.h"
+#include "CollisionObject.h"
 
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject(pGraphic_Device)
@@ -24,12 +25,15 @@ HRESULT CShop::Initialize(void* pArg) // 자식에서 무조건 __Super:: 로 �
         return E_FAIL;
 
     m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+
+    m_pPlayer = static_cast<CPlayer*>(m_pPlayer);
     if (m_pPlayer == nullptr)
         return E_FAIL;
     else
         Safe_AddRef(m_pPlayer);
 
 
+    
 
     // 상점 기본 설정
     m_bIsOpen = false;
@@ -45,23 +49,42 @@ void CShop::Update(_float fTimeDelta)
 {
     LookAtPlayer(fTimeDelta);
 
-
-
     m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
     m_pGameInstance->Add_Collider(CG_SHOP, m_pColliderCom);
 
-    if (SUCCEEDED(On_Collision()))
+    if (SUCCEEDED(On_Collision())) 
     {
         if (GetAsyncKeyState(VK_SPACE) & 0x8000)
         {
-            m_bIsOpen = true;
+            if (!m_bSpacePressed)  
+            {
+                m_bIsOpen = !m_bIsOpen;
+                m_bSpacePressed = true; 
+                static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
+            }
+        }
+        else
+        {
+            m_bSpacePressed = false; 
         }
     }
     else
     {
-        m_bIsOpen = false;
+        if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+        {
+            if (!m_bSpacePressed)
+            {
+                m_bIsOpen = false;
+                m_bSpacePressed = true;
+            }
+        }
+        else
+        {
+            m_bSpacePressed = false;
+        }
     }
+
 }
 
 
@@ -69,8 +92,6 @@ void CShop::Late_Update(_float fTimeDelta)
 {
     if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
-
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
 
 }
 
@@ -171,7 +192,6 @@ HRESULT CShop::On_Collision()
 
 
 
-    m_pColliderCom->Set_Other_Type(CG_END);
 
     return E_FAIL;
 }
@@ -223,8 +243,8 @@ HRESULT CShop::Ready_Components()
 
     /* Collider Component */
     CCollider::COL_DESC	ColliderDesc = {};
-    ColliderDesc.eType = CG_SHOP;
-    ColliderDesc.pOwner = this;
+  
+    //ColliderDesc.pOwner = (this);
     // 이걸로 콜라이더 크기 설정
     ColliderDesc.fScale = { 100.f,100.f,100.f };
     // 오브젝트와 상대적인 거리 설정

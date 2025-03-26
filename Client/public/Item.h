@@ -1,4 +1,6 @@
+
 #pragma once
+
 #include "Client_Defines.h"
 #include "Transform.h"
 #include "GameObject.h"
@@ -15,7 +17,8 @@ END
 BEGIN(Client)
 class CItem final : public CGameObject
 {
-	enum class ITEM_TYPE : uint8_t // 1πŸ¿Ã∆Æ∑Œ º≥¡§
+
+	enum class ITEM_TYPE : uint8_t // 1Î∞îÏù¥Ìä∏Î°ú ÏÑ§Ï†ï
 	{
 	  HP,
 	  MP,
@@ -47,6 +50,7 @@ private:
 	void Bind_ResourceByType();
 	void Use_Item();
 	void Init_TextureTag();
+
 
 private:
 	CTexture* m_pTextureCom = { nullptr };

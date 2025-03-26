@@ -36,6 +36,7 @@ public:
 	virtual HRESULT Render();
 	virtual void Reset() {}; // 차후에 오브젝트 풀링때 SetActive가 true가 될 때 기본정보 다시 셋팅을 위한 함수
 
+
 public:
 	bool IsActive() const { return m_bIsActive; }
 	void SetActive(_bool bIsActive);

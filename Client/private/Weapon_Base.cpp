@@ -2,18 +2,21 @@
 
 #include "GameInstance.h"
 #include "Melee_Weapon.h"
-#include "Melee_Weapon.h"
-#include "Melee_Weapon.h"
+#include "Player.h"
 
 
 CWeapon_Base::CWeapon_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CCollisionObject{ pGraphic_Device }
 {
 }
 
 CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
-	: CGameObject(Prototype)
+	: CCollisionObject(Prototype)
 {
+
+
+
+
 }
 
 
@@ -60,7 +63,7 @@ void CWeapon_Base::Priority_Update(_float fTimeDelta)
 
 void CWeapon_Base::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 
@@ -72,6 +75,7 @@ void CWeapon_Base::Free()
 
 void CWeapon_Base::Move_Hand(_float fTimeDelta)
 {
+
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;

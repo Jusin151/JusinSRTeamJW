@@ -7,12 +7,12 @@
 #include "GameInstance.h"
 
 CMonster_Base::CMonster_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CCollisionObject{ pGraphic_Device }
 {
 }
 
 CMonster_Base::CMonster_Base(const CMonster_Base& Prototype)
-	: CGameObject{ Prototype }
+	: CCollisionObject{ Prototype }
 {
 }
 
@@ -28,6 +28,8 @@ HRESULT CMonster_Base::Initialize(void* pArg)
 
 
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+
+	m_eType = CG_MONSTER;
 
 	return S_OK;
 }
@@ -78,7 +80,6 @@ HRESULT CMonster_Base::Ready_Components()
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_MONSTER;
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

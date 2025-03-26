@@ -1,6 +1,7 @@
 ﻿#include "Renderer.h"
 #include "GameObject.h"
 #include "Light.h"
+#include "Collider.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -42,8 +43,6 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
 	if (FAILED(Disable_Lights()))
-		return E_FAIL;
-	if (FAILED(Render_Collider()))
 		return E_FAIL;
 	if (FAILED(Render_UI_Background()))
 		return E_FAIL;
@@ -132,23 +131,51 @@ HRESULT CRenderer::Render_Blend()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_Collider()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_GREEN);
-	for (auto& pGameObject : m_RenderObjects[RG_COLLIDER])
-	{
-		if (nullptr != pGameObject && pGameObject->IsActive())
-		{
-			pGameObject->Render();
-		}
-		Safe_Release(pGameObject);
-	}
-	m_RenderObjects[RG_COLLIDER].clear();
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	m_pGraphic_Device->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
-	return S_OK;
-}
+//HRESULT CRenderer::Render_Collider()
+//{
+//	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+//
+//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+//
+//	//색깔 덧셈
+//	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+//	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+//	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+//
+//	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+//	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); // 와이어가 Z값을 덮어쓰지 않도록
+//	m_pGraphic_Device->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL); // 동일한 깊이에서도 그려지도록
+//
+//
+//	// 3. Z-파이팅 방지: 깊이 바이어스(Depth Bias) 적용 (중요!)
+//	//    와이어프레임이 텍스처 표면과 거의 같은 깊이에 있어 깜빡이는 현상(Z-fighting)을 방지
+//	//    값을 약간 조정하여 와이어프레임이 미세하게 더 가깝게 그려지도록 함
+//	float fDepthBias = -0.00001f; // 값은 실험을 통해 조정 필요
+//	float fSlopeScaleBias = -1.0f; // 표면 기울기에 따른 바이어스 조정
+//	m_pGraphic_Device->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);
+//	m_pGraphic_Device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(DWORD*)&fSlopeScaleBias);
+//
+//	for (auto& pGameObject : m_RenderObjects[RG_COLLIDER])
+//	{
+//		if (nullptr != pGameObject && pGameObject->IsActive())
+//		{
+//			pGameObject->Render();	
+//		}
+//		Safe_Release(pGameObject);
+//	}
+//	m_RenderObjects[RG_COLLIDER].clear();
+//	fDepthBias = 0.0f;
+//	fSlopeScaleBias = 0.0f;
+//	m_pGraphic_Device->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);
+//	m_pGraphic_Device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(DWORD*)&fSlopeScaleBias);
+//	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // 와이어가 Z값을 덮어쓰지 않도록
+//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+//	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+//
+//	
+//
+//	return S_OK;
+//}
 
 HRESULT CRenderer::Render_UI_Background()
 {

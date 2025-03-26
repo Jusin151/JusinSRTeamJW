@@ -36,6 +36,8 @@ public:
 
 	virtual void LookAtPlayer(_float fTimeDelta);
 
+private:
+	_bool m_bSpacePressed = false; // 스페이스가 이미 눌려있었는지 체크
 
 	HRESULT On_Collision();
 protected:

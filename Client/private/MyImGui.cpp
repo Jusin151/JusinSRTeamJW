@@ -732,6 +732,7 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName, const _wstring& o
 			inputFile >> jsonData;
 		}
 		catch (const json::parse_error&) {
+
 			// 파싱 에러가 발생하면 새 JSON 객체 생성
 			OutputDebugStringA("JSON 파일 파싱 에러, 새 파일을 생성합니다.\n");
 			jsonData = json({
@@ -870,6 +871,7 @@ void CMyImGui::Remove_Object()
 
 HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes)
 {
+
 	string JSON_FILE_PATH = "../Save/";
 	if (jsonFileName.empty())
 	{
@@ -918,7 +920,6 @@ HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<Prot
 			info.tag = obj["tag"].get<string>();
 			info.level = obj["level"].get<int>();
 			info.className = obj["class"].get<string>();
-
 			// 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall", "Prototype_GameObject_Hub_Floor1" -> "Hub_Floor1")
 			string objBaseName = info.tag;
 			string prefix = "Prototype_GameObject_";

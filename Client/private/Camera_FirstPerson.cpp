@@ -72,7 +72,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
 
-	
+	Shaking(fTimeDelta);
 
 	__super::Update_VP_Matrices();
 
@@ -123,6 +123,40 @@ void CCamera_FirstPerson::Late_Update(_float fTimeDelta)
 HRESULT CCamera_FirstPerson::Render()
 {
     return S_OK;
+}
+
+void CCamera_FirstPerson::Shaking(_float fTimeDelta)
+{
+	m_fShakeTime += fTimeDelta * 10.f;
+
+	float shakeAmount = 0.05f; // 흔들림 강도
+	_float3 shake = {
+		cos(m_fShakeTime) * shakeAmount,
+		sin(m_fShakeTime) * shakeAmount,
+		0.f
+	};
+
+	if (GetKeyState('W') & 0x8000)
+	{
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+	}
+	if (GetKeyState('S') & 0x8000)
+	{
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+	}
+	if (GetKeyState('A') & 0x8000)
+	{
+
+	
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+	}
+	if (GetKeyState('D') & 0x8000)
+	{
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+	}
 }
 
 HRESULT CCamera_FirstPerson::Ready_Components()

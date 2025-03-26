@@ -3,13 +3,15 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
+ENGINE_DLL bool g_bDebugCollider;
+
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CGameObject{ pGraphic_Device }
+	:CCollisionObject{ pGraphic_Device }
 {
 }
 
 CStructure::CStructure(const CStructure& Prototype)
-	:CGameObject{ Prototype }
+	:CCollisionObject{ Prototype }
 {
 }
 
@@ -44,12 +46,33 @@ void CStructure::Update(_float fTimeDelta)
 
 	if (m_bIsCubeCollider)
 	{
-		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
+		(m_pColliderCom)->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+	}
+
+	// 바닥
+	if (Get_Tag().find(L"Floor") != wstring::npos)
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
 	}
 	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
 
 
 	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		m_fFrame += 90.f * fTimeDelta;
+		if (m_fFrame >= 90.f)
+			m_fFrame = 0.f;
+
+		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f); 
+	}
+
+	// 벽 태그인 경우
+	else if (Get_Tag().find(L"Wall") != wstring::npos)
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_WALL, m_pColliderCom);
+	}
+
+  	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
 	{
 		m_fFrame += 90.f * fTimeDelta;
 		if (m_fFrame >= 90.f)
@@ -93,15 +116,19 @@ HRESULT CStructure::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+	if (g_bDebugCollider)
+	{
+		m_pColliderCom->Render();
+	}
 	Release_RenderState();
 
 	return S_OK;
 }
 
-HRESULT CStructure::On_Collision(_float fTimeDelta)
+HRESULT CStructure::On_Collision(CCollisionObject* ohter)
 {
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 HRESULT CStructure::SetUp_RenderState()
 {
@@ -224,7 +251,17 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_STRUCTURE;
+	// 바닥
+	if (m_tObjDesc.stProtTextureTag.find(L"Floor") != wstring::npos)
+	{
+		m_eType = CG_STRUCTURE_FLOOR;
+	}
+	// 벽 태그인 경우
+	else if (m_tObjDesc.stProtTextureTag.find(L"Wall") != wstring::npos)
+	{
+		m_eType = CG_STRUCTURE_WALL;
+	}
+	
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

@@ -6,6 +6,8 @@
 #include "Renderer.h"
 #include "Prototype_Manager.h"
 
+extern ENGINE_DLL bool g_bDebugCollider;
+
 BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase

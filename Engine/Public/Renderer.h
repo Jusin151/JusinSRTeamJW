@@ -14,7 +14,6 @@ public:
 	{
 		RG_PRIORITY,
 		RG_NONBLEND,
-		RG_COLLIDER,
 		RG_BLEND,
 		RG_UI_BACKGROUND,  //  UI 배경
 		RG_UI_BUTTON,      //  UI 버튼
@@ -45,7 +44,6 @@ private:
 	HRESULT Render_Priority();
 	HRESULT Render_NonBlend();
 	HRESULT Render_Blend();
-	HRESULT Render_Collider();
 
 	HRESULT Render_UI_Background();
 

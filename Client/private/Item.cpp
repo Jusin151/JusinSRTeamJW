@@ -1,4 +1,6 @@
+
 #include "Item.h"
+
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -10,14 +12,18 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CItem::CItem(const CItem& Prototype)
+
 	:CGameObject{ Prototype },
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
+
 {
 }
 
 HRESULT CItem::Initialize_Prototype()
 {
+
 	Init_TextureTag();
+
 	return S_OK;
 }
 
@@ -30,8 +36,11 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); // ¾àÇÑ ÂüÁ¶
+
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
+
+
 	return S_OK;
 }
 
@@ -48,6 +57,7 @@ void CItem::Update(_float fTimeDelta)
 		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
 	}
 	m_pGameInstance->Add_Collider(CG_ITEM, m_pColliderCom);
+
 
 
 	static _float testOffset = 0.f;
@@ -70,6 +80,7 @@ void CItem::Update(_float fTimeDelta)
 	auto vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vPosition.y = testOffset;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
+
 }
 
 void CItem::Late_Update(_float fTimeDelta)
@@ -81,7 +92,9 @@ void CItem::Late_Update(_float fTimeDelta)
 HRESULT CItem::Render()
 {
 
+
 	if (FAILED(m_pTextureCom->Bind_Resource(m_mapTextureTag[ITEM_TYPE::HP][L"HP_Big"])))
+
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -105,21 +118,13 @@ HRESULT CItem::On_Collision(_float fTimeDelta)
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
-		return S_OK;
 
-	if (m_pColliderCom->Get_Other_Type() == CG_PLAYER)
-	{
-		Use_Item();
-	}
-	// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
-	m_pColliderCom->Set_Other_Type(CG_END);
 	return E_FAIL;
 }
 
 void CItem::Billboarding(_float fTimeDelta)
 {
+
 	//_float4x4 vViewMatrix{};
 	//_float3 vScale = m_pTransformCom->Compute_Scaled();
 	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vViewMatrix);
@@ -133,27 +138,28 @@ void CItem::Billboarding(_float fTimeDelta)
 
 	CTransform* pPlayerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
-	// ÇÃ·¹ÀÌ¾îÀÇ look º¤ÅÍ °¡Á®¿À±â (ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¹æÇâ)
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ look ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	_float3 vPlayerLook = pPlayerTransform->Get_State(CTransform::STATE_LOOK);
 
 	vPlayerLook.y = 0.f;
 	vPlayerLook.Normalize();
 
-	_float3 vShopLook = -vPlayerLook;  // º¤ÅÍ ¹æÇâ ¹ÝÀü
+	_float3 vShopLook = -vPlayerLook;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	// Á÷±³ ±âÀú¸¦ °è»êÇÏ¿© Æ®·£½ºÆû ¼³Á¤
-	_float3 vUp = _float3(0.0f, 1.0f, 0.0f);  // ¿ùµå ¾÷ º¤ÅÍ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	_float3 vUp = _float3(0.0f, 1.0f, 0.0f);  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	_float3 vRight = vUp.Cross(vShopLook);
 	vRight.Normalize();
 
-	// Á÷±³ ±âÀú¸¦ º¸ÀåÇÏ±â À§ÇØ ¾÷ º¤ÅÍ Àç°è»ê
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	_float3 vNewUp = vShopLook.Cross(vRight);
 	vNewUp.Normalize();
 
-	// »óÁ¡ÀÇ È¸Àü Çà·Ä ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vShopLook);
+
 }
 
 void CItem::Bind_ResourceByType()
@@ -181,6 +187,7 @@ void CItem::Use_Item()
 	}
 }
 
+
 void CItem::Init_TextureTag()
 {
 	m_mapTextureTag[ITEM_TYPE::HP][L"HP_Big"] = 36;
@@ -192,12 +199,15 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 80;
 }
 
+
+
 HRESULT CItem::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); 
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
 	return S_OK;
 }
@@ -222,6 +232,7 @@ HRESULT CItem::Ready_Components()
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
+
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Items"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
@@ -229,9 +240,9 @@ HRESULT CItem::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.eType = CG_ITEM;
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î ÄÝ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ï¿½Ì°É·ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))

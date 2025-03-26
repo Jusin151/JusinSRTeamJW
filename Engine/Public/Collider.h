@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Transform.h"
+#include "VIBuffer.h"
 
 BEGIN(Engine)
 
@@ -17,10 +18,8 @@ public:
 		_float3					fScale = {};
 
 		// 누가 가지고 있는지
-		class CGameObject*      pOwner = { nullptr };
+		class CCollisionObject*      pOwner = { nullptr };
 
-		// Owner에 따라 바꿔주기
-		COLLIDERGROUP			eType = { CG_END };
 	}COL_DESC;
 
 protected:
@@ -36,6 +35,7 @@ public:
 
 	virtual HRESULT Update_Collider(const _wstring& strLayerTag, _float3 fScale) = 0;
 
+public:
 	// 오브젝트에서 설정해서 매니저로 넘기기
 	_float3 Get_State(CTransform::TRANSFORMSTATE eState) const {
 		return *reinterpret_cast<const _float3*>(&m_WorldMatrix.m[eState][0]);
@@ -50,28 +50,6 @@ public:
 		m_WorldMatrix = worldMat;
 	}
 
-
-	COLLIDERGROUP	Get_Type()
-	{
-		return m_eType;
-	}
-
-	void Set_Type(COLLIDERGROUP eType)
-	{
-		m_eType = eType;
-	}
-	
-
-	COLLIDERGROUP	Get_Other_Type()
-	{
-		return m_eOtherType;
-	}
-
-	void	Set_Other_Type(COLLIDERGROUP eOtherType)
-	{
-		m_eOtherType = eOtherType;
-	}
-
 	_float Get_Radius() const 
 	{
 		return max(max(m_fScale.x, m_fScale.y), m_fScale.z) * 0.5f;
@@ -81,14 +59,18 @@ public:
 
 	void Set_MTV(_float3 fMTV) { m_fMTV = fMTV; }
 
+	_float Get_Depth() { return m_fDepth; }
+	// mtv의 길이 저장해놓음
+	void Set_Depth(_float fDepth) { m_fDepth = fDepth; }
+
 	_float3 Get_Scale() { return m_fScale; }
-	void Set_Scale(_float3 fScale) { m_fScale = fScale; }
+	void	Set_Scale(_float3 fScale) { m_fScale = fScale; }
 
-	void Set_Owner(class CGameObject* pOwner) { m_pOwner = pOwner; }
-	class CGameObject* Get_Owner() const { return m_pOwner; }
+	void Set_Owner(class CCollisionObject* pOwner) { m_pOwner = pOwner; }
+	class CCollisionObject* Get_Owner() const { return m_pOwner; }
 
-	void Set_bCollsion() { m_bIsCollision = true; }
 	_bool Get_bCollision() { return m_bIsCollision; }
+	void Set_bCollsion() { m_bIsCollision = true; }
 
 protected:
 	_float4x4				m_WorldMatrix = {};
@@ -103,21 +85,25 @@ protected:
 	_float3					m_fMTV = {0.f, 0.f, 0.f};
 	_float					m_fDepth = {0.f};
 
-	// 내 타입은 object에서 설정. 
-	// 상대 타입은 충돌하면 collidermanager에서 수정해서 다르게 충돌 처리 하도록 
-	// 나중에 수정 하면 좋을듯?
-	COLLIDERGROUP			m_eType = { CG_END };
-	COLLIDERGROUP			m_eOtherType = { CG_END };
-	class CGameObject*		m_pOwner = { nullptr };
+	class CCollisionObject*		m_pOwner = { nullptr };
 
 	// 충돌 여러번 안하기 위해 사용할 변수
 	_bool					m_bIsCollision = { false };
-public:
 
+protected:
+	//경계 출력을 위한 변수
+	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };
+	_uint								m_iNumLine = {};
+	_uint								m_iNumIndices = {};
+	_uint								m_iIndexStride = {};
+	D3DFORMAT							m_eIndexFormat = {};
+
+protected:
+	HRESULT Create_IndexBuffer();
+
+public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;
-
-	
 };
 
 END

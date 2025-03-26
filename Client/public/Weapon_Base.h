@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "CollisionObject.h"
 #include "Transform.h"
 
 
@@ -12,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CWeapon_Base abstract : public CGameObject
+class CWeapon_Base abstract : public CCollisionObject
 {
 public:
     enum WEAPON_ID
@@ -55,6 +56,7 @@ public:
     virtual  void Free();
     virtual void Attack(_float fTimeDelta)PURE;
     virtual void Move_Hand(_float fTimeDelta);
+    virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
 protected:
     CTexture* m_pTextureCom = {};
     CVIBuffer_Rect* m_pVIBufferCom = {};
@@ -87,6 +89,7 @@ protected:
     _float speed = { 0.1f }; //
     _float2 m_vInitialPos = {};
 
+     
 
 };
 END

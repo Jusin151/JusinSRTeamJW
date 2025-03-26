@@ -35,6 +35,7 @@ public:
         UI_Parent_Desc Button_Desc{};
         wstring strTexture_Default_Tag{};
         wstring strUIName{};
+        wstring strToolTip{}; // 마우스에 상관없이 상점 UI를 켰을때 무조건 보여야하는 텍스트
         _bool bActive{};
         BUTTON_TYPE_ENUM Button_Type{}; 
     };
@@ -53,6 +54,7 @@ public:
     virtual HRESULT Render() override;
     void Render_MouseOn_Button_TexT();
     void Render_MouseClick_Button_TexT();
+    void Render_ToolTip_Button_TexT(); // 스펠샵에서 스펠시전에 드는 자원소모 표기용
 public: 
     void SetOnClickCallback(function<void()> callback)
     {
@@ -75,12 +77,15 @@ private:
 
 public:
     wstring m_strMouseOnText{};
+    wstring m_strToolTipText{}; // 마우스 여부와 상관없이 버튼 위에 무조건 보이게할 버튼
     wstring m_str_Weapon_Click_Text{};
    
+
 private:
     function<void()> m_OnMouse = { nullptr }; //마우스가 위에
     function<void()> m_OnClick = { nullptr }; //마우스 클릭 
-    _bool m_bVisible = true; // 마우스 안올렸을때는 안보이게
+    _bool m_bVisible = { true }; // 마우스 안올렸을때는 안보이게
+    _bool m_bVisible_Click = { false };
 
 public:
     static CGamePlay_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

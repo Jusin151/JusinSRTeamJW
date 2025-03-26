@@ -3,6 +3,7 @@
 #include "Collider_Cube.h"
 #include "Collider_Sphere.h"
 #include "GameInstance.h"
+#include "CollisionObject.h"
 
 IMPLEMENT_SINGLETON(CPickingSys)
 CPickingSys::CPickingSys()
