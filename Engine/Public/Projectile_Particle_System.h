@@ -7,7 +7,8 @@ public:
 	typedef struct tagTrailParticleDesc : tagParticleSystemDesc
 	{
 		_uint			iNumParticles;
-		_float			fIntervaltime;
+		_float			fWidth;
+		_float			fDistance;
 	}TRAILDESC;
 private:
 	CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -26,10 +27,9 @@ public:
 
 
 private:
-	_float		m_fInterval = {};
-	_float		m_fElapsedTime = {};
 	_float3		m_vDir = {};
 	_float		m_fWidth = {};
+	_float		m_fDistance = {};
 
 public:
 	static CProjectile_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

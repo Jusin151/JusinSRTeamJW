@@ -62,6 +62,8 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
 
     CProjectile_Particle_System::TRAILDESC particleDesc = {};
     particleDesc.iNumParticles = { 1 };
+    particleDesc.fDistance = { 10.f };
+    particleDesc.fWidth = { 2.f };
     particleDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 
     /* For.Com_Particle */

@@ -26,8 +26,8 @@ HRESULT CProjectile_Particle_System::Initialize(void* pArg)
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
-	m_fInterval = desc.fIntervaltime;
-	m_fWidth = 2.f;
+	m_fWidth = desc.fWidth;
+	m_fDistance = desc.fDistance;
 
 	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
@@ -41,7 +41,7 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
 	pAttribute->bIsAlive = true;
 	pAttribute->fAge = 0;
-	pAttribute->vPosition = m_vDir * 5.f;
+	pAttribute->vPosition = m_vDir * m_fDistance;
 	pAttribute->vVelocity = -m_vDir;
 	pAttribute->fLifetime = 2.0f;
 
@@ -52,31 +52,13 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 void CProjectile_Particle_System::Update(float fTimeDelta)
 {
 	Reset_Particle(&*m_Particles.begin());
-	m_fElapsedTime += fTimeDelta;
 	for (auto& i : m_Particles)
 	{
 		if (i.bIsAlive)
 		{
 			i.vPosition += i.vVelocity * fTimeDelta;
-			//_float4 temp = DWORDToFloat4_Color(i.vColor);
-			//temp.w *= 0.99f;
-			//i.vColor = D3DCOLOR_COLORVALUE(temp.x, temp.y, temp.z, temp.w);
-			i.fAge += fTimeDelta;
-
-			/*if (i.fAge > i.fLifetime)
-				i.bIsAlive = false;*/
 		}
 	}
-	/*if (m_fElapsedTime >= 0.1f)
-	{
-		Add_Particle();
-		m_fElapsedTime = 0.f;
-	}
-	if (m_Particles.size() > m_iMaxParticles)
-	{
-		m_Particles.pop_front();
-	}*/
-
 	__super::Late_Update(fTimeDelta);
 }
 
