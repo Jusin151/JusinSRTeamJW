@@ -26,7 +26,7 @@ public:
 	_bool Ray_Intersection(CCollider* pCollider, _float3* pHitpos);
 	bool RayPlaneIntersection(const _float3& vRayOrigin, const _float3& vRayDir, const _float3& vPlanePos, const _float3& vPlaneNormal, _float3* pOutHitPos);
 	_float3 Get_Mouse_Effect();
-	void Set_Player(class CGameObject* pPlayer) { m_pPlayer = pPlayer; }
+	void Set_Player(class CCollisionObject* pPlayer) { m_pPlayer = pPlayer; }
 	const _float3& Get_Mouse_WorldPos() const { return m_Ray.vOrigin; };
 	const Ray& Get_Ray() const { return m_Ray; }
 
@@ -43,7 +43,7 @@ private:
 private:
 	HWND m_Hwnd = { nullptr };
 	Ray m_Ray;
-	class CGameObject* m_pPlayer = { nullptr };
+	class CCollisionObject* m_pPlayer = { nullptr };
 private:
 	virtual void Free() override;
 };

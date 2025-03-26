@@ -348,9 +348,6 @@
     <ClInclude Include="..\Public\UI_Spell_Shop.h">
       <Filter>02.GameObjects\97. UI\03.Shop_UI\Spell_Shop_UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\TestMonster.h">
-      <Filter>02.GameObjects\01.Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\UI_Headers.h">
       <Filter>97. Hong_Headers</Filter>
     </ClInclude>
@@ -597,9 +594,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp">
       <Filter>02.GameObjects\97. UI\03.Shop_UI\Spell_Shop_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TestMonster.cpp">
-      <Filter>02.GameObjects\01.Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>

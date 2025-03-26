@@ -28,6 +28,9 @@ public:
 	virtual HRESULT Render()override;
 
 private:
+	void Shaking(_float fTimeDelta);
+
+private:
 	POINT				m_ptOldMousePos = {};
 	_float				m_fMouseSensor = {};
 	// 플레이어 위치와 동기화하기 위해..
@@ -38,7 +41,7 @@ private:
 	_float m_fYaw = 0.0f;
 	_float m_fPitch = 0.0f;
 	_float m_fSensitivity = 0.1f;
-
+	_float m_fShakeTime = 0.f;
 
 public:
 	static CCamera_FirstPerson* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

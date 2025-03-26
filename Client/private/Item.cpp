@@ -1,4 +1,4 @@
-﻿#include "Item.h"
+癤#include "Item.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -28,7 +28,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); // 약한 참조
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); // 쏀 李몄“
 
 	return S_OK;
 }
@@ -82,15 +82,16 @@ HRESULT CItem::On_Collision(_float fTimeDelta)
 		return E_FAIL;
 
 	// 안바뀌면 충돌 안일어남
-	if (m_pColliderCom->Get_Other_Type() == CG_END)
-		return S_OK;
+	//if (m_pColliderCom->Get_Other_Type() == CG_END)
+	//	return S_OK;
 
-	if (m_pColliderCom->Get_Other_Type() == CG_PLAYER)
-	{
-		Use_Item();
-	}
-	// 충돌 처리 하고 다시 type을 수정
-	m_pColliderCom->Set_Other_Type(CG_END);
+	//if (m_pColliderCom->Get_Other_Type() == CG_PLAYER)
+	//{
+	//	Use_Item();
+	//}
+	//// 충돌 처리 하고 다시 type을 수정
+	//m_pColliderCom->Set_Other_Type(CG_END);
+
 	return E_FAIL;
 }
 
@@ -137,8 +138,8 @@ HRESULT CItem::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); //  媛 湲곗蹂대 щ㈃ 쎌 �留
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 湲곗媛 ㅼ (0~255)
 
 	return S_OK;
 }

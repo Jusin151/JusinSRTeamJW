@@ -6,12 +6,12 @@
 
 
 CWeapon_Base::CWeapon_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CCollisionObject{ pGraphic_Device }
 {
 }
 
 CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
-	: CGameObject(Prototype)
+	: CCollisionObject(Prototype)
 {
 
 

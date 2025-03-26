@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "CollisionObject.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +14,7 @@ END
 
 BEGIN(Client)
 
-class CMonster_Base abstract : public CGameObject
+class CMonster_Base abstract : public CCollisionObject
 {
 public:
 	enum MONSTERSTATE { MS_IDLE, MS_WALK, MS_HIT, MS_ATTACK, MS_DEATH, MS_END };
@@ -31,7 +32,7 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	virtual HRESULT On_Collision(_float fTimeDelta) PURE;
+	virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
 	virtual void Select_Pattern(_float fTimeDelta) PURE;
 	void Look_Player();
 

@@ -20,7 +20,7 @@ public:
 
 
 public:
-	virtual HRESULT On_Collision(_float fTimeDelta) override;
+	virtual HRESULT On_Collision(CCollisionObject* other) override;
 	// 일단 쫓아가는 패턴만
 	virtual void Select_Pattern(_float fTimeDelta) override;
 

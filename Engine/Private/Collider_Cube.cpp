@@ -1,5 +1,6 @@
 ﻿#include "Collider_Cube.h"
 #include "GameObject.h"
+#include "CollisionObject.h"
 
 CCollider_Cube::CCollider_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollider(pGraphic_Device)
@@ -25,7 +26,6 @@ HRESULT CCollider_Cube::Initialize(void* pArg)
 	m_fLocalPos = tDesc->fLocalPos;
 	m_fScale = tDesc->fScale;
 	m_pOwner = tDesc->pOwner;
-	m_eType = tDesc->eType;
 	
 	m_tDesc.fRadius = m_fScale.LengthSq() / 4.f;
 
