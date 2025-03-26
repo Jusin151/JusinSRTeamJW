@@ -107,8 +107,6 @@ HRESULT CGameObject_Light::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
-    
-
     return S_OK;
 }
 

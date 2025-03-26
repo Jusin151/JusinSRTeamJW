@@ -3,6 +3,8 @@
 #include "Client_Defines.h"
 #include "../../EngineSDK/Inc/Base.h"
 
+ENGINE_DLL bool g_bDebugCollider;
+
 BEGIN(Engine)
 class CGameInstance;
 class CPickingSys;

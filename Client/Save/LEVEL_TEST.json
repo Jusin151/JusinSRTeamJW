@@ -10,7 +10,7 @@
                     "Level": 5,
                     "ProtTag": "Prototype_GameObject_Camera_Free",
                     "ProtTextureTag": "",
-                    "ProtoLevel": 5
+                    "ProtoLevel": 3
                 }
             }
         ],
@@ -24,7 +24,7 @@
                     "Level": 5,
                     "ProtTag": "Prototype_GameObject_Terrain",
                     "ProtTextureTag": "Prototype_Component_Texture_Terrain",
-                    "ProtoLevel": 5
+                    "ProtoLevel": 3
                 }
             }
         ],
@@ -43,7 +43,7 @@
           "is_cube_collider": false,
           "position": [
             0.0,
-            -1.0,
+            -2.0,
             0.0
           ],
           "rotation": [
@@ -72,7 +72,7 @@
           "position": [
             0.0,
             0.0,
-            0.0
+            10.0
           ],
           "rotation": [
             0.0,
@@ -150,7 +150,7 @@
           "position": [
             0.0,
             0.0,
-            2.0
+            8.0
           ],
           "rotation": [
             0.0,
@@ -215,7 +215,71 @@
             2.0
           ]
         }
-      ]
+      ],
+      "Layer_Harpoonguy": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Harpoonguy",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 5,
+          "ProtTag": "Prototype_GameObject_Harpoonguy", 
+          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      }
+      ],
+      "Layer_Hub_Wall1": [
+          {
+              "FromPool": false,
+              "IsActive": true,
+              "LayerTag": "Layer_Hub_Wall1",
+              "OBJECT_DESC": {
+                  "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                  "Level": 5,
+                  "ProtTag": "Prototype_GameObject_Hub_Wall1",
+                  "ProtTextureTag": "Prototype_Component_Texture_Hub_Wall1",
+                  "ProtoLevel": 3
+              },
+              "is_cube_collider": true,
+              "position": [
+                  -0.021135568618774414,
+                  0.4620000123977661,
+                  -4.5
+              ],
+              "rotation": [
+                  0.0,
+                  0.0,
+                  0.0
+              ],
+              "scale": [
+                  1.0,
+                  1.0,
+                  1.0
+              ]
+          }
+        ]
     },
     "level": 5
   }

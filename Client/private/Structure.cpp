@@ -3,7 +3,7 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
-ENGINE_DLL bool g_bDebugCollider;
+
 
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
