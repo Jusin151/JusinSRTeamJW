@@ -67,6 +67,8 @@ void CCrocman::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
+	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	Select_Pattern(fTimeDelta);
 
 	__super::Update(fTimeDelta);
@@ -170,7 +172,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-		fPos += vMove * 0.5f;
+		fPos = m_vOldPos;  // 이동 전 위치로 되돌림
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		break;
 	default:

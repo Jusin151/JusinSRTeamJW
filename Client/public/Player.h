@@ -61,6 +61,8 @@ private:
 
 	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
 
+	_float3			m_vOldPos = {};
+
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -43,6 +43,8 @@ private:
 	// 공격 때 만들 콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
 
+	_float3			m_vOldPos = {};
+
 public:
 	static CCrocman* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
