@@ -115,6 +115,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 		m_bIsActive = false;
 		return;
 	}*/
+	
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
@@ -158,6 +159,14 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
+	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+	_float3 dirOthertoOldPos = fPos - otherPos;
+	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
+
+	_float fDepth = m_pColliderCom->Get_Depth();
+	
+	
 
 	switch (other->Get_Type())
 	{
@@ -169,8 +178,11 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-		fPos += vMove * 0.5f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		
+		
+			fPos = m_vOldPos;  // 이동 전 위치로 되돌림
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		
 		break;
 	default:
 		break;
@@ -186,19 +198,22 @@ void CPlayer::Move(_float fTimeDelta)
 
 	if (GetKeyState('W') & 0x8000)
 	{
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->Go_Straight(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->Go_Backward(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
-
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->Go_Left(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->Go_Right(fTimeDelta * 0.4f);
 	}
 

@@ -80,8 +80,6 @@ void CCollider_Manager::Update_Collision_Structure()
 						//srcEntry->Set_State(CTransform::STATE_POSITION, srcEntry->Get_MTV());
 						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
-						break;
 					}
 
 				}
@@ -250,10 +248,12 @@ _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 		{
 			fDepth = penetration;
 			bestAxis = axis;
+			_float3 vMove = { bestAxis.x, 0.f, bestAxis.z }; // y축 이동을 제외한 MTV 벡터
+			_float fDepthExcludeY = sqrtf(vMove.x * vMove.x + vMove.z * vMove.z); 
 			src->Set_MTV(-bestAxis);
 			dst->Set_MTV(bestAxis);
-			src->Set_Depth(fDepth);
-			dst->Set_Depth(fDepth);
+			src->Set_Depth(fDepthExcludeY);
+			dst->Set_Depth(fDepthExcludeY);
 		}
 	}
 	
