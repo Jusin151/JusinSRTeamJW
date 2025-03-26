@@ -145,9 +145,6 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\Harpoon">
       <UniqueIdentifier>{ef6b5376-937b-4951-bcaf-f838c26f9b2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\05. Shop">
-      <UniqueIdentifier>{84d12add-d9e5-444d-98fb-b954035fc18d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\06. Bullet">
       <UniqueIdentifier>{b1e81861-522f-4200-ae5b-24fe47de35c0}</UniqueIdentifier>
     </Filter>
@@ -168,15 +165,6 @@
     </Filter>
     <Filter Include="97.ShaderFiles">
       <UniqueIdentifier>{344b97c5-1616-4e8e-8974-bd771f8a83bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\05. Shop\PointShop">
-      <UniqueIdentifier>{d3df9fbf-2acb-463d-a176-82e2a317a6d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\05. Shop\WeaponShop">
-      <UniqueIdentifier>{e192228e-8f55-4bbd-89fd-60fb590f61da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\05. Shop\SpellShop">
-      <UniqueIdentifier>{4913c149-b9e3-4b0f-a9ea-27962e97e333}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\08. Weapon">
       <UniqueIdentifier>{bda00311-2010-4dc6-8616-fcc7b7160629}</UniqueIdentifier>
@@ -253,17 +241,41 @@
     <Filter Include="02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar">
       <UniqueIdentifier>{460ac096-fb49-4033-97f0-46923468ccad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\03.Shop_UI">
+    <Filter Include="02.GameObjects\05. Hub">
+      <UniqueIdentifier>{84d12add-d9e5-444d-98fb-b954035fc18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05. Hub\Shop">
+      <UniqueIdentifier>{bc235af0-f299-476b-b69d-a80047dec19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05. Hub\Shop\SpellShop">
+      <UniqueIdentifier>{4913c149-b9e3-4b0f-a9ea-27962e97e333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05. Hub\Shop\PointShop">
+      <UniqueIdentifier>{d3df9fbf-2acb-463d-a176-82e2a317a6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05. Hub\Shop\WeaponShop">
+      <UniqueIdentifier>{e192228e-8f55-4bbd-89fd-60fb590f61da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05. Hub\Episode">
+      <UniqueIdentifier>{e73c9cba-1f0d-4d0c-b8e2-58573837af75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\03.Hub_UI">
       <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\03.Shop_UI\Spell_Shop_UI">
-      <UniqueIdentifier>{2f9e9709-fb90-48ce-92b9-13633bdd18a0}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\97. UI\03.Hub_UI\Shop">
+      <UniqueIdentifier>{f79b118d-efa7-4d1e-ad82-6acff73a9e94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\03.Shop_UI\Point_Shop_UI">
+    <Filter Include="02.GameObjects\97. UI\03.Hub_UI\Shop\Point_Shop_UI">
       <UniqueIdentifier>{9cfdb4bb-54c7-40db-b9c7-d970f0e43056}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\97. UI\03.Shop_UI\Weapon_Shop_UI">
+    <Filter Include="02.GameObjects\97. UI\03.Hub_UI\Shop\Spell_Shop_UI">
+      <UniqueIdentifier>{2f9e9709-fb90-48ce-92b9-13633bdd18a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\03.Hub_UI\Shop\Weapon_Shop_UI">
       <UniqueIdentifier>{9d47c3ef-ed31-447b-80ee-301a6688fd5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\03.Hub_UI\Episode">
+      <UniqueIdentifier>{326d15df-e4b1-4ab8-b3f4-1117a9526562}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -346,7 +358,7 @@
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display\01.MP</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Spell_Shop.h">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI\Spell_Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop\Spell_Shop_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Headers.h">
       <Filter>97. Hong_Headers</Filter>
@@ -456,9 +468,6 @@
     <ClInclude Include="..\Public\Item_Icon.h">
       <Filter>Inven</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Shop.h">
-      <Filter>02.GameObjects\05. Shop</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Effect_Base.h">
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClInclude>
@@ -493,13 +502,10 @@
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Point_Shop.h">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI\Point_Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop\Point_Shop_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_WeaponShop_UI.h">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI\Weapon_Shop_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Shop_Base.h">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop\Weapon_Shop_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
@@ -512,13 +518,25 @@
       <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PointShop.h">
-      <Filter>02.GameObjects\05. Shop\PointShop</Filter>
+      <Filter>02.GameObjects\05. Hub\Shop\PointShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\WeaponShop.h">
-      <Filter>02.GameObjects\05. Shop\WeaponShop</Filter>
+      <Filter>02.GameObjects\05. Hub\Shop\WeaponShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\SpellShop.h">
-      <Filter>02.GameObjects\05. Shop\SpellShop</Filter>
+      <Filter>02.GameObjects\05. Hub\Shop\SpellShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Episode_Hub.h">
+      <Filter>02.GameObjects\05. Hub\Episode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shop.h">
+      <Filter>02.GameObjects\05. Hub\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Shop_Base.h">
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Episode_Hub.h">
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Episode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -593,7 +611,7 @@
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\04.UI_MENU</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI\Spell_Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop\Spell_Shop_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
       <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
@@ -682,7 +700,6 @@
     <ClCompile Include="..\private\Sonic.cpp">
       <Filter>02.GameObjects\08. Weapon\Ranged Weapon\05. Sonic</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp">
       <Filter>01.Levels\Test</Filter>
     </ClCompile>
@@ -704,9 +721,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Icon.cpp">
       <Filter>Inven</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Shop.cpp">
-      <Filter>02.GameObjects\05. Shop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
@@ -733,13 +747,10 @@
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Point_Shop.cpp">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI\Point_Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop\Point_Shop_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI\Weapon_Shop_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Shop_Base.cpp">
-      <Filter>02.GameObjects\97. UI\03.Shop_UI</Filter>
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop\Weapon_Shop_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
@@ -751,13 +762,28 @@
       <Filter>Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PointShop.cpp">
-      <Filter>02.GameObjects\05. Shop\PointShop</Filter>
+      <Filter>02.GameObjects\05. Hub\Shop\PointShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\WeaponShop.cpp">
-      <Filter>02.GameObjects\05. Shop\WeaponShop</Filter>
+      <Filter>02.GameObjects\05. Hub\Shop\WeaponShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SpellShop.cpp">
-      <Filter>02.GameObjects\05. Shop\SpellShop</Filter>
+      <Filter>02.GameObjects\05. Hub\Shop\SpellShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Episode_Hub.cpp">
+      <Filter>02.GameObjects\05. Hub\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shop.cpp">
+      <Filter>02.GameObjects\05. Hub\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Shop_Base.cpp">
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Episode_Hub.cpp">
+      <Filter>02.GameObjects\97. UI\03.Hub_UI\Episode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
