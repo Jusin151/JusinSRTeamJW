@@ -56,28 +56,23 @@ void CStructure::Update(_float fTimeDelta)
 	}
 	
 
+	// 벽 태그인 경우
+	else if (Get_Tag().find(L"Wall") != wstring::npos)
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_WALL, m_pColliderCom);
+	}
+	else
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
+	}
+
 	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
 	{
 		m_fFrame += 90.f * fTimeDelta;
 		if (m_fFrame >= 90.f)
 			m_fFrame = 0.f;
 
-		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f); 
-	}
-
-	// 벽 태그인 경우
-	else if (Get_Tag().find(L"Wall") != wstring::npos)
-	{
-		m_pGameInstance->Add_Collider(CG_STRUCTURE_WALL, m_pColliderCom);
-	}
-
-  	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
-	{
-		m_fFrame += 90.f * fTimeDelta;
-		if (m_fFrame >= 90.f)
-			m_fFrame = 0.f;
-
-		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f); 
+		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f);
 	}
 }
 

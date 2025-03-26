@@ -3,9 +3,14 @@
 #include "Transform.h"
 #include "Structure.h"
 #include "GameInstance.h"
+#include "GameObject.h"
 #include "Layer.h"
 #include "JsonLoader.h"
 #include "Editor.h"
+
+
+// 히스토리 항목 구조체
+
 
 inline string WStringToString(const wstring& wstr)
 {
@@ -225,17 +230,32 @@ void CMyImGui::ShowInspectorTab()
 	// 트랜스폼에 변경사항 적용
 	if (positionChanged)
 	{
+		if (!m_bTrackingTransform)
+			BeginTransformAction();
+
 		pTransform->Set_State(CTransform::STATE_POSITION, position);
+
+		if (ImGui::IsMouseReleased(0))
+			EndTransformAction();
 	}
 
 	if (scaleChanged)
 	{
+		if (!m_bTrackingTransform)
+			BeginTransformAction();
 		pTransform->Set_Scale(scale.x, scale.y, scale.z);
+		if (ImGui::IsMouseReleased(0))
+			EndTransformAction();
 	}
+
 
 	if (rotationChanged)
 	{
+		if (!m_bTrackingTransform)
+			BeginTransformAction();
 		pTransform->Rotate_EulerAngles(euler);
+		if (ImGui::IsMouseReleased(0))
+			EndTransformAction();
 	}
 
 	// 씬 뷰에 ImGuizmo 렌더링
@@ -662,6 +682,16 @@ HRESULT CMyImGui::CreateObjectInstance(
 		{
 			return E_FAIL;
 		}
+
+		tHistoryItem item;
+		item.iLevel = iLevel;
+		item.iProtoLevel = iProtoLevel;
+		item.eType = EHistoryActionType::OBJECT_CREATE;
+		item.pGameObject = m_pGameInstance->Find_Last_Object(iLevel,stLayerTag);
+		item.wstrPrototypeTag = stProtoTag;
+		item.wstrLayerTag = stLayerTag;
+		item.tObjDesc = &tObjDesc;
+		AddToHistory(item);	
 	}
 
 
@@ -861,11 +891,67 @@ void CMyImGui::Remove_Object()
 	{
 		if (m_pCurrentGameObject)
 		{
+			tHistoryItem item;
+			item.iLevel = m_pCurrentGameObject->m_tObjDesc.iLevel;
+			item.eType = EHistoryActionType::OBJECT_DELETE;
+			item.wstrLayerTag = m_pCurrentGameObject->Get_Tag();
+			item.wstrPrototypeTag = m_pCurrentGameObject->m_tObjDesc.stProtTag;
+			item.iProtoLevel = m_pCurrentGameObject->m_tObjDesc.iProtoLevel;
 
+			CGameObject::OBJECT_DESC* pObjDesc = new CGameObject::OBJECT_DESC;
+			*pObjDesc = m_pCurrentGameObject->m_tObjDesc;  // 값 복사
+			item.tObjDesc = pObjDesc;  // void* 포인터에 저장
+
+			CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+			if (pTransform)
+			{
+				item.vOldPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+				item.vOldScale = pTransform->Compute_Scaled();
+				item.vOldRotation = pTransform->Get_EulerAngles();
+			}
 			// 선택된 오브젝트 삭제
 			m_pGameInstance->Remove_Object((_uint)iLevel, m_pCurrentGameObject->Get_Tag(), m_pCurrentGameObject);
+
+			
+			AddToHistory(item);
 			m_pCurrentGameObject = nullptr;
 		}
+	}
+}
+
+void CMyImGui::Duplicate_Object()
+{
+	if (m_pCurrentGameObject)
+	{
+		m_pGameInstance->Add_GameObject(m_pCurrentGameObject->m_tObjDesc.iProtoLevel, m_pCurrentGameObject->m_tObjDesc.stProtTag, m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag(),
+			&m_pCurrentGameObject->m_tObjDesc);
+		CGameObject* pDuplicateObject =  m_pGameInstance->Find_Last_Object(m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag());
+
+		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+
+		if (pDuplicateObject&&pTransform)
+		{
+			CTransform* pDuplicateTransform = (CTransform*)pDuplicateObject->Get_Component(TEXT("Com_Transform"));
+			if (pDuplicateTransform)
+			{
+				_float3 vScale = pTransform->Compute_Scaled();
+				pDuplicateTransform->Set_State(CTransform::STATE_POSITION, pTransform->Get_State(CTransform::STATE_POSITION));
+				pDuplicateTransform->Set_Scale(vScale.x, vScale.y, vScale.z);
+				pDuplicateTransform->Rotate_EulerAngles(pTransform->Get_EulerAngles());
+
+
+
+				tHistoryItem item;
+				item.iLevel = pDuplicateObject->m_tObjDesc.iLevel;
+				item.iProtoLevel = pDuplicateObject->m_tObjDesc.iProtoLevel;
+				item.eType = EHistoryActionType::OBJECT_CREATE;
+				item.pGameObject = pDuplicateObject;
+				item.wstrPrototypeTag = pDuplicateObject->m_tObjDesc.stProtTag;
+				item.wstrLayerTag = pDuplicateObject->Get_Tag();
+				AddToHistory(item);
+			}
+		}
+
 	}
 }
 
@@ -1318,40 +1404,17 @@ _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 
 	return relativePath;
 }
-void CMyImGui::ConfigureImGuizmo()
-{
-	ImGui::Begin("Gizmo Controls");
 
-	if (ImGui::RadioButton("Translate", m_CurrentGizmoOperation == ImGuizmo::TRANSLATE))
-		m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Rotate", m_CurrentGizmoOperation == ImGuizmo::ROTATE))
-		m_CurrentGizmoOperation = ImGuizmo::ROTATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Scale", m_CurrentGizmoOperation == ImGuizmo::SCALE))
-		m_CurrentGizmoOperation = ImGuizmo::SCALE;
-
-	ImGui::Separator();
-
-	ImGui::SameLine();
-	if (ImGui::RadioButton("World", m_CurrentGizmoMode == ImGuizmo::WORLD))
-		m_CurrentGizmoMode = ImGuizmo::WORLD;
-
-	ImGui::Checkbox("Use Snap", &m_bUseSnap);
-
-	if (m_bUseSnap)
-	{
-		ImGui::InputFloat3("Snap Values", m_SnapValue);
-	}
-
-
-
-	ImGui::End();
-}
 void CMyImGui::RenderImGuizmo(CTransform* pTransform)
 {
 	if (!pTransform)
 		return;
+
+	bool wasUsingGuizmo = ImGuizmo::IsUsing();
+	if (!wasUsingGuizmo && ImGuizmo::IsOver())
+	{
+		BeginTransformAction();
+	}
 
 	// 그래픽 디바이스에서 직접 뷰 및 투영 행렬 가져오기
 	D3DXMATRIX d3dViewMatrix, d3dProjMatrix;
@@ -1417,6 +1480,11 @@ void CMyImGui::RenderImGuizmo(CTransform* pTransform)
 			pTransform->Set_Scale(newScale.x, newScale.y, newScale.z);
 		}
 	}
+
+	if (wasUsingGuizmo && !ImGuizmo::IsUsing())
+	{
+		EndTransformAction();
+	}
 }
 void CMyImGui::InputKey()
 {
@@ -1434,7 +1502,252 @@ void CMyImGui::InputKey()
 		if (ImGui::IsKeyPressed(ImGuiKey_3))
 			m_CurrentGizmoOperation = ImGuizmo::SCALE;
 	}
+
+
+	// Undo/Redo 키 추가
+	if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl))
+	{
+		if (ImGui::IsKeyPressed(ImGuiKey_Z))
+			Undo();
+
+		if (ImGui::IsKeyPressed(ImGuiKey_Y))
+			Redo();
+
+		if (ImGui::IsKeyPressed(ImGuiKey_D))
+			Duplicate_Object();
+	}
 }
+
+void CMyImGui::AddToHistory(const tHistoryItem& item)
+{
+	// 히스토리 스택 크기 제한 (선택적)
+	if (m_vecUndoStack.size() >= 50)
+		m_vecUndoStack.pop();
+
+	m_vecUndoStack.push(item);
+}
+
+void CMyImGui::BeginTransformAction()
+{
+	if (!m_pCurrentGameObject || m_bTrackingTransform)
+		return;
+
+	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+	if (!pTransform)
+		return;
+
+	m_bTrackingTransform = true;
+
+	// 현재 상태 저장
+	m_vPrevPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+	m_vPrevRotation = pTransform->Get_EulerAngles();
+	m_vPrevScale = pTransform->Compute_Scaled();
+}
+
+void CMyImGui::EndTransformAction()
+{
+	if (!m_pCurrentGameObject || !m_bTrackingTransform)
+		return;
+
+	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+	if (!pTransform)
+		return;
+
+	m_bTrackingTransform = false;
+
+	// 현재 상태 가져오기
+	_float3 vCurrPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 vCurrRotation = pTransform->Get_EulerAngles();
+	_float3 vCurrScale = pTransform->Compute_Scaled();
+
+	if (memcmp(&m_vPrevPosition, &vCurrPosition, sizeof(_float3)) != 0)
+	{
+		tHistoryItem item;
+		item.eType = EHistoryActionType::TRANSFORM_POSITION;
+		item.pGameObject = m_pCurrentGameObject;
+		item.vOldPosition = m_vPrevPosition;
+		item.vNewPosition = vCurrPosition;
+		AddToHistory(item);
+	}
+	else if (memcmp(&m_vPrevRotation, &vCurrRotation, sizeof(_float3)) != 0)
+	{
+		tHistoryItem item;
+		item.eType = EHistoryActionType::TRANSFORM_ROTATION;
+		item.pGameObject = m_pCurrentGameObject;
+		item.vOldRotation = m_vPrevRotation;
+		item.vNewRotation = vCurrRotation;
+		AddToHistory(item);
+	}
+	else if (memcmp(&m_vPrevScale, &vCurrScale, sizeof(_float3)) != 0)
+	{
+		tHistoryItem item;
+		item.eType = EHistoryActionType::TRANSFORM_SCALE;
+		item.pGameObject = m_pCurrentGameObject;
+		item.vOldScale = m_vPrevScale;
+		item.vNewScale = vCurrScale;
+		AddToHistory(item);
+	}
+}
+
+void CMyImGui::Undo()
+{
+	if (m_vecUndoStack.empty())
+		return;
+
+	// 마지막 액션 가져오기
+	tHistoryItem item = m_vecUndoStack.top();
+	m_vecUndoStack.pop();
+
+
+	// 액션 타입에 따라 되돌리기 수행
+	switch (item.eType)
+	{
+	case EHistoryActionType::TRANSFORM_POSITION:
+	{
+		if (!item.pGameObject)
+			break;
+
+		CTransform* pTransform = (CTransform*)item.pGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+			pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+	}
+	break;
+
+	case EHistoryActionType::TRANSFORM_ROTATION:
+	{
+		if (!item.pGameObject)
+			break;
+
+		CTransform* pTransform = (CTransform*)item.pGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+			pTransform->Rotate_EulerAngles(item.vOldRotation);
+	}
+	break;
+
+	case EHistoryActionType::TRANSFORM_SCALE:
+	{
+		if (!item.pGameObject)
+			break;
+
+		CTransform* pTransform = (CTransform*)item.pGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+			pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+	}
+	break;
+
+	case EHistoryActionType::OBJECT_CREATE:
+	{
+		// 오브젝트 생성을 취소하므로 오브젝트 삭제
+		if (item.pGameObject)
+		{
+			m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, item.pGameObject);
+		}
+	}
+	break;
+
+	case EHistoryActionType::OBJECT_DELETE:
+	{
+		// 오브젝트 삭제를 취소하므로 오브젝트 다시 생성
+		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
+			item.iLevel, item.wstrLayerTag, item.tObjDesc);
+
+		CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
+
+		CTransform* pTransform = (CTransform*)pGameObject->Get_Component(TEXT("Com_Transform"));
+
+		if (pTransform)
+		{
+			pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+			pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+			pTransform->Rotate_EulerAngles(item.vOldRotation);
+		}
+		break;
+	}
+	}
+
+	m_vecRedoStack.push(item);
+}
+
+void CMyImGui::Redo()
+{
+	if (m_vecRedoStack.empty())
+		return;
+
+	// 마지막 실행 취소된 액션 가져오기
+	tHistoryItem item = m_vecRedoStack.top();
+	m_vecRedoStack.pop();
+
+	// Undo 스택에 추가
+	m_vecUndoStack.push(item);
+
+	// 액션 타입에 따라 다시 실행
+	switch (item.eType)
+	{
+	case EHistoryActionType::TRANSFORM_POSITION:
+	{
+		if (!item.pGameObject)
+			break;
+
+		CTransform* pTransform = (CTransform*)item.pGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+			pTransform->Set_State(CTransform::STATE_POSITION, item.vNewPosition);
+	}
+	break;
+
+	case EHistoryActionType::TRANSFORM_ROTATION:
+	{
+		if (!item.pGameObject)
+			break;
+
+		CTransform* pTransform = (CTransform*)item.pGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+			pTransform->Rotate_EulerAngles(item.vNewRotation);
+	}
+	break;
+
+	case EHistoryActionType::TRANSFORM_SCALE:
+	{
+		if (!item.pGameObject)
+			break;
+
+		CTransform* pTransform = (CTransform*)item.pGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+			pTransform->Set_Scale(item.vNewScale.x, item.vNewScale.y, item.vNewScale.z);
+	}
+	break;
+
+	case EHistoryActionType::OBJECT_CREATE:
+	{
+		// 오브젝트 생성을 취소하므로 오브젝트 삭제
+		if (item.pGameObject)
+		{
+			m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, item.pGameObject);
+		}
+	}
+	break;
+
+	case EHistoryActionType::OBJECT_DELETE:
+	{
+		// 오브젝트 삭제를 취소하므로 오브젝트 다시 생성
+		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
+			item.iLevel, item.wstrLayerTag, item.tObjDesc);
+		Safe_Delete(item.tObjDesc);	
+
+		CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
+
+		CTransform* pTransform = (CTransform*)pGameObject->Get_Component(TEXT("Com_Transform"));
+
+		if (pTransform)
+		{
+			pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+			pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+			pTransform->Rotate_EulerAngles(item.vOldRotation);
+		}
+	}
+	break;
+	}
+}
+
 _bool CMyImGui::IsMouseOverImGui()
 {
 	ImGuiIO& io = ImGui::GetIO();

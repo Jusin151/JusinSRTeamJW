@@ -2,11 +2,10 @@
 #include "Base.h"
 #include "Client_Defines.h"
 
-
 BEGIN(Engine)
 class CEditor;
-class CGameObject;
 class CGameInstance;
+class CGameObject;
 class CTransform;
 END
 
@@ -14,6 +13,40 @@ BEGIN(Client)
 
 class CMyImGui  final : public CBase
 {
+public:
+	enum class EHistoryActionType
+	{
+		NONE,
+		TRANSFORM_POSITION,
+		TRANSFORM_ROTATION,
+		TRANSFORM_SCALE,
+		OBJECT_CREATE,
+		OBJECT_DELETE
+	};
+
+	struct tHistoryItem
+	{
+		CMyImGui::EHistoryActionType eType = CMyImGui::EHistoryActionType::NONE;
+		CGameObject* pGameObject = nullptr;
+		_wstring wstrLayerTag;
+		_uint iLevel = 0;
+		_uint iProtoLevel = 0;
+
+
+
+		// 트랜스폼 관련 상태 저장
+		_float3 vOldPosition = { 0.0f, 0.0f, 0.0f };
+		_float3 vNewPosition = { 0.0f, 0.0f, 0.0f };
+		_float3 vOldRotation = { 0.0f, 0.0f, 0.0f };
+		_float3 vNewRotation = { 0.0f, 0.0f, 0.0f };
+		_float3 vOldScale = { 0.0f, 0.0f, 0.0f };
+		_float3 vNewScale = { 0.0f, 0.0f, 0.0f };
+
+		// 생성/삭제 관련 정보
+		void* tObjDesc;
+		_wstring wstrPrototypeTag;
+	};
+	
 	struct PrototypeInfo
 	{
 		string tag;             // 게임 오브젝트 태그
@@ -70,9 +103,9 @@ private:
 		_int bufferWidth,
 		_int bufferHeight);
 	void Remove_Object();
+	void Duplicate_Object();
 	HRESULT LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes);
-	// ImGuizmo 관련 함수 추가
-	void ConfigureImGuizmo();
+
 	void RenderImGuizmo(CTransform* pTransform);
 	void InputKey();
 
@@ -81,9 +114,26 @@ private:
 	void ShowPrevTextureImage();
 
 
+	// 히스토리 스택
+	stack<tHistoryItem> m_vecUndoStack;
+	stack<tHistoryItem> m_vecRedoStack;
+
+	// 트랜스폼 이전 상태 추적용 변수
+	_float3 m_vPrevPosition = { 0.0f, 0.0f, 0.0f };
+	_float3 m_vPrevRotation = { 0.0f, 0.0f, 0.0f };
+	_float3 m_vPrevScale = { 0.0f, 0.0f, 0.0f };
+	bool m_bTrackingTransform = false;
+
+	// 히스토리 관련 함수
+	void AddToHistory(const tHistoryItem& item);
+	void BeginTransformAction();
+	void EndTransformAction();
+	void Undo();
+	void Redo();
+
 #pragma endregion
 public:
-	void Set_Object(CGameObject* pGameObject = nullptr) { m_pCurrentGameObject = pGameObject; }
+	void Set_Object(CGameObject* pGameObject = nullptr) { m_pCurrentGameObject = pGameObject; EndTransformAction(); }
 	static _bool IsMouseOverImGui();
 private:
 
@@ -118,6 +168,7 @@ private:
 	//vector<class CTransform*> m_pTransformVec;
 	//vector<class CCollider*> m_pColliderVec;
 	_wstring m_wstrProjectPath; // 프로젝트 루트 경로 저장
+	tHistoryItem m_tHistoryItem; // 복제용 히스토리 아이템
 
 	///////////////////////////////////////
 #pragma endregion
