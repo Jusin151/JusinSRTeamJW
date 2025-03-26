@@ -111,8 +111,10 @@ HRESULT CWeapon_Effect::Render()
 		return E_FAIL;
 
 	Release_RenderState();
+
 	if (FAILED(m_pParticleCom->Render()))
 		return E_FAIL;
+	
 
 
 	return S_OK;
