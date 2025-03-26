@@ -35,7 +35,7 @@ HRESULT CLevel_Editor::Initialize()
 	//	return E_FAIL;
 
 	CJsonLoader jsonLoader;
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_EDITOR);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hub.json", LEVEL_EDITOR);
 
 	m_pImgui = CMyImGui::Create(LEVEL_END, m_pGraphic_Device);
 	if (nullptr == m_pImgui)
@@ -51,6 +51,19 @@ void CLevel_Editor::Update(_float fTimeDelta)
 	static CGameObject* dragObject = nullptr;
 
 	auto colliderVec = m_pGameInstance->Get_Colliders();
+	for (auto& colliderList : colliderVec)
+	{
+		colliderList.sort([&] (CCollider* a, CCollider* b){
+
+			_float3 aPos = a->Get_State(CTransform::STATE_POSITION);
+			_float3 bPos = b->Get_State(CTransform::STATE_POSITION);
+
+			_float vDis1 = _float3::Distance(aPos, m_pPickingSys->Get_Ray().vOrigin);
+			_float vDis2 = _float3::Distance(bPos, m_pPickingSys->Get_Ray().vOrigin);
+
+			return vDis1 < vDis2;
+			});
+	}
 
 	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
 	{

@@ -47,6 +47,16 @@ void CStructure::Update(_float fTimeDelta)
 		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
 	}
 	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
+
+
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		m_fFrame += 90.f * fTimeDelta;
+		if (m_fFrame >= 90.f)
+			m_fFrame = 0.f;
+
+		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f); 
+	}
 }
 
 void CStructure::Late_Update(_float fTimeDelta)
@@ -62,8 +72,16 @@ HRESULT CStructure::Render()
 {
 	if (FAILED(m_pMaterialCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
-		return E_FAIL;
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
@@ -188,6 +206,10 @@ HRESULT CStructure::Ready_Components()
 		m_eStructureType = STRUCTURE_TYPE::BOSS_FLOOR;
 	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
+	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos)
+		m_eStructureType = STRUCTURE_TYPE::MAGMA;
+	else
+		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
 
 	/* For.Com_VIBuffer */
