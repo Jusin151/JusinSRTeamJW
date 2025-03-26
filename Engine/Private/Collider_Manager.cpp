@@ -66,18 +66,12 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				// 처리 전에 거리 짧은 순으로 정렬
-				m_pColliders[CG_STRUCTURE_WALL].sort([srcEntry](const CCollider* a, const CCollider* b) {
-					_float3 distA = (a->Get_State(CTransform::STATE_POSITION) -srcEntry->Get_State(CTransform::STATE_POSITION));
-					_float3 distB = (b->Get_State(CTransform::STATE_POSITION) - srcEntry->Get_State(CTransform::STATE_POSITION));
-					return distA.LengthSq() < distB.LengthSq();
-					});
 
 				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 				{
 					// 일정 거리 넘어가면 다음으로
 					if (Check_Cube_Distance(srcEntry, dstEntry))
-						break;
+						continue;
 
 					// 일단 가장 가까운 콜라이더만 충돌처리하고 넘어가기
 					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
@@ -87,7 +81,7 @@ void CCollider_Manager::Update_Collision_Structure()
 						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
 						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
-						
+						break;
 					}
 
 				}

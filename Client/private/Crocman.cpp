@@ -32,6 +32,9 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 	m_eType = CG_MONSTER;
 
+	m_iAp = 5;
+
+	m_iHp = 30;
 
 	return S_OK;
 }
@@ -48,6 +51,9 @@ void CCrocman::Priority_Update(_float fTimeDelta)
 		Safe_AddRef(pTarget);
 		
 	}
+
+	if (m_iHp <= 0)
+		m_eCurState = MS_DEATH;
 
 	if (m_iCurrentFrame > 26)
 	{
@@ -138,15 +144,28 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		//m_pTransformCom->Go_Backward(fTimeDelta);
-
 		m_eCurState = MS_HIT;
+
+		if (m_eCurState != MS_ATTACK)
+		{
+			Take_Damage(other);
+			fPos -= vMove;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		}
+		else
+		{
+			m_iAp *= 3;
+			Take_Damage(other);
+			m_iAp /= 3;
+		}
+		
 		break;
 
 	case CG_WEAPON:
 
 		
 
-		m_eCurState = MS_DEATH;
+		m_eCurState = MS_HIT;
 
 		break;
 
@@ -169,27 +188,46 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		return;
 
 	_float3 vDist;
-     vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-	// 거리로 판단해서 패턴 실행하도록 
-	if (vDist.LengthSq() > 4)
+
+	switch (m_eCurState)
+	{
+	case MS_IDLE:
+		if (vDist.LengthSq() > 10)
+			Chasing(fTimeDelta);
+		else
+		{
+			Attack_Melee(fTimeDelta);
+		}
+		break;
+	case MS_WALK:
 		Chasing(fTimeDelta);
-	else
+		break;
+	case MS_HIT:
+		// 맞고 바로 안바뀌도록
+		if (m_fElapsedTime >= 0.5f)
+			m_eCurState = MS_IDLE;
+		else
+			return;
+
+		break;
+	case MS_ATTACK:
 		Attack_Melee(fTimeDelta);
+		break;
+
+	default:
+		break;
+	}
+
+
+	
 }
 
 void CCrocman::Chasing(_float fTimeDelta)
 {
-	// 맞고 바로 안하도록
-	if (m_eCurState == MS_HIT)
-	{
-		if (m_fElapsedTime >= 1.f)
-			m_eCurState = MS_WALK;
-		else
-			return;
-	}
 
-	else if (m_eCurState != MS_WALK)
+	if (m_eCurState != MS_WALK)
 		m_eCurState = MS_WALK;
 
 	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.15f);
@@ -224,6 +262,13 @@ void CCrocman::Select_Frame(_float fTimeDelta)
 		m_iCurrentFrame = 0;
 		break;
 	case MS_WALK:
+
+		if (m_iCurrentFrame == 8)
+		{
+			m_eCurState = MS_IDLE;
+
+		}
+
 		if (m_iCurrentFrame < 2 || m_iCurrentFrame > 8)
 			m_iCurrentFrame = 2;
 
@@ -248,7 +293,7 @@ void CCrocman::Select_Frame(_float fTimeDelta)
 		if (m_iCurrentFrame < 9 || m_iCurrentFrame > 17)
 			m_iCurrentFrame = 9;
 
-		if (m_fElapsedTime >= 0.3f)
+		if (m_fElapsedTime >= 0.2f)
 		{
 			m_fElapsedTime = 0.0f;
 

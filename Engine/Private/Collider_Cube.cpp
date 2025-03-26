@@ -74,16 +74,17 @@ HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag, _float3 fSc
 	m_tDesc.fPos = Get_State(CTransform::STATE_POSITION);
 
 	_float3 axis[3] = { m_tDesc.fAxisX, m_tDesc.fAxisY, m_tDesc.fAxisZ };
+	_float3 offset = {};
 	for (int i = 0; i < 8; ++i)
 	{
-		_float3 offset =
+		    offset =
 			((i & 1) ? axis[0] : -axis[0]) * 0.5f +
 			((i & 2) ? axis[1] : -axis[1]) * 0.5f +
 			((i & 4) ? axis[2] : -axis[2]) * 0.5f;
 		m_tDesc.vecIndices.push_back(m_tDesc.fPos + offset);
 	}
 
-	m_tDesc.fRadius = m_fScale.LengthSq() / 4.f;
+	m_tDesc.fRadius = offset.Length();
 
 	return S_OK;
 

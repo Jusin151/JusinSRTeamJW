@@ -186,20 +186,20 @@ void CPlayer::Move(_float fTimeDelta)
 
 	if (GetKeyState('W') & 0x8000)
 	{
-		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f);
+		m_pTransformCom->Go_Straight(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta * 0.5f);
+		m_pTransformCom->Go_Backward(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
 
-		m_pTransformCom->Go_Left(fTimeDelta * 0.5f);
+		m_pTransformCom->Go_Left(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
-		m_pTransformCom->Go_Right(fTimeDelta * 0.5f);
+		m_pTransformCom->Go_Right(fTimeDelta * 0.4f);
 	}
 
 	
