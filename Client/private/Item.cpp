@@ -1,4 +1,4 @@
-癤#include "Item.h"
+#include "Item.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -28,7 +28,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); // 쏀 李몄“
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 
 	return S_OK;
 }
@@ -138,8 +138,9 @@ HRESULT CItem::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); //  媛 湲곗蹂대 щ㈃ 쎌 �留
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 湲곗媛 ㅼ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); 
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); 
 
 	return S_OK;
 }
