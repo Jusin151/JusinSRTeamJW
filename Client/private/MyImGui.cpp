@@ -266,8 +266,11 @@ void CMyImGui::ShowInspectorTab()
 	ImGui::BulletText("1: Translate Mode");
 	ImGui::BulletText("2: Rotate Mode");
 	ImGui::BulletText("3: Scale Mode");
-	Remove_Object();
 
+	if (ImGui::Button("Remove Current Object"))
+	{
+		Remove_Object();
+	}
 }
 
 
@@ -687,11 +690,11 @@ HRESULT CMyImGui::CreateObjectInstance(
 		item.iLevel = iLevel;
 		item.iProtoLevel = iProtoLevel;
 		item.eType = EHistoryActionType::OBJECT_CREATE;
-		item.pGameObject = m_pGameInstance->Find_Last_Object(iLevel,stLayerTag);
+		item.pGameObject = m_pGameInstance->Find_Last_Object(iLevel, stLayerTag);
 		item.wstrPrototypeTag = stProtoTag;
 		item.wstrLayerTag = stLayerTag;
 		item.tObjDesc = &tObjDesc;
-		AddToHistory(item);	
+		AddToHistory(item);
 	}
 
 
@@ -887,36 +890,34 @@ void CMyImGui::Remove_Object()
 	ImGui::Separator();
 	static _int iLevel = 3;
 	ImGui::InputInt("Level", &iLevel);
-	if (ImGui::Button("Remove Current Object"))
+	if (m_pCurrentGameObject)
 	{
-		if (m_pCurrentGameObject)
+		tHistoryItem item;
+		item.iLevel = m_pCurrentGameObject->m_tObjDesc.iLevel;
+		item.eType = EHistoryActionType::OBJECT_DELETE;
+		item.wstrLayerTag = m_pCurrentGameObject->Get_Tag();
+		item.wstrPrototypeTag = m_pCurrentGameObject->m_tObjDesc.stProtTag;
+		item.iProtoLevel = m_pCurrentGameObject->m_tObjDesc.iProtoLevel;
+
+		CGameObject::OBJECT_DESC* pObjDesc = new CGameObject::OBJECT_DESC;
+		*pObjDesc = m_pCurrentGameObject->m_tObjDesc;  // 값 복사
+		item.tObjDesc = pObjDesc;  // void* 포인터에 저장
+
+		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
 		{
-			tHistoryItem item;
-			item.iLevel = m_pCurrentGameObject->m_tObjDesc.iLevel;
-			item.eType = EHistoryActionType::OBJECT_DELETE;
-			item.wstrLayerTag = m_pCurrentGameObject->Get_Tag();
-			item.wstrPrototypeTag = m_pCurrentGameObject->m_tObjDesc.stProtTag;
-			item.iProtoLevel = m_pCurrentGameObject->m_tObjDesc.iProtoLevel;
-
-			CGameObject::OBJECT_DESC* pObjDesc = new CGameObject::OBJECT_DESC;
-			*pObjDesc = m_pCurrentGameObject->m_tObjDesc;  // 값 복사
-			item.tObjDesc = pObjDesc;  // void* 포인터에 저장
-
-			CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
-			if (pTransform)
-			{
-				item.vOldPosition = pTransform->Get_State(CTransform::STATE_POSITION);
-				item.vOldScale = pTransform->Compute_Scaled();
-				item.vOldRotation = pTransform->Get_EulerAngles();
-			}
-			// 선택된 오브젝트 삭제
-			m_pGameInstance->Remove_Object((_uint)iLevel, m_pCurrentGameObject->Get_Tag(), m_pCurrentGameObject);
-
-			
-			AddToHistory(item);
-			m_pCurrentGameObject = nullptr;
+			item.vOldPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+			item.vOldScale = pTransform->Compute_Scaled();
+			item.vOldRotation = pTransform->Get_EulerAngles();
 		}
+		// 선택된 오브젝트 삭제
+		m_pGameInstance->Remove_Object((_uint)iLevel, m_pCurrentGameObject->Get_Tag(), m_pCurrentGameObject);
+
+
+		AddToHistory(item);
+		m_pCurrentGameObject = nullptr;
 	}
+
 }
 
 void CMyImGui::Duplicate_Object()
@@ -925,11 +926,11 @@ void CMyImGui::Duplicate_Object()
 	{
 		m_pGameInstance->Add_GameObject(m_pCurrentGameObject->m_tObjDesc.iProtoLevel, m_pCurrentGameObject->m_tObjDesc.stProtTag, m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag(),
 			&m_pCurrentGameObject->m_tObjDesc);
-		CGameObject* pDuplicateObject =  m_pGameInstance->Find_Last_Object(m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag());
+		CGameObject* pDuplicateObject = m_pGameInstance->Find_Last_Object(m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag());
 
 		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
 
-		if (pDuplicateObject&&pTransform)
+		if (pDuplicateObject && pTransform)
 		{
 			CTransform* pDuplicateTransform = (CTransform*)pDuplicateObject->Get_Component(TEXT("Com_Transform"));
 			if (pDuplicateTransform)
@@ -1507,14 +1508,16 @@ void CMyImGui::InputKey()
 	// Undo/Redo 키 추가
 	if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl))
 	{
-		if (ImGui::IsKeyPressed(ImGuiKey_Z))
+		if (ImGui::IsKeyDown(ImGuiKey_Z))
 			Undo();
 
-		if (ImGui::IsKeyPressed(ImGuiKey_Y))
+		if (ImGui::IsKeyDown(ImGuiKey_Y))
 			Redo();
 
-		if (ImGui::IsKeyPressed(ImGuiKey_D))
+		if (ImGui::IsKeyDown(ImGuiKey_D))
 			Duplicate_Object();
+		if (ImGui::IsKeyDown(ImGuiKey_G))
+			Remove_Object();
 	}
 }
 
@@ -1731,7 +1734,7 @@ void CMyImGui::Redo()
 		// 오브젝트 삭제를 취소하므로 오브젝트 다시 생성
 		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
 			item.iLevel, item.wstrLayerTag, item.tObjDesc);
-		Safe_Delete(item.tObjDesc);	
+		Safe_Delete(item.tObjDesc);
 
 		CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
 
