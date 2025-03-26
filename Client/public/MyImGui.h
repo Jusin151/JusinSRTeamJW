@@ -26,6 +26,8 @@ public:
 
 	struct tHistoryItem
 	{
+
+
 		CMyImGui::EHistoryActionType eType = CMyImGui::EHistoryActionType::NONE;
 		CGameObject* pGameObject = nullptr;
 		_wstring wstrLayerTag;
@@ -43,8 +45,9 @@ public:
 		_float3 vNewScale = { 0.0f, 0.0f, 0.0f };
 
 		// 생성/삭제 관련 정보
-		void* tObjDesc;
+		void* tObjDesc = { nullptr };
 		_wstring wstrPrototypeTag;
+		_uint objectID = -1;
 	};
 	
 	struct PrototypeInfo
@@ -104,6 +107,7 @@ private:
 		_int bufferHeight);
 	void Remove_Object();
 	void Duplicate_Object();
+	CGameObject* Find_Object_ByAddress(CGameObject* pAddress);
 	HRESULT LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes);
 
 	void RenderImGuizmo(CTransform* pTransform);
@@ -116,24 +120,41 @@ private:
 
 	// 히스토리 스택
 	stack<tHistoryItem> m_vecUndoStack;
-	stack<tHistoryItem> m_vecRedoStack;
 
 	// 트랜스폼 이전 상태 추적용 변수
 	_float3 m_vPrevPosition = { 0.0f, 0.0f, 0.0f };
 	_float3 m_vPrevRotation = { 0.0f, 0.0f, 0.0f };
 	_float3 m_vPrevScale = { 0.0f, 0.0f, 0.0f };
-	bool m_bTrackingTransform = false;
+	_bool m_bTrackingTransform = false;
+
+	_float m_fLastInputTime = 0.0f;
+	const _float m_fInputCooldown = 0.01f; // 300ms 쿨다운
 
 	// 히스토리 관련 함수
 	void AddToHistory(const tHistoryItem& item);
 	void BeginTransformAction();
 	void EndTransformAction();
 	void Undo();
-	void Redo();
+
+	// ID 관련 함수
+	_uint AssignObjectID(CGameObject* pObj);
+	void AssignSpecificObjectID(CGameObject* pObj, _uint specificID); // 삭제할 때 기존 아이디 넘겨주기
+	CGameObject* GetObjectByID(UINT id);
+	void RemoveObjectID(CGameObject* pObj);
+
+
+	static _uint m_NextObjectID;
+	map<CGameObject*, UINT> m_ObjectIDMap;
+	map<UINT, CGameObject*> m_IDObjectMap;
+
+
 
 #pragma endregion
 public:
-	void Set_Object(CGameObject* pGameObject = nullptr) { m_pCurrentGameObject = pGameObject; EndTransformAction(); }
+	void Set_Object(CGameObject* pGameObject = nullptr) {
+	
+		m_pCurrentGameObject = pGameObject;
+	}
 	static _bool IsMouseOverImGui();
 private:
 
@@ -144,7 +165,7 @@ private:
 
 	// ImGuizmo 관련 변수 추가
 	ImGuizmo::OPERATION m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	ImGuizmo::MODE m_CurrentGizmoMode = ImGuizmo::LOCAL;
+	ImGuizmo::MODE m_CurrentGizmoMode = ImGuizmo::WORLD;
 	bool m_bUseSnap = false;
 	float m_SnapValue[3] = { 1.0f, 1.0f, 1.0f };
 
