@@ -511,6 +511,7 @@
     <ClInclude Include="..\public\Item_Icon.h">
       <Filter>Inven</Filter>
     </ClInclude>
+
     <ClInclude Include="..\public\PointShop.h">
       <Filter>02.GameObjects\05. Shop\PointShop</Filter>
     </ClInclude>
@@ -520,6 +521,7 @@
     <ClInclude Include="..\public\SpellShop.h">
       <Filter>02.GameObjects\05. Shop\SpellShop</Filter>
     </ClInclude>
+
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
