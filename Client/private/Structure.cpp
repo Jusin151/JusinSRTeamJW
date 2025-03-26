@@ -54,8 +54,7 @@ void CStructure::Update(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
 	}
-	m_pGameInstance->Add_Collider(CG_STRUCTURE, m_pColliderCom);
-
+	
 
 	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
 	{

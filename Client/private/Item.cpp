@@ -7,13 +7,13 @@
 #include "Player.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CGameObject{ pGraphic_Device }
+	:CCollisionObject{ pGraphic_Device }
 {
 }
 
 CItem::CItem(const CItem& Prototype)
 
-	:CGameObject{ Prototype },
+	:CCollisionObject{ Prototype },
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
 
 {
@@ -238,11 +238,9 @@ HRESULT CItem::Ready_Components()
 		return E_FAIL;
 
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.eType = CG_ITEM;
 	ColliderDesc.pOwner = this;
-	// �̰ɷ� �ݶ��̴� ũ�� ����
+
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// ������Ʈ�� ������� �Ÿ� ����
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
@@ -294,4 +292,9 @@ json CItem::Serialize()
 
 void CItem::Deserialize(const json& j)
 {
+}
+
+HRESULT CItem::On_Collision(CCollisionObject* other)
+{
+	return E_NOTIMPL;
 }
