@@ -42,7 +42,7 @@ HRESULT CCollider_Cube::Initialize_Prototype()
 	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
-	for (int i = 0; i < m_iNumVertices; ++i)
+	for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		pVertices[i].vColor = D3DCOLOR_COLORVALUE( 0.0f, 1.0f, 0.0f, 1.0f );
 	}
