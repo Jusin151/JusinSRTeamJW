@@ -86,7 +86,7 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 
 	Select_Frame(fTimeDelta);
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
+	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
@@ -171,15 +171,15 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-	Shooting(fTimeDelta);
+	//Shooting(fTimeDelta);
 
-	// 거리로 판단해서 패턴 실행하도록 
-	/*if (vDist.LengthSq() > 10)
+	//거리로 판단해서 패턴 실행하도록 
+	if (vDist.LengthSq() > 10)
 		Chasing(fTimeDelta);
 	else
 	{
 		Shooting(fTimeDelta);
-	}*/
+	}
 		
 }
 
@@ -301,7 +301,7 @@ HRESULT CHarpoonguy::SetUp_RenderState()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // 기준값 설정 (0~255)
 
 	return S_OK;
 }
