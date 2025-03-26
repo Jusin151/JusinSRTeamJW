@@ -49,7 +49,7 @@ void CPointShop::Update(_float fTimeDelta)
 
     __super::Update(fTimeDelta); 
 
-    if (m_bIsOpen)
+     if (m_bIsOpen)
     {
         Open_Shop();
     }
