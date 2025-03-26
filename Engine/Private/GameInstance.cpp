@@ -12,6 +12,7 @@
 #include "Collider_Manager.h"
 #include "Prototype_Manager.h"
 
+ENGINE_DLL bool g_bDebugCollider = false;
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -21,6 +22,7 @@ CGameInstance::CGameInstance()
 
 HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut)
 {
+	g_bDebugCollider = false;
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.isWindowed, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppOut);
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
@@ -73,6 +75,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
+	if (GetAsyncKeyState(VK_F2) & 0xf8000)
+	{
+		g_bDebugCollider = !g_bDebugCollider;
+	}
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);

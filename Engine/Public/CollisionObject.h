@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameObject.h"
 
@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	// ´Ù¸¥ ¿ÀºêÁ§Æ®¿¡ µ¥¹ÌÁö¸¦ ÁØ´Ù
+	// ë‹¤ë¥¸ ì˜¤ë¸Œì íŠ¸ì— ë°ë¯¸ì§€ë¥¼ ì¤€ë‹¤
 	void Take_Damage(CCollisionObject* other);
 	
 

@@ -1,4 +1,4 @@
-#include "CollisionObject.h"
+﻿#include "CollisionObject.h"
 
 CCollisionObject::CCollisionObject(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }

@@ -3,6 +3,8 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
+ENGINE_DLL bool g_bDebugCollider;
+
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
 {
@@ -87,18 +89,10 @@ HRESULT CStructure::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	
-	DWORD state;
-	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &state);
-	if ((state & D3DFILL_WIREFRAME) != 0)
+	if (g_bDebugCollider)
 	{
-		if (FAILED(m_pColliderCom->Render()))
-			return E_FAIL;
+		m_pColliderCom->Render();
 	}
-		
-
-	
-
 	Release_RenderState();
 
 	return S_OK;

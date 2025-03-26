@@ -83,8 +83,6 @@ void CCrocman::Late_Update(_float fTimeDelta)
 
 	Select_Frame(fTimeDelta);
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
-
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
