@@ -18,9 +18,11 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
 	virtual void Update(float fTimeDelta) override;
+	void Set_Position(_float3 pos) { m_vPos = pos; }
 
 private:
-	_float		m_fInterval;
+	_float		m_fInterval = {};
+	_float		m_fElapsedTime = {};
 
 public:
 	static CProjectile_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

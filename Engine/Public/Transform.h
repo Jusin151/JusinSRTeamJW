@@ -49,6 +49,7 @@ public:
 public:
 	_float3 Compute_Scaled() const;
 	void Set_Scale(_float fX, _float fY, _float fZ);
+	void Go(_float3 dir, _float fTimeDelta);
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
@@ -82,7 +83,7 @@ private:
 
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
-	_float3 m_vEulerAngles{};
+	_float3					m_vEulerAngles{};
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

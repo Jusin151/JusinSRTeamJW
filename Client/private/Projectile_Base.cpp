@@ -8,8 +8,16 @@ CProjectile_Base::CProjectile_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CProjectile_Base::CProjectile_Base(const CProjectile_Base& Prototype)
-	: CCollisionObject{ Prototype }
+	: CCollisionObject	{ Prototype }
+	, m_vPos			{ Prototype.m_vPos }
+	, m_vDir			{ Prototype.m_vDir }
+	, m_fSpeed			{ Prototype.m_fSpeed }
+	, m_pColliderCom	{ Prototype.m_pColliderCom }
+	, m_pTextureCom		{ Prototype.m_pTextureCom }
+	, m_pTransformCom	{ Prototype.m_pTransformCom }
+	, m_pVIBufferCom	{ Prototype.m_pVIBufferCom }
 {
+
 }
 
 HRESULT CProjectile_Base::Initialize_Prototype()

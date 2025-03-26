@@ -73,6 +73,14 @@ void CTransform::Set_Scale(_float fX, _float fY, _float fZ)
 	Set_State(STATE_LOOK, vLook * fZ);
 }
 
+void CTransform::Go(_float3 dir, _float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	vPosition += dir.GetNormalized() * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 
 void CTransform::Go_Straight(_float fTimeDelta)
 {

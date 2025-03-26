@@ -14,7 +14,7 @@ CProjectile_Particle_System::CProjectile_Particle_System(const CParticle_System&
 
 HRESULT CProjectile_Particle_System::Initialize_Prototype()
 {
-	return S_OK;
+ 	return S_OK;
 }
 
 HRESULT CProjectile_Particle_System::Initialize(void* pArg)
@@ -25,48 +25,50 @@ HRESULT CProjectile_Particle_System::Initialize(void* pArg)
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
+	m_fInterval = desc.fIntervaltime;
 
 	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
-	
-	for (_uint i = 0; i < desc.iNumParticles; ++i)
-	{
-		Add_Particle();
-	}
 	return S_OK;
 }
 
 void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
 	pAttribute->bIsAlive = true;
+	pAttribute->fAge = 0;
+	pAttribute->vPosition = m_vPos;
+	pAttribute->fLifetime = 2.0f;
 
-	GetRandomVector(&pAttribute->vPosition, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);
-
-	pAttribute->vPosition.y = m_Bounding_Box.m_vMax.y;
-
-	pAttribute->vVelocity = {
-		GetRandomFloat(0.0f, 1.0f) * -3.0f,
-		GetRandomFloat(0.0f, 1.0f) * -10.0f,
-		0.0f
-	};
-	 pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+	pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void CProjectile_Particle_System::Update(float fTimeDelta)
 {
+	m_fElapsedTime += fTimeDelta;
+	if (m_fElapsedTime >= 0.1f)
+	{
+		Add_Particle();
+		m_fElapsedTime = 0.f;
+	}
+	if (m_Particles.size() > m_iMaxParticles)
+	{
+		m_Particles.pop_front();
+	}
 	for (auto& i : m_Particles)
 	{
-		i.vPosition += i.vVelocity * fTimeDelta;
-		//D3DXVec3CatmullRom();
-		_float4 temp = DWORDToFloat4_Color(i.vColor);
-		i.vColor = D3DCOLOR_COLORVALUE(temp.x, temp.y, temp.z, temp.w * 0.9f);
-		i.fAge += fTimeDelta;
-		/*if (!m_Bounding_Box.Is_Point_Inside(i.vPosition))
+		if (i.bIsAlive)
 		{
-			Reset_Particle(&i);
-		}*/
+			//i.vPosition += i.vVelocity * fTimeDelta;
+			_float4 temp = DWORDToFloat4_Color(i.vColor);
+			temp.w *= 0.99f;
+			i.vColor = D3DCOLOR_COLORVALUE(temp.x, temp.y, temp.z, temp.w);
+			i.fAge += fTimeDelta;
+
+			if (i.fAge > i.fLifetime)
+				i.bIsAlive = false;
+		}
 	}
 
 	__super::Late_Update(fTimeDelta);
