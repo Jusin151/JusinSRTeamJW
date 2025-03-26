@@ -1508,15 +1508,13 @@ void CMyImGui::InputKey()
 	// Undo/Redo 키 추가
 	if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl))
 	{
-		if (ImGui::IsKeyDown(ImGuiKey_Z))
+		if (ImGui::IsKeyPressed(ImGuiKey_Z))
 			Undo();
-
-		if (ImGui::IsKeyDown(ImGuiKey_Y))
+		if (ImGui::IsKeyPressed(ImGuiKey_Y))
 			Redo();
-
-		if (ImGui::IsKeyDown(ImGuiKey_D))
+		if (ImGui::IsKeyPressed(ImGuiKey_D))
 			Duplicate_Object();
-		if (ImGui::IsKeyDown(ImGuiKey_G))
+		if (ImGui::IsKeyPressed(ImGuiKey_G))
 			Remove_Object();
 	}
 }
@@ -1721,7 +1719,17 @@ void CMyImGui::Redo()
 
 	case EHistoryActionType::OBJECT_CREATE:
 	{
+		// 오브젝트 생성을 취소하므로 오브젝트 삭제
+		if (item.pGameObject)
+		{
+			m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, item.pGameObject);
+		}
+	}
+	break;
 
+	case EHistoryActionType::OBJECT_DELETE:
+	{
+		// 오브젝트 삭제를 취소하므로 오브젝트 다시 생성
 		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
 			item.iLevel, item.wstrLayerTag, item.tObjDesc);
 		Safe_Delete(item.tObjDesc);
@@ -1736,17 +1744,6 @@ void CMyImGui::Redo()
 			pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
 			pTransform->Rotate_EulerAngles(item.vOldRotation);
 		}
-	}
-	break;
-
-	case EHistoryActionType::OBJECT_DELETE:
-	{
-		// 오브젝트 생성을 취소하므로 오브젝트 삭제
-		if (item.pGameObject)
-		{
-			m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, item.pGameObject);
-		}
-	
 	}
 	break;
 	}
