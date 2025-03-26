@@ -87,6 +87,17 @@ HRESULT CStructure::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+	
+	DWORD state;
+	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &state);
+	if ((state & D3DFILL_WIREFRAME) != 0)
+	{
+		if (FAILED(m_pColliderCom->Render()))
+			return E_FAIL;
+	}
+		
+
+	
 
 	Release_RenderState();
 

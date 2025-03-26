@@ -160,6 +160,12 @@ namespace Engine
 		static const DWORD FVF;
 	} PARTICLE;
 
+	typedef struct tagVertexPositionColor
+	{
+		D3DXVECTOR3 vPosition;
+		D3DCOLOR	vColor;
+	} VTXPOSCOL;
+
 	//const PARTICLE::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
 	typedef struct tagParticleAttribute
