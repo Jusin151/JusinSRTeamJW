@@ -1,16 +1,17 @@
 ﻿#pragma once
 #include "Shop.h"
 
+
 BEGIN(Client)
-class CPointShop : public CShop
+class CWeaponShop : public CShop
 {
 private:
-    CPointShop(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CPointShop(const CPointShop& Prototype);
-    virtual ~CPointShop() = default;
+    CWeaponShop(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CWeaponShop(const CWeaponShop& Prototype);
+    virtual ~CWeaponShop() = default;
 
 public:
-    
+    // 기본 상속 함수
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
 
@@ -19,7 +20,8 @@ public:
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
 
-public: //상점관련
+    // Shop 인터페이스 구현
+
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
     virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) override;
@@ -36,11 +38,11 @@ private:
     HRESULT Ready_Components();
 
 public:
-    static CPointShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    static CWeaponShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
 private:
-    class CUI_Point_Shop* m_pUI_PointShop = { nullptr };
+    class CUI_WeaponShop_UI* m_pUI_WeaponShop = { nullptr };
 
 };
 END

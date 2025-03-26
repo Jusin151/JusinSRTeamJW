@@ -1,6 +1,7 @@
 ﻿#include "UI_Menu.h"
 #include "GameInstance.h"
 #include "CUI_Manager.h"
+#include "Player.h"
 
 CUI_Menu::CUI_Menu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
@@ -15,8 +16,6 @@ CUI_Menu::CUI_Menu(const CUI_Menu& Prototype)
 
 HRESULT CUI_Menu::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 
 
 	return S_OK;
@@ -39,6 +38,14 @@ HRESULT CUI_Menu::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+
+	if (m_pPlayer == nullptr)
+		return E_FAIL;
+	else
+		Safe_AddRef(m_pPlayer);
+
+
 	m_pTransformCom->Set_Scale(m_INFO.vSize.x, m_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_INFO.vPos.x, m_INFO.vPos.y, 0.f));
@@ -51,12 +58,13 @@ void CUI_Menu::Priority_Update(_float fTimeDelta)
 
 void CUI_Menu::Update(_float fTimeDelta)
 {
-	if (GetKeyState('u') & 0x8000)
+	if (GetKeyState('U') & 0x8000)
 	{
-		if (!m_bKeyPressed) 
+		if (!m_bKeyPressed)
 		{
 			m_bIsVisible = !m_bIsVisible;
 			m_bKeyPressed = true;
+			static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
 		}
 	}
 	else
@@ -132,4 +140,5 @@ void CUI_Menu::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pPlayer);
 }

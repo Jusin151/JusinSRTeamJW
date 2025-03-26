@@ -87,6 +87,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	m_fSaveTime = fTimeDelta;
+	if (m_bTimeControl)
+		fTimeDelta = 0;
+	else
+		fTimeDelta = m_fSaveTime;
 
 	Move(fTimeDelta); 
 	
@@ -122,6 +127,17 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
+
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:")+to_wstring(m_pTransformCom->Get_WorldMat()._41),
+		_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+		_float2(-100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+		_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 	//m_pPlayer_Inven->Render();
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))

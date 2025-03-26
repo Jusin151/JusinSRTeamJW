@@ -1,4 +1,4 @@
-#include "Item.h"
+ç™¤#include "Item.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -28,7 +28,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); // ¾àÇÑ ÂüÁ¶
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); // Â•ì€Â•Âœ ï§¡ëª„â€œ
 
 	return S_OK;
 }
@@ -81,7 +81,7 @@ HRESULT CItem::On_Collision(_float fTimeDelta)
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	//if (m_pColliderCom->Get_Other_Type() == CG_END)
 	//	return S_OK;
 
@@ -89,8 +89,9 @@ HRESULT CItem::On_Collision(_float fTimeDelta)
 	//{
 	//	Use_Item();
 	//}
-	//// Ãæµ¹ Ã³¸® ÇÏ°í ´Ù½Ã typeÀ» ¼öÁ¤
+	//// ì¶©ëŒ ì²˜ë¦¬ í•˜ê³  ë‹¤ì‹œ typeì„ ìˆ˜ì •
 	//m_pColliderCom->Set_Other_Type(CG_END);
+
 	return E_FAIL;
 }
 
@@ -137,8 +138,8 @@ HRESULT CItem::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // Â•ÂŒÂŒÂŒ åª›Â’Â æ¹²ê³—Â€è¹‚ëŒ€Â‹ ÂÑ‰ãˆƒ Â”ìŽŒÂ…Â€ ï¿½ÂŒÂÂ”ï§Â
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // æ¹²ê³—Â€åª›Â’ Â„ã…¼Â• (0~255)
 
 	return S_OK;
 }

@@ -51,13 +51,20 @@ void CGamePlay_Button::Update(_float fTimeDelta)
 
         if (GetKeyState(VK_LBUTTON) & 0x8000)
         {
-            if (m_OnClick) m_OnClick();
+            if (m_OnClick)
+                m_OnClick();
+            
+           // m_strMouseOnText.clear();
+            m_bVisible_Click = true;
         }
         m_bVisible = true;
     }
     else 
     { 
+        if(!m_bVisible_Click)
         m_strMouseOnText.clear();
+
+
         m_bVisible = false;
     }
 }
@@ -70,7 +77,11 @@ void CGamePlay_Button::Late_Update(_float fTimeDelta)
 
 HRESULT CGamePlay_Button::Render()
 {
-    if (!m_bVisible)
+  
+    Render_ToolTip_Button_TexT(); // 마우스 여부와 상관없이 버튼이 있기만이라도 한다면 뜨는 텍스트
+
+
+    if (!m_bVisible)  
         return S_OK;
 
     D3DXMATRIX matOldView, matOldProj;
@@ -94,8 +105,9 @@ HRESULT CGamePlay_Button::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers())) return E_FAIL;
     if (FAILED(m_pVIBufferCom->Render())) return E_FAIL;
 
-    Render_MouseOn_Button_TexT();
-    Render_MouseClick_Button_TexT();
+
+    Render_MouseOn_Button_TexT(); //마우스 올리기만했을때 뜨는 텍스트
+    Render_MouseClick_Button_TexT(); // 마우스 클릭했을때 뜨는 텍스트
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
@@ -112,7 +124,7 @@ void CGamePlay_Button::Render_MouseOn_Button_TexT()
             L"MainFont",
             m_strMouseOnText,
             _float2(-360.f,120.f),
-            _float2(8.f, 18.f), //글자 크기
+            _float2(8.f, 22.f), //글자 크기
             _float3(1.f, 1.f, 0.f)); // R G B
     }
     if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_SKILL) // 오른쪽 스탯 버튼
@@ -121,9 +133,10 @@ void CGamePlay_Button::Render_MouseOn_Button_TexT()
             L"MainFont",
             m_strMouseOnText,
             _float2(0.f, 50.f),
-            _float2(8.f, 18.f),
+            _float2(8.f, 22.f),
             _float3(1.f, 1.f, 0.f));
     }
+  
 }
 
 void CGamePlay_Button::Render_MouseClick_Button_TexT()
@@ -135,9 +148,26 @@ void CGamePlay_Button::Render_MouseClick_Button_TexT()
             L"MainFont",
             m_strMouseOnText,
             _float2(135.f, -100.f),
-            _float2(8.f, 18.f),
+            _float2(8.f, 22.f),
+            _float3(1.f, 1.f, 0.f));
+
+   
+    }
+   
+}
+
+void CGamePlay_Button::Render_ToolTip_Button_TexT()
+{
+    if (m_OnClick && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == SPELL_SHOP_BUTTON) // 스펠 설명 버튼
+    {
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(-20.f, -40.f),
+            _float2(8.f, 22.f),
             _float3(1.f, 1.f, 0.f));
     }
+
 }
 
 

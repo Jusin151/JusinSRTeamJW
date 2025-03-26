@@ -25,6 +25,8 @@ HRESULT CShop::Initialize(void* pArg) // 자식에서 무조건 __Super:: 로 �
         return E_FAIL;
 
     m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+
+    m_pPlayer = static_cast<CPlayer*>(m_pPlayer);
     if (m_pPlayer == nullptr)
         return E_FAIL;
     else
@@ -47,23 +49,42 @@ void CShop::Update(_float fTimeDelta)
 {
     LookAtPlayer(fTimeDelta);
 
-
-
     m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
     m_pGameInstance->Add_Collider(CG_SHOP, m_pColliderCom);
 
-    if (SUCCEEDED(On_Collision()))
+    if (SUCCEEDED(On_Collision())) 
     {
         if (GetAsyncKeyState(VK_SPACE) & 0x8000)
         {
-            m_bIsOpen = true;
+            if (!m_bSpacePressed)  
+            {
+                m_bIsOpen = !m_bIsOpen;
+                m_bSpacePressed = true; 
+                static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
+            }
+        }
+        else
+        {
+            m_bSpacePressed = false; 
         }
     }
     else
     {
-        m_bIsOpen = false;
+        if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+        {
+            if (!m_bSpacePressed)
+            {
+                m_bIsOpen = false;
+                m_bSpacePressed = true;
+            }
+        }
+        else
+        {
+            m_bSpacePressed = false;
+        }
     }
+
 }
 
 
