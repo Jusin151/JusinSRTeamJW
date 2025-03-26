@@ -81,7 +81,7 @@ HRESULT CGamePlay_Button::Render()
     Render_ToolTip_Button_TexT(); // 마우스 여부와 상관없이 버튼이 있기만이라도 한다면 뜨는 텍스트
 
 
-    if (!m_bVisible) 
+    if (!m_bVisible)  
         return S_OK;
 
     D3DXMATRIX matOldView, matOldProj;

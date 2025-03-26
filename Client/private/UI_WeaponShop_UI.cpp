@@ -1,6 +1,7 @@
 ﻿#include "UI_WeaponShop_UI.h"
 #include "GameInstance.h"
 #include "GamePlay_Button.h"
+#include "CUI_Manager.h"
 
 
 
@@ -54,6 +55,8 @@ HRESULT CUI_WeaponShop_UI::Initialize(void* pArg)
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
         _float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
+
+    CUI_Manager::GetInstance()->AddUI(L"Weapon_Shop_UI", this);
 
     return S_OK;
 }
@@ -167,7 +170,7 @@ void CUI_WeaponShop_UI::Create_SkillButton() //오른쪽 특성 버튼
 
             vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Weapon_Shop_Selected"; // 컴포넌트
             vecButtonDescs[index].strUIName = L"Level_Weapon_Shop_Selected_" + to_wstring(index); // 혹시 몰라서.
-            vecButtonDescs[index].bActive = m_bOnUI;
+            vecButtonDescs[index].bActive = true;
             vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::WEAPON_SHOP_BUTTON;
             if (FAILED(m_pGameInstance->Add_GameObject(
                 LEVEL_GAMEPLAY,
@@ -181,6 +184,8 @@ void CUI_WeaponShop_UI::Create_SkillButton() //오른쪽 특성 버튼
 
             if (pButton)
             {
+                m_vecButtons.push_back(pButton); // 버튼 저장
+
                 pButton->SetOnClickCallback([this, pButton, index]()
                     {
                         switch (index)

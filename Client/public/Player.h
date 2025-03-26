@@ -60,12 +60,19 @@ private:
 	// 회전 시킬 기준 점..
 	_int			  m_iMiddlePointX = {};
 
-
+	_bool m_bTimeControl = { false };
+	_float m_fSaveTime = {};
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	CInventory* m_pInven = { nullptr };
 	virtual void Free();
+public:
+	void Taimu_S_to_pu()
+	{
+		m_bTimeControl = !m_bTimeControl;
+	}
+
 	
 };
 

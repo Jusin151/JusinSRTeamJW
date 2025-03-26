@@ -200,7 +200,7 @@
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\public\PointShop.h" />
     <ClInclude Include="..\public\Particles.h" />
-    <ClInclude Include="..\public\UI_Episode.h" />
+    <ClInclude Include="..\public\SpellShop.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
@@ -242,6 +242,7 @@
     <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="..\Public\UI_Spell_Shop.h" />
     <ClInclude Include="..\public\UI_Structs.h" />
+    <ClInclude Include="..\public\WeaponShop.h" />
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
@@ -259,7 +260,7 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Icon.cpp" />
-    <ClCompile Include="..\private\UI_Episode.cpp" />
+    <ClCompile Include="..\private\SpellShop.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
@@ -319,6 +320,7 @@
     <ClCompile Include="..\private\UI_HP_Bar.cpp" />
     <ClCompile Include="..\private\UI_Left_Display.cpp" />
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
+    <ClCompile Include="..\private\WeaponShop.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />

@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Shop_Base.h"
-#include "GamePlay_Button.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -48,7 +47,7 @@ public:
 	static CUI_Spell_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-
+	_bool m_bOnUI = { false };
 private:
 	HRESULT Register_Buttons() override;
 
@@ -57,7 +56,7 @@ private:
 	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
 
 
-	_bool m_bOnUI = { false };
+	
 
 	CGamePlay_Button* m_pSelectedSpellButton = { nullptr };
 };

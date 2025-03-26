@@ -67,18 +67,6 @@
       "count": 1
     },
     {
-      "tag": "Prototype_Component_Texture_Episode_Level_1_UI",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Episode_UI/Level_1/Level_1_%d.png",
-      "count": 21
-    },
-    {
-      "tag": "Prototype_Component_Texture_UI_Episode",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Episode_UI/Episode_Display.png",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Axe",
       "level": 3,
       "path": "../../Resources/Textures/Weapon/Axe/axe_attack%d.png",

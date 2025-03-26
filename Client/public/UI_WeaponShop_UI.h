@@ -52,6 +52,7 @@ private:
 private:
 	vector<wstring> m_str_Weapon_MouseOn_Text{}; // 스킬 버튼 쿨릭하면 오른쪽에 보여질 텍스트
 
+public:
 	_bool m_bOnUI = { false };
 };
 

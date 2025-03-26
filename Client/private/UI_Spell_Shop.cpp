@@ -1,5 +1,6 @@
 ﻿#include "UI_Spell_Shop.h"
 #include "GameInstance.h"
+#include "CUI_Manager.h"
 
 
 
@@ -45,6 +46,8 @@ HRESULT CUI_Spell_Shop::Initialize(void* pArg)
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
         _float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
+
+    CUI_Manager::GetInstance()->AddUI(L"Spell_Shop_UI", this);
 
     return S_OK;
 }
@@ -167,7 +170,7 @@ void CUI_Spell_Shop::Create_SkillButton() //오른쪽 특성 버튼
 
                 vecButtonDescs[index].strUIName = L"Level_Spell_Shop_Selected_" + to_wstring(index);
 
-                vecButtonDescs[index].bActive = m_bOnUI;
+                vecButtonDescs[index].bActive = true;
 
                 vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::SPELL_SHOP_BUTTON;
 
@@ -183,6 +186,7 @@ void CUI_Spell_Shop::Create_SkillButton() //오른쪽 특성 버튼
 
             if (pButton)
             {
+                m_vecButtons.push_back(pButton); // 버튼 저장
                 pButton->SetOnClickCallback([this, pButton, index]()
                     {
                         if (m_pSelectedSpellButton)

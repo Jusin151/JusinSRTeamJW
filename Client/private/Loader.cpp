@@ -16,9 +16,10 @@
 #include "Staff_Bullet.h"
 #include "PointShop.h"
 #include "UI_Point_Shop.h"
-#include "UI_Episode.h"
 #include "UI_WeaponShop_UI.h"
 #include "UI_Spell_Shop.h"
+#include "SpellShop.h"
+#include "WeaponShop.h"
 
 
 
@@ -187,15 +188,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CStaff_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
 		TEXT("Prototype_GameObject_GamePlayer_Button"),
 		CGamePlay_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 에피소드 UI 삭제 X
-		TEXT("Prototype_GameObject_UI_Episode"),
-		CUI_Episode::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
@@ -245,6 +241,32 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop_Button"),
 	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Spell_UI/Spell_BuyButton_%d.png"), 3))))
 		return E_FAIL;
+
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰샵 월드객체 삭제 X
+		TEXT("Prototype_GameObject_Weapon_Shop"),
+		CWeaponShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 웨폰상점  월드 객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Shop/Gunsmith_station.png"), 1))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 스펠샵 월드객체 삭제 X
+		TEXT("Prototype_GameObject_Spell_Shop"),
+		CSpellShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 스펠샵  월드객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Shop/Spellstation.png"), 1))))
+		return E_FAIL;
+
 
 
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));

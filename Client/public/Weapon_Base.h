@@ -87,6 +87,7 @@ protected:
     _float speed = { 0.1f }; //
     _float2 m_vInitialPos = {};
 
+     
 
 };
 END
