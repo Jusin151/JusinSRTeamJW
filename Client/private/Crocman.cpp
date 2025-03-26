@@ -103,6 +103,11 @@ HRESULT CCrocman::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+	if (g_bDebugCollider)
+	{
+		m_pColliderCom->Render();
+	}
+		
 	Release_RenderState();
 
 

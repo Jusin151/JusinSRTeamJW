@@ -41,6 +41,7 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 void CMonster_Base::Update(_float fTimeDelta)
 {
 	Look_Player();
+	//m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 }
 
 void CMonster_Base::Late_Update(_float fTimeDelta)
@@ -91,12 +92,8 @@ HRESULT CMonster_Base::Ready_Components()
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
-
-
-
 
 void CMonster_Base::Free()
 {

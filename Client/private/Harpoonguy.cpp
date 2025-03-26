@@ -47,7 +47,6 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 		SetTarget(pTarget);
 		Safe_AddRef(pTarget);
-
 	}
 
 	if (m_iCurrentFrame > 26)
@@ -59,35 +58,34 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 void CHarpoonguy::Update(_float fTimeDelta)
 {
+	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
+	if (m_eCurState != MS_DEATH)
+	{
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+	}
+
 	if (nullptr == m_pTarget)
 		return;
 
 	Select_Pattern(fTimeDelta);
 
 	__super::Update(fTimeDelta);
-
-
-	if (m_eCurState != MS_DEATH)
-	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
-		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
-	}
-
 }
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+		return;
+	Select_Frame(fTimeDelta);
 	if (nullptr == m_pTarget)
 		return;
 
-
-
-	Select_Frame(fTimeDelta);
+	
 
 	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	
 }
 
 HRESULT CHarpoonguy::Render()
@@ -107,6 +105,11 @@ HRESULT CHarpoonguy::Render()
 		return E_FAIL;
 
 	Release_RenderState();
+
+	if (g_bDebugCollider)
+	{
+ 		m_pColliderCom->Render();
+	}
 
 
 	return S_OK;
@@ -173,12 +176,12 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	//Shooting(fTimeDelta);
 
 	//거리로 판단해서 패턴 실행하도록 
-	if (vDist.LengthSq() > 10)
+	/*if (vDist.LengthSq() > 10)
 		Chasing(fTimeDelta);
 	else
 	{
 		Shooting(fTimeDelta);
-	}
+	}*/
 		
 }
 
@@ -316,7 +319,7 @@ HRESULT CHarpoonguy::Release_RenderState()
 HRESULT CHarpoonguy::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
+	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
