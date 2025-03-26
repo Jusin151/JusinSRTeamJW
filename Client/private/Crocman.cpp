@@ -151,7 +151,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-		fPos += vMove;
+		fPos += vMove * 0.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		break;
 	default:
@@ -307,7 +307,7 @@ HRESULT CCrocman::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 3.f, 1.f, 3.f };
+	ColliderDesc.fScale = { 2.f, 1.f, 2.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
 

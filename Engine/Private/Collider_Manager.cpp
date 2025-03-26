@@ -86,7 +86,7 @@ void CCollider_Manager::Update_Collision_Structure()
 						//srcEntry->Set_State(CTransform::STATE_POSITION, srcEntry->Get_MTV());
 						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-						break;
+						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
 						
 					}
 

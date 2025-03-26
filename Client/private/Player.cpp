@@ -211,12 +211,12 @@ void CPlayer::Move(_float fTimeDelta)
 	if (ptMouse.x - m_iMiddlePointX > 0)
 	{
 		if(iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * 1.5f);
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iDist * 0.005f);
 	}
 	else if (ptMouse.x - m_iMiddlePointX < 0 )
 	{
 		if (iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * 1.5f);
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * iDist * 0.005f);
 	}
 	
 	
