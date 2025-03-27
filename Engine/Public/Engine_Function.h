@@ -57,6 +57,7 @@ namespace Engine
 		return (f * (highBound - lowBound)) + lowBound;
 	}
 
+	//Helper Functions
 	inline void GetRandomVector(D3DXVECTOR3* pOut, D3DXVECTOR3* pMin, D3DXVECTOR3* pMax)
 	{
 		pOut->x = GetRandomFloat(pMin->x, pMax->x);

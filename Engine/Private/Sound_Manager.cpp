@@ -219,14 +219,6 @@ void CSound_Manager::Unload_Bank(const _wstring& strBankPath)
     //mBanks.erase(iter);
 }
 
-//Studio::Bank* CSound_Manager::Load_Bank(_wstring strBankPath, void* pArg)
-//{
-//	Studio::Bank* pBank = nullptr;
-//	m_pStudioSystem->loadBankFile(reinterpret_cast<const char*>(strBankPath.c_str()), FMOD_STUDIO_LOAD_BANK_NORMAL, &pBank);
-//
-//	return nullptr;
-//}
-
 CSound_Manager* CSound_Manager::Create(_int iNumChannels, FMOD_STUDIO_INITFLAGS studioFlags, FMOD_INITFLAGS flags, void* pArg)
 {
 	CSound_Manager* pInstance = new CSound_Manager();
