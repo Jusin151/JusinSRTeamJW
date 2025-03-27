@@ -45,8 +45,8 @@ public:
 	// 그냥 하면 연산량이 많아서 단계적으로 진행...
 	_bool Calc_Cube_To_Cube(CCollider* src, CCollider* dst);
 
-	// 나중에 필요하면 ? 
-	_bool Calc_Cube_To_Sphere(CCollider* src, CCollider* dst);
+	// 벽이랑 충돌할때, 벽은 큐브로 다른거는 구로 판정해서
+	_bool Calc_Sphere_To_Cube(CCollider* src, CCollider* dst);
 
 	// 큐브 큐브 사이 거리로 먼저
 	_bool Check_Cube_Distance(CCollider* src, CCollider* dst);

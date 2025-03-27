@@ -67,27 +67,14 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				m_pColliders[CG_STRUCTURE_WALL].sort(
-					[&srcEntry](const CCollider* a, const CCollider* b) {
-						_float3 playerPos = srcEntry->Get_State(CTransform::STATE_POSITION); // 플레이어 위치
-						_float3 distA = (a->Get_State(CTransform::STATE_POSITION) - playerPos); // 거리의 제곱
-						_float3 distB = (b->Get_State(CTransform::STATE_POSITION) - playerPos); // 거리의 제곱
-
-						return distA.LengthSq() < distB.LengthSq(); // 플레이어와 가까운 순으로 정렬
-					});
 				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 				{
-					// 일정 거리 넘어가면 다음으로
-					if (Check_Cube_Distance(srcEntry, dstEntry))
-						continue;
 
-
-					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+					if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
 					{
-
-						//srcEntry->Set_State(CTransform::STATE_POSITION, srcEntry->Get_MTV());
 						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
 					}
 
 				}
@@ -182,15 +169,174 @@ _bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 		return false;
 
 
-	// 모든 계산이 끝나면 다시 사용하기 위해 set을 초기화
+	//모든 계산이 끝나면 다시 사용하기 위해 set을 초기화
 	setAxes.clear();
 
 	return true;
 }
 
-_bool CCollider_Manager::Calc_Cube_To_Sphere(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 {
-	return false;
+	
+	_float srcRadius = src->Get_Radius();
+	_float3 srcPos = src->Get_State(CTransform::STATE_POSITION);
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+
+	_float3 xAxis = dstDesc.fAxisX;  // x 축
+	_float3 yAxis = dstDesc.fAxisY;  // y 축
+	_float3 zAxis = dstDesc.fAxisZ;  // z 축
+
+	// 큐브의 중심
+	_float3 cubeCenter = dstDesc.fPos;
+
+	// 큐브의 8개의 꼭짓점 정의
+	const vector<_float3>& corners = dstDesc.vecIndices;
+
+	// 12개의 모서리 정의 (두 점으로 이루어짐)
+	vector<pair<_float3, _float3>> edges;
+
+	//x축에 평행한 모서리 4개
+	edges.push_back({ corners[0], corners[1] });
+	edges.push_back({ corners[2], corners[3] });
+	edges.push_back({ corners[4], corners[5] });
+	edges.push_back({ corners[6], corners[7] });
+
+	// y축에 평행한 모서리 4개
+	edges.push_back({ corners[0], corners[2] });
+	edges.push_back({ corners[1], corners[3] });
+	edges.push_back({ corners[4], corners[7] });
+	edges.push_back({ corners[5], corners[6] });
+
+	// z축에 평행한 모서리 4개
+	edges.push_back({ corners[0], corners[4] });
+	edges.push_back({ corners[1], corners[5] });
+	edges.push_back({ corners[2], corners[7] });
+	edges.push_back({ corners[3], corners[6] });
+
+
+	// 1. 각 꼭지점의 최대 최소를 구하고 
+	// 최소에는 반지름을 빼주고 최대에는 반지름을 더함
+	// 그 후 구의 중심이 사이에 있는지 체크
+	_float3 minCorner = corners[0];
+	_float3 maxCorner = corners[0];
+
+	for (const auto& corner : corners)
+	{
+		minCorner.x = min(minCorner.x, corner.x);
+		minCorner.y = min(minCorner.y, corner.y);
+		minCorner.z = min(minCorner.z, corner.z);
+
+		maxCorner.x = max(maxCorner.x, corner.x);
+		maxCorner.y = max(maxCorner.y, corner.y);
+		maxCorner.z = max(maxCorner.z, corner.z);
+	}
+
+	if (srcPos.x < minCorner.x - srcRadius || srcPos.x > maxCorner.x + srcRadius ||
+		srcPos.y < minCorner.y - srcRadius || srcPos.y > maxCorner.y + srcRadius ||
+		srcPos.z < minCorner.z - srcRadius || srcPos.z > maxCorner.z + srcRadius)
+	{
+		return false; // AABB 밖에 있으므로 충돌 없음
+	}
+
+	// MTV 벡터 초기화
+	_float3 mtv = { 0.f, 0.f, 0.f };
+	// 최소 충돌 길이 저장
+	_float fDepth = FLT_MAX;
+
+	// 2. 각 면에 대해 구와의 거리 계산
+	struct Plane {
+		_float3 normal; // 면의 법선 벡터
+		_float3 point;  // 면 위의 점
+	};
+
+	// 큐브의 각 면 정의
+	vector<Plane> planes = { {
+		{ dstDesc.fAxisX, cubeCenter + dstDesc.fAxisX * 0.5f }, // x+ 면
+		{ -dstDesc.fAxisX,cubeCenter - dstDesc.fAxisX * 0.5f }, // x- 면
+		{ dstDesc.fAxisY, cubeCenter + dstDesc.fAxisY * 0.5f }, // y+ 면
+		{ -dstDesc.fAxisY, cubeCenter - dstDesc.fAxisY * 0.5f }, // y- 면
+		{ dstDesc.fAxisZ, cubeCenter + dstDesc.fAxisZ * 0.5f }, // z+ 면
+		{ -dstDesc.fAxisZ, cubeCenter - dstDesc.fAxisZ * 0.5f }  // z- 면
+	} };
+
+	// 3. 면 충돌 검사
+	for (const auto& plane : planes)
+	{
+		// 면의 법선 벡터를 정규화
+		_float3 norVec = plane.normal;
+		norVec.Normalize();
+
+		// 구의 중심에서 면까지의 거리 계산
+		_float3 diff = src->Get_State(CTransform::STATE_POSITION) - plane.point;
+		_float distanceToPlane = diff.Dot(norVec); // 점과 평면 사이의 거리
+
+		// 거리 절댓값이 반지름보다 작으면 충돌
+		if (abs(distanceToPlane) <= srcRadius) 
+		{
+			_float penetrationDepth = srcRadius - abs(distanceToPlane);
+
+			if (penetrationDepth < fDepth) // 가장 깊이 충돌한 면만 반영
+			{
+				fDepth = penetrationDepth;
+				mtv = (distanceToPlane > 0) ? norVec * penetrationDepth : -norVec * penetrationDepth;
+			}
+		}
+	}
+
+	// 4. 각 모서리에 대해 구와의 거리 계산
+	for (const auto& edge : edges)
+	{
+		// 모서리의 두 점을 이용해 모서리 벡터 계산
+		_float3 edgeStart = edge.first;
+		_float3 edgeEnd = edge.second;
+
+		_float3 edgeVec = edgeEnd - edgeStart;
+		_float3 edgeDir = edgeVec.GetNormalized();
+		_float3 diff = src->Get_State(CTransform::STATE_POSITION) - edgeStart;
+
+		// 최소 거리 계산 (모서리와 구의 거리), diff를 edgeVec으로 투영후 크기 제곱으로 나눔
+		_float t = diff.Dot(edgeVec) / edgeVec.LengthSq();
+		t = max(0.f, min(1.f, t));  // 구가 모서리의 양 끝점 사이에 있을 때
+
+		_float3 closestPoint = edgeStart + t * edgeVec;
+		_float3 distVec = src->Get_State(CTransform::STATE_POSITION) - closestPoint;
+		_float distSq = distVec.LengthSq();
+
+		// 구와 모서리 간의 거리 계산
+		if (distSq <= (srcRadius * srcRadius))
+		{
+			if (distSq > 0)  //  distVec이 0이 아닐 때만 정규화
+			{
+				_float3 direction = distVec.GetNormalized();
+				_float distance = sqrt(distSq);
+				_float mtvLength = srcRadius - distance;
+
+				if (mtvLength > 0 && mtvLength < fDepth)  // 최소 MTV 선택
+				{
+					fDepth = mtvLength;
+					mtv = direction * mtvLength;
+				}
+				
+			}
+			else  //  만약 distVec == 0이면 기본 방향 적용
+			{
+				mtv = edgeDir * srcRadius;
+			}
+		}
+
+	}
+
+	// MTV가 너무 작으면 충돌 처리하지 않음
+	if (mtv.LengthSq() < 0.000001f)
+	{
+		return false; // 너무 작은 MTV는 충돌로 처리하지 않음
+	}
+
+	// MTV 벡터가 충분히 큰 경우에만 충돌로 처리
+	src->Set_MTV(mtv);
+	dst->Set_MTV(-mtv); // 반대 방향으로 밀어줘야 하므로
+	return true; // 충돌 발생
+
 }
 
 _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
@@ -203,10 +349,12 @@ _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
-	// 경래야 내가 distance 만들어놨어...
-	//_float3 distance = srcDesc.fPos - dstDesc.fPos;
 
-	return srcDesc.fRadius + dstDesc.fRadius < _float3::Distance(srcDesc.fPos, dstDesc.fPos);
+
+	_float3 fDist = srcDesc.fPos - dstDesc.fPos;
+
+	// 연산 줄이기 위해 제곱으로
+	return (srcDesc.fRadius + dstDesc.fRadius) * (srcDesc.fRadius + dstDesc.fRadius) < fDist.LengthSq();
 }
 
 _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)

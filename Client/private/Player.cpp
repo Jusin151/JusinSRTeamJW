@@ -51,8 +51,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-8.3f, 1.0f, 8.f));
-	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-10.f, 1.0f, 8.f));
+	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->Set_Scale(0.5f,0.5f,0.5f);
 	//m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
@@ -217,15 +218,13 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
+	_float3 direction = vMove.GetNormalized();
 
 	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
 	_float3 dirOthertoOldPos = fPos - otherPos;
 	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
-
-	_float fDepth = m_pColliderCom->Get_Depth();
-
-
+	_float fDepth = vMove.Length();
 
 	switch (other->Get_Type())
 	{
@@ -248,15 +247,22 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 
 	case CG_STRUCTURE_WALL:
 
+		if (dirOthertoOldPos.Dot(direction) < 0)
+			fPos = m_vOldPos;
+		else
+			fPos += vMove;
+		
 
-		fPos = m_vOldPos;  // 이동 전 위치로 되돌림
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-
+		
 		break;
 	default:
 		break;
 	}
 
+
+	
+	m_vOldPos = fPos;
 
 
 	return S_OK;
@@ -265,43 +271,49 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	if (GetKeyState('W') & 0x8000)
-	{
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pTransformCom->Go_Straight(fTimeDelta * 0.4f);
-	}
-	if (GetKeyState('S') & 0x8000)
-	{
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pTransformCom->Go_Backward(fTimeDelta * 0.4f);
-	}
-	if (GetKeyState('A') & 0x8000)
-	{
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pTransformCom->Go_Left(fTimeDelta * 0.4f);
-	}
-	if (GetKeyState('D') & 0x8000)
-	{
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pTransformCom->Go_Right(fTimeDelta * 0.4f);
+	_float moveSpeed = 0.25f;
+	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
+
+	if (GetKeyState('W') & 0x8000) {
+		moveDir += m_pTransformCom->Get_State(CTransform::STATE_LOOK); // 앞 방향
 	}
 
+	if (GetKeyState('S') & 0x8000) {
+		moveDir -= m_pTransformCom->Get_State(CTransform::STATE_LOOK); // 뒤 방향
+	}
+
+	if (GetKeyState('A') & 0x8000) {
+		moveDir -= m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 왼쪽 방향
+	}
+
+	if (GetKeyState('D') & 0x8000) {
+		moveDir += m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 오른쪽 방향
+	}
+
+
+	if (moveDir.LengthSq() > 0) {
+		moveDir.Normalize(); // 방향 정규화
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		fPos += moveDir * fTimeDelta * moveSpeed * 10;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+	}
 
 	POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	LONG iDist = abs(ptMouse.x - m_lMiddlePointX);
+	LONG LDistX = abs(ptMouse.x - m_lMiddlePointX);
 
 	if (ptMouse.x - m_lMiddlePointX > 0)
 	{
-		if (iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iDist * 0.005f);
+		if (LDistX > 80)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * LDistX * 0.005f);
 	}
 	else if (ptMouse.x - m_lMiddlePointX < 0)
 	{
-		if (iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * iDist * 0.005f);
+		if (LDistX > 80)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
 	}
 
 
@@ -380,7 +392,7 @@ HRESULT CPlayer::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	ColliderDesc.fScale = { 0.5f,0.5f,0.5f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 

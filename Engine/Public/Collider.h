@@ -52,7 +52,7 @@ public:
 
 	_float Get_Radius() const 
 	{
-		return max(max(m_fScale.x, m_fScale.y), m_fScale.z) * 0.5f;
+		return m_fRadius;
 	}
 
 	_float3 Get_MTV() { return m_fMTV; }
@@ -79,6 +79,8 @@ protected:
 	_float3					m_fPos = {};
 	// 콜라이더 크기 저장. 
 	_float3					m_fScale = {};
+
+	_float					m_fRadius;
 
 	// 최소 이동 벡터랑 길이
 	// 충돌 시에만 사용
