@@ -68,6 +68,8 @@ private:
 
 	_float3			m_vOldPos = {};
 
+	_bool m_bPlayerHP_init= { false };
+
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

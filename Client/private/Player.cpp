@@ -96,7 +96,12 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	//	pTransform->Go_Straight(fTimeDelta);
 	//}
 
-//	CUI_Manager::GetInstance()->Set_HP(m_iHp);
+	if(!m_bPlayerHP_init)
+	{ 
+		CUI_Manager::GetInstance()->Set_HP(m_iHp);
+		m_bPlayerHP_init = true;
+	}
+	
 }
 
 void CPlayer::Update(_float fTimeDelta)
