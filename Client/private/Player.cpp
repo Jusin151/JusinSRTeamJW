@@ -62,8 +62,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_iPlayerHP = { 100,100 }; // 현재/최대  이하 동문
 	m_iPlayerMP = { 50, 50 };
-	m_iPlayerBullet = { 0,0 };
 	m_iPlayerEXP = { 0 , 100 };
+
 
 	m_eType = CG_PLAYER;
 
@@ -75,6 +75,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
+
 inline void CPlayer::Add_Ammo(_int iAmmo)
 {
 	//if (!m_pWeapon) return;
@@ -101,7 +102,7 @@ void CPlayer::Set_Hp(_int iHp)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	// GetComponet 테스트용
+
 	//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
 
 	//if (pTransform)
@@ -389,6 +390,14 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CPlayer::Set_Hp(_int iHp)
+{
+	m_iHp = iHp;
+	CUI_Manager::GetInstance()->Set_HP(m_iHp);
+	if (CUI_Player_Icon* pPlayIcon = dynamic_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
+		pPlayIcon->Set_Hp_Event();
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

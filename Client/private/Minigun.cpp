@@ -121,7 +121,7 @@ void CMinigun::Attack(_float fTimeDelta)
             m_eState = State::Firing;
             m_iCurrentFrame = m_TextureRanges["Attack"].first;
             __super::Picking_Object(1); // 프레임이 변경될 때마다 호출
-            CUI_Manager::GetInstance()->Set_Bullet(1);
+            CUI_Manager::GetInstance()->Set_Minigun_Bullet(1);
             m_fElapsedTime = 0.0f;
         }
     }
