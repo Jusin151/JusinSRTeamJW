@@ -201,6 +201,8 @@ HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag, _float3 fSc
 
 	m_tDesc.fRadius = offset.Length();
 
+	m_fRadius = offset.Length();
+
 	return S_OK;
 
 }

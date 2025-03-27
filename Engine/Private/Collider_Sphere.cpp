@@ -28,7 +28,7 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
     m_fScale = tDesc->fScale;
     m_pOwner = tDesc->pOwner;
 
-    m_fRadius = m_fScale.Length() / 4.f;
+    m_fRadius = max(max(m_fScale.x, m_fScale.y), m_fScale.z) * 0.5f;
 
     D3DXMatrixIdentity(&m_WorldMatrix);
 
@@ -115,7 +115,7 @@ HRESULT CCollider_Sphere::Update_Collider(const _wstring& strLayerTag, _float3 f
     D3DXVec3TransformCoord(&m_fPos, &m_fLocalPos, &m_WorldMatrix);
     Set_State(CTransform::STATE_POSITION, m_fPos);
 
-    m_fRadius = m_fScale.LengthSq() / 4.f;
+    m_fRadius = max(max(m_fScale.x, m_fScale.y), m_fScale.z) * 0.5f;
 
     return S_OK;
 }

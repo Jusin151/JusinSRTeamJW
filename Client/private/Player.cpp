@@ -51,7 +51,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-8.3f, 1.0f, 8.f));
-	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 	//m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
@@ -200,8 +200,9 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	case CG_STRUCTURE_WALL:
 		
 		
-			fPos = m_vOldPos;  // 이동 전 위치로 되돌림
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+			//fPos = m_vOldPos;  // 이동 전 위치로 되돌림
+		fPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		
 		break;
 	default:
@@ -242,17 +243,17 @@ void CPlayer::Move(_float fTimeDelta)
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	LONG iDist = abs(ptMouse.x - m_lMiddlePointX);
+	LONG LDistX = abs(ptMouse.x - m_lMiddlePointX);
 
 	if (ptMouse.x - m_lMiddlePointX > 0)
 	{
-		if (iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iDist * 0.005f);
+		if (LDistX > 80)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * LDistX * 0.005f);
 	}
 	else if (ptMouse.x - m_lMiddlePointX < 0)
 	{
-		if (iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * iDist * 0.005f);
+		if (LDistX > 80)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
 	}
 
 	
@@ -331,7 +332,7 @@ HRESULT CPlayer::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	ColliderDesc.fScale = { 0.5f, 0.5f, 0.5f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 

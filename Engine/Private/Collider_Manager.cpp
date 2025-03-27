@@ -66,22 +66,12 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				m_pColliders[CG_STRUCTURE_WALL].sort(
-					[&srcEntry](const CCollider* a, const CCollider* b) {
-						_float3 playerPos = srcEntry->Get_State(CTransform::STATE_POSITION); // 플레이어 위치
-						_float3 distA = (a->Get_State(CTransform::STATE_POSITION) - playerPos); // 거리의 제곱
-						_float3 distB = (b->Get_State(CTransform::STATE_POSITION) - playerPos); // 거리의 제곱
-
-						return distA.LengthSq() < distB.LengthSq(); // 플레이어와 가까운 순으로 정렬
-					});
 				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 				{
-					// 일정 거리 넘어가면 다음으로
 					if (Check_Cube_Distance(srcEntry, dstEntry))
 						continue;
 
-
-					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+					if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
 					{
 
 						//srcEntry->Set_State(CTransform::STATE_POSITION, srcEntry->Get_MTV());
@@ -187,9 +177,68 @@ _bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 	return true;
 }
 
-_bool CCollider_Manager::Calc_Cube_To_Sphere(CCollider* src, CCollider* dst)
+_bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 {
-	return false;
+	_float srcRadius = src->Get_Radius();
+	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+
+	// 큐브의 회전 행렬을 적용하여 각 면의 법선 벡터를 계산
+	_float3 xAxis = dstDesc.fAxisX;  // x 축
+	_float3 yAxis = dstDesc.fAxisY;  // y 축
+	_float3 zAxis = dstDesc.fAxisZ;  // z 축
+
+	// 큐브의 중심
+	_float3 cubeCenter = dstDesc.fPos;
+
+	// 큐브의 6개의 면 정의 (회전된 큐브에서 각 면의 법선 벡터와 점)
+	struct Plane {
+		_float3 normal; // 면의 법선 벡터
+		_float3 point;  // 면 위의 점
+	};
+
+	std::array<Plane, 6> planes = { {
+		{ xAxis, cubeCenter + xAxis * 0.5f }, // x+ 면
+		{ -xAxis, cubeCenter - xAxis * 0.5f }, // x- 면
+		{ yAxis, cubeCenter + yAxis * 0.5f }, // y+ 면
+		{ -yAxis, cubeCenter - yAxis * 0.5f }, // y- 면
+		{ zAxis, cubeCenter + zAxis * 0.5f }, // z+ 면
+		{ -zAxis, cubeCenter - zAxis * 0.5f }  // z- 면
+	} };
+
+	// MTV 벡터 초기화
+	_float3 mtv = { 0.f, 0.f, 0.f };
+
+	// 각 면에 대해 구와의 거리 계산
+	for (auto& plane : planes)
+	{
+		// 법선 벡터를 정규화하여 거리 계산 정확도 보장
+		plane.normal.Normalize();
+
+		// 구의 중심에서 면까지의 거리 계산
+		_float3 diff = src->Get_State(CTransform::STATE_POSITION) - plane.point;
+		_float distanceToPlane = diff.Dot(plane.normal); // 점과 평면 사이의 거리
+
+		// 거리 절댓값이 반지름보다 작으면 충돌
+		if (abs(distanceToPlane) <= srcRadius)
+		{
+			// 면의 법선 벡터 방향으로 MTV 계산
+			if (distanceToPlane > 0) {
+				mtv += plane.normal * (srcRadius - distanceToPlane);  // 구가 면을 넘어서면 밀어내기
+			}
+			else {
+				mtv -= plane.normal * (srcRadius + distanceToPlane);  // 구가 면을 반대 방향으로 넘어서면 밀어내기
+			}
+		}
+	}
+
+	if (mtv.LengthSq() > 0) {
+		// MTV가 존재한다면 충돌 발생
+		src->Set_MTV(mtv);
+		dst->Set_MTV(-mtv); // 반대 방향으로 밀어줘야 하므로
+		return true; // 충돌 발생
+	}
+
+	return false; // 충돌 없음
 }
 
 _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
@@ -202,10 +251,12 @@ _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
-	// 경래야 내가 distance 만들어놨어...
-	//_float3 distance = srcDesc.fPos - dstDesc.fPos;
+	
 
-	return srcDesc.fRadius + dstDesc.fRadius < _float3::Distance(srcDesc.fPos, dstDesc.fPos);
+	_float3 fDist = srcDesc.fPos - dstDesc.fPos;
+
+	// 연산 줄이기 위해 제곱으로
+	return (srcDesc.fRadius + dstDesc.fRadius) * (srcDesc.fRadius + dstDesc.fRadius) < fDist.LengthSq();
 }
 
 _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
