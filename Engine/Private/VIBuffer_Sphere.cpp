@@ -36,21 +36,21 @@ HRESULT CVIBuffer_Sphere::Initialize_Prototype()
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 	for (int stack = 0; stack <= m_iStacks; ++stack)
 	{
-		float theta = (float)stack / m_iStacks * D3DX_PI; // 0 ~ PI (위도)
+		float theta = (float)stack / m_iStacks * D3DX_PI - D3DX_PI / 2.0f; // -PI/2 ~ PI/2 (위도)
 		float sinTheta = sinf(theta);
 		float cosTheta = cosf(theta);
 		for (int slice = 0; slice <= m_iSlices; ++slice)
 		{
-			float phi = (float)slice / m_iSlices * 2.0f * D3DX_PI; // 0 ~ 2PI (경도)
+			float phi = (float)slice / m_iSlices * D3DX_PI * 2; // 0 ~ 2PI (경도)
 			float sinPhi = sinf(phi);
 			float cosPhi = cosf(phi);
 			int vertexIndex = stack * (m_iSlices + 1) + slice;
 
 
 			// 위치 계산
-			m_pVertexPositions[vertexIndex].x = pVertices[vertexIndex].vPosition.x = m_fRadius * sinTheta * cosPhi;
-			m_pVertexPositions[vertexIndex].y = pVertices[vertexIndex].vPosition.y = m_fRadius * cosTheta;
-			m_pVertexPositions[vertexIndex].z = pVertices[vertexIndex].vPosition.z = m_fRadius * sinTheta * sinPhi;
+			m_pVertexPositions[vertexIndex].x = pVertices[vertexIndex].vPosition.x = m_fRadius * cosTheta * cosPhi;
+			m_pVertexPositions[vertexIndex].y = pVertices[vertexIndex].vPosition.y = m_fRadius * sinTheta;
+			m_pVertexPositions[vertexIndex].z = pVertices[vertexIndex].vPosition.z = m_fRadius * cosTheta * sinPhi;
 
 			// 법선 계산 (구의 중심에서 정점을 향하는 벡터)
 			pVertices[vertexIndex].vNormal = pVertices[vertexIndex].vPosition;

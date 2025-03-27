@@ -91,6 +91,12 @@ HRESULT CVIBuffer_Rect::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CVIBuffer_Rect::Render()
+{
+	__super::Render();
+	return S_OK;
+}
+
 CVIBuffer_Rect* CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CVIBuffer_Rect* pInstance = new CVIBuffer_Rect(pGraphic_Device);

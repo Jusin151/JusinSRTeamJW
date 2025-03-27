@@ -43,8 +43,9 @@ public:
 private:
 	bool m_bIsVisible = {};
 	bool m_bKeyPressed = {};
-private:
-	_float m_fArmor{};  // 체력
+
+	CGameObject* m_pPlayer = { nullptr }; 
+
 };
 
 

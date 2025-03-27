@@ -1,7 +1,7 @@
-#pragma once
+Ôªø#pragma once
 #include "Client_Defines.h"
 #include "Transform.h"
-#include "GameObject.h"
+#include "CollisionObject.h"
 #include "Serializable.h"
 
 BEGIN(Engine)
@@ -13,9 +13,10 @@ class CMaterial;
 END
 
 BEGIN(Client)
-class CItem final : public CGameObject
+class CItem final : public CCollisionObject
 {
-	enum class ITEM_TYPE : uint8_t // 1πŸ¿Ã∆Æ∑Œ º≥¡§
+
+	enum class ITEM_TYPE : uint8_t // 1Î∞îÏù¥Ìä∏Î°ú ÏÑ§Ï†ï
 	{
 	  HP,
 	  MP,
@@ -46,6 +47,8 @@ private:
 	void Billboarding(_float fTimeDelta);
 	void Bind_ResourceByType();
 	void Use_Item();
+	void Init_TextureTag();
+
 
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -75,6 +78,9 @@ public:
 
 	virtual json Serialize() override;
 	virtual void Deserialize(const json& j) override;
+
+	// CCollisionObjectÏùÑ(Î•º) ÌÜµÌï¥ ÏÉÅÏÜçÎê®
+	HRESULT On_Collision(CCollisionObject* other) override;
 };
 END
 

@@ -68,8 +68,8 @@ HRESULT CGameObject_Particle_Test::Render()
         return E_FAIL;
 
     Pre_Render();
-    if (FAILED(m_pParticleCom->Render()))
-        return E_FAIL;
+    /*if (FAILED(m_pParticleCom->Render()))
+        return E_FAIL;*/
     Post_Render();
 
     return S_OK;

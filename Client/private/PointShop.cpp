@@ -1,6 +1,8 @@
 ﻿#include "PointShop.h"
 #include "GameInstance.h"
-#include "Player.h"  // 플레이어 정보 접근용
+#include "Player.h"  
+#include  "UI_Point_Shop.h"
+#include "CUI_Manager.h"
 
 CPointShop::CPointShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
@@ -27,10 +29,11 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-7.2f, 0.6f, 1.7f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, -3.4f));
 
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
+    m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
 
     return S_OK;
 }
@@ -43,12 +46,16 @@ void CPointShop::Priority_Update(_float fTimeDelta)
 
 void CPointShop::Update(_float fTimeDelta)
 {
-   
-    __super::Update(fTimeDelta);
 
-    if (m_bIsOpen)
+    __super::Update(fTimeDelta); 
+
+     if (m_bIsOpen)
     {
         Open_Shop();
+    }
+    else
+    {
+        Close_Shop();
     }
 }
 
@@ -116,28 +123,16 @@ HRESULT CPointShop::Open_Shop()
 
    // m_bIsOpen = true;
 
-    // 상점 버튼 활성화 (기존 Ready_Layer_Point_Shop_Button 함수 호출 대신)
-    for (int i = 0; i < 12; ++i)
+
+    //m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")); 
+
+    if (m_pUI_PointShop)
     {
-        // 일반 아이템 버튼 활성화
-        CGameObject* pButton = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_Selected"));
-        if (pButton)
-            pButton->SetActive(true);
+        m_pUI_PointShop->SetActive(true); // 보이게 설정
+        m_pUI_PointShop->Button_Set_Active(true);
+        m_pUI_PointShop->m_bOnUI = true;
     }
 
-    for (int i = 0; i < 4; ++i)
-    {
-        // 특별 아이템 버튼 활성화
-        CGameObject* pSmallButton = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,
-            TEXT("Layer_Point_Shop_Selected") + to_wstring(i));
-        if (pSmallButton)
-            pSmallButton->SetActive(true);
-    }
-
-    // 포인트 상점 디스플레이 활성화
-    CGameObject* pDisplay = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_Display"));
-    if (pDisplay)
-        pDisplay->SetActive(true);
 
     // 상점 아이템 새로고침
     Refresh_Shop_Items();
@@ -148,30 +143,17 @@ HRESULT CPointShop::Open_Shop()
 HRESULT CPointShop::Close_Shop()
 {
     // 이미 닫혀있다면 무시
-    if (!m_bIsOpen)
-        return S_OK;
 
-    m_bIsOpen = false;
 
-    // 모든 상점 UI 비활성화
-    for (int i = 0; i < 12; ++i)
+    //m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
+
+    if (m_pUI_PointShop)
     {
-        CGameObject* pButton = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_Selected"));
-        if (pButton)
-            pButton->SetActive(false);
+        m_pUI_PointShop->SetActive(false);
+        m_pUI_PointShop->Button_Set_Active(false);
+        m_pUI_PointShop->m_bOnUI = false;
     }
 
-    for (int i = 0; i < 4; ++i)
-    {
-        CGameObject* pSmallButton = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,
-            TEXT("Layer_Point_Shop_Selected") + to_wstring(i));
-        if (pSmallButton)
-            pSmallButton->SetActive(false);
-    }
-
-    CGameObject* pDisplay = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop_Display"));
-    if (pDisplay)
-        pDisplay->SetActive(false);
 
 
     return S_OK;
@@ -196,7 +178,8 @@ HRESULT CPointShop::Sell_Item(const _uint iItemID, const _uint iCount)
 
 void CPointShop::Refresh_Shop_Items()
 {
- 
+
+
 }
 
 _bool CPointShop::Can_Purchase(_uint iItemID, _uint iCount)
@@ -212,7 +195,7 @@ _bool CPointShop::Can_Purchase(_uint iItemID, _uint iCount)
 HRESULT CPointShop::Ready_Components()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

@@ -20,6 +20,7 @@ class CStructure : public CCollisionObject
 		NORMAL,
 		BOSS_FLOOR,  // 파도 효과가 있는 바닥
 		BOSS_WALL,  // 보스 벽
+		MAGMA
 		// 필요에 따라 더 추가 가능
 	};
 public:
@@ -65,6 +66,15 @@ private:
 	_float m_fWaveTime = 0.f;   // 물결 애니메이션용 시간 변수
 	_float m_fWaveSpeed = 0.5f;  // 물결 속도
 	STRUCTURE_TYPE m_eStructureType = { STRUCTURE_TYPE::NORMAL };
+#pragma endregion
+
+
+#pragma region 허브 마그마 텍스쳐 애니메이션용
+
+	_float m_fFrame = 0.f;   // 마그마 애니메이션용 프레임
+	_uint m_iCurrentTexture = 0;  // 현재 텍스쳐 인덱스
+
+
 #pragma endregion
 
 private:

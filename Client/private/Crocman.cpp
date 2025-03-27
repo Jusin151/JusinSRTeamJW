@@ -91,8 +91,6 @@ void CCrocman::Late_Update(_float fTimeDelta)
 
 	Select_Frame(fTimeDelta);
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
-
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
@@ -113,6 +111,11 @@ HRESULT CCrocman::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+	if (g_bDebugCollider)
+	{
+		m_pColliderCom->Render();
+	}
+		
 	Release_RenderState();
 
 

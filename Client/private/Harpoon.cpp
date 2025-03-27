@@ -79,9 +79,6 @@ void CHarpoon::Update(_float fTimeDelta)
 
 void CHarpoon::Late_Update(_float fTimeDelta)
 {
-
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }

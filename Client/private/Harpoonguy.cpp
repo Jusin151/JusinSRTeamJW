@@ -49,7 +49,6 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 		SetTarget(pTarget);
 		Safe_AddRef(pTarget);
-
 	}
 
 	if (m_iHp <= 0)
@@ -64,6 +63,14 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 void CHarpoonguy::Update(_float fTimeDelta)
 {
+	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
+	if (m_eCurState != MS_DEATH)
+	{
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+	}
+
 	if (nullptr == m_pTarget)
 		return;
 
@@ -72,29 +79,20 @@ void CHarpoonguy::Update(_float fTimeDelta)
 	Select_Pattern(fTimeDelta);
 
 	__super::Update(fTimeDelta);
-
-
-	if (m_eCurState != MS_DEATH)
-	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
-		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
-	}
-
 }
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+		return;
+	Select_Frame(fTimeDelta);
 	if (nullptr == m_pTarget)
 		return;
 
+	
 
-
-	Select_Frame(fTimeDelta);
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this);
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
+	
 }
 
 HRESULT CHarpoonguy::Render()
@@ -114,6 +112,11 @@ HRESULT CHarpoonguy::Render()
 		return E_FAIL;
 
 	Release_RenderState();
+
+	if (g_bDebugCollider)
+	{
+ 		m_pColliderCom->Render();
+	}
 
 
 	return S_OK;
@@ -173,6 +176,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
+	//Shooting(fTimeDelta);
 
 	switch (m_eCurState)
 	{
@@ -321,7 +325,7 @@ HRESULT CHarpoonguy::SetUp_RenderState()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // 기준값 설정 (0~255)
 
 	return S_OK;
 }
@@ -337,7 +341,7 @@ HRESULT CHarpoonguy::Release_RenderState()
 HRESULT CHarpoonguy::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
+	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

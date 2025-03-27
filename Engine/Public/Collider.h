@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Transform.h"
+#include "VIBuffer.h"
 
 BEGIN(Engine)
 
@@ -34,6 +35,7 @@ public:
 
 	virtual HRESULT Update_Collider(const _wstring& strLayerTag, _float3 fScale) = 0;
 
+public:
 	// 오브젝트에서 설정해서 매니저로 넘기기
 	_float3 Get_State(CTransform::TRANSFORMSTATE eState) const {
 		return *reinterpret_cast<const _float3*>(&m_WorldMatrix.m[eState][0]);
@@ -62,13 +64,13 @@ public:
 	void Set_Depth(_float fDepth) { m_fDepth = fDepth; }
 
 	_float3 Get_Scale() { return m_fScale; }
-	void Set_Scale(_float3 fScale) { m_fScale = fScale; }
+	void	Set_Scale(_float3 fScale) { m_fScale = fScale; }
 
 	void Set_Owner(class CCollisionObject* pOwner) { m_pOwner = pOwner; }
 	class CCollisionObject* Get_Owner() const { return m_pOwner; }
 
-	void Set_bCollsion() { m_bIsCollision = true; }
 	_bool Get_bCollision() { return m_bIsCollision; }
+	void Set_bCollsion() { m_bIsCollision = true; }
 
 protected:
 	_float4x4				m_WorldMatrix = {};
@@ -87,12 +89,28 @@ protected:
 
 	// 충돌 여러번 안하기 위해 사용할 변수
 	_bool					m_bIsCollision = { false };
-public:
 
+protected:
+	//경계 출력을 위한 변수
+	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };
+	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
+
+	_uint								m_iNumVertices = { };
+	_uint								m_iVertexStride = { };
+	_uint								m_iFVF = {};
+
+	_uint								m_iNumLine = {};
+	_uint								m_iNumIndices = {};
+	_uint								m_iIndexStride = {};
+	D3DFORMAT							m_eIndexFormat = {};
+
+protected:
+	HRESULT Create_VertexBuffer();
+	HRESULT Create_IndexBuffer();
+
+public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;
-
-	
 };
 
 END

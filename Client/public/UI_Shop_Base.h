@@ -2,7 +2,7 @@
 
 #include "Client_Defines.h"
 #include "CUI_Base.h"
-
+#include "GamePlay_Button.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -49,11 +49,23 @@ public:
     virtual void Close_ShopUI();
 
 protected:
-   
+    vector<class CGamePlay_Button*> m_vecButtons;
+public:
+    void Button_Set_Active(_bool bActive)
+    {
+        m_bIsActive = bActive;
 
+        for (auto& pButton : m_vecButtons)
+        {
+            if (pButton)
+                pButton->SetActive(bActive); // 버튼도 같이 on/off
+        }
+    }
 
 protected:
     HRESULT Ready_Components();
+
+    _bool m_bOnUI = { false };
 
 public:
     virtual CGameObject* Clone(void* pArg) override;

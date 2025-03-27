@@ -12,6 +12,8 @@
 #include "Light.h"
 #include "Particles.h"
 
+
+
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
@@ -164,6 +166,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
 		CFirework_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	/* For.Prototype_Component_Particle_Projectile*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+		CProjectile_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
@@ -238,6 +245,11 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Particle_System_Firework"),
 		CGameObject_Particle_Firework::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Projectile_Test"),
+		CGameObject_Projectile_Test::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 

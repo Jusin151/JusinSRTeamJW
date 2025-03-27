@@ -3,26 +3,14 @@
 #include "Transform.h"
 #include "Structure.h"
 #include "GameInstance.h"
+#include "GameObject.h"
 #include "Layer.h"
 #include "JsonLoader.h"
 #include "Editor.h"
 
-inline string WStringToString(const wstring& wstr)
-{
-	if (wstr.empty()) {
-		return "";
-	}
 
-	int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
-	if (bufferSize == 0) {
-		return ""; // 또는 예외 처리
-	}
-
-	string str(bufferSize, 0);
-	WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], bufferSize, nullptr, nullptr);
-	str.resize(strlen(str.c_str())); // null 문자 제거
-	return str;
-}
+// 히스토리 항목 구조체
+ _uint CMyImGui::m_NextObjectID = 0;
 
 CMyImGui::CMyImGui(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device },
@@ -56,6 +44,21 @@ HRESULT CMyImGui::Initialize(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device
 	m_Editor = new CEditor;
 	m_wstrSelectedTexturePath.clear();
 	memset(m_szSelectedPathBuffer, 0, sizeof(m_szSelectedPathBuffer));
+	m_iNumLevels = iNumLevels;
+
+
+	ImGuizmo::Style& style = ImGuizmo::GetStyle();
+
+	// 선 두께 조정
+	style.TranslationLineThickness = 4.0f;
+	style.RotationLineThickness = 3.0f;
+	style.ScaleLineThickness = 3.0f;
+
+	// 색상 조정 (더 눈에 잘 띄게)
+	style.Colors[ImGuizmo::DIRECTION_X] = ImVec4(1.0f, 0.2f, 0.2f, 1.0f); // X축 빨간색
+	style.Colors[ImGuizmo::DIRECTION_Y] = ImVec4(0.2f, 1.0f, 0.2f, 1.0f); // Y축 초록색
+	style.Colors[ImGuizmo::DIRECTION_Z] = ImVec4(0.2f, 0.2f, 1.0f, 1.0f); // Z축 파란색
+	style.Colors[ImGuizmo::SELECTION] = ImVec4(1.0f, 0.8f, 0.0f, 1.0f);   //
 
 	return S_OK;
 }
@@ -66,7 +69,7 @@ void CMyImGui::Update(_float fTimeDelta)
 }
 
 HRESULT CMyImGui::Render()
-{	
+{
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -152,10 +155,45 @@ void CMyImGui::ShowInspectorTab()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", m_CurrentGizmoOperation == ImGuizmo::SCALE))
 		m_CurrentGizmoOperation = ImGuizmo::SCALE;
+	ImGui::Separator();
+	ImGui::Text("Debug Visualization");
 
-	// 공간 모드 선택
-	if (ImGui::RadioButton("World Space", m_CurrentGizmoMode == ImGuizmo::WORLD))
-		m_CurrentGizmoMode = ImGuizmo::WORLD;
+	// 디버그 큐브 토글 옵션
+	static bool showDebugCube = true;
+	ImGui::Checkbox("Show Debug Cube", &showDebugCube);
+
+
+	// 선택된 오브젝트가 있고 디버그 큐브 옵션이 활성화된 경우 디버그 큐브 렌더링
+	if (showDebugCube && pTransform)
+	{
+		ImGuizmo::Style& style = ImGuizmo::GetStyle();
+
+		// 원래 색상 저장
+		ImVec4 origDirX = style.Colors[ImGuizmo::DIRECTION_X];
+		ImVec4 origDirY = style.Colors[ImGuizmo::DIRECTION_Y];
+		ImVec4 origDirZ = style.Colors[ImGuizmo::DIRECTION_Z];
+
+		// 더 연한 색상으로 설정 (알파 값 낮추고 밝기 올림)
+		style.Colors[ImGuizmo::DIRECTION_X] = ImVec4(1.0f, 0.5f, 0.5f, 0.6f); // X축 (빨간색) 연하게
+		style.Colors[ImGuizmo::DIRECTION_Y] = ImVec4(0.5f, 1.0f, 0.5f, 0.6f); // Y축 (초록색) 연하게
+		style.Colors[ImGuizmo::DIRECTION_Z] = ImVec4(0.5f, 0.5f, 1.0f, 0.6f); // Z축 (파란색) 연하게
+
+		// 뷰/투영 행렬 가져오기
+		D3DXMATRIX d3dViewMatrix, d3dProjMatrix;
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &d3dViewMatrix);
+		m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &d3dProjMatrix);
+
+		// 오브젝트의 월드 행렬 가져오기
+		_float4x4 worldMatrix = pTransform->Get_WorldMat();
+
+		// 디버그 큐브 렌더링
+		ImGuizmo::DrawCubes((float*)&d3dViewMatrix, (float*)&d3dProjMatrix, (float*)&worldMatrix, 1);
+
+		// 원래 색상으로 복원
+		style.Colors[ImGuizmo::DIRECTION_X] = origDirX;
+		style.Colors[ImGuizmo::DIRECTION_Y] = origDirY;
+		style.Colors[ImGuizmo::DIRECTION_Z] = origDirZ;
+	}
 
 	// Snap 설정
 	ImGui::Checkbox("Use Snap", &m_bUseSnap);
@@ -225,17 +263,32 @@ void CMyImGui::ShowInspectorTab()
 	// 트랜스폼에 변경사항 적용
 	if (positionChanged)
 	{
+		if (!m_bTrackingTransform)
+			BeginTransformAction();
+
 		pTransform->Set_State(CTransform::STATE_POSITION, position);
+
+		if (ImGui::IsMouseReleased(0))
+			EndTransformAction();
 	}
 
 	if (scaleChanged)
 	{
+		if (!m_bTrackingTransform)
+			BeginTransformAction();
 		pTransform->Set_Scale(scale.x, scale.y, scale.z);
+		if (ImGui::IsMouseReleased(0))
+			EndTransformAction();
 	}
+
 
 	if (rotationChanged)
 	{
+		if (!m_bTrackingTransform)
+			BeginTransformAction();
 		pTransform->Rotate_EulerAngles(euler);
+		if (ImGui::IsMouseReleased(0))
+			EndTransformAction();
 	}
 
 	// 씬 뷰에 ImGuizmo 렌더링
@@ -246,6 +299,11 @@ void CMyImGui::ShowInspectorTab()
 	ImGui::BulletText("1: Translate Mode");
 	ImGui::BulletText("2: Rotate Mode");
 	ImGui::BulletText("3: Scale Mode");
+
+	if (ImGui::Button("Remove Current Object"))
+	{
+		Remove_Object();
+	}
 }
 
 
@@ -382,7 +440,7 @@ void CMyImGui::ShowCreateObjectTab()
 			{
 				extractedName = protoTag.substr(prefix.length());
 			}
-			else 
+			else
 			{
 				// 접두사가 없는 경우 그대로 사용
 				extractedName = protoTag;
@@ -590,7 +648,7 @@ HRESULT CMyImGui::CreateObjectInstance(
 	wchar_t wobjectProtoTagBuffer[256] = {};
 	wchar_t wobjectLayerTagBuffer[256] = {};
 	wchar_t wprotoJsonFileNameBuffer[256] = {};
-	
+
 
 	// 문자열 변환
 	MultiByteToWideChar(CP_ACP, 0, bufferNameBuffer, -1, wBufferName, 256);
@@ -660,10 +718,20 @@ HRESULT CMyImGui::CreateObjectInstance(
 		{
 			return E_FAIL;
 		}
+
+		tHistoryItem item;
+		item.iLevel = iLevel;
+		item.iProtoLevel = iProtoLevel;
+		item.eType = EHistoryActionType::OBJECT_CREATE;
+		item.pGameObject = m_pGameInstance->Find_Last_Object(iLevel, stLayerTag);
+		item.wstrPrototypeTag = stProtoTag;
+		item.wstrLayerTag = stLayerTag;
+		item.tObjDesc = &tObjDesc;
+		AddToHistory(item);
 	}
 
 
-	if (textureCreated || prototypeCreated) 
+	if (textureCreated || prototypeCreated)
 	{
 		// 텍스처 파일이 선택되었으면 해당 정보 저장
 		int textureCount = 1; // 기본값
@@ -700,14 +768,14 @@ HRESULT CMyImGui::CreateObjectInstance(
 	return S_OK;
 }
 
-HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& objectProtoTag, _int objectLevel, const _wstring& className, const _wstring& textureTag, _int textureLevel, const _wstring& texturePath, _int textureCount, const _wstring& bufferTag, _int bufferLevel, const _wstring& bufferClass, _int bufferWidth, _int bufferHeight)
+HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName, const _wstring& objectProtoTag, _int objectLevel, const _wstring& className, const _wstring& textureTag, _int textureLevel, const _wstring& texturePath, _int textureCount, const _wstring& bufferTag, _int bufferLevel, const _wstring& bufferClass, _int bufferWidth, _int bufferHeight)
 {
 
 	// JSON 객체 생성
 	json jsonData;
 	string JSON_FILE_PATH = "../Save/";
 
-	if (jsonFileName.empty()) 
+	if (jsonFileName.empty())
 	{
 		JSON_FILE_PATH += "Prototypes_For_Editor.json";
 	}
@@ -729,7 +797,8 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& ob
 		try {
 			inputFile >> jsonData;
 		}
-		catch (const json::parse_error& ) {
+		catch (const json::parse_error&) {
+
 			// 파싱 에러가 발생하면 새 JSON 객체 생성
 			OutputDebugStringA("JSON 파일 파싱 에러, 새 파일을 생성합니다.\n");
 			jsonData = json({
@@ -849,57 +918,160 @@ HRESULT CMyImGui::SaveObjectToJson(const string& jsonFileName,const _wstring& ob
 	return S_OK;
 }
 
+void CMyImGui::Remove_Object()
+{
+	ImGui::Separator();
+	static _int iLevel = 3;
+	ImGui::InputInt("Level", &iLevel);
+	if (m_pCurrentGameObject)
+	{
+		tHistoryItem item;
+		item.iLevel = m_pCurrentGameObject->m_tObjDesc.iLevel;
+		item.eType = EHistoryActionType::OBJECT_DELETE;
+		item.wstrLayerTag = m_pCurrentGameObject->Get_Tag();
+		item.wstrPrototypeTag = m_pCurrentGameObject->m_tObjDesc.stProtTag;
+		item.iProtoLevel = m_pCurrentGameObject->m_tObjDesc.iProtoLevel;
+		item.pGameObject = nullptr;
+
+		// 이것도 누수 잡아야해서 일단 막음
+		//CGameObject::OBJECT_DESC* pObjDesc = new CGameObject::OBJECT_DESC;
+		//*pObjDesc = m_pCurrentGameObject->m_tObjDesc;  // 값 복사
+		//item.tObjDesc = pObjDesc;  // void* 포인터에 저장
+
+		CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+		{
+			item.vOldPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+			item.vOldScale = pTransform->Compute_Scaled();
+			item.vOldRotation = pTransform->Get_EulerAngles();
+		}
+		// 선택된 오브젝트 삭제
+		m_pGameInstance->Remove_Object((_uint)iLevel, m_pCurrentGameObject->Get_Tag(), m_pCurrentGameObject);
+		m_pCurrentGameObject = nullptr;
+
+
+		AddToHistory(item);
+	}
+
+}
+
+void CMyImGui::Duplicate_Object()
+{
+	// 누수 나서 일단 막음
+	//if (m_pCurrentGameObject)
+	//{
+	//	m_pGameInstance->Add_GameObject(m_pCurrentGameObject->m_tObjDesc.iProtoLevel, m_pCurrentGameObject->m_tObjDesc.stProtTag, m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag(),
+	//		&m_pCurrentGameObject->m_tObjDesc);
+	//	CGameObject* pDuplicateObject = m_pGameInstance->Find_Last_Object(m_pCurrentGameObject->m_tObjDesc.iLevel, m_pCurrentGameObject->Get_Tag());
+
+	//	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+
+	//	if (pDuplicateObject && pTransform)
+	//	{
+	//		CTransform* pDuplicateTransform = (CTransform*)pDuplicateObject->Get_Component(TEXT("Com_Transform"));
+	//		if (pDuplicateTransform)
+	//		{
+	//			_float3 vScale = pTransform->Compute_Scaled();
+	//			pDuplicateTransform->Set_State(CTransform::STATE_POSITION, pTransform->Get_State(CTransform::STATE_POSITION));
+	//			pDuplicateTransform->Set_Scale(vScale.x, vScale.y, vScale.z);
+	//			pDuplicateTransform->Rotate_EulerAngles(pTransform->Get_EulerAngles());
+
+
+
+	//			tHistoryItem item;
+	//			item.iLevel = pDuplicateObject->m_tObjDesc.iLevel;
+	//			item.iProtoLevel = pDuplicateObject->m_tObjDesc.iProtoLevel;
+	//			item.eType = EHistoryActionType::OBJECT_CREATE;
+	//			item.pGameObject = pDuplicateObject;
+	//			item.wstrPrototypeTag = pDuplicateObject->m_tObjDesc.stProtTag;
+	//			item.wstrLayerTag = pDuplicateObject->Get_Tag();
+	//			CGameObject::OBJECT_DESC* pObjDesc = new CGameObject::OBJECT_DESC;
+	//			*pObjDesc = m_pCurrentGameObject->m_tObjDesc;  // 값 복사
+	//			item.tObjDesc = pObjDesc;
+	//			AddToHistory(item);
+	//		}
+	//	}
+
+	//}
+}
+
+CGameObject* CMyImGui::Find_Object_ByAddress(CGameObject* pAddress)
+{
+	if (!pAddress)
+		return nullptr;
+
+	// 각 레벨마다 모든 레이어를 순회하며 검색
+	for (_uint iLevel = 0; iLevel < m_iNumLevels; ++iLevel)
+	{
+		// 레벨의 모든 레이어 가져오기 (구현에 따라 코드 조정 필요)
+		// NOTE: 실제 GameInstance 구현에 맞게 수정해야 합니다!
+		auto& layers = m_pGameInstance->m_pObject_Manager->m_pLayers[iLevel];
+
+		for (auto& layerPair : layers)
+		{
+			auto& layer = layerPair.second;
+			for (auto& pObj : layer->m_GameObjects)
+			{
+				if (pObj == pAddress)
+					return pObj; // 주소값이 일치하면 반환
+			}
+		}
+	}
+
+	return nullptr; // 찾지 못함
+}
+
 HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<PrototypeInfo>& outPrototypes)
 {
-    string JSON_FILE_PATH = "../Save/";
-    if (jsonFileName.empty())
-    {
-        JSON_FILE_PATH += "Prototypes_For_Editor.json";
-    }
-    else
-    {
-        if (jsonFileName.find(".json") == string::npos)
-        {
-            JSON_FILE_PATH += jsonFileName + ".json";
-        }
-        else
-        {
-            JSON_FILE_PATH += jsonFileName;
-        }
-    }
-    
-    // 파일 열기
-    ifstream inputFile(JSON_FILE_PATH);
-    if (!inputFile.is_open())
-    {
-        return E_FAIL;
-    }
-    
-    // JSON 파싱
-    json jsonData;
-    try
-    {
-        inputFile >> jsonData;
-    }
-    catch(const json::parse_error&)
-    {
-        inputFile.close();
-        return E_FAIL;
-    }
-    inputFile.close();
-    
-    outPrototypes.clear();
-    
-    // 프로토타입 정보 추출
-    if (jsonData.contains("gameObjects") && jsonData["gameObjects"].is_array())
-    {
-        for (const auto& obj : jsonData["gameObjects"])
-        {
-            PrototypeInfo info;
-            info.tag = obj["tag"].get<string>();
-            info.level = obj["level"].get<int>();
-            info.className = obj["class"].get<string>();
-            
+
+	string JSON_FILE_PATH = "../Save/";
+	if (jsonFileName.empty())
+	{
+		JSON_FILE_PATH += "Prototypes_For_Editor.json";
+	}
+	else
+	{
+		if (jsonFileName.find(".json") == string::npos)
+		{
+			JSON_FILE_PATH += jsonFileName + ".json";
+		}
+		else
+		{
+			JSON_FILE_PATH += jsonFileName;
+		}
+	}
+
+	// 파일 열기
+	ifstream inputFile(JSON_FILE_PATH);
+	if (!inputFile.is_open())
+	{
+		return E_FAIL;
+	}
+
+	// JSON 파싱
+	json jsonData;
+	try
+	{
+		inputFile >> jsonData;
+	}
+	catch (const json::parse_error&)
+	{
+		inputFile.close();
+		return E_FAIL;
+	}
+	inputFile.close();
+
+	outPrototypes.clear();
+
+	// 프로토타입 정보 추출
+	if (jsonData.contains("gameObjects") && jsonData["gameObjects"].is_array())
+	{
+		for (const auto& obj : jsonData["gameObjects"])
+		{
+			PrototypeInfo info;
+			info.tag = obj["tag"].get<string>();
+			info.level = obj["level"].get<int>();
+			info.className = obj["class"].get<string>();
 			// 태그에서 기본 이름 추출 (예: "Prototype_GameObject_Wall" -> "Wall", "Prototype_GameObject_Hub_Floor1" -> "Hub_Floor1")
 			string objBaseName = info.tag;
 			string prefix = "Prototype_GameObject_";
@@ -919,44 +1091,44 @@ HRESULT CMyImGui::LoadPrototypesFromJson(const string& jsonFileName, vector<Prot
 
 				for (const auto& tex : jsonData["textures"])
 				{
-                    string texTag = tex["tag"].get<string>();
-                    
-                    // 정확한 이름 매칭 시도
-                    if (texTag == specificTextureName)
-                    {
-                        info.textureTag = texTag;
-                        info.texturePath = tex["path"].get<string>();
-                        info.textureCount = tex["count"].get<int>();
-                        textureFound = true;
-                        break;
-                    }
-                }
-                
-                // 정확한 매칭 실패 시 기본 텍스처 사용
-                if (!textureFound && !jsonData["textures"].empty())
-                {
-                    const auto& defaultTex = jsonData["textures"][0];
-                    info.textureTag = defaultTex["tag"].get<string>();
-                    info.texturePath = defaultTex["path"].get<string>();
-                    info.textureCount = defaultTex["count"].get<int>();
-                }
-            }
-            
-            // 버퍼 태그는 클래스에 따라 기본값 설정
-            if (info.className == "CTerrain")
-            {
-                info.bufferTag = "Prototype_Component_VIBuffer_Terrain";
-            }
-            else
-            {
-                info.bufferTag = "Prototype_Component_VIBuffer_Cube"; // 기본값
-            }
-            
-            outPrototypes.push_back(info);
-        }
-    }
-    
-    return S_OK;
+					string texTag = tex["tag"].get<string>();
+
+					// 정확한 이름 매칭 시도
+					if (texTag == specificTextureName)
+					{
+						info.textureTag = texTag;
+						info.texturePath = tex["path"].get<string>();
+						info.textureCount = tex["count"].get<int>();
+						textureFound = true;
+						break;
+					}
+				}
+
+				// 정확한 매칭 실패 시 기본 텍스처 사용
+				if (!textureFound && !jsonData["textures"].empty())
+				{
+					const auto& defaultTex = jsonData["textures"][0];
+					info.textureTag = defaultTex["tag"].get<string>();
+					info.texturePath = defaultTex["path"].get<string>();
+					info.textureCount = defaultTex["count"].get<int>();
+				}
+			}
+
+			// 버퍼 태그는 클래스에 따라 기본값 설정
+			if (info.className == "CTerrain")
+			{
+				info.bufferTag = "Prototype_Component_VIBuffer_Terrain";
+			}
+			else
+			{
+				info.bufferTag = "Prototype_Component_VIBuffer_Cube"; // 기본값
+			}
+
+			outPrototypes.push_back(info);
+		}
+	}
+
+	return S_OK;
 }
 
 void CMyImGui::LoadImagesFromFolder(const _wstring& folderPath)
@@ -1244,7 +1416,7 @@ _wstring CMyImGui::SelectFolder()
 	_wstring selectedPath;
 
 	// COM 초기화 (이미 초기화된 경우는 무시됨)
-	HRESULT hr1  = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	HRESULT hr1 = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	IFileOpenDialog* pFileOpen;
 	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen));
@@ -1298,38 +1470,17 @@ _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 
 	return relativePath;
 }
-void CMyImGui::ConfigureImGuizmo()
-{
-	ImGui::Begin("Gizmo Controls");
 
-	if (ImGui::RadioButton("Translate", m_CurrentGizmoOperation == ImGuizmo::TRANSLATE))
-		m_CurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Rotate", m_CurrentGizmoOperation == ImGuizmo::ROTATE))
-		m_CurrentGizmoOperation = ImGuizmo::ROTATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Scale", m_CurrentGizmoOperation == ImGuizmo::SCALE))
-		m_CurrentGizmoOperation = ImGuizmo::SCALE;
-
-	ImGui::Separator();
-
-	ImGui::SameLine();
-	if (ImGui::RadioButton("World", m_CurrentGizmoMode == ImGuizmo::WORLD))
-		m_CurrentGizmoMode = ImGuizmo::WORLD;
-
-	ImGui::Checkbox("Use Snap", &m_bUseSnap);
-
-	if (m_bUseSnap)
-	{
-		ImGui::InputFloat3("Snap Values", m_SnapValue);
-	}
-
-	ImGui::End();
-}
 void CMyImGui::RenderImGuizmo(CTransform* pTransform)
 {
 	if (!pTransform)
 		return;
+
+	bool wasUsingGuizmo = ImGuizmo::IsUsing();
+	if (!wasUsingGuizmo && ImGuizmo::IsOver())
+	{
+		BeginTransformAction();
+	}
 
 	// 그래픽 디바이스에서 직접 뷰 및 투영 행렬 가져오기
 	D3DXMATRIX d3dViewMatrix, d3dProjMatrix;
@@ -1395,6 +1546,11 @@ void CMyImGui::RenderImGuizmo(CTransform* pTransform)
 			pTransform->Set_Scale(newScale.x, newScale.y, newScale.z);
 		}
 	}
+
+	if (wasUsingGuizmo && !ImGuizmo::IsUsing())
+	{
+		EndTransformAction();
+	}
 }
 void CMyImGui::InputKey()
 {
@@ -1411,6 +1567,377 @@ void CMyImGui::InputKey()
 		// R = 스케일 모드
 		if (ImGui::IsKeyPressed(ImGuiKey_3))
 			m_CurrentGizmoOperation = ImGuizmo::SCALE;
+	}
+
+
+	// Undo/Redo 키 추가
+	if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl))
+	{
+
+		_float currentTime = static_cast<float>(ImGui::GetTime());
+		if (currentTime - m_fLastInputTime < m_fInputCooldown)
+			return;
+		m_fLastInputTime = currentTime;
+
+		if (ImGui::IsKeyPressed(ImGuiKey_Z))
+			Undo();
+		if (ImGui::IsKeyPressed(ImGuiKey_D))
+			Duplicate_Object();
+		if (ImGui::IsKeyPressed(ImGuiKey_G))
+			Remove_Object();
+	}
+}
+
+void CMyImGui::AddToHistory(const tHistoryItem& item)
+{
+	// 히스토리 스택 크기 제한
+	if (m_vecUndoStack.size() >= 50)
+	{
+		// 맨 아래 항목 제거
+		m_vecUndoStack.pop();
+	}
+
+	tHistoryItem newItem = item;
+
+	if (item.pGameObject)
+	{
+		newItem.objectID = AssignObjectID(item.pGameObject);
+	}
+
+	m_vecUndoStack.push(newItem);
+}
+
+void CMyImGui::BeginTransformAction()
+{
+	if (!m_pCurrentGameObject || m_bTrackingTransform)
+		return;
+
+	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+	if (!pTransform)
+		return;
+
+	m_bTrackingTransform = true;
+
+	// 현재 상태 저장
+	m_vPrevPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+	m_vPrevRotation = pTransform->Get_EulerAngles();
+	m_vPrevScale = pTransform->Compute_Scaled();
+}
+
+void CMyImGui::EndTransformAction()
+{
+	if (!m_pCurrentGameObject || !m_bTrackingTransform)
+		return;
+
+	CTransform* pTransform = (CTransform*)m_pCurrentGameObject->Get_Component(TEXT("Com_Transform"));
+	if (!pTransform)
+		return;
+
+	m_bTrackingTransform = false;
+
+	// 현재 상태 가져오기
+	_float3 vCurrPosition = pTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 vCurrRotation = pTransform->Get_EulerAngles();
+	_float3 vCurrScale = pTransform->Compute_Scaled();
+
+	if (memcmp(&m_vPrevPosition, &vCurrPosition, sizeof(_float3)) != 0)
+	{
+		tHistoryItem item;
+		item.eType = EHistoryActionType::TRANSFORM_POSITION;
+		item.pGameObject = m_pCurrentGameObject;
+		item.vOldPosition = m_vPrevPosition;
+		item.vNewPosition = vCurrPosition;
+		item.pGameObject = m_pCurrentGameObject;
+		AddToHistory(item);
+	}
+	else if (memcmp(&m_vPrevRotation, &vCurrRotation, sizeof(_float3)) != 0)
+	{
+		tHistoryItem item;
+		item.eType = EHistoryActionType::TRANSFORM_ROTATION;
+		item.pGameObject = m_pCurrentGameObject;
+		item.vOldRotation = m_vPrevRotation;
+		item.vNewRotation = vCurrRotation;
+		item.pGameObject = m_pCurrentGameObject;
+		AddToHistory(item);
+	}
+	else if (memcmp(&m_vPrevScale, &vCurrScale, sizeof(_float3)) != 0)
+	{
+		tHistoryItem item;
+		item.eType = EHistoryActionType::TRANSFORM_SCALE;
+		item.pGameObject = m_pCurrentGameObject;
+		item.vOldScale = m_vPrevScale;
+		item.vNewScale = vCurrScale;
+		item.pGameObject = m_pCurrentGameObject;
+		AddToHistory(item);
+	}
+}
+
+void CMyImGui::Undo()
+{
+	//if (m_vecUndoStack.empty())
+	//	return;
+
+	//// 마지막 액션 가져오기
+	//tHistoryItem item = m_vecUndoStack.top();
+	//m_vecUndoStack.pop();
+
+
+	//switch (item.eType)
+	//{
+	//case EHistoryActionType::TRANSFORM_POSITION:
+	//{
+	//	if (!item.pGameObject)
+	//		break;
+
+	//	// 메모리에 아직 존재하는지 확인
+	//	CGameObject* pFoundObject = Find_Object_ByAddress(item.pGameObject);
+	//	if (pFoundObject)
+	//	{
+	//		CTransform* pTransform = (CTransform*)pFoundObject->Get_Component(TEXT("Com_Transform"));
+	//		if (pTransform)
+	//			pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+	//	}
+	//}
+	//break;
+
+	//case EHistoryActionType::TRANSFORM_ROTATION:
+	//{
+	//	if (!item.pGameObject)
+	//		break;
+
+	//	// 메모리에 아직 존재하는지 확인
+	//	CGameObject* pFoundObject = Find_Object_ByAddress(item.pGameObject);
+	//	if (pFoundObject)
+	//	{
+	//		CTransform* pTransform = (CTransform*)pFoundObject->Get_Component(TEXT("Com_Transform"));
+	//		if (pTransform)
+	//			pTransform->Rotate_EulerAngles(item.vOldRotation);
+	//	}
+	//}
+	//break;
+
+	//case EHistoryActionType::TRANSFORM_SCALE:
+	//{
+	//	if (!item.pGameObject)
+	//		break;
+
+	//	// 메모리에 아직 존재하는지 확인
+	//	CGameObject* pFoundObject = Find_Object_ByAddress(item.pGameObject);
+	//	if (pFoundObject)
+	//	{
+	//		CTransform* pTransform = (CTransform*)pFoundObject->Get_Component(TEXT("Com_Transform"));
+	//		if (pTransform)
+	//			pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+	//	}
+	//}
+	//break;
+
+	//case EHistoryActionType::OBJECT_CREATE:
+	//{
+	//	// 오브젝트 생성을 취소하므로 오브젝트 삭제
+	//	if (item.pGameObject)
+	//	{
+	//		m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, item.pGameObject);
+	//		item.pGameObject = nullptr;
+	//	}
+	//}
+	//break;
+
+	//case EHistoryActionType::OBJECT_DELETE:
+	//{
+	//	// 오브젝트 삭제를 취소하므로 오브젝트 다시 생성
+	//	if (item.tObjDesc != nullptr)
+	//	{
+	//		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
+	//			item.iLevel, item.wstrLayerTag, item.tObjDesc);
+
+	//		CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
+	//		if (pGameObject != nullptr)
+	//		{
+	//			CTransform* pTransform = (CTransform*)pGameObject->Get_Component(TEXT("Com_Transform"));
+	//			if (pTransform)
+	//			{
+	//				pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+	//				pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+	//				pTransform->Rotate_EulerAngles(item.vOldRotation);
+	//			}
+
+	//			// Redo를 위해 새로 생성된 오브젝트 참조 업데이트
+	//			item.pGameObject = pGameObject;
+	//		}
+	//	}
+	//	break;
+	//}
+	//}
+
+	///*if (item.eType == EHistoryActionType::OBJECT_DELETE)
+	//{
+	//	CGameObject::OBJECT_DESC* pOldDesc = static_cast<CGameObject::OBJECT_DESC*>(item.tObjDesc);
+	//	CGameObject::OBJECT_DESC* pNewDesc = new CGameObject::OBJECT_DESC;
+	//	*pNewDesc = *pOldDesc;
+	//	item.tObjDesc = pNewDesc;
+	//	Safe_Delete(pOldDesc);
+	//}*/
+
+if (m_vecUndoStack.empty())
+{
+	return;
+}
+
+tHistoryItem item = m_vecUndoStack.top();
+m_vecUndoStack.pop();
+
+//객체 참조 ID 기반으로 처리
+CGameObject* pTargetObject = nullptr;
+
+if (item.eType == EHistoryActionType::TRANSFORM_POSITION ||
+	item.eType == EHistoryActionType::TRANSFORM_ROTATION ||
+	item.eType == EHistoryActionType::TRANSFORM_SCALE)
+{
+	pTargetObject = GetObjectByID(item.objectID);
+
+	if (!pTargetObject)
+	{
+		return; 
+	}
+}
+
+	m_pCurrentGameObject = pTargetObject;
+
+switch (item.eType)
+{
+case EHistoryActionType::TRANSFORM_POSITION:
+{
+	CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
+	if (pTransform)
+	{
+		_float3 currentPos = pTransform->Get_State(CTransform::STATE_POSITION);
+		pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+
+	}
+}
+break;
+
+case EHistoryActionType::TRANSFORM_ROTATION:
+{
+	
+	CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
+	if (pTransform)
+	{
+		_float3 currentRot = pTransform->Get_EulerAngles();
+		pTransform->Rotate_EulerAngles(item.vOldRotation);
+	}
+}
+break;
+
+case EHistoryActionType::TRANSFORM_SCALE:
+{
+	CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
+	if (pTransform)
+	{
+		_float3 currentScale = pTransform->Compute_Scaled();
+		pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+	}
+}
+break;
+
+case EHistoryActionType::OBJECT_CREATE:
+{
+	if (item.pGameObject)
+	{
+		// 객체 ID 맵에서 찾기
+		pTargetObject = GetObjectByID(item.objectID);
+		if (pTargetObject)
+		{
+			m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, pTargetObject);
+
+			// 객체 ID 맵에서 제거
+			RemoveObjectID(pTargetObject);
+		}
+	}
+}
+break;
+
+case EHistoryActionType::OBJECT_DELETE:
+{
+	if (item.tObjDesc != nullptr)
+	{
+		// 객체 다시 생성
+		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
+			item.iLevel, item.wstrLayerTag, item.tObjDesc);
+
+		// 새로 생성된 객체 가져오기
+		CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
+		if (pGameObject != nullptr)
+		{
+			// 트랜스폼 속성 복원
+			CTransform* pTransform = (CTransform*)pGameObject->Get_Component(TEXT("Com_Transform"));
+			if (pTransform)
+			{
+				pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+				pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+				pTransform->Rotate_EulerAngles(item.vOldRotation);
+			}
+
+			// 새 객체에 ID 할당 (이전 객체와 동일한 ID)
+			AssignSpecificObjectID(pGameObject, item.objectID);
+		}
+	}
+}
+break;
+}
+
+}
+
+_uint CMyImGui::AssignObjectID(CGameObject* pObj) 
+{
+	if (!pObj) return 0;
+
+	// 이미 ID가 있는지 확인
+	auto it = m_ObjectIDMap.find(pObj);
+	if (it != m_ObjectIDMap.end())
+		return it->second;
+
+	// 새 ID 할당
+	UINT newID = ++m_NextObjectID;
+	m_ObjectIDMap[pObj] = newID;
+	m_IDObjectMap[newID] = pObj;
+
+	return newID;
+}
+
+void CMyImGui::AssignSpecificObjectID(CGameObject* pObj, _uint specificID)
+{
+	if (!pObj) return;
+
+	// 이미 다른 ID가 할당되어 있다면 기존 매핑 제거
+	auto it = m_ObjectIDMap.find(pObj);
+	if (it != m_ObjectIDMap.end())
+	{
+		m_IDObjectMap.erase(it->second);
+		m_ObjectIDMap.erase(it);
+	}
+
+	m_ObjectIDMap[pObj] = specificID;
+	m_IDObjectMap[specificID] = pObj;
+}
+
+// ID로 객체 찾기
+CGameObject* CMyImGui::GetObjectByID(UINT id) 
+{
+	auto it = m_IDObjectMap.find(id);
+	if (it != m_IDObjectMap.end())
+		return it->second;
+	return nullptr;
+}
+
+// 객체 삭제 시 ID 제거
+void CMyImGui::RemoveObjectID(CGameObject* pObj) 
+{
+	auto it = m_ObjectIDMap.find(pObj);
+	if (it != m_ObjectIDMap.end()) {
+		m_IDObjectMap.erase(it->second);
+		m_ObjectIDMap.erase(it);
 	}
 }
 _bool CMyImGui::IsMouseOverImGui()
@@ -1508,6 +2035,13 @@ void CMyImGui::Free()
 		if (texture)
 			texture->Release();
 	}
+	while (!m_vecUndoStack.empty())
+	{
+		tHistoryItem& item = m_vecUndoStack.top();
+		Safe_Delete(item.tObjDesc);
+		m_vecUndoStack.pop();
+	}
+
 	m_Textures.clear();
 	Safe_Release(m_Editor);
 	Safe_Release(m_pGameInstance);

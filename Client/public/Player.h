@@ -58,6 +58,8 @@ private:
 	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
 
 	_float			m_fShakeTime = {};
+	_bool m_bTimeControl = { false };
+	_float m_fSaveTime = {};
 
 	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
 
@@ -68,6 +70,12 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	CInventory* m_pInven = { nullptr };
 	virtual void Free();
+public:
+	void Taimu_S_to_pu()
+	{
+		m_bTimeControl = !m_bTimeControl;
+	}
+
 	
 };
 
