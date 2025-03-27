@@ -279,7 +279,7 @@
     </Filter>
     <Filter Include="02.GameObjects\05. Hub\Portal">
       <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
-   </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\ParticleSystemTest\GameObject_Projectile">
       <UniqueIdentifier>{4b83ef07-387f-447c-ab07-c77551e73154}</UniqueIdentifier>
     </Filter>
@@ -552,6 +552,9 @@
     <ClInclude Include="..\public\GameObject_Projectile_Test.h">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Bullet_Base.h">
+      <Filter>02.GameObjects\06. Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -717,9 +720,6 @@
     <ClCompile Include="..\private\Level_Test.cpp">
       <Filter>01.Levels\Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\GameObject_Sphere.cpp">
       <Filter>02.GameObjects\Base\Sphere</Filter>
     </ClCompile>
@@ -803,11 +803,12 @@
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\UI_Episode.cpp">
-      <Filter>02.GameObjects\97. UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\Private\Bullet_Base.cpp">
+      <Filter>02.GameObjects\06. Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
