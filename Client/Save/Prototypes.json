@@ -244,6 +244,7 @@
       "count": 1,
       "level": 3,
       "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
+       "tag": "Prototype_Component_Texture_Point_Shop"
     },
     {
       "count": 1,
