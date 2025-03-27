@@ -179,6 +179,7 @@
     <ClInclude Include="..\public\GameObject_Particle_Firework.h" />
     <ClInclude Include="..\public\GameObject_Particle_Test.h" />
     <ClInclude Include="..\public\GameObject_Plane.h" />
+    <ClInclude Include="..\public\GameObject_Projectile_Test.h" />
     <ClInclude Include="..\public\GameObject_Sphere.h" />
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Icon.cpp" />
     <ClCompile Include="..\Private\Portal.cpp" />
+    <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\SpellShop.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
@@ -337,9 +339,6 @@
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Shader\Shader_Rect.hlsl" />

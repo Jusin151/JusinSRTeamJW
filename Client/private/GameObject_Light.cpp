@@ -49,8 +49,6 @@ void CGameObject_Light::Late_Update(_float fTimeDelta)
 HRESULT CGameObject_Light::Pre_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -106,8 +104,6 @@ HRESULT CGameObject_Light::Ready_Components()
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Light"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
-
-    
 
     return S_OK;
 }

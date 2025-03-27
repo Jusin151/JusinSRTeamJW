@@ -57,15 +57,13 @@ private:
 	pair<_uint, _uint> m_iPlayerBullet{};//`` 현재/최대총알
 	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
 
-
-	// 회전 시킬 기준 점..
-	_int			  m_iMiddlePointX = {};
-
-
+	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
-	_float			m_fShakeTime = {};
 
+	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
+
+	_float3			m_vOldPos = {};
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

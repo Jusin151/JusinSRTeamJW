@@ -3,6 +3,8 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
+
+
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
 {
@@ -52,13 +54,26 @@ void CStructure::Update(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
 	}
+	
+
 	// 벽 태그인 경우
 	else if (Get_Tag().find(L"Wall") != wstring::npos)
 	{
 		m_pGameInstance->Add_Collider(CG_STRUCTURE_WALL, m_pColliderCom);
 	}
+	else
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
+	}
 
-	
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		m_fFrame += 90.f * fTimeDelta;
+		if (m_fFrame >= 90.f)
+			m_fFrame = 0.f;
+
+		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f);
+	}
 }
 
 void CStructure::Late_Update(_float fTimeDelta)
@@ -74,8 +89,16 @@ HRESULT CStructure::Render()
 {
 	if (FAILED(m_pMaterialCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
-		return E_FAIL;
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
@@ -87,18 +110,10 @@ HRESULT CStructure::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	
-	DWORD state;
-	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &state);
-	if ((state & D3DFILL_WIREFRAME) != 0)
+	if (g_bDebugCollider)
 	{
-		if (FAILED(m_pColliderCom->Render()))
-			return E_FAIL;
+		m_pColliderCom->Render();
 	}
-		
-
-	
-
 	Release_RenderState();
 
 	return S_OK;
@@ -125,8 +140,8 @@ HRESULT CStructure::SetUp_RenderState()
 	// 보스 맵 물결 효과 
 	if (m_eStructureType==STRUCTURE_TYPE::BOSS_FLOOR)
 	{
-		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.3f;
-		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.25f;
+		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.5f;
+		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.5f;
 
 		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
 		D3DXVECTOR2 vOffsetFactor(fOffsetU, fOffsetV);
@@ -212,6 +227,10 @@ HRESULT CStructure::Ready_Components()
 		m_eStructureType = STRUCTURE_TYPE::BOSS_FLOOR;
 	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
+	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos)
+		m_eStructureType = STRUCTURE_TYPE::MAGMA;
+	else
+		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
 
 	/* For.Com_VIBuffer */

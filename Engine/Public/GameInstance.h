@@ -6,6 +6,8 @@
 #include "Renderer.h"
 #include "Prototype_Manager.h"
 
+extern ENGINE_DLL bool g_bDebugCollider;
+
 BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
@@ -43,6 +45,7 @@ public:
 	CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 	CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
+	HRESULT Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject);
 	/*CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);*/
 #pragma endregion
 

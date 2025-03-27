@@ -8,7 +8,6 @@ class ENGINE_DLL CVIBuffer_Sphere final : public CVIBuffer
 {
 private:
 	CVIBuffer_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device);
-	/*CVIBuffer_Sphere(const CVIBuffer_Sphere& Prototype);*/
 	CVIBuffer_Sphere(const CVIBuffer_Sphere& Prototype);
 	virtual ~CVIBuffer_Sphere() = default;
 

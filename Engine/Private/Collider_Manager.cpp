@@ -17,7 +17,7 @@ HRESULT CCollider_Manager::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collide
 		nullptr == Collider)
 		return E_FAIL;
 
-	
+
 	m_pColliders[eGroup].push_back(Collider);
 
 	Safe_AddRef(Collider);
@@ -34,12 +34,12 @@ void CCollider_Manager::Clear()
 		for (auto& ptr : list)
 		{
 			Safe_Release(ptr);
-			
+
 		}
 		list.clear();
 	}
 
-		
+
 }
 
 void CCollider_Manager::Update_Collison()
@@ -60,40 +60,39 @@ void CCollider_Manager::Update_Collision_Structure()
 	{
 		if (i == CG_PLAYER_PROJECTILE_SPHERE || i == CG_MONSTER_PROJECTILE_SPHERE)
 		{
-			
+
 		}
 		else
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				// 처리 전에 거리 짧은 순으로 정렬
-				m_pColliders[CG_STRUCTURE_WALL].sort([srcEntry](const CCollider* a, const CCollider* b) {
-					_float3 distA = (a->Get_State(CTransform::STATE_POSITION) -srcEntry->Get_State(CTransform::STATE_POSITION));
-					_float3 distB = (b->Get_State(CTransform::STATE_POSITION) - srcEntry->Get_State(CTransform::STATE_POSITION));
-					return distA.LengthSq() < distB.LengthSq();
-					});
+				m_pColliders[CG_STRUCTURE_WALL].sort(
+					[&srcEntry](const CCollider* a, const CCollider* b) {
+						_float3 playerPos = srcEntry->Get_State(CTransform::STATE_POSITION); // 플레이어 위치
+						_float3 distA = (a->Get_State(CTransform::STATE_POSITION) - playerPos); // 거리의 제곱
+						_float3 distB = (b->Get_State(CTransform::STATE_POSITION) - playerPos); // 거리의 제곱
 
+						return distA.LengthSq() < distB.LengthSq(); // 플레이어와 가까운 순으로 정렬
+					});
 				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 				{
 					// 일정 거리 넘어가면 다음으로
 					if (Check_Cube_Distance(srcEntry, dstEntry))
-						break;
+						continue;
 
-					// 일단 가장 가까운 콜라이더만 충돌처리하고 넘어가기
+
 					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 					{
-						
+
 						//srcEntry->Set_State(CTransform::STATE_POSITION, srcEntry->Get_MTV());
 						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-						break;
-						
 					}
 
 				}
 			}
 		}
-			
+
 	}
 }
 
@@ -110,7 +109,7 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-				
+
 			}
 		}
 	}
@@ -145,11 +144,11 @@ _bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 
 	_float fLengthSq = fDir.LengthSq();
 
-	
+
 	// 반지름 합보다 길이 합이 짧으면 충돌
 	if ( (fRadiusSrc + fRadiusDst) * (fRadiusSrc + fRadiusDst) >= fLengthSq)
 	{
-		
+
 		// 충돌 시 MTV 계산
 		fDir.Normalize();
 		_float fOverlap = fRadiusSrc + fRadiusDst - sqrtf(fLengthSq);  // 겹친 정도 (겹친 길이)
@@ -163,17 +162,17 @@ _bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 	else
 		return false;
 
-	
-	
+
+
 }
 
 _bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 {
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
-	
 
-	
+
+
 	if (!Calc_Basic_Axes_Dot(src, dst))
 		return false;
 
@@ -224,12 +223,12 @@ _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 	setAxes.insert(dstDesc.fAxisX);
 	setAxes.insert(dstDesc.fAxisY);
 	setAxes.insert(dstDesc.fAxisZ);
-	
+
 
 	for (auto& axis : setAxes)
 	{
 		_float fSrcMin{ FLT_MAX }, fDstMin{FLT_MAX}, fSrcMax{ -FLT_MAX }, fDstMax{ -FLT_MAX };
-		
+
 		_float fDepth = FLT_MAX;
 		_float3 bestAxis = { 0.f, 0.f, 0.f }; // 최적의 MTV
 
@@ -256,13 +255,15 @@ _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 		{
 			fDepth = penetration;
 			bestAxis = axis;
+			_float3 vMove = { bestAxis.x, 0.f, bestAxis.z }; // y축 이동을 제외한 MTV 벡터
+			_float fDepthExcludeY = sqrtf(vMove.x * vMove.x + vMove.z * vMove.z);
 			src->Set_MTV(-bestAxis);
 			dst->Set_MTV(bestAxis);
-			src->Set_Depth(fDepth);
-			dst->Set_Depth(fDepth);
+			src->Set_Depth(fDepthExcludeY);
+			dst->Set_Depth(fDepthExcludeY);
 		}
 	}
-	
+
 	return true;
 }
 
@@ -296,9 +297,9 @@ void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
 	tempAxes.push_back(srcAxisZ.Cross(dstAxisY));
 	tempAxes.push_back(srcAxisZ.Cross(dstAxisZ));
 
-	
-	
-	
+
+
+
 	for (auto& axis : tempAxes)
 	{
 		// 크기가 0(평행)이거나 같은 방향이 있거나, 반대 방향이 있으면 추가 안하고 없으면 추가
@@ -323,9 +324,9 @@ void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 {
-	
+
 	Calc_Cross_Axes(src, dst);
-	
+
 
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();

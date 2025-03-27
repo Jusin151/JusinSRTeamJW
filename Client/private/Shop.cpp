@@ -93,8 +93,6 @@ void CShop::Late_Update(_float fTimeDelta)
     if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
 
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
-
 }
 
 HRESULT CShop::Render()

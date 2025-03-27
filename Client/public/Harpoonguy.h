@@ -41,6 +41,8 @@ private:
 
 private:
 
+	_float3			m_vOldPos = {};
+
 public:
 	static CHarpoonguy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;

@@ -42,6 +42,9 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 public:
+
+	void Set_HP(_uint iHealth) { m_iHealth = iHealth; }
+
 	HP_STATE Get_HpState() { return m_eHp_State; }
 	void Set_Damage(_int Damage) 
 	{ 

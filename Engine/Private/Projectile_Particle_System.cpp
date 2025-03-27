@@ -14,62 +14,94 @@ CProjectile_Particle_System::CProjectile_Particle_System(const CParticle_System&
 
 HRESULT CProjectile_Particle_System::Initialize_Prototype()
 {
-	return S_OK;
+ 	return S_OK;
 }
 
 HRESULT CProjectile_Particle_System::Initialize(void* pArg)
 {
 	TRAILDESC desc = *reinterpret_cast<TRAILDESC*>(pArg);
+	m_vPos = { 0.f, 0.f, 0.f };
 	m_fSize = 0.8f;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
+	m_fWidth = desc.fWidth;
+	m_fDistance = desc.fDistance;
 
 	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
-	
-	for (_uint i = 0; i < desc.iNumParticles; ++i)
-	{
-		Add_Particle();
-	}
+	Add_Particle();
 	return S_OK;
 }
 
 void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
 	pAttribute->bIsAlive = true;
+	pAttribute->fAge = 0;
+	pAttribute->vPosition = m_vDir * m_fDistance;
+	pAttribute->vVelocity = -m_vDir;
+	pAttribute->fLifetime = 2.0f;
 
-	GetRandomVector(&pAttribute->vPosition, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);
-
-	pAttribute->vPosition.y = m_Bounding_Box.m_vMax.y;
-
-	pAttribute->vVelocity = {
-		GetRandomFloat(0.0f, 1.0f) * -3.0f,
-		GetRandomFloat(0.0f, 1.0f) * -10.0f,
-		0.0f
-	};
-	 pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+	pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+	pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void CProjectile_Particle_System::Update(float fTimeDelta)
 {
+	Reset_Particle(&*m_Particles.begin());
 	for (auto& i : m_Particles)
 	{
-		i.vPosition += i.vVelocity * fTimeDelta;
-		//D3DXVec3CatmullRom();
-		_float4 temp = DWORDToFloat4_Color(i.vColor);
-		i.vColor = D3DCOLOR_COLORVALUE(temp.x, temp.y, temp.z, temp.w * 0.9f);
-		i.fAge += fTimeDelta;
-		/*if (!m_Bounding_Box.Is_Point_Inside(i.vPosition))
+		if (i.bIsAlive)
 		{
-			Reset_Particle(&i);
-		}*/
+			i.vPosition += i.vVelocity * fTimeDelta;
+		}
 	}
-
 	__super::Late_Update(fTimeDelta);
+}
+
+HRESULT CProjectile_Particle_System::Render()
+{
+	__super::Pre_Render();
+
+	PARTICLE* v = 0;
+
+	m_pGraphic_Device->SetTexture(0, m_pTexture);
+	m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+	m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
+
+	m_PointVB->Lock(
+		m_VBOffset * sizeof(PARTICLE),
+		m_VBBatchSize * sizeof(PARTICLE),
+		(void**)&v,
+		m_VBOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
+
+	ATTRIBUTE i = *m_Particles.begin();
+	_float3 vNormal = {};
+	D3DXVec3Normalize(&vNormal, &m_vDir);
+	D3DXVECTOR3 up = { 0.0f, 1.0f, 0.0f };
+	D3DXVec3Cross(&vNormal, &m_vDir, &up);
+	D3DXVec3Normalize(&vNormal, &vNormal);
+	v[0].vPosition = m_vPos - vNormal * m_fWidth / 2.f;
+	v[0].vColor = i.vColor;
+	v[0].vTexCoord = { 0, 0 };
+	v[1].vPosition = m_vPos + vNormal * m_fWidth / 2.f;
+	v[1].vColor = i.vColor;
+	v[1].vTexCoord = { 1, 0 };
+	v[2].vPosition = i.vPosition - vNormal * m_fWidth / 2.f;
+	v[2].vColor = i.vColorFade;
+	v[2].vTexCoord = { 0, 1 };
+	v[3].vPosition = i.vPosition + vNormal * m_fWidth / 2.f;
+	v[3].vColor = i.vColorFade;
+	v[3].vTexCoord = { 1, 1 };
+	m_PointVB->Unlock();
+	m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+
+	__super::Post_Render();
+	return S_OK;
 }
 
 CProjectile_Particle_System* CProjectile_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

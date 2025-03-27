@@ -25,7 +25,7 @@ public:
 	_int Get_Hp() { return m_iHp; }
 	COLLIDERGROUP Get_Type() { return m_eType; }
 
-	void Set_Hp(_int iHp) {}
+	void Set_Hp(_int iHp) { m_iHp = iHp; }
 	void Set_Ap(_int iAp) { m_iAp = iAp; }
 
 	void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }

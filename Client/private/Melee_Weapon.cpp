@@ -57,8 +57,11 @@ void CMelee_Weapon::Update(_float fTimeDelta)
 
 
 
-	if(m_bIsAnimating)
+	if (m_bIsAnimating && !m_bAttack)
+	{
 		m_pGameInstance->Add_Collider(CG_WEAPON, m_pColliderCom);
+	}
+		
 }
 
 void CMelee_Weapon::Late_Update(_float fTimeDelta)

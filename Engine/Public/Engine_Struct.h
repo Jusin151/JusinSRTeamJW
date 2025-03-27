@@ -156,8 +156,8 @@ namespace Engine
 	{
 		D3DXVECTOR3 vPosition;
 		D3DCOLOR	vColor;
-		float		fSize;
-		static const DWORD FVF;
+		D3DXVECTOR2 vTexCoord;
+		//static const DWORD FVF;
 	} PARTICLE;
 
 	typedef struct tagVertexPositionColor

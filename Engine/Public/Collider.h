@@ -93,12 +93,19 @@ protected:
 protected:
 	//경계 출력을 위한 변수
 	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };
+	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
+
+	_uint								m_iNumVertices = { };
+	_uint								m_iVertexStride = { };
+	_uint								m_iFVF = {};
+
 	_uint								m_iNumLine = {};
 	_uint								m_iNumIndices = {};
 	_uint								m_iIndexStride = {};
 	D3DFORMAT							m_eIndexFormat = {};
 
 protected:
+	HRESULT Create_VertexBuffer();
 	HRESULT Create_IndexBuffer();
 
 public:

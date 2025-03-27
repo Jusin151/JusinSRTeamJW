@@ -148,9 +148,7 @@
     <ClInclude Include="..\public\Particle_System.h">
       <Filter>04.Components\Particle\System</Filter>
     </ClInclude>
-	  
     <ClInclude Include="resource.h" />
-	  
     <ClInclude Include="..\public\LandObject.h">
       <Filter>02.GameObject\LandObject</Filter>
     </ClInclude>
@@ -170,7 +168,7 @@
       <Filter>04.Components\Particle\System\Snow</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Light.h">
-      <Filter>04.Components\Light</Filter>
+      <Filter>04.Components\Collider\Sphere\Light</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Sphere.h">
       <Filter>04.Components\VIBuffer\Sphere</Filter>
@@ -330,9 +328,6 @@
     <Filter Include="06.Picking">
       <UniqueIdentifier>{32a800c3-1493-4e31-b204-a68049ab35ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Light">
-      <UniqueIdentifier>{68a50fe1-5370-4371-8b1f-1916aa92b1be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\Particle">
       <UniqueIdentifier>{bdf0b877-c902-45c5-878e-268f1f0dbcc2}</UniqueIdentifier>
     </Filter>
@@ -365,6 +360,9 @@
     </Filter>
     <Filter Include="02.GameObject\CollisionObject">
       <UniqueIdentifier>{cc85b9de-7121-4190-ad4e-34cff5b1f04d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\Sphere\Light">
+      <UniqueIdentifier>{68a50fe1-5370-4371-8b1f-1916aa92b1be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -498,7 +496,7 @@
       <Filter>04.Components\Particle\System</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Light.cpp">
-      <Filter>04.Components\Light</Filter>
+      <Filter>04.Components\Collider\Sphere\Light</Filter>
     </ClCompile>
     <ClCompile Include="ImGuizmo.cpp">
       <Filter>External Libraries</Filter>

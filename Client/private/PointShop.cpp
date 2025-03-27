@@ -55,7 +55,7 @@ void CPoint_Shop::Update(_float fTimeDelta)
     m_pUI_Point_Hub->Button_Set_Active(false);
     m_pUI_Point_Hub->m_bOnUI = false;
 
-    if (m_bIsOpen)
+     if (m_bIsOpen)
     {
         Open_Shop();
     }

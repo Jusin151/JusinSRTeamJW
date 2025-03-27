@@ -67,7 +67,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_eType = CG_PLAYER;
 	m_iHp = m_iPlayerHP.first;
 
-	m_iMiddlePointX = g_iWinSizeX / 2;
 
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
 	CPickingSys::Get_Instance()->Set_Player(this);
@@ -100,6 +99,7 @@ void CPlayer::Update(_float fTimeDelta)
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 	
 
+	
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 	
 	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
@@ -115,11 +115,12 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	if (m_iHp <= 0)
+	/*if (m_iHp <= 0)
 	{
 		m_bIsActive = false;
 		return;
-	}
+	}*/
+	
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
@@ -178,6 +179,14 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
 
+	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+	_float3 dirOthertoOldPos = fPos - otherPos;
+	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
+
+	_float fDepth = m_pColliderCom->Get_Depth();
+	
+	
 
 	switch (other->Get_Type())
 	{
@@ -189,8 +198,11 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-		fPos += vMove * 0.5f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		
+		
+			fPos = m_vOldPos;  // 이동 전 위치로 되돌림
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		
 		break;
 	default:
 		break;
@@ -206,39 +218,43 @@ void CPlayer::Move(_float fTimeDelta)
 
 	if (GetKeyState('W') & 0x8000)
 	{
-		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f);
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->Go_Straight(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta * 0.5f);
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->Go_Backward(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
-
-		m_pTransformCom->Go_Left(fTimeDelta * 0.5f);
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->Go_Left(fTimeDelta * 0.4f);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
-		m_pTransformCom->Go_Right(fTimeDelta * 0.5f);
+		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->Go_Right(fTimeDelta * 0.4f);
 	}
 
+	
 	POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	_int iDist = abs(ptMouse.x - m_iMiddlePointX);
+	LONG iDist = abs(ptMouse.x - m_lMiddlePointX);
 
-	if (ptMouse.x - m_iMiddlePointX > 0)
-	{
-		if(iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * 1.5f);
-	}
-	else if (ptMouse.x - m_iMiddlePointX < 0 )
+	if (ptMouse.x - m_lMiddlePointX > 0)
 	{
 		if (iDist > 160)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * 1.5f);
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * iDist * 0.005f);
 	}
-	
+	else if (ptMouse.x - m_lMiddlePointX < 0)
+	{
+		if (iDist > 160)
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * iDist * 0.005f);
+	}
+
 	
 
 }

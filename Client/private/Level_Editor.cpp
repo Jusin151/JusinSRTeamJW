@@ -51,6 +51,19 @@ void CLevel_Editor::Update(_float fTimeDelta)
 	static CGameObject* dragObject = nullptr;
 
 	auto colliderVec = m_pGameInstance->Get_Colliders();
+	for (auto& colliderList : colliderVec)
+	{
+		colliderList.sort([&] (CCollider* a, CCollider* b){
+
+			_float3 aPos = a->Get_State(CTransform::STATE_POSITION);
+			_float3 bPos = b->Get_State(CTransform::STATE_POSITION);
+
+			_float vDis1 = _float3::Distance(aPos, m_pPickingSys->Get_Ray().vOrigin);
+			_float vDis2 = _float3::Distance(bPos, m_pPickingSys->Get_Ray().vOrigin);
+
+			return vDis1 < vDis2;
+			});
+	}
 
 	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
 	{
@@ -105,8 +118,8 @@ HRESULT CLevel_Editor::Ready_Layer_BackGround(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가
-	if (nullptr == (m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
-		return E_FAIL;
+	if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag))
+	return E_FAIL;
 	return S_OK;
 }
 
@@ -143,7 +156,9 @@ HRESULT CLevel_Editor::Ready_Layer_Player(const _wstring& strLayerTag)
 	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
 	randTransDesc.fSpeedPerSec = 10.f;
 	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
-	if (nullptr == (m_pGameInstance->Add_GameObject_FromPool(LEVEL_EDITOR, LEVEL_EDITOR, strLayerTag, &randTransDesc)))
+
+	if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_EDITOR, LEVEL_EDITOR, strLayerTag, &randTransDesc))
+
 		return E_FAIL;
 
 
@@ -157,7 +172,8 @@ HRESULT CLevel_Editor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		return E_FAIL;
 
 
-	if (nullptr == (m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag)))
+	if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag))
+
 		return E_FAIL;
 
 	return S_OK;
