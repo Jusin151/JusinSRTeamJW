@@ -25,7 +25,8 @@ case WM_SYSCOMMAND:
             return 0;
         break;
     }
-``` 주석처리 해주세요
+``` 
+주석처리 해주세요
 
 
 ## 빌드 속도 높이기
@@ -40,3 +41,4 @@ https://www.microsoft.com/en-us/download/details.aspx?id=8109
 https://github.com/nlohmann/json
 https://github.com/ocornut/imgui
 https://www.fmod.com/
+https://dev-sbee.tistory.com/36

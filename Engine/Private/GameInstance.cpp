@@ -82,6 +82,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
+	m_pSound_Manager->Update(fTimeDelta);
 	m_pCollider_Manager->Update_Collison();
 
 	/*m_pPicking->Update();*/
@@ -215,7 +216,19 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 	return m_pTimer_Manager->Update(strTimerTag);
 }
 
+
+
 #pragma endregion
+
+#pragma region SOUND_MANAGER
+HRESULT CGameInstance::Load_Bank(_wstring strBankPath, void* pArg)
+{
+	return S_OK;
+	//return m_pSound_Manager->Load_Bank(strBankPath, pArg);
+}
+#pragma endregion
+
+
 #pragma region PICKING
 //_bool CGameInstance::Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
 //{

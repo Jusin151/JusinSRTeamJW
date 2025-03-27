@@ -61,7 +61,7 @@ public:
 #pragma endregion
 
 #pragma region SOUND_MANAGER
-
+	HRESULT Load_Bank(_wstring strBankPath, void* pArg = nullptr);
 #pragma endregion
 
 #pragma region POOL_MANAGER
