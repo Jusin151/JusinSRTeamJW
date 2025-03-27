@@ -44,12 +44,6 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Harvester", this);
 
-	CItem_Icon::Icon_DESC ShotGun_Icon{};
-	ShotGun_Icon.Icon_Image = ShotGun;
-	ShotGun_Icon.Weapon_Type = CItem_Icon::ShotGun; // 선택되고 나서 되돌릴 이미지
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Harvester"), &ShotGun_Icon)))
-		return E_FAIL;
 
 
 	__super::Ready_Picking();

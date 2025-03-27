@@ -185,8 +185,10 @@
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
+    <ClInclude Include="..\public\Iamge_Manager.h" />
+    <ClInclude Include="..\Public\Inven_UI.h" />
     <ClInclude Include="..\public\Item.h" />
-    <ClInclude Include="..\public\Item_Icon.h" />
+    <ClInclude Include="..\public\Image.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Inventory.h" />
@@ -263,9 +265,10 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
+    <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Episode_Hub.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
-    <ClCompile Include="..\private\Item_Icon.cpp" />
+    <ClCompile Include="..\private\Image.cpp" />
     <ClCompile Include="..\Private\Portal.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\SpellShop.cpp" />

@@ -283,6 +283,9 @@
     <Filter Include="02.GameObjects\ParticleSystemTest\GameObject_Projectile">
       <UniqueIdentifier>{4b83ef07-387f-447c-ab07-c77551e73154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96. Manager\Image_Manager">
+      <UniqueIdentifier>{d2a4f6ad-e6af-455b-9243-da94c66cec2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -471,7 +474,7 @@
     <ClInclude Include="..\Public\Weapon_Effect.h">
       <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Item_Icon.h">
+    <ClInclude Include="..\public\Image.h">
       <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Base.h">
@@ -519,9 +522,6 @@
     <ClInclude Include="..\public\Item.h">
       <Filter>02.GameObjects\02. Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Item_Icon.h">
-      <Filter>Inven</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PointShop.h">
       <Filter>02.GameObjects\05. Hub\Shop\PointShop</Filter>
     </ClInclude>
@@ -554,6 +554,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Bullet_Base.h">
       <Filter>02.GameObjects\06. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Inven_UI.h">
+      <Filter>Inven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Iamge_Manager.h">
+      <Filter>96. Manager\Image_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -730,7 +736,7 @@
     <ClCompile Include="..\Public\Weapon_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Item_Icon.cpp">
+    <ClCompile Include="..\private\Image.cpp">
       <Filter>Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
@@ -769,9 +775,6 @@
     <ClCompile Include="..\private\Item.cpp">
       <Filter>02.GameObjects\02. Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Item_Icon.cpp">
-      <Filter>Inven</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PointShop.cpp">
       <Filter>02.GameObjects\05. Hub\Shop\PointShop</Filter>
     </ClCompile>
@@ -809,6 +812,9 @@
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp">
       <Filter>02.GameObjects\06. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Inven_UI.cpp">
+      <Filter>Inven</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

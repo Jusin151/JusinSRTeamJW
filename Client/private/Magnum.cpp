@@ -44,12 +44,6 @@ HRESULT CMagnum::Initialize(void* pArg)
 	m_vInitialPos.y = m_Magnum_INFO.vPos.y;
 	CItem_Manager::GetInstance()->Add_Weapon(L"Magnum", this);
 
-	CItem_Icon::Icon_DESC Magunm{};
-	Magunm.Icon_Image = Magnum;
-	Magunm.Weapon_Type = CItem_Icon::Magnum; // 선택되고 나서 되돌릴 이미지
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Magnum"),&Magunm)))
-		return E_FAIL;
 
 	__super::Ready_Picking();
 

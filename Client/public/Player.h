@@ -47,25 +47,21 @@ private:
 private:
 	CGameObject* m_pCamera = nullptr;
 	CCollider_Cube* m_pColliderCom = { nullptr };
+
 private: // 인벤관련
-	void Inven_Update(_float fTimeDelta);
+	void Input_WeapontoInven(wstring tag,_uint type);
+	void Input_ItemtoInven();
+
+
 	_bool m_bInven_Render_State{};
+
+	void Equip(_float fTimeDelta);
+	void UnEquip(_float fTimeDelta);
+
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
-
-
-
-private: // 플레이어 관련
-	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
-	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
-	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
-	_uint iStr{}; // 근력
-	_uint iLife{};//생명력
-	_uint iSprit{};//정신력
-	_uint iCapacity{};//용량
-
 private:
 	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
@@ -77,20 +73,26 @@ private:
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
-	CInventory* m_pInven = { nullptr };
 	virtual void Free();
 
 	void Set_Hp(_int iHp)override;
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-
-
 public:
-	void Taimu_S_to_pu()
-	{
-		m_bTimeControl = !m_bTimeControl;
-	}
+	void Taimu_S_to_pu(){m_bTimeControl = !m_bTimeControl;}
 
-	
+
+private: // 플레이어 관련
+	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
+	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
+	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
+	_uint iStr{}; // 근력
+	_uint iLife{};//생명력
+	_uint iSprit{};//정신력
+	_uint iCapacity{};//용량
+
+	CWeapon_Base* m_pPlayer_Weapon={nullptr};
+	CInventory*   m_pPlayer_Inven={nullptr};
+
 };
 
 

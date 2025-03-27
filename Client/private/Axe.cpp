@@ -59,14 +59,9 @@ HRESULT CAxe::Initialize(void* pArg)
 
 
 
-	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this);
+	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this); // 도끼를 아이템 매니저에 등록
 
-	CItem_Icon::Icon_DESC Axe_Icon{};
-	Axe_Icon.Icon_Image = Axe; // 초기 이미지
-	Axe_Icon.Weapon_Type = CItem_Icon::Axe; // 선택되고 나서 되돌릴 이미지
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Axe"),&Axe_Icon)))
-		return E_FAIL;
+
 
 	m_eType = CG_WEAPON;
 	m_iAp = 30;

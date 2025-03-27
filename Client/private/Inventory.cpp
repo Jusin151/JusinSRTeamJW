@@ -32,7 +32,12 @@ HRESULT CInventory::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
 	 
+
+//	m_vecpItem.resize(7); // 7번까지만 할래
+
 	bFirstUpdate = true;
+
+	//CItem_Manager::GetInstance()->Add_Inven(this);
 
 	return S_OK;
 }
@@ -43,7 +48,7 @@ void CInventory::Priority_Update(_float fTimeDelta)
 
 void CInventory::Update(_float fTimeDelta)
 {
-	Equip(fTimeDelta); 
+	//Equip(fTimeDelta); 
 }
 
 void CInventory::Late_Update(_float fTimeDelta)
@@ -120,55 +125,53 @@ HRESULT CInventory::Ready_Components()
 	return S_OK;
 }
 
-void CInventory::Equip(_float fTimeDelta)
+CWeapon_Base* CInventory::Equip(_float fTimeDelta)
 {
 
 	bool bInputReceived = false;
 
 	if (GetAsyncKeyState('1') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Claymore");
-		m_pItem = CItem_Manager::GetInstance()->Get_Weapon(L"Claymore");
+		m_pItem =Weapon_Equip(1); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
 	if (GetAsyncKeyState('2') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Axe");
+		m_pItem = Weapon_Equip(2); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
 	if (GetAsyncKeyState('3') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"ShotGun");
+		m_pItem = Weapon_Equip(3); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
 	if (GetAsyncKeyState('4') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Magnum");
+		m_pItem = Weapon_Equip(4); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
 	if (GetAsyncKeyState('5') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Staff");
+		m_pItem = Weapon_Equip(5); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
 	if (GetAsyncKeyState('6') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Minigun");
-	
+		m_pItem = Weapon_Equip(6); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
 
 	if (GetAsyncKeyState('7') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Harvester");
+		m_pItem = Weapon_Equip(7); // 이제 이걸 플레이어한테 보내면 끝 ㅇㅈ?
 		bInputReceived = true;
 	}
-
 	/*if (GetAsyncKeyState('8') & 0x8000)
 	{
 		CItem_Manager::GetInstance()->Weapon_Equip(L"Sonic");
 		bInputReceived = true;
 	}*/
+
 
 	if (GetAsyncKeyState('Q') & 0x8000)
 	{
@@ -198,6 +201,7 @@ void CInventory::Equip(_float fTimeDelta)
 	}
 
 
+	return m_pItem;
 }
 
 
@@ -235,3 +239,9 @@ void CInventory::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
+//if (!m_pWeapon) return;
+// 
+//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
+//{
+//    pRangeWeapon->Add_Ammo(iAmmo);
+//}

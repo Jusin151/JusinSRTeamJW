@@ -2,7 +2,6 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 #include "Item_Manager.h"
-#include "Item_Icon.h"
 
 CMinigun::CMinigun(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CRanged_Weapon(pGraphic_Device)
@@ -59,12 +58,7 @@ HRESULT CMinigun::Initialize(void* pArg)
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Minigun", this);
 
-    CItem_Icon::Icon_DESC Minigun_Icon{};
-    Minigun_Icon.Icon_Image = Minigun;
-    Minigun_Icon.Weapon_Type = CItem_Icon::Minigun; // 선택되고 나서 되돌릴 이미지
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Icon"),
-        LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Icon_Minigun"), &Minigun_Icon)))
-        return E_FAIL;
+
 
     __super::Ready_Picking();
 

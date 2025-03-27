@@ -10,6 +10,7 @@
 #include "Effect_Base.h"
 #include "UI_Shop_Base.h"
 #include "UI_Point_Shop.h"
+#include "Image.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device },
@@ -68,9 +69,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	/*if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), TEXT("Layer_Monster_Projectile_Harpoon"), 10)))
 		return E_FAIL;*/
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
 
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
@@ -80,8 +78,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Episode_Hub"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
-
-
 
 
 	return S_OK;
