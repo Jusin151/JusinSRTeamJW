@@ -55,7 +55,8 @@ private:
 	void Init_TextureTag();
 	void Play_Animation(_float fTimeDelta);
 	void Float_Item(_float fTimeDelta);
-
+	_uint Get_Base_AnimNum();
+	_uint Get_Max_AnimNum();
 
 private:
 

@@ -53,7 +53,7 @@ HRESULT CItem::Initialize(void* pArg)
 	}
 
 
-	if (m_eItemType == ITEM_TYPE::STAT)
+	if (m_eItemType == ITEM_TYPE::STAT || m_strItemName.find(L"Staff") != _wstring::npos)
 	{
 		m_bIsNeedAnim = true;
 	}
@@ -184,8 +184,8 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Small"] = 86;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Small"] = 87;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Big"] = 88;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Big"] = 89;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Small"] = 93;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Big"] = 93;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Small"] = 89;
 	m_mapTextureTag[ITEM_TYPE::EXP][L"EXP"] = 3;
 	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 78;
 }
@@ -196,9 +196,10 @@ void CItem::Play_Animation(_float fTimeDelta) // 스텟 아이템은 회전하�
 	if (m_fFrame >= 90.f)
 		m_fFrame = 0.f;
 
-	m_iCurrentTexture = (_uint)(m_fFrame / 11.25f) + 78u;
-	m_iCurrentTexture = min(85u, m_iCurrentTexture);
-	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = m_iCurrentTexture;
+	_float fSlice = 90.f / static_cast<_float>(Get_Max_AnimNum() - Get_Base_AnimNum() + 1);
+	m_iCurrentTexture = (_uint)(m_fFrame / fSlice) + Get_Base_AnimNum();
+	m_iCurrentTexture = min(Get_Max_AnimNum(), m_iCurrentTexture);
+	m_mapTextureTag[m_eItemType][m_strItemName] = m_iCurrentTexture;
 
 	//SetWindowText(g_hWnd,to_wstring(m_iCurrentTexture).c_str());
 }
@@ -223,6 +224,26 @@ void CItem::Float_Item(_float fTimeDelta)
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
+}
+
+_uint CItem::Get_Base_AnimNum()
+{
+	if (m_strItemName == L"Staff_Ammo_Small")
+		return 89;
+	else if (m_strItemName == L"Staff_Ammo_Big")
+		return 93;
+
+	return 78;
+}
+
+_uint CItem::Get_Max_AnimNum()
+{
+	if (m_strItemName == L"Staff_Ammo_Small")
+		return 92;
+	else if (m_strItemName == L"Staff_Ammo_Big")
+		return 96;
+
+	return 85;
 }
 
 
