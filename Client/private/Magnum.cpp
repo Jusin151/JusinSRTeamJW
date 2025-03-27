@@ -62,8 +62,7 @@ void CMagnum::Priority_Update(_float fTimeDelta)
 
 void CMagnum::Update(_float fTimeDelta)
 {
-    	
-
+    
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;
@@ -102,9 +101,7 @@ void CMagnum::Attack(_float fTimeDelta)
 			m_fElapsedTime = 0.0f;
 			m_bHasFired = true; // 발사 상태를 true로 설정
 			__super::Picking_Object(1); // 클릭 한 번에 한 번만 호출
-			CUI_Manager::GetInstance()->Set_HP(10);
-			CUI_Manager::GetInstance()->Set_MP(10);
-			CUI_Manager::GetInstance()->Set_Bullet(1);
+			CUI_Manager::GetInstance()->Set_Pistol_Bullet(1);
 		}
 	}
 	else

@@ -1,19 +1,14 @@
 ﻿#include "Staff_Bullet.h"
-#include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
-#include "Texture.h"
-#include "Collider_Cube.h"
-#include "Transform.h"
-#include "Player.h"
 #include "GameInstance.h"
 
 CStaff_Bullet::CStaff_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CMonster_Base(pGraphic_Device)
+	:CBullet_Base(pGraphic_Device)
 {
 }
 
 CStaff_Bullet::CStaff_Bullet(const CStaff_Bullet& Prototype)
-	:CMonster_Base(Prototype)
+	:CBullet_Base( Prototype )
 {
 }
 
@@ -24,29 +19,12 @@ HRESULT CStaff_Bullet::Initialize_Prototype()
 
 HRESULT CStaff_Bullet::Initialize(void* pArg)
 {
-	
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
-	m_Player_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
-	Player_RIght = m_Player_Transform->Get_State(CTransform::STATE_RIGHT);
-	Player_Up = m_Player_Transform->Get_State(CTransform::STATE_UP);
-	Player_Look = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
-	Player_Pos = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
-
-
-    Player_Pos += Player_Look * 0.8f; 
-	Player_Pos += Player_RIght * 0.1f;
-	Player_Pos.y -= 0.5f;
-	
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, Player_RIght);
-	m_pTransformCom->Set_State(CTransform::STATE_UP, Player_Up);
-	m_pTransformCom->Set_State(CTransform::STATE_LOOK, Player_Look);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Player_Pos);
-	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
-
-	
 	m_fSpeed = 5.f;
 	return S_OK;
 }
@@ -80,9 +58,7 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 
 void CStaff_Bullet::Late_Update(_float fTimeDelta)
 {
-	
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this)))
-		return;
+	__super::Late_Update(fTimeDelta);
 }
 
 
@@ -109,46 +85,13 @@ HRESULT CStaff_Bullet::Render()
 
 HRESULT CStaff_Bullet::On_Collision(CCollisionObject* other)
 {
-	if (nullptr == m_pColliderCom)
-		return E_FAIL;
-
-	if (nullptr == other)
-		return S_OK;
-
-	// 안바뀌면 충돌 안일어남
-	if (other->Get_Type() == CG_END)
-		return S_OK;
-
-	_float3 fMTV = m_pColliderCom->Get_MTV();
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 temp = { 1.f, 0.f, 1.f };
-
-	switch (other->Get_Type())
-	{
-	case CG_PLAYER:
-
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-		//m_pTransformCom->Go_Backward(fTimeDelta);
-		break;
-
-	case CG_WEAPON:
-
-
-
-		break;
-	default:
-		break;
-	}
+	__super::On_Collision(other);
 
 	
 
 	return S_OK;
 }
 
-void CStaff_Bullet::Select_Pattern(_float fTimeDelta)
-{
-	
-}
 
 void CStaff_Bullet::Attack_Melee()
 {
@@ -185,30 +128,6 @@ HRESULT CStaff_Bullet::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBufferm"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	_float3 fPos = { 10.f, 0.5f, 10.f };
-
-	/* For.Com_Collider */
-	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.pOwner = this;
-	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
-
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -243,5 +162,8 @@ void CStaff_Bullet::Free()
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pAttackCollider);
 }

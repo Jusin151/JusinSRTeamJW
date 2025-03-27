@@ -21,7 +21,29 @@ void CRanged_Weapon::Priority_Update(_float fTimeDelta)
 
 void CRanged_Weapon::Update(_float fTimeDelta)
 {
-   
+    if (GetAsyncKeyState('W') & 0x8000)
+    {
+        t += speed;
+    }
+    else if (GetAsyncKeyState('A') & 0x8000)
+    {
+        t += speed;
+    }
+    else if (GetAsyncKeyState('D') & 0x8000)
+    {
+        t += speed;
+    }
+    else if (GetAsyncKeyState('S') & 0x8000)
+    {
+        t += speed;
+    }
+
+    float v = 20.0f;  // 폭을 설정 하는변수
+    _float3 vNewPos;
+    vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
+    vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
+
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 
 	Attack(fTimeDelta);
 

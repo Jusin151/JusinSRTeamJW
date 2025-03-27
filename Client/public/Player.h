@@ -20,7 +20,7 @@ BEGIN(Client)
 
 class CPlayer final : public CCollisionObject
 {
-	
+
 	
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -54,22 +54,26 @@ private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
-private:
+
+
+
+private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
-	pair<_uint, _uint> m_iPlayerBullet{};//`` 현재/최대총알
 	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
+	_uint iStr{}; // 근력
+	_uint iLife{};//생명력
+	_uint iSprit{};//정신력
+	_uint iCapacity{};//용량
 
+private:
 	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
-
 	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
-
 	_float3			m_vOldPos = {};
-
 	_bool m_bPlayerHP_init= { false };
-
+	_bool m_bPlayerMP_init = {false };
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
@@ -77,8 +81,9 @@ public:
 	virtual void Free();
 
 	void Set_Hp(_int iHp)override;
-	
-	 void Set_Ap(_int iAp)override { m_iAp = iAp; }
+	void Set_Ap(_int iAp)override { m_iAp = iAp; }
+
+
 public:
 	void Taimu_S_to_pu()
 	{
