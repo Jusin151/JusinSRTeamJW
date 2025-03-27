@@ -14,7 +14,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CCollisionObject( Prototype )
+	: CCollisionObject(Prototype)
 {
 }
 
@@ -35,20 +35,20 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;*/
 
-	
+
 	if (!pArg)
 	{
-	m_tObjDesc.iLevel = 3;
-	m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
-	m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Player");
-	m_tObjDesc.iProtoLevel = 3;
+		m_tObjDesc.iLevel = 3;
+		m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
+		m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Player");
+		m_tObjDesc.iProtoLevel = 3;
 	}
 	else
 	{
-	OBJECT_DESC* pDesc = static_cast<OBJECT_DESC*>(pArg);
-	m_tObjDesc = *pDesc;
+		OBJECT_DESC* pDesc = static_cast<OBJECT_DESC*>(pArg);
+		m_tObjDesc = *pDesc;
 	}
- 	if (FAILED(Ready_Components()))
+	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-8.3f, 1.0f, 8.f));
@@ -57,32 +57,45 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
-	
+
 	// 이거 나중에 수정 필요할듯?
 
-	m_iPlayerHP = { 100,100}; // 현재/최대  이하 동문
+	m_iPlayerHP = { 100,100 }; // 현재/최대  이하 동문
 	m_iPlayerMP = { 50, 50 };
-	m_iPlayerBullet = { 0,0 }; 
-	m_iPlayerEXP = { 0 , 100};
+	m_iPlayerBullet = { 0,0 };
+	m_iPlayerEXP = { 0 , 100 };
 
 	m_eType = CG_PLAYER;
 
 	m_iHp = m_iPlayerHP.first;
-	
+
 
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
 
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
+inline void CPlayer::Add_Ammo(_int iAmmo)
+{
+	//if (!m_pWeapon) return;
+	//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
+	//{
+	//	pRangeWeapon->Add_Ammo(iAmmo);
+	//}
+
+}
 void CPlayer::Set_Hp(_int iHp)
 {
-	m_iHp = iHp;
-		CUI_Manager::GetInstance()->Set_HP(m_iHp);
-		if (CUI_Player_Icon * pPlayIcon =  dynamic_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
+	if (iHp < m_iHp)
+	{
+		m_iHp = max(0, iHp);
+		if (CUI_Player_Icon* pPlayIcon = dynamic_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
 		{
 			pPlayIcon->Set_Hp_Event();
 		}
+	}
+	else m_iHp = min(static_cast<_int>(m_iPlayerHP.second), iHp);
+	CUI_Manager::GetInstance()->Set_HP(m_iHp);
 }
 
 
@@ -96,12 +109,12 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	//	pTransform->Go_Straight(fTimeDelta);
 	//}
 
-	if(!m_bPlayerHP_init)
-	{ 
+	if (!m_bPlayerHP_init)
+	{
 		CUI_Manager::GetInstance()->Set_HP(m_iHp);
 		m_bPlayerHP_init = true;
 	}
-	
+
 }
 
 void CPlayer::Update(_float fTimeDelta)
@@ -112,16 +125,16 @@ void CPlayer::Update(_float fTimeDelta)
 	else
 		fTimeDelta = m_fSaveTime;
 
-	Move(fTimeDelta); 
-	
+	Move(fTimeDelta);
+
 
 	Inven_Update(fTimeDelta);
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-	
 
-	
+
+
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
-	
+
 	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
 
 	/*if (GetKeyState(VK_LBUTTON) < 0)
@@ -129,7 +142,7 @@ void CPlayer::Update(_float fTimeDelta)
 		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition(m_pTransformCom->Get_WorldMatrix_Inverse());
 		int a = 10;
 	}*/
-		
+
 
 }
 
@@ -140,14 +153,14 @@ void CPlayer::Late_Update(_float fTimeDelta)
 		m_bIsActive = false;
 		return;
 	}*/
-	
+
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
 
-	
-	
+
+
 
 }
 
@@ -155,7 +168,7 @@ HRESULT CPlayer::Render()
 {
 
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:")+to_wstring(m_pTransformCom->Get_WorldMat()._41),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 		_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
@@ -198,7 +211,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 		return S_OK;
 	if (other->Get_Type() == CG_END)
 		return S_OK;
-	
+
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	_float3 vMtv = m_pColliderCom->Get_MTV();
@@ -210,8 +223,8 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
 
 	_float fDepth = m_pColliderCom->Get_Depth();
-	
-	
+
+
 
 	switch (other->Get_Type())
 	{
@@ -233,17 +246,17 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-		
-		
-			fPos = m_vOldPos;  // 이동 전 위치로 되돌림
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-		
+
+
+		fPos = m_vOldPos;  // 이동 전 위치로 되돌림
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+
 		break;
 	default:
 		break;
 	}
 
-	
+
 
 	return S_OK;
 }
@@ -272,7 +285,7 @@ void CPlayer::Move(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta * 0.4f);
 	}
 
-	
+
 	POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
@@ -290,7 +303,7 @@ void CPlayer::Move(_float fTimeDelta)
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * iDist * 0.005f);
 	}
 
-	
+
 
 }
 
@@ -299,7 +312,7 @@ void CPlayer::Inven_Update(_float fTimeDelta)
 	//m_bInven_Render_State = m_pPlayer_Inven->Update(fTimeDelta);
 
 
-	
+
 }
 
 HRESULT CPlayer::SetUp_RenderState()
@@ -329,13 +342,13 @@ HRESULT CPlayer::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		//m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return S_OK;
 }

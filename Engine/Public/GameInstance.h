@@ -46,6 +46,7 @@ public:
 	CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 	HRESULT Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject);
+	void Open_UI(_uint iLevelIndex, _bool bOpenUI);
 	/*CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);*/
 #pragma endregion
 

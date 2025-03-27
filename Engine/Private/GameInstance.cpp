@@ -175,6 +175,12 @@ HRESULT CGameInstance::Remove_Object(_uint iLevelIndex, const _wstring& strLayer
 	return m_pObject_Manager->Remove_Object(iLevelIndex,strLayerTag,pGameObject);
 }
 
+void CGameInstance::Open_UI(_uint iLevelIndex, _bool bOpenUI)
+{
+	if (iLevelIndex < 0) return;
+	m_pObject_Manager->Open_UI(iLevelIndex, bOpenUI);
+}
+
 
 /*CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
 {
