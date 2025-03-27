@@ -81,9 +81,9 @@ private:
 	_wstring SelectFolder();
 	//HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
-
-	void ShowInspectorTab();
-	void ShowCreateObjectTab();
+	void ShowItemCreationTab();// 아이템 제작
+	void ShowInspectorTab(); // 인스펙터
+	void ShowCreateObjectTab(); // 오브젝트 생성
 	HRESULT CreateObjectInstance(
 		const char* jsonFileNameBuffer,
 		const char* bufferNameBuffer, const char* colliderNameBuffer,
