@@ -314,6 +314,7 @@ void CMyImGui::ShowCreateObjectTab()
 	static int selectedColliderType = 0;
 	static int selectedBufferType = 0;
 	static int selectedClassType = 0;
+	static int selectedItemType = 0;
 	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube";
 	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Rect";
 	static char layerTagBuffer[128] = "Com_Collider";
@@ -522,6 +523,8 @@ void CMyImGui::ShowCreateObjectTab()
 		"Prototype_Component_VIBuffer_Rect",
 		"Prototype_Component_VIBuffer_Terrain"
 	};
+
+	static const char* ItemTypes[] = { "HP", "MP","Ammo","Stat","EXP"};
 	// UI 요소들 배치
 	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
 	{
@@ -538,6 +541,8 @@ void CMyImGui::ShowCreateObjectTab()
 		strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
 	}
 
+
+
 	ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
 	ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
 	ImGui::InputText("Object Proto Layer Tag", objectProtoTagBuffer, IM_ARRAYSIZE(objectProtoTagBuffer));
@@ -549,6 +554,17 @@ void CMyImGui::ShowCreateObjectTab()
 	ImGui::InputText("JSON Prototypes File Name", protoJsonFileNameBuffer, IM_ARRAYSIZE(protoJsonFileNameBuffer));
 	static _wstring selectedFolder;
 	static char selectedPathBuffer[512] = { 0 }; // 선택된 경로를 표시할 버퍼
+
+	ImGui::Checkbox("Item Create", &m_bCreateItem);
+
+	if (m_bCreateItem)
+	{
+		if (ImGui::Combo("Item Type", &selectedClassType, ItemTypes, IM_ARRAYSIZE(ItemTypes)))
+		{
+			strcpy_s(objectClassTagBuffer, ItemTypes[selectedItemType]);
+		}
+	}
+
 
 	// 이미 선택된 경로가 있으면 버퍼에 표시
 	if (selectedFolder.length() > 0 && selectedPathBuffer[0] == 0) {

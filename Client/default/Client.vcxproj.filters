@@ -726,7 +726,6 @@
     <ClCompile Include="..\private\GameObject_Particle_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
     </ClCompile>
@@ -809,6 +808,9 @@
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp">
       <Filter>02.GameObjects\06. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
