@@ -11,7 +11,7 @@
 
 
 // 히스토리 항목 구조체
- _uint CMyImGui::m_NextObjectID = 0;
+_uint CMyImGui::m_NextObjectID = 0;
 
 CMyImGui::CMyImGui(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device },
@@ -534,7 +534,7 @@ void CMyImGui::ShowCreateObjectTab()
 		"Prototype_Component_VIBuffer_Terrain"
 	};
 
-	static const char* ItemTypes[] = { "HP", "MP","Ammo","Stat","EXP"};
+	static const char* ItemTypes[] = { "HP", "MP","Ammo","Stat","EXP" };
 	// UI 요소들 배치
 	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
 	{
@@ -1673,13 +1673,19 @@ void CMyImGui::ShowItemCreationTab()
 		tItemDesc.stBufferTag = L"Prototype_Component_VIBuffer_Rect";
 		tItemDesc.stProtTag = L"Prototype_GameObject_Item_" + strItemName;
 		string stName = s_szItemNameBuffer;
-		wstring strProtoTag = L"Prototype_GameObject_Item_"+ISerializable::Utf8ToWide(stName);
+		wstring strProtoTag = L"Prototype_GameObject_Item_" + ISerializable::Utf8ToWide(stName);
 		wstring strLayerTag = L"Layer_Item";
 		// 아이템 게임 오브젝트 생성
-		if (FAILED(m_pGameInstance->Add_Prototype(3, strProtoTag, CItem::Create(m_pGraphic_Device))))
+		CJsonLoader jsonLoader;
+
+		if (FAILED(m_pGameInstance->Find_Prototype(strProtoTag)))
 		{
-			if (FAILED(m_pGameInstance->Find_Prototype(strProtoTag)))
+			CBase* pGameObject = jsonLoader.Create_Object_ByClassName("CItem", m_pGraphic_Device);
+			if (FAILED(m_pGameInstance->Add_Prototype(tItemDesc.iProtoLevel, strProtoTag, pGameObject)))
+			{
+				Safe_Release(pGameObject);
 				return;
+			}
 		}
 
 		// 게임 오브젝트 추가
@@ -1735,14 +1741,14 @@ void CMyImGui::ShowItemCreationTab()
 			}
 		}
 
-		tHistoryItem historyItem;
-		historyItem.iLevel = 3;
-		historyItem.iProtoLevel = 3;
-		historyItem.eType = EHistoryActionType::OBJECT_CREATE;
-		historyItem.pGameObject = m_pGameInstance->Find_Last_Object(3, strLayerTag);
-		historyItem.wstrPrototypeTag = strProtoTag;
-		historyItem.wstrLayerTag = strLayerTag;
-		AddToHistory(historyItem);
+		//tHistoryItem historyItem;
+		//historyItem.iLevel = 3;
+		//historyItem.iProtoLevel = 3;
+		//historyItem.eType = EHistoryActionType::OBJECT_CREATE;
+		//historyItem.pGameObject = m_pGameInstance->Find_Last_Object(3, strLayerTag);
+		//historyItem.wstrPrototypeTag = strProtoTag;
+		//historyItem.wstrLayerTag = strLayerTag;
+		//AddToHistory(historyItem);
 	}
 }
 
@@ -2054,117 +2060,117 @@ void CMyImGui::Undo()
 	//	Safe_Delete(pOldDesc);
 	//}*/
 
-if (m_vecUndoStack.empty())
-{
-	return;
-}
-
-tHistoryItem item = m_vecUndoStack.top();
-m_vecUndoStack.pop();
-
-//객체 참조 ID 기반으로 처리
-CGameObject* pTargetObject = nullptr;
-
-if (item.eType == EHistoryActionType::TRANSFORM_POSITION ||
-	item.eType == EHistoryActionType::TRANSFORM_ROTATION ||
-	item.eType == EHistoryActionType::TRANSFORM_SCALE)
-{
-	pTargetObject = GetObjectByID(item.objectID);
-
-	if (!pTargetObject)
+	if (m_vecUndoStack.empty())
 	{
-		return; 
+		return;
 	}
-}
+
+	tHistoryItem item = m_vecUndoStack.top();
+	m_vecUndoStack.pop();
+
+	//객체 참조 ID 기반으로 처리
+	CGameObject* pTargetObject = nullptr;
+
+	if (item.eType == EHistoryActionType::TRANSFORM_POSITION ||
+		item.eType == EHistoryActionType::TRANSFORM_ROTATION ||
+		item.eType == EHistoryActionType::TRANSFORM_SCALE)
+	{
+		pTargetObject = GetObjectByID(item.objectID);
+
+		if (!pTargetObject)
+		{
+			return;
+		}
+	}
 
 	m_pCurrentGameObject = pTargetObject;
 
-switch (item.eType)
-{
-case EHistoryActionType::TRANSFORM_POSITION:
-{
-	CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
-	if (pTransform)
+	switch (item.eType)
 	{
-		_float3 currentPos = pTransform->Get_State(CTransform::STATE_POSITION);
-		pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
-
-	}
-}
-break;
-
-case EHistoryActionType::TRANSFORM_ROTATION:
-{
-	
-	CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
-	if (pTransform)
+	case EHistoryActionType::TRANSFORM_POSITION:
 	{
-		_float3 currentRot = pTransform->Get_EulerAngles();
-		pTransform->Rotate_EulerAngles(item.vOldRotation);
-	}
-}
-break;
-
-case EHistoryActionType::TRANSFORM_SCALE:
-{
-	CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
-	if (pTransform)
-	{
-		_float3 currentScale = pTransform->Compute_Scaled();
-		pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
-	}
-}
-break;
-
-case EHistoryActionType::OBJECT_CREATE:
-{
-	if (item.pGameObject)
-	{
-		// 객체 ID 맵에서 찾기
-		pTargetObject = GetObjectByID(item.objectID);
-		if (pTargetObject)
+		CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
 		{
-			m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, pTargetObject);
+			_float3 currentPos = pTransform->Get_State(CTransform::STATE_POSITION);
+			pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
 
-			// 객체 ID 맵에서 제거
-			RemoveObjectID(pTargetObject);
 		}
 	}
-}
-break;
+	break;
 
-case EHistoryActionType::OBJECT_DELETE:
-{
-	if (item.tObjDesc != nullptr)
+	case EHistoryActionType::TRANSFORM_ROTATION:
 	{
-		// 객체 다시 생성
-		m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
-			item.iLevel, item.wstrLayerTag, item.tObjDesc);
 
-		// 새로 생성된 객체 가져오기
-		CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
-		if (pGameObject != nullptr)
+		CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
 		{
-			// 트랜스폼 속성 복원
-			CTransform* pTransform = (CTransform*)pGameObject->Get_Component(TEXT("Com_Transform"));
-			if (pTransform)
+			_float3 currentRot = pTransform->Get_EulerAngles();
+			pTransform->Rotate_EulerAngles(item.vOldRotation);
+		}
+	}
+	break;
+
+	case EHistoryActionType::TRANSFORM_SCALE:
+	{
+		CTransform* pTransform = (CTransform*)pTargetObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+		{
+			_float3 currentScale = pTransform->Compute_Scaled();
+			pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+		}
+	}
+	break;
+
+	case EHistoryActionType::OBJECT_CREATE:
+	{
+		if (item.pGameObject)
+		{
+			// 객체 ID 맵에서 찾기
+			pTargetObject = GetObjectByID(item.objectID);
+			if (pTargetObject)
 			{
-				pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
-				pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
-				pTransform->Rotate_EulerAngles(item.vOldRotation);
-			}
+				m_pGameInstance->Remove_Object(item.iLevel, item.wstrLayerTag, pTargetObject);
 
-			// 새 객체에 ID 할당 (이전 객체와 동일한 ID)
-			AssignSpecificObjectID(pGameObject, item.objectID);
+				// 객체 ID 맵에서 제거
+				RemoveObjectID(pTargetObject);
+			}
 		}
 	}
-}
-break;
-}
+	break;
+
+	case EHistoryActionType::OBJECT_DELETE:
+	{
+		if (item.tObjDesc != nullptr)
+		{
+			// 객체 다시 생성
+			m_pGameInstance->Add_GameObject(item.iProtoLevel, item.wstrPrototypeTag,
+				item.iLevel, item.wstrLayerTag, item.tObjDesc);
+
+			// 새로 생성된 객체 가져오기
+			CGameObject* pGameObject = m_pGameInstance->Find_Last_Object(item.iLevel, item.wstrLayerTag);
+			if (pGameObject != nullptr)
+			{
+				// 트랜스폼 속성 복원
+				CTransform* pTransform = (CTransform*)pGameObject->Get_Component(TEXT("Com_Transform"));
+				if (pTransform)
+				{
+					pTransform->Set_Scale(item.vOldScale.x, item.vOldScale.y, item.vOldScale.z);
+					pTransform->Set_State(CTransform::STATE_POSITION, item.vOldPosition);
+					pTransform->Rotate_EulerAngles(item.vOldRotation);
+				}
+
+				// 새 객체에 ID 할당 (이전 객체와 동일한 ID)
+				AssignSpecificObjectID(pGameObject, item.objectID);
+			}
+		}
+	}
+	break;
+	}
 
 }
 
-_uint CMyImGui::AssignObjectID(CGameObject* pObj) 
+_uint CMyImGui::AssignObjectID(CGameObject* pObj)
 {
 	if (!pObj) return 0;
 
@@ -2198,7 +2204,7 @@ void CMyImGui::AssignSpecificObjectID(CGameObject* pObj, _uint specificID)
 }
 
 // ID로 객체 찾기
-CGameObject* CMyImGui::GetObjectByID(UINT id) 
+CGameObject* CMyImGui::GetObjectByID(UINT id)
 {
 	auto it = m_IDObjectMap.find(id);
 	if (it != m_IDObjectMap.end())
@@ -2207,7 +2213,7 @@ CGameObject* CMyImGui::GetObjectByID(UINT id)
 }
 
 // 객체 삭제 시 ID 제거
-void CMyImGui::RemoveObjectID(CGameObject* pObj) 
+void CMyImGui::RemoveObjectID(CGameObject* pObj)
 {
 	auto it = m_ObjectIDMap.find(pObj);
 	if (it != m_ObjectIDMap.end()) {
