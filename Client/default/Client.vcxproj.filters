@@ -277,6 +277,9 @@
     <Filter Include="02.GameObjects\97. UI\03.Hub_UI\Episode">
       <UniqueIdentifier>{326d15df-e4b1-4ab8-b3f4-1117a9526562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\05. Hub\Portal">
+      <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -538,6 +541,9 @@
     <ClInclude Include="..\public\UI_Episode_Hub.h">
       <Filter>02.GameObjects\97. UI\03.Hub_UI\Episode</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Portal.h">
+      <Filter>02.GameObjects\05. Hub\Portal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -704,9 +710,6 @@
       <Filter>01.Levels\Test</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\99. Weapon\Ranged Weapon\Staff</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Sphere.cpp">
@@ -784,6 +787,10 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Episode_Hub.cpp">
       <Filter>02.GameObjects\97. UI\03.Hub_UI\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\Private\Portal.cpp">
+      <Filter>02.GameObjects\05. Hub\Portal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

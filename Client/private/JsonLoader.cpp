@@ -235,8 +235,7 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CHarpoon::Create(pGraphic_Device);
     else if(className =="CItem")
 		return CItem::Create(pGraphic_Device);
-    else if (className == "CPointShop")
-        return CPointShop::Create(pGraphic_Device);
+    
 
     wstring wClassName = ISerializable::Utf8ToWide(className);
     wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;

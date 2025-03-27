@@ -109,6 +109,7 @@ public:
 
         return static_cast<CUI_HP_Bar*>(pUI)->Get_Health();
     }
+
     void Set_MP(_uint type)
     {
         CUI_Base* pUI = GetUI(L"MP_Bar");

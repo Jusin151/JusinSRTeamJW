@@ -174,8 +174,7 @@ HRESULT CShop::On_Collision()
    /* bPlayer_Check = true;
      m_bIsOpen = true;*/
     }
-   
-
+  
     
 //switch (m_pColliderCom->Get_Other_Type())
 //{
@@ -190,9 +189,6 @@ HRESULT CShop::On_Collision()
 //default:
 //    break;
 //}
-
-
-
 
 
     return E_FAIL;

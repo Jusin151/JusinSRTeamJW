@@ -214,6 +214,10 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 							if (m_vecMapButtons.size() > SECOND_NORMAL_MAP &&
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
 							{
+								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Portal"),
+									LEVEL_GAMEPLAY, TEXT("Layer_Portal"))))
+									return;
+
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;
 							}
 						}
@@ -326,4 +330,8 @@ CGameObject* CUI_Episode_Hub::Clone(void* pArg)
 void CUI_Episode_Hub::Free()
 {
 	__super::Free();
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
+
 }

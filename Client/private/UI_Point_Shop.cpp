@@ -392,6 +392,10 @@ CGameObject* CUI_Point_Shop::Clone(void* pArg)
 void CUI_Point_Shop::Free()
 {
     __super::Free();
+    Safe_Release(m_pTextureCom);
+    Safe_Release(m_pTransformCom);
+    Safe_Release(m_pVIBufferCom);
+
 }
 
 

@@ -5,7 +5,7 @@
 #include "Collider_Cube.h"
 #include "Camera_FirstPerson.h"
 #include "Melee_Weapon.h"
-
+#include "CUI_Manager.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
@@ -59,7 +59,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	
 	// 이거 나중에 수정 필요할듯?
 
-	m_iPlayerHP = { 100,100 };
+	m_iPlayerHP = { 100,100};
 	m_iPlayerMP = { 50, 50 };
 	m_iPlayerBullet = { 0,0 }; // 총기류 마다 다른 총알 개수 받아올 예정
 	m_iPlayerEXP = { 0 , 100};
@@ -137,6 +137,10 @@ HRESULT CPlayer::Render()
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 체력:") + to_wstring(CUI_Manager::GetInstance()->Get_Hp()),
+		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 
 	//m_pPlayer_Inven->Render();
 

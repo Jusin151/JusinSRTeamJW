@@ -33,6 +33,9 @@ HRESULT CEpisode_Hub::Initialize(void* pArg)
 
 
     m_pUI_Episode_Hub = static_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI"));
+
+    if (m_pUI_Episode_Hub == nullptr)
+        return E_FAIL;
      
  /*   if (m_pUI_Episode_Hub == nullptr)
         return E_FAIL;*/
@@ -111,9 +114,6 @@ HRESULT CEpisode_Hub::Open_Shop()
    // m_bIsOpen = true;
 
 
-    m_pUI_Episode_Hub = static_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI"));
-
-
     if (m_pUI_Episode_Hub)
     {
         m_pUI_Episode_Hub->SetActive(true); // 보이게 설정
@@ -134,7 +134,6 @@ HRESULT CEpisode_Hub::Close_Shop()
     // 이미 닫혀있다면 무시
 
 
-    m_pUI_Episode_Hub = static_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI"));
 
 
     if (m_pUI_Episode_Hub)
@@ -244,6 +243,7 @@ void CEpisode_Hub::Free()
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
+   
 
 }
 
