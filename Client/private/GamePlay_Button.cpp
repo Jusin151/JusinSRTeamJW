@@ -84,10 +84,11 @@ HRESULT CGamePlay_Button::Render()
     Render_ToolTip_Button(); // 마우스 여부와 상관없이 무조건 렌더
 
 
-  
-    if (!m_bVisible)  
-        return S_OK;
-
+    if (!m_Button_Info.bRender)
+    {
+        if (!m_bVisible)
+            return S_OK;
+    }
     D3DXMATRIX matOldView, matOldProj;
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);

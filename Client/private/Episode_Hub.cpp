@@ -27,7 +27,7 @@ HRESULT CEpisode_Hub::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(1.f, 0.6f, 8.4f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.5f, 0.6f, 0.5f));
 
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 

@@ -1,27 +1,25 @@
-﻿#include "PointShop.h"
+﻿#include "Episode_Hub.h"
 #include "GameInstance.h"
-#include "Player.h"  
-#include  "UI_Point_Shop.h"
 #include "CUI_Manager.h"
-
-CPointShop::CPointShop(LPDIRECT3DDEVICE9 pGraphic_Device)
+#include "UI_Episode_Hub.h"
+CEpisode_Hub::CEpisode_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
 {
 }
 
-CPointShop::CPointShop(const CPointShop& Prototype)
+CEpisode_Hub::CEpisode_Hub(const CEpisode_Hub& Prototype)
     : CShop(Prototype)
 {
 }
 
-HRESULT CPointShop::Initialize_Prototype()
+HRESULT CEpisode_Hub::Initialize_Prototype()
 {
 
 
     return S_OK;
 }
 
-HRESULT CPointShop::Initialize(void* pArg)
+HRESULT CEpisode_Hub::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -29,25 +27,33 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, -3.4f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.5f, 0.6f, 0.5f));
 
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
-    m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
+
+    m_pUI_Episode_Hub = static_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI"));
+     
+ /*   if (m_pUI_Episode_Hub == nullptr)
+        return E_FAIL;*/
 
     return S_OK;
 }
 
 
-void CPointShop::Priority_Update(_float fTimeDelta)
+void CEpisode_Hub::Priority_Update(_float fTimeDelta)
 {
     m_bIsActive = true;
 }
 
-void CPointShop::Update(_float fTimeDelta)
+void CEpisode_Hub::Update(_float fTimeDelta)
 {
 
     __super::Update(fTimeDelta); 
+
+    m_pUI_Episode_Hub->SetActive(false);
+    m_pUI_Episode_Hub->Button_Set_Active(false);
+    m_pUI_Episode_Hub->m_bOnUI = false;
 
     if (m_bIsOpen)
     {
@@ -59,13 +65,13 @@ void CPointShop::Update(_float fTimeDelta)
     }
 }
 
-void CPointShop::Late_Update(_float fTimeDelta)
+void CEpisode_Hub::Late_Update(_float fTimeDelta)
 {
 
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CPointShop::Render()
+HRESULT CEpisode_Hub::Render()
 {
 
 
@@ -89,14 +95,14 @@ HRESULT CPointShop::Render()
     return S_OK;
 }
 
-HRESULT CPointShop::Ready_ShopItems()
+HRESULT CEpisode_Hub::Ready_ShopItems()
 {
 
 
     return S_OK;
 }
 
-HRESULT CPointShop::Open_Shop()
+HRESULT CEpisode_Hub::Open_Shop()
 {
     //// 이미 열려있다면 무시
     //if (m_bIsOpen)
@@ -105,13 +111,15 @@ HRESULT CPointShop::Open_Shop()
    // m_bIsOpen = true;
 
 
-    //m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")); 
+    m_pUI_Episode_Hub = static_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI"));
 
-    if (m_pUI_PointShop)
+
+    if (m_pUI_Episode_Hub)
     {
-        m_pUI_PointShop->SetActive(true); // 보이게 설정
-        m_pUI_PointShop->Button_Set_Active(true);
-        m_pUI_PointShop->m_bOnUI = true;
+        m_pUI_Episode_Hub->SetActive(true); // 보이게 설정
+        m_pUI_Episode_Hub->Button_Set_Active(true);
+        m_pUI_Episode_Hub->Button_Map_Set_Active(true);
+        m_pUI_Episode_Hub->m_bOnUI = true;
     }
 
 
@@ -121,24 +129,28 @@ HRESULT CPointShop::Open_Shop()
     return S_OK;
 }//뭘봐 ㅋ
 
-HRESULT CPointShop::Close_Shop()
+HRESULT CEpisode_Hub::Close_Shop()
 {
     // 이미 닫혀있다면 무시
 
 
-    //m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
+    m_pUI_Episode_Hub = static_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI"));
 
-    if (m_pUI_PointShop)
+
+    if (m_pUI_Episode_Hub)
     {
-        m_pUI_PointShop->SetActive(false);
-        m_pUI_PointShop->Button_Set_Active(false);
-        m_pUI_PointShop->m_bOnUI = false;
+    m_pUI_Episode_Hub->SetActive(false);
+    m_pUI_Episode_Hub->Button_Set_Active(false);
+    m_pUI_Episode_Hub->Button_Map_Set_Active(false);
+    m_pUI_Episode_Hub->m_bOnUI = false;
     }
+
+
 
     return S_OK;
 }
 
-HRESULT CPointShop::Purchase_Item(const _uint iItemID, const _uint iCount)
+HRESULT CEpisode_Hub::Purchase_Item(const _uint iItemID, const _uint iCount)
 {
     // 상점이 닫혀있다면 구매 실패
     if (!m_bIsOpen)
@@ -150,11 +162,17 @@ HRESULT CPointShop::Purchase_Item(const _uint iItemID, const _uint iCount)
     return S_OK;
 }
 
-HRESULT CPointShop::Sell_Item(const _uint iItemID, const _uint iCount)
+HRESULT CEpisode_Hub::Sell_Item(const _uint iItemID, const _uint iCount)
 {
     return S_OK;
 }
-HRESULT CPointShop::SetUp_RenderState()
+
+void CEpisode_Hub::Refresh_Shop_Items()
+{
+
+
+}
+HRESULT CEpisode_Hub::SetUp_RenderState()
 {
     // 일단 추가해보기
 
@@ -166,20 +184,14 @@ HRESULT CPointShop::SetUp_RenderState()
     return S_OK;
 }
 
-HRESULT CPointShop::Release_RenderState()
+HRESULT CEpisode_Hub::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
 }
 
-void CPointShop::Refresh_Shop_Items()
-{
-
-
-}
-
-_bool CPointShop::Can_Purchase(_uint iItemID, _uint iCount)
+_bool CEpisode_Hub::Can_Purchase(_uint iItemID, _uint iCount)
 {
     // 상점이 닫혀있으면 구매 불가
     if (!m_bIsOpen)
@@ -189,10 +201,10 @@ _bool CPointShop::Can_Purchase(_uint iItemID, _uint iCount)
 }
 
 
-HRESULT CPointShop::Ready_Components()
+HRESULT CEpisode_Hub::Ready_Components()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -200,33 +212,33 @@ HRESULT CPointShop::Ready_Components()
     return S_OK;
 }
 
-CPointShop* CPointShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEpisode_Hub* CEpisode_Hub::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CPointShop* pInstance = new CPointShop(pGraphic_Device);
+    CEpisode_Hub* pInstance = new CEpisode_Hub(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CPointShop");
+        MSG_BOX("Failed to Created : CEpisode_Hub");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CPointShop::Clone(void* pArg)
+CGameObject* CEpisode_Hub::Clone(void* pArg)
 {
-    CPointShop* pInstance = new CPointShop(*this);
+    CEpisode_Hub* pInstance = new CEpisode_Hub(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CPointShop");
+        MSG_BOX("Failed to Cloned : CEpisode_Hub");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CPointShop::Free()
+void CEpisode_Hub::Free()
 {
     __super::Free();
     Safe_Release(m_pTextureCom);
