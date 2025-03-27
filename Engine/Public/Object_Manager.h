@@ -31,10 +31,13 @@ public:
 	class CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	class CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 	HRESULT Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, class CGameObject* pGameObject);
+	void Open_UI(_uint iLevelIndex, _bool bOpenUI) { m_bOpendUI = bOpenUI; m_iLevelIndex = iLevelIndex; }
 private:	
 	_uint								m_iNumLevels = {};
 	map<const _wstring, class CLayer*>* m_pLayers = { nullptr };
 	class CGameInstance*				m_pGameInstance = { nullptr };
+	_bool m_bOpendUI = { true };
+	_uint m_iLevelIndex = -1;
 
 private:
 	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);

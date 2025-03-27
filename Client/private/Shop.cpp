@@ -60,6 +60,7 @@ void CShop::Update(_float fTimeDelta)
             if (!m_bSpacePressed)  
             {
                 m_bIsOpen = !m_bIsOpen;
+                m_pGameInstance->Open_UI(LEVEL_GAMEPLAY, m_bIsOpen);
                 m_bSpacePressed = true; 
                 static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
             }
@@ -67,21 +68,6 @@ void CShop::Update(_float fTimeDelta)
         else
         {
             m_bSpacePressed = false; 
-        }
-    }
-    else
-    {
-        if (GetAsyncKeyState(VK_SPACE) & 0x8000)
-        {
-            if (!m_bSpacePressed)
-            {
-                m_bIsOpen = false;
-                m_bSpacePressed = true;
-            }
-        }
-        else
-        {
-            m_bSpacePressed = false;
         }
     }
 
