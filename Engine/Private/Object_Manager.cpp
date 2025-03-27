@@ -85,8 +85,7 @@ void CObject_Manager::Priority_Update(_float fTimeDelta)
 			if (m_bOpendUI&& i ==m_iLevelIndex)
 			{
 				if (Pair.first.find(L"UI") !=_wstring::npos || Pair.first.find(L"Shop") != _wstring::npos
-					|| Pair.first.find(L"Episode") != _wstring::npos
-					|| Pair.first.find(L"Inven") != _wstring::npos)
+					|| Pair.first.find(L"Episode") != _wstring::npos)
 				{
 					Pair.second->Priority_Update(fTimeDelta);
 				}
@@ -108,8 +107,7 @@ void CObject_Manager::Update(_float fTimeDelta)
 			if (m_bOpendUI && i == m_iLevelIndex)
 			{
 				if (Pair.first.find(L"UI") != _wstring::npos|| Pair.first.find(L"Shop") != _wstring::npos
-					|| Pair.first.find(L"Episode") != _wstring::npos
-					|| Pair.first.find(L"Inven") != _wstring::npos)
+					|| Pair.first.find(L"Episode") != _wstring::npos)
 				{
 					Pair.second->Update(fTimeDelta);
 				}

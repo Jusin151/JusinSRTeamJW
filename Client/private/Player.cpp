@@ -404,13 +404,6 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
-void CPlayer::Set_Hp(_int iHp)
-{
-	m_iHp = iHp;
-	CUI_Manager::GetInstance()->Set_HP(m_iHp);
-	if (CUI_Player_Icon* pPlayIcon = dynamic_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
-		pPlayIcon->Set_Hp_Event();
-}
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -87,9 +87,6 @@ public:
 	virtual void Free();
 
 
-	void Set_Hp(_int iHp)override;
-	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-
 
 
 public:
