@@ -32,7 +32,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+	//m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
 	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.01f);
 
@@ -190,7 +190,7 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 78;
 }
 
-void CItem::Play_Animation(_float fTimeDelta) // 스텟 아이템은 회전하면서 애니메이션이 필요함
+void CItem::Play_Animation(_float fTimeDelta) 
 {
 	m_fFrame += 90.f * fTimeDelta;
 	if (m_fFrame >= 90.f)
@@ -200,8 +200,6 @@ void CItem::Play_Animation(_float fTimeDelta) // 스텟 아이템은 회전하�
 	m_iCurrentTexture = (_uint)(m_fFrame / fSlice) + Get_Base_AnimNum();
 	m_iCurrentTexture = min(Get_Max_AnimNum(), m_iCurrentTexture);
 	m_mapTextureTag[m_eItemType][m_strItemName] = m_iCurrentTexture;
-
-	//SetWindowText(g_hWnd,to_wstring(m_iCurrentTexture).c_str());
 }
 
 void CItem::Float_Item(_float fTimeDelta)
