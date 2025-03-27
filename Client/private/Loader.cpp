@@ -19,7 +19,9 @@
 #include "UI_Spell_Shop.h"
 #include "SpellShop.h"
 #include "WeaponShop.h"
-
+#include "Episode_Hub.h"
+#include "UI_Episode_Hub.h"
+#include "Portal.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -195,7 +197,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
 		TEXT("Prototype_GameObject_Point_Shop"),
-		CPointShop::Create(m_pGraphic_Device))))
+		CPoint_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
@@ -204,12 +206,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
 		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 스펠샵 UI 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Spell_Shop"),
 		CUI_Spell_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -243,28 +245,75 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰샵 월드객체 삭제 X
+	// 웨폰샵 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
 		TEXT("Prototype_GameObject_Weapon_Shop"),
 		CWeaponShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 웨폰상점  월드 객체 사진
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Shop/Gunsmith_station.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/Gunsmith_station.png"), 1))))
 		return E_FAIL;
 
 
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 스펠샵 월드객체 삭제 X
+	// 스펠샵 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
 		TEXT("Prototype_GameObject_Spell_Shop"),
 		CSpellShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 스펠샵  월드객체 사진
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Shop/Spellstation.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/Spellstation.png"), 1))))
 		return E_FAIL;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 에피소드 UI 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_UI_Episode_Hub"),
+		CUI_Episode_Hub::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	//// 에피소드  UI 디스플레이 사진
+  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub_UI"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Episode_UI/Episode_Display.png"), 1))))
+		return E_FAIL;
+
+	//// 에피소드  UI 초록색 셀렉트 박스
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub_UI_Selected"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Button/Episode_Selected/level_selected_%d.png"), 2))))
+		return E_FAIL;
+
+	//// 에피소드  UI 초록색 셀렉트 박스
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub_UI_Level_1"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Button/Level_1/Level_1_%d.png"),14))))
+		return E_FAIL;
+
+	// 에피소드 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Episode_Hub"),
+		CEpisode_Hub::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 스펠샵  월드객체 사진
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/TEXTURE_HUB_desk_1.png"), 1))))
+		return E_FAIL;
+
+	// 포탈 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Portal"),
+		CPortal::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 포탈  월드객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Portal"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Portal/Portal_%d.png"), 8))))
+		return E_FAIL;
+
 
 
 
@@ -714,3 +763,5 @@ void CLoader::Free()
 
 	DeleteCriticalSection(&m_CriticalSection);
 }
+
+

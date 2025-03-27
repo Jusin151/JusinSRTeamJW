@@ -1,27 +1,25 @@
 ﻿#include "PointShop.h"
 #include "GameInstance.h"
-#include "Player.h"  
-#include  "UI_Point_Shop.h"
 #include "CUI_Manager.h"
-
-CPointShop::CPointShop(LPDIRECT3DDEVICE9 pGraphic_Device)
+#include "UI_Point_Shop.h"
+CPoint_Shop::CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
 {
 }
 
-CPointShop::CPointShop(const CPointShop& Prototype)
+CPoint_Shop::CPoint_Shop(const CPoint_Shop& Prototype)
     : CShop(Prototype)
 {
 }
 
-HRESULT CPointShop::Initialize_Prototype()
+HRESULT CPoint_Shop::Initialize_Prototype()
 {
 
 
     return S_OK;
 }
 
-HRESULT CPointShop::Initialize(void* pArg)
+HRESULT CPoint_Shop::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -29,25 +27,33 @@ HRESULT CPointShop::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, -3.4f));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(1.5f, 0.6f, 0.5f));
 
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
-    m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
+
+    m_pUI_Point_Hub = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
+
+    /*   if (m_pUI_Point_Hub == nullptr)
+           return E_FAIL;*/
 
     return S_OK;
 }
 
 
-void CPointShop::Priority_Update(_float fTimeDelta)
+void CPoint_Shop::Priority_Update(_float fTimeDelta)
 {
     m_bIsActive = true;
 }
 
-void CPointShop::Update(_float fTimeDelta)
+void CPoint_Shop::Update(_float fTimeDelta)
 {
 
-    __super::Update(fTimeDelta); 
+    __super::Update(fTimeDelta);
+
+    m_pUI_Point_Hub->SetActive(false);
+    m_pUI_Point_Hub->Button_Set_Active(false);
+    m_pUI_Point_Hub->m_bOnUI = false;
 
      if (m_bIsOpen)
     {
@@ -59,32 +65,13 @@ void CPointShop::Update(_float fTimeDelta)
     }
 }
 
-void CPointShop::Late_Update(_float fTimeDelta)
+void CPoint_Shop::Late_Update(_float fTimeDelta)
 {
 
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CPointShop::SetUp_RenderState()
-{
-    // 일단 추가해보기
-
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
-
-    return S_OK;
-}
-
-HRESULT CPointShop::Release_RenderState()
-{
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-    return S_OK;
-}
-
-HRESULT CPointShop::Render()
+HRESULT CPoint_Shop::Render()
 {
 
 
@@ -108,14 +95,14 @@ HRESULT CPointShop::Render()
     return S_OK;
 }
 
-HRESULT CPointShop::Ready_ShopItems()
+HRESULT CPoint_Shop::Ready_ShopItems()
 {
 
 
     return S_OK;
 }
 
-HRESULT CPointShop::Open_Shop()
+HRESULT CPoint_Shop::Open_Shop()
 {
     //// 이미 열려있다면 무시
     //if (m_bIsOpen)
@@ -124,13 +111,14 @@ HRESULT CPointShop::Open_Shop()
    // m_bIsOpen = true;
 
 
-    //m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")); 
+    
 
-    if (m_pUI_PointShop)
+
+    if (m_pUI_Point_Hub)
     {
-        m_pUI_PointShop->SetActive(true); // 보이게 설정
-        m_pUI_PointShop->Button_Set_Active(true);
-        m_pUI_PointShop->m_bOnUI = true;
+        m_pUI_Point_Hub->SetActive(true); // 보이게 설정
+        m_pUI_Point_Hub->Button_Set_Active(true);
+        m_pUI_Point_Hub->m_bOnUI = true;
     }
 
 
@@ -140,18 +128,18 @@ HRESULT CPointShop::Open_Shop()
     return S_OK;
 }//뭘봐 ㅋ
 
-HRESULT CPointShop::Close_Shop()
+HRESULT CPoint_Shop::Close_Shop()
 {
     // 이미 닫혀있다면 무시
 
 
-    //m_pUI_PointShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
 
-    if (m_pUI_PointShop)
+
+    if (m_pUI_Point_Hub)
     {
-        m_pUI_PointShop->SetActive(false);
-        m_pUI_PointShop->Button_Set_Active(false);
-        m_pUI_PointShop->m_bOnUI = false;
+        m_pUI_Point_Hub->SetActive(false);
+        m_pUI_Point_Hub->Button_Set_Active(false);
+        m_pUI_Point_Hub->m_bOnUI = false;
     }
 
 
@@ -159,7 +147,7 @@ HRESULT CPointShop::Close_Shop()
     return S_OK;
 }
 
-HRESULT CPointShop::Purchase_Item(const _uint iItemID, const _uint iCount)
+HRESULT CPoint_Shop::Purchase_Item(const _uint iItemID, const _uint iCount)
 {
     // 상점이 닫혀있다면 구매 실패
     if (!m_bIsOpen)
@@ -171,18 +159,36 @@ HRESULT CPointShop::Purchase_Item(const _uint iItemID, const _uint iCount)
     return S_OK;
 }
 
-HRESULT CPointShop::Sell_Item(const _uint iItemID, const _uint iCount)
+HRESULT CPoint_Shop::Sell_Item(const _uint iItemID, const _uint iCount)
 {
     return S_OK;
 }
 
-void CPointShop::Refresh_Shop_Items()
+void CPoint_Shop::Refresh_Shop_Items()
 {
 
 
 }
+HRESULT CPoint_Shop::SetUp_RenderState()
+{
+    // 일단 추가해보기
 
-_bool CPointShop::Can_Purchase(_uint iItemID, _uint iCount)
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+
+    return S_OK;
+}
+
+HRESULT CPoint_Shop::Release_RenderState()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    return S_OK;
+}
+
+_bool CPoint_Shop::Can_Purchase(_uint iItemID, _uint iCount)
 {
     // 상점이 닫혀있으면 구매 불가
     if (!m_bIsOpen)
@@ -192,10 +198,10 @@ _bool CPointShop::Can_Purchase(_uint iItemID, _uint iCount)
 }
 
 
-HRESULT CPointShop::Ready_Components()
+HRESULT CPoint_Shop::Ready_Components()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -203,38 +209,35 @@ HRESULT CPointShop::Ready_Components()
     return S_OK;
 }
 
-CPointShop* CPointShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPoint_Shop* CPoint_Shop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CPointShop* pInstance = new CPointShop(pGraphic_Device);
+    CPoint_Shop* pInstance = new CPoint_Shop(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CPointShop");
+        MSG_BOX("Failed to Created : CPoint_Shop");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CPointShop::Clone(void* pArg)
+CGameObject* CPoint_Shop::Clone(void* pArg)
 {
-    CPointShop* pInstance = new CPointShop(*this);
+    CPoint_Shop* pInstance = new CPoint_Shop(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CPointShop");
+        MSG_BOX("Failed to Cloned : CPoint_Shop");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CPointShop::Free()
+void CPoint_Shop::Free()
 {
     __super::Free();
-    Safe_Release(m_pTextureCom);
-    Safe_Release(m_pTransformCom);
-    Safe_Release(m_pVIBufferCom);
 
 }
 

@@ -60,6 +60,7 @@ public:
             if (pButton)
                 pButton->SetActive(bActive); // 버튼도 같이 on/off
         }
+
     }
 
 protected:

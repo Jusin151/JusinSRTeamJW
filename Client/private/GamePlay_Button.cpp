@@ -67,6 +67,9 @@ void CGamePlay_Button::Update(_float fTimeDelta)
 
         m_bVisible = false;
     }
+
+
+  
 }
 
 void CGamePlay_Button::Late_Update(_float fTimeDelta)
@@ -78,12 +81,14 @@ void CGamePlay_Button::Late_Update(_float fTimeDelta)
 HRESULT CGamePlay_Button::Render()
 {
   
-    Render_ToolTip_Button_TexT(); // 마우스 여부와 상관없이 버튼이 있기만이라도 한다면 뜨는 텍스트
+    Render_ToolTip_Button(); // 마우스 여부와 상관없이 무조건 렌더
 
 
-    if (!m_bVisible)  
-        return S_OK;
-
+    if (!m_Button_Info.bRender)
+    {
+        if (!m_bVisible)
+            return S_OK;
+    }
     D3DXMATRIX matOldView, matOldProj;
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -101,7 +106,7 @@ HRESULT CGamePlay_Button::Render()
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
     if (FAILED(m_pTransformCom->Bind_Resource())) return E_FAIL;
-    if (FAILED(m_pTextureCom->Bind_Resource(0))) return E_FAIL;
+    if (FAILED(m_pTextureCom->Bind_Resource(m_Button_Info.iCurrentImageNum))) return E_FAIL;
     if (FAILED(m_pVIBufferCom->Bind_Buffers())) return E_FAIL;
     if (FAILED(m_pVIBufferCom->Render())) return E_FAIL;
 
@@ -116,7 +121,7 @@ HRESULT CGamePlay_Button::Render()
     return S_OK;
 }
 
-void CGamePlay_Button::Render_MouseOn_Button_TexT()
+void CGamePlay_Button::Render_MouseOn_Button_TexT() // 마우스 올렸을때 뜨는 텍스트들
 {
     if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_STAT) //왼쪽 스탯 버튼 
     {
@@ -129,17 +134,12 @@ void CGamePlay_Button::Render_MouseOn_Button_TexT()
     }
     if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_SKILL) // 오른쪽 스탯 버튼
     {
-        m_pGameInstance->Render_Font_Size(
-            L"MainFont",
-            m_strMouseOnText,
-            _float2(0.f, 50.f),
-            _float2(8.f, 22.f),
-            _float3(1.f, 1.f, 0.f));
+        m_bVisible = true;
     }
   
 }
 
-void CGamePlay_Button::Render_MouseClick_Button_TexT()
+void CGamePlay_Button::Render_MouseClick_Button_TexT() // 마우스 클릭했을때 다음 클릭때까지 계속 남아있는 텍스트들
 {
 
     if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == WEAPON_SHOP_BUTTON) // 오른쪽 스탯 버튼
@@ -156,9 +156,19 @@ void CGamePlay_Button::Render_MouseClick_Button_TexT()
    
 }
 
-void CGamePlay_Button::Render_ToolTip_Button_TexT()
+void CGamePlay_Button::Render_ToolTip_Button() // 설명창
 {
     if (m_OnClick && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == SPELL_SHOP_BUTTON) // 스펠 설명 버튼
+    {
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(-20.f, -40.f),
+            _float2(8.f, 22.f),
+            _float3(1.f, 1.f, 0.f));
+    }
+
+    if (m_Button_Info.Button_Type == EPISODE_BUTTON_MAP_IMAGE) // 스펠 설명 버튼
     {
         m_pGameInstance->Render_Font_Size(
             L"MainFont",

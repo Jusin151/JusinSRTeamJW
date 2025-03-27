@@ -2,15 +2,15 @@
 #include "Shop.h"
 
 BEGIN(Client)
-class CPointShop : public CShop
+class CPoint_Shop : public CShop
 {
 private:
-    CPointShop(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CPointShop(const CPointShop& Prototype);
-    virtual ~CPointShop() = default;
+    CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CPoint_Shop(const CPoint_Shop& Prototype);
+    virtual ~CPoint_Shop() = default;
 
 public:
-    
+
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
 
@@ -36,11 +36,11 @@ private:
     HRESULT Ready_Components();
 
 public:
-    static CPointShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    static CPoint_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
 private:
-    class CUI_Point_Shop* m_pUI_PointShop = { nullptr };
+    class CUI_Point_Shop* m_pUI_Point_Hub = { nullptr };
 
 };
 END

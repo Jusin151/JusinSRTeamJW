@@ -35,6 +35,7 @@ HRESULT CItem::Initialize(void* pArg)
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
 
+
 	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
 
@@ -206,7 +207,6 @@ HRESULT CItem::SetUp_RenderState()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-
 	return S_OK;
 }
 

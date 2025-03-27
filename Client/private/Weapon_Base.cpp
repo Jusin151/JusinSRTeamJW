@@ -75,7 +75,6 @@ void CWeapon_Base::Free()
 
 void CWeapon_Base::Move_Hand(_float fTimeDelta)
 {
-
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		t += speed;

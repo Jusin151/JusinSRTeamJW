@@ -21,6 +21,8 @@ void CRanged_Weapon::Priority_Update(_float fTimeDelta)
 
 void CRanged_Weapon::Update(_float fTimeDelta)
 {
+   
+
 	Attack(fTimeDelta);
 
 }

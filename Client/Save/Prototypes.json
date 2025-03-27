@@ -243,6 +243,11 @@
     {
       "count": 1,
       "level": 3,
+      "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
+    },
+    {
+      "count": 1,
+      "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_6.png",
       "tag": "Prototype_Component_Texture_AntWall1"
     },
@@ -287,12 +292,6 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Hub\\magma%d.png",
       "tag": "Prototype_Component_Texture_Magma"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources/Textures/Shop/Point_Shop%d.png",
-      "tag": "Prototype_Component_Texture_Point_Shop"
     },
     {
       "count": 1,

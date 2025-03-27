@@ -77,6 +77,12 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Episode_Hub"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
+		return E_FAIL;
+
+
+
 
 	return S_OK;
 }
@@ -359,6 +365,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_Shop_UI()
 		LEVEL_GAMEPLAY,
 		TEXT("Layer_UI_Spell_Shop"),
 		&Spell_Shop_UI)))
+		return E_FAIL;
+
+	CUI_Base::UI_Desc Episode_Hub_UI{};
+	Episode_Hub_UI.vPos = { 0.f, 0.f };
+	Episode_Hub_UI.vSize = { 804.f, 482.f };
+
+ 	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_UI_Episode_Hub"),
+		LEVEL_GAMEPLAY,
+		TEXT("Layer_UI_Episode_Hub"),
+		&Episode_Hub_UI)))
 		return E_FAIL;
 
 	return S_OK;
