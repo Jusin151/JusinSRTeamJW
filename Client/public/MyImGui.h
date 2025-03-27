@@ -81,9 +81,9 @@ private:
 	_wstring SelectFolder();
 	//HRESULT CreateObject();
 	_wstring GetRelativePath(const _wstring& absolutePath);
-
-	void ShowInspectorTab();
-	void ShowCreateObjectTab();
+	void ShowItemCreationTab();// 아이템 제작
+	void ShowInspectorTab(); // 인스펙터
+	void ShowCreateObjectTab(); // 오브젝트 생성
 	HRESULT CreateObjectInstance(
 		const char* jsonFileNameBuffer,
 		const char* bufferNameBuffer, const char* colliderNameBuffer,
@@ -126,6 +126,7 @@ private:
 	_float3 m_vPrevRotation = { 0.0f, 0.0f, 0.0f };
 	_float3 m_vPrevScale = { 0.0f, 0.0f, 0.0f };
 	_bool m_bTrackingTransform = false;
+	_bool m_bCreateItem = { false };
 
 	_float m_fLastInputTime = 0.0f;
 	const _float m_fInputCooldown = 0.01f; // 300ms 쿨다운

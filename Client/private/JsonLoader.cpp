@@ -132,6 +132,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 
             // 레이어 태그 가져오기
             _wstring layerTag;
+  
             if (objData.contains("LayerTag"))
                 layerTag = ISerializable::Utf8ToWide(objData["LayerTag"].get<string>());
             else

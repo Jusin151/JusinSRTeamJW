@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "JsonLoader.h"
 #include "Editor.h"
+#include <Item.h>
 
 
 // 히스토리 항목 구조체
@@ -314,6 +315,7 @@ void CMyImGui::ShowCreateObjectTab()
 	static int selectedColliderType = 0;
 	static int selectedBufferType = 0;
 	static int selectedClassType = 0;
+	static int selectedItemType = 0;
 	static char colliderNameBuffer[256] = "Prototype_Component_Collider_Cube";
 	static char bufferNameBuffer[256] = "Prototype_Component_VIBuffer_Rect";
 	static char layerTagBuffer[128] = "Com_Collider";
@@ -386,6 +388,15 @@ void CMyImGui::ShowCreateObjectTab()
 			bPrototypesLoaded = true;
 		}
 	}
+
+
+	ImGui::Checkbox("Item Create", &m_bCreateItem);
+
+	if (m_bCreateItem)
+	{
+		ShowItemCreationTab();
+	}
+
 
 	// 컴포넌트 타입 선택 UI 앞에 추가
 	ImGui::Separator();
@@ -522,6 +533,8 @@ void CMyImGui::ShowCreateObjectTab()
 		"Prototype_Component_VIBuffer_Rect",
 		"Prototype_Component_VIBuffer_Terrain"
 	};
+
+	static const char* ItemTypes[] = { "HP", "MP","Ammo","Stat","EXP"};
 	// UI 요소들 배치
 	if (ImGui::Combo("Collider Type", &selectedColliderType, colliderTypes, IM_ARRAYSIZE(colliderTypes)))
 	{
@@ -538,6 +551,8 @@ void CMyImGui::ShowCreateObjectTab()
 		strcpy_s(objectClassTagBuffer, classNames[selectedClassType].c_str());
 	}
 
+
+
 	ImGui::InputText("Collider Tag", colliderNameBuffer, IM_ARRAYSIZE(colliderNameBuffer));
 	ImGui::InputText("Component Layer Tag", layerTagBuffer, IM_ARRAYSIZE(layerTagBuffer));
 	ImGui::InputText("Object Proto Layer Tag", objectProtoTagBuffer, IM_ARRAYSIZE(objectProtoTagBuffer));
@@ -549,6 +564,7 @@ void CMyImGui::ShowCreateObjectTab()
 	ImGui::InputText("JSON Prototypes File Name", protoJsonFileNameBuffer, IM_ARRAYSIZE(protoJsonFileNameBuffer));
 	static _wstring selectedFolder;
 	static char selectedPathBuffer[512] = { 0 }; // 선택된 경로를 표시할 버퍼
+
 
 	// 이미 선택된 경로가 있으면 버퍼에 표시
 	if (selectedFolder.length() > 0 && selectedPathBuffer[0] == 0) {
@@ -1469,6 +1485,265 @@ _wstring CMyImGui::GetRelativePath(const _wstring& absolutePath)
 	_wstring relativePath = L"../../" + absolutePath.substr(absolutePath.find(L"Resources"));
 
 	return relativePath;
+}
+
+void CMyImGui::ShowItemCreationTab()
+{
+	static int s_iSelectedItemType = 0;
+	static int s_iSelectedItemSubType = 0;
+	static char s_szItemNameBuffer[256] = { 0 };
+	static int s_iItemValue = 10;
+	static bool s_bItemFloating = true;
+	static bool s_bItemAnimation = false;
+	static float s_fItemScale = 0.5f;
+	static float s_fItemFloatMin = 0.3f;
+	static float s_fItemFloatMax = 0.7f;
+
+	// 아이템 타입 및 서브타입 배열도 static으로 선언
+	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat" };
+	static const char* s_HPSubTypeNames[] = { "Small HP", "Big HP" };
+	static const char* s_MPSubTypeNames[] = { "Small MP", "Big MP" };
+	static const char* s_AmmoSubTypeNames[] = { "Shotgun_Ammo_Small","Shotgun_Ammo_Big",  "Staff_Ammo_Small", "Staff_Ammo_Big",
+		"Pistol_Ammo_Small",
+		"Pistol_Ammo_Big" };
+
+
+	static const char* s_ExpSubTypeNames[] = { "Small EXP", "Medium EXP", "Large EXP" };
+
+	// 현재 선택된 아이템 타입에 따른 서브타입 배열
+	static const char** s_pCurrentSubTypeNames = nullptr;
+	static int s_iCurrentSubTypeCount = 0;
+
+	// 서브타입 UI 업데이트 함수 (함수 내에 람다로 정의)
+	auto UpdateSubTypeUI = [&](int iItemType) {
+		// 선택된 아이템 타입에 따라 서브타입 배열 설정
+		switch (iItemType)
+		{
+		case 0: // HP
+			s_pCurrentSubTypeNames = s_HPSubTypeNames;
+			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_HPSubTypeNames);
+			strcpy_s(s_szItemNameBuffer, "HP_Small");
+			s_iItemValue = 10;
+			s_bItemAnimation = false;
+			break;
+		case 1: // MP
+			s_pCurrentSubTypeNames = s_MPSubTypeNames;
+			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_MPSubTypeNames);
+			strcpy_s(s_szItemNameBuffer, "MP_Small");
+			s_iItemValue = 10;
+			s_bItemAnimation = false;
+			break;
+		case 2: // Ammo
+			s_pCurrentSubTypeNames = s_AmmoSubTypeNames;
+			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_AmmoSubTypeNames);
+			strcpy_s(s_szItemNameBuffer, "Shotgun_Ammo_Small");
+			s_iItemValue = 20;
+			s_bItemAnimation = false;
+			break;
+		case 3: // EXP
+			s_pCurrentSubTypeNames = s_ExpSubTypeNames;
+			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_ExpSubTypeNames);
+			strcpy_s(s_szItemNameBuffer, "EXP");
+			s_iItemValue = 100;
+			s_bItemAnimation = false;
+			break;
+		case 4: // Stat
+			strcpy_s(s_szItemNameBuffer, "STAT");
+			s_iItemValue = 1;
+			s_bItemAnimation = true;
+			break;
+		default:
+			s_pCurrentSubTypeNames = nullptr;
+			s_iCurrentSubTypeCount = 0;
+			break;
+		}
+		};
+
+	ImGui::Separator();
+	ImGui::Text("Item Settings");
+
+	// 아이템 타입 선택
+	if (ImGui::Combo("Item Type", &s_iSelectedItemType, s_ItemTypeNames, IM_ARRAYSIZE(s_ItemTypeNames)))
+	{
+		// 타입 변경 시 서브타입 UI 업데이트
+		UpdateSubTypeUI(s_iSelectedItemType);
+		// 서브타입 선택 초기화
+		s_iSelectedItemSubType = 0;
+	}
+
+	if (s_pCurrentSubTypeNames != nullptr && s_iCurrentSubTypeCount > 0)
+	{
+		// 서브타입이 변경되었을 때 아이템 이름도 업데이트
+		if (ImGui::Combo("Item Sub Type", &s_iSelectedItemSubType, s_pCurrentSubTypeNames, s_iCurrentSubTypeCount))
+		{
+			// 서브타입에 따른 아이템 이름 업데이트
+			switch (s_iSelectedItemType)
+			{
+			case 0: // HP
+				strcpy_s(s_szItemNameBuffer, s_iSelectedItemSubType == 0 ? "HP_Small" : "HP_Big");
+				break;
+			case 1: // MP
+				strcpy_s(s_szItemNameBuffer, s_iSelectedItemSubType == 0 ? "MP_Small" : "MP_Big");
+				break;
+			case 2: // Ammo
+				switch (s_iSelectedItemSubType)
+				{
+				case 0: strcpy_s(s_szItemNameBuffer, "Shotgun_Ammo_Small"); break;
+				case 1: strcpy_s(s_szItemNameBuffer, "Shotgun_Ammo_Big"); break;
+				case 2: strcpy_s(s_szItemNameBuffer, "Staff_Ammo_Small"); break;
+				case 3: strcpy_s(s_szItemNameBuffer, "Staff_Ammo_Big"); break;
+				case 4: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Small"); break;
+				case 5: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Big"); break;
+				default: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Small"); break;
+				}
+				break;
+			case 3: // EXP
+				switch (s_iSelectedItemSubType)
+				{
+				case 0: strcpy_s(s_szItemNameBuffer, "EXP_Small"); break;
+				case 1: strcpy_s(s_szItemNameBuffer, "EXP_Medium"); break;
+				case 2: strcpy_s(s_szItemNameBuffer, "EXP_Large"); break;
+				default: strcpy_s(s_szItemNameBuffer, "EXP"); break;
+				}
+				break;
+			}
+		}
+	}
+
+	// 아이템 이름 
+	ImGui::InputText("Item Name", s_szItemNameBuffer, IM_ARRAYSIZE(s_szItemNameBuffer));
+
+	//// 아이템 값 (회복량, 탄약 수 등)
+	//ImGui::InputInt("Item Value", &s_iItemValue);
+	//if (s_iItemValue < 1) s_iItemValue = 1;
+
+	// 아이템 생성 버튼
+	if (ImGui::Button("Create Item"))
+	{
+		// 아이템 타입 및 이름 결정
+		CItem::ITEM_TYPE eItemType = static_cast<CItem::ITEM_TYPE>(s_iSelectedItemType);
+		_wstring strItemName;
+
+		switch (eItemType)
+		{
+		case CItem::ITEM_TYPE::HP:
+			strItemName = (s_iSelectedItemSubType == 0) ? L"HP_Small" : L"HP_Big";
+			break;
+		case CItem::ITEM_TYPE::MP:
+			strItemName = (s_iSelectedItemSubType == 0) ? L"MP_Small" : L"MP_Big";
+			break;
+		case CItem::ITEM_TYPE::AMMO:
+			switch (s_iSelectedItemSubType)
+			{
+			case 0: strItemName = L"Shotgun_Ammo_Small"; break;
+			case 1: strItemName = L"Shotgun_Ammo_Big"; break;
+			case 2: strItemName = L"Staff_Ammo_Small"; break;
+			case 3: strItemName = L"Staff_Ammo_Big"; break;
+			case 4: strItemName = L"Pistol_Ammo_Small"; break;
+			case 5: strItemName = L"Pistol_Ammo_Big"; break;
+			default: strItemName = L"Pistol_Ammo_Small"; break;
+			}
+			break;
+		case CItem::ITEM_TYPE::EXP:
+			strItemName = L"EXP";
+			break;
+		case CItem::ITEM_TYPE::STAT:
+			strItemName = L"STAT";
+			break;
+		default:
+			strItemName = L""; // 기본값
+			break;
+		}
+
+		// 아이템 이름에 사용자 입력 적용 (만약 사용자가 입력했다면)
+		if (s_szItemNameBuffer[0] != '\0')
+		{
+			wchar_t wszItemName[256] = {};
+			MultiByteToWideChar(CP_ACP, 0, s_szItemNameBuffer, -1, wszItemName, 256);
+			strItemName = wszItemName;
+		}
+
+		// 아이템 생성을 위한 구조체 설정
+		CItem::ITEM_DESC tItemDesc;
+		tItemDesc.eType = eItemType;
+		tItemDesc.strItemName = strItemName;
+		tItemDesc.iLevel = 3;
+		tItemDesc.iProtoLevel = 3;
+		tItemDesc.stProtTextureTag = L"Prototype_Component_Texture_Items";
+		tItemDesc.stBufferTag = L"Prototype_Component_VIBuffer_Rect";
+		tItemDesc.stProtTag = L"Prototype_GameObject_Item_" + strItemName;
+		string stName = s_szItemNameBuffer;
+		wstring strProtoTag = L"Prototype_GameObject_Item_"+ISerializable::Utf8ToWide(stName);
+		wstring strLayerTag = L"Layer_Item";
+		// 아이템 게임 오브젝트 생성
+		if (FAILED(m_pGameInstance->Add_Prototype(3, strProtoTag, CItem::Create(m_pGraphic_Device))))
+		{
+			if (FAILED(m_pGameInstance->Find_Prototype(strProtoTag)))
+				return;
+		}
+
+		// 게임 오브젝트 추가
+		if (FAILED(m_pGameInstance->Add_GameObject(3, strProtoTag, 3, strLayerTag, &tItemDesc)))
+		{
+			return;
+		}
+
+		CGameObject* pItemObject = m_pGameInstance->Find_Last_Object(3, strLayerTag);
+		if (pItemObject)
+		{
+			CTransform* pTransform = (CTransform*)pItemObject->Get_Component(TEXT("Com_Transform"));
+			if (pTransform)
+			{
+				// 카메라 정보 (뷰 행렬) 가져오기
+				_float4x4 vViewMatrix;
+				m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vViewMatrix);
+
+				// 뷰 행렬의 역행렬 계산 (카메라의 월드 변환 행렬)
+				D3DXMATRIX vInvViewMatrix;
+				D3DXMatrixInverse(&vInvViewMatrix, nullptr, &vViewMatrix);
+
+				// 카메라 위치와 방향 
+				_float3 vCameraPos = { vInvViewMatrix._41, vInvViewMatrix._42, vInvViewMatrix._43 };
+				_float3 vCameraLook = { vInvViewMatrix._31, vInvViewMatrix._32, vInvViewMatrix._33 };
+				vCameraLook.Normalize();
+
+				// 카메라 앞 일정 거리에 아이템 배치
+				_float3 vItemPos = vCameraPos + vCameraLook * 5.0f;
+
+				// 아이템 위치 설정
+				pTransform->Set_State(CTransform::STATE_POSITION, vItemPos);
+
+				// 아이템 크기 설정
+				pTransform->Set_Scale(s_fItemScale, s_fItemScale, 0.01f);
+
+				// 아이템 기본 방향 설정 (플레이어 없이도 작동하도록)
+				_float3 vRight = { 1.0f, 0.0f, 0.0f };
+				_float3 vUp = { 0.0f, 1.0f, 0.0f };
+				_float3 vLook = { 0.0f, 0.0f, 1.0f };
+
+				vRight.Normalize();
+				vUp.Normalize();
+				vLook.Normalize();
+
+				vRight *= s_fItemScale;
+				vUp *= s_fItemScale;
+				vLook *= 0.01f;
+
+				pTransform->Set_State(CTransform::STATE_RIGHT, vRight);
+				pTransform->Set_State(CTransform::STATE_UP, vUp);
+				pTransform->Set_State(CTransform::STATE_LOOK, vLook);
+			}
+		}
+
+		tHistoryItem historyItem;
+		historyItem.iLevel = 3;
+		historyItem.iProtoLevel = 3;
+		historyItem.eType = EHistoryActionType::OBJECT_CREATE;
+		historyItem.pGameObject = m_pGameInstance->Find_Last_Object(3, strLayerTag);
+		historyItem.wstrPrototypeTag = strProtoTag;
+		historyItem.wstrLayerTag = strLayerTag;
+		AddToHistory(historyItem);
+	}
 }
 
 void CMyImGui::RenderImGuizmo(CTransform* pTransform)

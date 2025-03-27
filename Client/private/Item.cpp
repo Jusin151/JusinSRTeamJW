@@ -36,10 +36,22 @@ HRESULT CItem::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
 	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.01f);
 
-	//테스트용
-	m_eItemType = ITEM_TYPE::STAT;
-	m_strItemName = L"STAT";
-	//
+	INIT_PARENT(pArg);
+
+	if (pArg)
+	{
+		ITEM_DESC tItemDesc = *static_cast<ITEM_DESC*>(pArg);
+		m_eItemType = tItemDesc.eType;
+		m_strItemName = tItemDesc.strItemName;
+	}
+	else
+	{
+		//테스트용
+		m_eItemType = ITEM_TYPE::STAT;
+		m_strItemName = L"STAT";
+		//
+	}
+
 
 	if (m_eItemType == ITEM_TYPE::STAT)
 	{
@@ -100,17 +112,8 @@ HRESULT CItem::Render()
 
 void CItem::Billboarding(_float fTimeDelta)
 {
+	if (!m_pPlayer) return;
 
-	//_float4x4 vViewMatrix{};
-	//_float3 vScale = m_pTransformCom->Compute_Scaled();
-	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vViewMatrix);
-	//m_pTransformCom->Set_State(CTransform::STATE_RIGHT, *reinterpret_cast<_float3*>(&vViewMatrix.m[0][0]) );
-	//m_pTransformCom->Set_State(CTransform::STATE_UP, *reinterpret_cast<_float3*>(&vViewMatrix.m[1][0]) );
-	//m_pTransformCom->Set_State(CTransform::STATE_LOOK, *reinterpret_cast<_float3*>(&vViewMatrix.m[2][0]) * vScale.z);
-
-	//_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//vPosition.y = 0.5f;
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 
 	CTransform* pPlayerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
@@ -177,7 +180,12 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::HP][L"HP_Small"] = 37;
 	m_mapTextureTag[ITEM_TYPE::MP][L"MP_Big"] = 38;
 	m_mapTextureTag[ITEM_TYPE::MP][L"MP_Small"] = 39;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo"] = 2;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Big"] = 2;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Small"] = 86;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Small"] = 87;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Big"] = 88;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Big"] = 89;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Small"] = 93;
 	m_mapTextureTag[ITEM_TYPE::EXP][L"EXP"] = 3;
 	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 78;
 }
@@ -202,6 +210,7 @@ void CItem::Float_Item(_float fTimeDelta)
 	
 	_float fOffsetY = (m_bIsUp ? 1.f: -1.f) * cos(D3DXToRadian(60.f));
 	auto vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	auto vPrevPosition = vPosition;
 	vPosition.y += fOffsetY * fTimeDelta;
 
 	if (vPosition.y > fMaxFloatOffset && m_bIsUp)
@@ -275,7 +284,7 @@ json CItem::Serialize()
 	json json = CGameObject::Serialize();
 
 	json["Type"] = static_cast<_int>(m_eType);
-	json["Item_Name"] = m_strItemName;
+	json["Item_Name"] = ISerializable::WideToUtf8(m_strItemName);
 
 	return json;
 }
@@ -286,7 +295,7 @@ void CItem::Deserialize(const json& j)
 
 	m_eItemType = static_cast<ITEM_TYPE>(j["Type"].get<_int>());
 
-	m_strItemName = j["Item_Name"].get<_wstring>();
+	m_strItemName = ISerializable::Utf8ToWide(j["Item_Name"].get<string>());
 
 	if (m_eItemType == ITEM_TYPE::STAT)
 	{
