@@ -324,12 +324,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 
-	////// 이미지 사진
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-	//	TEXT("Prototype_Component_Texture_Weapon_Icon"),
-	//	CTexture::Create(m_pGraphic_Device,
-	//		CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"), 8))))
-	//	return E_FAIL;
+	////// 웨폰들의  아이콘 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Weapon_Icon"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"), 8))))
+		return E_FAIL;
 
 
 

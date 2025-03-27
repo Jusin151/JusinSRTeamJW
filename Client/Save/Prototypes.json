@@ -97,12 +97,6 @@
       "count": 17
     },
     {
-      "tag": "Prototype_Component_Texture_Weapon_Icon",
-      "level": 3,
-      "path": "../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png",
-      "count": 8
-    },
-    {
       "tag": "Prototype_Component_Texture_Inven",
       "level": 3,
       "path": "../../Resources/Textures/Inven/Inven.png",

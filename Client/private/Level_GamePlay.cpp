@@ -79,6 +79,19 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
 
+	
+
+	/*CImage::Image_DESC Image_INFO = {};
+	Image_INFO.vPos = { 0.f,0.f };
+	Image_INFO.vSize = { 1000.f,1000.f };
+	Image_INFO.TextureKey = L"Prototype_Component_Texture_Image";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"),&Image_INFO)))
+		return E_FAIL;*/
+
+
+
+
 
 	return S_OK;
 }

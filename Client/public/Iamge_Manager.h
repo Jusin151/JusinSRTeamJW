@@ -1,9 +1,17 @@
 ﻿#include "Client_Defines.h"
 #include "GameObject.h"
 #include "Image.h"
+#include "Item_Manager.h"
+#include <GameInstance.h>
 
 class CImage_Manager
 {
+    enum ICON_NUM
+    {
+
+        Claymore,Axe,Magnum,ShotGun,Staff,Minigun,Harvester
+
+    };
 public:
     static CImage_Manager* GetInstance()
     {
@@ -29,6 +37,14 @@ public:
         } 
         m_mapImage[tag] = pUI;
     }
+    void Add_Weapon_Icon(const wstring& tag,CImage* IconImage)
+    {    
+        if (m_mapWeaponIcon.find(tag) != m_mapWeaponIcon.end())
+        {
+            return; 
+        }
+        m_mapWeaponIcon[tag] = IconImage;
+    }
     CImage* Get_Image(const wstring& tag)
     {
         auto it = m_mapImage.find(tag);
@@ -40,7 +56,8 @@ public:
     }
 
 private:
-    unordered_map<wstring, CImage*> m_mapImage;
+    unordered_map<wstring, CImage*> m_mapImage={};
+    unordered_map<wstring, CImage*> m_mapWeaponIcon={};
  
 
 };

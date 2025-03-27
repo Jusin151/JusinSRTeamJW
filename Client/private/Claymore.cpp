@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 #include "Item_Manager.h"
+#include "Iamge_Manager.h"
 
 
 CClaymore::CClaymore(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -56,6 +57,17 @@ HRESULT CClaymore::Initialize(void* pArg)
 
 	m_vInitialPos = m_Claymore_INFO.vPos;
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
+
+	/*CImage::Image_DESC Image_INFO = {};
+	Image_INFO.vPos = { 0.f,0.f };
+	Image_INFO.vSize = { 100.f,100.f };
+	Image_INFO.TextureKey = L"Prototype_Component_Texture_Image";
+	Image_INFO.TextureImageNum = Claymore;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
+		return E_FAIL;*/
+
+	
 
 
 

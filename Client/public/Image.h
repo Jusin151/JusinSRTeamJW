@@ -18,6 +18,7 @@ public:
         _float2 vPos{};
         _float2 vSize{};
         _float fAlpha{};
+        _uint TextureImageNum{};
         _wstring TextureKey{};
     }Image_DESC;
 public:
