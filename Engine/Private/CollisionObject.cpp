@@ -37,7 +37,7 @@ HRESULT CCollisionObject::Render()
 	return S_OK;
 }
 
-void CCollisionObject::Take_Damage(CCollisionObject* other)
+void CCollisionObject::Take_Damage(CCollisionObject* other) //other
 {
 
 	if (other == nullptr)

@@ -39,7 +39,6 @@ HRESULT CUI_HP_Bar::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
-	m_iHealth = 100;
 
 
 	m_pTransformCom->Set_Scale(m_HP_Bar_INFO.vSize.x, m_HP_Bar_INFO.vSize.y, 1.f);
@@ -64,6 +63,8 @@ void CUI_HP_Bar::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
+
+	Update_HP_Bar();
 }
 void CUI_HP_Bar::Update_HP_Bar()
 {

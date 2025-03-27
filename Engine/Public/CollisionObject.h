@@ -25,15 +25,15 @@ public:
 	_int Get_Hp() { return m_iHp; }
 	COLLIDERGROUP Get_Type() { return m_eType; }
 
-	void Set_Hp(_int iHp) { m_iHp = iHp; }
-	void Set_Ap(_int iAp) { m_iAp = iAp; }
+	virtual void Set_Hp(_int iHp) { m_iHp = iHp; }
+	virtual void Set_Ap(_int iAp) { m_iAp = iAp; }
 
 	void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }
 
 protected:
 
 	// 다른 오브젝트에 데미지를 준다
-	void Take_Damage(CCollisionObject* other);
+	 void Take_Damage(CCollisionObject* other);
 	
 
 protected:

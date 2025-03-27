@@ -7,6 +7,7 @@
 #include "Item_Manager.h"
 #include "CollisionObject.h"
 
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -19,6 +20,8 @@ BEGIN(Client)
 
 class CPlayer final : public CCollisionObject
 {
+	
+	
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -70,6 +73,10 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	CInventory* m_pInven = { nullptr };
 	virtual void Free();
+
+	void Set_Hp(_int iHp)override;
+	
+	 void Set_Ap(_int iAp)override { m_iAp = iAp; }
 public:
 	void Taimu_S_to_pu()
 	{

@@ -1,4 +1,4 @@
-#include "Portal.h"
+ï»¿#include "Portal.h"
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 #include "Player.h"
@@ -101,8 +101,8 @@ HRESULT CPortal::SetUp_RenderState()
 
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
     return S_OK;
 }
@@ -141,7 +141,7 @@ HRESULT CPortal::Render()
 
 HRESULT CPortal::On_Collision()
 {
-    // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿Í »óÁ¡ÀÇ À§Ä¡¸¦ °¡Á®¿È
+    // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì™€ ìƒì ì˜ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜´
     CTransform* pPlayerTransform = static_cast<CTransform*>(m_pPlayer->Get_Component(L"Com_Transform"));
     if (nullptr == pPlayerTransform)
         return E_FAIL;
@@ -153,7 +153,7 @@ HRESULT CPortal::On_Collision()
 
     float fDistanceSq = asd.LengthSq();*/
 
-    // ÇÃ·¹ÀÌ¾î¿Í »óÁ¡ »çÀÌ °Å¸®°¡ 25 ÀÌÇÏ (Áï, 5 ´ÜÀ§ ÀÌÇÏ)ÀÏ ¶§¸¸ Ãæµ¹·Î °£ÁÖ
+    // í”Œë ˆì´ì–´ì™€ ìƒì  ì‚¬ì´ ê±°ë¦¬ê°€ 25 ì´í•˜ (ì¦‰, 5 ë‹¨ìœ„ ì´í•˜)ì¼ ë•Œë§Œ ì¶©ëŒë¡œ ê°„ì£¼
     const float fThresholdSq = 1.f; // 5^2
     _float tmpDist = _float3::Distance(vPlayerPos, vShopPos);
     if (tmpDist <= fThresholdSq)
@@ -168,11 +168,11 @@ HRESULT CPortal::On_Collision()
     //switch (m_pColliderCom->Get_Other_Type())
     //{
     //case CG_PLAYER:
-    //    // ÇÃ·¹ÀÌ¾î¿Í Ãæµ¹ÇÑ °æ¿ì »óÈ£ ÀÛ¿ë Ã³¸® (¿¹: »óÁ¡ ¿­±â)
+    //    // í”Œë ˆì´ì–´ì™€ ì¶©ëŒí•œ ê²½ìš° ìƒí˜¸ ì‘ìš© ì²˜ë¦¬ (ì˜ˆ: ìƒì  ì—´ê¸°)
     //    if (!m_bIsOpen)
     //    {
     //        Open_Shop();
-    //        // ÇÊ¿ä¿¡ µû¶ó m_bIsOpen = true;¸¦ Á÷Á¢ ¼³Á¤ÇÒ ¼ö ÀÖÀ½.
+    //        // í•„ìš”ì— ë”°ë¼ m_bIsOpen = true;ë¥¼ ì§ì ‘ ì„¤ì •í•  ìˆ˜ ìˆìŒ.
     //    }
     //    break;
     //default:
@@ -188,24 +188,24 @@ void CPortal::LookAtPlayer(_float fTimeDelta)
 
     CTransform* pPlayerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
-    // ÇÃ·¹ÀÌ¾îÀÇ look º¤ÅÍ °¡Á®¿À±â (ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¹æÇâ)
+    // í”Œë ˆì´ì–´ì˜ look ë²¡í„° ê°€ì ¸ì˜¤ê¸° (í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥)
     _float3 vPlayerLook = pPlayerTransform->Get_State(CTransform::STATE_LOOK);
 
     vPlayerLook.y = 0.0f;
     vPlayerLook.Normalize();
 
-    _float3 vShopLook = -vPlayerLook;  // º¤ÅÍ ¹æÇâ ¹İÀü
+    _float3 vShopLook = -vPlayerLook;  // ë²¡í„° ë°©í–¥ ë°˜ì „
 
-    // Á÷±³ ±âÀú¸¦ °è»êÇÏ¿© Æ®·£½ºÆû ¼³Á¤
-    _float3 vUp = _float3(0.0f, 1.0f, 0.0f);  // ¿ùµå ¾÷ º¤ÅÍ
+    // ì§êµ ê¸°ì €ë¥¼ ê³„ì‚°í•˜ì—¬ íŠ¸ëœìŠ¤í¼ ì„¤ì •
+    _float3 vUp = _float3(0.0f, 1.0f, 0.0f);  // ì›”ë“œ ì—… ë²¡í„°
     _float3 vRight = vUp.Cross(vShopLook);
     vRight.Normalize();
 
-    // Á÷±³ ±âÀú¸¦ º¸ÀåÇÏ±â À§ÇØ ¾÷ º¤ÅÍ Àç°è»ê
+    // ì§êµ ê¸°ì €ë¥¼ ë³´ì¥í•˜ê¸° ìœ„í•´ ì—… ë²¡í„° ì¬ê³„ì‚°
     _float3 vNewUp = vShopLook.Cross(vRight);
     vNewUp.Normalize();
 
-    // »óÁ¡ÀÇ È¸Àü Çà·Ä ¼³Á¤
+    // ìƒì ì˜ íšŒì „ í–‰ë ¬ ì„¤ì •
     m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
     m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
     m_pTransformCom->Set_State(CTransform::STATE_LOOK, vShopLook);
@@ -234,9 +234,9 @@ HRESULT CPortal::Ready_Components()
     CCollider::COL_DESC	ColliderDesc = {};
 
     //ColliderDesc.pOwner = (this);
-    // ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+    // ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
      ColliderDesc.fScale = { 1.f,1.f,1.f };
-    // ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+    // ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
     ColliderDesc.fLocalPos = { 0.f, 0.f, 0.0f };
 
     /* For.Com_Collider_Sphere */

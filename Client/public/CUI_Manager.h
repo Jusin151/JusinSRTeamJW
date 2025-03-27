@@ -95,12 +95,17 @@ public:
         return _float2(99999, 99999);
     }
 
-    void Set_HP(_uint Damage)
+    void Set_HP(_uint _Hp)
     {
         CUI_Base* pHp_UI = GetUI(L"Hp_Bar");
-        CUI_Base* pPlayer_Icon = GetUI(L"Player_Icon");
+        static_cast<CUI_HP_Bar*>(pHp_UI)->Set_HP(_Hp);
+
+
+    }
+    void Set_Damage(_uint Damage)
+    {
+        CUI_Base* pHp_UI = GetUI(L"Hp_Bar");
         static_cast<CUI_HP_Bar*>(pHp_UI)->Set_Damage(Damage);
-        static_cast<CUI_Player_Icon*>(pPlayer_Icon)->Set_Hp_Event();
 
     }
     _uint Get_Hp()
@@ -127,6 +132,7 @@ public:
 
 private:
     unordered_map<wstring, CUI_Base*> m_UIMap;
+ 
 
 };
 

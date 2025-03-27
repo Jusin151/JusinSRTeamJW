@@ -6,6 +6,7 @@
 #include "Camera_FirstPerson.h"
 #include "Melee_Weapon.h"
 #include "CUI_Manager.h"
+#include "UI_Player_Icon.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
@@ -59,19 +60,31 @@ HRESULT CPlayer::Initialize(void* pArg)
 	
 	// 이거 나중에 수정 필요할듯?
 
-	m_iPlayerHP = { 100,100};
+	m_iPlayerHP = { 100,100}; // 현재/최대  이하 동문
 	m_iPlayerMP = { 50, 50 };
-	m_iPlayerBullet = { 0,0 }; // 총기류 마다 다른 총알 개수 받아올 예정
+	m_iPlayerBullet = { 0,0 }; 
 	m_iPlayerEXP = { 0 , 100};
 
 	m_eType = CG_PLAYER;
-	m_iHp = m_iPlayerHP.first;
 
+	m_iHp = m_iPlayerHP.first;
+	
 
 	//m_pPlayer_Inven = CInventory::GetInstance(); 
+
 	CPickingSys::Get_Instance()->Set_Player(this);
 	return S_OK;
 }
+void CPlayer::Set_Hp(_int iHp)
+{
+	m_iHp = iHp;
+		CUI_Manager::GetInstance()->Set_HP(m_iHp);
+		if (CUI_Player_Icon * pPlayIcon =  dynamic_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
+		{
+			pPlayIcon->Set_Hp_Event();
+		}
+}
+
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
@@ -82,6 +95,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	//{
 	//	pTransform->Go_Straight(fTimeDelta);
 	//}
+
+//	CUI_Manager::GetInstance()->Set_HP(m_iHp);
 }
 
 void CPlayer::Update(_float fTimeDelta)
@@ -124,6 +139,11 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+
+	
+	
+
 }
 
 HRESULT CPlayer::Render()
@@ -139,7 +159,7 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 체력:") + to_wstring(CUI_Manager::GetInstance()->Get_Hp()),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 체력:") + to_wstring(m_iHp),
 		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
@@ -191,6 +211,16 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
+		// gameObject.Get_Tag() == "Bullet"
+		// if(CMonster* pMonster = dynamic_cast<CMonster*>(gameObject))
+		// {
+		// _int iDamge = pMonster->Get_Damge();
+		// Set_Hp()llll
+		// Update_UI()
+		// 
+		// 
+		// 
+		//
 
 		break;
 
@@ -377,3 +407,4 @@ void CPlayer::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 }
+
