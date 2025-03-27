@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Shop.h"
 
 BEGIN(Client)
@@ -38,7 +38,7 @@ public:
 
     _bool m_bPortal_On{};
 private:
-    CGameObject* m_pPlayer = { nullptr }; // »óÁ¡ÀÌ ´Ã ÇÃ·¹ÀÌ¾î¸¦ ÃÄ´Ùº¸°Ô ÇÏ±â À§ÇØ¼­ ¼±¾ğ
+    CGameObject* m_pPlayer = { nullptr }; // ìƒì ì´ ëŠ˜ í”Œë ˆì´ì–´ë¥¼ ì³ë‹¤ë³´ê²Œ í•˜ê¸° ìœ„í•´ì„œ ì„ ì–¸
     _float m_fFrameTime = {};
     _uint m_iCurrentFrame = {};
 };
