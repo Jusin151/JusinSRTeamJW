@@ -103,7 +103,7 @@ void CShotGun::Attack(_float fTimeDelta)
 			m_fElapsedTime = 0.0f;
 
 			__super::Picking_Object(5);
-			CUI_Manager::GetInstance()->Set_Bullet(1);
+			CUI_Manager::GetInstance()->Set_Shotgun_Bullet(1);
 		}
 	}
 

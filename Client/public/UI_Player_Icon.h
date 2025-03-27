@@ -57,8 +57,8 @@ private:
 	const _float m_fHitDuration = 1.0f; 
 
 private:
-	_float m_fHealth{100.f};
-	CUI_HP_Bar* m_pHp_Bar{};
+	_int m_iPriorityHp{};
+	_int m_iLateHp{};
 };
 END
 

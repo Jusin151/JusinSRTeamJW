@@ -47,14 +47,10 @@ public:
 
 	HP_STATE Get_HpState() { return m_eHp_State; }
 	void Set_Damage(_int Damage) 
-	{ 
-		
+	{ 		
 		m_iHealth -= Damage;
-			if (m_iHealth < 0 || m_iHealth > 100)
-				m_iHealth = 0; // 최소 체력 제한
-
-			Update_HP_Bar();
-		
+		m_iHealth = max(0u, m_iHealth);
+			Update_HP_Bar();		
 	}
 	_uint Get_Health() { return m_iHealth; }
 

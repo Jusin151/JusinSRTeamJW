@@ -2,7 +2,6 @@
 #include "GameInstance.h"
 #include "CUI_Manager.h"
 
-/// �÷��̾� �������� Hp_Bar UI���� ���߿� �ҷ��ߵ�
 CUI_Player_Icon::CUI_Player_Icon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
 {
@@ -55,7 +54,7 @@ HRESULT CUI_Player_Icon::Initialize(void* pArg)
 
 void CUI_Player_Icon::Priority_Update(_float fTimeDelta)
 {
-	
+	m_iPriorityHp = CUI_Manager::GetInstance()->Get_Hp();
 	
 
 }
@@ -67,30 +66,41 @@ void CUI_Player_Icon::Set_Hp_Event()
 
 void CUI_Player_Icon::Update(_float fTimeDelta)
 {
-	m_fHealth =static_cast<_float>(CUI_Manager::GetInstance()->Get_Hp());
 
 
-	if (m_bIsHit)
-		Update_Hit_Animation(fTimeDelta);
-	else
-		Update_Animation(fTimeDelta);
+}
+void CUI_Player_Icon::Late_Update(_float fTimeDelta)
+{
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+		return;
+	
+	Update_Animation(fTimeDelta);
 }
 
 
 void CUI_Player_Icon::Update_Animation(_float fTimeDelta)
 {
+
+	m_iLateHp = CUI_Manager::GetInstance()->Get_Hp();
+
+	if (m_bIsHit)
+	{
+		Update_Hit_Animation(fTimeDelta);
+		return;
+	}
+
 	int defaultStart = 0, defaultCount = 4;
- 	if (m_fHealth >= 70)
+	if (m_iLateHp >= 70)
 	{
 		defaultStart = 0;    // 0~3
 		defaultCount = 4;
 	}
-	else if (m_fHealth >= 50)
+	else if (m_iLateHp >= 50)
 	{
 		defaultStart = 5;    // 5~8
 		defaultCount = 4;
 	}
-	else if (m_fHealth >= 20)
+	else if (m_iLateHp >= 20)
 	{
 		defaultStart = 10;   // 10~13
 		defaultCount = 4;
@@ -101,14 +111,18 @@ void CUI_Player_Icon::Update_Animation(_float fTimeDelta)
 		defaultCount = 4;
 	}
 
-	m_fElapsedTime += fTimeDelta; 
+	m_fElapsedTime += fTimeDelta;
 	if (m_fElapsedTime >= m_fFrameDuration)
-	{ 
+	{
 		m_fElapsedTime = 0.0f;
 		if (m_iCurrentFrame < defaultStart || m_iCurrentFrame >= defaultStart + defaultCount)
 			m_iCurrentFrame = defaultStart;
 		else
 			m_iCurrentFrame = defaultStart + ((m_iCurrentFrame - defaultStart + 1) % defaultCount);
+	}
+	if (m_iPriorityHp != m_iLateHp)
+	{
+	
 	}
 }
 
@@ -116,15 +130,15 @@ void CUI_Player_Icon::Update_Animation(_float fTimeDelta)
 void CUI_Player_Icon::Update_Hit_Animation(_float fTimeDelta)
 {
 	int hitFrame = 4; 
-	if (m_fHealth >= 70)
+	if (m_iLateHp >= 70)
 	{
 		hitFrame = 4;
 	}
-	else if (m_fHealth >= 50)
+	else if (m_iLateHp >= 50)
 	{
 		hitFrame = 9;
 	}
-	else if (m_fHealth >= 20)
+	else if (m_iLateHp >= 20)
 	{
 		hitFrame = 14;
 	}
@@ -139,11 +153,11 @@ void CUI_Player_Icon::Update_Hit_Animation(_float fTimeDelta)
 	if (m_fHitElapsedTime >= m_fHitDuration)
 	{
 		m_bIsHit = false; 
-		if (m_fHealth >= 70)
+		if (m_iLateHp >= 70)
 			m_iCurrentFrame = 0;
-		else if (m_fHealth >= 50)
+		else if (m_iLateHp >= 50)
 			m_iCurrentFrame = 5;
-		else if (m_fHealth >= 20)
+		else if (m_iLateHp >= 20)
 			m_iCurrentFrame = 10;
 		else
 			m_iCurrentFrame = 15;
@@ -152,12 +166,6 @@ void CUI_Player_Icon::Update_Hit_Animation(_float fTimeDelta)
 
 
 
-
-void CUI_Player_Icon::Late_Update(_float fTimeDelta)
-{
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
-}
 
 HRESULT CUI_Player_Icon::Render()
 {

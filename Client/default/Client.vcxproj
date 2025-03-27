@@ -167,6 +167,7 @@
     <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
+    <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Episode_Hub.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Icon.cpp" />

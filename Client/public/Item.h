@@ -15,16 +15,23 @@ END
 BEGIN(Client)
 class CItem final : public CCollisionObject
 {
-
+public:
 	enum class ITEM_TYPE : uint8_t // 1바이트로 설정
 	{
-	  HP,
-	  MP,
-	  AMMO,
-	  EXP,
-	  STAT,
-	  MAX
+		HP,
+		MP,
+		AMMO,
+		EXP,
+		STAT,
+		MAX
 	};
+
+	typedef struct tItem_Desc : public OBJECT_DESC
+	{
+		ITEM_TYPE eType = ITEM_TYPE::MAX;
+		_wstring strItemName = L"";
+	}ITEM_DESC;
+
 private:
 	friend class CMyImGui;
 
@@ -41,35 +48,41 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-	HRESULT On_Collision(_float fTimeDelta);
 
 private:
 	void Billboarding(_float fTimeDelta);
-	void Bind_ResourceByType();
 	void Use_Item();
 	void Init_TextureTag();
+	void Play_Animation(_float fTimeDelta);
+	void Float_Item(_float fTimeDelta);
 
 
 private:
+
+	// 컴포넌트
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 	CMaterial* m_pMaterialCom = { nullptr };
 	_bool m_bIsCubeCollider = { false };
-	map<ITEM_TYPE, map<_wstring,_uint>> m_mapTextureTag;	
-	class CPlayer* m_pPlayer = { nullptr };	
-	//_wstring m_strVIBuffer;
-	//_wstring m_strCollProtoTag;
-	//_wstring m_strTextureTag;
-	ITEM_TYPE m_eType{ ITEM_TYPE::MAX };
+	
+	map<ITEM_TYPE, map<_wstring, _uint>> m_mapTextureTag;
+	_wstring m_strItemName;
+	ITEM_TYPE m_eItemType{ ITEM_TYPE::MAX };
+	class CPlayer* m_pPlayer = { nullptr };
+
+
+	// 애니메이션 용
+	_bool m_bIsNeedAnim = { false };
+	_float m_fFrame = { 0.f };
+	_uint m_iCurrentTexture = { 0 };
+	_bool m_bIsUp = { true };
 
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
-
 	HRESULT Ready_Components();
-
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
