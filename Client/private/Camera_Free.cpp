@@ -27,7 +27,7 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 	Desc.vEye = _float3(0.f, 10.f, -10.f);
 	Desc.vAt = _float3(0.f, 0.f, 0.f);
-	Desc.fFov = D3DXToRadian(60.f);
+	Desc.fFov = D3DXToRadian(90.f);
 	Desc.fNear = 0.1f;
 	Desc.fFar = 300.f;
 	Desc.fMouseSensor = 1.f;

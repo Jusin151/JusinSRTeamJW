@@ -14,9 +14,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    9.361000061035156,
-                    4.373000144958496,
-                    29.55699920654297
+                    9.35,
+                    4.36,
+                    29.55
                 ],
                 "rotation": [
                     0.0,
@@ -24,7 +24,7 @@
                     0.0
                 ],
                 "scale": [
-                    16.799999237060547,
+                    16.79,
                     11.0,
                     1.0
                 ]
@@ -42,9 +42,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    42.65509033203125,
-                    3.998910665512085,
-                    0.10671444982290268
+                    42.65,
+                    4.0,
+                    0.10
                 ],
                 "rotation": [
                     0.0,
@@ -53,8 +53,8 @@
                 ],
                 "scale": [
                     60.0,
-                    11.800000190734863,
-                    0.9999993443489075
+                    11.80,
+                    1.0
                 ]
             },
             {
@@ -70,9 +70,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.297273635864258,
-                    5.610034942626953,
-                    -29.55682373046875
+                    21.29,
+                    5.61,
+                    -29.55
                 ],
                 "rotation": [
                     0.0,
@@ -80,8 +80,8 @@
                     0.0
                 ],
                 "scale": [
-                    7.300000190734863,
-                    8.699999809265137,
+                    7.30,
+                    8.69,
                     1.0
                 ]
             },
@@ -100,7 +100,7 @@
                 "position": [
                     9.0,
                     4.0,
-                    18.19983673095703
+                    18.20
                 ],
                 "rotation": [
                     0.0,
@@ -110,7 +110,7 @@
                 "scale": [
                     6.0,
                     10.0,
-                    0.9999997615814209
+                    1.0
                 ]
             },
             {
@@ -128,7 +128,7 @@
                 "position": [
                     9.0,
                     4.0,
-                    -19.28569984436035
+                    -19.29
                 ],
                 "rotation": [
                     0.0,
@@ -138,7 +138,7 @@
                 "scale": [
                     6.0,
                     10.0,
-                    0.9999999403953552
+                    1.0
                 ]
             },
             {
@@ -154,9 +154,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    29.899017333984375,
+                    29.89,
                     4.0,
-                    -21.878507614135742
+                    -21.87
                 ],
                 "rotation": [
                     0.0,
@@ -182,9 +182,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    32.40943908691406,
+                    32.40,
                     4.0,
-                    -19.285999298095703
+                    -19.29
                 ],
                 "rotation": [
                     0.0,
@@ -194,7 +194,7 @@
                 "scale": [
                     6.0,
                     10.0,
-                    0.9999999403953552
+                    1.0
                 ]
             },
             {
@@ -210,9 +210,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    32.409000396728516,
+                    32.40,
                     4.0,
-                    18.200000762939453
+                    18.20
                 ],
                 "rotation": [
                     0.0,
@@ -220,9 +220,9 @@
                     0.0
                 ],
                 "scale": [
-                    5.999999046325684,
+                    6.0,
                     10.0,
-                    0.9999997019767761
+                    1.0
                 ]
             },
             {
@@ -238,9 +238,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    29.89900016784668,
+                    29.89,
                     4.0,
-                    20.756999969482422
+                    20.76
                 ],
                 "rotation": [
                     0.0,
@@ -266,9 +266,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    11.531000137329102,
+                    11.52,
                     4.0,
-                    20.756738662719727
+                    20.76
                 ],
                 "rotation": [
                     0.0,
@@ -294,9 +294,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    11.530694961547852,
+                    11.52,
                     4.0,
-                    -21.81231689453125
+                    -21.80
                 ],
                 "rotation": [
                     0.0,
@@ -304,9 +304,9 @@
                     0.0
                 ],
                 "scale": [
-                    6.000000476837158,
+                    6.0,
                     10.0,
-                    0.9999998211860657
+                    1.0
                 ]
             },
             {
@@ -322,9 +322,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    1.7758013370894332e-07,
+                    0.0,
                     6.0,
-                    -2.69983172416687
+                    -2.70
                 ],
                 "rotation": [
                     0.0,
@@ -333,8 +333,8 @@
                 ],
                 "scale": [
                     6.0,
-                    9.100000381469727,
-                    0.9999994039535522
+                    9.10,
+                    1.0
                 ]
             },
             {
@@ -350,9 +350,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    0.5278282165527344,
+                    0.52,
                     5.0,
-                    15.202134132385254
+                    15.19
                 ],
                 "rotation": [
                     0.0,
@@ -360,9 +360,9 @@
                     0.0
                 ],
                 "scale": [
-                    29.999998092651367,
+                    30.0,
                     11.0,
-                    0.9999995827674866
+                    1.0
                 ]
             },
             {
@@ -378,9 +378,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    4.368868076198851e-07,
+                    0.0,
                     5.0,
-                    -19.023237228393555
+                    -19.02
                 ],
                 "rotation": [
                     0.0,
@@ -388,35 +388,7 @@
                     0.0
                 ],
                 "scale": [
-                    26.999998092651367,
-                    11.0,
-                    0.9999999403953552
-                ]
-            },
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_AntBossWall",
-                "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_AntBossWall",
-                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
-                    "ProtoLevel": 3
-                },
-                "is_cube_collider": true,
-                "position": [
-                    8.902373313903809,
-                    4.373000144958496,
-                    -29.55699920654297
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    17.399999618530273,
+                    27.0,
                     11.0,
                     1.0
                 ]
@@ -434,9 +406,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    33.76517868041992,
-                    4.373000144958496,
-                    -29.557249069213867
+                    8.89,
+                    4.36,
+                    -29.55
                 ],
                 "rotation": [
                     0.0,
@@ -444,7 +416,7 @@
                     0.0
                 ],
                 "scale": [
-                    17.700000762939453,
+                    17.39,
                     11.0,
                     1.0
                 ]
@@ -462,9 +434,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.297000885009766,
-                    5.610000133514404,
-                    29.443618774414063
+                    33.77,
+                    4.36,
+                    -29.55
                 ],
                 "rotation": [
                     0.0,
@@ -472,8 +444,8 @@
                     0.0
                 ],
                 "scale": [
-                    7.300000190734863,
-                    8.699999809265137,
+                    17.70,
+                    11.0,
                     1.0
                 ]
             },
@@ -490,9 +462,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    33.76499938964844,
-                    4.373176574707031,
-                    29.55699920654297
+                    21.29,
+                    5.61,
+                    29.44
                 ],
                 "rotation": [
                     0.0,
@@ -500,7 +472,35 @@
                     0.0
                 ],
                 "scale": [
-                    17.700000762939453,
+                    7.30,
+                    8.69,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntBossWall",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntBossWall",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntBossWall",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    33.75,
+                    4.36,
+                    29.55
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    17.70,
                     11.0,
                     1.0
                 ]
@@ -520,9 +520,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -13.970293998718262,
-                    0.9868353009223938,
-                    -1.6469202041625977
+                    -13.97,
+                    0.99,
+                    -1.64
                 ],
                 "rotation": [
                     90.0,
@@ -532,7 +532,7 @@
                 "scale": [
                     6.0,
                     4.5,
-                    0.9999993443489075
+                    1.0
                 ]
             },
             {
@@ -548,9 +548,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -5.168996810913086,
-                    0.9860000014305115,
-                    -2.456888198852539
+                    -5.17,
+                    0.99,
+                    -2.46
                 ],
                 "rotation": [
                     90.0,
@@ -560,7 +560,7 @@
                 "scale": [
                     12.0,
                     6.0,
-                    0.9999990463256836
+                    1.0
                 ]
             },
             {
@@ -576,9 +576,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.19721221923828,
+                    21.20,
                     1.0,
-                    31.475635528564453
+                    31.47
                 ],
                 "rotation": [
                     90.0,
@@ -586,9 +586,9 @@
                     0.0
                 ],
                 "scale": [
-                    5.800000190734863,
+                    5.80,
                     3.0,
-                    0.9999997019767761
+                    1.0
                 ]
             },
             {
@@ -604,9 +604,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.19700050354004,
+                    21.20,
                     1.0,
-                    -31.474672317504883
+                    -31.46
                 ],
                 "rotation": [
                     90.0,
@@ -614,9 +614,9 @@
                     0.0
                 ],
                 "scale": [
-                    5.800000190734863,
-                    2.999999761581421,
-                    0.9999999403953552
+                    5.80,
+                    3.0,
+                    1.0
                 ]
             }
         ],
@@ -634,9 +634,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    12.34751033782959,
+                    12.35,
                     -0.5,
-                    7.552672741439892e-06
+                    0.0
                 ],
                 "rotation": [
                     90.0,
@@ -646,7 +646,7 @@
                 "scale": [
                     60.0,
                     80.0,
-                    0.009999999776482582
+                    0.00
                 ]
             }
         ],
@@ -664,7 +664,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -12.982858657836914,
+                    -12.97,
                     0.0,
                     -4.0
                 ],
@@ -692,9 +692,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -12.936363220214844,
+                    -12.93,
                     0.0,
-                    0.9999998807907104
+                    1.0
                 ],
                 "rotation": [
                     0.0,
@@ -720,9 +720,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -16.45302963256836,
+                    -16.45,
                     0.0,
-                    -1.5334689617156982
+                    -1.52
                 ],
                 "rotation": [
                     0.0,
@@ -732,7 +732,7 @@
                 "scale": [
                     6.0,
                     1.0,
-                    0.9999998807907104
+                    1.0
                 ]
             },
             {
@@ -748,9 +748,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -9.491840362548828,
-                    -9.180605411529541e-05,
-                    0.005054381210356951
+                    -9.48,
+                    -0.0,
+                    0.00
                 ],
                 "rotation": [
                     0.0,
@@ -758,9 +758,9 @@
                     0.0
                 ],
                 "scale": [
-                    0.9999993443489075,
                     1.0,
-                    0.9999993443489075
+                    1.0,
+                    1.0
                 ]
             },
             {
@@ -776,9 +776,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -3.8891539573669434,
+                    -3.89,
                     0.0,
-                    -0.1851608157157898
+                    -0.18
                 ],
                 "rotation": [
                     0.0,
@@ -804,9 +804,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -4.718466281890869,
+                    -4.71,
                     0.0,
-                    -4.999685764312744
+                    -5.0
                 ],
                 "rotation": [
                     0.0,
@@ -832,9 +832,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    -8.525903701782227,
+                    -8.52,
                     0.0,
-                    -1.0089690685272217
+                    -1.00
                 ],
                 "rotation": [
                     0.0,
@@ -842,9 +842,9 @@
                     0.0
                 ],
                 "scale": [
-                    0.9999987483024597,
                     1.0,
-                    0.9999987483024597
+                    1.0,
+                    1.0
                 ]
             }
         ],
@@ -862,9 +862,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.296504974365234,
+                    21.29,
                     1.0,
-                    29.532852172851563
+                    29.53
                 ],
                 "rotation": [
                     0.0,
@@ -872,7 +872,7 @@
                     0.0
                 ],
                 "scale": [
-                    7.300000190734863,
+                    7.30,
                     1.0,
                     1.0
                 ]
@@ -890,9 +890,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.297000885009766,
-                    0.7490000128746033,
-                    -29.533000946044922
+                    21.29,
+                    0.75,
+                    -29.53
                 ],
                 "rotation": [
                     0.0,
@@ -900,7 +900,7 @@
                     0.0
                 ],
                 "scale": [
-                    7.300000190734863,
+                    7.30,
                     1.0,
                     1.0
                 ]
@@ -920,9 +920,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.274999618530273,
+                    21.27,
                     0.0,
-                    29.285003662109375
+                    29.29
                 ],
                 "rotation": [
                     0.0,
@@ -948,93 +948,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.646181106567383,
+                    21.64,
                     0.0,
-                    32.62324523925781
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    6.000000476837158,
-                    1.0,
-                    0.9999996423721313
-                ]
-            },
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_AntWall3",
-                "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_AntWall3",
-                    "ProtTextureTag": "Prototype_Component_Texture_AntWall3",
-                    "ProtoLevel": 3
-                },
-                "is_cube_collider": true,
-                "position": [
-                    18.13850975036621,
-                    0.0,
-                    31.089191436767578
-                ],
-                "rotation": [
-                    0.0,
-                    90.0,
-                    0.0
-                ],
-                "scale": [
-                    4.0,
-                    1.0,
-                    0.9999996423721313
-                ]
-            },
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_AntWall3",
-                "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_AntWall3",
-                    "ProtTextureTag": "Prototype_Component_Texture_AntWall3",
-                    "ProtoLevel": 3
-                },
-                "is_cube_collider": true,
-                "position": [
-                    24.47006607055664,
-                    0.0,
-                    31.0
-                ],
-                "rotation": [
-                    0.0,
-                    90.0,
-                    0.0
-                ],
-                "scale": [
-                    4.0,
-                    1.0,
-                    0.9999999403953552
-                ]
-            },
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_AntWall3",
-                "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_AntWall3",
-                    "ProtTextureTag": "Prototype_Component_Texture_AntWall3",
-                    "ProtoLevel": 3
-                },
-                "is_cube_collider": true,
-                "position": [
-                    21.649999618530273,
-                    0.0,
-                    -32.62300109863281
+                    32.61
                 ],
                 "rotation": [
                     0.0,
@@ -1060,9 +976,93 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    21.274999618530273,
+                    18.13,
                     0.0,
-                    -29.29561424255371
+                    31.09
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    4.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntWall3",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntWall3",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntWall3",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    24.46,
+                    0.0,
+                    31.0
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    4.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntWall3",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntWall3",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntWall3",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    21.64,
+                    0.0,
+                    -32.61
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_AntWall3",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_AntWall3",
+                    "ProtTextureTag": "Prototype_Component_Texture_AntWall3",
+                    "ProtoLevel": 3
+                },
+                "is_cube_collider": true,
+                "position": [
+                    21.27,
+                    0.0,
+                    -29.29
                 ],
                 "rotation": [
                     0.0,
@@ -1088,7 +1088,7 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    24.469999313354492,
+                    24.46,
                     0.0,
                     -31.0
                 ],
@@ -1098,9 +1098,9 @@
                     0.0
                 ],
                 "scale": [
-                    3.9999990463256836,
-                    0.9999998211860657,
-                    0.9999996423721313
+                    4.0,
+                    1.0,
+                    1.0
                 ]
             },
             {
@@ -1116,9 +1116,9 @@
                 },
                 "is_cube_collider": true,
                 "position": [
-                    18.136999130249023,
+                    18.13,
                     0.0,
-                    -31.08300018310547
+                    -31.07
                 ],
                 "rotation": [
                     0.0,
@@ -1126,26 +1126,26 @@
                     0.0
                 ],
                 "scale": [
-                    3.9999990463256836,
-                    0.9999996423721313,
-                    0.9999996423721313
+                    4.0,
+                    1.0,
+                    1.0
                 ]
             }
         ],
-        "Layer_Camera": [
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_Camera",
-                "OBJECT_DESC": {
-                    "BufferTag": "",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_Camera_Free",
-                    "ProtTextureTag": "",
-                    "ProtoLevel": 0
-                }
-            }
-        ]
+      "Layer_Camera": [
+        {
+          "FromPool": false,
+          "IsActive": true,
+          "LayerTag": "Layer_Camera",
+          "OBJECT_DESC": {
+            "BufferTag": "",
+            "Level": 3,
+            "ProtTag": "Prototype_GameObject_Camera_Free",
+            "ProtTextureTag": "",
+            "ProtoLevel": 0
+          }
+        }
+      ]
     },
     "level": 3
 }

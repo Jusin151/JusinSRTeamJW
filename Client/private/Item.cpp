@@ -4,6 +4,14 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 
+namespace Item
+{
+	constexpr float ANIMATION_FRAME_RATE = 90.f;
+	constexpr float MAX_FLOAT_OFFSET = 0.7f;
+	constexpr float MIN_FLOAT_OFFSET = 0.3f;
+	constexpr float FLOAT_FREQUENCY = 60.f;
+}
+
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
 {
@@ -12,6 +20,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 CItem::CItem(const CItem& Prototype)
 	:CCollisionObject( Prototype ),
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
+	,m_pPlayer{Prototype.m_pPlayer}
 
 {
 }
@@ -192,8 +201,8 @@ void CItem::Init_TextureTag()
 
 void CItem::Play_Animation(_float fTimeDelta) 
 {
-	m_fFrame += 90.f * fTimeDelta;
-	if (m_fFrame >= 90.f)
+	m_fFrame += Item::ANIMATION_FRAME_RATE * fTimeDelta;
+	if (m_fFrame >= Item::ANIMATION_FRAME_RATE)
 		m_fFrame = 0.f;
 
 	_float fSlice = 90.f / static_cast<_float>(Get_Max_AnimNum() - Get_Base_AnimNum() + 1);
@@ -204,19 +213,17 @@ void CItem::Play_Animation(_float fTimeDelta)
 
 void CItem::Float_Item(_float fTimeDelta)
 {
-	const _float fMaxFloatOffset = 0.7f;
-	const _float fMinFloatOffset = 0.3f;
-	
-	_float fOffsetY = (m_bIsUp ? 1.f: -1.f) * cos(D3DXToRadian(60.f));
+
+	_float fOffsetY = (m_bIsUp ? 1.f: -1.f) * cos(D3DXToRadian(Item::FLOAT_FREQUENCY));
 	auto vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	auto vPrevPosition = vPosition;
 	vPosition.y += fOffsetY * fTimeDelta;
 
-	if (vPosition.y > fMaxFloatOffset && m_bIsUp)
+	if (vPosition.y > Item::MAX_FLOAT_OFFSET && m_bIsUp)
 	{
 		m_bIsUp = false;
 	}
-	else if (vPosition.y < fMinFloatOffset)
+	else if (vPosition.y < Item::MIN_FLOAT_OFFSET)
 	{
 		m_bIsUp = true;
 	}
@@ -302,8 +309,30 @@ json CItem::Serialize()
 {
 	json json = CGameObject::Serialize();
 
-	json["Type"] = static_cast<_int>(m_eType);
+	json["Type"] = static_cast<_int>(m_eItemType);
 	json["Item_Name"] = ISerializable::WideToUtf8(m_strItemName);
+
+	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	auto scale = m_pTransformCom->Compute_Scaled();
+	auto angle = m_pTransformCom->Get_EulerAngles();
+
+	auto round2 = [](float val) { return round(val * 100) / 100; };
+
+	json["position"] = {
+	round2(pos.x),
+	round2(pos.y),
+	round2(pos.z)
+	};
+	json["rotation"] = {
+		round2(angle.x),
+		round2(angle.y),
+		round2(angle.z)
+	};				  
+	json["scale"] = { 
+		round2(scale.x),
+		round2(scale.y),
+		round2(scale.z)
+	};
 
 	return json;
 }

@@ -83,8 +83,17 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	_float3 vScale = m_pTransformCom->Compute_Scaled();
+	_float3 extents = _float3(
+		0.5f * vScale.x,
+		0.5f * vScale.y,
+		0.5f * vScale.z
+	);
+	if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
+	{
+		if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+			return;
+	}
 	Select_Frame(fTimeDelta);
 	if (nullptr == m_pTarget)
 		return;
