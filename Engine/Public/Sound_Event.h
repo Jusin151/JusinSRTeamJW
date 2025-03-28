@@ -1,11 +1,8 @@
 ﻿#pragma once
 #include "Base.h"
 BEGIN(Engine)
-class CSound_Event final : public CBase
+class ENGINE_DLL CSound_Event final : public CBase
 {
-private:
-	virtual ~CSound_Event() = default;
-
 public:
     void Restart(); //이벤트 재시작
     void Stop(bool allowFadeOut = true); // 이벤트를 정지한다
