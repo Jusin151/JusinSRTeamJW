@@ -54,7 +54,7 @@ void CStructure::Update(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
 	}
-	
+
 
 	// 벽 태그인 경우
 	else if (Get_Tag().find(L"Wall") != wstring::npos)
@@ -82,6 +82,7 @@ void CStructure::Late_Update(_float fTimeDelta)
 
 	if (m_fWaveTime > 1000.0f)
 		m_fWaveTime = 0.f;
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
@@ -138,7 +139,7 @@ HRESULT CStructure::SetUp_RenderState()
 	_float3 scale = m_pTransformCom->Compute_Scaled();
 
 	// 보스 맵 물결 효과 
-	if (m_eStructureType==STRUCTURE_TYPE::BOSS_FLOOR)
+	if (m_eStructureType == STRUCTURE_TYPE::BOSS_FLOOR)
 	{
 		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.5f;
 		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.5f;
@@ -164,7 +165,7 @@ HRESULT CStructure::SetUp_RenderState()
 	else
 	{
 #pragma region 텍스쳐 스케일에 따라 반복
-	//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
+		//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
 		D3DXVECTOR2 vScaleFactor(scale.x, -scale.y);
 		D3DXVECTOR2 vOffsetFactor(0.5f, 0.5f); // Y축 반전을 위한 오프셋 조정
 
@@ -255,7 +256,7 @@ HRESULT CStructure::Ready_Components()
 	{
 		m_eType = CG_STRUCTURE_WALL;
 	}
-	
+
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };

@@ -188,6 +188,9 @@
     <ClInclude Include="..\public\CollisionObject.h">
       <Filter>02.GameObject\CollisionObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\FrustumCull.h">
+      <Filter>Culling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -364,6 +367,9 @@
     <Filter Include="04.Components\Collider\Sphere\Light">
       <UniqueIdentifier>{68a50fe1-5370-4371-8b1f-1916aa92b1be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Culling">
+      <UniqueIdentifier>{e20083ea-8893-468d-9712-405039e1f902}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -512,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="..\private\CollisionObject.cpp">
       <Filter>02.GameObject\CollisionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FrustumCull.cpp">
+      <Filter>Culling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -85,6 +85,12 @@ public:
 	void Change_ClearColor(_float4 rgba);
 #pragma endregion
 
+#pragma region Frusutm
+	_bool IsPointInFrustum(const _float3& point);
+	_bool IsSphereInFrustum(const _float3& point, _float fRadius = 0.f);
+	_bool IsAABBInFrustum(const _float3& point, const _float3& scale);
+#pragma endregion
+
 
 
 #pragma region FONT_MANAGER
@@ -111,7 +117,7 @@ private:
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 	class CFont_Manager*	    m_pFont_Manager = { nullptr };
 	class CPartilce_Manager*	m_pParticle_Manager = { nullptr };
-	/*class CPicking*				m_pPicking = { nullptr };*/
+	class CFrustumCull*			m_pFrustumCull = { nullptr };
 
 public:
 	void Release_Engine();

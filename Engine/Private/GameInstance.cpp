@@ -7,6 +7,7 @@
 #include "Sound_Manager.h"
 #include "Graphic_Device.h"
 #include "PoolManager.h"
+#include "FrustumCull.h"
 #include "Font_Manager.h"
 #include "Object_Manager.h"
 #include "Collider_Manager.h"
@@ -63,11 +64,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	m_pFont_Manager = CFont_Manager::Create(*ppOut);
 	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
-	/*m_pPicking = CPicking::Create(*ppOut, EngineDesc.hWnd, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY);
-	if (nullptr == m_pPicking)
-		return E_FAIL;*/
 
-
+	m_pFrustumCull = CFrustumCull::Create(*ppOut);
+	if (nullptr == m_pFrustumCull)
+		return E_FAIL;
 
 
 	return S_OK;
@@ -88,6 +88,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 	m_pObject_Manager->Update(fTimeDelta);	
 
+	m_pFrustumCull->Update();
 	m_pObject_Manager->Late_Update(fTimeDelta);
 }
 
@@ -287,13 +288,30 @@ void CGameInstance::Change_ClearColor(_float4 rgba)
 	return m_pGraphic_Device->ChangeClearColor(rgba);
 }
 
+_bool CGameInstance::IsPointInFrustum(const _float3& point)
+{
+	return m_pFrustumCull->IsPointInFrustum(point);
+}
+
+_bool CGameInstance::IsSphereInFrustum(const _float3& point, _float fRadius)
+{
+	return m_pFrustumCull->IsSphereInFrustum(point, fRadius);
+}
+
+_bool CGameInstance::IsAABBInFrustum(const _float3& point, const _float3& scale)
+{
+	return m_pFrustumCull->IsAABBInFrustum(point,scale);
+}
+
 #pragma endregion
 
 void CGameInstance::Release_Engine()
 {
 
 	Safe_Release(m_pFont_Manager);
-	/*Safe_Release(m_pPicking);*/
+
+	Safe_Release(m_pFrustumCull);
+
 
 	Safe_Release(m_pTimer_Manager);
 
