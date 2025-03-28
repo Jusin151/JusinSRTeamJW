@@ -2,7 +2,8 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "Item_Manager.h"
-#include "Image_Manager.h"#include "Sound_Event.h"
+#include "Image_Manager.h"
+#include "Sound_Event.h"
 
 
 

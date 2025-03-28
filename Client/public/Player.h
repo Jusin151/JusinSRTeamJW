@@ -92,7 +92,7 @@ private: // 플레이어 관련
 	_uint iLife{};//생명력
 	_uint iSprit{};//정신력
 	_uint iCapacity{};//용량
-
+	_uint iBullet{};//총알 , 임시임 웨폰에서 할께
 	CWeapon_Base* m_pPlayer_Weapon={nullptr};
 	CInventory*   m_pPlayer_Inven={nullptr};
 
