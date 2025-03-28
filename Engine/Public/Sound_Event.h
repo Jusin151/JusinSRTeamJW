@@ -1,11 +1,9 @@
 ﻿#pragma once
 #include "Base.h"
-class CSound_Manager;
 BEGIN(Engine)
 class CSound_Event final : public CBase
 {
 private:
-	CSound_Event(CSound_Manager* pSound_Manager);
 	virtual ~CSound_Event() = default;
 
 public:
@@ -25,12 +23,12 @@ public: // Getters
     _float      GetPitch()  const;
     _float      GetParameter(const std::string& name);
     
-protected:
+private:
     friend class CSound_Manager;
-	CSound_Event(CSound_Manager* pSound_Manager, _uint id);
-protected:
-	CSound_Manager* m_pSound_Manager;
-	_uint			m_iId;
+	CSound_Event(class CSound_Manager* pSound_Manager, _uint iID);
+private:
+	class CSound_Manager* m_pSound_Manager;
+	_uint			m_iID;
 public:
 	void Free();
 };

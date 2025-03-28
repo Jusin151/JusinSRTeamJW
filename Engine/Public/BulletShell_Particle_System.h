@@ -9,6 +9,7 @@ public:
 		BOUNDINGBOX		Bounding_Box;
 		_uint			iNumParticles;
 		_float			fForce;
+		_float			fTimeInteval;
 	}BULLETSHELLDESC;
 private:
 	CBulletShell_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);

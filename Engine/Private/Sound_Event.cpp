@@ -1,0 +1,142 @@
+﻿#include "Sound_Event.h"
+#include "Sound_Manager.h"
+
+CSound_Event::CSound_Event(CSound_Manager* pSound_Manager, _uint iID)
+	: m_pSound_Manager{ pSound_Manager }
+	, m_iID { iID }
+{
+	Safe_AddRef(m_pSound_Manager);
+}
+
+void CSound_Event::Restart()
+{
+	Studio::EventInstance* event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->start();
+	}
+}
+
+void CSound_Event::Stop(bool allowFadeOut)
+{
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		FMOD_STUDIO_STOP_MODE mode = allowFadeOut ?
+			FMOD_STUDIO_STOP_ALLOWFADEOUT :
+			FMOD_STUDIO_STOP_IMMEDIATE;
+		event->stop(mode);
+	}
+}
+
+void CSound_Event::SetPaused(bool pause)
+{
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->setPaused(pause);
+	}
+}
+
+void CSound_Event::SetVolume(float value)
+{
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->setVolume(value);
+	}
+}
+
+void CSound_Event::SetPitch(float value)
+{
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->setPitch(value);
+	}
+}
+
+void CSound_Event::SetParameter(const std::string& name, float value)
+{
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->setParameterByName(name.c_str(), value);
+	}
+}
+
+void CSound_Event::Set3DAttributes(const _float4x4& worldTrans)
+{
+}
+
+_bool CSound_Event::IsValid()
+{
+	return (m_pSound_Manager && m_pSound_Manager->Get_EventInstance(m_iID) != nullptr);
+}
+
+_bool CSound_Event::Is3D() const
+{
+	bool retVal = false;
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		// 이벤트 디스크립션을 얻는다.
+		FMOD::Studio::EventDescription* ed = nullptr;
+		event->getDescription(&ed);
+		if (ed)
+		{
+			ed->is3D(&retVal);
+		}
+	}
+	return retVal;
+}
+
+_bool CSound_Event::GetPaused() const
+{
+	bool retVal = false;
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->getPaused(&retVal);
+	}
+	return retVal;
+}
+
+_float CSound_Event::GetVolume() const
+{
+	float retVal = 0.0f;
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->getVolume(&retVal);
+	}
+	return retVal;
+}
+
+_float CSound_Event::GetPitch() const
+{
+	float retVal = 0.0f;
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->getPitch(&retVal);
+	}
+	return retVal;
+}
+
+_float CSound_Event::GetParameter(const std::string& name)
+{
+	float retVal = 0.0f;
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->getParameterByName(name.c_str(), &retVal);
+	}
+	return retVal;
+}
+
+void CSound_Event::Free()
+{
+	__super::Free();
+	Safe_Release(m_pSound_Manager);
+}

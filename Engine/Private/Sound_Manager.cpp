@@ -1,4 +1,5 @@
 ﻿#include "Sound_Manager.h"
+#include "Sound_Event.h"
 
 _uint CSound_Manager::sNextID = { 0 };
 
@@ -25,7 +26,7 @@ HRESULT CSound_Manager::Initialize(_int iNumChannels, FMOD_STUDIO_INITFLAGS stud
     Load_Bank(BANKPATH L"Background.assets.bank");
     Load_Bank(BANKPATH L"Background.bank");
 
-    //Play_Event();
+    Play_Event(L"event:/001 Jerry and Luke's Final Theme");
 
 	return S_OK;
 }
@@ -46,6 +47,7 @@ void CSound_Manager::Update(_float fTimeDelta)
 		return;
  	m_pStudioSystem->update();
 	m_pCoreSystem->update();
+
 }
 
 void CSound_Manager::Late_Update(_float fTimeDelta)
@@ -61,7 +63,7 @@ void CSound_Manager::Play(CHANNELID eChannelID, _wstring strSoundTag, void* pArg
 
 }
 
-Studio::EventInstance* CSound_Manager::Play_Event(_wstring strEventPath, void* pArg)
+CSound_Event CSound_Manager::Play_Event(_wstring strEventPath, void* pArg)
 {
     unsigned int retID = 0;
     // 이벤트가 존재하는지 확인
@@ -82,10 +84,21 @@ Studio::EventInstance* CSound_Manager::Play_Event(_wstring strEventPath, void* p
 
             //// release는 이벤트 인스턴스가 정지할 때 이벤트 소멸자 실행을 예약한다.
             //// 반복하지 않는 이벤트는 자동으로 정지한다.
-            //event->release();
+            event->release();
         }
     }
-    return event(this, retID);
+    return CSound_Event(this, retID);
+}
+
+Studio::EventInstance* CSound_Manager::Get_EventInstance(_uint iID)
+{
+    FMOD::Studio::EventInstance* event = nullptr;
+    auto iter = mEventInstances.find(iID);
+    if (iter != mEventInstances.end())
+    {
+        event = iter->second;
+    }
+    return event;
 }
 
 void CSound_Manager::Stop_All_Event()
