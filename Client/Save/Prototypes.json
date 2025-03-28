@@ -133,6 +133,12 @@
       "count": 27
     },
     {
+      "tag": "Prototype_Component_Texture_Yeti",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Yeti/Yeti_%d.png",
+      "count": 41
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -244,7 +250,7 @@
       "count": 1,
       "level": 3,
       "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
-       "tag": "Prototype_Component_Texture_Point_Shop"
+      "tag": "Prototype_Component_Texture_Point_Shop"
     },
     {
       "count": 1,
@@ -349,6 +355,11 @@
       "tag": "Prototype_GameObject_Harpoon",
       "level": 3,
       "class": "CHarpoon"
+    },
+    {
+      "tag": "Prototype_GameObject_Yeti",
+      "level": 3,
+      "class": "CYeti"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

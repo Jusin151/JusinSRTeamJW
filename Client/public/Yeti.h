@@ -2,12 +2,12 @@
 
 #include "Monster_Base.h"
 
-class CCrocman : public CMonster_Base
+class CYeti : public CMonster_Base
 {
 private:
-	CCrocman(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCrocman(const CCrocman& Prototype);
-	virtual ~CCrocman() = default;
+	CYeti(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CYeti(const CYeti& Prototype);
+	virtual ~CYeti() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -28,6 +28,9 @@ public:
 	void Chasing(_float fTimeDelta);
 	void Attack_Melee(_float fTimeDelta);
 
+	// 일정 위치 벗어나면 돌아가게
+	_bool Check_DIstance(_float fTimeDelta);
+
 	// 각 상태에 맞게 프레임을 설정함
 	void Select_Frame(_float fTimeDelta);
 
@@ -40,11 +43,12 @@ private:
 
 
 private:
-	// 공격 때 만들 콜라이더
-	CCollider_Cube* m_pAttackCollider = { nullptr };
+	
+	_float3 m_vAnchorPoint = {};
+	_float m_fBackTime = { 2.f };
 
 public:
-	static CCrocman* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CYeti* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

@@ -67,7 +67,7 @@ void CCrocman::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	
 
 	Select_Pattern(fTimeDelta);
 

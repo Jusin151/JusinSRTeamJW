@@ -85,20 +85,8 @@
     <Filter Include="Inven">
       <UniqueIdentifier>{09a4a540-e0c5-4137-aa67-00aa62d9aff5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\01.Monster\Base">
-      <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\01.Monster\Anubis">
-      <UniqueIdentifier>{54719e9f-0839-471c-a96f-16d435f626d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\01.Monster\Harpoonguy">
-      <UniqueIdentifier>{0d132fd3-9009-4ee7-be71-25807adcb069}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\Editor">
       <UniqueIdentifier>{45f9bd66-c000-430b-bcc3-934b1428b194}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\01.Monster\Crocman">
-      <UniqueIdentifier>{5c9378ca-7b4e-42e2-9c6b-523b5aa3ec88}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Base">
       <UniqueIdentifier>{4e7e5cd3-a7b1-4280-9670-f41b0cd811e3}</UniqueIdentifier>
@@ -283,6 +271,27 @@
     <Filter Include="02.GameObjects\ParticleSystemTest\GameObject_Projectile">
       <UniqueIdentifier>{4b83ef07-387f-447c-ab07-c77551e73154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal">
+      <UniqueIdentifier>{ea8a0889-7989-443d-8892-efbf4a3f5719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Anubis">
+      <UniqueIdentifier>{54719e9f-0839-471c-a96f-16d435f626d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Crocman">
+      <UniqueIdentifier>{5c9378ca-7b4e-42e2-9c6b-523b5aa3ec88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Harpoonguy">
+      <UniqueIdentifier>{0d132fd3-9009-4ee7-be71-25807adcb069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Yeti">
+      <UniqueIdentifier>{3b6d0f33-319a-4e35-9986-f0b6ce0175be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\boss">
+      <UniqueIdentifier>{196ec3a9-0a99-46ad-a88b-f63300890c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Base">
+      <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -430,7 +439,7 @@
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Anubis.h">
-      <Filter>02.GameObjects\01.Monster\Anubis</Filter>
+      <Filter>02.GameObjects\01.Monster\normal\Anubis</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Editor.h">
       <Filter>01.Levels\Editor</Filter>
@@ -442,7 +451,7 @@
       <Filter>96. Manager\Item_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Crocman.h">
-      <Filter>02.GameObjects\01.Monster\Crocman</Filter>
+      <Filter>02.GameObjects\01.Monster\normal\Crocman</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Cube.h">
       <Filter>02.GameObjects\Base\Cube</Filter>
@@ -496,7 +505,7 @@
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Harpoonguy.h">
-      <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
+      <Filter>02.GameObjects\01.Monster\normal\Harpoonguy</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Projectile_Base.h">
       <Filter>02.GameObjects\04. Projectile\Base</Filter>
@@ -554,6 +563,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Bullet_Base.h">
       <Filter>02.GameObjects\06. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Yeti.h">
+      <Filter>02.GameObjects\01.Monster\normal\Yeti</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -682,7 +694,7 @@
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Anubis.cpp">
-      <Filter>02.GameObjects\01.Monster\Anubis</Filter>
+      <Filter>02.GameObjects\01.Monster\normal\Anubis</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Editor.cpp">
       <Filter>01.Levels\Editor</Filter>
@@ -694,7 +706,7 @@
       <Filter>96. Manager\Item_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Crocman.cpp">
-      <Filter>02.GameObjects\01.Monster\Crocman</Filter>
+      <Filter>02.GameObjects\01.Monster\normal\Crocman</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Cube.cpp">
       <Filter>02.GameObjects\Base\Cube</Filter>
@@ -726,6 +738,7 @@
     <ClCompile Include="..\private\GameObject_Particle_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
     </ClCompile>
@@ -745,7 +758,7 @@
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Harpoonguy.cpp">
-      <Filter>02.GameObjects\01.Monster\Harpoonguy</Filter>
+      <Filter>02.GameObjects\01.Monster\normal\Harpoonguy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Projectile_Base.cpp">
       <Filter>02.GameObjects\04. Projectile\Base</Filter>
@@ -809,8 +822,8 @@
     <ClCompile Include="..\Private\Bullet_Base.cpp">
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
+    <ClCompile Include="..\private\Yeti.cpp">
+      <Filter>02.GameObjects\01.Monster\normal\Yeti</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

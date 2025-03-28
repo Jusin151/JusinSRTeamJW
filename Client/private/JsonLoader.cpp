@@ -13,6 +13,7 @@
 #include "Harpoon.h"
 #include "Item.h"
 #include "Harpoonguy.h"
+#include "Yeti.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device,const _wstring& filePath)
@@ -236,6 +237,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string& className, LPDIRECT3
         return CHarpoon::Create(pGraphic_Device);
     else if(className =="CItem")
 		return CItem::Create(pGraphic_Device);
+    else if (className == "CYeti")
+        return CYeti::Create(pGraphic_Device);
     
 
     wstring wClassName = ISerializable::Utf8ToWide(className);
@@ -302,6 +305,8 @@ _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring& layerName)
         return L"Prototype_GameObject_Crocman";
     else if (layerName == L"Layer_Monster_Harpoonguy")
         return L"Prototype_GameObject_Harpoonguy";
+    else if (layerName == L"Layer_Monster_Yeti")
+        return L"Prototype_GameObject_Yeti";
     else if (layerName == L"Layer_Monster_Projectile_Harpoon")
         return L"Prototype_GameObject_Harpoon";
     else if (layerName == L"Layer_BackGround")
