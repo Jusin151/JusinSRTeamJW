@@ -1,5 +1,13 @@
 ﻿#include "Sound_Event.h"
 #include "Sound_Manager.h"
+#include "Transform.h"
+
+inline FMOD_VECTOR VecToFMOD(const _float3& in)
+{
+	// +x = 오른쪽 +y는 윗쪽 , +z 는 전방
+	// FMOD (+z 전방, +x 오른쪽, +y 위쪽) 좌표로 변환
+	return FMOD_VECTOR{in.x, in.y, in.z};
+}
 
 CSound_Event::CSound_Event(CSound_Manager* pSound_Manager, _uint iID)
 	: m_pSound_Manager{ pSound_Manager }
@@ -65,8 +73,22 @@ void CSound_Event::SetParameter(const std::string& name, float value)
 	}
 }
 
-void CSound_Event::Set3DAttributes(const _float4x4& worldTrans)
+void CSound_Event::Set3DAttributes(const CTransform& worldTrans)
 {
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		FMOD_3D_ATTRIBUTES attr = {};
+		// Set position, forward, up
+		attr.position = VecToFMOD(worldTrans.Get_State(CTransform::STATE_POSITION));
+		// 세계 공간에서 첫 번째 행은 전방 벡터
+		attr.forward = VecToFMOD(worldTrans.Get_State(CTransform::STATE_LOOK));
+		// 세 번째 행은 상향 벡터
+		attr.up = VecToFMOD(worldTrans.Get_State(CTransform::STATE_UP));
+		// 속도를 0으로 설정 (도플러 효과를 사용한다면 수정)
+		attr.velocity = { 0.0f, 0.0f, 0.0f };
+		event->set3DAttributes(&attr);
+	}
 }
 
 _bool CSound_Event::IsValid()

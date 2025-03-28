@@ -16,14 +16,30 @@ public:
 	void			Late_Update(_float fTimeDelta);
 
 public:
-	void					Play(CHANNELID eChannelID, _wstring strSoundTag, void* pArg = nullptr);
-	class CSound_Event			Play_Event(_wstring strEventPath, void* pArg = nullptr);
-	Studio::EventInstance*	Get_EventInstance(_uint iID);
-	void					Stop_All_Event();
-	void					Stop();
-	//Studio::Bank*			Load_Bank(_wstring strBankPath, void * pArg = nullptr);
 	void					Load_Bank(const _wstring& strBankPath);
 	void					Unload_Bank(const _wstring& strBankPath);
+	void					Unload_AllBank();
+
+public:
+	void					Play(CHANNELID eChannelID, _wstring strSoundTag, void* pArg = nullptr);
+	class CSound_Event		Play_Event(_wstring strEventPath, void* pArg = nullptr);
+
+public:
+	void					Stop_All_Event();
+	void					Stop();
+	
+public:
+	void					Set_Listner(const class CTransform& worldTrans);
+
+public:
+	// 버스 제어를 위한 getter / setter
+	_float		GetBusVolume(const _wstring& name) const;
+	_bool		GetBusPaused(const _wstring& name) const;
+	void		SetBusVolume(const _wstring& name, float volume);
+	void		SetBusPaused(const _wstring& name, bool pause);
+
+public:
+	Studio::EventInstance* Get_EventInstance(_uint iID);
 
 private:
 	static _uint sNextID;
