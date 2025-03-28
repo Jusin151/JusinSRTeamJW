@@ -17,6 +17,7 @@ CGameObject_Projectile_Test::CGameObject_Projectile_Test(const CGameObject_Proje
     : CProjectile_Base { Prototype }
     , m_pMaterialCom { Prototype.m_pMaterialCom }
     , m_pParticleCom { Prototype.m_pParticleCom }
+    , m_pGoldParticleCom { Prototype.m_pGoldParticleCom }
 {
 }
 
@@ -79,7 +80,7 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
 
     /* For.Com_Particle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
-        TEXT("Com_GoldParticle"), reinterpret_cast<CComponent**>(&m_pGoldParticleCom), &particleDesc)))
+        TEXT("Com_GoldParticle"), reinterpret_cast<CComponent**>(&m_pGoldParticleCom), &goldDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -188,6 +189,7 @@ void CGameObject_Projectile_Test::Free()
     Safe_Release(m_pMaterialCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pParticleCom);
+    Safe_Release(m_pGoldParticleCom);
 }
 
 json CGameObject_Projectile_Test::Serialize()
