@@ -106,7 +106,7 @@ HRESULT CRanged_Weapon::Ready_Components()
 HRESULT CRanged_Weapon::Ready_Picking()
 {
 	m_pPickingSys = CPickingSys::Get_Instance();
-
+    Safe_AddRef(m_pPickingSys);
 
 	return S_OK;
 }
@@ -114,6 +114,7 @@ HRESULT CRanged_Weapon::Ready_Picking()
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우지마셈.. 공부점..
 {
     //  매 프레임마다 마우스/레이 갱신
+    if(m_pPickingSys)
     m_pPickingSys->Update();
 
     // 마우스 왼쪽 버튼 누른 상태가 아니라면 그냥 리턴
@@ -277,6 +278,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우�
 void CRanged_Weapon::Free()
 {
 	__super::Free();
+    Safe_Release(m_pPickingSys);
 }
 
 CGameObject* CRanged_Weapon::Clone(void* pArg)

@@ -63,8 +63,13 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			if (nullptr == pLevel)
 				return;
 
-			if (FAILED(m_pGameInstance->Change_Level(m_eNextLevelID, pLevel)))
+			//if (FAILED(m_pGameInstance->Change_Level(m_eNextLevelID, pLevel)))
+			//	return;
+
+			if (FAILED(m_pGameInstance->Process_LevelChange(m_eNextLevelID, pLevel)))
+			{
 				return;
+			}
 							
 		}
 	}	

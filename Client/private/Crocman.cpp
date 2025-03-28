@@ -91,8 +91,11 @@ void CCrocman::Late_Update(_float fTimeDelta)
 
 	Select_Frame(fTimeDelta);
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
+	{
+		if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+			return;
+	}
 }
 
 HRESULT CCrocman::Render()

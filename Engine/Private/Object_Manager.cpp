@@ -21,8 +21,8 @@ CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const _wstring& st
 
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 {
-	m_pLayers = new map<const _wstring, CLayer*>[iNumLevels];
-
+	//m_pLayers = new map<const _wstring, CLayer*>[iNumLevels];
+	m_pLayers.resize(iNumLevels);
 	m_iNumLevels = iNumLevels;
 
     return S_OK;
@@ -82,6 +82,8 @@ void CObject_Manager::Priority_Update(_float fTimeDelta)
 	{
 		for (auto& Pair : m_pLayers[i])
 		{
+			if (nullptr == Pair.second)
+				continue;
 			if (m_bOpendUI&& i ==m_iLevelIndex)
 			{
 				if (Pair.first.find(L"UI") !=_wstring::npos || Pair.first.find(L"Shop") != _wstring::npos
@@ -100,10 +102,13 @@ void CObject_Manager::Priority_Update(_float fTimeDelta)
 
 void CObject_Manager::Update(_float fTimeDelta)
 {
+	if (m_pGameInstance->GetLevelState() == CGameInstance::LEVEL_STATE::CHANGING) return;
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
 		{
+			if (nullptr == Pair.second)
+				continue;
 			if (m_bOpendUI && i == m_iLevelIndex)
 			{
 				if (Pair.first.find(L"UI") != _wstring::npos|| Pair.first.find(L"Shop") != _wstring::npos
@@ -127,18 +132,8 @@ void CObject_Manager::Late_Update(_float fTimeDelta)
 	{
 		for (auto& Pair : m_pLayers[i])
 		{
-			//if (m_bOpendUI && i == m_iLevelIndex)
-			//{
-			//	if (Pair.first.find(L"UI") != _wstring::npos)
-			//	{
-
-			//		Pair.second->Late_Update(fTimeDelta);
-			//	}
-			//}
-			//else
-			//{
-			//	
-			//}
+			if (nullptr == Pair.second)
+				continue;
 			Pair.second->Late_Update(fTimeDelta);
 		}
 	}
@@ -236,7 +231,8 @@ void CObject_Manager::Free()
 		m_pLayers[i].clear();
 	}
 
-	Safe_Delete_Array(m_pLayers);
+	m_pLayers.clear();
+	//Safe_Delete_Array(m_pLayers);
 
 	Safe_Release(m_pGameInstance);
 }

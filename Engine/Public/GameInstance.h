@@ -14,6 +14,9 @@ class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
 
+public:
+	enum class LEVEL_STATE { NORMAL, CHANGING };
+
 private:
 	friend class CEditor;
 	friend class CMyImGui;
@@ -31,6 +34,8 @@ public:
 public:
 #pragma region LEVEL_MANAGER
 	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
+	HRESULT Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel);
+	LEVEL_STATE GetLevelState() const { return m_eLevelState; }
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -127,6 +132,8 @@ private:
 	class CFont_Manager*	    m_pFont_Manager = { nullptr };
 	class CPartilce_Manager*	m_pParticle_Manager = { nullptr };
 	class CFrustumCull*			m_pFrustumCull = { nullptr };
+
+	LEVEL_STATE m_eLevelState = LEVEL_STATE::NORMAL;
 
 public:
 	void Release_Engine();
