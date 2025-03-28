@@ -194,6 +194,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\public\Blood_Particle_System.h" />
     <ClInclude Include="..\public\BoundingBox.h" />
     <ClInclude Include="..\public\Bounding_Sphere.h" />
     <ClInclude Include="..\Public\BlendObject.h" />
@@ -283,6 +284,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\Blood_Particle_System.cpp" />
     <ClCompile Include="..\private\Bounding_Sphere.cpp" />
     <ClCompile Include="..\private\BlendObject.cpp" />
     <ClCompile Include="..\private\BulletShell_Particle_System.cpp" />
