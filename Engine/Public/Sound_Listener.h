@@ -12,9 +12,8 @@ private:
 	virtual ~CSound_Listener() = default;
 private:
 	CSound_Manager*			m_pSound_Manager;
-	_float3					m_vPos;
 public:
-	static	CSound_Listener* Create();
+	static	CSound_Listener* Create(CSound_Manager* pSound_Manager);
 	CSound_Listener* Clone(void *pArg);
 	void	Free();
 };

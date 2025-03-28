@@ -21,8 +21,7 @@ public:
 	void					Unload_AllBank();
 
 public:
-	void					Play(CHANNELID eChannelID, _wstring strSoundTag, void* pArg = nullptr);
-	class CSound_Event		Play_Event(_wstring strEventPath, void* pArg = nullptr);
+	class CSound_Event		Play_Event(const _wstring& strEventPath, void* pArg = nullptr);
 
 public:
 	void					Stop_All_Event();

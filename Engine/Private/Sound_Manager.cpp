@@ -9,6 +9,13 @@ inline FMOD_VECTOR VecToFMOD(const _float3& in)
     return FMOD_VECTOR{ in.x, in.y, in.z };
 }
 
+inline bool EndsWith(const wstring& str, const wstring& suffix) {
+    if (str.length() < suffix.length()) {
+        return false;
+    }
+    return equal(suffix.rbegin(), suffix.rend(), str.rbegin());
+}
+
 _uint CSound_Manager::sNextID = { 0 };
 
 CSound_Manager::CSound_Manager()
@@ -25,78 +32,79 @@ HRESULT CSound_Manager::Initialize(_int iNumChannels, FMOD_STUDIO_INITFLAGS stud
 	m_pStudioSystem->getCoreSystem(&m_pCoreSystem);
 	m_pStudioSystem->initialize(iNumChannels, studioFlags, flags, pArg);
 
-    Load_Bank(BANKPATH L"Master.streams.bank");
-    Load_Bank(BANKPATH L"Master.strings.bank");
-    Load_Bank(BANKPATH L"Master.bank");
+    Load_Bank(L"Master");
 
-
-    Load_Bank(BANKPATH L"Background.streams.bank");
-    Load_Bank(BANKPATH L"Background.assets.bank");
-    Load_Bank(BANKPATH L"Background.bank");
+    Load_Bank(L"Background");
 
     Play_Event(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
 
 	return S_OK;
 }
 
-void CSound_Manager::Load_Bank(const _wstring& strBankPath)
+void CSound_Manager::Load_Bank(const _wstring& strKeyword)
 {
-    // 두 번 로딩되지 않게 한다.
-    if (mBanks.find(strBankPath) != mBanks.end())
-        return;
+    wstring searchPath = BANKPATH L"\\*";
+    WIN32_FIND_DATA findData;
+    HANDLE hFind = FindFirstFile(searchPath.c_str(), &findData);
 
-    // 뱅크 로드
-    FMOD::Studio::Bank* bank = nullptr;
-    FMOD_RESULT result = m_pStudioSystem->loadBankFile(
-        WideToUtf8(strBankPath.c_str()).c_str(),    // 뱅크의 파일 이름
-        FMOD_STUDIO_LOAD_BANK_NORMAL,   // 일반적인 방식으로 로딩
-        &bank                           // 뱅크 포인터 저장
-    );
-    const int maxPathLength = 512;
-    if (result == FMOD_OK)
-    {
-        //BANKPATH
-        //strBankPath.
-        // 뱅크를 맵에 추가
-        mBanks.emplace(strBankPath, bank);
-        // 스트리밍 형식이 아닌 모든 샘플 데이터를 로드
-        bank->loadSampleData();
-        // 뱅크의 이벤트 수를 얻는다
-        int numEvents = 0;
-        bank->getEventCount(&numEvents);
-        if (numEvents > 0)
-        {
-            // 뱅크에서 이벤트 디스크립션 리스트를 얻는다
-            // (뱅크의 이벤트 수와 같은 길이의 events vector를 선언)
-            vector<FMOD::Studio::EventDescription*> events(numEvents);
-            bank->getEventList(events.data(), numEvents, &numEvents);
-            char eventName[maxPathLength];
-            for (auto e : events)
+    if (hFind != INVALID_HANDLE_VALUE) {
+        // 첫 번째 파일 처리
+        bool continueLoop = true;
+        while (continueLoop) {
+
+            if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+                wstring filename = findData.cFileName;
+                if (filename.find(strKeyword) != wstring::npos && EndsWith(filename, L".bank")) {
+                    wstring bankPath = BANKPATH L"" + filename;
+
+                    // 기존 코드와 동일한 뱅크 로딩 로직
+                    if (mBanks.find(bankPath) != mBanks.end())
+                        continue;
+
+                    FMOD::Studio::Bank* bank = nullptr;
+                    FMOD_RESULT result = m_pStudioSystem->loadBankFile(
+                        WideToUtf8(bankPath.c_str()).c_str(),
+                        FMOD_STUDIO_LOAD_BANK_NORMAL,
+                        &bank
+                    );
+
+                    const int maxPathLength = 512;
+                    if (result == FMOD_OK) {
+                        mBanks.emplace(bankPath, bank);
+                        bank->loadSampleData();
+
+                        int numEvents = 0;
+                        bank->getEventCount(&numEvents);
+                        if (numEvents > 0) {
+                            vector<FMOD::Studio::EventDescription*> events(numEvents);
+                            bank->getEventList(events.data(), numEvents, &numEvents);
+                            char eventName[maxPathLength];
+                            for (auto e : events) {
+                                e->getPath(eventName, maxPathLength, nullptr);
+                                mEvents.emplace(Utf8ToWide(eventName), e);
+                            }
+                        }
+
+                        int numBuses = 0;
+                        bank->getBusCount(&numBuses);
+                        if (numBuses > 0) {
+                            vector<FMOD::Studio::Bus*> buses(numBuses);
+                            bank->getBusList(buses.data(), numBuses, &numBuses);
+                            char busName[512];
+                            for (auto bus : buses) {
+                                bus->getPath(busName, 512, nullptr);
+                                mBuses.emplace(Utf8ToWide(busName), bus);
+                            }
+                        }
+                    }
+                }
+            }
+            if (FindNextFile(hFind, &findData) == 0)
             {
-                // event:/Explosion2D 같은 이벤트의 경로를 얻는다.
-                e->getPath(eventName, maxPathLength, nullptr);
-                // 이벤트를 맵에 추가한다.
-                mEvents.emplace(Utf8ToWide(eventName), e);
+                continueLoop = false;
             }
         }
-    }
-
-    // 뱅크에 있는 버스들을 로드
-    int numBuses = 0;
-    bank->getBusCount(&numBuses);
-    if (numBuses > 0)
-    {
-        // 뱅크에 있는 버스의 리스트를 가져온다
-        std::vector<FMOD::Studio::Bus*> buses(numBuses);
-        bank->getBusList(buses.data(), numBuses, &numBuses);
-        char busName[512];
-        for (auto bus : buses)
-        {
-            // 버스의 경로를 가져온다. (예를 들어 bus:/SFX 와 같은)
-            bus->getPath(busName, 512, nullptr);
-            // 버스를 맵에 추가한다.
-            mBuses.emplace(Utf8ToWide(busName), bus);
-        }
+        FindClose(hFind);
     }
 }
 
@@ -116,7 +124,7 @@ void CSound_Manager::Unload_Bank(const _wstring& strBankPath)
     if (numEvents > 0)
     {
         // 이 뱅크에서 event descriptions들을 가져온다.
-        std::vector<FMOD::Studio::EventDescription*> events(numEvents);
+        vector<FMOD::Studio::EventDescription*> events(numEvents);
         // 이벤트의 리스트를 가져온다.
         bank->getEventList(events.data(), numEvents, &numEvents);
         char eventName[512];
@@ -139,7 +147,7 @@ void CSound_Manager::Unload_Bank(const _wstring& strBankPath)
     if (numBuses > 0)
     {
         // 이 뱅크의 모든 버스 리스트를 가져온다.
-        std::vector<FMOD::Studio::Bus*> buses(numBuses);
+        vector<FMOD::Studio::Bus*> buses(numBuses);
         bank->getBusList(buses.data(), numBuses, &numBuses);
         char busName[512];
         for (auto bus : buses)
@@ -188,7 +196,7 @@ void CSound_Manager::Update(_float fTimeDelta)
 	if (nullptr == m_pStudioSystem)
 		return;
     // 정지된 이벤트를 찾는다
-    std::vector<unsigned int> done;
+    vector<unsigned int> done;
     for (auto& iter : mEventInstances)
     {
         FMOD::Studio::EventInstance* e = iter.second;
@@ -222,7 +230,7 @@ void CSound_Manager::Late_Update(_float fTimeDelta)
 		return;
 }
 
-CSound_Event CSound_Manager::Play_Event(_wstring strEventPath, void* pArg)
+CSound_Event CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg)
 {
     unsigned int retID = 0;
     // 이벤트가 존재하는지 확인

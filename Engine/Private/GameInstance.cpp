@@ -216,18 +216,61 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 	return m_pTimer_Manager->Update(strTimerTag);
 }
 
-
-
 #pragma endregion
 
 #pragma region SOUND_MANAGER
-HRESULT CGameInstance::Load_Bank(_wstring strBankPath, void* pArg)
-{
-	return S_OK;
-	//return m_pSound_Manager->Load_Bank(strBankPath, pArg);
-}
-#pragma endregion
 
+void CGameInstance::Load_Bank(const _wstring& strBankPath)
+{
+	m_pSound_Manager->Load_Bank(strBankPath);
+}
+
+void CGameInstance::Unload_Bank(const _wstring& strBankPath)
+{
+	m_pSound_Manager->Unload_Bank(strBankPath);
+}
+
+void CGameInstance::Unload_AllBank()
+{
+	m_pSound_Manager->Unload_AllBank();
+}
+
+void CGameInstance::Stop_All_Event()
+{
+	m_pSound_Manager->Stop_All_Event();
+}
+
+CSound_Event CGameInstance::Play_Event(const _wstring& strEventName, void* pArg)
+{
+	return m_pSound_Manager->Play_Event(strEventName, pArg);
+}
+
+void CGameInstance::Set_Listner(const CTransform& worldTrans)
+{
+	m_pSound_Manager->Set_Listner(worldTrans);
+}
+
+_float CGameInstance::GetBusVolume(const _wstring& name) const
+{
+	return m_pSound_Manager->GetBusVolume(name);
+}
+
+_bool CGameInstance::GetBusPaused(const _wstring& name) const
+{
+	return m_pSound_Manager->GetBusPaused(name);
+}
+
+void CGameInstance::SetBusVolume(const _wstring& name, float volume)
+{
+	m_pSound_Manager->SetBusVolume(name, volume);
+}
+
+void CGameInstance::SetBusPaused(const _wstring& name, bool pause)
+{
+	m_pSound_Manager->SetBusVolume(name, pause);
+}
+
+#pragma endregion
 
 #pragma region PICKING
 //_bool CGameInstance::Picking(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)

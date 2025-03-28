@@ -12,6 +12,7 @@ private:
 	virtual ~CSound_Source() = default;
 private:
 	CSound_Manager* m_pSound_Manager;
+	CSound_Event*	m_pSound_Event;
 public:
 	static	CSound_Source* Create();
 	CSound_Source* Clone(void* pArg);
