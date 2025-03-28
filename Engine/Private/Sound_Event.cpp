@@ -13,7 +13,7 @@ CSound_Event::CSound_Event(CSound_Manager* pSound_Manager, _uint iID)
 	: m_pSound_Manager{ pSound_Manager }
 	, m_iID { iID }
 {
-	Safe_AddRef(m_pSound_Manager);
+	//Safe_AddRef(m_pSound_Manager);
 }
 
 void CSound_Event::Restart()

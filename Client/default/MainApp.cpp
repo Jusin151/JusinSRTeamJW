@@ -278,7 +278,7 @@ void CMainApp::Free()
 {
 	__super::Free();
 	Safe_Release(m_pGraphic_Device);
-
+	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Release_Engine();
 
 	/* 내멤버를 정리한다.*/	

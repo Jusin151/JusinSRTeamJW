@@ -347,7 +347,7 @@ void CGameInstance::Change_ClearColor(_float4 rgba)
 
 void CGameInstance::Release_Engine()
 {
-
+	
 	Safe_Release(m_pFont_Manager);
 	/*Safe_Release(m_pPicking);*/
 

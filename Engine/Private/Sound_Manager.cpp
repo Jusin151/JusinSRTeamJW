@@ -30,13 +30,14 @@ HRESULT CSound_Manager::Initialize(_int iNumChannels, FMOD_STUDIO_INITFLAGS stud
 		return E_FAIL;
 	}
 	m_pStudioSystem->getCoreSystem(&m_pCoreSystem);
+    m_pCoreSystem->setDSPBufferSize(256, 4);
 	m_pStudioSystem->initialize(iNumChannels, studioFlags, flags, pArg);
 
     Load_Bank(L"Master");
 
-    Load_Bank(L"Background");
+    //Load_Bank(L"Background");
 
-    Play_Event(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
+    //Play_Event(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
 
 	return S_OK;
 }
@@ -333,8 +334,6 @@ void CSound_Manager::SetBusPaused(const _wstring& name, bool pause)
     }
 }
 
-
-
 CSound_Manager* CSound_Manager::Create(_int iNumChannels, FMOD_STUDIO_INITFLAGS studioFlags, FMOD_INITFLAGS flags, void* pArg)
 {
 	CSound_Manager* pInstance = new CSound_Manager();
@@ -352,13 +351,13 @@ void CSound_Manager::Free()
 {
 	__super::Free();
 
+    Unload_AllBank();
 	//대소문자 구별로 인한 매크로 함수 호출 불가능
 	if (nullptr != m_pStudioSystem)
 	{
 		m_pStudioSystem->release();
 		m_pStudioSystem = nullptr;
-	}
-		
+	}		
 	if (nullptr != m_pCoreSystem)
 	{
 		m_pCoreSystem->release();
