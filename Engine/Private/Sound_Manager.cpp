@@ -30,6 +30,7 @@ HRESULT CSound_Manager::Initialize(_int iNumChannels, FMOD_STUDIO_INITFLAGS stud
 		return E_FAIL;
 	}
 	m_pStudioSystem->getCoreSystem(&m_pCoreSystem);
+    m_pCoreSystem->setDSPBufferSize(256, 4);
 	m_pStudioSystem->initialize(iNumChannels, studioFlags, flags, pArg);
 
     Load_Bank(L"Master");
