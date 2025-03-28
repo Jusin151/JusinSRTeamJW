@@ -81,16 +81,43 @@ void CObject_Manager::Priority_Update(_float fTimeDelta)
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
-			Pair.second->Priority_Update(fTimeDelta);
+		{
+			if (m_bOpendUI&& i ==m_iLevelIndex)
+			{
+				if (Pair.first.find(L"UI") !=_wstring::npos || Pair.first.find(L"Shop") != _wstring::npos
+					|| Pair.first.find(L"Episode") != _wstring::npos)
+				{
+					Pair.second->Priority_Update(fTimeDelta);
+				}
+			}
+			else
+			{
+				Pair.second->Priority_Update(fTimeDelta);
+			}
+		}
 	}
 }
 
 void CObject_Manager::Update(_float fTimeDelta)
 {
- 	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
-			Pair.second->Update(fTimeDelta);
+		{
+			if (m_bOpendUI && i == m_iLevelIndex)
+			{
+				if (Pair.first.find(L"UI") != _wstring::npos|| Pair.first.find(L"Shop") != _wstring::npos
+					|| Pair.first.find(L"Episode") != _wstring::npos)
+				{
+					Pair.second->Update(fTimeDelta);
+				}
+			}
+			else
+			{
+				Pair.second->Update(fTimeDelta);
+			}
+			
+		}
 	}
 }
 
@@ -99,7 +126,21 @@ void CObject_Manager::Late_Update(_float fTimeDelta)
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
+		{
+			//if (m_bOpendUI && i == m_iLevelIndex)
+			//{
+			//	if (Pair.first.find(L"UI") != _wstring::npos)
+			//	{
+
+			//		Pair.second->Late_Update(fTimeDelta);
+			//	}
+			//}
+			//else
+			//{
+			//	
+			//}
 			Pair.second->Late_Update(fTimeDelta);
+		}
 	}
 }
 

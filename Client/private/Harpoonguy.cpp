@@ -157,7 +157,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		m_eCurState = MS_HIT;
 		break;
 	case CG_STRUCTURE_WALL:
-		fPos = m_vOldPos;  // 이동 전 위치로 되돌림
+		fPos += vMove;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		break;
 	default:

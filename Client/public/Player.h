@@ -37,6 +37,12 @@ public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
 	void Move(_float fTimeDelta);
 	CTransform* Get_TransForm() { return m_pTransformCom; }
+
+public:
+	inline void Add_Ammo(_int iAmmo);
+	void Set_Hp(_int iHp) override;
+	void Set_Ap(_int iAp)override { m_iAp = iAp; }
+
 private:
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
@@ -74,7 +80,6 @@ public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-
 	void Set_Hp(_int iHp)override;
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 public:

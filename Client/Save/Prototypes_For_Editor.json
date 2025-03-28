@@ -44,11 +44,6 @@
       "tag": "Prototype_GameObject_Player"
     },
     {
-      "class": "CTestMonster",
-      "level": 4,
-      "tag": "Prototype_GameObject_TestMonster"
-    },
-    {
       "class": "CTerrain",
       "level": 4,
       "tag": "Prototype_GameObject_Terrain"
@@ -358,6 +353,13 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Hub\\magma%d.png",
       "tag": "Prototype_Component_Texture_Magma"
+    },
+    {
+      "count": 97,
+      "level": 3,
+      "path": "../../Resources/Textures/Item/Item%d.png",
+      "tag": "Prototype_Component_Texture_Items"
     }
+
   ]
 }

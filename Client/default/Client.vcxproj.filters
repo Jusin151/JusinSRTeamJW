@@ -803,28 +803,27 @@
     <ClCompile Include="..\Private\Bullet_Base.cpp">
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Inven_UI.cpp">
-      <Filter>02.GameObjects\Inven</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Image.cpp">
-      <Filter>02.GameObjects\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\04. Staff</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\UI_Base.cpp">
-      <Filter>02.GameObjects\97. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Weapon_Base.cpp">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Melee_Weapon.cpp">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Mele</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Ranged_Weapon.cpp">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Ranged</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
+<ClCompile Include="..\Private\Inven_UI.cpp">
+    <Filter>02.GameObjects\Inven</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Image.cpp">
+    <Filter>02.GameObjects\Image</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Staff.cpp">
+    <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\04. Staff</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\UI_Base.cpp">
+    <Filter>02.GameObjects\97. UI</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Weapon_Base.cpp">
+    <Filter>02.GameObjects\08. Weapon\99. Weapon_Base</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Melee_Weapon.cpp">
+    <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Mele</Filter>
+</ClCompile>
+<ClCompile Include="..\Private\Ranged_Weapon.cpp">
+    <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Ranged</Filter>
+</ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">

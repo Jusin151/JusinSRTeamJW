@@ -58,7 +58,7 @@ public:
         for (auto& pButton : m_vecButtons)
         {
             if (pButton)
-                pButton->SetActive(bActive); // 버튼도 같이 on/off
+                 pButton->SetActive(bActive); // 버튼도 같이 on/off
         }
 
     }

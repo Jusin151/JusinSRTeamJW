@@ -12,7 +12,7 @@ public:
 	}TRAILDESC;
 private:
 	CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CProjectile_Particle_System(const CParticle_System& Prototype);
+	CProjectile_Particle_System(const CProjectile_Particle_System& Prototype);
 	virtual ~CProjectile_Particle_System() = default;
 public:
 	virtual HRESULT Initialize_Prototype() override;

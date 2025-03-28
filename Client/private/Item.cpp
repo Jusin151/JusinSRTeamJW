@@ -1,8 +1,8 @@
 ﻿#include "Item.h"
+#include "Player.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
-#include "Player.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
@@ -30,15 +30,33 @@ HRESULT CItem::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-
-
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))); 
+	//m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
+	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.01f);
+
+	INIT_PARENT(pArg);
+
+	if (pArg)
+	{
+		ITEM_DESC tItemDesc = *static_cast<ITEM_DESC*>(pArg);
+		m_eItemType = tItemDesc.eType;
+		m_strItemName = tItemDesc.strItemName;
+	}
+	else
+	{
+		//테스트용
+		m_eItemType = ITEM_TYPE::STAT;
+		m_strItemName = L"STAT";
+		//
+	}
 
 
+	if (m_eItemType == ITEM_TYPE::STAT || m_strItemName.find(L"Staff") != _wstring::npos)
+	{
+		m_bIsNeedAnim = true;
+	}
 	return S_OK;
 }
 
@@ -56,42 +74,23 @@ void CItem::Update(_float fTimeDelta)
 	}
 	m_pGameInstance->Add_Collider(CG_ITEM, m_pColliderCom);
 
-
-
-	static _float testOffset = 0.f;
-	static _float fIsUp = 1.f;
-	static _bool bFlag = false;
-	_float fOffsetY = fIsUp * cos(D3DXToRadian(60.f));
- 	testOffset += fOffsetY * fTimeDelta;
-
-	if (testOffset > 1.5f&& !bFlag)
-	{
-		fIsUp = -fIsUp;
-		bFlag = true;
-	}
-	else if (testOffset < 0.f)
-	{
-		fIsUp = -fIsUp;
-		bFlag = false;
-	}
-
-	auto vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPosition.y = testOffset;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
-
+	Float_Item(fTimeDelta);
 }
 
 void CItem::Late_Update(_float fTimeDelta)
 {
 	Billboarding(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+	if (m_bIsNeedAnim)
+	{
+		Play_Animation(fTimeDelta);
+	}
 }
 
 HRESULT CItem::Render()
 {
-
-
-	if (FAILED(m_pTextureCom->Bind_Resource(m_mapTextureTag[ITEM_TYPE::HP][L"HP_Big"])))
+	if (FAILED(m_pTextureCom->Bind_Resource(m_mapTextureTag[m_eItemType][m_strItemName])))
 
 		return E_FAIL;
 
@@ -111,64 +110,51 @@ HRESULT CItem::Render()
 	return S_OK;
 }
 
-HRESULT CItem::On_Collision(_float fTimeDelta)
-{
-	if (nullptr == m_pColliderCom)
-		return E_FAIL;
-
-
-	return E_FAIL;
-}
-
 void CItem::Billboarding(_float fTimeDelta)
 {
+	if (!m_pPlayer) return;
 
-	//_float4x4 vViewMatrix{};
-	//_float3 vScale = m_pTransformCom->Compute_Scaled();
-	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vViewMatrix);
-	//m_pTransformCom->Set_State(CTransform::STATE_RIGHT, *reinterpret_cast<_float3*>(&vViewMatrix.m[0][0]) );
-	//m_pTransformCom->Set_State(CTransform::STATE_UP, *reinterpret_cast<_float3*>(&vViewMatrix.m[1][0]) );
-	//m_pTransformCom->Set_State(CTransform::STATE_LOOK, *reinterpret_cast<_float3*>(&vViewMatrix.m[2][0]) * vScale.z);
-
-	//_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//vPosition.y = 0.5f;
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 
 	CTransform* pPlayerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
-	// �÷��̾��� look ���� �������� (�÷��̾ �ٶ󺸴� ����)
 	_float3 vPlayerLook = pPlayerTransform->Get_State(CTransform::STATE_LOOK);
 
 	vPlayerLook.y = 0.f;
 	vPlayerLook.Normalize();
 
-	_float3 vShopLook = -vPlayerLook;  // ���� ���� ����
+	_float3 vShopLook = -vPlayerLook;
 
-	// ���� ������ ����Ͽ� Ʈ������ ����
-	_float3 vUp = _float3(0.0f, 1.0f, 0.0f);  // ���� �� ����
+
+	_float3 vUp = _float3(0.0f, 1.0f, 0.0f);
 	_float3 vRight = vUp.Cross(vShopLook);
 	vRight.Normalize();
 
-	// ���� ������ �����ϱ� ���� �� ���� ����
 	_float3 vNewUp = vShopLook.Cross(vRight);
 	vNewUp.Normalize();
 
-	// ������ ȸ�� ��� ����
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-	m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
-	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vShopLook);
+	_float3 vScale = m_pTransformCom->Compute_Scaled();
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * vScale.x);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp * vScale.y);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vShopLook * vScale.z);
 
 }
 
-void CItem::Bind_ResourceByType()
+HRESULT CItem::On_Collision(CCollisionObject* other)
 {
+	if (!other || other->Get_Type() != COLLIDERGROUP::CG_PLAYER) return E_FAIL;
+
+	Use_Item();
+
+	return S_OK;
 }
 
 void CItem::Use_Item()
 {
-	switch (m_eType)
+	switch (m_eItemType)
 	{
 	case Client::CItem::ITEM_TYPE::HP:
+		m_pPlayer->Set_Hp(m_pPlayer->Get_Hp() + 10);
 		break;
 	case Client::CItem::ITEM_TYPE::MP:
 		break;
@@ -183,6 +169,8 @@ void CItem::Use_Item()
 	default:
 		break;
 	}
+
+	SetActive(false);
 }
 
 
@@ -192,9 +180,68 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::HP][L"HP_Small"] = 37;
 	m_mapTextureTag[ITEM_TYPE::MP][L"MP_Big"] = 38;
 	m_mapTextureTag[ITEM_TYPE::MP][L"MP_Small"] = 39;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol"] = 2;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Big"] = 2;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Small"] = 86;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Small"] = 87;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Big"] = 88;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Big"] = 93;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Small"] = 89;
 	m_mapTextureTag[ITEM_TYPE::EXP][L"EXP"] = 3;
-	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 80;
+	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 78;
+}
+
+void CItem::Play_Animation(_float fTimeDelta) 
+{
+	m_fFrame += 90.f * fTimeDelta;
+	if (m_fFrame >= 90.f)
+		m_fFrame = 0.f;
+
+	_float fSlice = 90.f / static_cast<_float>(Get_Max_AnimNum() - Get_Base_AnimNum() + 1);
+	m_iCurrentTexture = (_uint)(m_fFrame / fSlice) + Get_Base_AnimNum();
+	m_iCurrentTexture = min(Get_Max_AnimNum(), m_iCurrentTexture);
+	m_mapTextureTag[m_eItemType][m_strItemName] = m_iCurrentTexture;
+}
+
+void CItem::Float_Item(_float fTimeDelta)
+{
+	const _float fMaxFloatOffset = 0.7f;
+	const _float fMinFloatOffset = 0.3f;
+	
+	_float fOffsetY = (m_bIsUp ? 1.f: -1.f) * cos(D3DXToRadian(60.f));
+	auto vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	auto vPrevPosition = vPosition;
+	vPosition.y += fOffsetY * fTimeDelta;
+
+	if (vPosition.y > fMaxFloatOffset && m_bIsUp)
+	{
+		m_bIsUp = false;
+	}
+	else if (vPosition.y < fMinFloatOffset)
+	{
+		m_bIsUp = true;
+	}
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
+}
+
+_uint CItem::Get_Base_AnimNum()
+{
+	if (m_strItemName == L"Staff_Ammo_Small")
+		return 89;
+	else if (m_strItemName == L"Staff_Ammo_Big")
+		return 93;
+
+	return 78;
+}
+
+_uint CItem::Get_Max_AnimNum()
+{
+	if (m_strItemName == L"Staff_Ammo_Small")
+		return 92;
+	else if (m_strItemName == L"Staff_Ammo_Big")
+		return 96;
+
+	return 85;
 }
 
 
@@ -204,7 +251,7 @@ HRESULT CItem::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); 
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	return S_OK;
 }
@@ -242,9 +289,41 @@ HRESULT CItem::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
-
+	m_eType = CG_ITEM;
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
 
 	return S_OK;
+}
+
+json CItem::Serialize()
+{
+	json json = CGameObject::Serialize();
+
+	json["Type"] = static_cast<_int>(m_eType);
+	json["Item_Name"] = ISerializable::WideToUtf8(m_strItemName);
+
+	return json;
+}
+
+void CItem::Deserialize(const json& j)
+{
+	SET_TRANSFORM(j, m_pTransformCom);
+
+	m_eItemType = static_cast<ITEM_TYPE>(j["Type"].get<_int>());
+
+	m_strItemName = ISerializable::Utf8ToWide(j["Item_Name"].get<string>());
+
+	if (m_eItemType == ITEM_TYPE::STAT)
+	{
+		m_bIsNeedAnim = true;
+	}
+	else
+	{
+		m_bIsNeedAnim = false;
+	}
 }
 
 CItem* CItem::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -272,6 +351,7 @@ CGameObject* CItem::Clone(void* pArg)
 
 	return pInstance;
 }
+
 void CItem::Free()
 {
 	__super::Free();
@@ -282,16 +362,6 @@ void CItem::Free()
 	Safe_Release(m_pMaterialCom);
 }
 
-json CItem::Serialize()
-{
-	return json();
-}
 
-void CItem::Deserialize(const json& j)
-{
-}
 
-HRESULT CItem::On_Collision(CCollisionObject* other)
-{
-	return E_NOTIMPL;
-}
+
