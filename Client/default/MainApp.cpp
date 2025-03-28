@@ -171,6 +171,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CProjectile_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Particle_Gold*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+		CGold_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))

@@ -71,6 +71,17 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
         TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &particleDesc)))
         return E_FAIL;
 
+    CGold_Particle_System::GOLDDESC goldDesc = {};
+    goldDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
+    goldDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
+    goldDesc.iNumParticles = { 10 };
+    goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
+
+    /* For.Com_Particle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+        TEXT("Com_GoldParticle"), reinterpret_cast<CComponent**>(&m_pGoldParticleCom), &particleDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -82,6 +93,7 @@ void CGameObject_Projectile_Test::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
     m_pParticleCom->Update(fTimeDelta);
+    m_pGoldParticleCom->Update(fTimeDelta);
     
     m_pTransformCom->Go(m_vDir, fTimeDelta);
 
@@ -127,6 +139,9 @@ HRESULT CGameObject_Projectile_Test::Render()
         return E_FAIL;
 
     if (FAILED(m_pParticleCom->Render()))
+        return E_FAIL;
+
+    if (FAILED(m_pGoldParticleCom->Render()))
         return E_FAIL;
 
     Post_Render();
