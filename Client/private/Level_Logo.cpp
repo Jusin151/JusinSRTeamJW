@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "Logo_Button.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }

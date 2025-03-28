@@ -1,65 +1,74 @@
-﻿#include "Default_Menu.h"
+﻿#include "Inven_UI.h"
 #include "GameInstance.h"
+#include "Item_Manager.h" 
 #include "UI_Manager.h"
 
-CDefault_Menu::CDefault_Menu(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CUI_Base(pGraphic_Device)
+CInven_UI::CInven_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
+	:CUI_Base{ pGraphic_Device }
 {
 }
 
-CDefault_Menu::CDefault_Menu(const CDefault_Menu& Prototype)
-	: CUI_Base(Prototype),
-	m_BackMenu_INFO{ Prototype.m_BackMenu_INFO }
+CInven_UI::CInven_UI(const CInven_UI& Prototype)
+	:CUI_Base(Prototype)
 {
 }
 
-HRESULT CDefault_Menu::Initialize_Prototype()
+HRESULT CInven_UI::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-
 	return S_OK;
 }
 
-HRESULT CDefault_Menu::Initialize(void* pArg)
+HRESULT CInven_UI::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//310 720   484.5f , 0.f
-	m_vSize = { 310.f,720 };
-	m_vPos = { 484.f,0.f };
-
-	Set_Position(m_vPos);
-	Set_Size(m_vSize);
-	CUI_Manager::GetInstance()->AddUI(L"Default_Menu", this);
-
-
-	m_pTransformCom->Set_Scale(m_vSize.x, m_vSize.y, 1.f);
+	m_Image_INFO.vSize = { 918.f,207.f};
+	m_Image_INFO.vPos = { 0.f,160.f };
+	m_pTransformCom->Set_Scale(m_Image_INFO.vSize.x, m_Image_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_vPos.x, m_vPos.y, 0.f));
+		_float3(m_Image_INFO.vPos.x, m_Image_INFO.vPos.y, 0.f));
+
+	CUI_Manager::GetInstance()->AddUI(L"Inven_UI", this);
+
+	m_pWeaponIcon.reserve(8);
 	return S_OK;
 }
 
-void CDefault_Menu::Priority_Update(_float fTimeDelta)
+void CInven_UI::Priority_Update(_float fTimeDelta)
 {
+	  static _bool m_bOffItem = { false };
+
+	if (!m_bOffItem)
+	{
+		for (auto& it : m_pWeaponIcon)
+		{
+			it->SetActive(false);
+		}
+
+		m_bOffItem = true;
+	}
 }
 
-void CDefault_Menu::Update(_float fTimeDelta)
+void CInven_UI::Update(_float fTimeDelta)
 {
 
-	   
+	
+
 }
 
-void CDefault_Menu::Late_Update(_float fTimeDelta)
+void CInven_UI::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 
-HRESULT CDefault_Menu::Render()
+HRESULT CInven_UI::Render()
 {
+	
+	if (!m_bRender)
+		return S_OK;
+
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
@@ -94,34 +103,30 @@ HRESULT CDefault_Menu::Render()
 	return S_OK;
 }
 
-HRESULT CDefault_Menu::Ready_Components()
+HRESULT CInven_UI::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Menu"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Inven_UI"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
-	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
-
-
 
 	return S_OK;
 }
 
-CDefault_Menu* CDefault_Menu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CInven_UI* CInven_UI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CDefault_Menu* pInstance = new CDefault_Menu(pGraphic_Device);
+	CInven_UI* pInstance = new CInven_UI(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("로고메뉴 원본 생성 실패 ");
+		MSG_BOX("이미지 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -129,24 +134,21 @@ CDefault_Menu* CDefault_Menu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CDefault_Menu::Clone(void* pArg)
+CGameObject* CInven_UI::Clone(void* pArg)
 {
-	CDefault_Menu* pInstace = new CDefault_Menu(*this);
+	CInven_UI* pInstace = new CInven_UI(*this);
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("로고메뉴 복제 실패");
+		MSG_BOX("이미지 복제 실패");
 		Safe_Release(pInstace);
 	}
 
 	return pInstace;
 }
 
-void CDefault_Menu::Free()
+void CInven_UI::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
 }

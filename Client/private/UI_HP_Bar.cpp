@@ -1,6 +1,6 @@
 ﻿#include "UI_HP_Bar.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CUI_HP_Bar::CUI_HP_Bar(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

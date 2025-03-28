@@ -1,6 +1,7 @@
 ﻿#include "Inventory.h"
 #include "GameInstance.h"
 #include "Item_Manager.h"
+#include "UI_Manager.h"
 
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -32,19 +33,31 @@ HRESULT CInventory::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
 	 
+
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Inven_UI"))))
+		return E_FAIL; 
+
+	if (m_pInven_UI = dynamic_cast<CInven_UI*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Inven_UI")));
+	else
+		return E_FAIL;
+
+//	m_vecpItem.resize(7); // 7번까지만 할래
+
 	bFirstUpdate = true;
+
+	//CItem_Manager::GetInstance()->Add_Inven(this);
 
 	return S_OK;
 }
+
 
 void CInventory::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CInventory::Update(_float fTimeDelta)
-{
-	Equip(fTimeDelta); 
-}
+void CInventory::Update(_float fTimeDelta){	 }
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
@@ -57,148 +70,89 @@ void CInventory::Late_Update(_float fTimeDelta)
 	}
 }
 
-
-HRESULT CInventory::Render()
-{
-	if (!m_bRender)
-	{
-		CItem_Manager::GetInstance()->Set_Inven_Render(false);
-		return S_OK;
-	}
-	else
-		CItem_Manager::GetInstance()->Set_Inven_Render(true);
-
-
-	D3DXMATRIX matOldView, matOldProj;
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
-	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
-
-	D3DXMATRIX matView;
-	D3DXMatrixIdentity(&matView);
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
-
-	D3DXMATRIX matProj;
-	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0))) // 현재 프레임 인덱스를 사용하여 텍스처 바인딩
-		return E_FAIL;
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-
-	return S_OK;
-}
+HRESULT CInventory::Render(){return S_OK;}
 
 HRESULT CInventory::Ready_Components()
 {
-
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Inven"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
-
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
-
 	return S_OK;
 }
-
-void CInventory::Equip(_float fTimeDelta)
+CWeapon_Base* CInventory::Equip(_float fTimeDelta)
 {
 
-	bool bInputReceived = false;
+	bool bKeyPressed = false;
 
 	if (GetAsyncKeyState('1') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Claymore");
-		m_pItem = CItem_Manager::GetInstance()->Get_Weapon(L"Claymore");
+		m_pItem = Weapon_Equip(0);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
 	if (GetAsyncKeyState('2') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Axe");
+		m_pItem = Weapon_Equip(1);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
 	if (GetAsyncKeyState('3') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"ShotGun");
+		m_pItem = Weapon_Equip(2);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
 	if (GetAsyncKeyState('4') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Magnum");
+		m_pItem = Weapon_Equip(3);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
 	if (GetAsyncKeyState('5') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Staff");
+		m_pItem = Weapon_Equip(4);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
 	if (GetAsyncKeyState('6') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Minigun");
-	
+		m_pItem = Weapon_Equip(5);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
-
 	if (GetAsyncKeyState('7') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Harvester");
+		m_pItem = Weapon_Equip(6);
 		bInputReceived = true;
+		bKeyPressed = true;
 	}
 
-	/*if (GetAsyncKeyState('8') & 0x8000)
+	if (GetAsyncKeyState('9') & 0x8000)
 	{
-		CItem_Manager::GetInstance()->Weapon_Equip(L"Sonic");
-		bInputReceived = true;
-	}*/
-
-	if (GetAsyncKeyState('Q') & 0x8000)
-	{
-		CItem_Manager::GetInstance()->All_Weapon_Off();
-		
+		m_pInven_UI->Inven_OnOff(false);
+		return nullptr;
 	}
 
-
-	if (bInputReceived)
-	{
-		fElapsedTime = 0.0f; // 입력이 있으면 타이머 초기화
-		m_bRender = true; // 입력이 있으면 인벤 창 보이기
-	}
+	if (bKeyPressed)
+		m_fNoInputAccTime = 0.f;
 	else
-	{
-		fElapsedTime += fTimeDelta; // 입력이 없으면 타이머 증가
-	}
+		m_fNoInputAccTime += fTimeDelta;
 
-	if (bFirstUpdate)
+	if (m_fNoInputAccTime >= 2.f)
 	{
-		m_bRender = false; // 최초 업데이트 시 인벤 창 안보이게
-		bFirstUpdate = false;
+		m_pInven_UI->Inven_OnOff(false);
+		return nullptr;
 	}
-	else if (fElapsedTime >= 2.0f) // 2초 동안 입력이 없으면 렌더 창 끄기
-	{
-		m_bRender = false;
-	}
+	if (bKeyPressed)
+		m_pInven_UI->Inven_OnOff(true);
 
-
+	return m_pItem;
 }
+
 
 
 CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -235,3 +189,9 @@ void CInventory::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
+//if (!m_pWeapon) return;
+// 
+//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
+//{
+//    pRangeWeapon->Add_Ammo(iAmmo);
+//}

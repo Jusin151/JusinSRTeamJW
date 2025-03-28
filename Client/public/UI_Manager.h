@@ -1,4 +1,6 @@
-﻿#include "Client_Defines.h"
+﻿#pragma once
+
+#include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Headers.h"
 
@@ -40,15 +42,7 @@ public:
         return nullptr;
     }
 
-    CUI_Base* GetParentUI()
-    {
-        CUI_Base* pUI = GetUI(L"Parent");
-        if (pUI)
-        {
-            return pUI->Parent;
-        }
-        return nullptr;
-    }
+
     _float2 GetParent_Pos()
     {
         CUI_Base* pUI = GetUI(L"Parent");
@@ -76,24 +70,7 @@ public:
         }
         return _float2(99999, 99999);
     }
-    _float2 GetEpisode_Display_Pos()
-    {
-        CUI_Base* pUI = GetUI(L"Level_1_Display");
-        if (pUI)
-        {
-            return pUI->Get_Position();
-        }
-        return _float2(99999, 99999);
-    }
-    _float2 GetPoint_Shop()
-    {
-        CUI_Base* pUI = GetUI(L"Level_1_Display");
-        if (pUI)
-        {
-            return pUI->Get_Position();
-        }
-        return _float2(99999, 99999);
-    }
+
 
     void Set_HP(_uint _Hp)
     {

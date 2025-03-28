@@ -1,6 +1,6 @@
 ﻿#include "PointShop.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "UI_Point_Shop.h"
 CPoint_Shop::CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CShop(pGraphic_Device)

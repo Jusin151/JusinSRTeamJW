@@ -3,6 +3,8 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Weapon_Base.h"
+#include "Item_Manager.h"
+#include "Inven_UI.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -35,8 +37,9 @@ public:
      HRESULT Render()override;
 private:
     HRESULT Ready_Components();
-private:
-    void Equip(_float fTimeDelta);
+   
+public:
+    CWeapon_Base* Equip(_float fTimeDelta);
 
 
 public:
@@ -45,39 +48,70 @@ public:
     virtual void Free();
 
 
-    void Add_Weapon(const wstring& tag, CWeapon_Base* pUI)
+    void Add_Weapon(wstring tag, _uint Index)
     {
-        if (m_UIMap.find(tag) != m_UIMap.end())
+        Index -= 1;
+        // 인벤 공간은 최대 7개 
+        if (m_vecpItem.size() < Index)
         {
+            MSG_BOX("무기 추가할때 인덱스 신경써주세욤");
             return;
         }
-        m_UIMap[tag] = pUI;
+        m_vecpItem[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
+        m_pInven_UI->Add_WeaponIcon(tag);
     }
-
     CWeapon_Base* Get_Weapon(const wstring& tag)
     {
-        auto it = m_UIMap.find(tag);
-        if (it != m_UIMap.end())
+        auto it = m_WeaponMap.find(tag);
+        if (it != m_WeaponMap.end())
         {
             return it->second;
         }
         return nullptr;
+    }
+    CWeapon_Base* Weapon_Equip(_uint Index)
+    {
+    
+        for (auto& pItem : m_vecpItem)
+        {
+            if (pItem&&pItem->IsActive()) //
+            {
+                pItem->SetActive(false);
+                break;
+            }
+        }
+
+        // 끼려고 하는 아이템 껴보리기
+       
+        auto it = m_vecpItem[Index];
+        if (it != nullptr)
+        {
+            it->SetActive(true);
+            m_pInven_UI->WeaponIcon_isActive(Index);
+            return it;
+
+        }
+        return nullptr; //안껴지는게 아니라 터지는건가?
     }
 
 protected:
     CTexture* m_pTextureCom = { nullptr };
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
-    Inven_DESC m_Inven_INFO{};
-    _bool m_bRender{};
+private:
 
-    unordered_map<wstring, CWeapon_Base*> m_UIMap;
-
-    CWeapon_Base* m_pItem{};
-
+    unordered_map<wstring, CWeapon_Base*> m_WeaponMap;
+     CWeapon_Base* m_pItem = { nullptr };
+     CInven_UI* m_pInven_UI = { nullptr };
+     vector<CWeapon_Base*> m_vecpItem{ 8, nullptr };
+private:
+     Inven_DESC m_Inven_INFO{};
+     _bool m_bRender{};
     _bool m_bFrist_off_Item{};
-
-    float fElapsedTime{};
-    bool bFirstUpdate = {};
+    _float fElapsedTime{};
+    _bool bFirstUpdate = {};
+    _bool m_bFristInit = {};
+    _float m_fNoInputAccTime = 0.f;
+    _bool bInputReceived = {};
 };
 END

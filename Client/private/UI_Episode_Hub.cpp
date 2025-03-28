@@ -1,6 +1,6 @@
 ﻿#include "UI_Episode_Hub.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 
 CUI_Episode_Hub::CUI_Episode_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -10,7 +10,6 @@
 #include "JsonLoader.h"
 #include "Sky.h"
 #include "Weapon_Headers.h"
-#include"Item_Icon.h"
 #include "Weapon_Effect.h"
 #include "Staff_Bullet.h"
 #include "PointShop.h"
@@ -22,6 +21,8 @@
 #include "Episode_Hub.h"
 #include "UI_Episode_Hub.h"
 #include "Portal.h"
+#include "Image.h"
+#include "Inven_UI.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -158,10 +159,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CInventory::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-    if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 아이콘 테스트 삭제 X
-    	TEXT("Prototype_GameObject_Icon"),
-    	CItem_Icon::Create(m_pGraphic_Device)))) 
-    	return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 미니건 테스트 삭제 X
 		TEXT("Prototype_GameObject_Minigun"),
@@ -215,7 +213,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		TEXT("Prototype_GameObject_UI_Spell_Shop"),
 		CUI_Spell_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		//// 웨폰상점  UI
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop_Display"),
@@ -314,7 +311,40 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Portal/Portal_%d.png"), 8))))
 		return E_FAIL;
 
+	// 이미지 클래스 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Image"),
+		CImage::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	//// 이미지클래스의 예시 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
+		TEXT("Prototype_Component_Texture_Image"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Player/Player.png"), 1))))
+		return E_FAIL;
+
+
+	////// 웨폰들의  아이콘 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Weapon_Icon"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"), 8))))
+		return E_FAIL;
+
+
+	// 인벤토리UI 클래스 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Inven_UI"),
+		CInven_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 인벤토리UI 예시 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_Inven_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Inven/Inven.png"), 1))))
+		return E_FAIL;
 
 
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));

@@ -3,6 +3,8 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Ranged_Weapon.h"
+#include "Image_Manager.h"
+
 
 BEGIN(Engine)
 class CTexture;
