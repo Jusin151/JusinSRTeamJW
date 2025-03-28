@@ -6,8 +6,11 @@ CProjectile_Particle_System::CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGrap
 	
 }
 
-CProjectile_Particle_System::CProjectile_Particle_System(const CParticle_System& Prototype)
+CProjectile_Particle_System::CProjectile_Particle_System(const CProjectile_Particle_System& Prototype)
 	: CParticle_System { Prototype }
+	, m_vDir{ Prototype.m_vDir }
+	, m_fWidth{ Prototype.m_fWidth }
+	, m_fDistance{ Prototype.m_fDistance }
 {
 
 }

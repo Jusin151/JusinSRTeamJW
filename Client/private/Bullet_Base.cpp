@@ -1,4 +1,4 @@
-#include "Bullet_Base.h"
+ï»¿#include "Bullet_Base.h"
 #include "Monster_Base.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
@@ -67,7 +67,7 @@ void CBullet_Base::Update(_float fTimeDelta)
 		m_fElapsedTime = 0.0f;
 		if (m_iCurrentFrame < 6)
 		{
-			m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // ÆÀÀå´ÔÀÌ ¾Ë·ÁÁØ
+			m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // íŒ€ì¥ë‹˜ì´ ì•Œë ¤ì¤€
 		}
 		else
 		{
@@ -115,7 +115,7 @@ HRESULT CBullet_Base::On_Collision(CCollisionObject* other)
 	if (nullptr == other)
 		return S_OK;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
@@ -155,13 +155,13 @@ void CBullet_Base::Attack_Melee()
 
 HRESULT CBullet_Base::SetUp_RenderState()
 {
-	// ÀÏ´Ü Ãß°¡ÇØº¸±â
+	// ì¼ë‹¨ ì¶”ê°€í•´ë³´ê¸°
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }
@@ -192,9 +192,9 @@ HRESULT CBullet_Base::Ready_Components()
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
 
 
