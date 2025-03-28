@@ -103,8 +103,8 @@ private:
 		const _wstring& bufferTag,
 		_int bufferLevel,
 		const _wstring& bufferClass,
-		_int bufferWidth,
-		_int bufferHeight);
+		_int bufferWidth = 256,
+		_int bufferHeight = 256);
 	void Remove_Object();
 	void Duplicate_Object();
 	CGameObject* Find_Object_ByAddress(CGameObject* pAddress);

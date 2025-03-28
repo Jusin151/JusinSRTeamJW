@@ -185,6 +185,9 @@
     <ClInclude Include="..\public\CollisionObject.h">
       <Filter>02.GameObject\CollisionObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\FrustumCull.h">
+      <Filter>Culling</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Sound_Event.h">
       <Filter>06.Sound\Sound_Event</Filter>
     </ClInclude>
@@ -370,6 +373,9 @@
     <Filter Include="04.Components\Collider\Sphere\Light">
       <UniqueIdentifier>{68a50fe1-5370-4371-8b1f-1916aa92b1be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Culling">
+      <UniqueIdentifier>{e20083ea-8893-468d-9712-405039e1f902}</UniqueIdentifier>
+    </Filter>
     <Filter Include="04.Components\Sound">
       <UniqueIdentifier>{db09ccd5-7ebc-4331-95e4-31f7fd110ea6}</UniqueIdentifier>
     </Filter>
@@ -536,6 +542,9 @@
     </ClCompile>
     <ClCompile Include="..\private\CollisionObject.cpp">
       <Filter>02.GameObject\CollisionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FrustumCull.cpp">
+      <Filter>Culling</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Sound_Event.cpp">
       <Filter>06.Sound\Sound_Event</Filter>

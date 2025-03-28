@@ -17,6 +17,8 @@
 #include <set>
 #include <codecvt>
 #include <locale>
+#include <iomanip>
+#include <sstream>
 using namespace std;
 
 #include "../../External Libraries/json.hpp"

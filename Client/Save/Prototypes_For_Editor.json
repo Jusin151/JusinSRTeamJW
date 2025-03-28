@@ -177,6 +177,21 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_Magma"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_HP_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_EXP"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_MP_Small"
     }
   ],
   "textures": [
@@ -360,6 +375,5 @@
       "path": "../../Resources/Textures/Item/Item%d.png",
       "tag": "Prototype_Component_Texture_Items"
     }
-
   ]
 }
