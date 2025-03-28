@@ -127,8 +127,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)External Libraries/fmod/fsbank/lib/x64;$(SolutionDir)External Libraries/fmod/core/lib/x64;$(SolutionDir)External Libraries/fmod/studio/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>CD $(SolutionDir)
+CALL $(SolutionDir)\UpdateLib.bat
+CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>3.0</ShaderModel>
@@ -196,6 +197,7 @@
     <ClInclude Include="..\public\BoundingBox.h" />
     <ClInclude Include="..\public\Bounding_Sphere.h" />
     <ClInclude Include="..\Public\BlendObject.h" />
+    <ClInclude Include="..\public\BulletShell_Particle_System.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
@@ -216,6 +218,7 @@
     <ClInclude Include="..\public\FrustumCull.h" />
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
+    <ClInclude Include="..\public\Gold_Particle_System.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
     <ClInclude Include="..\public\LandObject.h" />
     <ClInclude Include="..\public\Layer.h" />
@@ -233,8 +236,11 @@
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\public\Serializable.h" />
     <ClInclude Include="..\public\Snow_Particle_System.h" />
+    <ClInclude Include="..\public\Sound_Event.h" />
+    <ClInclude Include="..\public\Sound_Listener.h" />
     <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\public\Shader.h" />
+    <ClInclude Include="..\public\Sound_Source.h" />
     <ClInclude Include="..\public\Texture.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\public\Timer_Manager.h" />
@@ -245,7 +251,6 @@
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Sphere.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
-    <ClInclude Include="Sound.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +285,7 @@
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Bounding_Sphere.cpp" />
     <ClCompile Include="..\private\BlendObject.cpp" />
+    <ClCompile Include="..\private\BulletShell_Particle_System.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\Private\Collider_Cube.cpp" />
@@ -289,6 +295,7 @@
     <ClCompile Include="..\Private\Collider_Sphere.cpp" />
     <ClCompile Include="..\Private\Firework_Particle_System.cpp" />
     <ClCompile Include="..\private\FrustumCull.cpp" />
+    <ClCompile Include="..\private\Gold_Particle_System.cpp" />
     <ClCompile Include="..\Private\Particle_System.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\private\Editor.cpp" />
@@ -311,8 +318,11 @@
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\private\Serializable.cpp" />
     <ClCompile Include="..\private\Snow_Particle_System.cpp" />
+    <ClCompile Include="..\private\Sound_Event.cpp" />
+    <ClCompile Include="..\private\Sound_Listener.cpp" />
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\private\Shader.cpp" />
+    <ClCompile Include="..\private\Sound_Source.cpp" />
     <ClCompile Include="..\private\Texture.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\private\Timer_Manager.cpp" />

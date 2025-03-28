@@ -3,13 +3,14 @@
 #include "PickingSys.h"
 #include "Collider_Sphere.h"
 #include "UI_Default_Panel.h"
-#include "CUI_Base.h"
+#include "UI_Base.h"
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
 #include "Weapon_Base.h"
 #include "Effect_Base.h"
 #include "UI_Shop_Base.h"
 #include "UI_Point_Shop.h"
+#include "Image.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device },
@@ -56,10 +57,14 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Item"))))
 		return E_FAIL;
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_InvenUI"))))
+		return E_FAIL;*/
+
 
 
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
@@ -68,9 +73,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	/*if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), TEXT("Layer_Monster_Projectile_Harpoon"), 10)))
 		return E_FAIL;*/
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
 
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
@@ -80,6 +82,17 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Episode_Hub"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
+
+	
+
+	/*CImage::Image_DESC Image_INFO = {};
+	Image_INFO.vPos = { 0.f,0.f };
+	Image_INFO.vSize = { 1000.f,1000.f };
+	Image_INFO.TextureKey = L"Prototype_Component_Texture_Image";
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"),&Image_INFO)))
+		return E_FAIL;*/
+
 
 
 

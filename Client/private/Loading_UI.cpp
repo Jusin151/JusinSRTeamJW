@@ -1,6 +1,6 @@
 ﻿#include "Loading_UI.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CLoading_UI::CLoading_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

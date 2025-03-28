@@ -3,7 +3,8 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "Logo_Button.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
+#include "Sound_Event.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -14,12 +15,14 @@ CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Logo::Initialize()
 {
+	
 	if (FAILED(Ready_Layer_BackGround()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Menu()))
 		return E_FAIL;
 
+	m_pGameInstance->Play_Event(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
 	return S_OK;
 }
 
@@ -168,5 +171,4 @@ CLevel_Logo* CLevel_Logo::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Logo::Free()
 {
 	__super::Free();
-
 }

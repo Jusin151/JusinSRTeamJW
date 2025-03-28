@@ -5,7 +5,7 @@
 #include "Collider_Cube.h"
 #include "Camera_FirstPerson.h"
 #include "Melee_Weapon.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "UI_Player_Icon.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -69,11 +69,21 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_eType = CG_PLAYER;
 
 	m_iHp = m_iPlayerHP.first;
+	
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
+		return E_FAIL;
+
+	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+	(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+
+	if (!m_pPlayer_Inven) 
+		return E_FAIL;
 
 
-	//m_pPlayer_Inven = CInventory::GetInstance(); 
 
 	CPickingSys::Get_Instance()->Set_Player(this);
+
 	return S_OK;
 }
 
@@ -127,10 +137,9 @@ void CPlayer::Update(_float fTimeDelta)
 	else
 		fTimeDelta = m_fSaveTime;
 
+	Equip(fTimeDelta);
 	Move(fTimeDelta);
 
-
-	Inven_Update(fTimeDelta);
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 
@@ -146,26 +155,50 @@ void CPlayer::Update(_float fTimeDelta)
 	}*/
 
 
-}
+	
+	int a = 10;
 
+	static _bool m_basd = { true };
+
+	if (m_basd)
+	{
+		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
+		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
+		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+		//m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
+		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		//m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+
+		m_basd = false;
+	}
+}
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	/*if (m_iHp <= 0)
-	{
-		m_bIsActive = false;
-		return;
-	}*/
-
-
-	//if (Find(m_))
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+}
+
+void CPlayer::Input_WeapontoInven(wstring tag, _uint Index)
+{
+	m_pPlayer_Inven->Add_Weapon(tag, Index);
+}
 
 
-
+void CPlayer::Input_ItemtoInven()
+{
 
 
 }
 
+void CPlayer::Equip(_float fTimeDelta)
+{
+	 m_pPlayer_Weapon= m_pPlayer_Inven->Equip(fTimeDelta);
+
+}
+void CPlayer::UnEquip(_float fTimeDelta)
+{
+}
 HRESULT CPlayer::Render()
 {
 
@@ -299,6 +332,7 @@ void CPlayer::Move(_float fTimeDelta)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
 
+
 	POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
@@ -316,17 +350,8 @@ void CPlayer::Move(_float fTimeDelta)
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
 	}
 
-
-
 }
 
-void CPlayer::Inven_Update(_float fTimeDelta)
-{
-	//m_bInven_Render_State = m_pPlayer_Inven->Update(fTimeDelta);
-
-
-
-}
 
 HRESULT CPlayer::SetUp_RenderState()
 {

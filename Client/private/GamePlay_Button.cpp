@@ -1,16 +1,16 @@
 ﻿#include "GamePlay_Button.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CGamePlay_Button::CGamePlay_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUI_Base(pGraphic_Device) {
 }
 
-CGamePlay_Button::CGamePlay_Button(const CGamePlay_Button& rhs)
-    : CUI_Base(rhs),
-    m_pTextureCom(rhs.m_pTextureCom),
-    m_pVIBufferCom(rhs.m_pVIBufferCom),
-    m_pTransformCom(rhs.m_pTransformCom) {
+CGamePlay_Button::CGamePlay_Button(const CGamePlay_Button& Prototype)
+    : CUI_Base(Prototype),
+    m_pTextureCom(Prototype.m_pTextureCom),
+    m_pVIBufferCom(Prototype.m_pVIBufferCom),
+    m_pTransformCom(Prototype.m_pTransformCom) {
 }
 
 HRESULT CGamePlay_Button::Initialize_Prototype() {

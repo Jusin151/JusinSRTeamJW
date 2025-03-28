@@ -62,7 +62,16 @@ public:
 #pragma endregion
 
 #pragma region SOUND_MANAGER
-
+	void				Load_Bank(const _wstring& strBankPath);
+	void				Unload_Bank(const _wstring& strBankPath);
+	void				Unload_AllBank();
+	void				Stop_All_Event();
+	class CSound_Event	Play_Event(const _wstring& strEventName, void* pArg = nullptr);
+	void				Set_Listner(const class CTransform& worldTrans);
+	_float				GetBusVolume(const _wstring& name) const;
+	_bool				GetBusPaused(const _wstring& name) const;
+	void				SetBusVolume(const _wstring& name, float volume);
+	void				SetBusPaused(const _wstring& name, bool pause);
 #pragma endregion
 
 #pragma region POOL_MANAGER

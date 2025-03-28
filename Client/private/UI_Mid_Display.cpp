@@ -1,6 +1,6 @@
 ﻿#include "UI_Mid_Display.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CUI_Mid_Display::CUI_Mid_Display(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

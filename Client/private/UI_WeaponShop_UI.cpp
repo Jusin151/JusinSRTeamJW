@@ -1,7 +1,7 @@
 ﻿#include "UI_WeaponShop_UI.h"
 #include "GameInstance.h"
 #include "GamePlay_Button.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 
 

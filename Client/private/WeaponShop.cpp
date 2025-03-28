@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "Player.h"  
 #include "UI_WeaponShop_UI.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CWeaponShop::CWeaponShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)

@@ -1,6 +1,6 @@
 ﻿#include "UI_Left_Display.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CUI_Left_Display::CUI_Left_Display(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

@@ -18,7 +18,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CItem::CItem(const CItem& Prototype)
-	:CCollisionObject{ Prototype },
+	:CCollisionObject( Prototype ),
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
 	,m_pPlayer{Prototype.m_pPlayer}
 

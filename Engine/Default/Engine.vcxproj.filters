@@ -91,9 +91,6 @@
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>06.Sound\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>06.Sound</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\UIObject.h">
       <Filter>02.GameObject\UIObject</Filter>
     </ClInclude>
@@ -191,6 +188,21 @@
     <ClInclude Include="..\public\FrustumCull.h">
       <Filter>Culling</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Sound_Event.h">
+      <Filter>06.Sound\Sound_Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sound_Source.h">
+      <Filter>04.Components\Sound\Sound_Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sound_Listener.h">
+      <Filter>04.Components\Sound\Sound_Listener</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Gold_Particle_System.h">
+      <Filter>04.Components\Particle\System\Gold</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BulletShell_Particle_System.h">
+      <Filter>04.Components\Particle\System\BulletShell</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -273,12 +285,6 @@
     </Filter>
     <Filter Include="07.Pool">
       <UniqueIdentifier>{f91d3988-c91a-4823-9b7f-9844bedec818}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06.Sound\Listener">
-      <UniqueIdentifier>{5ba1dc59-1306-434a-af42-fc67bfdf4c8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06.Sound\Source">
-      <UniqueIdentifier>{aa64ac8a-9773-4030-8eeb-61fb8677ace0}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\UIObject">
       <UniqueIdentifier>{ca1b37c0-851b-4920-b166-7d1b22ab39c1}</UniqueIdentifier>
@@ -369,6 +375,24 @@
     </Filter>
     <Filter Include="Culling">
       <UniqueIdentifier>{e20083ea-8893-468d-9712-405039e1f902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Sound">
+      <UniqueIdentifier>{db09ccd5-7ebc-4331-95e4-31f7fd110ea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Sound\Sound_Source">
+      <UniqueIdentifier>{d487078e-09a1-49f6-99d4-7fe9ffda3eec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound\Sound_Event">
+      <UniqueIdentifier>{15af5700-c70d-4be5-982e-da4c45780aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Sound\Sound_Listener">
+      <UniqueIdentifier>{17e93ce1-5e12-4e2a-af5d-b5c1bd8974ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\Gold">
+      <UniqueIdentifier>{ea2b4021-5822-438b-878c-789d3cd653fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\BulletShell">
+      <UniqueIdentifier>{441dcea7-c073-41b3-84aa-3a964a069157}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -521,6 +545,21 @@
     </ClCompile>
     <ClCompile Include="..\private\FrustumCull.cpp">
       <Filter>Culling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound_Event.cpp">
+      <Filter>06.Sound\Sound_Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound_Source.cpp">
+      <Filter>04.Components\Sound\Sound_Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound_Listener.cpp">
+      <Filter>04.Components\Sound\Sound_Listener</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Gold_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Gold</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletShell_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\BulletShell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

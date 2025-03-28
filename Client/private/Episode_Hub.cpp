@@ -1,6 +1,6 @@
 ﻿#include "Episode_Hub.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "UI_Episode_Hub.h"
 CEpisode_Hub::CEpisode_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)

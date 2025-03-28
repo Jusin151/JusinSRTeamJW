@@ -1,6 +1,6 @@
 ﻿#include "Exp_Bar.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CExp_Bar::CExp_Bar(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "Player.h"  // 플레이어 정보 접근용
 #include "UI_Spell_Shop.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CSpellShop::CSpellShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)

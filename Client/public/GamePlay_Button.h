@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Client_Defines.h"
-#include "CUI_Base.h"
+#include "UI_Base.h"
 #include <functional>
 
 BEGIN(Engine)
