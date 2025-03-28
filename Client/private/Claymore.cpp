@@ -86,7 +86,26 @@ void CClaymore::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	Attack(fTimeDelta);
+	//Attack(fTimeDelta);
+
+ 	if (m_bIsAnimating)
+	{
+		m_fElapsedTime += fTimeDelta;
+
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+
+			if (m_iCurrentFrame < 13)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_bIsAnimating = false;
+			}
+		}
+	}
 }
 
 void CClaymore::Late_Update(_float fTimeDelta)
@@ -200,30 +219,10 @@ void CClaymore::Free()
 }
 void CClaymore::Attack(_float fTimeDelta)
 {
-	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
-	{
+	if (m_bIsAnimating) return;
+
 		m_bIsAnimating = true;
 		m_bAttack = false;
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.0f;
-	}
-
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
-
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
-
-			if (m_iCurrentFrame < 13)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-			}
-		}
-	}
 }

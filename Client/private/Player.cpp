@@ -131,33 +131,21 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_fSaveTime = fTimeDelta;
-	if (m_bTimeControl)
-		fTimeDelta = 0;
-	else
-		fTimeDelta = m_fSaveTime;
 
-	Equip(fTimeDelta);
-	Move(fTimeDelta);
+	Input_Key(fTimeDelta);
+
+
 
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
-
-
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
-	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
-
-	/*if (GetKeyState(VK_LBUTTON) < 0)
-	{
-		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition(m_pTransformCom->Get_WorldMatrix_Inverse());
-		int a = 10;
-	}*/
 
 
 	
-	int a = 10;
 
+
+/////////트리거용 
 	static _bool m_basd = { true };
 
 	if (m_basd)
@@ -165,23 +153,19 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
 		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
-		//m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
-		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		//m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
+		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
 		m_basd = false;
 	}
+
 }
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-}
-
-void CPlayer::Input_WeapontoInven(wstring tag, _uint Index)
-{
-	m_pPlayer_Inven->Add_Weapon(tag, Index);
 }
 
 
@@ -193,15 +177,43 @@ void CPlayer::Input_ItemtoInven()
 
 void CPlayer::Equip(_float fTimeDelta)
 {
-	 m_pPlayer_Weapon= m_pPlayer_Inven->Equip(fTimeDelta);
+	if (GetAsyncKeyState('1') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(1);
+	}
+	if (GetAsyncKeyState('2') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(2);
+	}
+	if (GetAsyncKeyState('3') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(3);
+	}
+	if (GetAsyncKeyState('4') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(4);
+	}
+	if (GetAsyncKeyState('5') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(5);
+	}
+	if (GetAsyncKeyState('6') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(6);
+	}
+	if (GetAsyncKeyState('7') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(7);
+	}
+	if (GetAsyncKeyState('8') & 0x8000)
+	{
+		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(8);
+	}
 
 }
-void CPlayer::UnEquip(_float fTimeDelta)
-{
-}
+
 HRESULT CPlayer::Render()
 {
-
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 		_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
@@ -370,6 +382,27 @@ void CPlayer::Move(_float fTimeDelta)
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
 	}
 
+}
+
+void CPlayer::Attack(_float fTimeDelta)
+{
+	if (m_pPlayer_Weapon == nullptr)
+		return;
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	{	
+		m_pPlayer_Weapon->Attack(fTimeDelta);
+	}
+   
+}
+
+void CPlayer::Input_Key(_float fTimeDelta)
+{
+	Equip(fTimeDelta); //인벤
+
+	Attack(fTimeDelta);//좌클
+
+	Move(fTimeDelta); // 플레이어 이동
 }
 
 

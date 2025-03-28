@@ -35,8 +35,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
-	void Move(_float fTimeDelta);
 	CTransform* Get_TransForm() { return m_pTransformCom; }
+	void Move(_float fTimeDelta);
+	void Attack(_float fTimeDelta);
+	void Input_Key(float fTimeDelta);
 
 public:
 	inline void Add_Ammo(_int iAmmo);
@@ -55,14 +57,15 @@ private:
 	CCollider_Cube* m_pColliderCom = { nullptr };
 
 private: // 인벤관련
-	void Input_WeapontoInven(wstring tag,_uint type);
+	void Input_WeapontoInven(wstring tag, _uint Index)
+	{
+		m_pPlayer_Inven->Add_Weapon(tag, Index);
+	}
+
 	void Input_ItemtoInven();
-
-
 	_bool m_bInven_Render_State{};
 
 	void Equip(_float fTimeDelta);
-	void UnEquip(_float fTimeDelta);
 
 private:
 	HRESULT SetUp_RenderState();

@@ -39,7 +39,7 @@ private:
     HRESULT Ready_Components();
    
 public:
-    CWeapon_Base* Equip(_float fTimeDelta);
+    CWeapon_Base* Equip(_uint type);
 
 
 public:
@@ -113,5 +113,6 @@ private:
     _bool m_bFristInit = {};
     _float m_fNoInputAccTime = 0.f;
     _bool bInputReceived = {};
+    _bool m_bKeyPressed = { false };
 };
 END

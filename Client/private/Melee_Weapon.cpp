@@ -55,8 +55,6 @@ void CMelee_Weapon::Update(_float fTimeDelta)
 
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
-
-
 	if (m_bIsAnimating && !m_bAttack)
 	{
 		m_pGameInstance->Add_Collider(CG_WEAPON, m_pColliderCom);
