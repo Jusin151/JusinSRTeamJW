@@ -327,9 +327,21 @@ json CStructure::Serialize()
 	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	auto scale = m_pTransformCom->Compute_Scaled();
 	auto angle = m_pTransformCom->Get_EulerAngles();
-	j["position"] = { pos.x, pos.y, pos.z };
-	j["rotation"] = { angle.x, angle.y, angle.z };
-	j["scale"] = { scale.x, scale.y, scale.z };
+	j["position"] = {
+	RoundToDecimalPlaces(pos.x, 2),
+	RoundToDecimalPlaces(pos.y, 2),
+	RoundToDecimalPlaces(pos.z, 2)
+	};
+	j["rotation"] = {
+		RoundToDecimalPlaces(angle.x, 2),
+		RoundToDecimalPlaces(angle.y, 2),
+		RoundToDecimalPlaces(angle.z, 2)
+	};
+	j["scale"] = {
+		RoundToDecimalPlaces(scale.x, 2),
+		RoundToDecimalPlaces(scale.y, 2),
+		RoundToDecimalPlaces(scale.z, 2)
+	};
 
 	return j;
 }

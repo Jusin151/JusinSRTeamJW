@@ -1,4 +1,5 @@
 ﻿#include "Editor.h"
+#include <regex>
 
 CEditor::CEditor(): m_pGameInstance(CGameInstance::Get_Instance())
 {
@@ -46,9 +47,13 @@ _bool CEditor::SaveLevel(_uint iLevelID, const _wstring& filepath)
     ofstream file(filepath);
     if (!file.is_open())
         return false;
+    //file << j.dump(4);
+    //file.close();
 
-    file << j.dump(4);
-    file.close();
+    string jsonStr = j.dump(4);
+    regex floatPattern("(\\d+)\\.(\\d{1,2})\\d*");
+    jsonStr = regex_replace(jsonStr, floatPattern, "$1.$2");
+    file << jsonStr;
     m_LevelObjects[iLevelID].clear();
     return true;
 }

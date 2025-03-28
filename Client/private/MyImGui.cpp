@@ -479,34 +479,34 @@ void CMyImGui::ShowCreateObjectTab()
 		}
 	}
 
-	// 프로토타입으로부터 게임 오브젝트 생성 버튼
-	if (selectedPrototypeIndex >= 0 && ImGui::Button("Create From Selected Prototype"))
-	{
-		if (selectedPrototypeIndex < prototypeInfos.size())
-		{
-			const auto& info = prototypeInfos[selectedPrototypeIndex];
-			_wstring protoTag = ISerializable::Utf8ToWide(info.tag);
-			_wstring layerTag = ISerializable::Utf8ToWide(objectLayerTagBuffer);
+	//// 프로토타입으로부터 게임 오브젝트 생성 버튼
+	//if (selectedPrototypeIndex >= 0 && ImGui::Button("Create From Selected Prototype"))
+	//{
+	//	if (selectedPrototypeIndex < prototypeInfos.size())
+	//	{
+	//		const auto& info = prototypeInfos[selectedPrototypeIndex];
+	//		_wstring protoTag = ISerializable::Utf8ToWide(info.tag);
+	//		_wstring layerTag = ISerializable::Utf8ToWide(objectLayerTagBuffer);
 
-			CGameObject::OBJECT_DESC tObjDesc{};
-			tObjDesc.iLevel = iLevel;
-			tObjDesc.iProtoLevel = info.level;
-			tObjDesc.stProtTag = protoTag;
-			tObjDesc.stBufferTag = ISerializable::Utf8ToWide(info.bufferTag);
-			tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(info.textureTag);
-			tObjDesc.iPoolCount = iPoolingCount;
+	//		CGameObject::OBJECT_DESC tObjDesc{};
+	//		tObjDesc.iLevel = iLevel;
+	//		tObjDesc.iProtoLevel = info.level;
+	//		tObjDesc.stProtTag = protoTag;
+	//		tObjDesc.stBufferTag = ISerializable::Utf8ToWide(info.bufferTag);
+	//		tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(info.textureTag);
+	//		tObjDesc.iPoolCount = iPoolingCount;
 
-			// 게임 오브젝트 추가
-			if (iPoolingCount != 0)
-			{
-				m_pGameInstance->Reserve_Pool(info.level, protoTag, layerTag, iPoolingCount, &tObjDesc);
-			}
-			else
-			{
-				m_pGameInstance->Add_GameObject(info.level, protoTag, iLevel, layerTag, &tObjDesc);
-			}
-		}
-	}
+	//		// 게임 오브젝트 추가
+	//		if (iPoolingCount != 0)
+	//		{
+	//			m_pGameInstance->Reserve_Pool(info.level, protoTag, layerTag, iPoolingCount, &tObjDesc);
+	//		}
+	//		else
+	//		{
+	//			m_pGameInstance->Add_GameObject(info.level, protoTag, iLevel, layerTag, &tObjDesc);
+	//		}
+	//	}
+	//}
 
 	// 프로토타입 목록 새로고침 버튼
 	if (ImGui::Button("Refresh Prototypes"))
@@ -1740,6 +1740,19 @@ void CMyImGui::ShowItemCreationTab()
 				pTransform->Set_State(CTransform::STATE_LOOK, vLook);
 			}
 		}
+		SaveObjectToJson(
+			"",
+			tItemDesc.stProtTag,         // 오브젝트 태그
+			tItemDesc.iLevel,        // 오브젝트 레벨
+		    L"CItem",        // 클래스 이름
+			tItemDesc.stProtTextureTag,       // 텍스처 태그
+			tItemDesc.iLevel,             // 텍스처 레벨
+			L"",     // 텍스처 경로
+			96,       // 텍스처 개수
+			tItemDesc.stBufferTag,        // 버퍼 태그
+			3,                  // 버퍼 레벨 (기본값)
+			tItemDesc.stBufferTag // 버퍼 클래스 이름
+			);
 
 		//tHistoryItem historyItem;
 		//historyItem.iLevel = 3;

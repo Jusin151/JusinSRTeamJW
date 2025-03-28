@@ -20,6 +20,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 CItem::CItem(const CItem& Prototype)
 	:CCollisionObject{ Prototype },
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
+	,m_pPlayer{Prototype.m_pPlayer}
 
 {
 }
@@ -308,8 +309,30 @@ json CItem::Serialize()
 {
 	json json = CGameObject::Serialize();
 
-	json["Type"] = static_cast<_int>(m_eType);
+	json["Type"] = static_cast<_int>(m_eItemType);
 	json["Item_Name"] = ISerializable::WideToUtf8(m_strItemName);
+
+	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	auto scale = m_pTransformCom->Compute_Scaled();
+	auto angle = m_pTransformCom->Get_EulerAngles();
+
+	auto round2 = [](float val) { return round(val * 100) / 100; };
+
+	json["position"] = {
+	round2(pos.x),
+	round2(pos.y),
+	round2(pos.z)
+	};
+	json["rotation"] = {
+		round2(angle.x),
+		round2(angle.y),
+		round2(angle.z)
+	};				  
+	json["scale"] = { 
+		round2(scale.x),
+		round2(scale.y),
+		round2(scale.z)
+	};
 
 	return json;
 }

@@ -80,6 +80,13 @@ namespace Engine
 
 		return result;
 	}
+
+	inline float RoundToDecimalPlaces(float value, int places) 
+	{
+		ostringstream oss;
+		oss << fixed << std::setprecision(places) << value;
+		return stof(oss.str());
+	}
 }
 
 	
