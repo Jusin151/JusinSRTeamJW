@@ -4,6 +4,7 @@ BEGIN(Engine)
 class ENGINE_DLL CSound_Event final : public CBase
 {
 public:
+    virtual ~CSound_Event() = default;
     void Restart(); //이벤트 재시작
     void Stop(bool allowFadeOut = true); // 이벤트를 정지한다
 public: // Setters

@@ -333,8 +333,6 @@ void CSound_Manager::SetBusPaused(const _wstring& name, bool pause)
     }
 }
 
-
-
 CSound_Manager* CSound_Manager::Create(_int iNumChannels, FMOD_STUDIO_INITFLAGS studioFlags, FMOD_INITFLAGS flags, void* pArg)
 {
 	CSound_Manager* pInstance = new CSound_Manager();
