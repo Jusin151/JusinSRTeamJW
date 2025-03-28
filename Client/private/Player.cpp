@@ -137,6 +137,7 @@ void CPlayer::Update(_float fTimeDelta)
 	else
 		fTimeDelta = m_fSaveTime;
 
+	Equip(fTimeDelta);
 	Move(fTimeDelta);
 
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
@@ -351,12 +352,6 @@ void CPlayer::Move(_float fTimeDelta)
 
 }
 
-void CPlayer::Inven_Update(_float fTimeDelta)
-{
-	//m_bInven_Render_State = m_pPlayer_Inven->Update(fTimeDelta);
-
-
-}
 
 HRESULT CPlayer::SetUp_RenderState()
 {

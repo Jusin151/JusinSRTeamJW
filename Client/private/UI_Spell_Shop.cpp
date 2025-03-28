@@ -1,6 +1,6 @@
 ﻿#include "UI_Spell_Shop.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 
 

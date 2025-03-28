@@ -28,7 +28,6 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	m_Inven_INFO.vSize = { 918.f,207.f };
 	m_Inven_INFO.vPos = { 0.f,170.f };
-	m_bFrist_off_Item = false;
 	m_pTransformCom->Set_Scale(m_Inven_INFO.vSize.x, m_Inven_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));

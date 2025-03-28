@@ -80,8 +80,6 @@ public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-	void Set_Hp(_int iHp)override;
-	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 public:
 	void Taimu_S_to_pu(){m_bTimeControl = !m_bTimeControl;}
 
