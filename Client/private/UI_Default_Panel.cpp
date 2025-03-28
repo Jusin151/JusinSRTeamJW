@@ -1,6 +1,6 @@
 ﻿#include "UI_Default_Panel.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CUI_Default_Panel::CUI_Default_Panel(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

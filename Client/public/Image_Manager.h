@@ -1,4 +1,6 @@
-﻿#include "Client_Defines.h"
+﻿#pragma once
+
+#include "Client_Defines.h"
 #include "GameObject.h"
 #include "Image.h"
 #include "Item_Manager.h"
@@ -12,7 +14,7 @@ class CImage_Manager
         Claymore,Axe,Magnum,ShotGun,Staff,Minigun,Harvester
 
     };
-public:
+ public:
     static CImage_Manager* GetInstance()
     {
         static CImage_Manager instance;
@@ -21,8 +23,6 @@ public:
 
 private:
     CImage_Manager() = default;
-
-
     CImage_Manager(const CImage_Manager&) = delete;
     CImage_Manager& operator=(const CImage_Manager&) = delete;
     CImage_Manager(CImage_Manager&&) = delete;
@@ -37,13 +37,20 @@ public:
         } 
         m_mapImage[tag] = pUI;
     }
-    void Add_Weapon_Icon(const wstring& tag,CImage* IconImage)
+    void Add_Weapon_Icon(const wstring& tag,CImage* IconImage)//무기이름과 this
     {    
         if (m_mapWeaponIcon.find(tag) != m_mapWeaponIcon.end())
         {
             return; 
         }
         m_mapWeaponIcon[tag] = IconImage;
+    }
+    void Weapon_Icon_Init()//이거 안해주면 아이콘들보임
+    {
+        for (auto& it : m_mapWeaponIcon)
+        {
+            it.second->SetActive(false);
+        }
     }
     CImage* Get_Image(const wstring& tag)
     {
@@ -54,12 +61,20 @@ public:
         }
         return nullptr;
     }
+    CImage* Get_WeaponIcon(const wstring& tag)
+    {
+        auto it = m_mapWeaponIcon.find(tag);
+        if (it != m_mapWeaponIcon.end())
+        {
+            return it->second;
+        }
+        return nullptr;
+    }
 
 private:
     unordered_map<wstring, CImage*> m_mapImage={};
     unordered_map<wstring, CImage*> m_mapWeaponIcon={};
  
-
 };
 
 

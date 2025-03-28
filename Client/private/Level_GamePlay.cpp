@@ -3,7 +3,7 @@
 #include "PickingSys.h"
 #include "Collider_Sphere.h"
 #include "UI_Default_Panel.h"
-#include "CUI_Base.h"
+#include "UI_Base.h"
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
 #include "Weapon_Base.h"
@@ -57,10 +57,14 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Item"))))
 		return E_FAIL;
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_InvenUI"))))
+		return E_FAIL;*/
+
 
 
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))

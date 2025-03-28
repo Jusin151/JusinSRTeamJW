@@ -2,7 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
-#include "CUI_Base.h"
+#include "UI_Base.h"
 
 BEGIN(Engine)
 class CShader;

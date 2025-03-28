@@ -1,6 +1,6 @@
 ﻿#include "UI_Player_Icon.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CUI_Player_Icon::CUI_Player_Icon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

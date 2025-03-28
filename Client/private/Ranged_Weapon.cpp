@@ -3,7 +3,7 @@
 #include "Collider.h"
 #include "PickingSys.h"
 #include "Effect_Base.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{ pGraphic_Device }
@@ -16,7 +16,14 @@ CRanged_Weapon::CRanged_Weapon(const CRanged_Weapon& Prototype)
 }
 void CRanged_Weapon::Priority_Update(_float fTimeDelta)
 {
-	
+  /*  static _bool m_bOffItem = { false };
+
+    if (!m_bOffItem)
+    {
+        m_bIsActive = false;
+
+        m_bOffItem = true;
+    }*/
 }
 
 void CRanged_Weapon::Update(_float fTimeDelta)

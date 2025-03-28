@@ -1,5 +1,6 @@
 ﻿#include "Image.h"
 #include "GameInstance.h"
+#include "Image_Manager.h"
 
 CImage::CImage(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{pGraphic_Device}
@@ -24,7 +25,10 @@ HRESULT CImage::Initialize(void* pArg)
 	
 	if (pArg != nullptr)
 	{
- 		m_Image_INFO = *reinterpret_cast<Image_DESC*>(pArg);
+	
+			m_Image_INFO = *reinterpret_cast<Image_DESC*>(pArg);
+			CImage_Manager::GetInstance()->Add_Weapon_Icon(m_Image_INFO.WeaponTag, this);
+			
 	}
 	else
 		return E_FAIL;
@@ -41,11 +45,19 @@ HRESULT CImage::Initialize(void* pArg)
 
 void CImage::Priority_Update(_float fTimeDelta)
 {
+	static _bool m_bOffItem = { false };    // 이거를 해야 웨폰 아이콘들이 안보임
+	if (!m_bOffItem)
+	{
+		CImage_Manager::GetInstance()->Weapon_Icon_Init();
+
+		m_bOffItem = true;
+	}
 
 }
 
 void CImage::Update(_float fTimeDelta)
 {
+
 	m_bIsActive=true;
 }
 
@@ -76,7 +88,7 @@ HRESULT CImage::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(m_Image_INFO.TextureImageNum)))
 		return E_FAIL;
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;

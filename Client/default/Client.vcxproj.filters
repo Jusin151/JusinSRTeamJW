@@ -82,9 +82,6 @@
     <Filter Include="02.GameObjects\96. Structure">
       <UniqueIdentifier>{01a4a485-e43d-48f6-a8ff-d7b89bcf1367}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Inven">
-      <UniqueIdentifier>{09a4a540-e0c5-4137-aa67-00aa62d9aff5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\01.Monster\Base">
       <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
     </Filter>
@@ -168,36 +165,6 @@
     </Filter>
     <Filter Include="02.GameObjects\08. Weapon">
       <UniqueIdentifier>{bda00311-2010-4dc6-8616-fcc7b7160629}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\CMeleeWeapon">
-      <UniqueIdentifier>{a63de5a8-d560-430e-8184-13e297b85853}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\CMeleeWeapon\Claymore">
-      <UniqueIdentifier>{f23db6f8-636e-4d2c-8a87-bd2a2e55fd15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\CMeleeWeapon\Axe">
-      <UniqueIdentifier>{e0b0c9df-54bc-4bb2-9161-7e8e26a783b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon">
-      <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon\00. Magnum">
-      <UniqueIdentifier>{edac6ec4-ed4d-4c48-94f8-4b6401d2ccd6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon\01 .ShotGun">
-      <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon\02. Staff">
-      <UniqueIdentifier>{b9c28634-f146-4ad6-b9f9-b3e851bd7479}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon\03. Minigun">
-      <UniqueIdentifier>{d34744ae-ce31-4cda-9e05-8912dece91d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon\04. Harvester">
-      <UniqueIdentifier>{c9096f68-e747-41a9-92df-d206c62306d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\Ranged Weapon\05. Sonic">
-      <UniqueIdentifier>{7ab84fed-b442-4374-9c6a-80505151f63b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\97. UI\00.Loading_UI">
       <UniqueIdentifier>{dbaac1b6-4c94-46d3-8a10-834ed5aa515a}</UniqueIdentifier>
@@ -286,6 +253,51 @@
     <Filter Include="96. Manager\Image_Manager">
       <UniqueIdentifier>{d2a4f6ad-e6af-455b-9243-da94c66cec2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Inven">
+      <UniqueIdentifier>{09a4a540-e0c5-4137-aa67-00aa62d9aff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Image">
+      <UniqueIdentifier>{2097ee27-2406-4913-91b0-478a0d20ac5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon">
+      <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\99. Weapon_Base">
+      <UniqueIdentifier>{bb213674-67d3-4261-9ba1-5b4500644739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\99. Weapon_Base\Mele">
+      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\99. Weapon_Base\Ranged">
+      <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\00. MeleeWeapon">
+      <UniqueIdentifier>{a63de5a8-d560-430e-8184-13e297b85853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\00. MeleeWeapon\01. Axe">
+      <UniqueIdentifier>{e0b0c9df-54bc-4bb2-9161-7e8e26a783b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\00. MeleeWeapon\00. Claymore">
+      <UniqueIdentifier>{f23db6f8-636e-4d2c-8a87-bd2a2e55fd15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon\02. ShotGun">
+      <UniqueIdentifier>{dea0738d-5efd-4630-ae1d-08d9f2475b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon\03.Magnum">
+      <UniqueIdentifier>{edac6ec4-ed4d-4c48-94f8-4b6401d2ccd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon\04. Staff">
+      <UniqueIdentifier>{b9c28634-f146-4ad6-b9f9-b3e851bd7479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon\05. Minigun">
+      <UniqueIdentifier>{d34744ae-ce31-4cda-9e05-8912dece91d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon\06. Harvester">
+      <UniqueIdentifier>{c9096f68-e747-41a9-92df-d206c62306d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon\07. Sonic">
+      <UniqueIdentifier>{7ab84fed-b442-4374-9c6a-80505151f63b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -324,7 +336,7 @@
     <ClInclude Include="..\public\Level_GamePlay.h">
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_Manager.h">
+    <ClInclude Include="..\public\UI_Manager.h">
       <Filter>96. Manager\UI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Left_Display.h">
@@ -348,7 +360,7 @@
     <ClInclude Include="..\public\Camera_Free.h">
       <Filter>02.GameObjects\99. Camera\Free</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_Base.h">
+    <ClInclude Include="..\public\UI_Base.h">
       <Filter>02.GameObjects\97. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_Bar.h">
@@ -400,19 +412,10 @@
       <Filter>97. Hong_Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Claymore.h">
-      <Filter>02.GameObjects\08. Weapon\CMeleeWeapon\Claymore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Melee_Weapon.h">
-      <Filter>02.GameObjects\08. Weapon\CMeleeWeapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Ranged_Weapon.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Weapon_Base.h">
-      <Filter>02.GameObjects\08. Weapon</Filter>
+      <Filter>02.GameObjects\08. Weapon\00. MeleeWeapon\00. Claymore</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Magnum.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\00. Magnum</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\03.Magnum</Filter>
     </ClInclude>
     <ClInclude Include="..\public\JsonLoader.h">
       <Filter>999. JsonLoader</Filter>
@@ -421,13 +424,13 @@
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Axe.h">
-      <Filter>02.GameObjects\08. Weapon\CMeleeWeapon\Axe</Filter>
+      <Filter>02.GameObjects\08. Weapon\00. MeleeWeapon\01. Axe</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ShotGun.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\01 .ShotGun</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\02. ShotGun</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Inventory.h">
-      <Filter>Inven</Filter>
+      <Filter>02.GameObjects\Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Base.h">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
@@ -457,25 +460,22 @@
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Staff.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Test.h">
       <Filter>01.Levels\Test</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Harvester.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\04. Harvester</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\06. Harvester</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Minigun.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\03. Minigun</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\05. Minigun</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Sonic.h">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\05. Sonic</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\07. Sonic</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Effect.h">
       <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Image.h">
-      <Filter>Inven</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Base.h">
       <Filter>02.GameObjects\03. Effect</Filter>
@@ -546,9 +546,6 @@
     <ClInclude Include="..\Public\Portal.h">
       <Filter>02.GameObjects\05. Hub\Portal</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CUI_WeaponIcon.h">
-      <Filter>02.GameObjects\97. UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\GameObject_Projectile_Test.h">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
     </ClInclude>
@@ -556,10 +553,22 @@
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Inven_UI.h">
-      <Filter>Inven</Filter>
+      <Filter>02.GameObjects\Inven</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Iamge_Manager.h">
+    <ClInclude Include="..\public\Image_Manager.h">
       <Filter>96. Manager\Image_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Image.h">
+      <Filter>02.GameObjects\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Weapon_Base.h">
+      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Melee_Weapon.h">
+      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Mele</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ranged_Weapon.h">
+      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Ranged</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -612,9 +621,6 @@
     <ClCompile Include="..\private\UI_Left_Display.cpp">
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CUI_Base.cpp">
-      <Filter>02.GameObjects\97. UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\UI_HP_Bar.cpp">
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display\00.HP</Filter>
     </ClCompile>
@@ -658,19 +664,10 @@
       <Filter>02.GameObjects\97. UI\01.Logo_UI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Claymore.cpp">
-      <Filter>02.GameObjects\08. Weapon\CMeleeWeapon\Claymore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Weapon_Base.cpp">
-      <Filter>02.GameObjects\08. Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Ranged_Weapon.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Melee_Weapon.cpp">
-      <Filter>02.GameObjects\08. Weapon\CMeleeWeapon</Filter>
+      <Filter>02.GameObjects\08. Weapon\00. MeleeWeapon\00. Claymore</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Magnum.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\00. Magnum</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\03.Magnum</Filter>
     </ClCompile>
     <ClCompile Include="..\private\JsonLoader.cpp">
       <Filter>999. JsonLoader</Filter>
@@ -679,10 +676,10 @@
       <Filter>02.GameObjects\Sky</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Axe.cpp">
-      <Filter>02.GameObjects\08. Weapon\CMeleeWeapon\Axe</Filter>
+      <Filter>02.GameObjects\08. Weapon\00. MeleeWeapon\01. Axe</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Inventory.cpp">
-      <Filter>Inven</Filter>
+      <Filter>02.GameObjects\Inven</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Base.cpp">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
@@ -712,16 +709,16 @@
       <Filter>02.GameObjects\Base\Light</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ShotGun.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\01 .ShotGun</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\02. ShotGun</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Minigun.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\03. Minigun</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\05. Minigun</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Harvester.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\04. Harvester</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\06. Harvester</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Sonic.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\05. Sonic</Filter>
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\07. Sonic</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Test.cpp">
       <Filter>01.Levels\Test</Filter>
@@ -732,15 +729,8 @@
     <ClCompile Include="..\private\GameObject_Particle_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Weapon_Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Image.cpp">
-      <Filter>Inven</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\02. Item\0. Weapon\Ranged Weapon\02. Staff</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Base.cpp">
       <Filter>02.GameObjects\03. Effect</Filter>
@@ -814,8 +804,27 @@
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Inven_UI.cpp">
-      <Filter>Inven</Filter>
+      <Filter>02.GameObjects\Inven</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Image.cpp">
+      <Filter>02.GameObjects\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\04. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Base.cpp">
+      <Filter>02.GameObjects\97. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Weapon_Base.cpp">
+      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Melee_Weapon.cpp">
+      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Mele</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ranged_Weapon.cpp">
+      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Ranged</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">

@@ -185,7 +185,7 @@
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
-    <ClInclude Include="..\public\Iamge_Manager.h" />
+    <ClInclude Include="..\public\Image_Manager.h" />
     <ClInclude Include="..\Public\Inven_UI.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Image.h" />
@@ -219,7 +219,7 @@
     <ClInclude Include="..\Public\Staff_Bullet.h" />
     <ClInclude Include="..\public\UI_Enum.h" />
     <ClInclude Include="..\public\UI_Right_Display.h" />
-    <ClInclude Include="..\public\CUI_Base.h" />
+    <ClInclude Include="..\public\UI_Base.h" />
     <ClInclude Include="..\public\Default_Menu.h" />
     <ClInclude Include="..\public\GamePlay_Button.h" />
     <ClInclude Include="..\public\Structure.h" />
@@ -227,12 +227,11 @@
     <ClInclude Include="..\Public\UI_Bullet_Bar.h" />
     <ClInclude Include="..\Public\UI_HP_Bar.h" />
     <ClInclude Include="..\public\UI_Left_Display.h" />
-    <ClInclude Include="..\public\CUI_Manager.h">
+    <ClInclude Include="..\public\UI_Manager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\public\UI_Menu.h" />
-    <ClInclude Include="..\public\CUI_WeaponIcon.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Level_GamePlay.h" />
     <ClInclude Include="..\public\Level_Loading.h" />
@@ -272,6 +271,7 @@
     <ClCompile Include="..\Private\Portal.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\SpellShop.cpp" />
+    <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\Exp_Bar.cpp" />
@@ -315,7 +315,6 @@
     <ClCompile Include="..\Private\UI_MP_Bar.cpp" />
     <ClCompile Include="..\Private\UI_Player_Icon.cpp" />
     <ClCompile Include="..\private\UI_Right_Display.cpp" />
-    <ClCompile Include="..\private\CUI_Base.cpp" />
     <ClCompile Include="..\private\Default_Menu.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />

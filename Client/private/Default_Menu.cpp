@@ -1,6 +1,6 @@
 ﻿#include "Default_Menu.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CDefault_Menu::CDefault_Menu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

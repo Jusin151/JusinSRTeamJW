@@ -1,7 +1,9 @@
 ﻿#include "ShotGun.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "Item_Manager.h"
+#include "Image_Manager.h"
+
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -43,7 +45,17 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
-
+	//CUI_Manager::GetInstance()->Get
+	CImage::Image_DESC Image_INFO = {};
+	Image_INFO.vPos = { -200.f,150.f };
+	Image_INFO.vSize = { 100.f,50.f };
+	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	Image_INFO.WeaponTag = L"ShotGun";
+	Image_INFO.TextureImageNum = ShotGun;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
+		return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -268,3 +280,5 @@ void CShotGun::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
+
+

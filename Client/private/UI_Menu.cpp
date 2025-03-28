@@ -1,6 +1,6 @@
 ﻿#include "UI_Menu.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "Player.h"
 
 CUI_Menu::CUI_Menu(LPDIRECT3DDEVICE9 pGraphic_Device)

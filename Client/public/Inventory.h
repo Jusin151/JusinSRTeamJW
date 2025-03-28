@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "Weapon_Base.h"
 #include "Item_Manager.h"
+#include "Inven_UI.h"
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -35,6 +37,7 @@ public:
      HRESULT Render()override;
 private:
     HRESULT Ready_Components();
+   
 public:
     CWeapon_Base* Equip(_float fTimeDelta);
 
@@ -47,6 +50,7 @@ public:
 
     void Add_Weapon(wstring tag, _uint Index)
     {
+        Index -= 1;
         // 인벤 공간은 최대 7개 
         if (m_vecpItem.size() < Index)
         {
@@ -54,6 +58,7 @@ public:
             return;
         }
         m_vecpItem[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
+        m_pInven_UI->Add_WeaponIcon(tag);
     }
     CWeapon_Base* Get_Weapon(const wstring& tag)
     {
@@ -66,6 +71,7 @@ public:
     }
     CWeapon_Base* Weapon_Equip(_uint Index)
     {
+    
         for (auto& pItem : m_vecpItem)
         {
             if (pItem&&pItem->IsActive()) //
@@ -81,7 +87,7 @@ public:
         if (it != nullptr)
         {
             it->SetActive(true);
-
+            m_pInven_UI->WeaponIcon_isActive(Index);
             return it;
 
         }
@@ -92,16 +98,20 @@ protected:
     CTexture* m_pTextureCom = { nullptr };
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
-    Inven_DESC m_Inven_INFO{};
-    _bool m_bRender{};
+private:
 
     unordered_map<wstring, CWeapon_Base*> m_WeaponMap;
-
-    vector<CWeapon_Base*> m_vecpItem{ 8, nullptr };
      CWeapon_Base* m_pItem = { nullptr };
+     CInven_UI* m_pInven_UI = { nullptr };
+     vector<CWeapon_Base*> m_vecpItem{ 8, nullptr };
+private:
+     Inven_DESC m_Inven_INFO{};
+     _bool m_bRender{};
     _bool m_bFrist_off_Item{};
-
-    float fElapsedTime{};
-    bool bFirstUpdate = {};
+    _float fElapsedTime{};
+    _bool bFirstUpdate = {};
+    _bool m_bFristInit = {};
+    _float m_fNoInputAccTime = 0.f;
+    _bool bInputReceived = {};
 };
 END

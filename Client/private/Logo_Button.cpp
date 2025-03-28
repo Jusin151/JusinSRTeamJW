@@ -1,6 +1,6 @@
 ﻿#include "Logo_Button.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CLogo_Button::CLogo_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)

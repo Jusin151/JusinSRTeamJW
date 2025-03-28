@@ -1,7 +1,8 @@
 ﻿#include "Axe.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "Item_Manager.h"
+#include "Image_Manager.h"
 
 CAxe::CAxe(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMelee_Weapon(pGraphic_Device)
@@ -57,11 +58,19 @@ HRESULT CAxe::Initialize(void* pArg)
 	m_vInitialPos = m_Axe_INFO.vPos;
 
 
-
-
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this); // 도끼를 아이템 매니저에 등록
 
 
+	CImage::Image_DESC Image_INFO = {};
+	Image_INFO.vPos = { -300.f,150.f };
+	Image_INFO.vSize = { 100.f,50.f };
+	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	Image_INFO.WeaponTag = L"Axe";
+	Image_INFO.TextureImageNum = Axe ;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
+		return E_FAIL;
 
 	m_eType = CG_WEAPON;
 	m_iAp = 30;

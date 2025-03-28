@@ -5,7 +5,7 @@
 #include "Collider_Cube.h"
 #include "Camera_FirstPerson.h"
 #include "Melee_Weapon.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 #include "UI_Player_Icon.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -135,11 +135,12 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		m_pPlayer_Inven->Add_Weapon(L"Magnum", 3);
-		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 4);
-		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+		//m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
+		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		//m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
 		m_basd = false;
 	}
@@ -160,7 +161,7 @@ void CPlayer::Input_ItemtoInven()
 
 void CPlayer::Equip(_float fTimeDelta)
 {
-	 m_pPlayer_Weapon= m_pPlayer_Inven->Equip(1);
+	 m_pPlayer_Weapon= m_pPlayer_Inven->Equip(fTimeDelta);
 
 }
 void CPlayer::UnEquip(_float fTimeDelta)

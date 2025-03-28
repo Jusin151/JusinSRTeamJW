@@ -1,6 +1,6 @@
 ﻿#include "GamePlay_Button.h"
 #include "GameInstance.h"
-#include "CUI_Manager.h"
+#include "UI_Manager.h"
 
 CGamePlay_Button::CGamePlay_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUI_Base(pGraphic_Device) {
