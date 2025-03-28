@@ -2,7 +2,8 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "Item_Manager.h"
-#include "Image_Manager.h"
+#include "Image_Manager.h"#include "Sound_Event.h"
+
 
 
 CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -101,6 +102,7 @@ void CMagnum::Attack(_float fTimeDelta)
 	{
 		if (!m_bHasFired)
 		{
+			m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
 			m_bIsAnimating = true;
 			m_iCurrentFrame = 0;
 			m_fElapsedTime = 0.0f;
