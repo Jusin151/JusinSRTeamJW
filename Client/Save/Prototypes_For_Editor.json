@@ -192,6 +192,16 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_MP_Small"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Wall"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Floor"
     }
   ],
   "textures": [
@@ -374,6 +384,18 @@
       "level": 3,
       "path": "../../Resources/Textures/Item/Item%d.png",
       "tag": "Prototype_Component_Texture_Items"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
+      "tag": "Prototype_Component_Texture_Ant1_Wall"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_4.png",
+      "tag": "Prototype_Component_Texture_Ant1_Floor"
     }
   ]
 }
