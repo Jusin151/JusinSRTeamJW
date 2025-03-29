@@ -55,7 +55,7 @@ public:
 	virtual void Notify(_int value, const wstring& type)
 	{
 		for (auto& obs : m_pObservers)
-			obs->OnNotify(value, type);
+			obs->OnNotify(&value, type);
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }

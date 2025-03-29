@@ -30,7 +30,7 @@ public:
         _float2 vPos = {};  // 무기 화면 좌표
         _float2 vSize = {};  // 무기 크기
         _uint Damage{};            // 기본 공격력
-        _float AttackSpeed{};       // 공격 속도
+        _float AttackSpeed{};       // 공격 속도(사실상 쿨타임?
         wstring TextureKey{};      // 무기에 사용될 텍스처 키
 
     }Weapon_DESC;
@@ -84,7 +84,11 @@ protected:
     }
 
 protected:
-    float m_fAnimationSpeed = {}; // 애니메이션속도
+    _float m_fAnimationSpeed = {}; // 애니메이션속도
+    _bool m_bTriggerPressed = { false };
+    bool m_bPrevMouseDown = false;
+
+
 protected://근접무기쪽관련
     _float m_fElapsedTime = {};
     _int m_iCurrentFrame = {};

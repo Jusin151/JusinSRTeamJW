@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "UI_Base.h"
 #include "Observer.h"
+#include <Ranged_Weapon.h>
 
 BEGIN(Engine)
 class CTexture;
@@ -50,16 +51,21 @@ public:
 
 		Update_Bullet_Bar();	
 	}
-	void OnNotify(_int value, const wstring& type) override
-	{
-		if (type == L"BULLET")
-		{
-			m_iBullet = value;
-			Update_Bullet_Bar();
-		}
-	}
+    void OnNotify(void* pArg, const wstring& type) override
+    {
+        if (type == L"BULLET")
+        {
+            Ranged_INFO = *reinterpret_cast<CRanged_Weapon::Ranged_DESC*>(pArg);
+
+			m_iBullet= Ranged_INFO.CurrentAmmo;
+			m_iMxBullet=Ranged_INFO.MaxAmmo;
+            Update_Bullet_Bar();
+        }
+    }
 private:
 	_int m_iBullet{};
+	_int m_iMxBullet{};
+	CRanged_Weapon::Ranged_DESC Ranged_INFO{};
 };
 END
 

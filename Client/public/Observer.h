@@ -10,7 +10,7 @@ class CObserver
 
 {
 public:
-    virtual void OnNotify(_int value, const wstring& type)PURE;
+    virtual void OnNotify(void* pArg, const wstring& type)PURE;
     virtual ~CObserver() = default;
 };
 END

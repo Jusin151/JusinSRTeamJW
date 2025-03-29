@@ -5,6 +5,7 @@
 #include "Weapon_Base.h"
 #include "Item_Manager.h"
 #include "Inven_UI.h"
+#include "Ranged_Weapon.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -88,6 +89,12 @@ public:
         {
             it->SetActive(true);
             m_pInven_UI->WeaponIcon_isActive(Index);
+
+            if (CRanged_Weapon* pRanged = dynamic_cast<CRanged_Weapon*>(it))
+            {
+                pRanged->Notify_Bullet();
+            }
+
             return it;
 
         }

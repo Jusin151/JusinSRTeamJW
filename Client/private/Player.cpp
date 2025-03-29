@@ -7,6 +7,7 @@
 #include "Melee_Weapon.h"
 #include "UI_Manager.h"
 #include "UI_Player_Icon.h"
+#include "Ranged_Weapon.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
@@ -92,6 +93,13 @@ void CPlayer::Update(_float fTimeDelta)
 
 
 /////////트리거용 
+
+	if (GetAsyncKeyState('0') & 0x8000)
+	{
+		Add_Ammo(10);
+		
+	}
+
 	static _bool m_basd = { true };
 
 	if (m_basd)
@@ -354,14 +362,18 @@ void CPlayer::Set_Hp(_int iHp)
 	Notify(m_iHp, L"HP");
 }
 
-inline void CPlayer::Add_Ammo(_int iAmmo)
+void CPlayer::Add_Ammo(_int iAmmo)
 {
-		//if (!m_pWeapon) return;
-		//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
-		//{
-		//	pRangeWeapon->Add_Ammo(iAmmo);
-		//}
+	if (!m_pPlayer_Weapon)
+		return;
+
+	if (auto pRanged = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Weapon))
+	{
+		pRanged->Add_Ammo(iAmmo);
+	}
+
 }
+
 
 
 HRESULT CPlayer::SetUp_RenderState()

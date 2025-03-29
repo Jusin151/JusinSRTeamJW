@@ -61,7 +61,7 @@ private:
 	_int m_iPriorityHp{};
 	_int m_iLateHp{};
 
-virtual	void OnNotify(_int value, const wstring& type) 
+virtual	void OnNotify(void* pArg, const wstring& type) 
 	{
 		if (type == L"HP")
 		{

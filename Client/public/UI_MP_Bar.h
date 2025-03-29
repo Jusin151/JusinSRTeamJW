@@ -53,11 +53,11 @@ public:
 private:
 	_uint m_iMp{};  
 
-	virtual void OnNotify(_int value, const wstring& type) override
+	virtual void OnNotify(void* pArg, const wstring& type) override
 	{
 		{
 			if (type == L"MP")
-				Set_MP(value);
+				Set_MP(*reinterpret_cast<_uint*>(pArg));
 		}
 	}
 };

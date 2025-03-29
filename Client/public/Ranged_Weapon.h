@@ -22,10 +22,8 @@ public:
     {
         int MaxAmmo;         // 최대 탄약 수
         int CurrentAmmo;     // 현재 탄약
-        float BulletSpread;  // 탄 퍼짐 정도
-
-
     }Ranged_DESC;
+
 
 protected:
     CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -49,7 +47,7 @@ public:
     virtual HRESULT Ready_Icon()PURE;
 protected: 
     Ranged_DESC Ranged_INFO = {};
-
+    _bool m_bAttackInput = { false };
 public: //옵저버 관련
     virtual void Attack_WeaponSpecific(_float fTimeDelta)PURE;
    virtual  void Attack(_float fTimeDelta)
@@ -57,13 +55,22 @@ public: //옵저버 관련
         Attack_WeaponSpecific(fTimeDelta);
 
     }
+  void Add_Ammo(int iAmmo)
+   {
+       Ranged_INFO.CurrentAmmo += iAmmo;
+   
+       if (Ranged_INFO.CurrentAmmo > Ranged_INFO.MaxAmmo)
+           Ranged_INFO.CurrentAmmo = Ranged_INFO.MaxAmmo;
+
+       Notify_Bullet(); // UI 갱신
+   }
 
 
 protected:
-    _float m_fElapsedTime = 0.0f;
-    _int m_iCurrentFrame = 0;
-    const _float m_fFrameDuration = 2.0f;
-    _bool m_bIsAnimating{};
+    _float m_fElapsedTime = { 0.f };
+    _int m_iCurrentFrame = { 0 };
+    const _float m_fFrameDuration = { 2.0f };
+    _bool m_bIsAnimating={false};
     bool m_bHasFired = { false }; // 발사가 한번만 되게 하는거
 protected:
     CPickingSys* m_pPickingSys = { nullptr }; // 피킹 객체
@@ -74,11 +81,12 @@ protected:
     void Move_Hand(_float fTimeDelta) override;
 
 
-protected:
+public:
     void Notify_Bullet()
     {
+     
         if (m_pObserver)
-            m_pObserver->OnNotify(Ranged_INFO.CurrentAmmo, L"BULLET");
+            m_pObserver->OnNotify(&Ranged_INFO, L"BULLET");
     }
 };
 

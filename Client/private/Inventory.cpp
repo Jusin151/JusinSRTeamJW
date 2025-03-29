@@ -71,7 +71,7 @@ void CInventory::Update(_float fTimeDelta)
 	if (m_bKeyPressed)
 		m_pInven_UI->Inven_OnOff(true);
 
-	m_bKeyPressed = false; // 매 프레임 초기화
+	m_bKeyPressed = false;
 }
 
 void CInventory::Late_Update(_float fTimeDelta)

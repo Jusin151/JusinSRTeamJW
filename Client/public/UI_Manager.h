@@ -91,19 +91,6 @@ public:
         static_cast<CUI_MP_Bar*>(pUI)->Set_MP(type);
     }
 
-    void Set_Shotgun_Bullet(_uint type)
-    {
-        CUI_Base* pUI = GetUI(L"Bullet_Bar");
-
-        static_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
-    }
-
-    void Set_Pistol_Bullet(_uint type)
-    {
-        CUI_Base* pUI = GetUI(L"Bullet_Bar");
-
-        static_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
-    }
 
     void Set_Minigun_Bullet(_uint type)
     {
@@ -112,12 +99,6 @@ public:
         static_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
     }
 
-    void Set_Raser_Bullet(_uint type)
-    {
-        CUI_Base* pUI = GetUI(L"Bullet_Bar");
-
-        static_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
-    }
 
 
 private:

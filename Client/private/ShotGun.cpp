@@ -55,7 +55,8 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
 
-	Ranged_INFO.CurrentAmmo = 50;
+	Ranged_INFO.CurrentAmmo = 90;
+	Ranged_INFO.MaxAmmo = 90;
 	m_fAnimationSpeed = 0.03f;
 
 	if (FAILED(Ready_Icon()))
@@ -148,8 +149,6 @@ void CShotGun::Attack_WeaponSpecific(_float fTimeDelta)
 		m_bHasFired = false;
 	}
 }
-
-
 
 void CShotGun::Attack(_float fTimeDelta)
 {

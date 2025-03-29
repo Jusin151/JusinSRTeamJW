@@ -58,11 +58,11 @@ public:
 	_uint Get_Health() { return m_iHealth; }
 
 public:
-	virtual void OnNotify(_int value, const wstring& type)override
+	virtual void OnNotify(void* pArg, const wstring& type)override
 	{
 		if (type == L"HP")
 		{
-			Set_HP(value);
+			Set_HP(*reinterpret_cast<_uint*>(pArg));
 		}
 	}
 
