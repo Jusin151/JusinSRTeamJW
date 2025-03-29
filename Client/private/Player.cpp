@@ -123,37 +123,13 @@ void CPlayer::Input_ItemtoInven()
 
 void CPlayer::Equip(_float fTimeDelta)
 {
-	if (GetAsyncKeyState('1') & 0x8000)
+	for (int i = 1; i <= 8; ++i)
 	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(1);
-	}
-	if (GetAsyncKeyState('2') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(2);
-	}
-	if (GetAsyncKeyState('3') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(3);
-	}
-	if (GetAsyncKeyState('4') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(4);
-	}
-	if (GetAsyncKeyState('5') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(5);
-	}
-	if (GetAsyncKeyState('6') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(6);
-	}
-	if (GetAsyncKeyState('7') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(7);
-	}
-	if (GetAsyncKeyState('8') & 0x8000)
-	{
-		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(8);
+		if (GetAsyncKeyState('0' + i) & 0x8000)
+		{
+			m_pPlayer_Weapon = m_pPlayer_Inven->Equip(i);
+			break;
+		}
 	}
 
 

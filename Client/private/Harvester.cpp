@@ -68,6 +68,10 @@ HRESULT CHarvester::Ready_Icon()
 	return S_OK;
 }
 
+void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
+{
+}
+
 void CHarvester::Priority_Update(_float fTimeDelta)
 {
 }

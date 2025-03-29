@@ -103,10 +103,10 @@ CWeapon_Base* CInventory::Equip(_uint type)
 
 	m_bKeyPressed = false;
 
-
 		m_pItem = Weapon_Equip(type-1);
 		m_bKeyPressed = true;
 	
+
 	if (GetAsyncKeyState('9') & 0x8000)
 	{
 		m_pInven_UI->Inven_OnOff(false);

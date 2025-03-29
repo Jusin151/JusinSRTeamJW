@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Weapon_Base.h"
 #include "PickingSys.h"
+#include "Collider.h"
 
 
 BEGIN(Engine)
@@ -21,8 +22,9 @@ public:
     {
         int MaxAmmo;         // 최대 탄약 수
         int CurrentAmmo;     // 현재 탄약
-        float ReloadTime;    // 재장전 시간
         float BulletSpread;  // 탄 퍼짐 정도
+
+
     }Ranged_DESC;
 
 protected:
@@ -39,7 +41,9 @@ public:
     virtual HRESULT Render()override;
     virtual HRESULT Ready_Components();
     virtual HRESULT Ready_Picking();
-    virtual HRESULT Picking_Object(_uint EffectNum);
+    virtual HRESULT Picking_Object(_uint EffectNum,_uint Damage);
+    void Wall_Picking(CCollider* pCollider, _uint EffectNum);
+    void Monster_Hit(CCollider* pCollider, _uint Damage);
     void Free();
     CGameObject* Clone(void* pArg) override;
     virtual HRESULT Ready_Icon()PURE;
@@ -47,18 +51,11 @@ protected:
     Ranged_DESC Ranged_INFO = {};
 
 public: //옵저버 관련
-    virtual void Attack_WeaponSpecific(_float fTimeDelta);
+    virtual void Attack_WeaponSpecific(_float fTimeDelta)PURE;
    virtual  void Attack(_float fTimeDelta)
     {
-      
-        if (Ranged_INFO.CurrentAmmo > 0)
-        {
-            --Ranged_INFO.CurrentAmmo;
-            Notify_Bullet();
-        }
-
-  
         Attack_WeaponSpecific(fTimeDelta);
+
     }
 
 
@@ -83,8 +80,6 @@ protected:
         if (m_pObserver)
             m_pObserver->OnNotify(Ranged_INFO.CurrentAmmo, L"BULLET");
     }
-
-
 };
 
 END

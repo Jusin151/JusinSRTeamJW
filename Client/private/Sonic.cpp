@@ -81,6 +81,10 @@ HRESULT CSonic::Ready_Icon()
     return S_OK;
 }
 
+void CSonic::Attack_WeaponSpecific(_float fTimeDelta)
+{
+}
+
 void CSonic::Priority_Update(_float fTimeDelta)
 {
     //__super::Priority_Update(fTimeDelta);

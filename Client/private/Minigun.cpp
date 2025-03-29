@@ -83,6 +83,10 @@ HRESULT CMinigun::Ready_Icon()
     return S_OK;
 }
 
+void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
+{
+}
+
 void CMinigun::Priority_Update(_float fTimeDelta)
 {
 }
@@ -132,7 +136,7 @@ void CMinigun::Attack(_float fTimeDelta)
         {
             m_eState = State::Firing;
             m_iCurrentFrame = m_TextureRanges["Attack"].first;
-            __super::Picking_Object(1); // 프레임이 변경될 때마다 호출
+            __super::Picking_Object(1,100); // 프레임이 변경될 때마다 호출
             CUI_Manager::GetInstance()->Set_Minigun_Bullet(1);
             m_fElapsedTime = 0.0f;
         }

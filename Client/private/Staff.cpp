@@ -83,6 +83,10 @@ HRESULT CStaff::Ready_Icon()
     return S_OK;
 }
 
+void CStaff::Attack_WeaponSpecific(_float fTimeDelta)
+{
+}
+
 void CStaff::Priority_Update(_float fTimeDelta)
 {
 }

@@ -27,16 +27,15 @@ public:
     typedef struct tagWeapon_INFO
     {
         WEAPON_ID WeaponID{};          // 무기 고유 ID
-        _float2 vPos = {};  // UI 화면 좌표
-        _float2 vSize = {};  // UI 크기
-        _float Damage{};            // 기본 공격력
+        _float2 vPos = {};  // 무기 화면 좌표
+        _float2 vSize = {};  // 무기 크기
+        _uint Damage{};            // 기본 공격력
         _float AttackSpeed{};       // 공격 속도
-        _float Range{};             // 공격 범위 (근접/원거리 공통)
-        _float Cooldown{};          // 공격 쿨타임
-        _bool IsEquipped{};         // 현재 장착 중인지 여부
-        wstring TextureKey{};      // 무기 UI에 사용될 텍스처 키
+        wstring TextureKey{};      // 무기에 사용될 텍스처 키
 
     }Weapon_DESC;
+
+
 protected:
     Weapon_DESC m_Weapon_INFO{};
 
@@ -83,6 +82,9 @@ protected:
         auto range = m_TextureRanges[stateName];
         return range.first + (frameNum % (range.second - range.first + 1));
     }
+
+protected:
+    float m_fAnimationSpeed = {}; // 애니메이션속도
 protected://근접무기쪽관련
     _float m_fElapsedTime = {};
     _int m_iCurrentFrame = {};

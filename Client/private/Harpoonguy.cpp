@@ -128,6 +128,9 @@ HRESULT CHarpoonguy::Render()
 	}
 
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("활잽이 체력:") + to_wstring(m_iHp),
+		_float2(400.f, -110.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 	return S_OK;
 }
 

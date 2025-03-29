@@ -73,6 +73,10 @@ HRESULT CMagnum::Ready_Icon()
 	return S_OK;
 }
 
+void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
+{
+}
+
 void CMagnum::Priority_Update(_float fTimeDelta)
 {
 }
@@ -118,7 +122,7 @@ void CMagnum::Attack(_float fTimeDelta)
 			m_iCurrentFrame = 0;
 			m_fElapsedTime = 0.0f;
 			m_bHasFired = true; // 발사 상태를 true로 설정
-			__super::Picking_Object(1); // 클릭 한 번에 한 번만 호출
+			__super::Picking_Object(1,100); // 클릭 한 번에 한 번만 호출
 			CUI_Manager::GetInstance()->Set_Pistol_Bullet(1);
 		}
 	}
@@ -154,12 +158,6 @@ void CMagnum::Late_Update(_float fTimeDelta)
 
 HRESULT CMagnum::Render()
 {
-	/*if (m_bWall)
-		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
-	if (m_bMonster)
-		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));*/
-
-
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);

@@ -32,11 +32,11 @@ public:
 	 HRESULT Initialize(void* pArg);
 	 void Priority_Update(_float fTimeDelta);
 	 void Update(_float fTimeDelta);
-	 void Attack_WeaponSpecific(_float fTimeDelta);
-	 void Attack(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
 	 HRESULT Render();
-
+public: //공격 관련
+	void Attack_WeaponSpecific(_float fTimeDelta);
+	void Attack(_float fTimeDelta);
 	 HRESULT On_Collision();
 
 private:
@@ -49,9 +49,6 @@ public:
 private:
 	State m_eState = State::Idle;
 private:
-
-
-	
 
 	// CRanged_Weapon을(를) 통해 상속됨
 	HRESULT Ready_Icon() override;
