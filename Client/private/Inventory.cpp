@@ -56,7 +56,23 @@ void CInventory::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CInventory::Update(_float fTimeDelta){	 }
+void CInventory::Update(_float fTimeDelta)
+{
+	if (m_bKeyPressed)
+		m_fNoInputAccTime = 0.f;
+	else
+		m_fNoInputAccTime += fTimeDelta;
+
+	if (m_fNoInputAccTime >= 2.f)
+	{
+		m_pInven_UI->Inven_OnOff(false);
+		return;
+	}
+	if (m_bKeyPressed)
+		m_pInven_UI->Inven_OnOff(true);
+
+	m_bKeyPressed = false;
+}
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
@@ -82,53 +98,14 @@ HRESULT CInventory::Ready_Components()
 		return E_FAIL;
 	return S_OK;
 }
-CWeapon_Base* CInventory::Equip(_float fTimeDelta)
+CWeapon_Base* CInventory::Equip(_uint type)
 {
 
-	bool bKeyPressed = false;
+	m_bKeyPressed = false;
 
-	if (GetAsyncKeyState('1') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(0);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
-	if (GetAsyncKeyState('2') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(1);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
-	if (GetAsyncKeyState('3') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(2);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
-	if (GetAsyncKeyState('4') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(3);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
-	if (GetAsyncKeyState('5') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(4);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
-	if (GetAsyncKeyState('6') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(5);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
-	if (GetAsyncKeyState('7') & 0x8000)
-	{
-		m_pItem = Weapon_Equip(6);
-		bInputReceived = true;
-		bKeyPressed = true;
-	}
+		m_pItem = Weapon_Equip(type-1);
+		m_bKeyPressed = true;
+	
 
 	if (GetAsyncKeyState('9') & 0x8000)
 	{
@@ -136,18 +113,6 @@ CWeapon_Base* CInventory::Equip(_float fTimeDelta)
 		return nullptr;
 	}
 
-	if (bKeyPressed)
-		m_fNoInputAccTime = 0.f;
-	else
-		m_fNoInputAccTime += fTimeDelta;
-
-	if (m_fNoInputAccTime >= 2.f)
-	{
-		m_pInven_UI->Inven_OnOff(false);
-		return nullptr;
-	}
-	if (bKeyPressed)
-		m_pInven_UI->Inven_OnOff(true);
 
 	return m_pItem;
 }

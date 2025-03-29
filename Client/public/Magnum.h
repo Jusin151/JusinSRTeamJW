@@ -13,6 +13,13 @@ END
 BEGIN(Client)
 class CMagnum final : public CRanged_Weapon
 {
+	enum class State
+	{
+		Idle,
+		Firing,
+		Wait
+	};
+
 private:
 	CMagnum(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CMagnum(const CMagnum& Prototype);
@@ -30,18 +37,23 @@ public:
 
 private:
 	HRESULT Ready_Components();
-
+private:
+	State m_eState = State::Idle;
 
 public:
 	static CMagnum* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free();
 
-	_float t = {}; //
-	_float speed = { 0.1f }; //
-	_float3 m_vInitialPos = {};
 
 	 bool m_bHasFired = false;
+
+
+	
+	 HRESULT Ready_Icon() override;
+
+	 // CRanged_Weapon을(를) 통해 상속됨
+	 void Attack_WeaponSpecific(_float fTimeDelta) override;
 
 };
 END

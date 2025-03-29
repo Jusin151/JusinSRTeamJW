@@ -18,8 +18,7 @@ CAxe::CAxe(const CAxe& Prototype)
 HRESULT CAxe::Initialize_Prototype()
 {
 
-
-	if (FAILED(CMelee_Weapon::Ready_Components()))
+	if (FAILED(__super::Ready_Components())) 
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
@@ -60,23 +59,32 @@ HRESULT CAxe::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this); // 도끼를 아이템 매니저에 등록
 
-
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -300.f,150.f };
-	Image_INFO.vSize = { 100.f,50.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"Axe";
-	Image_INFO.TextureImageNum = Axe ;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
+	if (FAILED(Ready_Icon()))
 		return E_FAIL;
+
 
 	m_eType = CG_WEAPON;
 	m_iAp = 30;
 
 	return S_OK;
 }
+HRESULT CAxe::Ready_Icon()
+{
+	CImage::Image_DESC Image_INFO = {};
+	Image_INFO.vPos = { -300.f,150.f };
+	Image_INFO.vSize = { 100.f,50.f };
+	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	Image_INFO.WeaponTag = L"Axe";
+	Image_INFO.TextureImageNum = Axe;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
 
 void CAxe::Priority_Update(_float fTimeDelta)
 {
@@ -84,24 +92,18 @@ void CAxe::Priority_Update(_float fTimeDelta)
 
 void CAxe::Update(_float fTimeDelta)
 {
-
 	__super::Update(fTimeDelta);
 
-	Attack(fTimeDelta);
 }
-
 void CAxe::Late_Update(_float fTimeDelta)
 {
-
 	__super::Late_Update(fTimeDelta);
 }
-
 HRESULT CAxe::Render()
 {
 	
 	return __super::Render();
 }
-
 HRESULT CAxe::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
@@ -116,23 +118,17 @@ HRESULT CAxe::On_Collision(CCollisionObject* other)
 	// 안바뀌면 충돌 안일어남
 	if (other->Get_Type() == CG_END)
 		return S_OK;
-
-	
-
 	switch (other->Get_Type()) //여기서 디버깅 잡히나?
 	{
 	case CG_MONSTER:
-
 		// 나중에 공격력 만들어서 추가하는 식으로
 		Take_Damage(other);
 		m_bAttack = true;
 		break;
-
 	default:
 		break;
 	}
 
-	
 
 	return S_OK;
 }
@@ -141,15 +137,6 @@ HRESULT CAxe::Ready_Components()
 {
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Axe"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Orth"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -197,31 +184,18 @@ void CAxe::Free()
 
 void CAxe::Attack(_float fTimeDelta)
 {
-	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
-	{
+	if (m_bIsAnimating) return;
+
 		m_bIsAnimating = true;
 		m_bAttack = false;
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.0f;
-	}
+		m_iLastFrame = 10;
 
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
 
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
-
-			if (m_iCurrentFrame < 10)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-				m_iCurrentFrame = 0;
-			}
-		}
-	}
 }
+
+void CAxe::Attack_WeaponSpecific(_float fTimeDelta)
+{
+}
+

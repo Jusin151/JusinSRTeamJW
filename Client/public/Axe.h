@@ -25,20 +25,28 @@ public:
 	 void Update(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
 	 HRESULT Render();
-	 Weapon_DESC m_Axe_INFO{};
-
 	 virtual HRESULT On_Collision(CCollisionObject* other);
 
 private:
 	HRESULT Ready_Components();
-
-
 public:
 	static CAxe* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-
 	void Attack(_float fTimeDelta);
+private:
+	Weapon_DESC m_Axe_INFO{};
+
+
+	// CMelee_Weapon을(를) 통해 상속됨
+	void Attack_WeaponSpecific(_float fTimeDelta) override;
+
+
+
+
+
+	// CMelee_Weapon을(를) 통해 상속됨
+	HRESULT Ready_Icon() override;
 
 };
 END

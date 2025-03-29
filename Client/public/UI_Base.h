@@ -60,7 +60,7 @@ protected:
 
 public:
     virtual HRESULT Initialize_Prototype()PURE;
-    virtual HRESULT Initialize(void* pArg)PURE;
+    virtual HRESULT Initialize(void* pArg);
     virtual void Priority_Update(_float fTimeDelta)PURE;
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
@@ -130,6 +130,7 @@ protected:
 protected:
         // 상태별 시작 인덱스 관리  텍스쳐컴객체
      map<string, pair<int, int>> m_TextureRanges{};
+  
 };
 
 END

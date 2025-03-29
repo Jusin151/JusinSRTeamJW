@@ -6,6 +6,8 @@
 #include "Inventory.h"
 #include "Item_Manager.h"
 #include "CollisionObject.h"
+#include "Observer.h"
+#include "UI_Manager.h"
 
 
 BEGIN(Engine)
@@ -35,13 +37,49 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
-	void Move(_float fTimeDelta);
 	CTransform* Get_TransForm() { return m_pTransformCom; }
+private:
+	void Move(_float fTimeDelta);
+	void Attack(_float fTimeDelta);
+	void Input_Key(_float fTimeDelta);
 
+
+private: //옵저버 관련
+
+	vector<CObserver*> m_pObservers{};
 public:
-	inline void Add_Ammo(_int iAmmo);
-	void Set_Hp(_int iHp) override;
+	void Add_Observer(CObserver* pObserver)
+	{
+		m_pObservers.push_back(pObserver);
+	}
+	virtual void Notify(_int value, const wstring& type)
+	{
+		for (auto& obs : m_pObservers)
+			obs->OnNotify(&value, type);
+	}
+	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
+	inline void Add_Ammo(_int iAmmo);
+private:
+	HRESULT SetUp_RenderState();
+	HRESULT Release_RenderState();
+	HRESULT Ready_Components();
+	HRESULT Ready_Player_SetUP(); 
+public:
+	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device); 
+	virtual CGameObject* Clone(void* pArg) override;
+	virtual void Free();
+
+private: // 인벤관련
+	void Input_WeapontoInven(wstring tag, _uint Index)
+	{
+		m_pPlayer_Inven->Add_Weapon(tag, Index);
+	}
+
+	void Input_ItemtoInven();
+	_bool m_bInven_Render_State{};
+
+	void Equip(_float fTimeDelta);
 
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -53,37 +91,15 @@ private:
 private:
 	CGameObject* m_pCamera = nullptr;
 	CCollider_Cube* m_pColliderCom = { nullptr };
+public:
+	void Taimu_S_to_pu() { m_bTimeControl = !m_bTimeControl; }
 
-private: // 인벤관련
-	void Input_WeapontoInven(wstring tag,_uint type);
-	void Input_ItemtoInven();
-
-
-	_bool m_bInven_Render_State{};
-
-	void Equip(_float fTimeDelta);
-	void UnEquip(_float fTimeDelta);
-
-private:
-	HRESULT SetUp_RenderState();
-	HRESULT Release_RenderState();
-	HRESULT Ready_Components();
 private:
 	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
 	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
 	_float3			m_vOldPos = {};
-	_bool m_bPlayerHP_init= { false };
-	_bool m_bPlayerMP_init = {false };
-public:
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
-	virtual void Free();
-public:
-	void Taimu_S_to_pu(){m_bTimeControl = !m_bTimeControl;}
-
-
 private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
@@ -96,6 +112,8 @@ private: // 플레이어 관련
 	CWeapon_Base* m_pPlayer_Weapon={nullptr};
 	CInventory*   m_pPlayer_Inven={nullptr};
 
+
+	
 };
 
 

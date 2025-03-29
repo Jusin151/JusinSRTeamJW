@@ -20,7 +20,7 @@ CClaymore::CClaymore(const CClaymore& Prototype)
 
 HRESULT CClaymore::Initialize_Prototype()
 {
-	if (FAILED(CMelee_Weapon::Ready_Components()))
+	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
@@ -60,6 +60,18 @@ HRESULT CClaymore::Initialize(void* pArg)
 	m_vInitialPos = m_Claymore_INFO.vPos;
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 	
+
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
+
+	m_eType = CG_WEAPON;
+	m_iAp = 15;
+
+	return S_OK;
+}
+
+HRESULT CClaymore::Ready_Icon()
+{
 	CImage::Image_DESC Image_INFO = {};
 	Image_INFO.vPos = { -400.f,150.f };
 	Image_INFO.vSize = { 90.f,34.f };
@@ -68,15 +80,13 @@ HRESULT CClaymore::Initialize(void* pArg)
 	Image_INFO.WeaponTag = L"Claymore";
 	Image_INFO.TextureImageNum = Claymore;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"),&Image_INFO)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
 		return E_FAIL;
-
-
-	m_eType = CG_WEAPON;
-	m_iAp = 15;
 
 	return S_OK;
 }
+
+
 
 void CClaymore::Priority_Update(_float fTimeDelta)
 {
@@ -86,7 +96,8 @@ void CClaymore::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	Attack(fTimeDelta);
+
+ 
 }
 
 void CClaymore::Late_Update(_float fTimeDelta)
@@ -147,14 +158,6 @@ HRESULT CClaymore::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform_Orth"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -200,30 +203,17 @@ void CClaymore::Free()
 }
 void CClaymore::Attack(_float fTimeDelta)
 {
-	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
-	{
+	if (m_bIsAnimating) return;
+
 		m_bIsAnimating = true;
 		m_bAttack = false;
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.0f;
-	}
+		m_iLastFrame = 13;
+}
 
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
+void CClaymore::Attack_WeaponSpecific(_float fTimeDelta)
+{
 
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
 
-			if (m_iCurrentFrame < 13)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-			}
-		}
-	}
 }

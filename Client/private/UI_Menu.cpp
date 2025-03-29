@@ -38,12 +38,7 @@ HRESULT CUI_Menu::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
 
-	if (m_pPlayer == nullptr)
-		return E_FAIL;
-	else
-		Safe_AddRef(m_pPlayer);
 
 
 	m_pTransformCom->Set_Scale(m_INFO.vSize.x, m_INFO.vSize.y, 1.f);

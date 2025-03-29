@@ -28,15 +28,27 @@ HRESULT CMagnum::Initialize_Prototype()
 
 HRESULT CMagnum::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	if (pArg != nullptr)
 		m_Magnum_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
 	else
 		return E_FAIL;
 
-	
+
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	// 일단 Level_GamePlay에서도 비슷한값 넣는중
+	m_Weapon_INFO.WeaponID = WEAPON_ID::ShotGun;
+	m_Weapon_INFO.vPos = { 0.f,-170.f }; // 샷건 위치
+	m_Weapon_INFO.vSize = { 749,420.f };// 샷건 크기 위에 두개는 일단 밖에서 하는중
+	m_Weapon_INFO.Damage = 1;                // 데미지
+	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
+
+
+
+	m_pTransformCom->Set_Scale(m_Weapon_INFO.vSize.x, m_Weapon_INFO.vSize.y, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		_float3(m_Weapon_INFO.vPos.x, m_Weapon_INFO.vPos.y, 0.f));
 
  	m_pTransformCom->Set_Scale(m_Magnum_INFO.vSize.x, m_Magnum_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -47,6 +59,20 @@ HRESULT CMagnum::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Magnum", this);
 
 
+	Ranged_INFO.CurrentAmmo = 20; //현총알
+	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
+	m_fAnimationSpeed = 0.03f; // 애니메이션속도
+
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
+
+	__super::Ready_Picking();
+
+	return S_OK;
+}
+
+HRESULT CMagnum::Ready_Icon()
+{
 	CImage::Image_DESC Image_INFO = {};
 	Image_INFO.vPos = { -100.f,150.f };
 	Image_INFO.vSize = { 74.f,31.f };
@@ -58,83 +84,78 @@ HRESULT CMagnum::Initialize(void* pArg)
 		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
 		return E_FAIL;
 
-	__super::Ready_Picking();
-
 	return S_OK;
 }
+
+
 
 void CMagnum::Priority_Update(_float fTimeDelta)
 {
 }
-
 void CMagnum::Update(_float fTimeDelta)
 {
-    
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
-	{
-		t += speed;
-	}
+	__super::Update(fTimeDelta);
 
-	float v = 20.0f;  // 폭을 설정 하는변수
-	_float3 vNewPos;
-	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
+	m_fElapsedTime += fTimeDelta;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-	
-	Attack(fTimeDelta);
-	return;
+	switch (m_eState)
+	{
+	case State::Idle:
+		m_iCurrentFrame = 0;
+		break;
+
+	case State::Firing:
+	if (m_fElapsedTime >= m_fAnimationSpeed)
+	{
+		m_fElapsedTime = 0.f;
+
+		if (!m_bHasFired && m_iCurrentFrame == 1)
+		{
+				m_bHasFired = true;
+		}
+		if (m_iCurrentFrame < 4)
+			m_iCurrentFrame++;
+		else
+		{
+			m_eState = State::Wait;
+			m_iCurrentFrame = 0; 
+		}
+	}
+	break;
+	case State::Wait:
+	{
+		if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+		{
+			m_eState = State::Idle;
+			m_iCurrentFrame = 0;
+		}
+	}
+	break;
+	}
 }
+
+
 void CMagnum::Attack(_float fTimeDelta)
 {
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		if (!m_bHasFired)
-		{
-			m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
-			m_bIsAnimating = true;
-			m_iCurrentFrame = 0;
-			m_fElapsedTime = 0.0f;
-			m_bHasFired = true; // 발사 상태를 true로 설정
-			__super::Picking_Object(1); // 클릭 한 번에 한 번만 호출
-			CUI_Manager::GetInstance()->Set_Pistol_Bullet(1);
-		}
-	}
-	else
-	{
-		m_bHasFired = false; // 버튼을 떼면 다시 발사 가능하도록 설정
-	}
+	__super::Attack(fTimeDelta);
+}
 
-	if (m_bIsAnimating)
+void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
+{
+	if (m_eState == State::Idle && Ranged_INFO.CurrentAmmo > 0)
 	{
-		m_fElapsedTime += fTimeDelta;
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 4) // 몇장까지인지
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-				m_iCurrentFrame = 0;
-			}
-		}
+		m_eState = State::Firing;
+		m_iCurrentFrame = 0;
+		m_fElapsedTime = 0.f;
+		m_bHasFired = false;
+		__super::Picking_Object(5, m_Weapon_INFO.Damage);
+		Ranged_INFO.CurrentAmmo--; 
+		Notify_Bullet();
+		m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
 	}
 }
+
+
 
 
 void CMagnum::Late_Update(_float fTimeDelta)
@@ -144,12 +165,6 @@ void CMagnum::Late_Update(_float fTimeDelta)
 
 HRESULT CMagnum::Render()
 {
-	/*if (m_bWall)
-		m_pGameInstance->Render_Font(L"MainFont", L"벽 명중!!!", _float2(-200.f, -205.0f), _float3(1.f, 1.f, 0.0f));
-	if (m_bMonster)
-		m_pGameInstance->Render_Font(L"MainFont", L"몬스터 명중!!!", _float2(200.f, -205.0f), _float3(1.f, 1.f, 0.0f));*/
-
-
 	D3DXMATRIX matOldView, matOldProj;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
