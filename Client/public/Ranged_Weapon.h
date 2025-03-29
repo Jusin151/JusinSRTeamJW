@@ -17,14 +17,13 @@ BEGIN(Client)
 class CRanged_Weapon : public CWeapon_Base
 {
 public:
-    struct RangedWeapon_Info
+    typedef struct tagRanged_Info
     {
         int MaxAmmo;         // 최대 탄약 수
         int CurrentAmmo;     // 현재 탄약
         float ReloadTime;    // 재장전 시간
-        float BulletSpeed;   // 탄환 속도
         float BulletSpread;  // 탄 퍼짐 정도
-    };
+    }Ranged_DESC;
 
 protected:
     CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -42,13 +41,26 @@ public:
     virtual HRESULT Ready_Picking();
     virtual HRESULT Picking_Object(_uint EffectNum);
     void Free();
-
-
     CGameObject* Clone(void* pArg) override;
+    virtual HRESULT Ready_Icon()PURE;
+protected: 
+    Ranged_DESC Ranged_INFO = {};
 
+public: //옵저버 관련
+    virtual void Attack_WeaponSpecific(_float fTimeDelta);
+   virtual  void Attack(_float fTimeDelta)
+    {
+      
+        if (Ranged_INFO.CurrentAmmo > 0)
+        {
+            --Ranged_INFO.CurrentAmmo;
+            Notify_Bullet();
+        }
 
-    // CWeapon_Base을(를) 통해 상속됨
-    void Attack(_float fTimeDelta) override;
+  
+        Attack_WeaponSpecific(fTimeDelta);
+    }
+
 
 protected:
     _float m_fElapsedTime = 0.0f;
@@ -62,8 +74,16 @@ protected:
     _bool m_bMonster = { false }; // 몬스터 체크용 변수
 
 
-    // CWeapon_Base을(를) 통해 상속됨
     void Move_Hand(_float fTimeDelta) override;
+
+
+protected:
+    void Notify_Bullet()
+    {
+        if (m_pObserver)
+            m_pObserver->OnNotify(Ranged_INFO.CurrentAmmo, L"BULLET");
+    }
+
 
 };
 

@@ -43,5 +43,9 @@ public:
 
 	 bool m_bHasFired = false;
 
+
+	
+	 HRESULT Ready_Icon() override;
+
 };
 END

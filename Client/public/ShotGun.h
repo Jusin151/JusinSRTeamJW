@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Ranged_Weapon.h"
 
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -31,6 +32,7 @@ public:
 	 HRESULT Initialize(void* pArg);
 	 void Priority_Update(_float fTimeDelta);
 	 void Update(_float fTimeDelta);
+	 void Attack_WeaponSpecific(_float fTimeDelta);
 	 void Attack(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
 	 HRESULT Render();
@@ -40,17 +42,19 @@ public:
 private:
 	HRESULT Ready_Components();
 
-
-
 public:
 	static CShotGun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 private:
 	State m_eState = State::Idle;
-	Weapon_DESC m_ShotGun_INFO{};
-	_float t = {};
-	_float speed = { 0.1f };
-	_float2 m_vInitialPos = {};
+private:
+
+
+	
+
+	// CRanged_Weapon을(를) 통해 상속됨
+	HRESULT Ready_Icon() override;
+
 };
 END

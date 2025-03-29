@@ -58,7 +58,7 @@ public:
 	_uint Get_Health() { return m_iHealth; }
 
 public:
-	void OnNotify(_int value, const wstring& type)
+	virtual void OnNotify(_int value, const wstring& type)override
 	{
 		if (type == L"HP")
 		{

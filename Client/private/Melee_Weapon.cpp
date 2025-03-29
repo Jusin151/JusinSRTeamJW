@@ -37,12 +37,9 @@ void CMelee_Weapon::Priority_Update(_float fTimeDelta)
 void CMelee_Weapon::Update(_float fTimeDelta)
 {
 	CGameObject* pPlayer =m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
-
 	if (nullptr == pPlayer)
 		return;
-
 	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
-
 	if (nullptr == pTransform)
 		return;
 
@@ -52,14 +49,34 @@ void CMelee_Weapon::Update(_float fTimeDelta)
 	m_pColTransformCom->Set_State(CTransform::STATE_POSITION, pTransform->Get_State(CTransform::STATE_POSITION));
 
 
-
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	if (m_bIsAnimating && !m_bAttack)
 	{
 		m_pGameInstance->Add_Collider(CG_WEAPON, m_pColliderCom);
 	}
-		
+
+	if (m_bIsAnimating)
+	{
+		m_fElapsedTime += fTimeDelta;
+
+		if (m_fElapsedTime >= 0.02f)
+		{
+			m_fElapsedTime = 0.0f;
+
+			if (m_iCurrentFrame < m_iLastFrame)
+			{
+				m_iCurrentFrame++;
+			}
+			else
+			{
+				m_bIsAnimating = false;
+				m_iCurrentFrame = 0;
+			}
+		}
+	}
+
+	__super::Move_Hand(fTimeDelta); 
 }
 
 void CMelee_Weapon::Late_Update(_float fTimeDelta)
@@ -118,12 +135,47 @@ HRESULT CMelee_Weapon::Ready_Components()
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
-	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+	CTransform::TRANSFORM_DESC tCol{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pColTransformCom), &tDesc)))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pColTransformCom), &tCol)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform_Orth"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		return E_FAIL;
 	return S_OK;
+}
+
+void CMelee_Weapon::Move_Hand(_float fTimeDelta)
+{
+	if (GetAsyncKeyState('W') & 0x8000)
+	{
+		t += speed;
+	}
+	else if (GetAsyncKeyState('A') & 0x8000)
+	{
+		t += speed;
+	}
+	else if (GetAsyncKeyState('D') & 0x8000)
+	{
+		t += speed;
+	}
+	else if (GetAsyncKeyState('S') & 0x8000)
+	{
+		t += speed;
+	}
+
+	float v = 20.0f;  // 폭을 설정 하는변수
+	_float3 vNewPos;
+	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
+	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 }
 
 void CMelee_Weapon::Free()

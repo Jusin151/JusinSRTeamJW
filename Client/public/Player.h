@@ -43,7 +43,7 @@ private:
 	void Attack(_float fTimeDelta);
 	void Input_Key(_float fTimeDelta);
 
-	void Player_Event();
+
 private: //옵저버 관련
 
 	vector<CObserver*> m_pObservers{};
@@ -60,7 +60,6 @@ public:
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 	inline void Add_Ammo(_int iAmmo);
-
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
@@ -81,7 +80,6 @@ private: // 인벤관련
 	_bool m_bInven_Render_State{};
 
 	void Equip(_float fTimeDelta);
-
 
 private:
 	CTexture* m_pTextureCom = { nullptr };

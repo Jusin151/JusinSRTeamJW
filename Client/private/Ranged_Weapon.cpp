@@ -52,7 +52,7 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 
-	Attack(fTimeDelta);
+	//Attack(fTimeDelta);
 
 }
 
@@ -97,19 +97,35 @@ HRESULT CRanged_Weapon::Render()
 
 	return S_OK;
 }
-
 HRESULT CRanged_Weapon::Ready_Components()
 {
 	return E_NOTIMPL;
 }
-
 HRESULT CRanged_Weapon::Ready_Picking()
 {
 	m_pPickingSys = CPickingSys::Get_Instance();
-
-
 	return S_OK;
 }
+
+void CRanged_Weapon::Free()
+{
+	__super::Free();
+}
+
+void CRanged_Weapon::Attack_WeaponSpecific(_float fTimeDelta)
+{
+
+}
+CGameObject* CRanged_Weapon::Clone(void* pArg)
+{
+	return nullptr;
+}
+void CRanged_Weapon::Move_Hand(_float fTimeDelta)
+{
+    __super::Move_Hand(fTimeDelta);
+}
+
+
 
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우지마셈.. 공부점..
 {
@@ -139,12 +155,12 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우�
             if (collider->Get_Owner()->Get_Tag() == L"Layer_Player")
                 continue;
             // 바닥이면 무시
-            if (collider->Get_Owner()->Get_Tag().find(L"Floor")!=wstring::npos)
+            if (collider->Get_Owner()->Get_Tag().find(L"Floor") != wstring::npos)
                 continue;
 
             // 벽 태그인 경우
 
-            if (collider->Get_Owner()->Get_Tag().find(L"Wall")!=wstring::npos)
+            if (collider->Get_Owner()->Get_Tag().find(L"Wall") != wstring::npos)
             {
                 // ----  벽 Transform에서 평면 정의 ----
                 CTransform* pWallTransform = static_cast<CTransform*>(
@@ -227,15 +243,15 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우�
 
                 CEffect_Base::EFFECT_DESC Weapon_Effect{};
                 Weapon_Effect.vPos = vEffectPos;     // 타일꺼 
-                Weapon_Effect.vRight = vWallRight;  
-                Weapon_Effect.vUp = vWallUp;     
-                Weapon_Effect.vLook = vWallLook;  
+                Weapon_Effect.vRight = vWallRight;
+                Weapon_Effect.vUp = vWallUp;
+                Weapon_Effect.vLook = vWallLook;
                 Weapon_Effect.vScale = { 0.5f, 0.5f, 0.5f };
 
-          
+
                 for (_uint i = 0; i < EffectNum; ++i)
                 {
-                   
+
                     _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
                     _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
                     _float3 vRandomEffectPos = vEffectPos;
@@ -272,50 +288,3 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우�
     }
     return S_OK;
 }
-
-
-void CRanged_Weapon::Free()
-{
-	__super::Free();
-}
-
-CGameObject* CRanged_Weapon::Clone(void* pArg)
-{
-	return nullptr;
-}
-
-
-void CRanged_Weapon::Attack(_float fTimeDelta)
-{
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		m_bIsAnimating = true;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
-	}
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 13)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-			}
-		}
-	}
-    
-}
-
-void CRanged_Weapon::Move_Hand(_float fTimeDelta)
-{
-    __super::Move_Hand(fTimeDelta);
-}
-
-
-

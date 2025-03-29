@@ -259,15 +259,6 @@
     <Filter Include="02.GameObjects\08. Weapon\01. Ranged Weapon">
       <UniqueIdentifier>{a9a24ab7-d725-4005-8267-1082b25924f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\99. Weapon_Base">
-      <UniqueIdentifier>{bb213674-67d3-4261-9ba1-5b4500644739}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\99. Weapon_Base\Mele">
-      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\08. Weapon\99. Weapon_Base\Ranged">
-      <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\08. Weapon\00. MeleeWeapon">
       <UniqueIdentifier>{a63de5a8-d560-430e-8184-13e297b85853}</UniqueIdentifier>
     </Filter>
@@ -297,6 +288,15 @@
     </Filter>
     <Filter Include="95. Design">
       <UniqueIdentifier>{8b4fde5c-1b52-47bc-803e-5b1714c72707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\Weapon_Base">
+      <UniqueIdentifier>{bb213674-67d3-4261-9ba1-5b4500644739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\Weapon_Base\Mele">
+      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Weapon\Weapon_Base\Ranged">
+      <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -562,13 +562,13 @@
       <Filter>02.GameObjects\Image</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Weapon_Base.h">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base</Filter>
+      <Filter>02.GameObjects\08. Weapon\Weapon_Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Melee_Weapon.h">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Mele</Filter>
+      <Filter>02.GameObjects\08. Weapon\Weapon_Base\Mele</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ranged_Weapon.h">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Ranged</Filter>
+      <Filter>02.GameObjects\08. Weapon\Weapon_Base\Ranged</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer.h">
       <Filter>95. Design</Filter>
@@ -816,13 +816,13 @@
       <Filter>02.GameObjects\97. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Base.cpp">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base</Filter>
+      <Filter>02.GameObjects\08. Weapon\Weapon_Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Melee_Weapon.cpp">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Mele</Filter>
+      <Filter>02.GameObjects\08. Weapon\Weapon_Base\Mele</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Ranged_Weapon.cpp">
-      <Filter>02.GameObjects\08. Weapon\99. Weapon_Base\Ranged</Filter>
+      <Filter>02.GameObjects\08. Weapon\Weapon_Base\Ranged</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Observer.cpp">

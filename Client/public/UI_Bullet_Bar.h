@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Base.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +14,7 @@ END
 BEGIN(Client)
 
 
-class CUI_Bullet_Bar final : public CUI_Base
+class CUI_Bullet_Bar final : public CUI_Base,public CObserver
 {
 private:
 	CUI_Bullet_Bar(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -48,11 +49,17 @@ public:
 			m_iBullet = 0; // 최소 체력 제한
 
 		Update_Bullet_Bar();	
-
 	}
-
+	void OnNotify(_int value, const wstring& type) override
+	{
+		if (type == L"BULLET")
+		{
+			m_iBullet = value;
+			Update_Bullet_Bar();
+		}
+	}
 private:
-	_int m_iBullet{100};
+	_int m_iBullet{};
 };
 END
 

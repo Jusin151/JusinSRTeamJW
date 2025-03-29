@@ -156,6 +156,19 @@ void CPlayer::Equip(_float fTimeDelta)
 		m_pPlayer_Weapon = m_pPlayer_Inven->Equip(8);
 	}
 
+
+	if (m_pPlayer_Weapon)
+	{
+		if (auto pObserver = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Bullet_Bar")))
+		{
+			if (auto pRanged = dynamic_cast<CWeapon_Base*>(m_pPlayer_Weapon))
+			{
+				pRanged->Add_Observer(pObserver); 
+			}
+		}
+	}
+
+
 }
 HRESULT CPlayer::Render()
 {
@@ -350,24 +363,16 @@ void CPlayer::Input_Key(_float fTimeDelta)
 	Move(fTimeDelta); // 플레이어 이동
 }
 
-void CPlayer::Player_Event()
-{
-
-	
-
-
-}
-
 void CPlayer::Set_Hp(_int iHp)
 {
 	if (iHp < m_iHp)
 	{
-		// 체력이 줄어들때
+		// 체력이 달면
 		m_iHp = max(0, iHp);
 	}
 	else
 	{
-		// 체력이 증
+		// 체력 늘면
 		m_iHp = min(iHp, (_int)m_iPlayerHP.second);
 	}
 	Notify(m_iHp, L"HP");
@@ -375,13 +380,11 @@ void CPlayer::Set_Hp(_int iHp)
 
 inline void CPlayer::Add_Ammo(_int iAmmo)
 {
-
 		//if (!m_pWeapon) return;
 		//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
 		//{
 		//	pRangeWeapon->Add_Ammo(iAmmo);
 		//}
-
 }
 
 

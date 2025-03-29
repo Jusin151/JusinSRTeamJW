@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "CollisionObject.h"
 #include "Transform.h"
-
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -37,8 +37,8 @@ public:
         wstring TextureKey{};      // 무기 UI에 사용될 텍스처 키
 
     }Weapon_DESC;
-
-
+protected:
+    Weapon_DESC m_Weapon_INFO{};
 
 protected:
     CWeapon_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -51,12 +51,15 @@ public:
     virtual void Priority_Update(_float fTimeDelta)PURE;
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
-    virtual HRESULT Render()override;
-    virtual HRESULT Ready_Components();
+    virtual HRESULT Render()PURE;
+    virtual HRESULT Ready_Components()PURE;
     virtual  void Free();
     virtual void Attack(_float fTimeDelta)PURE;
     virtual void Move_Hand(_float fTimeDelta);
     virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
+    virtual void Attack_WeaponSpecific(_float fTimeDelta) PURE;
+    virtual HRESULT Ready_Icon()PURE;
+
 protected:
     CTexture* m_pTextureCom = {};
     CVIBuffer_Rect* m_pVIBufferCom = {};
@@ -80,16 +83,22 @@ protected:
         auto range = m_TextureRanges[stateName];
         return range.first + (frameNum % (range.second - range.first + 1));
     }
-protected:
-    _float m_fElapsedTime = 0.0f;
-    _int m_iCurrentFrame = 0;
-    const _float m_fFrameDuration = 2.0f;
-protected:
-    _float t = {}; //
-    _float speed = { 0.1f }; //
+protected://근접무기쪽관련
+    _float m_fElapsedTime = {};
+    _int m_iCurrentFrame = {};
+    _int m_iLastFrame = {};
+    const _float m_fFrameDuration = { 2.0f };
+protected: // 손훈들리는 거 관련
+    _float t = {}; 
+    _float speed = { 0.1f }; 
     _float2 m_vInitialPos = {};
-
-     
+protected: // 옵저버 관련
+    CObserver* m_pObserver = { nullptr };
+public:
+    void Add_Observer(CObserver* pObserver)
+    {
+        m_pObserver = pObserver;
+    }
 
 };
 END

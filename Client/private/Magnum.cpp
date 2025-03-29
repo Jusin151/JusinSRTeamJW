@@ -47,6 +47,18 @@ HRESULT CMagnum::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Magnum", this);
 
 
+
+
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
+
+	__super::Ready_Picking();
+
+	return S_OK;
+}
+
+HRESULT CMagnum::Ready_Icon()
+{
 	CImage::Image_DESC Image_INFO = {};
 	Image_INFO.vPos = { -100.f,150.f };
 	Image_INFO.vSize = { 74.f,31.f };
@@ -57,8 +69,6 @@ HRESULT CMagnum::Initialize(void* pArg)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
 		return E_FAIL;
-
-	__super::Ready_Picking();
 
 	return S_OK;
 }

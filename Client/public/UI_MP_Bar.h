@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Base.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +14,7 @@ END
 BEGIN(Client)
 
 
-class CUI_MP_Bar final : public CUI_Base
+class CUI_MP_Bar final : public CUI_Base,public CObserver
 {
 private:
 	CUI_MP_Bar(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -40,7 +41,7 @@ public:
 	{
 			m_iMp -= type;
 			if (m_iMp < 0 || m_iMp > 100)
-				m_iMp = 0; // 최소 마나 제한
+				m_iMp = 0; 
 
 			Update_Mp_Bar();
 	}
@@ -50,8 +51,15 @@ public:
 	virtual void Free();
 
 private:
-	_uint m_iMp{};  // ü��
-};
+	_uint m_iMp{};  
 
+	virtual void OnNotify(_int value, const wstring& type) override
+	{
+		{
+			if (type == L"MP")
+				Set_MP(value);
+		}
+	}
+};
 
 END

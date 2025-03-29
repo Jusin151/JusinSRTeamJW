@@ -11,8 +11,7 @@ CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CShotGun::CShotGun(const CShotGun& Prototype)
-	: CRanged_Weapon(Prototype),
-	m_ShotGun_INFO{Prototype.m_ShotGun_INFO }
+	: CRanged_Weapon(Prototype)
 {
 }
 
@@ -27,25 +26,36 @@ HRESULT CShotGun::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (pArg != nullptr)	
-		m_ShotGun_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
+		m_Weapon_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
 	else
 		return E_FAIL;
 
 
-	m_pTransformCom->Set_Scale(m_ShotGun_INFO.vSize.x, m_ShotGun_INFO.vSize.y, 1.f);
+	m_pTransformCom->Set_Scale(m_Weapon_INFO.vSize.x, m_Weapon_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(m_ShotGun_INFO.vPos.x, m_ShotGun_INFO.vPos.y, 0.f));
+		_float3(m_Weapon_INFO.vPos.x, m_Weapon_INFO.vPos.y, 0.f));
 
-	m_vInitialPos = m_ShotGun_INFO.vPos;
+	m_vInitialPos = m_Weapon_INFO.vPos;
 
-	// 초기화 시 설정
 	m_TextureRanges["Idle"] = { 0,0 };
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
-	//CUI_Manager::GetInstance()->Get
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
+
+
+	Ranged_INFO.CurrentAmmo=50;
+
+	__super::Ready_Picking();
+
+
+	return S_OK;
+}
+HRESULT CShotGun::Ready_Icon()
+{
 	CImage::Image_DESC Image_INFO = {};
 	Image_INFO.vPos = { -200.f,150.f };
 	Image_INFO.vSize = { 100.f,50.f };
@@ -57,9 +67,6 @@ HRESULT CShotGun::Initialize(void* pArg)
 		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
 		return E_FAIL;
 
-	__super::Ready_Picking();
-
-
 	return S_OK;
 }
 
@@ -69,49 +76,21 @@ void CShotGun::Priority_Update(_float fTimeDelta)
 
 void CShotGun::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 
 
-
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;  
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
-	{
-		t += speed;
-	}
-
-	float v = 20.0f;  // 폭을 설정 하는변수
-	_float3 vNewPos;
-	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-
-	Attack(fTimeDelta);
 	return;
 }
-void CShotGun::Attack(_float fTimeDelta)
-{
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		if (m_eState == State::Idle)
-		{
-			m_eState = State::Firing;
-			m_iCurrentFrame = m_TextureRanges["Firing"].first;
-			m_fElapsedTime = 0.0f;
 
-			__super::Picking_Object(5);
-			CUI_Manager::GetInstance()->Set_Shotgun_Bullet(1);
-		}
+void CShotGun::Attack_WeaponSpecific(_float fTimeDelta)
+{
+	if (m_eState == State::Idle)
+	{
+		m_eState = State::Firing;
+		m_iCurrentFrame = m_TextureRanges["Firing"].first;
+		m_fElapsedTime = 0.0f;
+
+		__super::Picking_Object(5);
 	}
 
 	m_fElapsedTime += fTimeDelta;
@@ -154,6 +133,11 @@ void CShotGun::Attack(_float fTimeDelta)
 		}
 		break;
 	}
+}
+
+void CShotGun::Attack(_float fTimeDelta)
+{
+	__super::Attack(fTimeDelta); 
 }
 
 
