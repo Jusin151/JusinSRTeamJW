@@ -160,5 +160,5 @@ _float CSound_Event::GetParameter(const std::string& name)
 void CSound_Event::Free()
 {
 	__super::Free();
-	Safe_Release(m_pSound_Manager);
+	//Safe_Release(m_pSound_Manager);
 }

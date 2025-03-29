@@ -21,11 +21,12 @@ HRESULT CGold_Particle_System::Initialize(void* pArg)
     GOLDDESC desc = *reinterpret_cast<GOLDDESC*>(pArg);
     m_Bounding_Box = desc.Bounding_Box;
     m_vPos = { 0.f, 0.f, 0.f };
-    m_fSize = 0.8f;
+    m_fSize = 0.1f;
     m_VBSize = 2048;
     m_VBOffset = 0;
     m_VBBatchSize = 512;
     m_iMaxParticles = desc.iNumParticles;
+    m_vDir = { 0.0f, 1.0f, 0.0f };
 
     PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
@@ -46,7 +47,7 @@ void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     pAttribute->fAge = 0;
     pAttribute->fLifetime = 2.0f;
 
-    pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+    pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 0.0f, 1.0f);
     //pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
@@ -59,6 +60,13 @@ void CGold_Particle_System::Update(float fTimeDelta)
             i.vPosition += i.vVelocity * fTimeDelta;
             i.fAge += fTimeDelta;
         }
+        if (!m_Bounding_Box.Is_Point_Inside(i.vPosition))
+        {
+            Reset_Particle(&i);
+        }
+        
+        /*if (i.fAge > i.fLifetime)
+            i.bIsAlive = false;*/
     }
     __super::Late_Update(fTimeDelta);
 }

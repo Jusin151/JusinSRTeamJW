@@ -113,6 +113,7 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
 		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
+
 		m_basd = false;
 	}
 

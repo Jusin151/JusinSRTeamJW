@@ -110,6 +110,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/Base0.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Terrain*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Light*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Light"),
@@ -117,6 +124,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/Light.png"), 1))))
 		return E_FAIL;
 
+
+	
 	/* For.Prototype_Component_Texture_Snow*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Snow"),
@@ -169,6 +178,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	/* For.Prototype_Component_Particle_Projectile*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
 		CProjectile_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Gold*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+		CGold_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
