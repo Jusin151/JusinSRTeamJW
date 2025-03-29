@@ -34,7 +34,7 @@ HRESULT CUI_MP_Bar::Initialize(void* pArg)
 		m_MP_INFO.vPos += CUI_Manager::GetInstance()->GetLeftPanel_Pos();
 		Set_Position(m_MP_INFO.vPos);
 		Set_Size(m_MP_INFO.vSize);
-		CUI_Manager::GetInstance()->AddUI(L"MP_Bar", this);
+		CUI_Manager::GetInstance()->AddUI(L"Mp_Bar", this);
 	}
 	else
 		return E_FAIL;

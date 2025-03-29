@@ -68,8 +68,6 @@ void CInventory::Update(_float fTimeDelta)
 		m_pInven_UI->Inven_OnOff(false);
 		return;
 	}
-
-	// 딱 한번 열기 (키 입력된 경우에만)
 	if (m_bKeyPressed)
 		m_pInven_UI->Inven_OnOff(true);
 

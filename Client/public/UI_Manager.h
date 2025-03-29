@@ -70,21 +70,13 @@ public:
         }
         return _float2(99999, 99999);
     }
-
-
-    void Set_HP(_uint _Hp)
+    void Init_HP_UI(_uint CurrentHP,_uint MaxHP)
     {
         CUI_Base* pHp_UI = GetUI(L"Hp_Bar");
-        static_cast<CUI_HP_Bar*>(pHp_UI)->Set_HP(_Hp);
-
-
+        static_cast<CUI_HP_Bar*>(pHp_UI)->Init_HP(CurrentHP, MaxHP);
     }
-    void Set_Damage(_uint Damage)
-    {
-        CUI_Base* pHp_UI = GetUI(L"Hp_Bar");
-        static_cast<CUI_HP_Bar*>(pHp_UI)->Set_Damage(Damage);
+     
 
-    }
     _uint Get_Hp()
     {
         CUI_Base* pUI = GetUI(L"Hp_Bar");

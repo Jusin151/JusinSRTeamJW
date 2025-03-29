@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Base.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +14,7 @@ END
 BEGIN(Client)
 
 
-class CUI_HP_Bar final : public CUI_Base
+class CUI_HP_Bar final : public CUI_Base, public CObserver
 {
 public:
 	enum HP_STATE{ Default,Heated};
@@ -35,7 +36,7 @@ private:
 
 private:
 	HRESULT Ready_Components();
-	void Update_HP_Bar(); 
+	void Update_HP_Bar();
 
 public:
 	static CUI_HP_Bar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -43,20 +44,34 @@ public:
 	virtual void Free();
 public:
 
-	void Set_HP(_uint iHealth) { m_iHealth = iHealth; }
-
-	HP_STATE Get_HpState() { return m_eHp_State; }
-	void Set_Damage(_int Damage) 
-	{ 		
-		m_iHealth -= Damage;
-		m_iHealth = max(0u, m_iHealth);
-			Update_HP_Bar();		
+	void Set_HP(_uint iHealth)
+	{
+		m_iHealth = iHealth;
+		Update_HP_Bar();
 	}
+	void Init_HP(_uint CurrentHP, _uint MaxHP)
+	{
+		m_iHealth = CurrentHP;
+		m_iMaxHealth = MaxHP;
+	}
+
 	_uint Get_Health() { return m_iHealth; }
+
+public:
+	void OnNotify(_int value, const wstring& type)
+	{
+		if (type == L"HP")
+		{
+			Set_HP(value);
+		}
+	}
 
 private:
 	_uint m_iHealth{};
+	_uint m_iMaxHealth{};
 	HP_STATE m_eHp_State{};
+	_float fHP_Ratio{};
+	
 
 };
 END

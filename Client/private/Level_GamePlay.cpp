@@ -22,6 +22,9 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Layer_UI()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -35,8 +38,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
+	
 
 	if (FAILED(Ready_Layer_Weapon()))
 		return E_FAIL;
@@ -446,7 +448,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Menu_Panel.vSize = { 453.f,720.f };
 	Menu_Panel.fAlpha = 1.0f;
 	Menu_Panel.vPos = { 0.f,0.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
-
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Menu_Panel"),
