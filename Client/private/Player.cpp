@@ -51,10 +51,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-10.f, 1.0f, 8.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 1.0f, -1.f));
 	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_pTransformCom->Set_Scale(0.5f,0.5f,0.5f);
-	//m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
+	m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -432,7 +432,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+	CTransform::TRANSFORM_DESC		TransformDesc{ 20.f, D3DXToRadian(90.f) };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))

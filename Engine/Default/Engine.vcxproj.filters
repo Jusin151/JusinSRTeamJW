@@ -203,6 +203,9 @@
     <ClInclude Include="..\public\BulletShell_Particle_System.h">
       <Filter>04.Components\Particle\System\BulletShell</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_TexturedCube.h">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -560,6 +563,9 @@
     </ClCompile>
     <ClCompile Include="..\private\BulletShell_Particle_System.cpp">
       <Filter>04.Components\Particle\System\BulletShell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_TexturedCube.cpp">
+      <Filter>04.Components\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

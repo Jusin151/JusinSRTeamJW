@@ -166,8 +166,8 @@ HRESULT CStructure::SetUp_RenderState()
 	{
 #pragma region 텍스쳐 스케일에 따라 반복
 		//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
-		D3DXVECTOR2 vScaleFactor(scale.x, -scale.y);
-		D3DXVECTOR2 vOffsetFactor(0.5f, 0.5f); // Y축 반전을 위한 오프셋 조정
+		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
+		D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
 
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
@@ -234,8 +234,12 @@ HRESULT CStructure::Ready_Components()
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
 
-	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
+	///* For.Com_VIBuffer */
+	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
+	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+	//	return E_FAIL;	
+	//
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,L"Prototype_Component_VIBuffer_TexturedCube",
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
