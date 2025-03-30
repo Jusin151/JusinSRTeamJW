@@ -8,7 +8,7 @@
 #include "JsonLoader.h"
 #include "Editor.h"
 #include <Item.h>
-
+#include <Trigger.h>
 
 // 히스토리 항목 구조체
 _uint CMyImGui::m_NextObjectID = 0;
@@ -396,6 +396,15 @@ void CMyImGui::ShowCreateObjectTab()
 	{
 		ShowItemCreationTab();
 	}
+
+	ImGui::SameLine();
+	ImGui::Checkbox("Trigger Create", &m_bCreateTrigger);
+
+	if (m_bCreateTrigger)
+	{
+		ShowTriggerTab();
+	}
+
 
 
 	// 컴포넌트 타입 선택 UI 앞에 추가
@@ -2303,6 +2312,275 @@ void CMyImGui::ShowComponentsInGameObject(CGameObject* pGameObject)
 	//	}
 	//	ImGui::EndTable();
 	//}
+}
+
+void CMyImGui::ShowTriggerTab()
+{
+	static int s_iSelectedTriggerType = 0;
+	static char s_szTargetTagBuffer[256] = { 0 };
+	static float s_fActivationRange = 1.0f;
+	static bool s_bStartsActive = true;
+	static float s_vPosition[3] = { 0.0f, 0.0f, 0.0f };
+	static char s_szTextureTagBuffer[256] = "Prototype_Component_Texture_Trigger";
+	static const char* s_TriggerTypeNames[] = { "Button", "Interaction" };
+
+	ImGui::Separator();
+	ImGui::Text("Trigger Settings");
+
+	// 트리거 타입 선택
+	if (ImGui::Combo("Trigger Type", &s_iSelectedTriggerType, s_TriggerTypeNames, IM_ARRAYSIZE(s_TriggerTypeNames)))
+	{
+		// 타입 변경 시 기본값 설정
+		if (s_iSelectedTriggerType == 0) // BUTTON
+		{
+			strcpy_s(s_szTextureTagBuffer, "Prototype_Component_Texture_Button");
+		}
+		else // INTERACTION
+		{
+			strcpy_s(s_szTextureTagBuffer, "Prototype_Component_Texture_Interaction");
+		}
+	}
+
+	// 활성화 범위 설정
+	ImGui::SliderFloat("Activation Range", &s_fActivationRange, 0.5f, 5.0f);
+
+	// 시작시 활성화 여부
+	ImGui::Checkbox("Starts Active", &s_bStartsActive);
+
+	// 위치 설정
+	ImGui::Text("Position");
+	ImGui::InputFloat3("##Position", s_vPosition);
+
+	// 텍스처 태그 설정
+	ImGui::InputText("Texture Tag", s_szTextureTagBuffer, IM_ARRAYSIZE(s_szTextureTagBuffer));
+
+	// 파일 선택 버튼
+	static _wstring selectedTexturePath;
+	if (ImGui::Button("Select Trigger Texture"))
+	{
+		selectedTexturePath = SelectFile();
+		if (!selectedTexturePath.empty())
+		{
+			selectedTexturePath = GetRelativePath(selectedTexturePath);
+			LoadImagesFromFolder(selectedTexturePath.substr(0, selectedTexturePath.find_last_of(L"\\")));
+			m_bShowImageWindow = true;
+		}
+	}
+
+	ImGui::Separator();
+	ImGui::Text("Target Object Selection");
+
+	// 현재 선택된 대상 표시
+	if (m_pSelectedTarget)
+	{
+		ImGui::Text("Selected Target: %s", ISerializable::WideToUtf8(m_pSelectedTarget->Get_Tag()).c_str());
+
+		// 대상 해제 버튼
+		if (ImGui::Button("Clear Target"))
+		{
+			m_pSelectedTarget = nullptr;
+			memset(s_szTargetTagBuffer, 0, sizeof(s_szTargetTagBuffer));
+		}
+	}
+	else
+	{
+		ImGui::Text("No Target Selected");
+	}
+
+	// 직접 태그로 대상 설정
+	ImGui::InputText("Target Tag", s_szTargetTagBuffer, IM_ARRAYSIZE(s_szTargetTagBuffer));
+
+	// 태그 목록 표시 (Level에 있는 객체들)
+	if (ImGui::CollapsingHeader("Available Objects"))
+	{
+		// 레벨의 모든 객체 목록 표시
+		for (_uint iLevel = 0; iLevel < m_iNumLevels; ++iLevel)
+		{
+			if (ImGui::TreeNode(("Level " + to_string(iLevel)).c_str()))
+			{
+				auto& layers = m_pGameInstance->m_pObject_Manager->m_pLayers[iLevel];
+
+				for (auto& layerPair : layers)
+				{
+					string layerName = ISerializable::WideToUtf8(layerPair.first);
+					if (ImGui::TreeNode(layerName.c_str()))
+					{
+						for (auto& pObj : layerPair.second->m_GameObjects)
+						{
+							string objTag = ISerializable::WideToUtf8(pObj->Get_Tag());
+							bool isSelected = (m_pSelectedTarget == pObj);
+
+							if (ImGui::Selectable(objTag.c_str(), isSelected))
+							{
+								m_pSelectedTarget = pObj;
+								strcpy_s(s_szTargetTagBuffer, objTag.c_str());
+							}
+						}
+						ImGui::TreePop();
+					}
+				}
+				ImGui::TreePop();
+			}
+		}
+	}
+
+	// 트리거 생성 버튼
+	if (ImGui::Button("Create Trigger"))
+	{
+		_wstring targetTag;
+
+		// 선택된 대상이 있으면 그 태그 사용, 아니면 입력된 태그 사용
+		if (m_pSelectedTarget)
+		{
+			targetTag = m_pSelectedTarget->Get_Tag();
+		}
+		else if (s_szTargetTagBuffer[0] != '\0')
+		{
+			wchar_t wTargetTag[256] = {};
+			MultiByteToWideChar(CP_ACP, 0, s_szTargetTagBuffer, -1, wTargetTag, 256);
+			targetTag = wTargetTag;
+		}
+
+		// 트리거 타입 설정
+		CTrigger::TRIGGER_TYPE eType =
+			(s_iSelectedTriggerType == 0) ? CTrigger::TRIGGER_TYPE::BUTTON : CTrigger::TRIGGER_TYPE::INTERACTION;
+
+		// 위치 설정
+		_float3 vPosition = { s_vPosition[0], s_vPosition[1], s_vPosition[2] };
+
+		// 텍스처 태그 설정
+		wchar_t wTextureTag[256] = {};
+		MultiByteToWideChar(CP_ACP, 0, s_szTextureTagBuffer, -1, wTextureTag, 256);
+		_wstring textureTag = wTextureTag;
+
+		// 트리거 인스턴스 생성
+		CreateTriggerInstance(targetTag, static_cast<_uint>(eType), vPosition, s_fActivationRange, s_bStartsActive, textureTag);
+	}
+}
+
+HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTriggerType,
+	const _float3& vPosition, _float fActivationRange, _bool bStartsActive, const _wstring& textureTag)
+{
+	const _uint iLevel = 3; // 기본 레벨
+	const _uint iProtoLevel = 3; // 프로토타입 레벨
+
+	// 트리거 프로토타입 이름 설정
+	_wstring stProtoTag = L"Prototype_GameObject_Trigger";
+	if (static_cast<CTrigger::TRIGGER_TYPE>(iTriggerType) == CTrigger::TRIGGER_TYPE::BUTTON)
+		stProtoTag += L"_Button";
+	else
+		stProtoTag += L"_Interaction";
+
+	// 레이어 태그 설정
+	_wstring stLayerTag = L"Layer_Trigger";
+
+	// 트리거 설명 구조체 생성
+	CTrigger::TRIGGER_DESC tTriggerDesc{};
+	tTriggerDesc.eType = static_cast<CTrigger::TRIGGER_TYPE>(iTriggerType);
+	tTriggerDesc.vPosition = vPosition;
+	tTriggerDesc.fActivationRange = fActivationRange;
+	tTriggerDesc.stTargetTag = strTargetTag;
+	tTriggerDesc.bStartsActive = bStartsActive;
+
+	// OBJECT_DESC 부분 설정
+	tTriggerDesc.iLevel = iLevel;
+	tTriggerDesc.iProtoLevel = iProtoLevel;
+	tTriggerDesc.stProtTag = stProtoTag;
+	tTriggerDesc.stBufferTag = L"Prototype_Component_VIBuffer_Cube";
+	tTriggerDesc.stProtTextureTag = textureTag;
+
+	// 프로토타입이 존재하는지 확인
+	bool prototypeCreated = false;
+	if (FAILED(m_pGameInstance->Find_Prototype(stProtoTag)))
+	{
+		// 프로토타입 생성
+		CJsonLoader jsonLoader;
+		CBase* pGameObject = jsonLoader.Create_Object_ByClassName("CTrigger", m_pGraphic_Device);
+
+		if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
+		{
+			Safe_Release(pGameObject);
+			return E_FAIL;
+		}
+		prototypeCreated = true;
+	}
+
+	// 텍스처가 존재하는지 확인하고 텍스처 경로가 있다면 텍스처 추가
+	bool textureCreated = false;
+	if (FAILED(m_pGameInstance->Find_Prototype(textureTag)) && !m_wstrSelectedTexturePath.empty())
+	{
+		if (FAILED(m_pGameInstance->Add_Prototype(iLevel, textureTag,
+			CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, ISerializable::WStringToWChar(m_wstrSelectedTexturePath), 1))))
+		{
+			return E_FAIL;
+		}
+		textureCreated = true;
+	}
+
+	// 게임 오브젝트 추가
+	if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
+		iLevel, stLayerTag, &tTriggerDesc)))
+	{
+		return E_FAIL;
+	}
+
+	// 생성된 트리거 가져오기
+	CGameObject* pTriggerObject = m_pGameInstance->Find_Last_Object(iLevel, stLayerTag);
+
+	if (pTriggerObject)
+	{
+		// 타겟 설정
+		CTrigger* pTrigger = dynamic_cast<CTrigger*>(pTriggerObject);
+		if (pTrigger && !strTargetTag.empty())
+		{
+			CGameObject* pTargetObject = nullptr;
+
+			// 레벨에서 타겟 태그로 객체 찾기
+			for (_uint iSearchLevel = 0; iSearchLevel < m_iNumLevels; ++iSearchLevel)
+			{
+				auto& layers = m_pGameInstance->m_pObject_Manager->m_pLayers[iSearchLevel];
+				for (auto& layerPair : layers)
+				{
+					for (auto& pObj : layerPair.second->m_GameObjects)
+					{
+						if (pObj&&pObj->Get_Tag() == strTargetTag)
+						{
+							pTargetObject = pObj;
+							break;
+						}
+					}
+					if (pTargetObject) break;
+				}
+				if (pTargetObject) break;
+			}
+
+			if (pTargetObject)
+			{
+				pTrigger->AddTargetObject(pTargetObject);
+			}
+		}
+	}
+
+	// JSON에 저장
+	if (prototypeCreated || textureCreated)
+	{
+		SaveObjectToJson(
+			"",
+			stProtoTag,         // 오브젝트 태그
+			iProtoLevel,        // 오브젝트 레벨
+			L"CTrigger",        // 클래스 이름
+			textureTag,         // 텍스처 태그
+			iLevel,             // 텍스처 레벨
+			m_wstrSelectedTexturePath, // 텍스처 경로
+			1,                  // 텍스처 개수
+			L"Prototype_Component_VIBuffer_Cube", // 버퍼 태그
+			3,                  // 버퍼 레벨
+			L"CVIBuffer_Cube",  // 버퍼 클래스 이름
+			0, 0                // 버퍼 크기 (기본값)
+		);
+	}
+
+	return S_OK;
 }
 
 CMyImGui* CMyImGui::Create(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -208,6 +208,7 @@
     <ClInclude Include="..\public\Particles.h" />
     <ClInclude Include="..\Public\Portal.h" />
     <ClInclude Include="..\public\SpellShop.h" />
+    <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="..\Private\Portal.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\SpellShop.cpp" />
+    <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />

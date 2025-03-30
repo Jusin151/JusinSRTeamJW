@@ -12,6 +12,7 @@
 #include "PointShop.h"
 #include "Harpoon.h"
 #include "Item.h"
+#include "Trigger.h"
 #include "Harpoonguy.h"
 
 
@@ -265,11 +266,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CHarpoon::Create(pGraphic_Device);
 		else if (className == "CItem")
 			return CItem::Create(pGraphic_Device);
-
-
-		wstring wClassName = ISerializable::Utf8ToWide(className);
-		wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;
-		OutputDebugString(errorMsg.c_str());
+		else if (className == "CTrigger")
+			return CTrigger::Create(pGraphic_Device);
 
 		return nullptr;
 	}
