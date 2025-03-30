@@ -41,7 +41,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	//m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
 	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.01f);
 
@@ -56,8 +56,8 @@ HRESULT CItem::Initialize(void* pArg)
 	else
 	{
 		//테스트용
-		m_eItemType = ITEM_TYPE::STAT;
-		m_strItemName = L"STAT";
+		m_eItemType = ITEM_TYPE::AMMO;
+		m_strItemName = L"Pistol_Ammo_Small";
 		//
 	}
 
@@ -160,6 +160,8 @@ HRESULT CItem::On_Collision(CCollisionObject* other)
 
 void CItem::Use_Item()
 {
+	if (!m_pPlayer) return;
+
 	switch (m_eItemType)
 	{
 	case Client::CItem::ITEM_TYPE::HP:
@@ -168,6 +170,7 @@ void CItem::Use_Item()
 	case Client::CItem::ITEM_TYPE::MP:
 		break;
 	case Client::CItem::ITEM_TYPE::AMMO:
+		m_pPlayer->Add_Ammo(10);
 		break;
 	case Client::CItem::ITEM_TYPE::EXP:
 		break;

@@ -298,6 +298,9 @@
     <Filter Include="02.GameObjects\08. Weapon\Weapon_Base\Ranged">
       <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\96. Structure\Trigger">
+      <UniqueIdentifier>{14292f27-5403-4152-96f3-0b1e69ea51bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -573,6 +576,9 @@
     <ClInclude Include="..\Public\Observer.h">
       <Filter>95. Design</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Trigger.h">
+      <Filter>02.GameObjects\96. Structure\Trigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -827,6 +833,9 @@
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Observer.cpp">
       <Filter>95. Design</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Trigger.cpp">
+      <Filter>02.GameObjects\96. Structure\Trigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

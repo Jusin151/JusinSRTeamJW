@@ -139,7 +139,7 @@ HRESULT CStructure::SetUp_RenderState()
 	_float3 scale = m_pTransformCom->Compute_Scaled();
 
 	// 보스 맵 물결 효과 
-	if (m_eStructureType == STRUCTURE_TYPE::BOSS_FLOOR)
+	if (m_eStructureType == STRUCTURE_TYPE::OCEAN)
 	{
 		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.5f;
 		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.5f;
@@ -225,10 +225,10 @@ HRESULT CStructure::Ready_Components()
 		return E_FAIL;
 
 	if (m_tObjDesc.stProtTextureTag.find(L"AntFloor") != wstring::npos)
-		m_eStructureType = STRUCTURE_TYPE::BOSS_FLOOR;
+		m_eStructureType = STRUCTURE_TYPE::OCEAN;
 	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
-	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos)
+	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos|| m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::MAGMA;
 	else
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;

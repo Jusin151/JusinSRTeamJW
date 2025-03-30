@@ -18,7 +18,7 @@ class CStructure : public CCollisionObject
 	enum class STRUCTURE_TYPE : uint8_t // 1바이트로 설정
 	{
 		NORMAL,
-		BOSS_FLOOR,  // 파도 효과가 있는 바닥
+		OCEAN,  // 파도 효과가 있는 바닥
 		BOSS_WALL,  // 보스 벽
 		MAGMA
 		// 필요에 따라 더 추가 가능
