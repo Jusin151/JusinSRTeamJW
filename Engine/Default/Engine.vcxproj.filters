@@ -203,11 +203,11 @@
     <ClInclude Include="..\public\BulletShell_Particle_System.h">
       <Filter>04.Components\Particle\System\BulletShell</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\VIBuffer_TexturedCube.h">
-      <Filter>04.Components\VIBuffer\Cube</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Blood_Particle_System.h">
       <Filter>04.Components\Particle\System\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_TexturedCube.h">
+      <Filter>04.Components\VIBuffer\TexturedCube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +406,9 @@
     <Filter Include="04.Components\Particle\System\Fire">
       <UniqueIdentifier>{9923436d-a1cc-45a0-8f27-b48a9ddd96c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\TexturedCube">
+      <UniqueIdentifier>{9eb0b145-9ea1-45b1-a3de-644b7a2b97cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -573,11 +576,11 @@
     <ClCompile Include="..\private\BulletShell_Particle_System.cpp">
       <Filter>04.Components\Particle\System\BulletShell</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\VIBuffer_TexturedCube.cpp">
-      <Filter>04.Components\VIBuffer\Cube</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Blood_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_TexturedCube.cpp">
+      <Filter>04.Components\VIBuffer\TexturedCube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
