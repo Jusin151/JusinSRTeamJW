@@ -103,6 +103,7 @@ HRESULT CRanged_Weapon::Ready_Components()
 HRESULT CRanged_Weapon::Ready_Picking()
 {
 	m_pPickingSys = CPickingSys::Get_Instance();
+
 	return S_OK;
 }
 
@@ -125,6 +126,8 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
+    //  매 프레임마다 마우스/레이 갱신
+    if(m_pPickingSys)
     m_pPickingSys->Update();
 
     if (!(GetKeyState(VK_LBUTTON) & 0x8000))
@@ -172,6 +175,7 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
     _float3 vTilePos = pWallTransform->Get_State(CTransform::STATE_POSITION);
     _float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
     _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+
 
     float denom = vWallNormal.Dot(vRayDir);
     if (fabs(denom) < 1e-7f) return;

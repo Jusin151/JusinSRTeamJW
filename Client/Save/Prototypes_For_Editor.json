@@ -192,6 +192,36 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_MP_Small"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Wall"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Floor"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Floor2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Wall2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall4"
     }
   ],
   "textures": [
@@ -374,6 +404,42 @@
       "level": 3,
       "path": "../../Resources/Textures/Item/Item%d.png",
       "tag": "Prototype_Component_Texture_Items"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
+      "tag": "Prototype_Component_Texture_Ant1_Wall"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_4.png",
+      "tag": "Prototype_Component_Texture_Ant1_Floor"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_14.png",
+      "tag": "Prototype_Component_Texture_Ant1_Floor2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_stage1_wall.png",
+      "tag": "Prototype_Component_Texture_Ant1_Wall2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_11.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall3"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_2_snow.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall4"
     }
   ]
 }

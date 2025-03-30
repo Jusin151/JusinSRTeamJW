@@ -10,6 +10,7 @@
 #include "Material.h"
 #include "GameObjects_Base.h"
 #include "Light.h"
+#include "PickingSys.h"
 #include "Particles.h"
 
 

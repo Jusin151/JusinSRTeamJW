@@ -9,6 +9,7 @@
 #include "JsonLoader.h"
 #include "Weapon_Base.h"
 
+#include "Level_Loading.h"
 
 CLevel_Editor::CLevel_Editor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device },
@@ -35,7 +36,7 @@ HRESULT CLevel_Editor::Initialize()
 	//	return E_FAIL;
 
 	CJsonLoader jsonLoader;
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_EDITOR);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1.json", LEVEL_EDITOR);
 
 	m_pImgui = CMyImGui::Create(LEVEL_END, m_pGraphic_Device);
 	if (nullptr == m_pImgui)
@@ -46,6 +47,10 @@ HRESULT CLevel_Editor::Initialize()
 
 void CLevel_Editor::Update(_float fTimeDelta)
 {
+
+
+	if (m_pPickingSys)
+	{
 
 	m_pPickingSys->Update();
 	static CGameObject* dragObject = nullptr;
@@ -95,10 +100,12 @@ void CLevel_Editor::Update(_float fTimeDelta)
 			m_pImgui->Set_Object(dragObject);
 		}
 	}
+	}
 }
 
 HRESULT CLevel_Editor::Render()
 {
+	if(m_pImgui)
 	m_pImgui->Render();
 	SetWindowText(g_hWnd, TEXT("에디터 레벨입니다."));
 	
