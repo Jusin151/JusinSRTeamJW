@@ -59,7 +59,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Magnum", this);
 
 
-	Ranged_INFO.CurrentAmmo = 20; //현총알
+	Ranged_INFO.CurrentAmmo = 50; //현총알
 	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
 	m_fAnimationSpeed = 0.03f; // 애니메이션속도
 

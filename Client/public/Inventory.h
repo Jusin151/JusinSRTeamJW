@@ -2,10 +2,10 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
-#include "Weapon_Base.h"
 #include "Item_Manager.h"
 #include "Inven_UI.h"
 #include "Ranged_Weapon.h"
+#include "Melee_Weapon.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -94,11 +94,17 @@ public:
             {
                 pRanged->Notify_Bullet();
             }
-
+            else if (CMelee_Weapon* pMeleed = dynamic_cast<CMelee_Weapon*>(it))
+            {
+                pMeleed->Notify_Bullet();
+            }
+            else
+                return nullptr;
+             
             return it;
 
         }
-        return nullptr; //안껴지는게 아니라 터지는건가?
+        return nullptr; 
     }
 
 protected:
