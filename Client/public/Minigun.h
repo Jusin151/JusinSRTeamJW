@@ -18,10 +18,9 @@ class CMinigun final : public CRanged_Weapon
 	enum class State 
 	{
 		Idle,
-		Charging, 
-		Charged,
 		Loop,
-		Firing
+		Firing,
+		SpinDown
 	};
 private:
 	CMinigun(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -46,15 +45,14 @@ public:
 
 private:
 	State m_eState = State::Idle;
+private: 
+	_float m_fSpinSpeed = {};
+	const _float m_fSpinDecreaseRate = { 0.2f }; // 초당 몇초 감소하게 할껀지
 
 public:
 	static CMinigun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-
-	_float t = {}; //
-	_float speed = { 0.1f }; //
-	_float2 m_vInitialPos = {};
 	_float m_fHoldTime = {};
 
 

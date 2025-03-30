@@ -95,7 +95,7 @@ HRESULT CUI_Bullet_Bar::Render()
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 
-
+	if(m_iMxBullet!=0)
 	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iBullet), _float2(583.f, 320.0f), _float2(15.f, 25.f), _float3(1.f, 1.f, 1.f));
 
 

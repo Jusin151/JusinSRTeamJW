@@ -105,6 +105,7 @@ public:
     {
         m_pObserver = pObserver;
     }
-
+    virtual void Notify_Bullet()PURE;
+    
 };
 END
