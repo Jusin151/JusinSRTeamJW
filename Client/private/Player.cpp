@@ -58,12 +58,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
-
 	if (FAILED(Ready_Player_SetUP()))
 		return E_FAIL;
 	
-
-
 
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -142,17 +139,7 @@ void CPlayer::Equip(_float fTimeDelta)
 	}
 
 
-	if (m_pPlayer_Weapon)
-	{
-		if (auto pObserver = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Bullet_Bar")))
-		{
-			if (auto pRanged = dynamic_cast<CWeapon_Base*>(m_pPlayer_Weapon))
-			{
-				pRanged->Add_Observer(pObserver); 
-			}
-		}
-	}
-
+	
 
 }
 HRESULT CPlayer::Render()

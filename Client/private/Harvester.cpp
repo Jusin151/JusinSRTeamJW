@@ -72,6 +72,11 @@ void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
 {
 }
 
+HRESULT CHarvester::Ready_Texture()
+{
+	return E_NOTIMPL;
+}
+
 void CHarvester::Priority_Update(_float fTimeDelta)
 {
 }

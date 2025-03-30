@@ -98,7 +98,16 @@ HRESULT CRanged_Weapon::Render()
 }
 HRESULT CRanged_Weapon::Ready_Components()
 {
-	return E_NOTIMPL;
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+        return E_FAIL;
+
+	return S_OK;
 }
 HRESULT CRanged_Weapon::Ready_Picking()
 {

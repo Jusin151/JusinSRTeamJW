@@ -47,13 +47,15 @@ public:
 
 
 	 bool m_bHasFired = false;
-
-
 	
 	 HRESULT Ready_Icon() override;
 
 	 // CRanged_Weapon을(를) 통해 상속됨
 	 void Attack_WeaponSpecific(_float fTimeDelta) override;
+
+
+	 // CRanged_Weapon을(를) 통해 상속됨
+	 HRESULT Ready_Texture() override;
 
 };
 END

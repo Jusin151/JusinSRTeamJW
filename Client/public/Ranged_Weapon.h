@@ -38,6 +38,7 @@ public:
     virtual void Late_Update(_float fTimeDelta);
     virtual HRESULT Render()override;
     virtual HRESULT Ready_Components();
+    virtual HRESULT Ready_Texture()PURE;
     virtual HRESULT Ready_Picking();
     virtual HRESULT Picking_Object(_uint EffectNum,_uint Damage);
     void Wall_Picking(CCollider* pCollider, _uint EffectNum);
@@ -87,6 +88,11 @@ public:
      
         if (m_pObserver)
             m_pObserver->OnNotify(&Ranged_INFO, L"BULLET");
+    }
+    void Notify_MP()
+    {
+        if (m_pObserver)
+            m_pObserver->OnNotify(&Ranged_INFO, L"Mp");
     }
 };
 
