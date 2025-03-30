@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "PickingSys.h" // 테스트 용으로 헤더 추가
 
+static POINT ptLast = { 0, 0 };
 
 CCamera_FirstPerson::CCamera_FirstPerson(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCamera{ pGraphic_Device }
@@ -66,7 +67,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 {
 	CTransform* fPlayerTrans = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
-
+	
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT));
 	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP));
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK));
@@ -75,27 +76,49 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
 
+	
 	Shaking(fTimeDelta);
 
+	
 
-
-
+	if (m_tmpState)
+	{
+		HandleMouseInput(fTimeDelta);
+	}
 	__super::Update_VP_Matrices();
-
+	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
+	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP));
+	fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+	//fPlayerTrans->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
-{	}
+{	
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+	{
+		m_tmpState = !m_tmpState;
+	}
+}
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
 	POINT pt;
 	GetCursorPos(&pt);
-	ScreenToClient(g_hWnd, &pt);
 
 	static POINT ptLast = pt;
 
+	// 클라이언트 영역 중앙 좌표 계산
+	RECT rect;
+	GetClientRect(g_hWnd, &rect);
+	int centerX = rect.right / 2;
+	int centerY = rect.bottom / 2;
+
+	// 클라이언트 중앙 좌표를 화면 좌표로 변환
+	POINT screenCenter = { centerX, centerY };
+	ClientToScreen(g_hWnd, &screenCenter);
+
+	// 마우스 이동량 계산 (화면 좌표 기반)
 	_float fDeltaX = (pt.x - ptLast.x) * m_fSensitivity;
-	_float fDeltaY = (ptLast.y - pt.y) * m_fSensitivity;
+	_float fDeltaY = (pt.y - ptLast.y) * m_fSensitivity;
 
 	m_fYaw += fDeltaX;
 	m_fPitch += fDeltaY;
@@ -120,10 +143,16 @@ void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 	D3DXVec3TransformNormal(&vUp, &vUp, &matRotation);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
 
-	ptLast = pt;
+	// 마우스 커서를 화면 중앙으로 이동
+	SetCursorPos(screenCenter.x, screenCenter.y);
+
+	// ptLast 변수를 화면 중앙 좌표로 업데이트
+	ptLast.x = screenCenter.x;
+	ptLast.y = screenCenter.y;
 }
 void CCamera_FirstPerson::Late_Update(_float fTimeDelta)
 {
+	
 }
 
 HRESULT CCamera_FirstPerson::Render()
@@ -142,23 +171,23 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 		0.f
 	};
 
-	if (GetKeyState('W') & 0x8000)
+	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
-	if (GetKeyState('S') & 0x8000)
+	if (GetAsyncKeyState('S') & 0x8000)
 	{
 		
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
-	if (GetKeyState('A') & 0x8000)
+	if (GetAsyncKeyState('A') & 0x8000)
 	{
 
 	
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
-	if (GetKeyState('D') & 0x8000)
+	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);

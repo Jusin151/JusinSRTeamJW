@@ -191,6 +191,16 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CGold_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Particle_Blood*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+		CBlood_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_BulletShell*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
+		CBulletShell_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
