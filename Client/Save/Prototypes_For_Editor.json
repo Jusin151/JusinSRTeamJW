@@ -253,7 +253,7 @@
     {
       "class": "CStructure",
       "level": 3,
-      "tag": "Prototype_GameObject_Ant__Cube"
+      "tag": "Prototype_GameObject_Ant_Wall6"
     },
     {
       "class": "CStructure",
@@ -507,7 +507,7 @@
       "count": 1,
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
-      "tag": "Prototype_Component_Texture_Ant_Cube"
+      "tag": "Prototype_Component_Texture_Ant_Wall6"
     },
     {
       "count": 1,

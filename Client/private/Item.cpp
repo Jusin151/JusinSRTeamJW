@@ -7,8 +7,8 @@
 namespace Item
 {
 	constexpr float ANIMATION_FRAME_RATE = 90.f;
-	constexpr float MAX_FLOAT_OFFSET = 0.7f;
-	constexpr float MIN_FLOAT_OFFSET = 0.3f;
+	constexpr float MAX_FLOAT_OFFSET = 0.6f;
+	constexpr float MIN_FLOAT_OFFSET = 0.2f;
 	constexpr float FLOAT_FREQUENCY = 60.f;
 }
 
@@ -43,7 +43,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
-	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.01f);
+	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 
 	INIT_PARENT(pArg);
 
@@ -343,6 +343,7 @@ json CItem::Serialize()
 void CItem::Deserialize(const json& j)
 {
 	SET_TRANSFORM(j, m_pTransformCom);
+	auto scale = _float3(j["scale"][0], j["scale"][1], j["scale"][2]);
 
 	m_eItemType = static_cast<ITEM_TYPE>(j["Type"].get<_int>());
 
