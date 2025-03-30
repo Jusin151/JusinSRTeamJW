@@ -29,7 +29,8 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	CJsonLoader jsonLoader;
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+ 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
 	
 
 	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))

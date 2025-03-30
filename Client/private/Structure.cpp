@@ -166,8 +166,8 @@ HRESULT CStructure::SetUp_RenderState()
 	{
 #pragma region 텍스쳐 스케일에 따라 반복
 		//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
-		D3DXVECTOR2 vScaleFactor(scale.x, -scale.y);
-		D3DXVECTOR2 vOffsetFactor(0.5f, 0.5f); // Y축 반전을 위한 오프셋 조정
+		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
+		D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
 
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
@@ -209,16 +209,6 @@ HRESULT CStructure::Release_RenderState()
 
 HRESULT CStructure::Ready_Components()
 {
-	//_wstring str = m_tStructure_Desc.stTextureTag;
-	//if (FAILED(m_pGameInstance->Find_Prototype(str)))
-	//{
-	//	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-	//		m_tStructure_Desc.stTextureTag,
-	//		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-	//			m_tStructure_Desc.stTexturePath.c_str(), 1))))
-	//		return E_FAIL;
-	//}
-
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -234,8 +224,12 @@ HRESULT CStructure::Ready_Components()
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
 
-	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
+	///* For.Com_VIBuffer */
+	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
+	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+	//	return E_FAIL;	
+	//
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,L"Prototype_Component_VIBuffer_TexturedCube",
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 

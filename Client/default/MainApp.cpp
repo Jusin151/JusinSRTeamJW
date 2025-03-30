@@ -9,6 +9,7 @@
 #include "Collider_Cube.h"
 #include "Material.h"
 #include "GameObjects_Base.h"
+#include "VIBuffer_TexturedCube.h"
 #include "Light.h"
 #include "PickingSys.h"
 #include "Particles.h"
@@ -102,6 +103,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	if(FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_EXP"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_TexturedCube"),
+		CVIBuffer_TexturedCube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Base*/

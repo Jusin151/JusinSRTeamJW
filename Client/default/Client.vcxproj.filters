@@ -264,7 +264,7 @@
     </Filter>
     <Filter Include="02.GameObjects\96. Structure\Trigger">
       <UniqueIdentifier>{14292f27-5403-4152-96f3-0b1e69ea51bc}</UniqueIdentifier>
-  </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\05. Hub\01. Hub_UI">
       <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
     </Filter>
@@ -300,6 +300,9 @@
     </Filter>
     <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Portal">
       <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\96. Structure\Door">
+      <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -579,6 +582,9 @@
     <ClInclude Include="..\public\Trigger.h">
       <Filter>02.GameObjects\96. Structure\Trigger</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Door.h">
+      <Filter>02.GameObjects\96. Structure\Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -798,9 +804,6 @@
     <ClCompile Include="..\Private\Portal.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\08. Weapon\Ranged Weapon\02. Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
     </ClCompile>
@@ -838,6 +841,10 @@
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\private\Door.cpp">
+      <Filter>02.GameObjects\96. Structure\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

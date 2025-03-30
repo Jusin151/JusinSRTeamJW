@@ -23,14 +23,7 @@ class CStructure : public CCollisionObject
 		MAGMA
 		// 필요에 따라 더 추가 가능
 	};
-public:
-	typedef struct tagStructureDesc : public CTransform::TRANSFORM_DESC
-	{
-		const _tchar* stCollProtoTag;
-		const _tchar* stVIBuffer;
-		const _tchar* stTextureTag;
-		_wstring stTexturePath;
-	}STRUCTURE_DESC;
+
 private:
 	friend class CMyImGui;
 
@@ -56,7 +49,6 @@ private:
 	CCollider* m_pColliderCom = { nullptr };
 	CMaterial* m_pMaterialCom = { nullptr };
 	_bool m_bIsCubeCollider = { false };
-	STRUCTURE_DESC m_tStructure_Desc;
 	_wstring m_strVIBuffer;
 	_wstring m_strCollProtoTag;
 	_wstring m_strTextureTag;

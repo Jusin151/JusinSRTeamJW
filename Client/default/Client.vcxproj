@@ -171,6 +171,7 @@
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
+    <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\Episode_Hub.h" />
     <ClInclude Include="..\Public\Exp_Bar.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
+    <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Episode_Hub.cpp" />
     <ClCompile Include="..\private\Item.cpp" />

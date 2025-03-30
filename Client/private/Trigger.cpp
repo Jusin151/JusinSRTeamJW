@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Door.h"
 
 CTrigger::CTrigger(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
@@ -9,7 +10,7 @@ CTrigger::CTrigger(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CTrigger::CTrigger(const CTrigger& Prototype)
-	:CCollisionObject{ Prototype }
+	:CCollisionObject( Prototype )
 {
 }
 
@@ -30,13 +31,17 @@ HRESULT CTrigger::Initialize(void* pArg)
 		TRIGGER_DESC* pDesc = (TRIGGER_DESC*)pArg;
 		m_eTriggerType = pDesc->eType;
 		m_bIsActive = pDesc->bStartsActive;
+		if(!pDesc->stTargetTag.empty())
+		m_stTargetTag = pDesc->stTargetTag;
 	}
 
+	Find_Target();
 	return S_OK;
 }
 
 void CTrigger::Update(_float fTimeDelta)
 {
+	Find_Target();
 	if (m_pTransformCom && m_pColliderCom)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
@@ -51,18 +56,33 @@ void CTrigger::Update(_float fTimeDelta)
 
 void CTrigger::Late_Update(_float fTimeDelta)
 {
-	// 디버그 모드에서만 렌더링 그룹에 추가
-	if (g_bDebugCollider)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CTrigger::Render()
 {
-	// 디버그 모드에서만 트리거 콜라이더 렌더링
-	if (g_bDebugCollider && m_pColliderCom)
+	if (m_eTriggerType == TRIGGER_TYPE::BUTTON)
 	{
-		m_pColliderCom->Render();
+		if (FAILED(m_pTextureCom->Bind_Resource(m_bWasTriggered)))
+			return E_FAIL;
 	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+	}
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	SetUp_RenderState();
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	Release_RenderState();
 
 	return S_OK;
 }
@@ -82,8 +102,7 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	{
 	case TRIGGER_TYPE::BUTTON:
 	{
-		// 버튼은 충돌 시 바로 활성화
-		if (!m_bWasTriggered)
+ 		if (!m_bWasTriggered&&GetAsyncKeyState(VK_SPACE)&0x8000)
 		{
 			m_bWasTriggered = true;
 			OnTrigger_Activated();
@@ -93,7 +112,6 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	case TRIGGER_TYPE::INTERACTION:
 	{
 
-		// 키 입력 로직은 게임의 입력 시스템과 연동 필요
 		break;
 	}
 	}
@@ -120,21 +138,53 @@ void CTrigger::Deactivate()
 	}
 }
 
-void CTrigger::AddTargetObject(CGameObject* pTarget)
+void CTrigger::AddTargetObject(CDoor* pTarget)
 {
 	if (pTarget != nullptr)
-		m_TargetObject = pTarget;
-	Safe_AddRef(m_TargetObject);
+		m_pTargetObject = pTarget;
+	Safe_AddRef(m_pTargetObject);
 }
 
 void CTrigger::OnTrigger_Activated()
 {
-
+	if (m_pTargetObject)
+	{
+		m_pTargetObject->Open_Door();
+	}
 }
 
 void CTrigger::OnTrigger_Deactivated()
 {
+}
 
+void CTrigger::Find_Target()
+{
+	if (!m_pTargetObject&& !m_stTargetTag.empty())
+	{
+		CDoor* pDoor = dynamic_cast<CDoor*>(m_pGameInstance->Find_Object(m_tObjDesc.iLevel, m_stTargetTag));
+		AddTargetObject(pDoor);
+	}
+}
+
+HRESULT CTrigger::SetUp_RenderState()
+{
+	// 일단 추가해보기
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+
+	return S_OK;
+}
+
+HRESULT CTrigger::Release_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	return S_OK;
 }
 
 HRESULT CTrigger::Ready_Components()
@@ -151,9 +201,28 @@ HRESULT CTrigger::Ready_Components()
 	ColliderDesc.pOwner = this;
 	ColliderDesc.fScale = { 1.0f, 1.0f, 1.0f };
 	ColliderDesc.fLocalPos = { 0.0f, 0.0f, 0.0f };
-
+	m_eType = CG_TRIGGER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	if (m_eTriggerType == TRIGGER_TYPE::BUTTON)
+	{
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_Rect",
+			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_TextureCube",
+			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+			return E_FAIL;
+	}
+
+
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
 		return E_FAIL;
 
 
@@ -167,6 +236,7 @@ HRESULT CTrigger::Ready_Components()
 
 	return S_OK;
 }
+
 
 CTrigger* CTrigger::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -199,8 +269,11 @@ void CTrigger::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
-	Safe_Release(m_TargetObject);
+	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pTargetObject);
 }
 
 json CTrigger::Serialize()
@@ -229,9 +302,13 @@ json CTrigger::Serialize()
 
 	j["trigger_type"] = static_cast<int>(m_eTriggerType);
 
-	if (m_TargetObject)
+	if (m_pTargetObject)
 	{
-		j["target_tags"] = ISerializable::WideToUtf8(m_TargetObject->Get_Tag());
+		j["target_tags"] = ISerializable::WideToUtf8(m_pTargetObject->Get_Tag());
+	}
+	else
+	{
+		j["target_tags"] = "";
 	}
 
 	return j;
@@ -246,5 +323,8 @@ void CTrigger::Deserialize(const json& j)
 
 	if (j.contains("is_active"))
 		m_bIsActive = j["is_active"].get<bool>();
+
+	if (j.contains("target_tags"))
+		m_stTargetTag = ISerializable::Utf8ToWide(j["target_tags"].get<string>());
 
 }
