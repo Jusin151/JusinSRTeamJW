@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{ffe17ade-72ef-4a09-a936-db5bc80af38b}">
 		<property name="assetPath">
-			<value>001 Jerry and Luke's Final Theme.wav</value>
+			<value>Backgrounds/001 Jerry and Luke's Final Theme.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

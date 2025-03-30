@@ -400,6 +400,9 @@
     <Filter Include="04.Components\Particle\System\Blood">
       <UniqueIdentifier>{929cf347-adb7-4ca3-9a9e-34183910dc2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Fire">
+      <UniqueIdentifier>{9923436d-a1cc-45a0-8f27-b48a9ddd96c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
