@@ -71,7 +71,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP));
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK));
 	auto vPos = fPlayerTrans->Get_State(CTransform::STATE_POSITION);
-	vPos.y -= 0.25f;
+	vPos.y += 0.2f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
 

@@ -383,6 +383,12 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
       "tag": "Prototype_Component_Texture_Trigger"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
+      "tag": "Prototype_Component_Texture_Door_Red"
     }
   ],
   "gameObjects": [
@@ -706,6 +712,11 @@
       "class": "CDoor",
       "level": 3,
       "tag": "Prototype_GameObject_Door"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door_Key_Red"
     }
   ],
   "buffers": [
