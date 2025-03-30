@@ -47,7 +47,6 @@ void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     pAttribute->fLifetime = 2.0f;
 
     pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
-    //pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void CBulletShell_Particle_System::Update(float fTimeDelta)
@@ -59,6 +58,8 @@ void CBulletShell_Particle_System::Update(float fTimeDelta)
             i.vPosition += i.vVelocity * fTimeDelta;
             i.fAge += fTimeDelta;
         }
+        if (i.fAge > i.fLifetime)
+            i.bIsAlive = false;
     }
     __super::Late_Update(fTimeDelta);
 }

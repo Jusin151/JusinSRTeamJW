@@ -203,7 +203,9 @@
     <ClInclude Include="..\public\BulletShell_Particle_System.h">
       <Filter>04.Components\Particle\System\BulletShell</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Blood_Particle_System.h" />
+    <ClInclude Include="..\public\Blood_Particle_System.h">
+      <Filter>04.Components\Particle\System\Blood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -565,7 +567,9 @@
     <ClCompile Include="..\private\BulletShell_Particle_System.cpp">
       <Filter>04.Components\Particle\System\BulletShell</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Blood_Particle_System.cpp" />
+    <ClCompile Include="..\private\Blood_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Blood</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Materials\TestMaterial.json">

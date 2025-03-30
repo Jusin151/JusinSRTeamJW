@@ -1,4 +1,4 @@
-#include "FrustumCull.h"
+ï»¿#include "FrustumCull.h"
 
 CFrustumCull::CFrustumCull(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device(pGraphic_Device)
@@ -29,10 +29,10 @@ _bool CFrustumCull::IsSphereInFrustum(const _float3& point, _float fRadius)
 {
 	for (int i = 0; i < 6; i++)
 	{
-		// Æò¸é¿¡¼­ ±¸Ã¼ Áß½É±îÁöÀÇ °Å¸® °è»ê
+		// í‰ë©´ì—ì„œ êµ¬ì²´ ì¤‘ì‹¬ê¹Œì§€ì˜ ê±°ë¦¬ ê³„ì‚°
 		_float d = D3DXPlaneDotCoord(&m_Planes[i], &point);
 
-		// ±¸Ã¼°¡ ¿ÏÀüÈ÷ Æò¸é ¹Ù±ù¿¡ ÀÖ´Â °æ¿ì
+		// êµ¬ì²´ê°€ ì™„ì „íˆ í‰ë©´ ë°”ê¹¥ì— ìˆëŠ” ê²½ìš°
 		if (d < -fRadius)
 			return false;
 	}
@@ -43,15 +43,15 @@ _bool CFrustumCull::IsAABBInFrustum(const _float3& point, const _float3& scale)
 {
 	for (int i = 0; i < 6; i++)
 	{
-		// Æò¸é¿¡¼­ ¹Ú½º Áß½É
+		// í‰ë©´ì—ì„œ ë°•ìŠ¤ ì¤‘ì‹¬
 		_float d = D3DXPlaneDotCoord(&m_Planes[i], &point);
 
-		//Æò¸é ¹ı¼± º¤ÅÍ
+		//í‰ë©´ ë²•ì„  ë²¡í„°
 		_float3 normal = _float3(m_Planes[i].a, m_Planes[i].b, m_Planes[i].c);
 
 		_float r = scale.x * abs(normal.x) + scale.y * abs(normal.y) + scale.z * abs(normal.z);
 
-		// ¹Ú½º°¡ ¿ÏÀüÈ÷ Æò¸é ¹Ù±ù¿¡ ÀÖ´Â °æ¿ì
+		// ë°•ìŠ¤ê°€ ì™„ì „íˆ í‰ë©´ ë°”ê¹¥ì— ìˆëŠ” ê²½ìš°
 		if (d < -r)
 			return false;
 	}
@@ -72,7 +72,7 @@ void CFrustumCull::ExtractPlanes()
 
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matView);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matProj);
-	D3DXMatrixMultiply(&matViewProj, &matView, &matProj); // ºä¿Í ÇÁ·ÎÁ§¼Ç Çà·Ä °öÇÏ±â
+	D3DXMatrixMultiply(&matViewProj, &matView, &matProj); // ë·°ì™€ í”„ë¡œì ì…˜ í–‰ë ¬ ê³±í•˜ê¸°
 
 	m_Planes[0].a = matViewProj._14 + matViewProj._11;
 	m_Planes[0].b = matViewProj._24 + matViewProj._21;
