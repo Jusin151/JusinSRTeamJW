@@ -98,6 +98,9 @@ HRESULT CRanged_Weapon::Render()
 }
 HRESULT CRanged_Weapon::Ready_Components()
 {
+    if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Bullet_Bar")))
+        Add_Observer(pHpUI);
+
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;

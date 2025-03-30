@@ -3,6 +3,7 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
+#include "Player.h"
 
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
@@ -37,9 +38,12 @@ HRESULT CStaff::Initialize_Prototype()
 HRESULT CStaff::Initialize(void* pArg)
 {
 
-	if (FAILED(Ready_Components()))
-
+	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
+
+    if (FAILED(Ready_Texture()))
+        return E_FAIL;
+
 
 	if (pArg != nullptr)
 		m_Staff_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
@@ -66,16 +70,23 @@ HRESULT CStaff::Initialize(void* pArg)
     m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
 
-    Ranged_INFO.CurrentAmmo = 50; //현총알
-    Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
+    Ranged_INFO.CurrentAmmo = 30; //현총알
+    Ranged_INFO.MaxAmmo = 30;    //샷건 최대 50발
     m_fAnimationSpeed = 0.05f; // 애니메이션속도
-
+    m_iCurrentMp = 50;
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Staff", this);
 
     if (FAILED(Ready_Icon()))
         return E_FAIL;
 
+    if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Mp_Bar")))
+        Add_Observer(pHpUI);
+
+   m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+    if (nullptr == m_pPlayer)
+        return E_FAIL;
+     
 	return S_OK;
 }
 HRESULT CStaff::Ready_Icon()
@@ -175,9 +186,12 @@ void CStaff::Update(_float fTimeDelta)
                         LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Staff_Bullet"),
                         LEVEL_GAMEPLAY, TEXT("Layer_Staff_Bullet"))))
                         return;
+                    Ranged_INFO.CurrentAmmo--;
+                    m_iCurrentMp--;
+					static_cast<CPlayer*>(m_pPlayer)->Set_Mp(m_iCurrentMp);
                     Notify_Bullet();
                     Notify_MP();
-                    Ranged_INFO.CurrentAmmo--;
+      
 
                     m_bHasFired = true;
                 }
@@ -207,7 +221,11 @@ void CStaff::Attack_WeaponSpecific(_float fTimeDelta)
 
 HRESULT CStaff::Ready_Texture()
 {
-    return E_NOTIMPL;
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff"),
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+
+    return S_OK;
 }
 
 void CStaff::Late_Update(_float fTimeDelta)
@@ -278,9 +296,7 @@ HRESULT CStaff::On_Collision()
 
 HRESULT CStaff::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff"), 
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
- 		return E_FAIL;
+  
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))

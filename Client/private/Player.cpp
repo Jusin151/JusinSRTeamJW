@@ -108,8 +108,7 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
-
+		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
 		m_basd = false;
 	}
@@ -139,7 +138,6 @@ void CPlayer::Equip(_float fTimeDelta)
 	}
 
 
-	
 
 }
 HRESULT CPlayer::Render()
@@ -157,26 +155,23 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 체력:") + to_wstring(m_iHp),
 		_float2(-600.f, -250.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.second),
-		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 경험치:") + to_wstring(m_iPlayerEXP.second),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.first),
 		_float2(-600.f, -230.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 총알:") + to_wstring(iBullet),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 경험치:") + to_wstring(m_iPlayerEXP.first),
 		_float2(-600.f, -210.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근력:") + to_wstring(iStr),
-		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("생명력:") + to_wstring(iLife),
-		_float2(-600.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("정신력:") + to_wstring(iSprit),
-		_float2(-600.f, -130.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("용량:") + to_wstring(iCapacity),
-		_float2(-600.f, -110.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -130.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))

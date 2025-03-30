@@ -46,7 +46,7 @@ public:
     void Free();
     CGameObject* Clone(void* pArg) override;
     virtual HRESULT Ready_Icon()PURE;
-protected: 
+public: 
     Ranged_DESC Ranged_INFO = {};
     _bool m_bAttackInput = { false };
 public: //옵저버 관련
@@ -70,6 +70,7 @@ public: //옵저버 관련
 protected:
     _float m_fElapsedTime = { 0.f };
     _int m_iCurrentFrame = { 0 };
+    _int m_iCurrentMp = {};
     const _float m_fFrameDuration = { 2.0f };
     _bool m_bIsAnimating={false};
     bool m_bHasFired = { false }; // 발사가 한번만 되게 하는거
@@ -85,14 +86,19 @@ protected:
 public:
     void Notify_Bullet()
     {
-     
-        if (m_pObserver)
-            m_pObserver->OnNotify(&Ranged_INFO, L"BULLET");
+        for (auto& it : m_pObservers)
+        {
+            it->OnNotify(&Ranged_INFO, L"BULLET");
+        }
+ 
     }
     void Notify_MP()
     {
-        if (m_pObserver)
-            m_pObserver->OnNotify(&Ranged_INFO, L"Mp");
+        for (auto& it : m_pObservers)
+        {
+            it->OnNotify(&m_iCurrentMp, L"Mp");
+        }
+
     }
 };
 

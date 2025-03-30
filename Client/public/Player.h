@@ -59,6 +59,7 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
+	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
 	inline void Add_Ammo(_int iAmmo);
 private:
 	HRESULT SetUp_RenderState();
