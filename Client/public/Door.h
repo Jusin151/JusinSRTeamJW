@@ -22,6 +22,14 @@ public:
         CLOSING     // 닫히는 중
     };
 
+    enum class DOOR_COLOR : uint8_t
+    {
+        BLUE,    // 파란색 문
+        RED,     // 빨간색 문
+        YELLOW,  // 노란색 문
+        NORMAL   // 색상 없는 일반 문 (열쇠 없이 열림)
+    };
+
     enum class DOOR_TYPE : uint8_t
     {
         NORMAL,     // 일반 문 (바로 열림)
@@ -31,8 +39,8 @@ public:
     typedef struct tagDoorDesc : public OBJECT_DESC
     {
         DOOR_TYPE eType;          // 문 유형
-        _float3 vPosition;        // 문 위치
-        _float fOpenAngle;        // 문이 열리는 각도
+        DOOR_COLOR eColor;        // 문 색상
+        _float fSlideDistance;    // 문이 내려가는 거리
         _wstring stKeyItemTag;    // 필요한 열쇠 아이템 태그 (KEY 타입인 경우)
         bool bStartsActive;       // 시작시 활성화 여부
     }DOOR_DESC;
@@ -60,7 +68,7 @@ public:
     _bool IsMoving() const { return m_eDoorState == DOOR_STATE::OPENING || m_eDoorState == DOOR_STATE::CLOSING; }
 
     // 열쇠 확인 함수
-    _bool TryOpen(CGameObject* pPlayer);
+    _bool TryOpen(CCollisionObject* pPlayer);
     void SetKeyRequired(const _wstring& keyItemTag) { m_stKeyItemTag = keyItemTag; }
 
 private:
@@ -84,6 +92,11 @@ private:
     _float m_fDoorOpenSpeed = 2.0f;     // 초당 열리는 속도
     _float3 m_vRotationAxis = { 0.0f, 1.0f, 0.0f };  // 회전축(기본값은 Y축)
     _float m_fOpenAngle = 90.0f;        // 문이 열리는 각도(기본값 90도)
+
+    DOOR_COLOR m_eDoorColor = DOOR_COLOR::NORMAL;
+    _float m_fSlideDistance = 2.0f;     // 기본 슬라이드 거리
+    _float3 m_vOriginalPosition;        // 원래 위치
+    _float3 m_vSlidePosition;           // 최종 슬라이드 위치
 
     // 열쇠 관련 변수
     _wstring m_stKeyItemTag = L"";      // 필요한 열쇠 아이템 태그

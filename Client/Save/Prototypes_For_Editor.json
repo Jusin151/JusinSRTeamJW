@@ -20,6 +20,13 @@
       "level": 3,
       "tag": "Prototype_Component_VIBuffer_Rect",
       "width": 0
+    },
+    {
+      "class": "CVIBuffer_TexturedCube",
+      "height": 0,
+      "level": 3,
+      "tag": "Prototype_Component_VIBuffer_TexturedCube",
+      "width": 0
     }
   ],
   "gameObjects": [
@@ -32,11 +39,6 @@
       "class": "CCrocman",
       "level": 4,
       "tag": "Prototype_GameObject_Crocman"
-    },
-    {
-      "class": "CStructure",
-      "level": 4,
-      "tag": "Prototype_GameObject_"
     },
     {
       "class": "CPlayer",
@@ -57,11 +59,6 @@
       "class": "CCamera_FirstPerson",
       "level": 4,
       "tag": "Prototype_GameObject_Camera_FirstPerson"
-    },
-    {
-      "class": "CTestMonster",
-      "level": 4,
-      "tag": "Prototype_GameObject_Monster"
     },
     {
       "class": "CAxe",
@@ -277,6 +274,16 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_STAT"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door_Normal"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door"
     }
   ],
   "textures": [
@@ -519,6 +526,12 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
       "tag": "Prototype_Component_Texture_Trigger"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_grey.png",
+      "tag": "Prototype_Component_Texture_Door_Normal"
     }
   ]
 }

@@ -204,6 +204,13 @@ private:
 	_bool m_bCreateTrigger = false;
 	CGameObject* m_pSelectedTarget = nullptr;
 #pragma endregion
+#pragma region 문용 멤버 변수
+	void ShowDoorTab();
+	HRESULT CreateDoorInstance(const _wstring& keyItemTag, _uint iDoorType, _uint iDoorColor,
+		const _float3& vPosition, _float fSlideDistance, _bool bStartsActive, const _wstring& textureTag);
+
+	_bool m_bCreateDoor = false;
+#pragma endregion
 private:
 	class CGameInstance*	m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };

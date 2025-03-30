@@ -51,7 +51,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 1.0f, -1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-3.f, 1.0f, -1.f));
 	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_pTransformCom->Set_Scale(0.5f,0.5f,0.5f);
 	m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));

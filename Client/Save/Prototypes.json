@@ -371,6 +371,18 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\Ocean%d.png",
       "tag": "Prototype_Component_Texture_Ocean"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_grey.png",
+      "tag": "Prototype_Component_Texture_Door_Normal"
+    },
+    {
+      "count": 2,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
+      "tag": "Prototype_Component_Texture_Trigger"
     }
   ],
   "gameObjects": [
@@ -684,6 +696,16 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_Ocean"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door_Normal"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door"
     }
   ],
   "buffers": [

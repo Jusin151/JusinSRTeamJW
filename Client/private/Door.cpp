@@ -5,6 +5,16 @@
 #include "Player.h"  
 
 
+CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphic_Device)
+	:CCollisionObject(pGraphic_Device)
+{
+}
+
+CDoor::CDoor(const CDoor& Prototype)
+	:CCollisionObject(Prototype)
+{
+}
+
 HRESULT CDoor::Initialize_Prototype()
 {
 	return S_OK;
@@ -18,7 +28,8 @@ HRESULT CDoor::Initialize(void* pArg)
 		{
 			DOOR_DESC* pDesc = (DOOR_DESC*)pArg;
 			m_eDoorType = pDesc->eType;
-			m_fOpenAngle = pDesc->fOpenAngle;
+			m_eDoorColor = pDesc->eColor;
+			m_fSlideDistance = pDesc->fSlideDistance;
 			m_stKeyItemTag = pDesc->stKeyItemTag;
 			m_bIsActive = pDesc->bStartsActive;
 		}
@@ -26,13 +37,12 @@ HRESULT CDoor::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// 초기 회전값 저장
-	m_vOriginalRotation = m_pTransformCom->Get_EulerAngles();
+	// 초기 위치 저장
+	m_vOriginalPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// 열렸을 때의 회전값 계산
-	m_vOpenRotation = m_vOriginalRotation;
-	m_vOpenRotation.y += D3DXToRadian(m_fOpenAngle);  // Y축 기준 회전
-
+	// 열렸을 때의 위치 계산 (아래로 슬라이드)
+	m_vSlidePosition = m_vOriginalPosition;
+	m_vSlidePosition.y -= m_fSlideDistance;  // Y축 기준 하강
 	return S_OK;
 }
 
@@ -127,10 +137,11 @@ HRESULT CDoor::On_Collision(CCollisionObject* other)
 	// 플레이어인지 확인
 	if (other->Get_Type() != CG_PLAYER)
 		return S_OK;
-
-	// 여기서는 충돌만 감지하고, 실제 열기 동작은 외부 입력(스페이스바 등)에 의해 처리
-
-	return S_OK;
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		TryOpen(other);
+	}
+ 	return S_OK;
 }
 
 void CDoor::Open_Door()
@@ -149,18 +160,39 @@ void CDoor::Close_Door()
 	}
 }
 
-bool CDoor::TryOpen(CGameObject* pPlayer)
+bool CDoor::TryOpen(CCollisionObject* pPlayer)
 {
 	// 열쇠가 필요한 문인 경우
-	if (m_eDoorType == DOOR_TYPE::KEY && !m_stKeyItemTag.empty())
+	if (m_eDoorType == DOOR_TYPE::KEY)
 	{
 		// 플레이어의 인벤토리에서 열쇠 확인
 		CPlayer* pPlayerObj = dynamic_cast<CPlayer*>(pPlayer);
 		if (pPlayerObj)
 		{
-			// 인벤토리에 아이템이 있는지 확인
-			//bool hasKey = pPlayerObj->HasItem(m_stKeyItemTag);
-			bool hasKey = true;  // 테스트용 임시 코드
+			bool hasKey = false;
+
+			// 색상에 따른 키 확인
+			switch (m_eDoorColor)
+			{
+			case DOOR_COLOR::BLUE:
+				break;
+			case DOOR_COLOR::RED:
+				break;
+			case DOOR_COLOR::YELLOW:
+
+				break;
+				break;
+			case DOOR_COLOR::NORMAL:
+				// 일반 문은 특정 키 확인 없이 열림
+				hasKey = true;
+				break;
+			}
+
+			//// 커스텀 키 태그가 있는 경우
+			//if (!m_stKeyItemTag.empty())
+			//{
+			//	hasKey = pPlayerObj->HasItem(m_stKeyItemTag);
+			//}
 
 			if (hasKey)
 			{
@@ -186,15 +218,15 @@ bool CDoor::TryOpen(CGameObject* pPlayer)
 void CDoor::UpdateDoorTransform()
 {
 	// 현재 열림 정도에 따라 회전 보간
-	_float3 currentRotation;
+	_float3 currentPosition;
 
-	// 선형 보간: original + t * (open - original)
-	currentRotation.x = m_vOriginalRotation.x + m_fDoorOpenAmount * (m_vOpenRotation.x - m_vOriginalRotation.x);
-	currentRotation.y = m_vOriginalRotation.y + m_fDoorOpenAmount * (m_vOpenRotation.y - m_vOriginalRotation.y);
-	currentRotation.z = m_vOriginalRotation.z + m_fDoorOpenAmount * (m_vOpenRotation.z - m_vOriginalRotation.z);
+	// 선형 보간: original + t * (slide - original)
+	currentPosition.x = m_vOriginalPosition.x + m_fDoorOpenAmount * (m_vSlidePosition.x - m_vOriginalPosition.x);
+	currentPosition.y = m_vOriginalPosition.y + m_fDoorOpenAmount * (m_vSlidePosition.y - m_vOriginalPosition.y);
+	currentPosition.z = m_vOriginalPosition.z + m_fDoorOpenAmount * (m_vSlidePosition.z - m_vOriginalPosition.z);
 
-	// 새 회전값 적용
-	m_pTransformCom->Rotate_EulerAngles(currentRotation);
+	// 새 위치 적용
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, currentPosition);
 }
 
 HRESULT CDoor::Ready_Components()
@@ -211,9 +243,9 @@ HRESULT CDoor::Ready_Components()
 	ColliderDesc.pOwner = this;
 	ColliderDesc.fScale = { 1.0f, 1.0f, 1.f }; 
 	ColliderDesc.fLocalPos = { 0.0f, 0.0f, 0.0f };
-
+	m_eType = CG_DOOR;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -301,8 +333,9 @@ json CDoor::Serialize()
 
 	// 문 관련 데이터 직렬화
 	j["door_type"] = static_cast<int>(m_eDoorType);
+	j["door_color"] = static_cast<int>(m_eDoorColor);
 	j["door_state"] = static_cast<int>(m_eDoorState);
-	j["open_angle"] = m_fOpenAngle;
+	j["slide_distance"] = m_fSlideDistance;
 	j["open_speed"] = m_fDoorOpenSpeed;
 
 	// 열쇠 태그 저장
@@ -321,11 +354,14 @@ void CDoor::Deserialize(const json& j)
 	if (j.contains("door_type"))
 		m_eDoorType = static_cast<DOOR_TYPE>(j["door_type"].get<int>());
 
+	if (j.contains("door_color"))
+		m_eDoorColor = static_cast<DOOR_COLOR>(j["door_color"].get<int>());
+
 	if (j.contains("door_state"))
 		m_eDoorState = static_cast<DOOR_STATE>(j["door_state"].get<int>());
 
-	if (j.contains("open_angle"))
-		m_fOpenAngle = j["open_angle"].get<float>();
+	if (j.contains("slide_distance"))
+		m_fSlideDistance = j["slide_distance"].get<float>();
 
 	if (j.contains("open_speed"))
 		m_fDoorOpenSpeed = j["open_speed"].get<float>();
@@ -336,10 +372,12 @@ void CDoor::Deserialize(const json& j)
 	if (j.contains("key_item_tag"))
 		m_stKeyItemTag = ISerializable::Utf8ToWide(j["key_item_tag"].get<std::string>());
 
-	// 원래 회전값과 열린 회전값 다시 계산
-	m_vOriginalRotation = m_pTransformCom->Get_EulerAngles();
-	m_vOpenRotation = m_vOriginalRotation;
-	m_vOpenRotation.y += D3DXToRadian(m_fOpenAngle);
+	// 원래 위치 저장
+	m_vOriginalPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 최종 슬라이드 위치 계산
+	m_vSlidePosition = m_vOriginalPosition;
+	m_vSlidePosition.y -= m_fSlideDistance;
 
 	// 현재 상태에 따라 문 위치 조정
 	if (m_eDoorState == DOOR_STATE::OPEN)

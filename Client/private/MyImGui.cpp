@@ -9,6 +9,7 @@
 #include "Editor.h"
 #include <Item.h>
 #include <Trigger.h>
+#include <Door.h>
 
 // 히스토리 항목 구조체
 _uint CMyImGui::m_NextObjectID = 0;
@@ -390,6 +391,7 @@ void CMyImGui::ShowCreateObjectTab()
 	}
 
 
+	ImGui::SameLine();
 	ImGui::Checkbox("Item Create", &m_bCreateItem);
 
 	if (m_bCreateItem)
@@ -405,6 +407,12 @@ void CMyImGui::ShowCreateObjectTab()
 		ShowTriggerTab();
 	}
 
+	ImGui::SameLine();
+	ImGui::Checkbox("Door Create", &m_bCreateDoor);
+	if (m_bCreateDoor)
+	{
+		ShowDoorTab();
+	}
 
 
 	// 컴포넌트 타입 선택 UI 앞에 추가
@@ -2357,12 +2365,8 @@ void CMyImGui::ShowTriggerTab()
 	// 시작시 활성화 여부
 	ImGui::Checkbox("Starts Active", &s_bStartsActive);
 
-	// 위치 설정
-	ImGui::Text("Position");
-	ImGui::InputFloat3("##Position", s_vPosition);
-
 	// 텍스처 태그 설정
-	ImGui::InputText("Texture Tag", s_szTextureTagBuffer, IM_ARRAYSIZE(s_szTextureTagBuffer));
+	ImGui::InputText("Trigger Texture Tag", s_szTextureTagBuffer, IM_ARRAYSIZE(s_szTextureTagBuffer));
 
 	// 파일 선택 버튼
 	static _wstring selectedTexturePath;
@@ -2417,6 +2421,7 @@ void CMyImGui::ShowTriggerTab()
 					{
 						for (auto& pObj : layerPair.second->m_GameObjects)
 						{
+							if (!pObj) continue;
 							string objTag = ISerializable::WideToUtf8(pObj->Get_Tag());
 							bool isSelected = (m_pSelectedTarget == pObj);
 
@@ -2452,8 +2457,8 @@ void CMyImGui::ShowTriggerTab()
 		}
 
 		// 트리거 타입 설정
-		CDoor::TRIGGER_TYPE eType =
-			(s_iSelectedTriggerType == 0) ? CDoor::TRIGGER_TYPE::BUTTON : CDoor::TRIGGER_TYPE::INTERACTION;
+		CTrigger::TRIGGER_TYPE eType =
+			(s_iSelectedTriggerType == 0) ? CTrigger::TRIGGER_TYPE::BUTTON : CTrigger::TRIGGER_TYPE::INTERACTION;
 
 		// 위치 설정
 		_float3 vPosition = { s_vPosition[0], s_vPosition[1], s_vPosition[2] };
@@ -2476,7 +2481,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 
 	// 트리거 프로토타입 이름 설정
 	_wstring stProtoTag = L"Prototype_GameObject_Trigger";
-	if (static_cast<CDoor::TRIGGER_TYPE>(iTriggerType) == CDoor::TRIGGER_TYPE::BUTTON)
+	if (static_cast<CTrigger::TRIGGER_TYPE>(iTriggerType) == CTrigger::TRIGGER_TYPE::BUTTON)
 		stProtoTag += L"_Button";
 	else
 		stProtoTag += L"_Interaction";
@@ -2485,10 +2490,8 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 	_wstring stLayerTag = L"Layer_Trigger";
 
 	// 트리거 설명 구조체 생성
-	CDoor::TRIGGER_DESC tTriggerDesc{};
-	tTriggerDesc.eType = static_cast<CDoor::TRIGGER_TYPE>(iTriggerType);
-	tTriggerDesc.vPosition = vPosition;
-	tTriggerDesc.fActivationRange = fActivationRange;
+	CTrigger::TRIGGER_DESC tTriggerDesc{};
+	tTriggerDesc.eType = static_cast<CTrigger::TRIGGER_TYPE>(iTriggerType);
 	tTriggerDesc.stTargetTag = strTargetTag;
 	tTriggerDesc.bStartsActive = bStartsActive;
 
@@ -2540,7 +2543,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 	if (pTriggerObject)
 	{
 		// 타겟 설정
-		CDoor* pTrigger = dynamic_cast<CDoor*>(pTriggerObject);
+		CTrigger* pTrigger = dynamic_cast<CTrigger*>(pTriggerObject);
 		if (pTrigger && !strTargetTag.empty())
 		{
 			CGameObject* pTargetObject = nullptr;
@@ -2566,7 +2569,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 
 			if (pTargetObject)
 			{
-				pTrigger->AddTargetObject(pTargetObject);
+				pTrigger->AddTargetObject(static_cast<CDoor*>(pTargetObject));
 			}
 		}
 	}
@@ -2578,7 +2581,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 			"",
 			stProtoTag,         // 오브젝트 태그
 			iProtoLevel,        // 오브젝트 레벨
-			L"CDoor",        // 클래스 이름
+			L"CTrigger",        // 클래스 이름
 			textureTag,         // 텍스처 태그
 			iLevel,             // 텍스처 레벨
 			m_wstrSelectedTexturePath, // 텍스처 경로
@@ -2586,6 +2589,229 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 			L"Prototype_Component_VIBuffer_Cube", // 버퍼 태그
 			3,                  // 버퍼 레벨
 			L"CVIBuffer_Cube",  // 버퍼 클래스 이름
+			0, 0                // 버퍼 크기 (기본값)
+		);
+	}
+
+	return S_OK;
+}
+
+void CMyImGui::ShowDoorTab()
+{
+	static int s_iSelectedDoorType = 0; // 0: NORMAL, 1: KEY
+	static int s_iSelectedDoorColor = 0; // 0: BLUE, 1: RED, 2: YELLOW, 3: GREEN, 4: NORMAL
+	static char s_szKeyItemTagBuffer[256] = { 0 };
+	static float s_fSlideDistance = 2.0f;
+	static bool s_bStartsActive = true;
+	static float s_vPosition[3] = { 0.0f, 0.0f, 0.0f };
+	static char s_szTextureTagBuffer[256] = "Prototype_Component_Texture_Door";
+	static const char* s_DoorTypeNames[] = { "Normal", "Key" };
+	static const char* s_DoorColorNames[] = { "Blue", "Red", "Yellow", "Green", "Normal" };
+
+	ImGui::Separator();
+	ImGui::Text("Door Settings");
+
+	// 문 타입 선택
+	ImGui::Combo("Door Type", &s_iSelectedDoorType, s_DoorTypeNames, IM_ARRAYSIZE(s_DoorTypeNames));
+
+	// 문 색상 선택
+	ImGui::Combo("Door Color", &s_iSelectedDoorColor, s_DoorColorNames, IM_ARRAYSIZE(s_DoorColorNames));
+
+	// KEY 타입인 경우에만 커스텀 열쇠 태그 입력 필드 표시
+	if (s_iSelectedDoorType == 1) // KEY
+	{
+		ImGui::InputText("Custom Key Item Tag", s_szKeyItemTagBuffer, IM_ARRAYSIZE(s_szKeyItemTagBuffer));
+		ImGui::Text("(Optional: Leave empty to use default color-based key)");
+	}
+
+	// 슬라이드 거리 설정
+	ImGui::SliderFloat("Slide Distance", &s_fSlideDistance, 0.5f, 5.0f);
+
+	// 시작시 활성화 여부
+	ImGui::Checkbox("Starts Active", &s_bStartsActive);
+
+	// 위치 설정
+	ImGui::Text("Position");
+	ImGui::PushID("DoorPosition");
+	ImGui::InputFloat3("##Position", s_vPosition);
+	ImGui::PopID();
+
+	// 현재 카메라 위치에 배치 버튼
+	if (ImGui::Button("Place at Camera"))
+	{
+		// 카메라 정보 (뷰 행렬) 가져오기
+		_float4x4 vViewMatrix;
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vViewMatrix);
+
+		// 뷰 행렬의 역행렬 계산 (카메라의 월드 변환 행렬)
+		D3DXMATRIX vInvViewMatrix;
+		D3DXMatrixInverse(&vInvViewMatrix, nullptr, &vViewMatrix);
+
+		// 카메라 위치와 방향 
+		_float3 vCameraPos = { vInvViewMatrix._41, vInvViewMatrix._42, vInvViewMatrix._43 };
+		_float3 vCameraLook = { vInvViewMatrix._31, vInvViewMatrix._32, vInvViewMatrix._33 };
+		vCameraLook.Normalize();
+
+		// 카메라 앞 일정 거리에 배치
+		_float3 vDoorPos = vCameraPos + vCameraLook * 5.0f;
+
+		s_vPosition[0] = vDoorPos.x;
+		s_vPosition[1] = vDoorPos.y;
+		s_vPosition[2] = vDoorPos.z;
+	}
+
+	// 텍스처 태그 설정
+	ImGui::InputText("Door Texture Tag", s_szTextureTagBuffer, IM_ARRAYSIZE(s_szTextureTagBuffer));
+
+	// 파일 선택 버튼
+	static _wstring selectedTexturePath;
+	if (ImGui::Button("Select Door Texture"))
+	{
+		selectedTexturePath = SelectFile();
+		if (!selectedTexturePath.empty())
+		{
+			selectedTexturePath = GetRelativePath(selectedTexturePath);
+			LoadImagesFromFolder(selectedTexturePath.substr(0, selectedTexturePath.find_last_of(L"\\")));
+			m_bShowImageWindow = true;
+		}
+	}
+
+	// 문 생성 버튼
+	if (ImGui::Button("Create Door"))
+	{
+		_wstring keyItemTag;
+
+		// KEY 타입인 경우 키 아이템 태그 설정
+		if (s_iSelectedDoorType == 1 && s_szKeyItemTagBuffer[0] != '\0')
+		{
+			wchar_t wKeyItemTag[256] = {};
+			MultiByteToWideChar(CP_ACP, 0, s_szKeyItemTagBuffer, -1, wKeyItemTag, 256);
+			keyItemTag = wKeyItemTag;
+		}
+
+		// 위치 설정
+		_float3 vPosition = { s_vPosition[0], s_vPosition[1], s_vPosition[2] };
+
+		// 텍스처 태그 설정
+		wchar_t wTextureTag[256] = {};
+		MultiByteToWideChar(CP_ACP, 0, s_szTextureTagBuffer, -1, wTextureTag, 256);
+		_wstring textureTag = wTextureTag;
+
+		// 문 인스턴스 생성
+		CreateDoorInstance(
+			keyItemTag,
+			s_iSelectedDoorType,
+			s_iSelectedDoorColor,
+			vPosition,
+			s_fSlideDistance,
+			s_bStartsActive,
+			textureTag
+		);
+	}
+}
+
+HRESULT CMyImGui::CreateDoorInstance(const _wstring& keyItemTag, _uint iDoorType, _uint iDoorColor,
+	const _float3& vPosition, _float fSlideDistance, _bool bStartsActive, const _wstring& textureTag)
+{
+	const _uint iLevel = 3; // 기본 레벨
+	const _uint iProtoLevel = 3; // 프로토타입 레벨
+
+	// 문 프로토타입 이름 설정
+	_wstring stProtoTag = L"Prototype_GameObject_Door";
+	if (static_cast<CDoor::DOOR_TYPE>(iDoorType) == CDoor::DOOR_TYPE::KEY)
+	{
+		stProtoTag += L"_Key";
+
+		// 색상에 따른 태그 추가
+		switch (iDoorColor)
+		{
+		case 0: stProtoTag += L"_Blue"; break;
+		case 1: stProtoTag += L"_Red"; break;
+		case 2: stProtoTag += L"_Yellow"; break;
+		case 3: stProtoTag += L"_Green"; break;
+		default: break;
+		}
+	}
+
+	// 레이어 태그 설정
+	_wstring stLayerTag = L"Layer_Door";
+
+	// 문 설명 구조체 생성
+	CDoor::DOOR_DESC tDoorDesc{};
+	tDoorDesc.eType = static_cast<CDoor::DOOR_TYPE>(iDoorType);
+	tDoorDesc.eColor = static_cast<CDoor::DOOR_COLOR>(iDoorColor);
+	tDoorDesc.fSlideDistance = fSlideDistance;
+	tDoorDesc.stKeyItemTag = keyItemTag;
+	tDoorDesc.bStartsActive = bStartsActive;
+
+	// OBJECT_DESC 부분 설정
+	tDoorDesc.iLevel = iLevel;
+	tDoorDesc.iProtoLevel = iProtoLevel;
+	tDoorDesc.stProtTag = stProtoTag;
+	tDoorDesc.stBufferTag = L"Prototype_Component_VIBuffer_TexturedCube";
+	tDoorDesc.stProtTextureTag = textureTag;
+
+	// 프로토타입이 존재하는지 확인
+	bool prototypeCreated = false;
+	if (FAILED(m_pGameInstance->Find_Prototype(stProtoTag)))
+	{
+		// 프로토타입 생성
+		CJsonLoader jsonLoader;
+		CBase* pGameObject = jsonLoader.Create_Object_ByClassName("CDoor", m_pGraphic_Device);
+
+		if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
+		{
+			Safe_Release(pGameObject);
+			return E_FAIL;
+		}
+		prototypeCreated = true;
+	}
+
+	// 텍스처가 존재하는지 확인하고 텍스처 경로가 있다면 텍스처 추가
+	bool textureCreated = false;
+	if (FAILED(m_pGameInstance->Find_Prototype(textureTag)) && !m_wstrSelectedTexturePath.empty())
+	{
+		if (FAILED(m_pGameInstance->Add_Prototype(iLevel, textureTag,
+			CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, ISerializable::WStringToWChar(m_wstrSelectedTexturePath), 1))))
+		{
+			return E_FAIL;
+		}
+		textureCreated = true;
+	}
+
+	// 게임 오브젝트 추가
+	if (FAILED(m_pGameInstance->Add_GameObject(iProtoLevel, stProtoTag,
+		iLevel, stLayerTag, &tDoorDesc)))
+	{
+		return E_FAIL;
+	}
+
+	// 생성된 문 오브젝트의 위치 설정
+	CGameObject* pDoorObject = m_pGameInstance->Find_Last_Object(iLevel, stLayerTag);
+	if (pDoorObject)
+	{
+		CTransform* pTransform = (CTransform*)pDoorObject->Get_Component(TEXT("Com_Transform"));
+		if (pTransform)
+		{
+			pTransform->Set_State(CTransform::STATE_POSITION, vPosition);
+		}
+	}
+
+	// JSON에 저장
+	if (prototypeCreated || textureCreated)
+	{
+		SaveObjectToJson(
+			"",
+			stProtoTag,         // 오브젝트 태그
+			iProtoLevel,        // 오브젝트 레벨
+			L"CDoor",          // 클래스 이름
+			textureTag,         // 텍스처 태그
+			iLevel,             // 텍스처 레벨
+			m_wstrSelectedTexturePath, // 텍스처 경로
+			1,                  // 텍스처 개수
+			L"Prototype_Component_VIBuffer_TexturedCube", // 버퍼 태그
+			3,                  // 버퍼 레벨
+			L"CVIBuffer_TexturedCube",  // 버퍼 클래스 이름
 			0, 0                // 버퍼 크기 (기본값)
 		);
 	}

@@ -4,9 +4,11 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
-class CTransform;
-class CCollider;
 class CTexture;
+class CTransform;
+class CVIBuffer;
+class CCollider;
+class CMaterial;
 END
 
 BEGIN(Client)
@@ -22,10 +24,8 @@ public:
     typedef struct tagTriggerDesc : public OBJECT_DESC
     {
         TRIGGER_TYPE eType;
-        _float3 vPosition;         // 트리거 위치
-        _float fActivationRange;   // 근접 트리거의 활성화 범위
         _wstring stTargetTag;        // 영향을 받는 객체의 태그
-        bool bStartsActive;        // 시작시 활성화 여부
+        _bool bStartsActive;        // 시작시 활성화 여부
     }TRIGGER_DESC;
 
 private:
@@ -44,24 +44,30 @@ public:
     void Activate();
     void Deactivate();
 
-    void AddTargetObject(CGameObject* pTarget);
+    void AddTargetObject(class CDoor* pTarget);
 
-    // 특정 트리거 동작을 구현하기 위한 오버라이드
     void OnTrigger_Activated();
     void OnTrigger_Deactivated();
+private:
+    void Find_Target();
 
 private:
-    CTransform* m_pTransformCom = { nullptr };
-    CCollider* m_pColliderCom = { nullptr };
     CTexture* m_pTextureCom = { nullptr };
+    CTransform* m_pTransformCom = { nullptr };
+    CVIBuffer* m_pVIBufferCom = { nullptr };
+    CCollider* m_pColliderCom = { nullptr };
+    CMaterial* m_pMaterialCom = { nullptr };
 
     TRIGGER_TYPE m_eTriggerType = TRIGGER_TYPE::BUTTON;
-    bool m_bWasTriggered = false;
+    _bool m_bWasTriggered = false;
 
-    CGameObject* m_TargetObject = { nullptr };
+    class CDoor* m_pTargetObject = { nullptr };
+    _wstring m_stTargetTag;
 
 private:
     HRESULT Ready_Components();
+    HRESULT SetUp_RenderState();
+    HRESULT Release_RenderState();
 
 public:
     static CTrigger* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
