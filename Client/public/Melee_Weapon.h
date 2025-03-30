@@ -39,6 +39,7 @@ public:
     virtual void Late_Update(_float fTimeDelta);
     virtual HRESULT Render();
     virtual HRESULT Ready_Components();
+    virtual void Move_Hand(_float fTimeDelta);
     void Free();
     CGameObject* Clone(void* pArg) ;
     virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }

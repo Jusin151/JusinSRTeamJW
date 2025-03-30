@@ -749,19 +749,6 @@ HRESULT CLoader::Add_To_UI_Right_Menu_Prototype()
 
 
 
-	//// 인벤 원형객체
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-	//	TEXT("Prototype_GameObject_Weapon_Claymore_Sh"),
-	//	CStaff::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-
-	//// 아이템 아이콘 원형객체
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-	//	TEXT("Prototype_GameObject_Weapon_Claymore_ShotGun"),
-	//	CStaff::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-	
-
 
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)

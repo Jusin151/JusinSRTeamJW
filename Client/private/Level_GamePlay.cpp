@@ -22,6 +22,9 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Layer_UI()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -35,8 +38,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
+	
 
 	if (FAILED(Ready_Layer_Weapon()))
 		return E_FAIL;
@@ -136,10 +138,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
 	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
 	Weapon_Claymore_Desc.vSize = { 2048.,682.f };
-	Weapon_Claymore_Desc.Damage = { 100.f };
 	Weapon_Claymore_Desc.AttackSpeed = { 1.f };
-	Weapon_Claymore_Desc.Range = { 3.f };
-	Weapon_Claymore_Desc.Cooldown = { 1.f };
 	//Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Claymore"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Claymore"),
@@ -150,10 +149,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Axe_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Axe;
 	Weapon_Axe_Desc.vPos = { 0.f,-160.f };
 	Weapon_Axe_Desc.vSize = { 1500,423.f };
-	Weapon_Axe_Desc.Damage = { 100.f };
 	Weapon_Axe_Desc.AttackSpeed = { 1.f };
-	Weapon_Axe_Desc.Range = { 3.f };
-	Weapon_Axe_Desc.Cooldown = { 1.f };
 	//Weapon_Axe_Desc.TextureKey = L"Prototype_Component_Texture_Axe";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Axe"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Axe"),
@@ -163,13 +159,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 
 	CWeapon_Base::Weapon_DESC Weapon_ShotGun_Desc{}; // 샷건
 	Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::ShotGun;
-	Weapon_ShotGun_Desc.vPos = { 0.f,-170.f };
+	Weapon_ShotGun_Desc.vPos =  { 0.f,-170.f };
 	Weapon_ShotGun_Desc.vSize = { 749,420.f };
-	Weapon_ShotGun_Desc.Damage = { 100.f };
 	Weapon_ShotGun_Desc.AttackSpeed = { 1.f };
-	Weapon_ShotGun_Desc.Range = { 3.f };
-	Weapon_ShotGun_Desc.Cooldown = { 1.f };
-	//Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_ShotGun";
+	Weapon_ShotGun_Desc.Damage = { 1 };
+	Weapon_ShotGun_Desc.TextureKey =L"Prototype_Component_Texture_ShotGun";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_ShotGun"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
 		&Weapon_ShotGun_Desc)))
@@ -179,10 +173,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Magnum_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Magnum;
 	Weapon_Magnum_Desc.vPos = { 70.f,-250.f };
 	Weapon_Magnum_Desc.vSize = { 390.f,520.f };
-	Weapon_Magnum_Desc.Damage = { 100.f };
 	Weapon_Magnum_Desc.AttackSpeed = { 1.f };
-	Weapon_Magnum_Desc.Range = { 3.f };
-	Weapon_Magnum_Desc.Cooldown = { 1.f };
 	//Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Magnum"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Magnum"),
@@ -193,10 +184,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Staff_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Staff;
 	Weapon_Staff_Desc.vPos = { -10.f,-220.f };
 	Weapon_Staff_Desc.vSize = { 936,525.f };
-	Weapon_Staff_Desc.Damage = { 100.f };
+	Weapon_Staff_Desc.Damage = { 100 };
 	Weapon_Staff_Desc.AttackSpeed = { 1.f };
-	Weapon_Staff_Desc.Range = { 3.f };
-	Weapon_Staff_Desc.Cooldown = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Weapon_Staff"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staff"),
 		&Weapon_Staff_Desc)))
@@ -206,10 +195,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
 	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
 	Weapon_Minigun_Desc.vSize = { 959,347.f };
-	Weapon_Minigun_Desc.Damage = { 100.f };
+	Weapon_Minigun_Desc.Damage = { 100 };
 	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
-	Weapon_Minigun_Desc.Range = { 3.f };
-	Weapon_Minigun_Desc.Cooldown = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Minigun"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
 		&Weapon_Minigun_Desc)))
@@ -220,10 +207,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
 	Weapon_Harvester_Desc.vPos = { 80.f,-213.f };
 	Weapon_Harvester_Desc.vSize = { 356.f,375.f };
-	Weapon_Harvester_Desc.Damage = { 100.f };
+	Weapon_Harvester_Desc.Damage = { 100 };
 	Weapon_Harvester_Desc.AttackSpeed = { 1.f };
-	Weapon_Harvester_Desc.Range = { 3.f };
-	Weapon_Harvester_Desc.Cooldown = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harvester"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Harvester"),
 		&Weapon_Harvester_Desc)))
@@ -233,10 +218,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	Weapon_Sonic_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Sonic;
 	Weapon_Sonic_Desc.vPos = { 270.f,-200.f };
 	Weapon_Sonic_Desc.vSize = { 436.f,316.f };
-	Weapon_Sonic_Desc.Damage = { 100.f };
+	Weapon_Sonic_Desc.Damage = { 100 };
 	Weapon_Sonic_Desc.AttackSpeed = { 1.f };
-	Weapon_Sonic_Desc.Range = { 3.f };
-	Weapon_Sonic_Desc.Cooldown = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sonic"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Sonic"),
 		&Weapon_Sonic_Desc)))
@@ -350,7 +333,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	Menu_Panel.vSize = { 453.f,720.f };
 	Menu_Panel.fAlpha = 1.0f;
 	Menu_Panel.vPos = { 0.f,0.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
-
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Menu_Panel"),

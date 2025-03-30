@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "UI_Base.h"
 #include "UI_HP_Bar.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -14,7 +15,7 @@ END
 BEGIN(Client)
 
 
-class CUI_Player_Icon final : public CUI_Base
+class CUI_Player_Icon final : public CUI_Base, public CObserver
 {
 private:
 	CUI_Player_Icon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -59,6 +60,15 @@ private:
 private:
 	_int m_iPriorityHp{};
 	_int m_iLateHp{};
+
+virtual	void OnNotify(void* pArg, const wstring& type) 
+	{
+		if (type == L"HP")
+		{
+			Set_Hp_Event();
+		}
+	}
+
 };
 END
 

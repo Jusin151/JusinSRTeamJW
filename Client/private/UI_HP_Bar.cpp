@@ -64,7 +64,7 @@ void CUI_HP_Bar::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 
-	Update_HP_Bar();
+	//Update_HP_Bar();
 }
 void CUI_HP_Bar::Update_HP_Bar()
 {
@@ -74,7 +74,6 @@ void CUI_HP_Bar::Update_HP_Bar()
 		fHP_Ratio = 0.f;
 	if (fHP_Ratio > 1.f)
 		fHP_Ratio = 1.f;
-
 
 	VTXNORTEX* pVertices = nullptr;
 	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
@@ -121,13 +120,11 @@ HRESULT CUI_HP_Bar::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
-
-	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iHealth), _float2(-522.f, 325.0f),_float2(10.f,20.f) ,_float3(1.f, 1.f, 1.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iHealth), _float2(-522.f, 325.0f), _float2(10.f, 20.f), _float3(1.f, 1.f, 1.f));
 
 	 return S_OK;
 }

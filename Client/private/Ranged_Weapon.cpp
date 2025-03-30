@@ -1,6 +1,5 @@
 ﻿#include "Ranged_Weapon.h"
 #include "GameInstance.h"
-#include "Collider.h"
 #include "PickingSys.h"
 #include "Effect_Base.h"
 #include "UI_Manager.h"
@@ -52,7 +51,7 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 
-	Attack(fTimeDelta);
+	//Attack(fTimeDelta);
 
 }
 
@@ -97,223 +96,27 @@ HRESULT CRanged_Weapon::Render()
 
 	return S_OK;
 }
-
 HRESULT CRanged_Weapon::Ready_Components()
 {
 	return E_NOTIMPL;
 }
-
 HRESULT CRanged_Weapon::Ready_Picking()
 {
 	m_pPickingSys = CPickingSys::Get_Instance();
-    Safe_AddRef(m_pPickingSys);
 
 	return S_OK;
 }
 
-HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum) // 요거 주석 지우지마셈.. 공부점..
-{
-    //  매 프레임마다 마우스/레이 갱신
-    if(m_pPickingSys)
-    m_pPickingSys->Update();
-
-    // 마우스 왼쪽 버튼 누른 상태가 아니라면 그냥 리턴
-    if (!(GetKeyState(VK_LBUTTON) & 0x8000))
-        return S_OK;
-
-    // 현재 등록된 모든 콜라이더 확인
-    vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
-    for (auto& group : colliderGroups)
-    {
-        for (auto* collider : group)
-        {
-            if (nullptr == collider || nullptr == collider->Get_Owner())
-                continue;
-
-            // 먼저 OBB 교차로 맞았는지 판정
-            _float3 vHitPos = {};
-
-            if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
-                continue; // 충돌X
-
-            // 플레이어 콜라이더라면 스킵
-            if (collider->Get_Owner()->Get_Tag() == L"Layer_Player")
-                continue;
-            // 바닥이면 무시
-            if (collider->Get_Owner()->Get_Tag().find(L"Floor")!=wstring::npos)
-                continue;
-
-            // 벽 태그인 경우
-
-            if (collider->Get_Owner()->Get_Tag().find(L"Wall")!=wstring::npos)
-            {
-                // ----  벽 Transform에서 평면 정의 ----
-                CTransform* pWallTransform = static_cast<CTransform*>(
-                    collider->Get_Owner()->Get_Component(L"Com_Transform"));
-
-                // 타일(벽) 중심 위치
-                _float3 vTilePos = pWallTransform->Get_State(CTransform::STATE_POSITION);
-                // 타일 노멀(LOOK) - “정면 방향”이라고 가정
-                _float3 vWallNormal = pWallTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
-
-                // ---- Ray-Plane 교차 ----
-                // (PickingSys::m_Ray에 vOrigin, vDir이 있다고 가정)
-                _float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
-                _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
-
-                float denom = vWallNormal.Dot(vRayDir);
-                if (fabs(denom) < 1e-7f)
-                    continue; // 레이가 평면과 거의 평행 => 교차 안 함
-
-                float t = vWallNormal.Dot(vTilePos - vRayOrigin) / denom;
-                if (t < 0.f)
-                    continue; // 레이 뒤쪽 => 카메라 뒤라서 보이지 않음
-
-                // 진짜진짜진짜 “타일 평면”과의 교차점
-                _float3 vPlaneHit = vRayOrigin + (vRayDir * t);
-
-                // ---- [C] (선택) 타일 사각형 범위 체크 ----
-                // 만약 VIBuffer_Rect가 1x1 크기라면, 로컬 좌표에서 -0.5~+0.5 범위
-                {
-                    _float4x4 worldMat = pWallTransform->Get_WorldMat();
-                    _float4x4 invWorld;
-                    D3DXMatrixInverse(&invWorld, nullptr, &worldMat);
-
-                    D3DXVECTOR3 vLocalHit;
-                    D3DXVec3TransformCoord(
-                        &vLocalHit,
-                        reinterpret_cast<const D3DXVECTOR3*>(&vPlaneHit),
-                        &invWorld
-                    );
-
-                    // 범위 밖이면 스킵
-                    if (vLocalHit.x < -0.55f || vLocalHit.x > 0.55f ||
-                        vLocalHit.y < -0.55f || vLocalHit.y > 0.55f)
-                    {
-                        continue; // 타일 표면 밖 => 탄흔 안 찍음
-                    }
-                }
-
-                // 타일 중심 위치
-                _float3 vTilePos_1 = pWallTransform->Get_State(CTransform::STATE_POSITION);
-                // 타일 노멀(벽 정면)
-                _float3 vWallNormal_1 = pWallTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
-
-
-                dynamic_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-
-
-                // 카메라 위치 (예: CPickingSys의 카메라 Transform 사용)
-                _float3 vCamPos = dynamic_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-
-
-                _float3 vCamDir = vCamPos - vTilePos_1;
-
-                // 타일에서 카메라 방향 벡터 계산 및 정규화
-                _float3 vTileToCam = vCamDir.GetNormalized();
-
-                // 내적을 통해 타일 노멀과 카메라 방향의 관계 판단
-                float dot = vWallNormal_1.Dot(vTileToCam);
-
-                // 카메라를 향하면 양수, 그렇지 않으면 음수
-                float fOffset = (dot > 0.f) ? 0.01f : -0.01f;
-
-                // 교차점에서  적용
-                _float3 vEffectPos = vPlaneHit + (vWallNormal_1 * fOffset);
-
-                // 타일의 Right, Up, Look 가져오기
-                _float3 vWallRight = pWallTransform->Get_State(CTransform::STATE_RIGHT);
-                _float3 vWallUp = pWallTransform->Get_State(CTransform::STATE_UP);
-                _float3 vWallLook = pWallTransform->Get_State(CTransform::STATE_LOOK);
-
-                CEffect_Base::EFFECT_DESC Weapon_Effect{};
-                Weapon_Effect.vPos = vEffectPos;     // 타일꺼 
-                Weapon_Effect.vRight = vWallRight;  
-                Weapon_Effect.vUp = vWallUp;     
-                Weapon_Effect.vLook = vWallLook;  
-                Weapon_Effect.vScale = { 0.5f, 0.5f, 0.5f };
-
-          
-                for (_uint i = 0; i < EffectNum; ++i)
-                {
-                   
-                    _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-                    _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-                    _float3 vRandomEffectPos = vEffectPos;
-                    vRandomEffectPos.x += offsetX;
-                    vRandomEffectPos.y += offsetY;
-
-                    Weapon_Effect.vPos = vRandomEffectPos;
-
-                    if (FAILED(m_pGameInstance->Add_GameObject(
-                        LEVEL_GAMEPLAY,
-                        TEXT("Prototype_GameObject_Weapon_Effect"),
-                        LEVEL_GAMEPLAY,
-                        TEXT("Layer_Weapon_Effect"),
-                        &Weapon_Effect)))
-                    {
-                        return E_FAIL;
-                    }
-                }
-                m_bWall = true;
-
-            }
-            else
-            {
-                // 몬스터라면
-                if (collider->Get_Owner()->Get_Tag() == L"Layer_Crocman")
-                    m_bMonster = true;
-                else
-                    m_bMonster = false;
-            }
-
-            //1개만 처리하고 break 할지, 계속 처리할지 결정
-            break;
-        }
-    }
-    return S_OK;
-}
-
-
 void CRanged_Weapon::Free()
 {
 	__super::Free();
-    Safe_Release(m_pPickingSys);
 }
+
 
 CGameObject* CRanged_Weapon::Clone(void* pArg)
 {
 	return nullptr;
 }
-
-
-void CRanged_Weapon::Attack(_float fTimeDelta)
-{
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		m_bIsAnimating = true;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
-	}
-	if (m_bIsAnimating)
-	{
-		m_fElapsedTime += fTimeDelta;
-		if (m_fElapsedTime >= 0.02f)
-		{
-			m_fElapsedTime = 0.0f;
-			if (m_iCurrentFrame < 13)
-			{
-				m_iCurrentFrame++;
-			}
-			else
-			{
-				m_bIsAnimating = false;
-			}
-		}
-	}
-    
-}
-
 void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 {
     __super::Move_Hand(fTimeDelta);
@@ -321,3 +124,109 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 
 
+HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
+{
+    //  매 프레임마다 마우스/레이 갱신
+    if(m_pPickingSys)
+    m_pPickingSys->Update();
+
+    if (!(GetKeyState(VK_LBUTTON) & 0x8000))
+        return S_OK;
+
+    vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
+
+    for (auto& group : colliderGroups)
+    {
+        for (auto* collider : group)
+        {
+            if (!collider || !collider->Get_Owner())
+                continue;
+
+            _float3 vHitPos{};
+            if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
+                continue;
+
+            const wstring& tag = collider->Get_Owner()->Get_Tag();
+            if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
+                continue;
+
+            if (tag.find(L"Wall") != wstring::npos)
+            {
+                Wall_Picking(collider, EffectNum);
+                m_bWall = true;
+            }
+            else if (tag == L"Layer_Harpoonguy")
+            {
+                Monster_Hit(collider, Damage);
+                m_bMonster = true;
+            }
+
+            break; // 하나만 처리
+        }
+    }
+
+    return S_OK;
+}
+void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
+{
+    CTransform* pWallTransform = static_cast<CTransform*>(pCollider->Get_Owner()->Get_Component(L"Com_Transform"));
+
+    _float3 vWallNormal = pWallTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
+    _float3 vTilePos = pWallTransform->Get_State(CTransform::STATE_POSITION);
+    _float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
+    _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+
+
+    float denom = vWallNormal.Dot(vRayDir);
+    if (fabs(denom) < 1e-7f) return;
+
+    float t = vWallNormal.Dot(vTilePos - vRayOrigin) / denom;
+    if (t < 0.f) return;
+
+    _float3 vPlaneHit = vRayOrigin + vRayDir * t;
+
+    _float4x4 worldMat = pWallTransform->Get_WorldMat();
+    _float4x4 invWorld;
+    D3DXMatrixInverse(&invWorld, nullptr, &worldMat);
+    D3DXVECTOR3 vLocalHit;
+    D3DXVec3TransformCoord(&vLocalHit, reinterpret_cast<D3DXVECTOR3*>(&vPlaneHit), &invWorld);
+
+    if (vLocalHit.x < -0.55f || vLocalHit.x > 0.55f || vLocalHit.y < -0.55f || vLocalHit.y > 0.55f)
+        return;
+
+    _float3 vCamPos = dynamic_cast<CTransform*>(
+        m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))
+        ->Get_State(CTransform::STATE_POSITION);
+
+    _float3 vecTemp = vCamPos - vTilePos;
+    _float3 vTileToCam = vecTemp.GetNormalized();
+    float fOffset = (vWallNormal.Dot(vTileToCam) > 0.f) ? 0.01f : -0.01f;
+    _float3 vEffectPos = vPlaneHit + vWallNormal * fOffset;
+
+    CEffect_Base::EFFECT_DESC effectDesc;
+    effectDesc.vRight = pWallTransform->Get_State(CTransform::STATE_RIGHT);
+    effectDesc.vUp = pWallTransform->Get_State(CTransform::STATE_UP);
+    effectDesc.vLook = pWallTransform->Get_State(CTransform::STATE_LOOK);
+    effectDesc.vScale = { 0.5f, 0.5f, 0.5f };
+
+    for (_uint i = 0; i < EffectNum; ++i)
+    {
+        _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
+        _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
+        effectDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+
+        m_pGameInstance->Add_GameObject(
+            LEVEL_GAMEPLAY,
+            TEXT("Prototype_GameObject_Weapon_Effect"),
+            LEVEL_GAMEPLAY,
+            TEXT("Layer_Weapon_Effect"),
+            &effectDesc);
+    }
+}
+void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
+{
+    if (auto pTarget = dynamic_cast<CCollisionObject*>(pCollider->Get_Owner()))
+    {
+        pTarget->Set_Hp(pTarget->Get_Hp() - static_cast<_int>(Damage));
+    }
+}

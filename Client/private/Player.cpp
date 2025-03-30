@@ -7,6 +7,7 @@
 #include "Melee_Weapon.h"
 #include "UI_Manager.h"
 #include "UI_Player_Icon.h"
+#include "Ranged_Weapon.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
@@ -35,7 +36,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;*/
 
-
 	if (!pArg)
 	{
 		m_tObjDesc.iLevel = 3;
@@ -59,26 +59,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
 
-	// 이거 나중에 수정 필요할듯?
-
-	m_iPlayerHP = { 100,100 }; // 현재/최대  이하 동문
-	m_iPlayerMP = { 50, 50 };
-	m_iPlayerEXP = { 0 , 100 };
-
-
-	m_eType = CG_PLAYER;
-
-	m_iHp = m_iPlayerHP.first;
+	if (FAILED(Ready_Player_SetUP()))
+		return E_FAIL;
 	
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
-
-	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-	(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
-
-	if (!m_pPlayer_Inven) 
-		return E_FAIL;
 
 
 
@@ -87,76 +70,35 @@ HRESULT CPlayer::Initialize(void* pArg)
 	return S_OK;
 }
 
-inline void CPlayer::Add_Ammo(_int iAmmo)
-{
-	//if (!m_pWeapon) return;
-	//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
-	//{
-	//	pRangeWeapon->Add_Ammo(iAmmo);
-	//}
-
-}
-void CPlayer::Set_Hp(_int iHp)
-{
-	if (iHp < m_iHp)
-	{
-		m_iHp = max(0, iHp);
-		if (CUI_Player_Icon* pPlayIcon = dynamic_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
-		{
-			pPlayIcon->Set_Hp_Event();
-		}
-	}
-	else m_iHp = min(static_cast<_int>(m_iPlayerHP.second), iHp);
-	CUI_Manager::GetInstance()->Set_HP(m_iHp);
-}
-
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
 
-	//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
+
+}
+//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
 
 	//if (pTransform)
 	//{
 	//	pTransform->Go_Straight(fTimeDelta);
 	//}
 
-	if (!m_bPlayerHP_init)
-	{
-		CUI_Manager::GetInstance()->Set_HP(m_iHp);
-		m_bPlayerHP_init = true;
-	}
-
-}
-
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_fSaveTime = fTimeDelta;
-	if (m_bTimeControl)
-		fTimeDelta = 0;
-	else
-		fTimeDelta = m_fSaveTime;
-
-	Equip(fTimeDelta);
-	Move(fTimeDelta);
-
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
-
-
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
-	//__super::SetUp_HeightPosition(m_pTransformCom, 0.5f);
+	Input_Key(fTimeDelta);
 
-	/*if (GetKeyState(VK_LBUTTON) < 0)
+
+
+/////////트리거용 
+
+	if (GetAsyncKeyState('0') & 0x8000)
 	{
-		_float3		vTmp = m_pVIBufferCom->Compute_PickedPosition(m_pTransformCom->Get_WorldMatrix_Inverse());
-		int a = 10;
-	}*/
-
-
-	
-	int a = 10;
+		Add_Ammo(10);
+		
+	}
 
 	static _bool m_basd = { true };
 
@@ -165,23 +107,20 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
 		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
-		//m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
-		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		//m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
+		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+
 
 		m_basd = false;
 	}
+
 }
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-}
-
-void CPlayer::Input_WeapontoInven(wstring tag, _uint Index)
-{
-	m_pPlayer_Inven->Add_Weapon(tag, Index);
 }
 
 
@@ -193,15 +132,31 @@ void CPlayer::Input_ItemtoInven()
 
 void CPlayer::Equip(_float fTimeDelta)
 {
-	 m_pPlayer_Weapon= m_pPlayer_Inven->Equip(fTimeDelta);
+	for (int i = 1; i <= 8; ++i)
+	{
+		if (GetAsyncKeyState('0' + i) & 0x8000)
+		{
+			m_pPlayer_Weapon = m_pPlayer_Inven->Equip(i);
+			break;
+		}
+	}
 
-}
-void CPlayer::UnEquip(_float fTimeDelta)
-{
+
+	if (m_pPlayer_Weapon)
+	{
+		if (auto pObserver = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Bullet_Bar")))
+		{
+			if (auto pRanged = dynamic_cast<CWeapon_Base*>(m_pPlayer_Weapon))
+			{
+				pRanged->Add_Observer(pObserver); 
+			}
+		}
+	}
+
+
 }
 HRESULT CPlayer::Render()
 {
-
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 		_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
@@ -212,11 +167,30 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 체력:") + to_wstring(m_iHp),
-		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 체력:") + to_wstring(m_iHp),
+		_float2(-600.f, -250.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.second),
+		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	//m_pPlayer_Inven->Render();
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 경험치:") + to_wstring(m_iPlayerEXP.second),
+		_float2(-600.f, -230.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 총알:") + to_wstring(iBullet),
+		_float2(-600.f, -210.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근력:") + to_wstring(iStr),
+		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("생명력:") + to_wstring(iLife),
+		_float2(-600.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("정신력:") + to_wstring(iSprit),
+		_float2(-600.f, -130.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("용량:") + to_wstring(iCapacity),
+		_float2(-600.f, -110.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -234,6 +208,8 @@ HRESULT CPlayer::Render()
 	Release_RenderState();
 
 	m_pColliderCom->Render();*/
+
+
 	return S_OK;
 }
 
@@ -294,7 +270,6 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	}
 
 
-	
 	m_vOldPos = fPos;
 
 
@@ -351,6 +326,55 @@ void CPlayer::Move(_float fTimeDelta)
 	}
 
 }
+
+void CPlayer::Attack(_float fTimeDelta)
+{
+	if (m_pPlayer_Weapon == nullptr)
+		return;
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	{	
+		m_pPlayer_Weapon->Attack(fTimeDelta);
+	}
+   
+}
+
+void CPlayer::Input_Key(_float fTimeDelta)
+{
+	Equip(fTimeDelta); //인벤
+
+	Attack(fTimeDelta);//좌클
+
+	Move(fTimeDelta); // 플레이어 이동
+}
+
+void CPlayer::Set_Hp(_int iHp)
+{
+	if (iHp < m_iHp)
+	{
+		// 체력이 달면
+		m_iHp = max(0, iHp);
+	}
+	else
+	{
+		// 체력 늘면
+		m_iHp = min(iHp, (_int)m_iPlayerHP.second);
+	}
+	Notify(m_iHp, L"HP");
+}
+
+void CPlayer::Add_Ammo(_int iAmmo)
+{
+	if (!m_pPlayer_Weapon)
+		return;
+
+	if (auto pRanged = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Weapon))
+	{
+		pRanged->Add_Ammo(iAmmo);
+	}
+
+}
+
 
 
 HRESULT CPlayer::SetUp_RenderState()
@@ -425,6 +449,44 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Ready_Player_SetUP()
+{
+	// 이거 나중에 수정 필요할듯?
+
+	m_iPlayerHP = { 100,100 }; // 현재/최대  이하 동문
+	m_iPlayerMP = { 50, 50 };
+	m_iPlayerEXP = { 0 , 100 };
+
+	m_eType = CG_PLAYER; 
+	 
+	m_iHp = m_iPlayerHP.first;  
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Inven")))) 
+		return E_FAIL; 
+
+	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object 
+	(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+
+	if (!m_pPlayer_Inven)
+		return E_FAIL;
+
+
+
+	if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hp_Bar"))) 
+		Add_Observer(pHpUI);
+
+	if (auto pMpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Mp_Bar")))
+		Add_Observer(pMpUI);
+
+	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
+		Add_Observer(pPlayer_Icon);
+
+	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second); 
 
 	return S_OK;
 }
