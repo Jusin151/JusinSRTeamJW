@@ -23,6 +23,7 @@ public:
 		AMMO,
 		EXP,
 		STAT,
+		KEY,
 		MAX
 	};
 

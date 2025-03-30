@@ -209,16 +209,6 @@ HRESULT CStructure::Release_RenderState()
 
 HRESULT CStructure::Ready_Components()
 {
-	//_wstring str = m_tStructure_Desc.stTextureTag;
-	//if (FAILED(m_pGameInstance->Find_Prototype(str)))
-	//{
-	//	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
-	//		m_tStructure_Desc.stTextureTag,
-	//		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-	//			m_tStructure_Desc.stTexturePath.c_str(), 1))))
-	//		return E_FAIL;
-	//}
-
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))

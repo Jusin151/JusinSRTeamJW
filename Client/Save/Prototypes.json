@@ -349,9 +349,9 @@
       "tag": "Prototype_Component_Texture_Ant_Wall4"
     },
     {
-      "count": 1,
+      "count": 2,
       "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\SpriteAtlasTexture-AntarcticTextures-2048x1024-fmt4_0_20.png",
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
       "tag": "Prototype_Component_Texture_Button"
     },
     {

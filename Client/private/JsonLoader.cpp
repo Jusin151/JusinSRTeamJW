@@ -53,7 +53,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 			string className = obj["class"];
 			CBase* pGameObject = Create_Object_ByClassName(className, pGraphic_Device);
 			if (!pGameObject)
-				continue;
+ 				continue;
 
 			if (FAILED(pGameInstance->Add_Prototype(level, tag, pGameObject)))
 				return E_FAIL;
@@ -266,8 +266,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CHarpoon::Create(pGraphic_Device);
 		else if (className == "CItem")
 			return CItem::Create(pGraphic_Device);
-		else if (className == "CTrigger")
-			return CTrigger::Create(pGraphic_Device);
+		else if (className == "CDoor")
+			return CDoor::Create(pGraphic_Device);
 
 		return nullptr;
 	}

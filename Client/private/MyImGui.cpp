@@ -1509,15 +1509,15 @@ void CMyImGui::ShowItemCreationTab()
 	static float s_fItemFloatMax = 0.7f;
 
 	// 아이템 타입 및 서브타입 배열도 static으로 선언
-	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat" };
+	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat","Key"};
 	static const char* s_HPSubTypeNames[] = { "Small HP", "Big HP" };
 	static const char* s_MPSubTypeNames[] = { "Small MP", "Big MP" };
 	static const char* s_AmmoSubTypeNames[] = { "Shotgun_Ammo_Small","Shotgun_Ammo_Big",  "Staff_Ammo_Small", "Staff_Ammo_Big",
 		"Pistol_Ammo_Small",
 		"Pistol_Ammo_Big" };
-
-
 	static const char* s_ExpSubTypeNames[] = { "Small EXP", "Medium EXP", "Large EXP" };
+
+	static const char* s_KeySubTypeNames[] = { "Blue", "Red", "Yellow" };
 
 	// 현재 선택된 아이템 타입에 따른 서브타입 배열
 	static const char** s_pCurrentSubTypeNames = nullptr;
@@ -1613,6 +1613,16 @@ void CMyImGui::ShowItemCreationTab()
 				case 1: strcpy_s(s_szItemNameBuffer, "EXP_Medium"); break;
 				case 2: strcpy_s(s_szItemNameBuffer, "EXP_Large"); break;
 				default: strcpy_s(s_szItemNameBuffer, "EXP"); break;
+				}
+			case 4: //Stat
+				strcpy_s(s_szItemNameBuffer, "Stat"); break;
+			case 5: //Key
+				switch (s_iSelectedItemSubType)
+				{
+				case 0: strcpy_s(s_szItemNameBuffer, "Blue"); break;
+				case 1: strcpy_s(s_szItemNameBuffer, "Red"); break;
+				case 2: strcpy_s(s_szItemNameBuffer, "Yellow"); break;
+				default: strcpy_s(s_szItemNameBuffer, "Blue"); break;
 				}
 				break;
 			}
@@ -2442,8 +2452,8 @@ void CMyImGui::ShowTriggerTab()
 		}
 
 		// 트리거 타입 설정
-		CTrigger::TRIGGER_TYPE eType =
-			(s_iSelectedTriggerType == 0) ? CTrigger::TRIGGER_TYPE::BUTTON : CTrigger::TRIGGER_TYPE::INTERACTION;
+		CDoor::TRIGGER_TYPE eType =
+			(s_iSelectedTriggerType == 0) ? CDoor::TRIGGER_TYPE::BUTTON : CDoor::TRIGGER_TYPE::INTERACTION;
 
 		// 위치 설정
 		_float3 vPosition = { s_vPosition[0], s_vPosition[1], s_vPosition[2] };
@@ -2466,7 +2476,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 
 	// 트리거 프로토타입 이름 설정
 	_wstring stProtoTag = L"Prototype_GameObject_Trigger";
-	if (static_cast<CTrigger::TRIGGER_TYPE>(iTriggerType) == CTrigger::TRIGGER_TYPE::BUTTON)
+	if (static_cast<CDoor::TRIGGER_TYPE>(iTriggerType) == CDoor::TRIGGER_TYPE::BUTTON)
 		stProtoTag += L"_Button";
 	else
 		stProtoTag += L"_Interaction";
@@ -2475,8 +2485,8 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 	_wstring stLayerTag = L"Layer_Trigger";
 
 	// 트리거 설명 구조체 생성
-	CTrigger::TRIGGER_DESC tTriggerDesc{};
-	tTriggerDesc.eType = static_cast<CTrigger::TRIGGER_TYPE>(iTriggerType);
+	CDoor::TRIGGER_DESC tTriggerDesc{};
+	tTriggerDesc.eType = static_cast<CDoor::TRIGGER_TYPE>(iTriggerType);
 	tTriggerDesc.vPosition = vPosition;
 	tTriggerDesc.fActivationRange = fActivationRange;
 	tTriggerDesc.stTargetTag = strTargetTag;
@@ -2495,7 +2505,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 	{
 		// 프로토타입 생성
 		CJsonLoader jsonLoader;
-		CBase* pGameObject = jsonLoader.Create_Object_ByClassName("CTrigger", m_pGraphic_Device);
+		CBase* pGameObject = jsonLoader.Create_Object_ByClassName("CDoor", m_pGraphic_Device);
 
 		if (FAILED(m_pGameInstance->Add_Prototype(iProtoLevel, stProtoTag, pGameObject)))
 		{
@@ -2530,7 +2540,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 	if (pTriggerObject)
 	{
 		// 타겟 설정
-		CTrigger* pTrigger = dynamic_cast<CTrigger*>(pTriggerObject);
+		CDoor* pTrigger = dynamic_cast<CDoor*>(pTriggerObject);
 		if (pTrigger && !strTargetTag.empty())
 		{
 			CGameObject* pTargetObject = nullptr;
@@ -2568,7 +2578,7 @@ HRESULT CMyImGui::CreateTriggerInstance(const _wstring& strTargetTag, _uint iTri
 			"",
 			stProtoTag,         // 오브젝트 태그
 			iProtoLevel,        // 오브젝트 레벨
-			L"CTrigger",        // 클래스 이름
+			L"CDoor",        // 클래스 이름
 			textureTag,         // 텍스처 태그
 			iLevel,             // 텍스처 레벨
 			m_wstrSelectedTexturePath, // 텍스처 경로

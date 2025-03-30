@@ -272,6 +272,11 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_Ocean"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_STAT"
     }
   ],
   "textures": [
@@ -494,12 +499,6 @@
     {
       "count": 1,
       "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\SpriteAtlasTexture-AntarcticTextures-2048x1024-fmt4_0_20.png",
-      "tag": "Prototype_Component_Texture_Button"
-    },
-    {
-      "count": 1,
-      "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
       "tag": "Prototype_Component_Texture_Ant_Cube"
     },
@@ -514,6 +513,12 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\Ocean%d.png",
       "tag": "Prototype_Component_Texture_Ocean"
+    },
+    {
+      "count": 2,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
+      "tag": "Prototype_Component_Texture_Trigger"
     }
   ]
 }
