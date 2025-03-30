@@ -61,6 +61,12 @@ public:
 			m_iMxBullet=Ranged_INFO.MaxAmmo;
             Update_Bullet_Bar();
         }
+		else if (type == L"BULLET_NO")
+		{
+			m_iBullet = 0;
+			m_iMxBullet = 0;
+			Update_Bullet_Bar();
+		}
     }
 private:
 	_int m_iBullet{};

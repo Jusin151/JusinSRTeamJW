@@ -36,19 +36,29 @@ HRESULT CMinigun::Initialize_Prototype()
 
 HRESULT CMinigun::Initialize(void* pArg)
 {
-
-    if (FAILED(Ready_Components()))
-        return E_FAIL;
-
     if (pArg != nullptr)
         m_Staff_INFO = *reinterpret_cast<Weapon_DESC*>(pArg);
     else
         return E_FAIL;
 
+    if (FAILED(Ready_Components()))
+        return E_FAIL;
 
+  
     m_pTransformCom->Set_Scale(m_Staff_INFO.vSize.x, m_Staff_INFO.vSize.y, 1.f);
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        _float3(m_Staff_INFO.vPos.x, m_Staff_INFO.vPos.y, 0.f));
+     _float3(m_Staff_INFO.vPos.x, m_Staff_INFO.vPos.y, 0.f));
+
+    m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
+    //m_Weapon_INFO.vPos = {};
+    //m_Weapon_INFO.vSize = {};
+    m_Weapon_INFO.Damage = 2;
+    m_Weapon_INFO.AttackSpeed = 1.2f;
+   
+    Ranged_INFO.CurrentAmmo = 170; //현총알
+    Ranged_INFO.MaxAmmo = 170;    // 최대 50발
+    m_fAnimationSpeed = 0.01f; //미니건에서는  발사애니메이션속도
+    m_fSpinSpeed = 0.02f; // 얘는 루프 전용 애니메이션속도
 
     m_vInitialPos = m_Staff_INFO.vPos;
 
@@ -58,12 +68,9 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_TextureRanges["Attack"] = { 4, 7 };
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Minigun", this);
-
     if (FAILED(Ready_Icon()))
         return E_FAIL;
-
     __super::Ready_Picking();
-
     return S_OK;
 }
 HRESULT CMinigun::Ready_Icon()
@@ -83,9 +90,6 @@ HRESULT CMinigun::Ready_Icon()
     return S_OK;
 }
 
-void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
-{
-}
 
 void CMinigun::Priority_Update(_float fTimeDelta)
 {
@@ -93,112 +97,132 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 
 void CMinigun::Update(_float fTimeDelta)
 {
-    if (GetAsyncKeyState('W') & 0x8000)
-    {
-        t += speed;
-    }
-    else if (GetAsyncKeyState('A') & 0x8000)
-    {
-        t += speed;
-    }
-    else if (GetAsyncKeyState('D') & 0x8000)
-    {
-        t += speed;
-    }
-    else if (GetAsyncKeyState('S') & 0x8000)
-    {
-        t += speed;
-    }
-
-    float v = 20.0f;  // 폭을 설정 하는변수
-    _float3 vNewPos;
-    vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-    vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-
-    Attack(fTimeDelta);
-}
-
-void CMinigun::Attack(_float fTimeDelta)
-{
-    if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-    {
-        m_fHoldTime += fTimeDelta; // 좌클릭 누르고 있는 시간 증가
-
-        if (m_eState == State::Idle || m_eState == State::Firing)
-        {
-            m_eState = State::Charging;
-            m_iCurrentFrame = m_TextureRanges["Charging"].first;
-            m_fElapsedTime = 0.0f;
-        }
-        else if (m_eState == State::Charged && m_fHoldTime >= 0.5f) // 1초 이상 경과 시
-        {
-            m_eState = State::Firing;
-            m_iCurrentFrame = m_TextureRanges["Attack"].first;
-            __super::Picking_Object(1,100); // 프레임이 변경될 때마다 호출
-            CUI_Manager::GetInstance()->Set_Minigun_Bullet(1);
-            m_fElapsedTime = 0.0f;
-        }
-    }
-    else
-    {
-        m_fHoldTime = 0.0f; // 좌클릭을 떼면 시간 초기화
-        m_eState = State::Idle;
-        m_iCurrentFrame = m_TextureRanges["Idle"].first;
-        m_fElapsedTime = 0.0f;
-    }
-
+    __super::Update(fTimeDelta);
     m_fElapsedTime += fTimeDelta;
+
+    if (Ranged_INFO.CurrentAmmo <= 0)
+    {
+		m_eState = State::Idle;
+		m_iCurrentFrame = m_TextureRanges["Idle"].first;
+    }
+
 
     switch (m_eState)
     {
-    case State::Charging: // 차징
-        if (m_fElapsedTime >= 0.007f)
+    case State::Idle:
+        if (m_bAttackInput)
         {
-            m_fElapsedTime = 0.0f;
-            if (m_iCurrentFrame < m_TextureRanges["Loop"].second)
+            m_eState = State::Loop;
+            m_iCurrentFrame = m_TextureRanges["Loop"].first;
+            m_fHoldTime = 0.f;
+            m_fElapsedTime = 0.f;
+        }
+        else
+        {
+            m_iCurrentFrame = m_TextureRanges["Idle"].first;
+        }
+        break;
+
+    case State::Loop:
+        if (m_bAttackInput)
+        {
+            m_fHoldTime += fTimeDelta;
+            if (m_fElapsedTime >= m_fSpinSpeed)
             {
+                m_fElapsedTime = 0.f;
                 m_iCurrentFrame++;
+                if (m_iCurrentFrame > m_TextureRanges["Loop"].second)
+                    m_iCurrentFrame = m_TextureRanges["Loop"].first;
             }
-            else
+            if (m_fHoldTime >= 1.0f)
             {
-                m_eState = State::Charged;
-                m_iCurrentFrame = m_TextureRanges["Loop"].first;
+                m_eState = State::Firing;
+                m_iCurrentFrame = m_TextureRanges["Attack"].first;
+                m_fElapsedTime = 0.f;
+                m_bHasFired = false;
             }
         }
-        break;
-
-    case State::Charged:
-        if (m_fElapsedTime >= 0.02f)
+        else
         {
-            m_fElapsedTime = 0.0f;
-            m_iCurrentFrame = (m_iCurrentFrame + 1) % (m_TextureRanges["Loop"].second - m_TextureRanges["Loop"].first + 1) + m_TextureRanges["Loop"].first;
+            m_eState = State::Idle;
+            m_iCurrentFrame = m_TextureRanges["Idle"].first;
+            m_fHoldTime = 0.f;
+            m_fElapsedTime = 0.f;
         }
         break;
 
-    case State::Firing: // 발사
-        if (m_fElapsedTime >= 0.02f)
+    case State::Firing:
+        if (m_fElapsedTime >= m_fAnimationSpeed)
         {
-            m_fElapsedTime = 0.0f;
-            if (m_iCurrentFrame < m_TextureRanges["Attack"].second)
+            m_fElapsedTime = 0.f;
+
+            if (!m_bHasFired && m_iCurrentFrame == m_TextureRanges["Attack"].first + 1)
             {
-                m_iCurrentFrame++;
-                //__super::Picking_Object(); // 프레임이 변경될 때마다 호출
+                if (Ranged_INFO.CurrentAmmo > 0)
+                {
+                    __super::Picking_Object(5, m_Weapon_INFO.Damage);
+                    Ranged_INFO.CurrentAmmo--;
+                    Notify_Bullet(); 
+                    m_bHasFired = true;
+                }
             }
-            else
+
+            m_iCurrentFrame++;
+
+            if (m_iCurrentFrame > m_TextureRanges["Attack"].second)
             {
-                m_iCurrentFrame = m_TextureRanges["Attack"].first; // Attack 상태 유지
-                //__super::Picking_Object(); // 프레임이 변경될 때마다 호출
+                m_iCurrentFrame = m_TextureRanges["Attack"].first;
+                m_bHasFired = false;
+
+                if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+                {
+                    m_eState = State::Idle;
+                    m_iCurrentFrame = m_TextureRanges["Idle"].first;
+                }
             }
         }
         break;
 
-    case State::Idle: // 입력 없을 때 0
+
+
+    case State::SpinDown:
+        m_eState = State::Idle;
         m_iCurrentFrame = m_TextureRanges["Idle"].first;
+        m_fHoldTime = 0.f;
+        break;
+
+    default:
         break;
     }
+
+    m_bAttackInput = false;
 }
+
+
+
+
+
+
+
+void CMinigun::Attack(_float fTimeDelta)
+{
+	if (Ranged_INFO.CurrentAmmo <= 0)
+		return;
+
+
+    if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+        m_bAttackInput = true;
+    __super::Attack(fTimeDelta);
+}
+
+
+void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
+{
+
+}
+
+
+
 
 
 
@@ -227,24 +251,11 @@ HRESULT CMinigun::Render()
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
 
-    switch (m_eState)
-    {
-    case State::Charging:
-    case State::Idle:
-        if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
-            return E_FAIL;
-        break;
+    
+    if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
+  
+     
 
-    case State::Charged:
-        if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
-            return E_FAIL;
-        break;
-
-    case State::Firing:
-        if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
-            return E_FAIL;
-        break;
-    }
 
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;

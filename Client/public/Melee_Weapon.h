@@ -18,14 +18,6 @@ BEGIN(Client)
 
 class CMelee_Weapon : public CWeapon_Base
 {
-
-public:
-    struct MeleeWeapon_Info
-    {
-        float KnockbackForce;  // 타격 시 넉백 (0이면 넉백 없음)
-        int ComboCount;        // 콤보 공격 가능 횟수
-        float ComboDelay;      // 콤보 공격 간 딜레이
-    };
 protected:
     CMelee_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device);
     CMelee_Weapon(const CMelee_Weapon& Prototype);
@@ -54,8 +46,13 @@ protected:
     CTransform* m_pColTransformCom = {nullptr};
     _bool m_bIsAnimating  =  { false};
     _bool m_bAttack = { false };
+public: // 근접 들었을때 총알바 안뜨게 해야할꺼같아서
+    void Notify_Bullet()
+    {
 
-    
+        if (m_pObserver)
+            m_pObserver->OnNotify(nullptr, L"BULLET_NO");
+    }
 
 
 };
