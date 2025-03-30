@@ -789,7 +789,6 @@
     <ClCompile Include="..\private\UI_Episode_Hub.cpp">
       <Filter>02.GameObjects\05. Hub\01. Hub_UI\Episode</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Portal.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClCompile>
@@ -827,6 +826,9 @@
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Observer.cpp">
       <Filter>95. Design</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
