@@ -207,7 +207,7 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 		}
 		return false;
 	}
-	else
+	else if(m_eDoorType == DOOR_TYPE::NORMAL)
 	{
 		// 일반 문은 바로 열림
 		Open_Door();

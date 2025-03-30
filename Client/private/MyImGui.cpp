@@ -2736,7 +2736,6 @@ HRESULT CMyImGui::CreateDoorInstance(const _wstring& keyItemTag, _uint iDoorType
 	// 레이어 태그 설정
 	_wstring stLayerTag = L"Layer_Door";
 
-	// 문 설명 구조체 생성
 	CDoor::DOOR_DESC tDoorDesc{};
 	tDoorDesc.eType = static_cast<CDoor::DOOR_TYPE>(iDoorType);
 	tDoorDesc.eColor = static_cast<CDoor::DOOR_COLOR>(iDoorColor);

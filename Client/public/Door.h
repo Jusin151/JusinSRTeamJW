@@ -33,7 +33,8 @@ public:
     enum class DOOR_TYPE : uint8_t
     {
         NORMAL,     // 일반 문 (바로 열림)
-        KEY         // 열쇠가 필요한 문
+        KEY,         // 열쇠가 필요한 문
+        TRIGGER
     };
 
     typedef struct tagDoorDesc : public OBJECT_DESC
