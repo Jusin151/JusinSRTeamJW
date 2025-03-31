@@ -1,4 +1,4 @@
-#include "VIBuffer_TexturedCube.h"
+ï»¿#include "VIBuffer_TexturedCube.h"
 
 CVIBuffer_TexturedCube::CVIBuffer_TexturedCube(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CVIBuffer{ pGraphic_Device }
@@ -12,7 +12,7 @@ CVIBuffer_TexturedCube::CVIBuffer_TexturedCube(const CVIBuffer_TexturedCube& Pro
 
 HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 {
-	// °¢ ¸éº°·Î 4°³ÀÇ Á¤Á¡À» »ç¿ë (ÃÑ 24°³ Á¤Á¡)
+	// ê° ë©´ë³„ë¡œ 4ê°œì˜ ì •ì ì„ ì‚¬ìš© (ì´ 24ê°œ ì •ì )
 	m_iNumVertices = 24;
 	m_iVertexStride = sizeof(VTXCUBE);
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
@@ -32,128 +32,128 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	// Àü¸é (Front Face: -Z)
-	// ¿ÞÂÊ À§
+	// ì „ë©´ (Front Face: -Z)
+	// ì™¼ìª½ ìœ„
 	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[0].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 	pVertices[0].vNormal = _float3(0.0f, 0.0f, -1.0f);
 
-	// ¿À¸¥ÂÊ À§
+	// ì˜¤ë¥¸ìª½ ìœ„
 	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 	pVertices[1].vNormal = _float3(0.0f, 0.0f, -1.0f);
 
-	// ¿À¸¥ÂÊ ¾Æ·¡
+	// ì˜¤ë¥¸ìª½ ì•„ëž˜
 	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[2].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 	pVertices[2].vNormal = _float3(0.0f, 0.0f, -1.0f);
 
-	// ¿ÞÂÊ ¾Æ·¡
+	// ì™¼ìª½ ì•„ëž˜
 	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[3].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 	pVertices[3].vNormal = _float3(0.0f, 0.0f, -1.0f);
 
-	// ÈÄ¸é (Back Face: +Z)
-	// ¿ÞÂÊ À§
+	// í›„ë©´ (Back Face: +Z)
+	// ì™¼ìª½ ìœ„
 	m_pVertexPositions[4] = pVertices[4].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[4].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 	pVertices[4].vNormal = _float3(0.0f, 0.0f, 1.0f);
 
-	// ¿À¸¥ÂÊ À§
+	// ì˜¤ë¥¸ìª½ ìœ„
 	m_pVertexPositions[5] = pVertices[5].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[5].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 	pVertices[5].vNormal = _float3(0.0f, 0.0f, 1.0f);
 
-	// ¿À¸¥ÂÊ ¾Æ·¡
+	// ì˜¤ë¥¸ìª½ ì•„ëž˜
 	m_pVertexPositions[6] = pVertices[6].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[6].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 	pVertices[6].vNormal = _float3(0.0f, 0.0f, 1.0f);
 
-	// ¿ÞÂÊ ¾Æ·¡
+	// ì™¼ìª½ ì•„ëž˜
 	m_pVertexPositions[7] = pVertices[7].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 	pVertices[7].vNormal = _float3(0.0f, 0.0f, 1.0f);
 
-	// ¿ÞÂÊ¸é (Left Face: -X)
-	// ¿ÞÂÊ À§
+	// ì™¼ìª½ë©´ (Left Face: -X)
+	// ì™¼ìª½ ìœ„
 	m_pVertexPositions[8] = pVertices[8].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[8].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 	pVertices[8].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ À§
+	// ì˜¤ë¥¸ìª½ ìœ„
 	m_pVertexPositions[9] = pVertices[9].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[9].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 	pVertices[9].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ ¾Æ·¡
+	// ì˜¤ë¥¸ìª½ ì•„ëž˜
 	m_pVertexPositions[10] = pVertices[10].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[10].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 	pVertices[10].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 
-	// ¿ÞÂÊ ¾Æ·¡
+	// ì™¼ìª½ ì•„ëž˜
 	m_pVertexPositions[11] = pVertices[11].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[11].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 	pVertices[11].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ¸é (Right Face: +X)
-	// ¿ÞÂÊ À§
+	// ì˜¤ë¥¸ìª½ë©´ (Right Face: +X)
+	// ì™¼ìª½ ìœ„
 	m_pVertexPositions[12] = pVertices[12].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[12].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 	pVertices[12].vNormal = _float3(1.0f, 0.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ À§
+	// ì˜¤ë¥¸ìª½ ìœ„
 	m_pVertexPositions[13] = pVertices[13].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[13].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 	pVertices[13].vNormal = _float3(1.0f, 0.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ ¾Æ·¡
+	// ì˜¤ë¥¸ìª½ ì•„ëž˜
 	m_pVertexPositions[14] = pVertices[14].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[14].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 	pVertices[14].vNormal = _float3(1.0f, 0.0f, 0.0f);
 
-	// ¿ÞÂÊ ¾Æ·¡
+	// ì™¼ìª½ ì•„ëž˜
 	m_pVertexPositions[15] = pVertices[15].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[15].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 	pVertices[15].vNormal = _float3(1.0f, 0.0f, 0.0f);
 
-	// À­¸é (Top Face: +Y)
-	// ¿ÞÂÊ À§
+	// ìœ—ë©´ (Top Face: +Y)
+	// ì™¼ìª½ ìœ„
 	m_pVertexPositions[16] = pVertices[16].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[16].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 	pVertices[16].vNormal = _float3(0.0f, 1.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ À§
+	// ì˜¤ë¥¸ìª½ ìœ„
 	m_pVertexPositions[17] = pVertices[17].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[17].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 	pVertices[17].vNormal = _float3(0.0f, 1.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ ¾Æ·¡
+	// ì˜¤ë¥¸ìª½ ì•„ëž˜
 	m_pVertexPositions[18] = pVertices[18].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[18].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 	pVertices[18].vNormal = _float3(0.0f, 1.0f, 0.0f);
 
-	// ¿ÞÂÊ ¾Æ·¡
+	// ì™¼ìª½ ì•„ëž˜
 	m_pVertexPositions[19] = pVertices[19].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[19].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 	pVertices[19].vNormal = _float3(0.0f, 1.0f, 0.0f);
 
-	// ¾Æ·§¸é (Bottom Face: -Y)
-	// ¿ÞÂÊ À§
+	// ì•„ëž«ë©´ (Bottom Face: -Y)
+	// ì™¼ìª½ ìœ„
 	m_pVertexPositions[20] = pVertices[20].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[20].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 	pVertices[20].vNormal = _float3(0.0f, -1.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ À§
+	// ì˜¤ë¥¸ìª½ ìœ„
 	m_pVertexPositions[21] = pVertices[21].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[21].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 	pVertices[21].vNormal = _float3(0.0f, -1.0f, 0.0f);
 
-	// ¿À¸¥ÂÊ ¾Æ·¡
+	// ì˜¤ë¥¸ìª½ ì•„ëž˜
 	m_pVertexPositions[22] = pVertices[22].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[22].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 	pVertices[22].vNormal = _float3(0.0f, -1.0f, 0.0f);
 
-	// ¿ÞÂÊ ¾Æ·¡
+	// ì™¼ìª½ ì•„ëž˜
 	m_pVertexPositions[23] = pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[23].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 	pVertices[23].vNormal = _float3(0.0f, -1.0f, 0.0f);
@@ -169,27 +169,27 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
-	// Àü¸é (Front Face: -Z)
+	// ì „ë©´ (Front Face: -Z)
 	pIndices[0] = 0; pIndices[1] = 1; pIndices[2] = 2;
 	pIndices[3] = 0; pIndices[4] = 2; pIndices[5] = 3;
 
-	// ÈÄ¸é (Back Face: +Z)
+	// í›„ë©´ (Back Face: +Z)
 	pIndices[6] = 4; pIndices[7] = 5; pIndices[8] = 6;
 	pIndices[9] = 4; pIndices[10] = 6; pIndices[11] = 7;
 
-	// ¿ÞÂÊ¸é (Left Face: -X)
+	// ì™¼ìª½ë©´ (Left Face: -X)
 	pIndices[12] = 8; pIndices[13] = 9; pIndices[14] = 10;
 	pIndices[15] = 8; pIndices[16] = 10; pIndices[17] = 11;
 
-	// ¿À¸¥ÂÊ¸é (Right Face: +X)
+	// ì˜¤ë¥¸ìª½ë©´ (Right Face: +X)
 	pIndices[18] = 12; pIndices[19] = 13; pIndices[20] = 14;
 	pIndices[21] = 12; pIndices[22] = 14; pIndices[23] = 15;
 
-	// À­¸é (Top Face: +Y)
+	// ìœ—ë©´ (Top Face: +Y)
 	pIndices[24] = 16; pIndices[25] = 17; pIndices[26] = 18;
 	pIndices[27] = 16; pIndices[28] = 18; pIndices[29] = 19;
 
-	// ¾Æ·§¸é (Bottom Face: -Y)
+	// ì•„ëž«ë©´ (Bottom Face: -Y)
 	pIndices[30] = 20; pIndices[31] = 21; pIndices[32] = 22;
 	pIndices[33] = 20; pIndices[34] = 22; pIndices[35] = 23;
 

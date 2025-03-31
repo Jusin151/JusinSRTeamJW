@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Client_Defines.h"
 #include "CollisionObject.h"
 
@@ -16,34 +16,34 @@ class CDoor : public CCollisionObject
 public:
     enum class DOOR_STATE : uint8_t
     {
-        CLOSED,     // ´İÈù »óÅÂ
-        OPENING,    // ¿­¸®´Â Áß
-        OPEN,       // ¿­¸° »óÅÂ
-        CLOSING     // ´İÈ÷´Â Áß
+        CLOSED,     // ë‹«íŒ ìƒíƒœ
+        OPENING,    // ì—´ë¦¬ëŠ” ì¤‘
+        OPEN,       // ì—´ë¦° ìƒíƒœ
+        CLOSING     // ë‹«íˆëŠ” ì¤‘
     };
 
     enum class DOOR_COLOR : uint8_t
     {
-        BLUE,    // ÆÄ¶õ»ö ¹®
-        RED,     // »¡°£»ö ¹®
-        YELLOW,  // ³ë¶õ»ö ¹®
-        NORMAL   // »ö»ó ¾ø´Â ÀÏ¹İ ¹® (¿­¼è ¾øÀÌ ¿­¸²)
+        BLUE,    // íŒŒë€ìƒ‰ ë¬¸
+        RED,     // ë¹¨ê°„ìƒ‰ ë¬¸
+        YELLOW,  // ë…¸ë€ìƒ‰ ë¬¸
+        NORMAL   // ìƒ‰ìƒ ì—†ëŠ” ì¼ë°˜ ë¬¸ (ì—´ì‡  ì—†ì´ ì—´ë¦¼)
     };
 
     enum class DOOR_TYPE : uint8_t
     {
-        NORMAL,     // ÀÏ¹İ ¹® (¹Ù·Î ¿­¸²)
-        KEY,         // ¿­¼è°¡ ÇÊ¿äÇÑ ¹®
+        NORMAL,     // ì¼ë°˜ ë¬¸ (ë°”ë¡œ ì—´ë¦¼)
+        KEY,         // ì—´ì‡ ê°€ í•„ìš”í•œ ë¬¸
         TRIGGER
     };
 
     typedef struct tagDoorDesc : public OBJECT_DESC
     {
-        DOOR_TYPE eType;          // ¹® À¯Çü
-        DOOR_COLOR eColor;        // ¹® »ö»ó
-        _float fSlideDistance;    // ¹®ÀÌ ³»·Á°¡´Â °Å¸®
-        _wstring stKeyItemTag;    // ÇÊ¿äÇÑ ¿­¼è ¾ÆÀÌÅÛ ÅÂ±× (KEY Å¸ÀÔÀÎ °æ¿ì)
-        bool bStartsActive;       // ½ÃÀÛ½Ã È°¼ºÈ­ ¿©ºÎ
+        DOOR_TYPE eType;          // ë¬¸ ìœ í˜•
+        DOOR_COLOR eColor;        // ë¬¸ ìƒ‰ìƒ
+        _float fSlideDistance;    // ë¬¸ì´ ë‚´ë ¤ê°€ëŠ” ê±°ë¦¬
+        _wstring stKeyItemTag;    // í•„ìš”í•œ ì—´ì‡  ì•„ì´í…œ íƒœê·¸ (KEY íƒ€ì…ì¸ ê²½ìš°)
+        bool bStartsActive;       // ì‹œì‘ì‹œ í™œì„±í™” ì—¬ë¶€
     }DOOR_DESC;
 
 private:
@@ -59,16 +59,16 @@ public:
     virtual HRESULT Render() override;
     virtual HRESULT On_Collision(CCollisionObject* other) override;
 
-    // ¹® ¿­±â/´İ±â ÇÔ¼ö
+    // ë¬¸ ì—´ê¸°/ë‹«ê¸° í•¨ìˆ˜
     void Open_Door();
     void Close_Door();
 
-    // ¹® »óÅÂ È®ÀÎ
+    // ë¬¸ ìƒíƒœ í™•ì¸
     _bool IsOpen() const { return m_eDoorState == DOOR_STATE::OPEN; }
     _bool IsClosed() const { return m_eDoorState == DOOR_STATE::CLOSED; }
     _bool IsMoving() const { return m_eDoorState == DOOR_STATE::OPENING || m_eDoorState == DOOR_STATE::CLOSING; }
 
-    // ¿­¼è È®ÀÎ ÇÔ¼ö
+    // ì—´ì‡  í™•ì¸ í•¨ìˆ˜
     _bool TryOpen(CCollisionObject* pPlayer);
     void SetKeyRequired(const _wstring& keyItemTag) { m_stKeyItemTag = keyItemTag; }
 
@@ -88,21 +88,21 @@ private:
     DOOR_STATE m_eDoorState = DOOR_STATE::CLOSED;
     DOOR_TYPE m_eDoorType = DOOR_TYPE::NORMAL;
 
-    // ¹® ¾Ö´Ï¸ŞÀÌ¼Ç °ü·Ã º¯¼ö
-    _float m_fDoorOpenAmount = 0.0f;    // 0.0f (´İÈû) ~ 1.0f (¿ÏÀüÈ÷ ¿­¸²)
-    _float m_fDoorOpenSpeed = 2.0f;     // ÃÊ´ç ¿­¸®´Â ¼Óµµ
-    _float3 m_vRotationAxis = { 0.0f, 1.0f, 0.0f };  // È¸ÀüÃà(±âº»°ªÀº YÃà)
-    _float m_fOpenAngle = 90.0f;        // ¹®ÀÌ ¿­¸®´Â °¢µµ(±âº»°ª 90µµ)
+    // ë¬¸ ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨ ë³€ìˆ˜
+    _float m_fDoorOpenAmount = 0.0f;    // 0.0f (ë‹«í˜) ~ 1.0f (ì™„ì „íˆ ì—´ë¦¼)
+    _float m_fDoorOpenSpeed = 2.0f;     // ì´ˆë‹¹ ì—´ë¦¬ëŠ” ì†ë„
+    _float3 m_vRotationAxis = { 0.0f, 1.0f, 0.0f };  // íšŒì „ì¶•(ê¸°ë³¸ê°’ì€ Yì¶•)
+    _float m_fOpenAngle = 90.0f;        // ë¬¸ì´ ì—´ë¦¬ëŠ” ê°ë„(ê¸°ë³¸ê°’ 90ë„)
 
     DOOR_COLOR m_eDoorColor = DOOR_COLOR::NORMAL;
-    _float m_fSlideDistance = 2.0f;     // ±âº» ½½¶óÀÌµå °Å¸®
-    _float3 m_vOriginalPosition;        // ¿ø·¡ À§Ä¡
-    _float3 m_vSlidePosition;           // ÃÖÁ¾ ½½¶óÀÌµå À§Ä¡
+    _float m_fSlideDistance = 2.0f;     // ê¸°ë³¸ ìŠ¬ë¼ì´ë“œ ê±°ë¦¬
+    _float3 m_vOriginalPosition;        // ì›ë˜ ìœ„ì¹˜
+    _float3 m_vSlidePosition;           // ìµœì¢… ìŠ¬ë¼ì´ë“œ ìœ„ì¹˜
 
-    // ¿­¼è °ü·Ã º¯¼ö
-    _wstring m_stKeyItemTag = L"";      // ÇÊ¿äÇÑ ¿­¼è ¾ÆÀÌÅÛ ÅÂ±×
+    // ì—´ì‡  ê´€ë ¨ ë³€ìˆ˜
+    _wstring m_stKeyItemTag = L"";      // í•„ìš”í•œ ì—´ì‡  ì•„ì´í…œ íƒœê·¸
 
-    // ¿ø·¡ À§Ä¡¿Í È¸Àü ÀúÀå
+    // ì›ë˜ ìœ„ì¹˜ì™€ íšŒì „ ì €ì¥
     _float3 m_vOriginalRotation;
     _float3 m_vOpenRotation;
 
