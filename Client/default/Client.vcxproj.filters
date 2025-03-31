@@ -256,9 +256,6 @@
     <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base">
       <UniqueIdentifier>{bb213674-67d3-4261-9ba1-5b4500644739}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Mele">
-      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Ranged">
       <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
     </Filter>
@@ -303,6 +300,9 @@
     </Filter>
     <Filter Include="02.GameObjects\96. Structure\Door">
       <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Melee">
+      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -571,7 +571,7 @@
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Melee_Weapon.h">
-      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Mele</Filter>
+      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Melee</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ranged_Weapon.h">
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Ranged</Filter>
@@ -827,7 +827,7 @@
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Melee_Weapon.cpp">
-      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Mele</Filter>
+      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Melee</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Ranged_Weapon.cpp">
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Ranged</Filter>

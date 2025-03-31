@@ -25,7 +25,6 @@ public:
 public:
 	virtual HRESULT Render() override;
 
-
 private:
 	_float3		m_vDir = {};
 	_float		m_fWidth = {};

@@ -3,6 +3,12 @@
 #include "Bullet_Base.h"
 #include "Weapon_Headers.h"
 
+BEGIN(Engine)
+class CParticle_System;
+END
+
+BEGIN(Client)
+
 class CStaff_Bullet : public CBullet_Base
 {
 
@@ -30,6 +36,7 @@ private:
 	HRESULT Ready_Components();
 private:
 
+	CParticle_System* m_pParticleCom = { nullptr };
 
 public:
 	static CStaff_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -38,4 +45,4 @@ public:
 private:
 
 };
-
+END

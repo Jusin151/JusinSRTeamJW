@@ -128,7 +128,7 @@ void CGameObject_Projectile_Test::Update(_float fTimeDelta)
 
 void CGameObject_Projectile_Test::Late_Update(_float fTimeDelta)
 {
-    if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).x > 10.f || m_pTransformCom->Get_State(CTransform::STATE_POSITION).x < -10.f)
+    if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).x > 50.f || m_pTransformCom->Get_State(CTransform::STATE_POSITION).x < -50.f)
         m_vDir *= -1.f;
     m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }

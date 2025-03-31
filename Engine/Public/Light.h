@@ -32,7 +32,9 @@ private:
 	CLight(const CLight& Prototype);
 	virtual ~CLight() = default;
 public:
-	void Set_Position(const _float3& position) { memcpy(&m_tInfo.fPosition, &position, sizeof(position)); }
+	void Set_Position(const _float3& position) {
+		m_tInfo.fPosition = { position.x, position.y, position.z }; 
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype(LIGHTTYPE eType);

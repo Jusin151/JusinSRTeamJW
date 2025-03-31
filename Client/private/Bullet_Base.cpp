@@ -36,9 +36,9 @@ HRESULT CBullet_Base::Initialize(void* pArg)
 	Player_Pos = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
 
 
-	Player_Pos += Player_Look * 0.8f;
+	/*Player_Pos += Player_Look * 0.8f;
 	Player_Pos += Player_RIght * 0.1f;
-	Player_Pos.y -= 0.5f;
+	Player_Pos.y -= 0.5f;*/
 
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, Player_RIght);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, Player_Up);
