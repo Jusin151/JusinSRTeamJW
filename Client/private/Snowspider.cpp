@@ -59,7 +59,7 @@ void CSnowspider::Priority_Update(_float fTimeDelta)
     if (m_iHp <= 0)
         m_eCurState = MS_DEATH;
 
-    if (m_iCurrentFrame > 40)
+    if (m_iCurrentFrame > 27)
     {
         m_bIsActive = false;
 
@@ -186,12 +186,12 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
         break;
 
     case CG_STRUCTURE_WALL:
-
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+        m_vNextPos += vMove;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
         break;
     case CG_DOOR:
-
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+        m_vNextPos += vMove;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
         break;
     default:
@@ -217,7 +217,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > 10)
+            if (vDist.LengthSq() > 100)
                 Chasing(fTimeDelta);
             else
             {

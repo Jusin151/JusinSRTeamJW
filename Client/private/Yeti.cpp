@@ -186,8 +186,14 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
         break;
 
     case CG_STRUCTURE_WALL:
-       
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+        m_vNextPos += vMove;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+        break;
+    case CG_DOOR:
+        m_vNextPos += vMove;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
         break;
     default:
         break;
@@ -281,10 +287,10 @@ _bool CYeti::Check_DIstance(_float fTimeDelta)
 {
     _float3 Dist = m_vAnchorPoint - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-    if (Dist.LengthSq() < 30)
+    if (Dist.LengthSq() < 100)
     {
         m_fBackTime = 2.f;
-        return true;  // 30 이내면 바로 true
+        return true;  // 설정한 값 이내면 바로 true
     }
     
     if (m_fBackTime > 0)

@@ -234,10 +234,6 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 
 	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
-	_float3 dirOthertoOldPos = fPos - otherPos;
-	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
-	_float fDepth = vMove.Length();
-
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
@@ -258,13 +254,13 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
 	case CG_DOOR:
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
 	default:

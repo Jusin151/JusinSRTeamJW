@@ -543,19 +543,39 @@ _bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 		if ((fSrcMax < fDstMin || fDstMax < fSrcMin)) // 범위가 안겹치면 충돌 안함
 			return false;
 
-		// 겹치는 범위를 계산해서 가장 작게 겹치는 걸 이제 mtv로
-		_float penetration = min(fSrcMax - fDstMin, fDstMax - fSrcMin);
+
+		// penetration 방향 결정
+		_float penetration1 = fSrcMax - fDstMin;
+		_float penetration2 = fDstMax - fSrcMin;
+		_float penetration;
+		_float3 axisDir;
+
+		if (penetration1 < penetration2)
+		{
+			penetration = penetration1;
+			axisDir = axis;  // 정방향
+		}
+		else
+		{
+			penetration = penetration2;
+			axisDir = -axis;  // 반대방향
+		}
 
 		if (penetration < fDepth)  // 가장 작은 penetration을 저장
 		{
 			fDepth = penetration;
-			bestAxis = axis;
-			src->Set_MTV(-bestAxis);
-			dst->Set_MTV(bestAxis);
-			src->Set_Depth(fDepth);
-			dst->Set_Depth(fDepth);
+			bestAxis = axisDir;
 		}
 	}
+
+	if (fDepth == FLT_MAX)
+		return false;
+
+	src->Set_MTV(-bestAxis.GetNormalized() * fDepth);
+	dst->Set_MTV(bestAxis.GetNormalized() * fDepth);
+	src->Set_Depth(fDepth);
+	dst->Set_Depth(fDepth);
+
 
 	return true;
 }

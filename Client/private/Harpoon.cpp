@@ -128,7 +128,6 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 		Take_Damage(other);
 		m_bIsActive = false;
 		
-
 		break;
 	case CG_STRUCTURE_WALL:
 		m_bIsActive = false;

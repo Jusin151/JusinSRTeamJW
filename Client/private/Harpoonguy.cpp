@@ -172,12 +172,12 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		m_eCurState = MS_HIT;
 		break;
 	case CG_STRUCTURE_WALL:
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 	case CG_DOOR:
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
 	default:
