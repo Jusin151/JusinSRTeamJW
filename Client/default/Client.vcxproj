@@ -255,6 +255,7 @@
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
     <ClInclude Include="..\Public\UI_WeaponShop_UI.h" />
+    <ClInclude Include="..\public\Yeti.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -339,6 +340,7 @@
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
+    <ClCompile Include="..\private\Yeti.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />

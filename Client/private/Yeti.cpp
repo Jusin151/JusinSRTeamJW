@@ -1,0 +1,440 @@
+﻿#include "Yeti.h"
+#include "VIBuffer_Rect.h"
+#include "Texture.h"
+#include "Collider_Cube.h"
+#include "Transform.h"
+#include "Player.h"
+#include "GameInstance.h"
+
+CYeti::CYeti(LPDIRECT3DDEVICE9 pGraphic_Device)
+    :CMonster_Base(pGraphic_Device)
+{
+}
+
+CYeti::CYeti(const CYeti& Prototype)
+    :CMonster_Base(Prototype)
+{
+}
+
+HRESULT CYeti::Initialize_Prototype()
+{
+    
+    return S_OK;
+}
+
+HRESULT CYeti::Initialize(void* pArg)
+{
+    INIT_PARENT(pArg)
+        if (FAILED(__super::Initialize(pArg)))
+            return E_FAIL;
+
+    if (FAILED(Ready_Components()))
+        return E_FAIL;
+
+    m_eType = CG_MONSTER;
+
+    m_iAp = 5;
+
+    m_iHp = 30;
+
+    
+
+    return S_OK;
+}
+
+void CYeti::Priority_Update(_float fTimeDelta)
+{
+    if (nullptr == m_pTarget)
+    {
+        CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+        if (nullptr == pTarget)
+            return;
+
+        SetTarget(pTarget);
+        Safe_AddRef(pTarget);
+
+        m_vAnchorPoint = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    }
+
+    if (m_iHp <= 0)
+        m_eCurState = MS_DEATH;
+
+    if (m_iCurrentFrame > 40)
+    {
+        m_bIsActive = false;
+
+    }
+}
+
+void CYeti::Update(_float fTimeDelta)
+{
+    if (nullptr == m_pTarget)
+        return;
+
+
+
+    Select_Pattern(fTimeDelta);
+
+    __super::Update(fTimeDelta);
+
+
+    if (m_eCurState != MS_DEATH)
+    {
+        if (m_eCurState == MS_ATTACK)
+        {
+            m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale() * 2.f);
+        }
+        else
+        {
+            m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+        }
+       
+
+        m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+    }
+}
+
+void CYeti::Late_Update(_float fTimeDelta)
+{
+    if (nullptr == m_pTarget)
+        return;
+
+
+    Select_Frame(fTimeDelta);
+
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+        return;
+}
+
+HRESULT CYeti::Render()
+{
+    if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
+        return E_FAIL;
+
+    if (FAILED(m_pTransformCom->Bind_Resource()))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+        return E_FAIL;
+
+    SetUp_RenderState();
+
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+
+    if (g_bDebugCollider)
+    {
+        m_pColliderCom->Render();
+    }
+
+    Release_RenderState();
+
+
+    return S_OK;
+}
+
+void CYeti::Deserialize(const json& j)
+{
+    SET_TRANSFORM(j, m_pTransformCom);
+}
+
+HRESULT CYeti::On_Collision(CCollisionObject* other)
+{
+    if (nullptr == m_pColliderCom)
+        return E_FAIL;
+    if (nullptr == other)
+        return S_OK;
+
+    // 안바뀌면 충돌 안일어남
+    if (other->Get_Type() == CG_END)
+        return S_OK;
+
+
+    _float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    _float3 vMtv = m_pColliderCom->Get_MTV();
+    _float3 vMove = { vMtv.x, 0.f, vMtv.z };
+
+    switch (other->Get_Type())
+    {
+    case CG_PLAYER:
+
+        //m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+        //m_pTransformCom->Go_Backward(fTimeDelta);
+        m_eCurState = MS_HIT;
+
+        if (m_eCurState != MS_ATTACK)
+        {
+            Take_Damage(other);
+            fPos -= vMove;
+            m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+        }
+        else
+        {
+            m_iAp *= 3;
+            Take_Damage(other);
+            m_iAp /= 3;
+        }
+
+        break;
+
+    case CG_WEAPON:
+
+
+
+        m_eCurState = MS_HIT;
+
+        break;
+
+    case CG_STRUCTURE_WALL:
+        fPos += vMove;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+        break;
+    default:
+        break;
+    }
+
+
+
+    return S_OK;
+}
+
+void CYeti::Select_Pattern(_float fTimeDelta)
+{
+    if (m_eCurState == MS_DEATH)
+        return;
+
+    _float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+
+   
+
+    switch (m_eCurState)
+    {
+    case MS_IDLE:
+        if (Check_DIstance(fTimeDelta))
+        {
+            if (vDist.LengthSq() > 10)
+                Chasing(fTimeDelta);
+            else
+            {
+                Attack_Melee(fTimeDelta);
+            }
+        }
+        else
+        {
+            m_eCurState = MS_BACK;
+            m_fBackTime = 2.f; // 돌아가기 시작 시 2초 설정
+        }
+        break;
+    case MS_BACK:
+        
+        m_fBackTime -= fTimeDelta;
+        m_pTransformCom->Chase(m_vAnchorPoint, fTimeDelta * 0.5f);
+        if (m_fBackTime <= 0)
+        {
+            m_eCurState = MS_IDLE; // 2초 후에 IDLE 상태로 복귀
+        }
+              
+     
+        break;
+    case MS_WALK:
+        Chasing(fTimeDelta);
+        break;
+    case MS_HIT:
+        // 맞고 바로 안바뀌도록
+        if (m_fElapsedTime >= 0.5f)
+            m_eCurState = MS_IDLE;
+        else
+            return;
+
+        break;
+    case MS_ATTACK:
+        Attack_Melee(fTimeDelta);
+        break;
+
+    default:
+        break;
+    }
+
+}
+
+void CYeti::Chasing(_float fTimeDelta)
+{
+    if (m_eCurState != MS_WALK)
+        m_eCurState = MS_WALK;
+
+    m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.2f);
+}
+
+void CYeti::Attack_Melee(_float fTimeDelta)
+{
+    if (m_eCurState != MS_ATTACK)
+    {
+        if (m_fElapsedTime >= 1.f)
+            m_eCurState = MS_ATTACK;
+        else
+            return;
+    }
+
+}
+
+_bool CYeti::Check_DIstance(_float fTimeDelta)
+{
+    _float3 Dist = m_vAnchorPoint - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+    if (Dist.LengthSq() < 30)
+    {
+        m_fBackTime = 2.f;
+        return true;  // 30 이내면 바로 true
+    }
+    else
+    {
+        if (m_fBackTime <= 0)  
+        {
+             
+            return true;  
+        }
+        else
+        {
+            m_fBackTime -= fTimeDelta; 
+            return false;  
+        }
+    }
+
+    
+    
+}
+
+void CYeti::Select_Frame(_float fTimeDelta)
+{
+    m_fElapsedTime += fTimeDelta;
+
+
+
+    switch (m_eCurState)
+    {
+    case MS_IDLE:
+        m_iCurrentFrame = 0;
+        break;
+    case MS_HIT:
+        m_iCurrentFrame = 1;
+        break;
+    case MS_BACK:
+        m_iCurrentFrame = 2;
+        break;
+    case MS_WALK:
+
+        if (m_iCurrentFrame == 10)
+        {
+            m_eCurState = MS_IDLE;
+
+        }
+
+        if (m_iCurrentFrame < 3 || m_iCurrentFrame > 10)
+            m_iCurrentFrame = 3;
+
+        if (m_fElapsedTime >= 0.2f)
+        {
+            m_fElapsedTime = 0.0f;
+
+            m_iCurrentFrame++;
+
+        }
+        break;
+    case MS_ATTACK:
+
+        if (m_iCurrentFrame == 27)
+        {
+            m_eCurState = MS_IDLE;
+        }
+
+        if (m_iCurrentFrame < 11 || m_iCurrentFrame > 27)
+            m_iCurrentFrame = 11;
+
+        if (m_fElapsedTime >= 0.2f)
+        {
+            m_fElapsedTime = 0.0f;
+
+            m_iCurrentFrame++;
+
+        }
+        break;
+    case MS_DEATH:
+        if (m_iCurrentFrame < 28)
+            m_iCurrentFrame = 28;
+
+        if (m_fElapsedTime >= 0.2f)
+        {
+            m_fElapsedTime = 0.0f;
+
+            m_iCurrentFrame++;
+
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
+HRESULT CYeti::SetUp_RenderState()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+
+    return S_OK;
+}
+
+HRESULT CYeti::Release_RenderState()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    return S_OK;
+}
+
+HRESULT CYeti::Ready_Components()
+{
+    if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+  
+
+    return S_OK;
+}
+
+CYeti* CYeti::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+    CYeti* pInstance = new CYeti(pGraphic_Device);
+
+    if (FAILED(pInstance->Initialize_Prototype()))
+    {
+        MSG_BOX("Failed to Created : CYeti");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+CGameObject* CYeti::Clone(void* pArg)
+{
+    CYeti* pInstance = new CYeti(*this);
+
+    if (FAILED(pInstance->Initialize(pArg)))
+    {
+        MSG_BOX("Failed to Created : CYeti");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+void CYeti::Free()
+{
+    __super::Free();
+
+    Safe_Release(m_pTextureCom);
+    Safe_Release(m_pTarget);
+}

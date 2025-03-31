@@ -14,6 +14,7 @@
 #include "Item.h"
 #include "Trigger.h"
 #include "Harpoonguy.h"
+#include "Yeti.h"
 #include "Door.h"
 
 
@@ -327,6 +328,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CHarpoonguy::Create(pGraphic_Device);
 		else if (className == "CHarpoon")
 			return CHarpoon::Create(pGraphic_Device);
+		else if (className == "CYeti")
+			return CYeti::Create(pGraphic_Device);
 		else if (className == "CItem")
 			return CItem::Create(pGraphic_Device);
 		else if (className == "CDoor")
@@ -394,6 +397,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return L"Prototype_GameObject_Crocman";
 		else if (layerName == L"Layer_Monster_Harpoonguy")
 			return L"Prototype_GameObject_Harpoonguy";
+		else if (layerName == L"Layer_Monster_Yeti")
+			return L"Prototype_GameObject_Yeti";
 		else if (layerName == L"Layer_Monster_Projectile_Harpoon")
 			return L"Prototype_GameObject_Harpoon";
 		else if (layerName == L"Layer_BackGround")
