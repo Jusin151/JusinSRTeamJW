@@ -59,7 +59,28 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-	inline void Add_Ammo(_int iAmmo);
+
+	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
+	 void Add_Ammo(_int iAmmo);
+	 inline void Add_Strength(_int type) { m_iStr += type; }
+	 void Add_MaxHP(_int type)
+	{
+		m_iHp += type;
+		m_iPlayerHP.second += type;
+		Notify(m_iHp, L"HP");
+	}	
+	 void Add_Sprit(_int type) 
+	{ 
+		 m_iSprit += type;
+		m_iPlayerMP.first += type*5;
+	}
+	 void Add_Exp(_int type)
+	 {
+		 m_iPlayerEXP.first += type;
+	 }
+
+	inline void Add_Capacity(_int type) { m_iCapacity += type; }
+
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
@@ -104,11 +125,11 @@ private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
 	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
-	_uint iStr{}; // 근력
-	_uint iLife{};//생명력
-	_uint iSprit{};//정신력
-	_uint iCapacity{};//용량
-	_uint iBullet{};//총알 , 임시임 웨폰에서 할께
+	_uint m_iStr{}; // 근력
+	_uint m_iLife{};//생명력
+	_uint m_iSprit{};//정신력
+	_uint m_iCapacity{};//용량
+	_uint m_iLevel{}; // 레벨
 	CWeapon_Base* m_pPlayer_Weapon={nullptr};
 	CInventory*   m_pPlayer_Inven={nullptr};
 

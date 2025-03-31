@@ -64,6 +64,13 @@ private:
 	_bool bStat_Button_Active{};
 public:
 	_bool m_bOnUI = { false };
+private:
+	_uint m_iStr{};
+	_uint m_iMaxHP{};
+	_uint m_iSprit{};
+	_uint m_iCapacity{};
+	_uint m_iLevel{};
+
 };
 
 END
