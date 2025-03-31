@@ -61,23 +61,26 @@ public:
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
 	void Add_Ammo(_int iAmmo);
-	void Add_Strength(_int type) { m_iStr += type; }
-	void Add_MaxHP(_int type)
+	void Add_Strength(_int Str) { m_iStr += Str; }
+	void Add_MaxHP(_int Hp)
 	{
-		m_iHp += type;
-		m_iPlayerHP.second += type;
+		m_iHp += Hp;
+		m_iPlayerHP.second += Hp;
 		Notify(m_iHp, L"HP");
 	}
-	void Add_Sprit(_int type)
+	void Add_Sprit(_int Sprit)
 	{
-		m_iSprit += type;
-		m_iPlayerMP.first += type * 5;
+		m_iSprit += Sprit;
+		m_iPlayerMP.first += Sprit * 5;
 	}
-	void Add_Exp(_int type)
+	void Add_Exp(_int Exp)
 	{
-		m_iPlayerEXP.first += type;
+		m_iPlayerEXP.first += Exp;
 	}
-
+	void Add_SkillPoint(_int SkillPoint)
+	{
+		m_iSkillPoint += SkillPoint;
+	}
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
 private:
 	HRESULT SetUp_RenderState();
@@ -128,6 +131,7 @@ private: // 플레이어 관련
 	_uint m_iSprit{};//정신력
 	_uint m_iCapacity{};//용량
 	_uint m_iLevel{}; // 레벨
+	_uint m_iSkillPoint{};//스킬포인트
 	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
 	CInventory* m_pPlayer_Inven = { nullptr };
 
