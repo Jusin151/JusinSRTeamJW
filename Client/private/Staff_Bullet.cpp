@@ -37,13 +37,14 @@ void CStaff_Bullet::Priority_Update(_float fTimeDelta)
 void CStaff_Bullet::Update(_float fTimeDelta)
 {
 	
-	m_pTransformCom->Go_Straight(fTimeDelta * m_fSpeed);
-	m_pParticleCom->Update(fTimeDelta);
-	_float3 a = Player_Pos;
+	//m_pTransformCom->Go_Straight(fTimeDelta * m_fSpeed);
+	
+	_float3 a = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
 	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 dir = a - b;
+	_float3 dir = b - a;
 	D3DXVec3Normalize(&dir, &dir);
 	dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+	m_pParticleCom->Update(fTimeDelta);
 	m_fElapsedTime += fTimeDelta;
 	if (m_fElapsedTime >= 0.02f) 
 	{

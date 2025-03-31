@@ -59,7 +59,7 @@ void CUI_Menu::Update(_float fTimeDelta)
 		{
 			m_bIsVisible = !m_bIsVisible;
 			m_bKeyPressed = true;
-			static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
+			//static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
 		}
 	}
 	else

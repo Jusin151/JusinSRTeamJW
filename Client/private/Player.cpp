@@ -53,7 +53,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.2f, 0.5f, -1.f));
 	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_pTransformCom->Set_Scale(0.5f,0.5f,0.5f);
+	m_pTransformCom->Set_Scale(1.0f,1.0f,1.0f);
 	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
@@ -166,6 +166,27 @@ HRESULT CPlayer::Render()
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 LOOK X:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_LOOK).x),
+		_float2(-300.f, -277.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 LOOK Y:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_LOOK).y),
+		_float2(-300.f, -257.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 LOOK Z:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_LOOK).z),
+		_float2(-300.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Right X:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_RIGHT).x),
+		_float2(-100.f, -277.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Right Y:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_RIGHT).y),
+		_float2(-100.f, -257.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Right Z:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_RIGHT).z),
+		_float2(-100.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Up X:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_UP).x),
+		_float2(100.f, -277.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Up Y:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_UP).y),
+		_float2(100.f, -257.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Up Z:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_UP).z),
+		_float2(100.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 체력:") + to_wstring(m_iHp),
 		_float2(-600.f, -250.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
