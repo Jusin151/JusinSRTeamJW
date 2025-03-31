@@ -94,7 +94,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (GetAsyncKeyState('0') & 0x8000)
 	{
-		Add_Ammo(10);
+		Add_Ammo(L"Magnum_Ammo",10);
 
 	}
 
@@ -274,7 +274,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	_float moveSpeed = 0.25f;
+	_float moveSpeed = 0.5f;
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
@@ -362,19 +362,48 @@ void CPlayer::Set_Hp(_int iHp)
 	Notify(m_iHp, L"HP");
 }
 
-void CPlayer::Add_Ammo(_int iAmmo)
+void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 {
-	if (!m_pPlayer_Weapon)
-		return;
+	
+	_wstring weaponName = stWeaponName.substr(0, stWeaponName.find(L"_"));
 
-	if (auto pRanged = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Weapon))
+	if (m_pPlayer_Inven)
 	{
-		pRanged->Add_Ammo(iAmmo);
+		if (m_pPlayer_Inven->Exist_item(weaponName))
+		{
+			auto pWeapon = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Inven->Get_Weapon(weaponName));
+
+			if (pWeapon)
+			{
+				pWeapon->Add_Ammo(iAmmo);
+			}
+		}
 	}
 
+	//if (!m_pPlayer_Weapon)
+	//	return;
+
+	//if (auto pRanged = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Weapon))
+	//{
+	//	pRanged->Add_Ammo(iAmmo);
+	//}
 }
 
+_bool CPlayer::Has_Item(const _wstring& stItemTag)
+{
+	if (!m_pPlayer_Inven) return false;
 
+	return m_pPlayer_Inven->Exist_item(stItemTag);
+}
+
+HRESULT CPlayer::Add_Item(const _wstring& stItemTag)
+{
+	if (!m_pPlayer_Inven) return E_FAIL;
+
+	m_pPlayer_Inven->Add_Item(stItemTag);
+
+	return S_OK;
+}
 
 HRESULT CPlayer::SetUp_RenderState()
 {

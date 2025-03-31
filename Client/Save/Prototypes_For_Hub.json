@@ -1,12 +1,6 @@
 {
   "textures": [
     {
-      "tag": "Prototype_Component_Texture_Player",
-      "level": 3,
-      "path": "../../Resources/Textures/Player/Player.png",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Default_PlayerUI",
       "level": 3,
       "path": "../../Resources/Textures/UI/Default_UI.png",
@@ -98,33 +92,9 @@
     },
     {
       "tag": "Prototype_Component_Texture_Inven",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Inven/Inven.png",
       "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Anubis",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Anubis/anubis_%d.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Crocman",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Crocman/Crocman_%d.png",
-      "count": 27
-    },
-    {
-      "tag": "Prototype_Component_Texture_Harpoon",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoon.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Harpoonguy",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoonguy_%d.png",
-      "count": 27
     },
     {
       "level": 3,
@@ -176,251 +146,117 @@
     },
     {
       "count": 1,
-      "level": 4,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\TEXTURE_DUNGEON_WALL_3blue.png",
       "tag": "Prototype_Component_Texture_Wall2"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\ShopTile.png",
       "tag": "Prototype_Component_Texture_Hub_Floor1"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_stoneceiling_01.png",
       "tag": "Prototype_Component_Texture_Hub_Ceil1"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_02.png",
       "tag": "Prototype_Component_Texture_Hub_Wall1"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall2"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_brickwall_02.png",
       "tag": "Prototype_Component_Texture_Hub_Wall3"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_brickwall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall4"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_techwall_02.png",
       "tag": "Prototype_Component_Texture_Hub_Wall5"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_stonefloor_01.png",
       "tag": "Prototype_Component_Texture_Floor2"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall6"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
       "tag": "Prototype_Component_Texture_Point_Shop"
     },
     {
       "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_6.png",
-      "tag": "Prototype_Component_Texture_AntWall1"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_ceiling_1.png",
-      "tag": "Prototype_Component_Texture_AntCeil1"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_Boss_floor.png",
-      "tag": "Prototype_Component_Texture_AntFloor1"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_BossWall.png",
-      "tag": "Prototype_Component_Texture_AntBossWall"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_2.png",
-      "tag": "Prototype_Component_Texture_AntWall2"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_1.png",
-      "tag": "Prototype_Component_Texture_AntWall3"
-    },
-    {
-      "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\TEXTURE_HUB_FLOOR_1.png",
       "tag": "Prototype_Component_Texture_Hub_Floor3"
     },
     {
       "count": 4,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\magma%d.png",
       "tag": "Prototype_Component_Texture_Magma"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png",
       "tag": "Prototype_Component_Texture_UI_Point_Shop"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
       "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 6,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
       "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
     },
     {
       "count": 97,
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Item/Item%d.png",
       "tag": "Prototype_Component_Texture_Items"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
-      "tag": "Prototype_Component_Texture_Ant1_Wall"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_4.png",
-      "tag": "Prototype_Component_Texture_Ant1_Floor"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_14.png",
-      "tag": "Prototype_Component_Texture_Ant1_Floor2"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_stage1_wall.png",
-      "tag": "Prototype_Component_Texture_Ant1_Wall2"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_11.png",
-      "tag": "Prototype_Component_Texture_Ant_Wall3"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_2_snow.png",
-      "tag": "Prototype_Component_Texture_Ant_Wall4"
-    },
-    {
-      "count": 2,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
-      "tag": "Prototype_Component_Texture_Button"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
-      "tag": "Prototype_Component_Texture_Ant_Wall6"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_7.png",
-      "tag": "Prototype_Component_Texture_Ant_Wall5"
-    },
-    {
-      "count": 4,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\Ocean%d.png",
-      "tag": "Prototype_Component_Texture_Ocean"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_grey.png",
-      "tag": "Prototype_Component_Texture_Door_Normal"
-    },
-    {
-      "count": 2,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
-      "tag": "Prototype_Component_Texture_Trigger"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
-      "tag": "Prototype_Component_Texture_Door_Red"
     }
   ],
   "gameObjects": [
     {
       "tag": "Prototype_GameObject_Item",
-      "level": 3,
+      "level": 0,
       "class": "CItem"
     },
     {
       "tag": "Prototype_GameObject_Player",
-      "level": 3,
+      "level": 0,
       "class": "CPlayer"
-    },
-    {
-      "tag": "Prototype_GameObject_Anubis",
-      "level": 3,
-      "class": "CAnubis"
-    },
-    {
-      "tag": "Prototype_GameObject_Crocman",
-      "level": 3,
-      "class": "CCrocman"
-    },
-    {
-      "tag": "Prototype_GameObject_Harpoonguy",
-      "level": 3,
-      "class": "CHarpoonguy"
-    },
-    {
-      "tag": "Prototype_GameObject_Harpoon",
-      "level": 3,
-      "class": "CHarpoon"
     },
     {
       "tag": "Prototype_GameObject_Terrain",
@@ -428,19 +264,9 @@
       "class": "CTerrain"
     },
     {
-      "tag": "Prototype_GameObject_Camera_Free",
-      "level": 3,
-      "class": "CCamera_Free"
-    },
-    {
       "tag": "Prototype_GameObject_Camera_FirstPerson",
-      "level": 3,
+      "level": 0,
       "class": "CCamera_FirstPerson"
-    },
-    {
-      "tag": "Prototype_GameObject_Monster",
-      "level": 3,
-      "class": "CTestMonster"
     },
     {
       "tag": "Prototype_GameObject_Default_PlayerUI",
@@ -514,7 +340,7 @@
     },
     {
       "tag": "Prototype_GameObject_Inven",
-      "level": 3,
+      "level": 0,
       "class": "CInventory"
     },
     {
@@ -570,21 +396,6 @@
     {
       "class": "CStructure",
       "level": 3,
-      "tag": "Prototype_GameObject_AntWall1"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_AntCeil1"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_AntFloor1"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
       "tag": "Prototype_GameObject_AntBossWall"
     },
     {
@@ -604,133 +415,8 @@
     },
     {
       "class": "CStructure",
-      "level": 3,
+      "level": 6,
       "tag": "Prototype_GameObject_Magma"
-    },
-
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_HP_Small"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_EXP"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_MP_Small"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant1_Wall"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant1_Floor"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant1_Floor2"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant1_Wall2"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant_Wall3"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant_Wall4"
-    },
-    {
-      "class": "CTrigger",
-      "level": 3,
-      "tag": "Prototype_GameObject_Trigger_Button"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_HP_Big"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Small"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant_Wall6"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ant_Wall5"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_Staff_Ammo_Big"
-    },
-    {
-      "class": "CStructure",
-      "level": 3,
-      "tag": "Prototype_GameObject_Ocean"
-    },
-    {
-      "class": "CDoor",
-      "level": 3,
-      "tag": "Prototype_GameObject_Door_Normal"
-    },
-    {
-      "class": "CDoor",
-      "level": 3,
-      "tag": "Prototype_GameObject_Door"
-    },
-    {
-      "class": "CDoor",
-      "level": 3,
-      "tag": "Prototype_GameObject_Door_Key_Red"
-    },
-    {
-      "class": "CItem",
-      "level": 3,
-      "tag": "Prototype_GameObject_Item_Red"
-    }
-  ],
-  "buffers": [
-    {
-      "tag": "Prototype_Component_VIBuffer_Terrain",
-      "level": 3,
-      "class": "CVIBuffer_Terrain",
-      "width": 256,
-      "height": 256
     }
   ]
 }

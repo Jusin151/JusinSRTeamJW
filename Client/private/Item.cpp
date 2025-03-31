@@ -57,7 +57,7 @@ HRESULT CItem::Initialize(void* pArg)
 	{
 		//테스트용
 		m_eItemType = ITEM_TYPE::AMMO;
-		m_strItemName = L"Pistol_Ammo_Small";
+		m_strItemName = L"Magnum_Ammo_Small";
 		//
 	}
 
@@ -170,11 +170,17 @@ void CItem::Use_Item()
 	case Client::CItem::ITEM_TYPE::MP:
 		break;
 	case Client::CItem::ITEM_TYPE::AMMO:
-		m_pPlayer->Add_Ammo(10);
+		m_pPlayer->Add_Ammo(m_strItemName, 10);
 		break;
 	case Client::CItem::ITEM_TYPE::EXP:
 		break;
 	case Client::CItem::ITEM_TYPE::STAT:
+		break;
+	case Client::CItem::ITEM_TYPE::KEY:
+		if (FAILED(m_pPlayer->Add_Item(m_strItemName)))
+		{
+			return;
+		}
 		break;
 	case Client::CItem::ITEM_TYPE::MAX:
 		break;
@@ -190,16 +196,25 @@ void CItem::Init_TextureTag()
 {
 	m_mapTextureTag[ITEM_TYPE::HP][L"HP_Big"] = 36;
 	m_mapTextureTag[ITEM_TYPE::HP][L"HP_Small"] = 37;
+
 	m_mapTextureTag[ITEM_TYPE::MP][L"MP_Big"] = 38;
 	m_mapTextureTag[ITEM_TYPE::MP][L"MP_Small"] = 39;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Big"] = 2;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Pistol_Ammo_Small"] = 86;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Small"] = 87;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Big"] = 88;
+
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Magnum_Ammo_Big"] = 2;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Magnum_Ammo_Small"] = 86;
+
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"ShotGun_Ammo_Small"] = 87;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"ShotGun_Ammo_Big"] = 88;
+
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Big"] = 93;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Small"] = 89;
+
 	m_mapTextureTag[ITEM_TYPE::EXP][L"EXP"] = 3;
-	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 78;
+	m_mapTextureTag[ITEM_TYPE::STAT][L"Stat"] = 78;
+
+	m_mapTextureTag[ITEM_TYPE::KEY][L"Red"] = 61;
+	m_mapTextureTag[ITEM_TYPE::KEY][L"Blue"] = 60;
+	m_mapTextureTag[ITEM_TYPE::KEY][L"Yellow"] = 62;
 }
 
 void CItem::Play_Animation(_float fTimeDelta) 

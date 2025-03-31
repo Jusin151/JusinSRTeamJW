@@ -2790,7 +2790,7 @@
           "ProtoLevel": 3
         },
         "door_color": 4,
-        "door_state":0,
+        "door_state": 0,
         "door_type": 2,
         "open_speed": 1.0,
         "position": [
@@ -2875,6 +2875,40 @@
           0.5,
           2.59,
           2.59
+        ],
+        "slide_distance": 3.5
+      }
+    ],
+    "Layer_Door_Normal4": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Door_Normal4",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_TexturedCube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Door",
+          "ProtTextureTag": "Prototype_Component_Texture_Door_Normal",
+          "ProtoLevel": 3
+        },
+        "door_color": 3,
+        "door_state": 0,
+        "door_type": 0,
+        "open_speed": 2.0,
+        "position": [
+          -22.72,
+          1.23,
+          -45.43
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          3.5,
+          3.5,
+          1.0
         ],
         "slide_distance": 3.5
       }
@@ -3086,12 +3120,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Small",
+        "Item_Name": "Magnum_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3115,12 +3149,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Small",
+        "Item_Name": "Magnum_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3144,12 +3178,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Small",
+        "Item_Name": "Magnum_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3173,12 +3207,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Small",
+        "Item_Name": "Magnum_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3434,12 +3468,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3463,12 +3497,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3492,12 +3526,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3521,12 +3555,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3550,12 +3584,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3579,12 +3613,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3608,12 +3642,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3637,12 +3671,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3666,12 +3700,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3695,12 +3729,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3724,12 +3758,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3753,12 +3787,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3782,12 +3816,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Big",
+        "Item_Name": "Magnum_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3811,12 +3845,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Big",
+        "Item_Name": "Magnum_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -3840,12 +3874,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Big",
+        "Item_Name": "Magnum_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4275,12 +4309,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Small",
+        "Item_Name": "Magnum_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4304,12 +4338,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Pistol_Ammo_Big",
+        "Item_Name": "Magnum_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Pistol_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_Magnum_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4333,12 +4367,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4362,12 +4396,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Big",
+        "Item_Name": "ShotGun_Ammo_Big",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Big",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Big",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4391,12 +4425,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4420,12 +4454,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "Item_Name": "Shotgun_Ammo_Small",
+        "Item_Name": "ShotGun_Ammo_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Item_Shotgun_Ammo_Small",
+          "ProtTag": "Prototype_GameObject_Item_ShotGun_Ammo_Small",
           "ProtTextureTag": "Prototype_Component_Texture_Items",
           "ProtoLevel": 3
         },
@@ -4473,6 +4507,35 @@
           0.5,
           0.5,
           1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "Item_Name": "Red",
+        "LayerTag": "Layer_Item",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Item_Red",
+          "ProtTextureTag": "Prototype_Component_Texture_Items",
+          "ProtoLevel": 3
+        },
+        "Type": 5,
+        "position": [
+          6.88,
+          0.55,
+          4.92
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.00
         ]
       }
     ],
@@ -4648,6 +4711,35 @@
           1.0
         ],
         "target_tags": "Layer_Door_Normal3",
+        "trigger_type": 0
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          -23.19,
+          0.56,
+          -56.16
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "target_tags": "Layer_Door_Normal4",
         "trigger_type": 0
       }
     ],

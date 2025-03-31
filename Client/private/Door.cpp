@@ -177,14 +177,9 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 			case DOOR_COLOR::BLUE:
 				break;
 			case DOOR_COLOR::RED:
+				hasKey = pPlayerObj->Has_Item(L"Red");
 				break;
 			case DOOR_COLOR::YELLOW:
-
-				break;
-				break;
-			case DOOR_COLOR::NORMAL:
-				// 일반 문은 특정 키 확인 없이 열림
-				hasKey = true;
 				break;
 			}
 
