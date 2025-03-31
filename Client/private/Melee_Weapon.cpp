@@ -1,7 +1,6 @@
 ﻿#include "Melee_Weapon.h"
 #include "GameInstance.h"
 #include "Collider_Cube.h"
-#include "UI_Manager.h"
 
 CMelee_Weapon::CMelee_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{pGraphic_Device}
@@ -123,10 +122,6 @@ HRESULT CMelee_Weapon::Render()
 
 HRESULT CMelee_Weapon::Ready_Components()
 {
-
-	if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Bullet_Bar")))
-		Add_Observer(pHpUI);
-
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;

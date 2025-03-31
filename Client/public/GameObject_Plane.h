@@ -5,6 +5,7 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CParticle_System;
 END
 
 class CGameObject_Plane final : public CGameObject
@@ -35,6 +36,7 @@ private:
 	CTexture*		m_pTextureCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CParticle_System* m_pBloodParticleCom = { nullptr };
 
 public:
 	static CGameObject_Plane* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

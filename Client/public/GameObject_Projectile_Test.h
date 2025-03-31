@@ -37,6 +37,8 @@ private:
 	CMaterial*			m_pMaterialCom = { nullptr };
 	CParticle_System*	m_pParticleCom = { nullptr };
 	CParticle_System*	m_pGoldParticleCom = { nullptr };
+	CParticle_System*	m_pBloodParticleCom = { nullptr };
+	CParticle_System*	m_pBulletShellParticleCom = { nullptr };
 
 public:
 	static	CGameObject_Projectile_Test* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

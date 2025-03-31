@@ -75,7 +75,10 @@ do { \
     if ((jsonObj).contains("scale") && (jsonObj)["scale"].is_array()) { \
         auto& _scale = (jsonObj)["scale"]; \
         if (_scale.size() >= 3 && _scale[0].is_number() && _scale[1].is_number() && _scale[2].is_number()) { \
-            (transformCom)->Set_Scale(_scale[0], _scale[1], _scale[2]); \
+            float scaleX = std::max((float)_scale[0], 0.1f); \
+            float scaleY = std::max((float)_scale[1], 0.1f); \
+            float scaleZ = std::max((float)_scale[2], 0.1f); \
+            (transformCom)->Set_Scale(scaleX, scaleY, scaleZ); \
         } \
     } \
 } while(0)

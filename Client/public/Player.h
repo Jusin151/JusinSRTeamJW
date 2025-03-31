@@ -59,9 +59,10 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
+
 	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
 	 void Add_Ammo(_int iAmmo);
-	 void Add_Strength(_int type) { m_iStr += type; }
+	 inline void Add_Strength(_int type) { m_iStr += type; }
 	 void Add_MaxHP(_int type)
 	{
 		m_iHp += type;
@@ -79,6 +80,7 @@ public:
 	 }
 
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
+
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
@@ -130,6 +132,7 @@ private: // 플레이어 관련
 	_uint m_iLevel{}; // 레벨
 	CWeapon_Base* m_pPlayer_Weapon={nullptr};
 	CInventory*   m_pPlayer_Inven={nullptr};
+
 
 	
 };

@@ -206,6 +206,7 @@ HRESULT CUI_Point_Shop::Render()
      m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iLevel),
          _float2(-200.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
+
     return S_OK;
 }
 void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
@@ -340,12 +341,13 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
             {
                 m_vecButtons.push_back(pButton); // 버튼 저장
 
-                pButton->SetOnClickCallback([this,index]()
+                pButton->SetOnClickCallback([index]()
                     {
                         switch (index)
                         {
                         case 0:
                             MessageBox(nullptr, L"근력 강화!",nullptr, MB_OK);
+
                             if (m_pPointShop)
 								m_pPointShop->Buy_Stat(index);
                             m_iStr++;
@@ -367,6 +369,7 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
                             if (m_pPointShop)
                                 m_pPointShop->Buy_Stat(index);
                             m_iCapacity++;
+
                             break;                   
                         default:
                             break;

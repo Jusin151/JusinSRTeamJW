@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Texture.h"
 #include "VIBuffer_Rect.h"
+#include "Particles.h"
 
 CGameObject_Plane::CGameObject_Plane(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
@@ -37,6 +38,7 @@ void CGameObject_Plane::Priority_Update(_float fTimeDelta)
 void CGameObject_Plane::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+    m_pBloodParticleCom->Update(fTimeDelta);
 }
 
 void CGameObject_Plane::Late_Update(_float fTimeDelta)
@@ -63,6 +65,8 @@ HRESULT CGameObject_Plane::Render()
     Pre_Render();
 
     if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+    if (FAILED(m_pBloodParticleCom->Render()))
         return E_FAIL;
 
     Post_Render();
@@ -92,6 +96,17 @@ HRESULT CGameObject_Plane::Ready_Components()
     /* For.Com_Texture */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Base"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+
+    CBlood_Particle_System::BLOODDESC bloodDesc = {};
+    bloodDesc.Bounding_Box.m_vMin = { -0.1, -0.1, -0.1 };
+    bloodDesc.Bounding_Box.m_vMax = { 0.1, 0.1, 0.1 };
+    bloodDesc.iNumParticles = { 100 };
+    bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+
+    /* For.Com_BloodParticle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+        TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -127,6 +142,10 @@ CGameObject_Plane* CGameObject_Plane::Clone(void* pArg)
 void CGameObject_Plane::Free()
 {
     __super::Free();
+    Safe_Release(m_pTextureCom);
+    Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pTransformCom);
+    Safe_Release(m_pBloodParticleCom);
 }
 
 json CGameObject_Plane::Serialize()
@@ -136,4 +155,5 @@ json CGameObject_Plane::Serialize()
 
 void CGameObject_Plane::Deserialize(const json& j)
 {
+    SET_TRANSFORM(j, m_pTransformCom);
 }

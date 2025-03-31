@@ -399,7 +399,6 @@ void CGameInstance::Release_Engine()
 
 	Safe_Release(m_pFrustumCull);
 
-
 	Safe_Release(m_pTimer_Manager);
 
 	Safe_Release(m_pRenderer);

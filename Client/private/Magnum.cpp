@@ -3,7 +3,9 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
+#include "Sound_Source.h"
 #include "Sound_Event.h"
+#include "Light.h"
 
 
 
@@ -34,10 +36,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	if (FAILED(__super::Ready_Components()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Texture()))
+	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	// 일단 Level_GamePlay에서도 비슷한값 넣는중
@@ -158,21 +157,16 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 	}
 }
 
-HRESULT CMagnum::Ready_Texture()
-{
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Magnum"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 
 
 
 void CMagnum::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_bIsAnimating)
+	{
+		m_pGameInstance->Add_Light(m_pLightCom);
+	}
 }
 
 HRESULT CMagnum::Render()
@@ -213,7 +207,9 @@ HRESULT CMagnum::Render()
 
 HRESULT CMagnum::Ready_Components()
 {
-	
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Magnum"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBufferm"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -223,6 +219,17 @@ HRESULT CMagnum::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
+
+
+	//CLight::LIGHT_DESC lDesc = {};
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
+		return E_FAIL;
+
+	//CSound_Source::LIGHT_DESC lDesc = {};
+	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -265,4 +272,6 @@ void CMagnum::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pLightCom);
+	Safe_Release(m_pSoundCom);
 }

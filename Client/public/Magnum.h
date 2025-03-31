@@ -8,6 +8,9 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로
+class CSound_Source;
+class CParticle_System;
+class CLight;
 END
 
 BEGIN(Client)
@@ -38,7 +41,9 @@ public:
 private:
 	HRESULT Ready_Components();
 private:
-	State m_eState = State::Idle;
+	State m_eState = State::Idle;private:
+	CSound_Source*	m_pSoundCom = { nullptr };
+	CLight*			m_pLightCom = { nullptr };
 
 public:
 	static CMagnum* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -47,15 +52,13 @@ public:
 
 
 	 bool m_bHasFired = false;
+
+
 	
 	 HRESULT Ready_Icon() override;
 
 	 // CRanged_Weapon을(를) 통해 상속됨
 	 void Attack_WeaponSpecific(_float fTimeDelta) override;
-
-
-	 // CRanged_Weapon을(를) 통해 상속됨
-	 HRESULT Ready_Texture() override;
 
 };
 END
