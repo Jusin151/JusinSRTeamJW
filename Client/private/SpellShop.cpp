@@ -1,27 +1,27 @@
-﻿#include "Hub_SpellShop.h"
+﻿#include "SpellShop.h"
 #include "GameInstance.h"
 #include "Player.h"  // 플레이어 정보 접근용
 #include "UI_Spell_Shop.h"
 #include "UI_Manager.h"
 
-CHub_SpellShop::CHub_SpellShop(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpellShop::CSpellShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
 {
 }
 
-CHub_SpellShop::CHub_SpellShop(const CHub_SpellShop& Prototype)
+CSpellShop::CSpellShop(const CSpellShop& Prototype)
     : CShop(Prototype)
 {
 }
 
-HRESULT CHub_SpellShop::Initialize_Prototype()
+HRESULT CSpellShop::Initialize_Prototype()
 {
 
 
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Initialize(void* pArg)
+HRESULT CSpellShop::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -39,12 +39,12 @@ HRESULT CHub_SpellShop::Initialize(void* pArg)
 }
 
 
-void CHub_SpellShop::Priority_Update(_float fTimeDelta)
+void CSpellShop::Priority_Update(_float fTimeDelta)
 {
     m_bIsActive = true;
 }
 
-void CHub_SpellShop::Update(_float fTimeDelta)
+void CSpellShop::Update(_float fTimeDelta)
 {
    
     __super::Update(fTimeDelta);
@@ -59,13 +59,13 @@ void CHub_SpellShop::Update(_float fTimeDelta)
     }
 }
 
-void CHub_SpellShop::Late_Update(_float fTimeDelta)
+void CSpellShop::Late_Update(_float fTimeDelta)
 {
 
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CHub_SpellShop::SetUp_RenderState()
+HRESULT CSpellShop::SetUp_RenderState()
 {
     // 일단 추가해보기
 
@@ -77,14 +77,14 @@ HRESULT CHub_SpellShop::SetUp_RenderState()
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Release_RenderState()
+HRESULT CSpellShop::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Render()
+HRESULT CSpellShop::Render()
 {
 
 
@@ -108,14 +108,14 @@ HRESULT CHub_SpellShop::Render()
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Ready_ShopItems()
+HRESULT CSpellShop::Ready_ShopItems()
 {
 
 
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Open_Shop()
+HRESULT CSpellShop::Open_Shop()
 {
     //// 이미 열려있다면 무시
     //if (m_bIsOpen)
@@ -140,7 +140,7 @@ HRESULT CHub_SpellShop::Open_Shop()
     return S_OK;
 }//뭘봐 ㅋ
 
-HRESULT CHub_SpellShop::Close_Shop()
+HRESULT CSpellShop::Close_Shop()
 {
     // 이미 닫혀있다면 무시
  
@@ -159,7 +159,7 @@ HRESULT CHub_SpellShop::Close_Shop()
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Purchase_Item(const _uint iItemID, const _uint iCount)
+HRESULT CSpellShop::Purchase_Item(const _uint iItemID, const _uint iCount)
 {
     // 상점이 닫혀있다면 구매 실패
     if (!m_bIsOpen)
@@ -171,18 +171,18 @@ HRESULT CHub_SpellShop::Purchase_Item(const _uint iItemID, const _uint iCount)
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Sell_Item(const _uint iItemID, const _uint iCount)
+HRESULT CSpellShop::Sell_Item(const _uint iItemID, const _uint iCount)
 {
     return S_OK;
 }
 
-void CHub_SpellShop::Refresh_Shop_Items()
+void CSpellShop::Refresh_Shop_Items()
 {
     
     
 }
 
-_bool CHub_SpellShop::Can_Purchase(_uint iItemID, _uint iCount)
+_bool CSpellShop::Can_Purchase(_uint iItemID, _uint iCount)
 {
     // 상점이 닫혀있으면 구매 불가
     if (!m_bIsOpen)
@@ -192,7 +192,7 @@ _bool CHub_SpellShop::Can_Purchase(_uint iItemID, _uint iCount)
 }
 
 
-HRESULT CHub_SpellShop::Ready_Components()
+HRESULT CSpellShop::Ready_Components()
 {
 
     if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop"),
@@ -203,33 +203,33 @@ HRESULT CHub_SpellShop::Ready_Components()
     return S_OK;
 }
 
-CHub_SpellShop* CHub_SpellShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpellShop* CSpellShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CHub_SpellShop* pInstance = new CHub_SpellShop(pGraphic_Device);
+    CSpellShop* pInstance = new CSpellShop(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CHub_SpellShop");
+        MSG_BOX("Failed to Created : CSpellShop");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CHub_SpellShop::Clone(void* pArg)
+CGameObject* CSpellShop::Clone(void* pArg)
 {
-    CHub_SpellShop* pInstance = new CHub_SpellShop(*this);
+    CSpellShop* pInstance = new CSpellShop(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CHub_SpellShop");
+        MSG_BOX("Failed to Cloned : CSpellShop");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CHub_SpellShop::Free()
+void CSpellShop::Free()
 {
     __super::Free();
     Safe_Release(m_pTextureCom);

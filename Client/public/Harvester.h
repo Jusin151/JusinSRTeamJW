@@ -36,6 +36,7 @@ public:
 
 	 HRESULT On_Collision();
 
+	 HRESULT Ready_Components();
 
 
 
@@ -47,6 +48,9 @@ public:
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 
+	_float t = {}; //
+	_float speed = { 0.1f }; //
+	_float2 m_vInitialPos = {};
 
 
 	// CRanged_Weapon을(를) 통해 상속됨
@@ -55,10 +59,6 @@ public:
 
 	// CRanged_Weapon을(를) 통해 상속됨
 	void Attack_WeaponSpecific(_float fTimeDelta) override;
-
-
-	// CRanged_Weapon을(를) 통해 상속됨
-	HRESULT Ready_Texture() override;
 
 };
 END

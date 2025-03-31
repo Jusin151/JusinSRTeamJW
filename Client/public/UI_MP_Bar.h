@@ -39,7 +39,7 @@ private:
 public:
 	void Set_MP(_int type)
 	{
-			m_iMp = type;
+			m_iMp -= type;
 			if (m_iMp < 0 || m_iMp > 100)
 				m_iMp = 0; 
 
@@ -54,9 +54,11 @@ private:
 	_uint m_iMp{};  
 
 	virtual void OnNotify(void* pArg, const wstring& type) override
-	{		
-			if (type == L"Mp")
-				     Set_MP(*reinterpret_cast<_uint*>(pArg));		
+	{
+		{
+			if (type == L"MP")
+				Set_MP(*reinterpret_cast<_uint*>(pArg));
+		}
 	}
 };
 

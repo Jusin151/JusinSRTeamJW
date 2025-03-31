@@ -41,12 +41,10 @@ HRESULT CMinigun::Initialize(void* pArg)
     else
         return E_FAIL;
 
-    if (FAILED(__super::Ready_Components()))
+    if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    if (FAILED(Ready_Texture()))
-        return E_FAIL;
-
+  
     m_pTransformCom->Set_Scale(m_Staff_INFO.vSize.x, m_Staff_INFO.vSize.y, 1.f);
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
      _float3(m_Staff_INFO.vPos.x, m_Staff_INFO.vPos.y, 0.f));
@@ -91,15 +89,6 @@ HRESULT CMinigun::Ready_Icon()
 
     return S_OK;
 }
-HRESULT CMinigun::Ready_Texture()
-{
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Minigun"),
-        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;
-
-    return S_OK;
-}
-
 
 
 void CMinigun::Priority_Update(_float fTimeDelta)
@@ -234,6 +223,9 @@ void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
 
 
 
+
+
+
 void CMinigun::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);;
@@ -289,6 +281,9 @@ HRESULT CMinigun::On_Collision()
 
 HRESULT CMinigun::Ready_Components()
 {
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Minigun"),
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))

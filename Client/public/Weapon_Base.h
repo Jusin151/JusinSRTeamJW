@@ -98,12 +98,12 @@ protected: // 손훈들리는 거 관련
     _float t = {}; 
     _float speed = { 0.1f }; 
     _float2 m_vInitialPos = {};
-protected: // 옵저버 관련^
-    vector<CObserver*> m_pObservers{};
+protected: // 옵저버 관련
+    CObserver* m_pObserver = { nullptr };
 public:
     void Add_Observer(CObserver* pObserver)
     {
-        m_pObservers.push_back(pObserver);
+        m_pObserver = pObserver;
     }
     virtual void Notify_Bullet()PURE;
     

@@ -9,7 +9,7 @@
 #include "Weapon_Headers.h"
 #include "Anubis.h"
 #include "Crocman.h"
-#include "Hub_PointShop.h"
+#include "PointShop.h"
 #include "Harpoon.h"
 #include "Item.h"
 #include "Trigger.h"

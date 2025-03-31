@@ -1,26 +1,25 @@
-﻿#include "Hub_Episode..h"
+﻿#include "Episode_Hub.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "UI_Episode_Hub.h"
-
-CHub_Episode::CHub_Episode(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEpisode_Hub::CEpisode_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
 {
 }
 
-CHub_Episode::CHub_Episode(const CHub_Episode& Prototype)
+CEpisode_Hub::CEpisode_Hub(const CEpisode_Hub& Prototype)
     : CShop(Prototype)
 {
 }
 
-HRESULT CHub_Episode::Initialize_Prototype()
+HRESULT CEpisode_Hub::Initialize_Prototype()
 {
 
 
     return S_OK;
 }
 
-HRESULT CHub_Episode::Initialize(void* pArg)
+HRESULT CEpisode_Hub::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -45,12 +44,12 @@ HRESULT CHub_Episode::Initialize(void* pArg)
 }
 
 
-void CHub_Episode::Priority_Update(_float fTimeDelta)
+void CEpisode_Hub::Priority_Update(_float fTimeDelta)
 {
     m_bIsActive = true;
 }
 
-void CHub_Episode::Update(_float fTimeDelta)
+void CEpisode_Hub::Update(_float fTimeDelta)
 {
 
     __super::Update(fTimeDelta); 
@@ -69,13 +68,13 @@ void CHub_Episode::Update(_float fTimeDelta)
     }
 }
 
-void CHub_Episode::Late_Update(_float fTimeDelta)
+void CEpisode_Hub::Late_Update(_float fTimeDelta)
 {
 
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CHub_Episode::Render()
+HRESULT CEpisode_Hub::Render()
 {
 
 
@@ -99,14 +98,14 @@ HRESULT CHub_Episode::Render()
     return S_OK;
 }
 
-HRESULT CHub_Episode::Ready_ShopItems()
+HRESULT CEpisode_Hub::Ready_ShopItems()
 {
 
 
     return S_OK;
 }
 
-HRESULT CHub_Episode::Open_Shop()
+HRESULT CEpisode_Hub::Open_Shop()
 {
     //// 이미 열려있다면 무시
     //if (m_bIsOpen)
@@ -130,7 +129,7 @@ HRESULT CHub_Episode::Open_Shop()
     return S_OK;
 }//뭘봐 ㅋ
 
-HRESULT CHub_Episode::Close_Shop()
+HRESULT CEpisode_Hub::Close_Shop()
 {
     // 이미 닫혀있다면 무시
 
@@ -150,7 +149,7 @@ HRESULT CHub_Episode::Close_Shop()
     return S_OK;
 }
 
-HRESULT CHub_Episode::Purchase_Item(const _uint iItemID, const _uint iCount)
+HRESULT CEpisode_Hub::Purchase_Item(const _uint iItemID, const _uint iCount)
 {
     // 상점이 닫혀있다면 구매 실패
     if (!m_bIsOpen)
@@ -162,17 +161,17 @@ HRESULT CHub_Episode::Purchase_Item(const _uint iItemID, const _uint iCount)
     return S_OK;
 }
 
-HRESULT CHub_Episode::Sell_Item(const _uint iItemID, const _uint iCount)
+HRESULT CEpisode_Hub::Sell_Item(const _uint iItemID, const _uint iCount)
 {
     return S_OK;
 }
 
-void CHub_Episode::Refresh_Shop_Items()
+void CEpisode_Hub::Refresh_Shop_Items()
 {
 
 
 }
-HRESULT CHub_Episode::SetUp_RenderState()
+HRESULT CEpisode_Hub::SetUp_RenderState()
 {
     // 일단 추가해보기
 
@@ -184,14 +183,14 @@ HRESULT CHub_Episode::SetUp_RenderState()
     return S_OK;
 }
 
-HRESULT CHub_Episode::Release_RenderState()
+HRESULT CEpisode_Hub::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
 }
 
-_bool CHub_Episode::Can_Purchase(_uint iItemID, _uint iCount)
+_bool CEpisode_Hub::Can_Purchase(_uint iItemID, _uint iCount)
 {
     // 상점이 닫혀있으면 구매 불가
     if (!m_bIsOpen)
@@ -201,7 +200,7 @@ _bool CHub_Episode::Can_Purchase(_uint iItemID, _uint iCount)
 }
 
 
-HRESULT CHub_Episode::Ready_Components()
+HRESULT CEpisode_Hub::Ready_Components()
 {
 
     if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub"),
@@ -212,33 +211,33 @@ HRESULT CHub_Episode::Ready_Components()
     return S_OK;
 }
 
-CHub_Episode* CHub_Episode::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEpisode_Hub* CEpisode_Hub::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CHub_Episode* pInstance = new CHub_Episode(pGraphic_Device);
+    CEpisode_Hub* pInstance = new CEpisode_Hub(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CHub_Episode");
+        MSG_BOX("Failed to Created : CEpisode_Hub");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CHub_Episode::Clone(void* pArg)
+CGameObject* CEpisode_Hub::Clone(void* pArg)
 {
-    CHub_Episode* pInstance = new CHub_Episode(*this);
+    CEpisode_Hub* pInstance = new CEpisode_Hub(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CHub_Episode");
+        MSG_BOX("Failed to Cloned : CEpisode_Hub");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CHub_Episode::Free()
+void CEpisode_Hub::Free()
 {
     __super::Free();
     Safe_Release(m_pTextureCom);

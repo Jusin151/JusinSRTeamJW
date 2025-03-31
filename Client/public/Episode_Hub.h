@@ -1,21 +1,16 @@
 ﻿#pragma once
 #include "Shop.h"
-#include "Player.h"
 
 BEGIN(Client)
-class CHub_PointShop : public CShop
+class CEpisode_Hub : public CShop
 {
-    enum STAT_ENUM
-    {
-        STR,MAXHP,SPRIT,CAPACITY
-    };
 private:
-    CHub_PointShop(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CHub_PointShop(const CHub_PointShop& Prototype);
-    virtual ~CHub_PointShop() = default;
+    CEpisode_Hub(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CEpisode_Hub(const CEpisode_Hub& Prototype);
+    virtual ~CEpisode_Hub() = default;
 
 public:
-
+    
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
 
@@ -41,13 +36,11 @@ private:
     HRESULT Ready_Components();
 
 public:
-    static CHub_PointShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    static CEpisode_Hub* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
 private:
-    class CUI_Point_Shop* m_pUI_Point_Hub = { nullptr };
-public:
-    void Buy_Stat(_uint iStatIndex);
+    class CUI_Episode_Hub* m_pUI_Episode_Hub = { nullptr };
 
 };
 END
