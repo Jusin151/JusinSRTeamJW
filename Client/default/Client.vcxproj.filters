@@ -304,6 +304,9 @@
     <Filter Include="02.GameObjects\96. Structure\Door">
       <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Hub">
+      <UniqueIdentifier>{573b79d6-4ecb-46b7-9aa9-d3a8176ff281}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -585,6 +588,9 @@
     <ClInclude Include="..\public\Hub_WeaponShop.h">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Hub.h">
+      <Filter>01.Levels\Hub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -845,6 +851,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Hub_WeaponShop.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Hub.cpp">
+      <Filter>01.Levels\Hub</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

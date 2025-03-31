@@ -198,6 +198,7 @@
     <ClInclude Include="..\public\JsonLoader.h" />
     <ClInclude Include="..\public\Inventory.h" />
     <ClInclude Include="..\public\Level_Editor.h" />
+    <ClInclude Include="..\public\Level_Hub.h" />
     <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\Logo_Button.h" />
     <ClInclude Include="..\public\Camera_Free.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
+    <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />

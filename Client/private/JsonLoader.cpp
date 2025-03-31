@@ -38,9 +38,13 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 			_wstring path = ISerializable::Utf8ToWide(texture["path"]);
 			LEVEL level = static_cast<LEVEL>(texture["level"].get<_uint>());
 			_uint count = texture["count"];
+			auto pTexture = CTexture::Create(pGraphic_Device, CTexture::TYPE_2D, path.c_str(), count);
 			if (FAILED(pGameInstance->Add_Prototype(level, tag,
-				CTexture::Create(pGraphic_Device, CTexture::TYPE_2D, path.c_str(), count))))
-				return E_FAIL;
+				pTexture)))
+			{
+				Safe_Release(pTexture);
+				continue;
+			}
 		}
 	}
 
@@ -57,7 +61,10 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
  				continue;
 
 			if (FAILED(pGameInstance->Add_Prototype(level, tag, pGameObject)))
-				return E_FAIL;
+			{
+				Safe_Release(pGameObject);
+				continue;
+			}
 		}
 	}
 
@@ -77,17 +84,16 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 				_uint height = buffer["height"].get<_uint>();
 				pBuffer = CVIBuffer_Terrain::Create(pGraphic_Device, width, height);
 			}
-			else if (className == "CItem")
-			{
-
-			}
 
 
 			if (!pBuffer)
 				continue;
 
 			if (FAILED(pGameInstance->Add_Prototype(level, tag, pBuffer)))
-				return E_FAIL;
+			{
+				Safe_Release(pBuffer);
+				continue;
+			}
 		}
 	}
 
