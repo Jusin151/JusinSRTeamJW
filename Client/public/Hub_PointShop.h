@@ -31,9 +31,9 @@ public: //상점관련
     virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) override;
     virtual void Refresh_Shop_Items() override;
     virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
+    void Buy_Stat(_uint iStatIndex);
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
-
 
 protected:
     virtual HRESULT Ready_ShopItems() override;
@@ -47,7 +47,7 @@ public:
 private:
     class CUI_Point_Shop* m_pUI_Point_Hub = { nullptr };
 public:
-    void Buy_Stat(_uint iStatIndex);
+
 
 };
 END

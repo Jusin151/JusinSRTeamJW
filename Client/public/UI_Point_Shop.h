@@ -72,7 +72,7 @@ private:
 	_uint m_iMaxHP{};
 	_uint m_iSprit{};
 	_uint m_iCapacity{};
-
+	_uint m_iLevel{};
 };
 
 END
