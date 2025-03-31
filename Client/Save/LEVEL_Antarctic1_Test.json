@@ -28,13 +28,47 @@
         ],
         "rotation": [
           0.0,
+          -0.54,
+          0.0
+        ],
+        "scale": [
+          1.5,
+          1.5,
+          1.5
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      }
+    ],
+    "Layer_Yeti": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Yeti",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Yeti",
+          "ProtTextureTag": "Prototype_Component_Texture_Yeti",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          8.0,
+          0.21,
+          -30.0
+        ],
+        "rotation": [
+          0.0,
           0.0,
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1.5,
+          1.5,
+          1.5
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -101,6 +135,40 @@
           1.5,
           1.5,
           1.5
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      }
+    ],
+    "Layer_Snowspider": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Snowspider",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Snowspider",
+          "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          -13.0,
+          0.21,
+          -35.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -2790,7 +2858,7 @@
           "ProtoLevel": 3
         },
         "door_color": 4,
-        "door_state":0,
+        "door_state": 0,
         "door_type": 2,
         "open_speed": 1.0,
         "position": [

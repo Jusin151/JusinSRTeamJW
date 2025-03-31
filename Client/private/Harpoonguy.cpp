@@ -175,6 +175,11 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
+	case CG_DOOR:
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+
+		break;
 	default:
 		break;
 	}

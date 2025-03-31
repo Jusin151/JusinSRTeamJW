@@ -1,4 +1,4 @@
-#include "Trigger.h"
+ï»¿#include "Trigger.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -46,11 +46,11 @@ void CTrigger::Update(_float fTimeDelta)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
-		// ÄÝ¶óÀÌ´õ Æ®·£½ºÆû ¾÷µ¥ÀÌÆ®
+		// ì½œë¼ì´ë” íŠ¸ëžœìŠ¤í¼ ì—…ë°ì´íŠ¸
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 	}
 
-	// °ÔÀÓ ÀÎ½ºÅÏ½ºÀÇ Ãæµ¹ È®ÀÎ ½Ã½ºÅÛ¿¡ ÄÝ¶óÀÌ´õ Ãß°¡
+	// ê²Œìž„ ì¸ìŠ¤í„´ìŠ¤ì˜ ì¶©ëŒ í™•ì¸ ì‹œìŠ¤í…œì— ì½œë¼ì´ë” ì¶”ê°€
 	m_pGameInstance->Add_Collider(CG_TRIGGER, m_pColliderCom);
 }
 
@@ -89,15 +89,15 @@ HRESULT CTrigger::Render()
 
 HRESULT CTrigger::On_Collision(CCollisionObject* other)
 {
-	// ºñÈ°¼º »óÅÂ¿¡¼­´Â Ãæµ¹ Ã³¸®ÇÏÁö ¾ÊÀ½
+	// ë¹„í™œì„± ìƒíƒœì—ì„œëŠ” ì¶©ëŒ ì²˜ë¦¬í•˜ì§€ ì•ŠìŒ
 	if (!m_bIsActive)
 		return S_OK;
 
-	// ÇÃ·¹ÀÌ¾îÀÎÁö È®ÀÎ (CG_PLAYER¿Í ºñ±³)
+	// í”Œë ˆì´ì–´ì¸ì§€ í™•ì¸ (CG_PLAYERì™€ ë¹„êµ)
 	if (other->Get_Type() != CG_PLAYER)
 		return S_OK;
 
-	// Æ®¸®°Å Å¸ÀÔ¿¡ µû¸¥ Ã³¸®
+	// íŠ¸ë¦¬ê±° íƒ€ìž…ì— ë”°ë¥¸ ì²˜ë¦¬
 	switch (m_eTriggerType)
 	{
 	case TRIGGER_TYPE::BUTTON:
@@ -168,13 +168,13 @@ void CTrigger::Find_Target()
 
 HRESULT CTrigger::SetUp_RenderState()
 {
-	// ÀÏ´Ü Ãß°¡ÇØº¸±â
+	// ì¼ë‹¨ ì¶”ê°€í•´ë³´ê¸°
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }
@@ -279,7 +279,7 @@ void CTrigger::Free()
 json CTrigger::Serialize()
 {
 	json j = __super::Serialize();
-	// Æ®·£½ºÆû µ¥ÀÌÅÍ Á÷·ÄÈ­
+	// íŠ¸ëžœìŠ¤í¼ ë°ì´í„° ì§ë ¬í™”
 	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	auto scale = m_pTransformCom->Compute_Scaled();
 	auto angle = m_pTransformCom->Get_EulerAngles();

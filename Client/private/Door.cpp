@@ -1,4 +1,4 @@
-#include "Door.h"
+ï»¿#include "Door.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
@@ -37,18 +37,19 @@ HRESULT CDoor::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// ÃÊ±â À§Ä¡ ÀúÀå
+	// ì´ˆê¸° ìœ„ì¹˜ ì €ì¥
 	m_vOriginalPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¿­·ÈÀ» ¶§ÀÇ À§Ä¡ °è»ê (¾Æ·¡·Î ½½¶óÀÌµå)
+	// ì—´ë ¸ì„ ë•Œì˜ ìœ„ì¹˜ ê³„ì‚° (ì•„ë˜ë¡œ ìŠ¬ë¼ì´ë“œ)
 	m_vSlidePosition = m_vOriginalPosition;
-	m_vSlidePosition.y -= m_fSlideDistance;  // YÃà ±âÁØ ÇÏ°­
+	m_vSlidePosition.y -= m_fSlideDistance;  // Yì¶• ê¸°ì¤€ í•˜ê°•
 	return S_OK;
 }
 
 void CDoor::Update(_float fTimeDelta)
 {
-	// ¹® ¾Ö´Ï¸ŞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
+	
+	// ë¬¸ ì• ë‹ˆë©”ì´ì…˜ ì—…ë°ì´íŠ¸
 	if (m_eDoorState == DOOR_STATE::OPENING)
 	{
 		m_fDoorOpenAmount += m_fDoorOpenSpeed * fTimeDelta;
@@ -70,19 +71,22 @@ void CDoor::Update(_float fTimeDelta)
 		UpdateDoorTransform();
 	}
 
-	// Ãæµ¹ Ã³¸®
+	// ì¶©ëŒ ì²˜ë¦¬
 	if (m_pTransformCom && m_pColliderCom)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+		
 	}
 
-	m_pGameInstance->Add_Collider(CG_DOOR, m_pColliderCom);
+	if(m_eDoorState != DOOR_STATE::OPEN)
+		m_pGameInstance->Add_Collider(CG_DOOR, m_pColliderCom);
+	
 }
 
 void CDoor::Late_Update(_float fTimeDelta)
 {
-	// ·»´õ¸µ ±×·ì¿¡ Ãß°¡
+	// ë Œë”ë§ ê·¸ë£¹ì— ì¶”ê°€
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
@@ -112,7 +116,7 @@ HRESULT CDoor::Render()
 
 HRESULT CDoor::SetUp_RenderState()
 {
-	// ·»´õ »óÅÂ ¼³Á¤
+	// ë Œë” ìƒíƒœ ì„¤ì •
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -130,11 +134,11 @@ HRESULT CDoor::Release_RenderState()
 
 HRESULT CDoor::On_Collision(CCollisionObject* other)
 {
-	// ºñÈ°¼º »óÅÂ¿¡¼­´Â Ãæµ¹ Ã³¸®ÇÏÁö ¾ÊÀ½
+	// ë¹„í™œì„± ìƒíƒœì—ì„œëŠ” ì¶©ëŒ ì²˜ë¦¬í•˜ì§€ ì•ŠìŒ
 	if (!m_bIsActive)
 		return S_OK;
 
-	// ÇÃ·¹ÀÌ¾îÀÎÁö È®ÀÎ
+	// í”Œë ˆì´ì–´ì¸ì§€ í™•ì¸
 	if (other->Get_Type() != CG_PLAYER)
 		return S_OK;
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
@@ -162,16 +166,16 @@ void CDoor::Close_Door()
 
 bool CDoor::TryOpen(CCollisionObject* pPlayer)
 {
-	// ¿­¼è°¡ ÇÊ¿äÇÑ ¹®ÀÎ °æ¿ì
+	// ì—´ì‡ ê°€ í•„ìš”í•œ ë¬¸ì¸ ê²½ìš°
 	if (m_eDoorType == DOOR_TYPE::KEY)
 	{
-		// ÇÃ·¹ÀÌ¾îÀÇ ÀÎº¥Åä¸®¿¡¼­ ¿­¼è È®ÀÎ
+		// í”Œë ˆì´ì–´ì˜ ì¸ë²¤í† ë¦¬ì—ì„œ ì—´ì‡  í™•ì¸
 		CPlayer* pPlayerObj = dynamic_cast<CPlayer*>(pPlayer);
 		if (pPlayerObj)
 		{
 			bool hasKey = false;
 
-			// »ö»ó¿¡ µû¸¥ Å° È®ÀÎ
+			// ìƒ‰ìƒì— ë”°ë¥¸ í‚¤ í™•ì¸
 			switch (m_eDoorColor)
 			{
 			case DOOR_COLOR::BLUE:
@@ -183,12 +187,12 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 				break;
 				break;
 			case DOOR_COLOR::NORMAL:
-				// ÀÏ¹İ ¹®Àº Æ¯Á¤ Å° È®ÀÎ ¾øÀÌ ¿­¸²
+				// ì¼ë°˜ ë¬¸ì€ íŠ¹ì • í‚¤ í™•ì¸ ì—†ì´ ì—´ë¦¼
 				hasKey = true;
 				break;
 			}
 
-			//// Ä¿½ºÅÒ Å° ÅÂ±×°¡ ÀÖ´Â °æ¿ì
+			//// ì»¤ìŠ¤í…€ í‚¤ íƒœê·¸ê°€ ìˆëŠ” ê²½ìš°
 			//if (!m_stKeyItemTag.empty())
 			//{
 			//	hasKey = pPlayerObj->HasItem(m_stKeyItemTag);
@@ -201,7 +205,7 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 			}
 			else
 			{
-				//"¿­¼è°¡ ÇÊ¿äÇÕ´Ï´Ù"
+				//"ì—´ì‡ ê°€ í•„ìš”í•©ë‹ˆë‹¤"
 				return false;
 			}
 		}
@@ -209,7 +213,7 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 	}
 	else if(m_eDoorType == DOOR_TYPE::NORMAL)
 	{
-		// ÀÏ¹İ ¹®Àº ¹Ù·Î ¿­¸²
+		// ì¼ë°˜ ë¬¸ì€ ë°”ë¡œ ì—´ë¦¼
 		Open_Door();
 		return true;
 	}
@@ -217,15 +221,15 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 
 void CDoor::UpdateDoorTransform()
 {
-	// ÇöÀç ¿­¸² Á¤µµ¿¡ µû¶ó È¸Àü º¸°£
+	// í˜„ì¬ ì—´ë¦¼ ì •ë„ì— ë”°ë¼ íšŒì „ ë³´ê°„
 	_float3 currentPosition;
 
-	// ¼±Çü º¸°£: original + t * (slide - original)
+	// ì„ í˜• ë³´ê°„: original + t * (slide - original)
 	currentPosition.x = m_vOriginalPosition.x + m_fDoorOpenAmount * (m_vSlidePosition.x - m_vOriginalPosition.x);
 	currentPosition.y = m_vOriginalPosition.y + m_fDoorOpenAmount * (m_vSlidePosition.y - m_vOriginalPosition.y);
 	currentPosition.z = m_vOriginalPosition.z + m_fDoorOpenAmount * (m_vSlidePosition.z - m_vOriginalPosition.z);
 
-	// »õ À§Ä¡ Àû¿ë
+	// ìƒˆ ìœ„ì¹˜ ì ìš©
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, currentPosition);
 }
 
@@ -310,7 +314,7 @@ json CDoor::Serialize()
 {
 	json j = __super::Serialize();
 
-	// Æ®·£½ºÆû µ¥ÀÌÅÍ Á÷·ÄÈ­
+	// íŠ¸ëœìŠ¤í¼ ë°ì´í„° ì§ë ¬í™”
 	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	auto scale = m_pTransformCom->Compute_Scaled();
 	auto angle = m_pTransformCom->Get_EulerAngles();
@@ -331,14 +335,14 @@ json CDoor::Serialize()
 		RoundToDecimalPlaces(scale.z, 2)
 	};
 
-	// ¹® °ü·Ã µ¥ÀÌÅÍ Á÷·ÄÈ­
+	// ë¬¸ ê´€ë ¨ ë°ì´í„° ì§ë ¬í™”
 	j["door_type"] = static_cast<int>(m_eDoorType);
 	j["door_color"] = static_cast<int>(m_eDoorColor);
 	j["door_state"] = static_cast<int>(m_eDoorState);
 	j["slide_distance"] = m_fSlideDistance;
 	j["open_speed"] = m_fDoorOpenSpeed;
 
-	// ¿­¼è ÅÂ±× ÀúÀå
+	// ì—´ì‡  íƒœê·¸ ì €ì¥
 	if (!m_stKeyItemTag.empty())
 	{
 		j["key_item_tag"] = ISerializable::WideToUtf8(m_stKeyItemTag);
@@ -372,14 +376,14 @@ void CDoor::Deserialize(const json& j)
 	if (j.contains("key_item_tag"))
 		m_stKeyItemTag = ISerializable::Utf8ToWide(j["key_item_tag"].get<std::string>());
 
-	// ¿ø·¡ À§Ä¡ ÀúÀå
+	// ì›ë˜ ìœ„ì¹˜ ì €ì¥
 	m_vOriginalPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ÃÖÁ¾ ½½¶óÀÌµå À§Ä¡ °è»ê
+	// ìµœì¢… ìŠ¬ë¼ì´ë“œ ìœ„ì¹˜ ê³„ì‚°
 	m_vSlidePosition = m_vOriginalPosition;
 	m_vSlidePosition.y -= m_fSlideDistance;
 
-	// ÇöÀç »óÅÂ¿¡ µû¶ó ¹® À§Ä¡ Á¶Á¤
+	// í˜„ì¬ ìƒíƒœì— ë”°ë¼ ë¬¸ ìœ„ì¹˜ ì¡°ì •
 	if (m_eDoorState == DOOR_STATE::OPEN)
 	{
 		m_fDoorOpenAmount = 1.0f;

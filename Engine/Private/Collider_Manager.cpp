@@ -53,7 +53,10 @@ void CCollider_Manager::Update_Collison()
  	Collison_Cube_To_Cube(m_pColliders[CG_WEAPON], m_pColliders[CG_MONSTER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_ITEM]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_TRIGGER]);
+
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
+	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
+	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
 
 	Clear();
 }

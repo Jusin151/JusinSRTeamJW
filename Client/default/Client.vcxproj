@@ -210,6 +210,7 @@
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\Public\Observer.h" />
     <ClInclude Include="..\public\Particles.h" />
+    <ClInclude Include="..\public\Snowspider.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="..\private\Image.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
+    <ClCompile Include="..\private\Snowspider.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />

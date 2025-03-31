@@ -325,6 +325,9 @@
     <Filter Include="02.GameObjects\01.Monster\Base">
       <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Snowspider">
+      <UniqueIdentifier>{6d7eec96-9ae1-44dd-bb7f-3c074c62d2e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -525,9 +528,6 @@
     <ClInclude Include="..\public\GameObject_Particle_Firework.h">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Harpoonguy.h">
-      <Filter>02.GameObjects\01.Monster\normal\Harpoonguy</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Projectile_Base.h">
       <Filter>02.GameObjects\04. Projectile\Base</Filter>
     </ClInclude>
@@ -608,6 +608,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Yeti.h">
       <Filter>02.GameObjects\01.Monster\normal\Yeti</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Harpoonguy.h">
+      <Filter>02.GameObjects\01.Monster\normal\Harpoonguy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Snowspider.h">
+      <Filter>02.GameObjects\01.Monster\normal\Snowspider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -873,6 +879,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Hub_WeaponShop.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Snowspider.cpp">
+      <Filter>02.GameObjects\01.Monster\normal\Snowspider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -133,6 +133,12 @@
       "count": 41
     },
     {
+      "tag": "Prototype_Component_Texture_Snowspider",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Snowspider/Snowspider_%d.png",
+      "count": 28
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -432,6 +438,11 @@
       "tag": "Prototype_GameObject_Yeti",
       "level": 3,
       "class": "CYeti"
+    },
+    {
+      "tag": "Prototype_GameObject_Snowspider",
+      "level": 3,
+      "class": "CSnowspider"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

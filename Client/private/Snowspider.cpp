@@ -1,4 +1,4 @@
-﻿#include "Yeti.h"
+﻿#include "Snowspider.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -6,23 +6,23 @@
 #include "Player.h"
 #include "GameInstance.h"
 
-CYeti::CYeti(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSnowspider::CSnowspider(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CMonster_Base(pGraphic_Device)
 {
 }
 
-CYeti::CYeti(const CYeti& Prototype)
+CSnowspider::CSnowspider(const CSnowspider& Prototype)
     :CMonster_Base(Prototype)
 {
 }
 
-HRESULT CYeti::Initialize_Prototype()
+HRESULT CSnowspider::Initialize_Prototype()
 {
-    
+
     return S_OK;
 }
 
-HRESULT CYeti::Initialize(void* pArg)
+HRESULT CSnowspider::Initialize(void* pArg)
 {
     INIT_PARENT(pArg)
         if (FAILED(__super::Initialize(pArg)))
@@ -37,12 +37,12 @@ HRESULT CYeti::Initialize(void* pArg)
 
     m_iHp = 30;
 
-    
+
 
     return S_OK;
 }
 
-void CYeti::Priority_Update(_float fTimeDelta)
+void CSnowspider::Priority_Update(_float fTimeDelta)
 {
     if (nullptr == m_pTarget)
     {
@@ -66,7 +66,7 @@ void CYeti::Priority_Update(_float fTimeDelta)
     }
 }
 
-void CYeti::Update(_float fTimeDelta)
+void CSnowspider::Update(_float fTimeDelta)
 {
     if (nullptr == m_pTarget)
         return;
@@ -90,13 +90,13 @@ void CYeti::Update(_float fTimeDelta)
         {
             m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
         }
-       
+
 
         m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
     }
 }
 
-void CYeti::Late_Update(_float fTimeDelta)
+void CSnowspider::Late_Update(_float fTimeDelta)
 {
     if (nullptr == m_pTarget)
         return;
@@ -108,7 +108,7 @@ void CYeti::Late_Update(_float fTimeDelta)
         return;
 }
 
-HRESULT CYeti::Render()
+HRESULT CSnowspider::Render()
 {
     if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
         return E_FAIL;
@@ -135,12 +135,12 @@ HRESULT CYeti::Render()
     return S_OK;
 }
 
-void CYeti::Deserialize(const json& j)
+void CSnowspider::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }
 
-HRESULT CYeti::On_Collision(CCollisionObject* other)
+HRESULT CSnowspider::On_Collision(CCollisionObject* other)
 {
     if (nullptr == m_pColliderCom)
         return E_FAIL;
@@ -186,8 +186,13 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
         break;
 
     case CG_STRUCTURE_WALL:
-       
+
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+        break;
+    case CG_DOOR:
+
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+
         break;
     default:
         break;
@@ -198,14 +203,14 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
     return S_OK;
 }
 
-void CYeti::Select_Pattern(_float fTimeDelta)
+void CSnowspider::Select_Pattern(_float fTimeDelta)
 {
     if (m_eCurState == MS_DEATH)
         return;
 
     _float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-   
+
 
     switch (m_eCurState)
     {
@@ -226,15 +231,15 @@ void CYeti::Select_Pattern(_float fTimeDelta)
         }
         break;
     case MS_BACK:
-        
+
         m_fBackTime -= fTimeDelta;
         m_pTransformCom->Chase(m_vAnchorPoint, fTimeDelta * 0.5f);
         if (m_fBackTime <= 0)
         {
             m_eCurState = MS_IDLE; // 2초 후에 IDLE 상태로 복귀
         }
-              
-     
+
+
         break;
     case MS_WALK:
         Chasing(fTimeDelta);
@@ -257,7 +262,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
 
 }
 
-void CYeti::Chasing(_float fTimeDelta)
+void CSnowspider::Chasing(_float fTimeDelta)
 {
     if (m_eCurState != MS_WALK)
         m_eCurState = MS_WALK;
@@ -265,7 +270,7 @@ void CYeti::Chasing(_float fTimeDelta)
     m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.2f);
 }
 
-void CYeti::Attack_Melee(_float fTimeDelta)
+void CSnowspider::Attack_Melee(_float fTimeDelta)
 {
     if (m_eCurState != MS_ATTACK)
     {
@@ -277,7 +282,7 @@ void CYeti::Attack_Melee(_float fTimeDelta)
 
 }
 
-_bool CYeti::Check_DIstance(_float fTimeDelta)
+_bool CSnowspider::Check_DIstance(_float fTimeDelta)
 {
     _float3 Dist = m_vAnchorPoint - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -286,19 +291,19 @@ _bool CYeti::Check_DIstance(_float fTimeDelta)
         m_fBackTime = 2.f;
         return true;  // 30 이내면 바로 true
     }
-    
+
     if (m_fBackTime > 0)
     {
         m_fBackTime -= fTimeDelta;
         return false; // 아직 돌아갈 시간이 남아있다면 false 반환
     }
- 
+
 
     return true;
-    
+
 }
 
-void CYeti::Select_Frame(_float fTimeDelta)
+void CSnowspider::Select_Frame(_float fTimeDelta)
 {
     m_fElapsedTime += fTimeDelta;
 
@@ -317,13 +322,13 @@ void CYeti::Select_Frame(_float fTimeDelta)
         break;
     case MS_WALK:
 
-        if (m_iCurrentFrame == 10)
+        if (m_iCurrentFrame == 8)
         {
             m_eCurState = MS_IDLE;
 
         }
 
-        if (m_iCurrentFrame < 3 || m_iCurrentFrame > 10)
+        if (m_iCurrentFrame < 3 || m_iCurrentFrame > 8)
             m_iCurrentFrame = 3;
 
         if (m_fElapsedTime >= 0.2f)
@@ -336,13 +341,13 @@ void CYeti::Select_Frame(_float fTimeDelta)
         break;
     case MS_ATTACK:
 
-        if (m_iCurrentFrame == 27)
+        if (m_iCurrentFrame == 17)
         {
             m_eCurState = MS_IDLE;
         }
 
-        if (m_iCurrentFrame < 11 || m_iCurrentFrame > 27)
-            m_iCurrentFrame = 11;
+        if (m_iCurrentFrame < 9 || m_iCurrentFrame > 17)
+            m_iCurrentFrame = 9;
 
         if (m_fElapsedTime >= 0.2f)
         {
@@ -353,8 +358,8 @@ void CYeti::Select_Frame(_float fTimeDelta)
         }
         break;
     case MS_DEATH:
-        if (m_iCurrentFrame < 28)
-            m_iCurrentFrame = 28;
+        if (m_iCurrentFrame < 18)
+            m_iCurrentFrame = 18;
 
         if (m_fElapsedTime >= 0.2f)
         {
@@ -370,7 +375,7 @@ void CYeti::Select_Frame(_float fTimeDelta)
     }
 }
 
-HRESULT CYeti::SetUp_RenderState()
+HRESULT CSnowspider::SetUp_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
@@ -381,7 +386,7 @@ HRESULT CYeti::SetUp_RenderState()
     return S_OK;
 }
 
-HRESULT CYeti::Release_RenderState()
+HRESULT CSnowspider::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -389,43 +394,43 @@ HRESULT CYeti::Release_RenderState()
     return S_OK;
 }
 
-HRESULT CYeti::Ready_Components()
+HRESULT CSnowspider::Ready_Components()
 {
     if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
-  
+
 
     return S_OK;
 }
 
-CYeti* CYeti::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSnowspider* CSnowspider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CYeti* pInstance = new CYeti(pGraphic_Device);
+    CSnowspider* pInstance = new CSnowspider(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CYeti");
+        MSG_BOX("Failed to Created : CSnowspider");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CYeti::Clone(void* pArg)
+CGameObject* CSnowspider::Clone(void* pArg)
 {
-    CYeti* pInstance = new CYeti(*this);
+    CSnowspider* pInstance = new CSnowspider(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Created : CYeti");
+        MSG_BOX("Failed to Created : CSnowspider");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CYeti::Free()
+void CSnowspider::Free()
 {
     __super::Free();
 

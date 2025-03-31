@@ -133,6 +133,9 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 	case CG_STRUCTURE_WALL:
 		m_bIsActive = false;
 		break;
+	case CG_DOOR:
+		m_bIsActive = false;
+		break;
 	default:
 		break;
 	}
