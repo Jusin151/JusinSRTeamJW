@@ -8,8 +8,7 @@ CUI_Exp_Bar::CUI_Exp_Bar(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CUI_Exp_Bar::CUI_Exp_Bar(const CUI_Exp_Bar& Prototype)
-	: CUI_Base(Prototype),
-	m_Exp_Bar_INFO{ Prototype.m_Exp_Bar_INFO }
+	: CUI_Base(Prototype)
 {
 }
 
@@ -38,7 +37,6 @@ HRESULT CUI_Exp_Bar::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
 	m_pTransformCom->Set_Scale(m_Exp_Bar_INFO.vSize.x, m_Exp_Bar_INFO.vSize.y, 1.f);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -53,6 +51,9 @@ void CUI_Exp_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_Exp_Bar::Update(_float fTimeDelta)
 {
+	if (m_fExpTextDuration > 0.f)
+		m_fExpTextDuration -= fTimeDelta;
+
 	//Update_Exp_Bar();
 }
 
@@ -65,26 +66,28 @@ void CUI_Exp_Bar::Late_Update(_float fTimeDelta)
 }
 void CUI_Exp_Bar::Update_Exp_Bar()
 {
-	_float fExp_Ratio = (float)m_iExp / (float)m_iMaxExp;
-	if (fExp_Ratio < 0.f)
-		fExp_Ratio = 0.f;
-	if (fExp_Ratio > 1.f)
-		fExp_Ratio = 1.f;
+	_float fExp_Ratio = (_float)m_iExp / 100.f;
+	fExp_Ratio = max(0.f, min(1.f, fExp_Ratio));  // [0,1] 클램핑
 
 	VTXNORTEX* pVertices = nullptr;
 	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
 
-	pVertices[0].vTexcoord.x = 1.0f - fExp_Ratio; // 좌측 상단
-	pVertices[3].vTexcoord.x = 1.0f - fExp_Ratio; // 좌측 하단
+	pVertices[0].vTexcoord.x = 0.f;               // 좌상단
+	pVertices[3].vTexcoord.x = 0.f;               // 좌하단
+	pVertices[1].vTexcoord.x = fExp_Ratio;        // 우상단
+	pVertices[2].vTexcoord.x = fExp_Ratio;        // 우하단
 
-	// 전체 상태(fBullet_Ratio == 1): 좌측 x = -0.5
-	// fBullet_Ratio가 줄어들면 좌측 x = -0.5 + (1 - fBullet_Ratio)
-	pVertices[0].vPosition.x = -0.5f + (1.0f - fExp_Ratio);
-	pVertices[3].vPosition.x = -0.5f + (1.0f - fExp_Ratio);
+
+	pVertices[0].vPosition.x = -0.5f;                        // 좌상단
+	pVertices[3].vPosition.x = -0.5f;                        // 좌하단 
+	pVertices[1].vPosition.x = -0.5f + fExp_Ratio;           // 우상단 
+	pVertices[2].vPosition.x = -0.5f + fExp_Ratio;           // 우하단 
 
 	m_pVIBufferCom->Get_VertexBuffer()->Unlock();
 }
+
+
 
 
 HRESULT CUI_Exp_Bar::Render()
@@ -120,7 +123,15 @@ HRESULT CUI_Exp_Bar::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
-	m_pGameInstance->Render_Font_Size(L"MainFont",TEXT("ㅎㅇ ㅋㅋ"), _float2(0.f, 0.f), _float2(10.f, 20.f), _float3(1.f, 1.f, 1.f));
+	if (m_fExpTextDuration > 0.f)
+	{
+		_float2 vTextPos = _float2(-600.f, 150.f); 
+		_float2 vTextSize = _float2(8.f, 20.f);    
+		_float3 vTextColor = _float3(1.f, 1.f, 0.f); 
+
+		m_pGameInstance->Render_Font_Size(L"MainFont", m_strExpText, vTextPos, vTextSize, vTextColor);
+	}
+
 
 	return S_OK;
 }

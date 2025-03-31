@@ -361,6 +361,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Middle/SR_EXP_BlackBar0.png"), 1))))
 		return E_FAIL;
 
+	// Event UI 클래스 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Event_UI"),
+		CUI_Event::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드

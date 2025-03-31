@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Headers.h"
+#include "UI_Exp_Bar.h"
 
 class CUI_Manager
 {
@@ -84,7 +85,12 @@ public:
         CUI_Base* pHp_UI = GetUI(L"Hp_Bar");
         static_cast<CUI_HP_Bar*>(pHp_UI)->Init_HP(CurrentHP, MaxHP);
     }
-     
+    void Init_Exp_UI(_uint CurrentExp, _uint MaxExp)
+    {
+        CUI_Base* pExp_UI = GetUI(L"Exp_Bar");
+        static_cast<CUI_Exp_Bar*>(pExp_UI)->Init_EXP(CurrentExp, MaxExp);
+    }
+
 
     _uint Get_Hp()
     {

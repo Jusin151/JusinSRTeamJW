@@ -116,10 +116,10 @@ void CPlayer::Update(_float fTimeDelta)
 		m_asdasdasd = false;
 	}
 
-	if (GetAsyncKeyState('1') & 0x8000)
+	if (GetAsyncKeyState('Q') & 0x8000)
 	{
 		
-
+		Add_Exp(1);
 	}
 
 
@@ -383,6 +383,14 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 		}
 	}
 
+
+	// 이벤트 텍스트 출력
+	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	{
+		pUI_Event->ShowEventText(iAmmo, L"Ammo");
+	}
+
+
 	//if (!m_pPlayer_Weapon)
 	//	return;
 
@@ -523,6 +531,8 @@ HRESULT CPlayer::Ready_Player_SetUP()
 		Add_Observer(pPlayer_Icon);
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);
+
+	CUI_Manager::GetInstance()->Init_Exp_UI(m_iPlayerEXP.first, m_iPlayerEXP.second);
 
 	return S_OK;
 }

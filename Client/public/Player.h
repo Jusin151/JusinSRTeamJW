@@ -8,6 +8,7 @@
 #include "CollisionObject.h"
 #include "Observer.h"
 #include "UI_Manager.h"
+#include "UI_Event.h"
 
 
 BEGIN(Engine)
@@ -80,9 +81,32 @@ public:
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
 	void Add_Exp(_int Exp)
 	{
-		m_iPlayerEXP.first += Exp;
-		Notify(m_iPlayerEXP.first, L"Exp"); 
+		m_iPlayerEXP.first += Exp; //경험치 들어오면
+
+	
+		while (m_iPlayerEXP.first >= m_iPlayerEXP.second)
+		{
+			m_iPlayerEXP.first -= m_iPlayerEXP.second;  
+			++m_iLevel;  //레벨업
+			++m_iSkillPoint; 
+			m_iPlayerEXP.second += 10; 
+
+			
+			if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+			{
+				pUI_Event->ShowEventText(0, L"LevelUp"); 
+			}
+		}
+
+		Notify(m_iPlayerEXP.first, L"Exp");
+
+		
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(Exp, L"Exp");
+		}
 	}
+
 
 
 	inline _bool Has_Item(const _wstring& stItemTag);
@@ -95,7 +119,7 @@ private:
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
-	virtual void Free();
+	virtual void Free(); 
 
 private: // 인벤관련
 	void Input_WeapontoInven(wstring tag, _uint Index)

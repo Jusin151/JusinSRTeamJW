@@ -304,6 +304,9 @@
     <Filter Include="02.GameObjects\96. Structure\Door">
       <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\97. UI\98. Event_UI">
+      <UniqueIdentifier>{5b94c9c3-01fd-4bdf-8ac4-2489ea4ff91d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -585,6 +588,9 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\00.Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Event.h">
+      <Filter>02.GameObjects\97. UI\98. Event_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -845,6 +851,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Hub_WeaponShop.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Event.cpp">
+      <Filter>02.GameObjects\97. UI\98. Event_UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -425,6 +425,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		return E_FAIL;
 
 
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Event_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Event_UI"))))
+		return E_FAIL;
 
 
 	CUI_Base::UI_Child_Desc RIght_Panel{};  // 우하단 패널 

@@ -44,18 +44,20 @@ public:
 	virtual void Free();
 public:
 
-	void Set_Exp(_uint iHealth)
+	void Set_Exp(_uint Exp)
 	{
-		m_iExp = iHealth;
+		
+		m_iExp = Exp;
+		Update_Exp_Bar();
+		
+	}
+	void Init_EXP(_uint CurrentExp, _uint MaxExp)
+	{
+		m_iExp = CurrentExp;
+		m_iMaxExp = MaxExp;
+
 		Update_Exp_Bar();
 	}
-	void Init_HP(_uint CurrentHP, _uint MaxHP)
-	{
-		m_iExp = CurrentHP;
-		m_iMaxExp = MaxHP;
-	}
-
-	_uint Get_Health() { return m_iExp; }
 
 public:
 	virtual void OnNotify(void* pArg, const wstring& type)override
@@ -65,11 +67,20 @@ public:
 			Set_Exp(*reinterpret_cast<_uint*>(pArg));
 		}
 	}
+	void ShowExpText(_int iExp)
+	{
+		m_strExpText = L"+EXP " + to_wstring(iExp);
+		m_fExpTextDuration = 1.5f; 
+	}
 
 private:
 	_uint m_iExp{};
 	_uint m_iMaxExp{};
-	//_float fExp_Ratio{};
+	_uint m_iLevel{}; 
+	// 경험치 텍스트용
+	wstring m_strExpText = L"";
+	_float m_fExpTextDuration = 0.f; // 몇 초 남았는지
+
 
 
 };
