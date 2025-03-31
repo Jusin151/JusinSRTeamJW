@@ -12,17 +12,17 @@
 #include "Weapon_Headers.h"
 #include "Weapon_Effect.h"
 #include "Staff_Bullet.h"
-#include "PointShop.h"
+#include  "Hub_PointShop.h"
 #include "UI_Point_Shop.h"
 #include "UI_WeaponShop_UI.h"
 #include "UI_Spell_Shop.h"
-#include "SpellShop.h"
-#include "WeaponShop.h"
-#include "Episode_Hub.h"
+#include "Hub_Episode.h"
+#include "Hub_WeaponShop.h"
 #include "UI_Episode_Hub.h"
-#include "Portal.h"
+#include "Hub_Portal.h"
 #include "Image.h"
 #include "Inven_UI.h"
+#include "Hub_SpellShop.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -197,7 +197,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
 		TEXT("Prototype_GameObject_Point_Shop"),
-		CPoint_Shop::Create(m_pGraphic_Device))))
+		CHub_PointShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
@@ -247,7 +247,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 웨폰샵 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
 		TEXT("Prototype_GameObject_Weapon_Shop"),
-		CWeaponShop::Create(m_pGraphic_Device))))
+		CHub_WeaponShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 웨폰상점  월드 객체 사진
@@ -259,7 +259,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 스펠샵 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
 		TEXT("Prototype_GameObject_Spell_Shop"),
-		CSpellShop::Create(m_pGraphic_Device))))
+		CHub_SpellShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 스펠샵  월드객체 사진
@@ -294,7 +294,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 에피소드 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Episode_Hub"),
-		CEpisode_Hub::Create(m_pGraphic_Device))))
+		CHub_Episode::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 스펠샵  월드객체 사진
@@ -305,7 +305,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 포탈 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Portal"),
-		CPortal::Create(m_pGraphic_Device))))
+		CHub_Portal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 포탈  월드객체 사진

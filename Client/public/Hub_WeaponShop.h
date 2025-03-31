@@ -1,13 +1,14 @@
 ﻿#pragma once
 #include "Shop.h"
 
+
 BEGIN(Client)
-class CSpellShop : public CShop
+class CHub_WeaponShop : public CShop
 {
 private:
-    CSpellShop(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CSpellShop(const CSpellShop& Prototype);
-    virtual ~CSpellShop() = default;
+    CHub_WeaponShop(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CHub_WeaponShop(const CHub_WeaponShop& Prototype);
+    virtual ~CHub_WeaponShop() = default;
 
 public:
     // 기본 상속 함수
@@ -37,11 +38,11 @@ private:
     HRESULT Ready_Components();
 
 public:
-    static CSpellShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    static CHub_WeaponShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
 private:
-    class CUI_Spell_Shop* m_pUI_SpellShop = { nullptr };
+    class CUI_WeaponShop_UI* m_pUI_WeaponShop = { nullptr };
 
 };
 END

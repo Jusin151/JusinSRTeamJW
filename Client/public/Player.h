@@ -23,7 +23,7 @@ BEGIN(Client)
 class CPlayer final : public CCollisionObject
 {
 
-	
+
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -59,35 +59,33 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-
 	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
-	 void Add_Ammo(_int iAmmo);
-	 inline void Add_Strength(_int type) { m_iStr += type; }
-	 void Add_MaxHP(_int type)
+	void Add_Ammo(_int iAmmo);
+	void Add_Strength(_int type) { m_iStr += type; }
+	void Add_MaxHP(_int type)
 	{
 		m_iHp += type;
 		m_iPlayerHP.second += type;
 		Notify(m_iHp, L"HP");
-	}	
-	 void Add_Sprit(_int type) 
-	{ 
-		 m_iSprit += type;
-		m_iPlayerMP.first += type*5;
 	}
-	 void Add_Exp(_int type)
-	 {
-		 m_iPlayerEXP.first += type;
-	 }
+	void Add_Sprit(_int type)
+	{
+		m_iSprit += type;
+		m_iPlayerMP.first += type * 5;
+	}
+	void Add_Exp(_int type)
+	{
+		m_iPlayerEXP.first += type;
+	}
 
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
-
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
-	HRESULT Ready_Player_SetUP(); 
+	HRESULT Ready_Player_SetUP();
 public:
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device); 
+	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
@@ -119,7 +117,7 @@ private:
 	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
-	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
+	LONG			m_lMiddlePointX = { g_iWinSizeX / 2 };
 	_float3			m_vOldPos = {};
 private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
@@ -130,11 +128,10 @@ private: // 플레이어 관련
 	_uint m_iSprit{};//정신력
 	_uint m_iCapacity{};//용량
 	_uint m_iLevel{}; // 레벨
-	CWeapon_Base* m_pPlayer_Weapon={nullptr};
-	CInventory*   m_pPlayer_Inven={nullptr};
+	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
+	CInventory* m_pPlayer_Inven = { nullptr };
 
 
-	
 };
 
 

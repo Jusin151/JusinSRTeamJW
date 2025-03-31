@@ -1,27 +1,27 @@
-﻿#include "WeaponShop.h"
+﻿#include "Hub_WeaponShop.h"
 #include "GameInstance.h"
 #include "Player.h"  
 #include "UI_WeaponShop_UI.h"
 #include "UI_Manager.h"
 
-CWeaponShop::CWeaponShop(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHub_WeaponShop::CHub_WeaponShop(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CShop(pGraphic_Device)
 {
 }
 
-CWeaponShop::CWeaponShop(const CWeaponShop& Prototype)
+CHub_WeaponShop::CHub_WeaponShop(const CHub_WeaponShop& Prototype)
     : CShop(Prototype)
 {
 }
 
-HRESULT CWeaponShop::Initialize_Prototype()
+HRESULT CHub_WeaponShop::Initialize_Prototype()
 {
 
 
     return S_OK;
 }
 
-HRESULT CWeaponShop::Initialize(void* pArg)
+HRESULT CHub_WeaponShop::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -39,12 +39,12 @@ HRESULT CWeaponShop::Initialize(void* pArg)
 }
 
 
-void CWeaponShop::Priority_Update(_float fTimeDelta)
+void CHub_WeaponShop::Priority_Update(_float fTimeDelta)
 {
     m_bIsActive = true;
 }
 
-void CWeaponShop::Update(_float fTimeDelta)
+void CHub_WeaponShop::Update(_float fTimeDelta)
 {
    
     __super::Update(fTimeDelta);
@@ -59,13 +59,13 @@ void CWeaponShop::Update(_float fTimeDelta)
     }
 }
 
-void CWeaponShop::Late_Update(_float fTimeDelta)
+void CHub_WeaponShop::Late_Update(_float fTimeDelta)
 {
 
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CWeaponShop::SetUp_RenderState()
+HRESULT CHub_WeaponShop::SetUp_RenderState()
 {
     // 일단 추가해보기
 
@@ -77,14 +77,14 @@ HRESULT CWeaponShop::SetUp_RenderState()
     return S_OK;
 }
 
-HRESULT CWeaponShop::Release_RenderState()
+HRESULT CHub_WeaponShop::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
 }
 
-HRESULT CWeaponShop::Render()
+HRESULT CHub_WeaponShop::Render()
 {
 
 
@@ -108,14 +108,14 @@ HRESULT CWeaponShop::Render()
     return S_OK;
 }
 
-HRESULT CWeaponShop::Ready_ShopItems()
+HRESULT CHub_WeaponShop::Ready_ShopItems()
 {
 
 
     return S_OK;
 }
 
-HRESULT CWeaponShop::Open_Shop()
+HRESULT CHub_WeaponShop::Open_Shop()
 {
     //// 이미 열려있다면 무시
     //if (m_bIsOpen)
@@ -140,7 +140,7 @@ HRESULT CWeaponShop::Open_Shop()
     return S_OK;
 }//뭘봐 ㅋ
 
-HRESULT CWeaponShop::Close_Shop()
+HRESULT CHub_WeaponShop::Close_Shop()
 {
     // 이미 닫혀있다면 무시
  
@@ -159,7 +159,7 @@ HRESULT CWeaponShop::Close_Shop()
     return S_OK;
 }
 
-HRESULT CWeaponShop::Purchase_Item(const _uint iItemID, const _uint iCount)
+HRESULT CHub_WeaponShop::Purchase_Item(const _uint iItemID, const _uint iCount)
 {
     // 상점이 닫혀있다면 구매 실패
     if (!m_bIsOpen)
@@ -171,18 +171,18 @@ HRESULT CWeaponShop::Purchase_Item(const _uint iItemID, const _uint iCount)
     return S_OK;
 }
 
-HRESULT CWeaponShop::Sell_Item(const _uint iItemID, const _uint iCount)
+HRESULT CHub_WeaponShop::Sell_Item(const _uint iItemID, const _uint iCount)
 {
     return S_OK;
 }
 
-void CWeaponShop::Refresh_Shop_Items()
+void CHub_WeaponShop::Refresh_Shop_Items()
 {
     
     
 }
 
-_bool CWeaponShop::Can_Purchase(_uint iItemID, _uint iCount)
+_bool CHub_WeaponShop::Can_Purchase(_uint iItemID, _uint iCount)
 {
     // 상점이 닫혀있으면 구매 불가
     if (!m_bIsOpen)
@@ -192,7 +192,7 @@ _bool CWeaponShop::Can_Purchase(_uint iItemID, _uint iCount)
 }
 
 
-HRESULT CWeaponShop::Ready_Components()
+HRESULT CHub_WeaponShop::Ready_Components()
 {
 
     if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
@@ -203,33 +203,33 @@ HRESULT CWeaponShop::Ready_Components()
     return S_OK;
 }
 
-CWeaponShop* CWeaponShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHub_WeaponShop* CHub_WeaponShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CWeaponShop* pInstance = new CWeaponShop(pGraphic_Device);
+    CHub_WeaponShop* pInstance = new CHub_WeaponShop(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CWeaponShop");
+        MSG_BOX("Failed to Created : CHub_WeaponShop");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CWeaponShop::Clone(void* pArg)
+CGameObject* CHub_WeaponShop::Clone(void* pArg)
 {
-    CWeaponShop* pInstance = new CWeaponShop(*this);
+    CHub_WeaponShop* pInstance = new CHub_WeaponShop(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CWeaponShop");
+        MSG_BOX("Failed to Cloned : CHub_WeaponShop");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CWeaponShop::Free()
+void CHub_WeaponShop::Free()
 {
     __super::Free();
     Safe_Release(m_pTextureCom);

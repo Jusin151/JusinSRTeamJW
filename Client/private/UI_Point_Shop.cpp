@@ -6,18 +6,18 @@
 
 
 CUI_Point_Shop::CUI_Point_Shop(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CUI_Shop_Base(pGraphic_Device)
+    :CUI_Shop_Base(pGraphic_Device)
 {
 }
 
 CUI_Point_Shop::CUI_Point_Shop(const CUI_Point_Shop& Prototype)
-	:CUI_Shop_Base(Prototype)
+    :CUI_Shop_Base(Prototype)
 {
 }
 
 HRESULT CUI_Point_Shop::Initialize_Prototype()
 {
-	return S_OK;
+    return S_OK;
 }
 
 HRESULT CUI_Point_Shop::Initialize(void* pArg)
@@ -36,14 +36,14 @@ HRESULT CUI_Point_Shop::Initialize(void* pArg)
     if (FAILED(Ready_Texture()))
         return E_FAIL;
 
-   if (FAILED(Register_Buttons()))
+    if (FAILED(Register_Buttons()))
         return E_FAIL;
 
-   if (FAILED(Ready_Skill_Button_Text()))
-       return E_FAIL;
+    if (FAILED(Ready_Skill_Button_Text()))
+        return E_FAIL;
 
-   if (FAILED(Ready_Stat_Button_Text()))
-       return E_FAIL;
+    if (FAILED(Ready_Stat_Button_Text()))
+        return E_FAIL;
 
 
 
@@ -52,7 +52,7 @@ HRESULT CUI_Point_Shop::Initialize(void* pArg)
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
         _float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
-    CUI_Manager::GetInstance()->AddUI(L"Point_Shop_UI",this);
+    CUI_Manager::GetInstance()->AddUI(L"Point_Shop_UI", this);
 
     return S_OK;
 }
@@ -72,7 +72,7 @@ void CUI_Point_Shop::Update(_float fTimeDelta)
 {
     m_bIsActive = m_bOnUI;
 
-} 
+}
 
 void CUI_Point_Shop::Late_Update(_float fTimeDelta)
 {
@@ -82,11 +82,11 @@ void CUI_Point_Shop::Late_Update(_float fTimeDelta)
 HRESULT CUI_Point_Shop::Ready_Texture()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,TEXT("Prototype_Component_Texture_UI_Point_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
-	return S_OK;
+    return S_OK;
 }
 
 HRESULT CUI_Point_Shop::Ready_Skill_Button_Text()
@@ -122,7 +122,7 @@ HRESULT CUI_Point_Shop::Ready_Skill_Button_Text()
             m_str_Skill_MouseOn_Text[index] = L"몬스터 통과 가능";
             break;
         case 8:
-            m_str_Skill_MouseOn_Text[index] = L"최대 체력 +30, 피해 -20%"; 
+            m_str_Skill_MouseOn_Text[index] = L"최대 체력 +30, 피해 -20%";
             break;
         case 9:
             m_str_Skill_MouseOn_Text[index] = L"최대 마나 +30";
@@ -161,13 +161,13 @@ HRESULT CUI_Point_Shop::Ready_Stat_Button_Text()
             break;
         case 3:
             m_str_Skill_MouseOn_Text[index] = L"용량은 모든 무기들의\n 최대 탄약을 증가시킵니다.";
-            break;     
+            break;
         default:
             return E_FAIL;
             break;
         }
     }
- return S_OK;
+    return S_OK;
 }
 
 
@@ -176,36 +176,35 @@ HRESULT CUI_Point_Shop::Render()
     if (FAILED(__super::Render()))
         return E_FAIL;
 
-     m_pGameInstance->Render_Font_Size(L"MainFont",TEXT("근접 마스터"), _float2(0.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("탄약 수집광"), _float2(223.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("트레저 헌터"), _float2(0.f, -165.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("고스트"), _float2(243.f, -165.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("치료 중독자"), _float2(0.f, -123.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("건강한 신체"), _float2(223.f, -123.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("학도"), _float2(25.f, -81.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마법 잠재력"), _float2(223.f, -81.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("산탄총 전문가"), _float2(0.f, -39.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("소울 수집가"), _float2(223.f, -39.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("폭탄광"), _float2(15.f, 5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스프린터"), _float2(234.f,5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근접 마스터"), _float2(0.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("탄약 수집광"), _float2(223.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("트레저 헌터"), _float2(0.f, -165.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("고스트"), _float2(243.f, -165.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("치료 중독자"), _float2(0.f, -123.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("건강한 신체"), _float2(223.f, -123.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("학도"), _float2(25.f, -81.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마법 잠재력"), _float2(223.f, -81.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("산탄총 전문가"), _float2(0.f, -39.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("소울 수집가"), _float2(223.f, -39.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("폭탄광"), _float2(15.f, 5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스프린터"), _float2(234.f, 5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
-     m_pGameInstance->Render_Font_Size(L"MainFont",to_wstring(m_iStr),
-         _float2(-298.f, -137.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iStr),
+        _float2(-298.f, -137.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-     m_pGameInstance->Render_Font_Size(L"MainFont",to_wstring(m_iMaxHP),
-         _float2(-298.f, -76.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iMaxHP),
+        _float2(-298.f, -76.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-     m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iSprit),
-         _float2(-298.f, -15.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iSprit),
+        _float2(-298.f, -15.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-     m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iCapacity),
-         _float2(-298.f, 46.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iCapacity),
+        _float2(-298.f, 46.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
 
-     m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iLevel),
-         _float2(-200.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
-
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iLevel),
+        _float2(-200.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
     return S_OK;
 }
@@ -217,7 +216,7 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
     {
         for (int j = 0; j < 2; ++j)
         {
-            int index = j * 6 + i; 
+            int index = j * 6 + i;
 
             vecButtonDescs[index].Button_Desc.vSize = { 211.f, 32.f };
             vecButtonDescs[index].Button_Desc.vPos = { 221.f * j + 47.f, 197.f - i * 42.f };
@@ -233,12 +232,12 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
                 &vecButtonDescs[index])))
                 continue;
 
-            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,vecButtonDescs[index].strUIName.c_str()));
+            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
 
             if (pButton)
             {
                 m_vecButtons.push_back(pButton); // 버튼 저장
-                 
+
                 pButton->SetOnClickCallback([index]()
                     {
                         switch (index)
@@ -278,19 +277,19 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
                             break;
                         case 11:
                             MessageBox(nullptr, L"이동 속도 대폭 증가", L"구매 완료", MB_OK);
-                            break;                                           
-                        default:                       
+                            break;
+                        default:
                             break;
                         }
                     });
 
-                pButton->SetOnMouseCallback([this,pButton, index]()
+                pButton->SetOnMouseCallback([this, pButton, index]()
                     {
                         if (index < m_str_Skill_MouseOn_Text.size())
                         {
-                            pButton->SetOnMouseCallback([this,pButton, index]()
+                            pButton->SetOnMouseCallback([this, pButton, index]()
                                 {
-                                pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                                    pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                                 }
                             );
                         }
@@ -315,83 +314,81 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
 
     for (int index = 0; index < 4; ++index)
     {
-            vecButtonDescs[index].Button_Desc.vSize = { 50.f, 50.f };
+        vecButtonDescs[index].Button_Desc.vSize = { 50.f, 50.f };
 
-            vecButtonDescs[index].Button_Desc.vPos.x = { -349.f };
+        vecButtonDescs[index].Button_Desc.vPos.x = { -349.f };
 
-            vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Stat"; // 컴포넌트
+        vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Stat"; // 컴포넌트
 
-            vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_Stat_" + to_wstring(index); // 혹시 몰라서.
+        vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_Stat_" + to_wstring(index); // 혹시 몰라서.
 
-            vecButtonDescs[index].bActive = true;
+        vecButtonDescs[index].bActive = true;
 
-            vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_STAT;
+        vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_STAT;
 
-            if (FAILED(m_pGameInstance->Add_GameObject(
-                LEVEL_GAMEPLAY,
-                TEXT("Prototype_GameObject_GamePlayer_Button"), //  이건 프로토타입 이름이고
-                LEVEL_GAMEPLAY,
-                vecButtonDescs[index].strUIName, // 이건 레이어 이름이고
-                &vecButtonDescs[index])))
-                continue;
+        if (FAILED(m_pGameInstance->Add_GameObject(
+            LEVEL_GAMEPLAY,
+            TEXT("Prototype_GameObject_GamePlayer_Button"), //  이건 프로토타입 이름이고
+            LEVEL_GAMEPLAY,
+            vecButtonDescs[index].strUIName, // 이건 레이어 이름이고
+            &vecButtonDescs[index])))
+            continue;
 
-            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+        CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
 
-            if (pButton)
-            {
-                m_vecButtons.push_back(pButton); // 버튼 저장
+        if (pButton)
+        {
+            m_vecButtons.push_back(pButton); // 버튼 저장
 
-                pButton->SetOnClickCallback([index]()
+            pButton->SetOnClickCallback([this, index]()
+                {
+                    switch (index)
                     {
-                        switch (index)
-                        {
-                        case 0:
-                            MessageBox(nullptr, L"근력 강화!",nullptr, MB_OK);
+                    case 0:
+                        MessageBox(nullptr, L"근력 강화!", nullptr, MB_OK);
+                        if (m_pPointShop)
+                            m_pPointShop->Buy_Stat(index);
+                        m_iStr++;
+                        break;
+                    case 1:
+                        MessageBox(nullptr, L"생명력 강화!", nullptr, MB_OK);
+                        if (m_pPointShop)
+                            m_pPointShop->Buy_Stat(index);
+                        m_iMaxHP++;
+                        break;
+                    case 2:
+                        MessageBox(nullptr, L"정신력 강화!", nullptr, MB_OK);
+                        if (m_pPointShop)
+                            m_pPointShop->Buy_Stat(index);
+                        m_iSprit++;
+                        break;
+                    case 3:
+                        MessageBox(nullptr, L"용량 강화!", nullptr, MB_OK);
+                        if (m_pPointShop)
+                            m_pPointShop->Buy_Stat(index);
+                        m_iCapacity++;
+                        break;
+                    default:
+                        break;
+                    }
+                });
 
-                            if (m_pPointShop)
-								m_pPointShop->Buy_Stat(index);
-                            m_iStr++;
-                            break;
-                        case 1:
-                            MessageBox(nullptr, L"생명력 강화!", nullptr, MB_OK);
-                            if (m_pPointShop)
-                                m_pPointShop->Buy_Stat(index);
-                            m_iMaxHP++;
-                            break;
-                        case 2:
-                            MessageBox(nullptr, L"정신력 강화!", nullptr, MB_OK);
-                            if (m_pPointShop)
-                                m_pPointShop->Buy_Stat(index);
-                            m_iSprit++;
-                            break;
-                        case 3:
-                            MessageBox(nullptr, L"용량 강화!", nullptr, MB_OK);
-                            if (m_pPointShop)
-                                m_pPointShop->Buy_Stat(index);
-                            m_iCapacity++;
-
-                            break;                   
-                        default:
-                            break;
-                        }
-                    });
-
-                pButton->SetOnMouseCallback([this, pButton, index]()
+            pButton->SetOnMouseCallback([this, pButton, index]()
+                {
+                    if (index < m_str_Skill_MouseOn_Text.size())
                     {
-                        if (index < m_str_Skill_MouseOn_Text.size())
-                        {
-                            pButton->SetOnMouseCallback([this, pButton, index]()
-                                {
-                                    pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                                });
-                        }
+                        pButton->SetOnMouseCallback([this, pButton, index]()
+                            {
+                                pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                            });
+                    }
 
-                    });
+                });
 
 
-            }
+        }
 
-        
+
     }
 }
 

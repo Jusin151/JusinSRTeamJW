@@ -528,18 +528,6 @@
     <ClInclude Include="..\public\Item.h">
       <Filter>02.GameObjects\02. Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PointShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WeaponShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\SpellShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Episode_Hub.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Shop.h">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object</Filter>
     </ClInclude>
@@ -548,9 +536,6 @@
     </ClInclude>
     <ClInclude Include="..\public\UI_Episode_Hub.h">
       <Filter>02.GameObjects\05. Hub\01. Hub_UI\Episode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Portal.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Projectile_Test.h">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
@@ -584,6 +569,21 @@
     </ClInclude>
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\96. Structure\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_PointShop.h">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_Portal.h">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_SpellShop.h">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_WeaponShop.h">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hub_Episode.h">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -780,18 +780,6 @@
     <ClCompile Include="..\private\Item.cpp">
       <Filter>02.GameObjects\02. Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PointShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WeaponShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\SpellShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Episode_Hub.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Shop.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object</Filter>
     </ClCompile>
@@ -800,9 +788,6 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Episode_Hub.cpp">
       <Filter>02.GameObjects\05. Hub\01. Hub_UI\Episode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Portal.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
@@ -845,6 +830,21 @@
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\96. Structure\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_Episode.cpp">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_PointShop.cpp">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_Portal.cpp">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_SpellShop.cpp">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_WeaponShop.cpp">
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
