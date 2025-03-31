@@ -62,8 +62,11 @@ public: //옵저버 관련
        if (Ranged_INFO.CurrentAmmo > Ranged_INFO.MaxAmmo)
            Ranged_INFO.CurrentAmmo = Ranged_INFO.MaxAmmo;
 
-       Notify_Bullet(); // UI 갱신
+       if(m_bIsActive)
+           Notify_Bullet(); // UI 갱신
    }
+
+  
 
 
 protected:
@@ -75,9 +78,7 @@ protected:
 protected:
     CPickingSys* m_pPickingSys = { nullptr }; // 피킹 객체
     _bool m_bWall = { false };   // 벽체크용 변수
-    _bool m_bMonster = { false }; // 몬스터 체크용 변수
-
-
+    _bool m_bMonster = { false }; // 몬스터 체크용 변수=
     void Move_Hand(_float fTimeDelta) override;
 
 

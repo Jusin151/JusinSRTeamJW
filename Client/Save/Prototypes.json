@@ -661,7 +661,7 @@
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Pistol_Ammo_Small"
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
     },
     {
       "class": "CItem",
@@ -671,17 +671,17 @@
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Shotgun_Ammo_Big"
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
     },
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Shotgun_Ammo_Small"
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Small"
     },
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Pistol_Ammo_Big"
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
     },
     {
       "class": "CStructure",
@@ -717,6 +717,11 @@
       "class": "CDoor",
       "level": 3,
       "tag": "Prototype_GameObject_Door_Key_Red"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Red"
     }
   ],
   "buffers": [

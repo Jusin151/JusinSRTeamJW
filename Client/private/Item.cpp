@@ -176,6 +176,12 @@ void CItem::Use_Item()
 		break;
 	case Client::CItem::ITEM_TYPE::STAT:
 		break;
+	case Client::CItem::ITEM_TYPE::KEY:
+		if (FAILED(m_pPlayer->Add_Item(m_strItemName)))
+		{
+			return;
+		}
+		break;
 	case Client::CItem::ITEM_TYPE::MAX:
 		break;
 	default:
@@ -197,14 +203,14 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Magnum_Ammo_Big"] = 2;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Magnum_Ammo_Small"] = 86;
 
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Small"] = 87;
-	m_mapTextureTag[ITEM_TYPE::AMMO][L"Shotgun_Ammo_Big"] = 88;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"ShotGun_Ammo_Small"] = 87;
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"ShotGun_Ammo_Big"] = 88;
 
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Big"] = 93;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Staff_Ammo_Small"] = 89;
 
 	m_mapTextureTag[ITEM_TYPE::EXP][L"EXP"] = 3;
-	m_mapTextureTag[ITEM_TYPE::STAT][L"STAT"] = 78;
+	m_mapTextureTag[ITEM_TYPE::STAT][L"Stat"] = 78;
 
 	m_mapTextureTag[ITEM_TYPE::KEY][L"Red"] = 61;
 	m_mapTextureTag[ITEM_TYPE::KEY][L"Blue"] = 60;

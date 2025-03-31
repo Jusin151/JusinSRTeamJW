@@ -289,6 +289,41 @@
       "class": "CDoor",
       "level": 3,
       "tag": "Prototype_GameObject_Door_Key_Red"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Red"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Yellow"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Blue"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Staff_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
     }
   ],
   "textures": [

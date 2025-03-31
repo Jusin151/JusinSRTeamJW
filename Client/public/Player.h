@@ -84,8 +84,8 @@ public:
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
 
 
-	inline _bool Has_Item(const _wstring& stItemTag);
-	inline HRESULT Add_Item(const _wstring& stItemTag);
+	 _bool Has_Item(const _wstring& stItemTag);
+	 HRESULT Add_Item(const _wstring& stItemTag);
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
