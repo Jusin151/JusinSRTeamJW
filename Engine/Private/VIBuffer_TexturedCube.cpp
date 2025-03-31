@@ -36,129 +36,125 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	// 왼쪽 위
 	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[0].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	pVertices[0].vNormal = _float3(0.0f, 0.0f, -1.0f);
+
 
 	// 오른쪽 위
 	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-	pVertices[1].vNormal = _float3(0.0f, 0.0f, -1.0f);
+
 
 	// 오른쪽 아래
 	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[2].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-	pVertices[2].vNormal = _float3(0.0f, 0.0f, -1.0f);
+
 
 	// 왼쪽 아래
 	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[3].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	pVertices[3].vNormal = _float3(0.0f, 0.0f, -1.0f);
+
 
 	// 후면 (Back Face: +Z)
 	// 왼쪽 위
 	m_pVertexPositions[4] = pVertices[4].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[4].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	pVertices[4].vNormal = _float3(0.0f, 0.0f, 1.0f);
+
 
 	// 오른쪽 위
 	m_pVertexPositions[5] = pVertices[5].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[5].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-	pVertices[5].vNormal = _float3(0.0f, 0.0f, 1.0f);
+
 
 	// 오른쪽 아래
 	m_pVertexPositions[6] = pVertices[6].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[6].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-	pVertices[6].vNormal = _float3(0.0f, 0.0f, 1.0f);
 
 	// 왼쪽 아래
 	m_pVertexPositions[7] = pVertices[7].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	pVertices[7].vNormal = _float3(0.0f, 0.0f, 1.0f);
+
 
 	// 왼쪽면 (Left Face: -X)
 	// 왼쪽 위
 	m_pVertexPositions[8] = pVertices[8].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[8].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	pVertices[8].vNormal = _float3(-1.0f, 0.0f, 0.0f);
+
 
 	// 오른쪽 위
 	m_pVertexPositions[9] = pVertices[9].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[9].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-	pVertices[9].vNormal = _float3(-1.0f, 0.0f, 0.0f);
 
 	// 오른쪽 아래
 	m_pVertexPositions[10] = pVertices[10].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[10].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-	pVertices[10].vNormal = _float3(-1.0f, 0.0f, 0.0f);
+
 
 	// 왼쪽 아래
 	m_pVertexPositions[11] = pVertices[11].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[11].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	pVertices[11].vNormal = _float3(-1.0f, 0.0f, 0.0f);
+	
 
 	// 오른쪽면 (Right Face: +X)
 	// 왼쪽 위
 	m_pVertexPositions[12] = pVertices[12].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[12].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	pVertices[12].vNormal = _float3(1.0f, 0.0f, 0.0f);
+	
 
 	// 오른쪽 위
 	m_pVertexPositions[13] = pVertices[13].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[13].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-	pVertices[13].vNormal = _float3(1.0f, 0.0f, 0.0f);
+
 
 	// 오른쪽 아래
 	m_pVertexPositions[14] = pVertices[14].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[14].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-	pVertices[14].vNormal = _float3(1.0f, 0.0f, 0.0f);
+
 
 	// 왼쪽 아래
 	m_pVertexPositions[15] = pVertices[15].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[15].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	pVertices[15].vNormal = _float3(1.0f, 0.0f, 0.0f);
+
 
 	// 윗면 (Top Face: +Y)
 	// 왼쪽 위
 	m_pVertexPositions[16] = pVertices[16].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[16].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	pVertices[16].vNormal = _float3(0.0f, 1.0f, 0.0f);
+
 
 	// 오른쪽 위
 	m_pVertexPositions[17] = pVertices[17].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[17].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-	pVertices[17].vNormal = _float3(0.0f, 1.0f, 0.0f);
+
 
 	// 오른쪽 아래
 	m_pVertexPositions[18] = pVertices[18].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[18].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-	pVertices[18].vNormal = _float3(0.0f, 1.0f, 0.0f);
+
 
 	// 왼쪽 아래
 	m_pVertexPositions[19] = pVertices[19].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[19].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	pVertices[19].vNormal = _float3(0.0f, 1.0f, 0.0f);
 
 	// 아랫면 (Bottom Face: -Y)
 	// 왼쪽 위
 	m_pVertexPositions[20] = pVertices[20].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[20].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	pVertices[20].vNormal = _float3(0.0f, -1.0f, 0.0f);
+
 
 	// 오른쪽 위
 	m_pVertexPositions[21] = pVertices[21].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[21].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-	pVertices[21].vNormal = _float3(0.0f, -1.0f, 0.0f);
+
 
 	// 오른쪽 아래
 	m_pVertexPositions[22] = pVertices[22].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[22].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-	pVertices[22].vNormal = _float3(0.0f, -1.0f, 0.0f);
+
 
 	// 왼쪽 아래
 	m_pVertexPositions[23] = pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[23].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	pVertices[23].vNormal = _float3(0.0f, -1.0f, 0.0f);
 
-	m_pVB->Unlock();
+
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -194,9 +190,46 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	pIndices[33] = 20; pIndices[34] = 22; pIndices[35] = 23;
 
 	m_pIB->Unlock();
-#pragma endregion
+#pragma region NORMAL
+	// 각 면의 노멀 계산 (인덱스 버퍼 기반)
+	D3DXVECTOR3 faceNormals[12]; // 12개의 삼각형 면
+	for (int i = 0; i < 12; ++i)
+	{
+		D3DXVECTOR3 v0 = pVertices[pIndices[i * 3]].vPosition;
+		D3DXVECTOR3 v1 = pVertices[pIndices[i * 3 + 1]].vPosition;
+		D3DXVECTOR3 v2 = pVertices[pIndices[i * 3 + 2]].vPosition;
 
+		D3DXVECTOR3 edge1 = v1 - v0;
+		D3DXVECTOR3 edge2 = v2 - v0;
+		D3DXVec3Cross(&faceNormals[i], &edge1, &edge2); // 외적
+		D3DXVec3Normalize(&faceNormals[i], &faceNormals[i]); // 정규화
+	}
+
+	// 각 정점의 노멀 계산 (면 노멀 평균)
+	for (int i = 0; i <12; ++i)
+	{
+		D3DXVECTOR3 vertexNormal = { 0.f, 0.f, 0.f };
+		int numFaces = 0;
+
+		// 정점 i가 사용되는 모든 면을 찾아서 노멀을 더함
+		for (int j = 0; j < 12; ++j) // 12 triangles
+		{
+			if (pIndices[j * 3] == i || pIndices[j * 3 + 1] == i || pIndices[j * 3 + 2] == i)
+			{
+				vertexNormal += faceNormals[j];
+				numFaces++;
+			}
+		}
+
+		// 평균 계산 및 정규화
+		vertexNormal /= (float)numFaces;
+		D3DXVec3Normalize(&pVertices[i].vNormal, &vertexNormal);
+	}
+
+	m_pVB->Unlock();
+#pragma endregion
 	return S_OK;
+
 }
 
 HRESULT CVIBuffer_TexturedCube::Initialize(void* pArg)
