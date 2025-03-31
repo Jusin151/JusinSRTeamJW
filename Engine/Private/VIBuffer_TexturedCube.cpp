@@ -91,13 +91,13 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	// 왼쪽 아래
 	m_pVertexPositions[11] = pVertices[11].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[11].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-	
+
 
 	// 오른쪽면 (Right Face: +X)
 	// 왼쪽 위
 	m_pVertexPositions[12] = pVertices[12].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[12].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-	
+
 
 	// 오른쪽 위
 	m_pVertexPositions[13] = pVertices[13].vPosition = _float3(0.5f, 0.5f, 0.5f);
@@ -189,7 +189,6 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	pIndices[30] = 20; pIndices[31] = 21; pIndices[32] = 22;
 	pIndices[33] = 20; pIndices[34] = 22; pIndices[35] = 23;
 
-	m_pIB->Unlock();
 #pragma region NORMAL
 	// 각 면의 노멀 계산 (인덱스 버퍼 기반)
 	D3DXVECTOR3 faceNormals[12]; // 12개의 삼각형 면
@@ -205,31 +204,33 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 		D3DXVec3Normalize(&faceNormals[i], &faceNormals[i]); // 정규화
 	}
 
-	// 각 정점의 노멀 계산 (면 노멀 평균)
-	for (int i = 0; i <12; ++i)
-	{
-		D3DXVECTOR3 vertexNormal = { 0.f, 0.f, 0.f };
-		int numFaces = 0;
-
-		// 정점 i가 사용되는 모든 면을 찾아서 노멀을 더함
-		for (int j = 0; j < 12; ++j) // 12 triangles
-		{
-			if (pIndices[j * 3] == i || pIndices[j * 3 + 1] == i || pIndices[j * 3 + 2] == i)
-			{
-				vertexNormal += faceNormals[j];
-				numFaces++;
-			}
-		}
-
-		// 평균 계산 및 정규화
-		vertexNormal /= (float)numFaces;
-		D3DXVec3Normalize(&pVertices[i].vNormal, &vertexNormal);
+	// 모든 정점의 노멀을 0으로 초기화
+	for (_uint i = 0; i < m_iNumVertices; ++i) {
+		pVertices[i].vNormal = _float3(0.0f, 0.0f, 0.0f);
 	}
 
-	m_pVB->Unlock();
-#pragma endregion
-	return S_OK;
+	// 각 면의 노멀을 해당 면을 구성하는 정점들에 더함
+	for (int i = 0; i < 12; ++i) {
+		// 삼각형의 세 정점 인덱스
+		_uint idx0 = pIndices[i * 3];
+		_uint idx1 = pIndices[i * 3 + 1];
+		_uint idx2 = pIndices[i * 3 + 2];
 
+		// 면 노멀을 각 정점에 더함
+		pVertices[idx0].vNormal += faceNormals[i];
+		pVertices[idx1].vNormal += faceNormals[i];
+		pVertices[idx2].vNormal += faceNormals[i];
+	}
+
+	// 각 정점의 노멀 정규화
+	for (_uint i = 0; i < m_iNumVertices; ++i) {
+		D3DXVec3Normalize(&pVertices[i].vNormal, &pVertices[i].vNormal);
+	}
+
+	m_pIB->Unlock();
+#pragma endregion
+	m_pVB->Unlock();
+	return S_OK;
 }
 
 HRESULT CVIBuffer_TexturedCube::Initialize(void* pArg)
