@@ -90,6 +90,8 @@ void CPlayer::Update(_float fTimeDelta)
 
 	Input_Key(fTimeDelta);
 
+
+
 	/////////트리거용 
 
 	if (GetAsyncKeyState('0') & 0x8000)
@@ -114,7 +116,12 @@ void CPlayer::Update(_float fTimeDelta)
 		m_asdasdasd = false;
 	}
 
-	
+	if (GetAsyncKeyState('1') & 0x8000)
+	{
+		
+
+	}
+
 
 }
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -510,6 +517,9 @@ HRESULT CPlayer::Ready_Player_SetUP()
 		Add_Observer(pMpUI);
 
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
+		Add_Observer(pPlayer_Icon);
+
+	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
 		Add_Observer(pPlayer_Icon);
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);

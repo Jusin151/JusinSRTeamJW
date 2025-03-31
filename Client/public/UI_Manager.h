@@ -70,6 +70,15 @@ public:
         }
         return _float2(99999, 99999);
     }
+    _float2 GetMidPanel_Pos()
+    {
+        CUI_Base* pUI = GetUI(L"Mid_Panel");
+        if (pUI)
+        {
+            return pUI->Get_Position();
+        }
+        return _float2(99999, 99999);
+    }
     void Init_HP_UI(_uint CurrentHP,_uint MaxHP)
     {
         CUI_Base* pHp_UI = GetUI(L"Hp_Bar");

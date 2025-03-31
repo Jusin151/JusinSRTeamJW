@@ -12,7 +12,7 @@
 #include "UI_Left_Display.h"
 #include "UI_Right_Display.h"
 #include "UI_Mid_Display.h"
-#include "Exp_Bar.h"
+#include "UI_Exp_Bar.h"
 #include "UI_HP_Bar.h"
 #include "UI_MP_Bar.h"
 #include "UI_Bullet_Bar.h"

@@ -73,15 +73,16 @@ public:
 		m_iSprit += Sprit;
 		m_iPlayerMP.first += Sprit * 5;
 	}
-	void Add_Exp(_int Exp)
-	{
-		m_iPlayerEXP.first += Exp;
-	}
 	void Add_SkillPoint(_int SkillPoint)
 	{
 		m_iSkillPoint += SkillPoint;
 	}
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
+	void Add_Exp(_int Exp)
+	{
+		m_iPlayerEXP.first += Exp;
+		Notify(m_iPlayerEXP.first, L"Exp"); 
+	}
 
 
 	inline _bool Has_Item(const _wstring& stItemTag);

@@ -510,7 +510,7 @@
     <ClInclude Include="..\public\Harpoon.h">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Exp_Bar.h">
+    <ClInclude Include="..\Public\UI_Exp_Bar.h">
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Point_Shop.h">
@@ -765,7 +765,7 @@
     <ClCompile Include="..\private\Harpoon.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Exp_Bar.cpp">
+    <ClCompile Include="..\Private\UI_Exp_Bar.cpp">
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Point_Shop.cpp">

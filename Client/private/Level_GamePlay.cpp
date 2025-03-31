@@ -414,6 +414,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Mid_Panel"), &EXP_Desc)))
 		return E_FAIL;
 
+ 	CUI_Base::UI_Child_Desc EXPBar_Desc{};  // Exp 검은바
+	EXPBar_Desc.vSize = { 850,4.f };
+	EXPBar_Desc.fAlpha = 1.0f;
+	EXPBar_Desc.vPos = { 4.f,-1.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_ExpBar_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_ExpBar_UI"), &EXPBar_Desc)))
+		return E_FAIL;
+
 
 
 
