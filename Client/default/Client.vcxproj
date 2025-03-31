@@ -167,6 +167,7 @@
     <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
