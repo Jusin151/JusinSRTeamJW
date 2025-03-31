@@ -54,7 +54,9 @@ void CUI_Bullet_Bar::Priority_Update(_float fTimeDelta)
 
 void CUI_Bullet_Bar::Update(_float fTimeDelta)
 {
-	
+	int a = 10;
+	//////////////////
+
 }
 
 void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
