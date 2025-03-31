@@ -1,4 +1,4 @@
-﻿#include "Hub_Episode..h"
+﻿#include "Hub_Episode.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "UI_Episode_Hub.h"

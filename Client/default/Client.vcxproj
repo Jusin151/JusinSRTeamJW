@@ -164,10 +164,6 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_PointShop.h" />
-    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_Portal.h" />
-    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_SpellShop.h" />
-    <ClInclude Include="..\..\..\..\새 폴더\Client\public\Hub_WeaponShop.h" />
     <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
@@ -190,6 +186,10 @@
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
     <ClInclude Include="..\public\Hub_Episode.h" />
+    <ClInclude Include="..\public\Hub_PointShop.h" />
+    <ClInclude Include="..\public\Hub_Portal.h" />
+    <ClInclude Include="..\public\Hub_SpellShop.h" />
+    <ClInclude Include="..\public\Hub_WeaponShop.h" />
     <ClInclude Include="..\public\Image_Manager.h" />
     <ClInclude Include="..\Public\Inven_UI.h" />
     <ClInclude Include="..\public\Item.h" />
@@ -262,17 +262,17 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_Episode.cpp" />
-    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_PointShop.cpp" />
-    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_Portal.cpp" />
-    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_SpellShop.cpp" />
-    <ClCompile Include="..\..\..\..\새 폴더\Client\private\Hub_WeaponShop.cpp" />
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
+    <ClCompile Include="..\private\Hub_Episode.cpp" />
+    <ClCompile Include="..\private\Hub_PointShop.cpp" />
+    <ClCompile Include="..\private\Hub_Portal.cpp" />
+    <ClCompile Include="..\private\Hub_SpellShop.cpp" />
+    <ClCompile Include="..\private\Hub_WeaponShop.cpp" />
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
