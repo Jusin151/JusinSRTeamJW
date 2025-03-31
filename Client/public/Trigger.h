@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Client_Defines.h"
 #include "CollisionObject.h"
 #include "Serializable.h"
@@ -17,15 +17,15 @@ class CTrigger : public CCollisionObject
 public:
     enum class TRIGGER_TYPE : uint8_t
     {
-        BUTTON,           // ´©¸¦ ¼ö ÀÖ´Â ¹öÆ°
-        INTERACTION     // »óÈ£ÀÛ¿ë
+        BUTTON,           // ëˆ„ë¥¼ ìˆ˜ ìˆëŠ” ë²„íŠ¼
+        INTERACTION     // ìƒí˜¸ì‘ìš©
     };
 
     typedef struct tagTriggerDesc : public OBJECT_DESC
     {
         TRIGGER_TYPE eType;
-        _wstring stTargetTag;        // ¿µÇâÀ» ¹Ş´Â °´Ã¼ÀÇ ÅÂ±×
-        _bool bStartsActive;        // ½ÃÀÛ½Ã È°¼ºÈ­ ¿©ºÎ
+        _wstring stTargetTag;        // ì˜í–¥ì„ ë°›ëŠ” ê°ì²´ì˜ íƒœê·¸
+        _bool bStartsActive;        // ì‹œì‘ì‹œ í™œì„±í™” ì—¬ë¶€
     }TRIGGER_DESC;
 
 private:
