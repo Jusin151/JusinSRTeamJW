@@ -78,9 +78,32 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
     goldDesc.iNumParticles = { 10 };
     goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
 
-    /* For.Com_Particle */
+    /* For.Com_GoldParticle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
         TEXT("Com_GoldParticle"), reinterpret_cast<CComponent**>(&m_pGoldParticleCom), &goldDesc)))
+        return E_FAIL;
+
+    CBlood_Particle_System::BLOODDESC bloodDesc = {};
+    bloodDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
+    bloodDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
+    bloodDesc.iNumParticles = { 100 };
+    bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+
+    /* For.Com_BloodParticle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+        TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
+        return E_FAIL;
+
+
+    CBulletShell_Particle_System::BULLETSHELLDESC shellDesc = {};
+    shellDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
+    shellDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
+    shellDesc.iNumParticles = { 10 };
+    shellDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+
+    /* For.Com_BulletShellParticle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
+        TEXT("Com_BulletShellParticle"), reinterpret_cast<CComponent**>(&m_pBulletShellParticleCom), &shellDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -95,6 +118,7 @@ void CGameObject_Projectile_Test::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
     m_pParticleCom->Update(fTimeDelta);
     m_pGoldParticleCom->Update(fTimeDelta);
+    m_pBloodParticleCom->Update(fTimeDelta);
     
     m_pTransformCom->Go(m_vDir, fTimeDelta);
 
@@ -145,6 +169,9 @@ HRESULT CGameObject_Projectile_Test::Render()
     if (FAILED(m_pGoldParticleCom->Render()))
         return E_FAIL;
 
+    if (FAILED(m_pBloodParticleCom->Render()))
+        return E_FAIL;
+
     Post_Render();
 
     return S_OK;
@@ -190,6 +217,8 @@ void CGameObject_Projectile_Test::Free()
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pParticleCom);
     Safe_Release(m_pGoldParticleCom);
+    Safe_Release(m_pBloodParticleCom);
+    Safe_Release(m_pBulletShellParticleCom);
 }
 
 json CGameObject_Projectile_Test::Serialize()

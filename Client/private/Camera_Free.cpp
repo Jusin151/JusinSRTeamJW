@@ -198,11 +198,6 @@ HRESULT CCamera_Free::Ready_Components()
 	return S_OK;
 }
 
-_float CCamera_Free::Lerp(_float a, _float b, _float t)
-{
-	return a + t * (b - a);
-}
-
 CCamera_Free* CCamera_Free::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCamera_Free* pInstance = new CCamera_Free(pGraphic_Device);

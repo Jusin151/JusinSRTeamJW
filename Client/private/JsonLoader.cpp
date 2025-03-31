@@ -12,7 +12,9 @@
 #include "Hub_PointShop.h"
 #include "Harpoon.h"
 #include "Item.h"
+#include "Trigger.h"
 #include "Harpoonguy.h"
+#include "Door.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath)
@@ -52,7 +54,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 			string className = obj["class"];
 			CBase* pGameObject = Create_Object_ByClassName(className, pGraphic_Device);
 			if (!pGameObject)
-				continue;
+ 				continue;
 
 			if (FAILED(pGameInstance->Add_Prototype(level, tag, pGameObject)))
 				return E_FAIL;
@@ -106,8 +108,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 
 	for (const auto& item : j["layers"].items())
 	{
-		const auto& layerName = item.key(); //first;    // 키 (문자열)
-		const auto& layerObjects = item.value(); // 값 (JSON 객체)
+		const auto& layerName = item.key();
+		const auto& layerObjects = item.value();
 		_wstring wLayerName = ISerializable::Utf8ToWide(layerName);
 
 		for (const auto& objData : layerObjects)
@@ -133,13 +135,15 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 
 			// 레이어 태그 가져오기
 			_wstring layerTag;
-
 			if (objData.contains("LayerTag"))
 				layerTag = ISerializable::Utf8ToWide(objData["LayerTag"].get<string>());
 			else
 				layerTag = wLayerName;
 
+			// 객체 타입 확인
 			bool bIsItem = layerTag == L"Layer_Item";
+			bool bIsDoor = layerTag.find(L"Layer_Door")!=_wstring::npos;
+			bool bIsTrigger = layerTag == L"Layer_Trigger";
 
 			// FromPool 확인
 			bool bFromPool = false;
@@ -156,52 +160,112 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 				continue;
 			}
 
-			// 객체 생성 또는 활성화 (OBJECT_DESC 전달)
+			// 객체 생성 또는 활성화 (타입별 DESC 구조체 전달)
 			if (bFromPool)
 			{
 				if (!pGameInstance->Acquire_Object(tObjDesc.iProtoLevel,
 					layerTag, &tObjDesc))
 					continue;
 			}
-			else
+			else if (bIsItem)
 			{
-				if (bIsItem)
+				CItem::ITEM_DESC tItemDesc;
+
+				// 기본 OBJECT_DESC 필드 복사
+				tItemDesc.stProtTag = tObjDesc.stProtTag;
+				tItemDesc.stProtTextureTag = tObjDesc.stProtTextureTag;
+				tItemDesc.stBufferTag = tObjDesc.stBufferTag;
+				tItemDesc.iLevel = tObjDesc.iLevel;
+				tItemDesc.iProtoLevel = tObjDesc.iProtoLevel;
+
+				// Item 특정 필드 복사
+				if (objData.contains("Item_Name"))
 				{
-					CItem::ITEM_DESC tItemDesc;
-		
-					tItemDesc.stProtTag = tObjDesc.stProtTag;
-					tItemDesc.stProtTextureTag = tObjDesc.stProtTextureTag;
-					tItemDesc.stBufferTag = tObjDesc.stBufferTag;
-					tItemDesc.iLevel = tObjDesc.iLevel;
-					tItemDesc.iProtoLevel = tObjDesc.iProtoLevel;
-					if (objData.contains("Item_Name"))
-					{
-						tItemDesc.strItemName = ISerializable::Utf8ToWide(objData["Item_Name"].get<string>());
-					}
-					if (objData.contains("Type"))
-					{
-						tItemDesc.eType = static_cast<CItem::ITEM_TYPE>(objData["Type"].get<_int>());
-					}
-					if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
-						tObjDesc.iLevel, layerTag, &tItemDesc)))
-						continue;
+					tItemDesc.strItemName = ISerializable::Utf8ToWide(objData["Item_Name"].get<string>());
 				}
-				else
+				if (objData.contains("Type"))
 				{
-					if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
-						tObjDesc.iLevel, layerTag, &tObjDesc)))
-						continue;
+					tItemDesc.eType = static_cast<CItem::ITEM_TYPE>(objData["Type"].get<_int>());
 				}
 
-				// 생성된 객체를 찾아 나머지 데이터 역직렬화
-				CGameObject* pGameObject = pGameInstance->Find_Last_Object(tObjDesc.iLevel, layerTag);
-				if (pGameObject)
-					pGameObject->Deserialize(objData);
+				if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
+					tObjDesc.iLevel, layerTag, &tItemDesc)))
+					continue;
 			}
+			else if (bIsDoor)
+			{
+				CDoor::DOOR_DESC tDoorDesc{};
+
+				// 기본 OBJECT_DESC 필드 복사
+				tDoorDesc.stProtTag = tObjDesc.stProtTag;
+				tDoorDesc.stProtTextureTag = tObjDesc.stProtTextureTag;
+				tDoorDesc.stBufferTag = tObjDesc.stBufferTag;
+				tDoorDesc.iLevel = tObjDesc.iLevel;
+				tDoorDesc.iProtoLevel = tObjDesc.iProtoLevel;
+
+				// Door 특정 필드들을 JSON에서 가져오기
+				if (objData.contains("door_type"))
+					tDoorDesc.eType = static_cast<CDoor::DOOR_TYPE>(objData["door_type"].get<_int>());
+
+				if (objData.contains("door_color"))
+					tDoorDesc.eColor = static_cast<CDoor::DOOR_COLOR>(objData["door_color"].get<_int>());
+
+				if (objData.contains("slide_distance"))
+					tDoorDesc.fSlideDistance = objData["slide_distance"].get<_float>();
+
+				if (objData.contains("key_item_tag"))
+					tDoorDesc.stKeyItemTag = ISerializable::Utf8ToWide(objData["key_item_tag"].get<string>());
+
+				if (objData.contains("is_active"))
+					tDoorDesc.bStartsActive = objData["is_active"].get<bool>();
+
+				// Door 객체 생성
+				if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
+					tObjDesc.iLevel, layerTag, &tDoorDesc)))
+					continue;
+			}
+			else if (bIsTrigger)
+			{
+				CTrigger::TRIGGER_DESC tTriggerDesc{};
+
+				// 기본 OBJECT_DESC 필드 복사
+				tTriggerDesc.stProtTag = tObjDesc.stProtTag;
+				tTriggerDesc.stProtTextureTag = tObjDesc.stProtTextureTag;
+				tTriggerDesc.stBufferTag = tObjDesc.stBufferTag;
+				tTriggerDesc.iLevel = tObjDesc.iLevel;
+				tTriggerDesc.iProtoLevel = tObjDesc.iProtoLevel;
+
+				// Trigger 특정 필드들을 JSON에서 가져오기
+				if (objData.contains("trigger_type"))
+					tTriggerDesc.eType = static_cast<CTrigger::TRIGGER_TYPE>(objData["trigger_type"].get<_int>());
+
+				if (objData.contains("target_tags"))
+					tTriggerDesc.stTargetTag = ISerializable::Utf8ToWide(objData["target_tags"].get<string>());
+
+				if (objData.contains("is_active"))
+					tTriggerDesc.bStartsActive = objData["is_active"].get<bool>();
+
+				// Trigger 객체 생성
+				if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
+					tObjDesc.iLevel, layerTag, &tTriggerDesc)))
+					continue;
+			}
+			else
+			{
+				// 일반 게임 오브젝트 생성
+				if (FAILED(pGameInstance->Add_GameObject(tObjDesc.iProtoLevel, tObjDesc.stProtTag,
+					tObjDesc.iLevel, layerTag, &tObjDesc)))
+					continue;
+			}
+
+			// 생성된 객체를 찾아 나머지 데이터 역직렬화
+			CGameObject* pGameObject = pGameInstance->Find_Last_Object(tObjDesc.iLevel, layerTag);
+			if (pGameObject)
+				pGameObject->Deserialize(objData);
 		}
 	}
 
-		return S_OK;
+	return S_OK;
 }
 
 	CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -265,11 +329,10 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CHarpoon::Create(pGraphic_Device);
 		else if (className == "CItem")
 			return CItem::Create(pGraphic_Device);
-
-
-		wstring wClassName = ISerializable::Utf8ToWide(className);
-		wstring errorMsg = L"ì•Œ ìˆ˜ ì—†ëŠ” í´ëž˜ìŠ¤ ì´ë¦„: " + wClassName;
-		OutputDebugString(errorMsg.c_str());
+		else if (className == "CDoor")
+			return CDoor::Create(pGraphic_Device);
+		else if (className == "CTrigger")
+			return CTrigger::Create(pGraphic_Device);
 
 		return nullptr;
 	}

@@ -9,6 +9,7 @@
 #include "Collider_Cube.h"
 #include "Material.h"
 #include "GameObjects_Base.h"
+#include "VIBuffer_TexturedCube.h"
 #include "Light.h"
 #include "PickingSys.h"
 #include "Particles.h"
@@ -104,6 +105,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_TexturedCube"),
+		CVIBuffer_TexturedCube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Base*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Base"),
@@ -184,6 +189,16 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	/* For.Prototype_Component_Particle_Gold*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
 		CGold_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Blood*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+		CBlood_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_BulletShell*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
+		CBulletShell_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

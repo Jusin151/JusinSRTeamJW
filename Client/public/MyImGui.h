@@ -2,6 +2,7 @@
 #include "Base.h"
 #include "Client_Defines.h"
 
+
 BEGIN(Engine)
 class CEditor;
 class CGameInstance;
@@ -194,7 +195,22 @@ private:
 
 	///////////////////////////////////////
 #pragma endregion
+#pragma region 트리거용 멤버 변수
+public:
+		void ShowTriggerTab();
+		HRESULT CreateTriggerInstance(const _wstring& strTargetTag, _uint iTriggerType,
+			const _float3& vPosition, _float fActivationRange, _bool bStartsActive, const _wstring& textureTag);
+private:
+	_bool m_bCreateTrigger = false;
+	CGameObject* m_pSelectedTarget = nullptr;
+#pragma endregion
+#pragma region 문용 멤버 변수
+	void ShowDoorTab();
+	HRESULT CreateDoorInstance(const _wstring& keyItemTag, _uint iDoorType, _uint iDoorColor,
+		const _float3& vPosition, _float fSlideDistance, _bool bStartsActive, const _wstring& textureTag);
 
+	_bool m_bCreateDoor = false;
+#pragma endregion
 private:
 	class CGameInstance*	m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };

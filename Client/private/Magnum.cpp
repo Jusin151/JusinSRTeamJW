@@ -3,7 +3,8 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
-#include "Sound_Event.h"
+#include "Sound_Source.h"
+#include "Light.h"
 
 
 
@@ -173,6 +174,10 @@ HRESULT CMagnum::Ready_Texture()
 void CMagnum::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_bIsAnimating)
+	{
+		m_pGameInstance->Add_Light(m_pLightCom);
+	}
 }
 
 HRESULT CMagnum::Render()
@@ -224,6 +229,17 @@ HRESULT CMagnum::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
+
+	//CLight::LIGHT_DESC lDesc = {};
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
+		return E_FAIL;
+
+	//CSound_Source::LIGHT_DESC lDesc = {};
+	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;*/
+
 	return S_OK;
 }
 
@@ -265,4 +281,6 @@ void CMagnum::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pLightCom);
+	Safe_Release(m_pSoundCom);
 }

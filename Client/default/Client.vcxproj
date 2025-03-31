@@ -171,6 +171,7 @@
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
+    <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\Hub_Episode..h" />
     <ClInclude Include="..\Public\Exp_Bar.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\public\Particles.h" />
     <ClInclude Include="..\Public\Hub_Portal.h" />
     <ClInclude Include="..\public\Hub_SpellShop.h" />
+    <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
@@ -265,6 +267,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
+    <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
@@ -273,6 +276,7 @@
     <ClCompile Include="..\Private\Hub_Portal.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\Hub_SpellShop.cpp" />
+    <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />

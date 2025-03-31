@@ -55,11 +55,8 @@ void CGold_Particle_System::Update(float fTimeDelta)
 {
     for (auto& i : m_Particles)
     {
-        if (i.bIsAlive)
-        {
-            i.vPosition += i.vVelocity * fTimeDelta;
-            i.fAge += fTimeDelta;
-        }
+        i.vPosition += i.vVelocity * fTimeDelta;
+        i.fAge += fTimeDelta;
         if (!m_Bounding_Box.Is_Point_Inside(i.vPosition))
         {
             Reset_Particle(&i);
@@ -68,7 +65,6 @@ void CGold_Particle_System::Update(float fTimeDelta)
         /*if (i.fAge > i.fLifetime)
             i.bIsAlive = false;*/
     }
-    __super::Late_Update(fTimeDelta);
 }
 
 CGold_Particle_System* CGold_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

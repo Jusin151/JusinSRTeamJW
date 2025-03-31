@@ -24,6 +24,8 @@
     "CClaymore",
     "CMagnum",
     "CStaff",
-    "CShotGun"
+    "CShotGun",
+    "CTrigger",
+    "CDoor"
   ]
 }

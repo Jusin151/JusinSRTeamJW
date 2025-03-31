@@ -232,6 +232,9 @@
     <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Ranged">
       <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\96. Structure\Trigger">
+      <UniqueIdentifier>{14292f27-5403-4152-96f3-0b1e69ea51bc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\05. Hub\01. Hub_UI">
       <UniqueIdentifier>{cdae7bea-fcbc-40ab-a353-021d65619c4c}</UniqueIdentifier>
     </Filter>
@@ -268,38 +271,42 @@
     <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Portal">
       <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI">
-      <UniqueIdentifier>{5ee92552-ce15-4a68-9c76-e2163edb686f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display">
-      <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\00.HP">
-      <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\01.MP">
-      <UniqueIdentifier>{22ef7993-c622-41ab-a771-c7c40a0eef04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\02.PlayerIcon">
-      <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\03.Key">
-      <UniqueIdentifier>{0141b836-8067-408c-812f-01969b88986a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\02.UI_Right_Display">
-      <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\02.UI_Right_Display\Bullet">
-      <UniqueIdentifier>{3092ab4c-01b9-4ffc-952f-2ee449a62a90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\03.UI_Mid_Display">
-      <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\01. Player_UI\03.UI_Mid_Display\Exp_Bar">
-      <UniqueIdentifier>{460ac096-fb49-4033-97f0-46923468ccad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\00.Player\00. Player">
-      <UniqueIdentifier>{dc22f5f7-4843-4f1a-acf7-4b67fd301168}</UniqueIdentifier>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI">
+  <UniqueIdentifier>{5ee92552-ce15-4a68-9c76-e2163edb686f}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display">
+  <UniqueIdentifier>{85069806-8b3e-4ea4-bf67-ffdc00a1782c}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\00.HP">
+  <UniqueIdentifier>{62b300fc-eaa1-4a17-956c-4a687b592630}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\01.MP">
+  <UniqueIdentifier>{22ef7993-c622-41ab-a771-c7c40a0eef04}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\02.PlayerIcon">
+  <UniqueIdentifier>{b562e461-59c9-4b73-a134-d8b070ac52bd}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\01.UI_Left_Display\03.Key">
+  <UniqueIdentifier>{0141b836-8067-408c-812f-01969b88986a}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\02.UI_Right_Display">
+  <UniqueIdentifier>{723d41c7-59ff-4948-bc41-432f46d3483d}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\02.UI_Right_Display\Bullet">
+  <UniqueIdentifier>{3092ab4c-01b9-4ffc-952f-2ee449a62a90}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\03.UI_Mid_Display">
+  <UniqueIdentifier>{bb0e3c4f-4e51-466e-8d12-e28d82ca22cd}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\01. Player_UI\03.UI_Mid_Display\Exp_Bar">
+  <UniqueIdentifier>{460ac096-fb49-4033-97f0-46923468ccad}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\00.Player\00. Player">
+  <UniqueIdentifier>{dc22f5f7-4843-4f1a-acf7-4b67fd301168}</UniqueIdentifier>
+</Filter>
+<Filter Include="02.GameObjects\96. Structure\Door">
+  <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
+</Filter>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -575,6 +582,11 @@
     </ClInclude>
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\00.Player\00. Player</Filter>
+    <ClInclude Include="..\public\Trigger.h">
+      <Filter>02.GameObjects\96. Structure\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Door.h">
+      <Filter>02.GameObjects\96. Structure\Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -824,12 +836,17 @@
     <ClCompile Include="..\Private\Observer.cpp">
       <Filter>95. Design</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Trigger.cpp">
+      <Filter>02.GameObjects\96. Structure\Trigger</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\00.Player\00. Player</Filter>
+    <ClCompile Include="..\private\Door.cpp">
+      <Filter>02.GameObjects\96. Structure\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

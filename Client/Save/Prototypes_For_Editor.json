@@ -20,6 +20,13 @@
       "level": 3,
       "tag": "Prototype_Component_VIBuffer_Rect",
       "width": 0
+    },
+    {
+      "class": "CVIBuffer_TexturedCube",
+      "height": 0,
+      "level": 3,
+      "tag": "Prototype_Component_VIBuffer_TexturedCube",
+      "width": 0
     }
   ],
   "gameObjects": [
@@ -32,11 +39,6 @@
       "class": "CCrocman",
       "level": 4,
       "tag": "Prototype_GameObject_Crocman"
-    },
-    {
-      "class": "CStructure",
-      "level": 4,
-      "tag": "Prototype_GameObject_"
     },
     {
       "class": "CPlayer",
@@ -57,11 +59,6 @@
       "class": "CCamera_FirstPerson",
       "level": 4,
       "tag": "Prototype_GameObject_Camera_FirstPerson"
-    },
-    {
-      "class": "CTestMonster",
-      "level": 4,
-      "tag": "Prototype_GameObject_Monster"
     },
     {
       "class": "CAxe",
@@ -222,6 +219,76 @@
       "class": "CStructure",
       "level": 3,
       "tag": "Prototype_GameObject_Ant_Wall4"
+    },
+    {
+      "class": "CTrigger",
+      "level": 3,
+      "tag": "Prototype_GameObject_Trigger_Button"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Pistol_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_HP_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Shotgun_Ammo_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Shotgun_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Pistol_Ammo_Big"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall6"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall5"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Staff_Ammo_Big"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ocean"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_STAT"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door_Normal"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door"
+    },
+    {
+      "class": "CDoor",
+      "level": 3,
+      "tag": "Prototype_GameObject_Door_Key_Red"
     }
   ],
   "textures": [
@@ -440,6 +507,42 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_2_snow.png",
       "tag": "Prototype_Component_Texture_Ant_Wall4"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall6"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_7.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall5"
+    },
+    {
+      "count": 4,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Ocean%d.png",
+      "tag": "Prototype_Component_Texture_Ocean"
+    },
+    {
+      "count": 2,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
+      "tag": "Prototype_Component_Texture_Trigger"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_grey.png",
+      "tag": "Prototype_Component_Texture_Door_Normal"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
+      "tag": "Prototype_Component_Texture_Door_Red"
     }
   ]
 }
