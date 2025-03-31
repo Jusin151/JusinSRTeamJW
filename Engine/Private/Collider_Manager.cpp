@@ -119,7 +119,7 @@ void CCollider_Manager::Update_Collision_Floor()
 
 					_float3 vPos = pTrans->Get_State(CTransform::STATE_POSITION);
 
-					vPos.y = fY + pTrans->Get_State(CTransform::STATE_UP).Length() * 0.5f;
+					vPos.y = fY + pTrans->Compute_Scaled().y * 0.5f;
 
 					pTrans->Set_State(CTransform::STATE_POSITION, vPos);
 
@@ -592,7 +592,7 @@ _bool CCollider_Manager::Check_Floor_Ray(CCollider* src, _float& fY)
 
 
 		_float3 vColliderPos = entry->Get_State(CTransform::STATE_POSITION);
-		_float3 vNormal = { 0.f, 1.f, 0.f }; // 가정: 콜라이더의 법선을 가져오는 함수
+		_float3 vNormal = { 0.f, 1.f, 0.f }; // 바닥의 법선벡터
 
 		// 평면 방정식: Ax + By + Cz + D = 0 (여기서 법선 = (A, B, C))
 		_float D = -(vNormal.x * vColliderPos.x + vNormal.y * vColliderPos.y + vNormal.z * vColliderPos.z);

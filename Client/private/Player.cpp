@@ -52,12 +52,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	// Antarctic1_Test pos
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.2f, 0.5f, -1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.5f, -1.f));
 
 	// Gameplay start pos
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
-	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
+	m_pTransformCom->Set_Scale(1.f, 1.5f, 1.f);
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -97,7 +96,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"),m_pTransformCom->Compute_Scaled());
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
 	/////////트리거용 
@@ -441,7 +440,7 @@ HRESULT CPlayer::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	ColliderDesc.fScale = { 1.f, 1.5f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
