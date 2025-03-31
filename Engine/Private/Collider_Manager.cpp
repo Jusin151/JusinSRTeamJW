@@ -45,6 +45,7 @@ void CCollider_Manager::Clear()
 void CCollider_Manager::Update_Collison()
 {
 	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
+	Update_Collision_Floor();
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER_PROJECTILE_CUBE]);
@@ -84,6 +85,49 @@ void CCollider_Manager::Update_Collision_Structure()
 		}
 
 	}
+}
+
+void CCollider_Manager::Update_Collision_Floor()
+{
+	for (int i = 0; i < CG_STRUCTURE_WALL; ++i)
+	{
+		if (i == CG_WEAPON)
+			continue;
+
+		if (i == CG_MONSTER_PROJECTILE_CUBE || i == CG_MONSTER_PROJECTILE_SPHERE ||
+			i == CG_PLAYER_PROJECTILE_CUBE || i == CG_PLAYER_PROJECTILE_SPHERE)
+		{
+			for (auto srcEntry : m_pColliders[i])
+			{
+				_float fY = 0.f;
+				if (!Check_Floor_Ray(srcEntry, fY))
+				{
+					srcEntry->Get_Owner()->SetActive(false);
+				}
+			}
+		}
+		else
+		{
+			for (auto srcEntry : m_pColliders[i])
+			{
+				_float fY = 0.f;
+				if (Check_Floor_Ray(srcEntry, fY))
+				{
+					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+
+					_float3 vPos = pTrans->Get_State(CTransform::STATE_POSITION);
+
+					vPos.y = fY + pTrans->Get_State(CTransform::STATE_UP).Length() * 0.5f;
+
+					pTrans->Set_State(CTransform::STATE_POSITION, vPos);
+
+				}
+			}
+		}
+
+		
+	}
+
 }
 
 void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCollider*> dst)
@@ -179,7 +223,7 @@ _bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 {
-	
+
 	_float srcRadius = src->Get_Radius();
 	_float3 srcPos = src->Get_State(CTransform::STATE_POSITION);
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
@@ -216,7 +260,7 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 	edges.push_back({ corners[3], corners[6] });
 
 
-	// 1. 각 꼭지점의 최대 최소를 구하고 
+	// 1. 각 꼭지점의 최대 최소를 구하고
 	// 최소에는 반지름을 빼주고 최대에는 반지름을 더함
 	// 그 후 구의 중심이 사이에 있는지 체크
 	_float3 minCorner = corners[0];
@@ -273,7 +317,7 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 		_float distanceToPlane = diff.Dot(norVec); // 점과 평면 사이의 거리
 
 		// 거리 절댓값이 반지름보다 작으면 충돌
-		if (abs(distanceToPlane) <= srcRadius) 
+		if (abs(distanceToPlane) <= srcRadius)
 		{
 			_float penetrationDepth = srcRadius - abs(distanceToPlane);
 
@@ -318,7 +362,7 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 					fDepth = mtvLength;
 					mtv = direction * mtvLength;
 				}
-				
+
 			}
 			else  //  만약 distVec == 0이면 기본 방향 적용
 			{
@@ -625,6 +669,48 @@ _bool CCollider_Manager::Calc_AABB(CCollider* src, CCollider* dst)
 
 	// 충돌 발생
 	return true;
+}
+
+_bool CCollider_Manager::Check_Floor_Ray(CCollider* src, _float& fY)
+{
+	for (auto& entry : m_pColliders[CG_STRUCTURE_FLOOR])
+	{
+		CCollider_Cube::COL_CUBE_DESC entryDesc = static_cast<CCollider_Cube*>(entry)->Get_Desc();
+
+		_float3 vPos = src->Get_State(CTransform::STATE_POSITION);
+		_float3 vDir = { 0.f, -1.f, 0.f };
+
+
+		_float3 vColliderPos = entry->Get_State(CTransform::STATE_POSITION);
+		_float3 vNormal = { 0.f, 1.f, 0.f }; // 가정: 콜라이더의 법선을 가져오는 함수
+
+		// 평면 방정식: Ax + By + Cz + D = 0 (여기서 법선 = (A, B, C))
+		_float D = -(vNormal.x * vColliderPos.x + vNormal.y * vColliderPos.y + vNormal.z * vColliderPos.z);
+
+		float denominator = vNormal.x * vDir.x + vNormal.y * vDir.y + vNormal.z * vDir.z;
+		if (fabs(denominator) > 1e-6) // 0이 아니어야 함 (수직이 아닌 경우)
+		{
+			float t = -(vNormal.x * vPos.x + vNormal.y * vPos.y + vNormal.z * vPos.z + D) / denominator;
+			if (t >= 0.f) // 교차 지점이 레이의 방향에 있음
+			{
+				_float3 vIntersection = { vPos.x + t * vDir.x, vPos.y + t * vDir.y, vPos.z + t * vDir.z };
+
+				// aabb로 콜라이더가 안에 있는지 판단
+				if (vIntersection.x >= entryDesc.fMin.x && vIntersection.x <= entryDesc.fMax.x &&
+					vIntersection.z >= entryDesc.fMin.z && vIntersection.z <= entryDesc.fMax.z)
+				{
+					fY = vPos.y + t * vDir.y;
+					return true;
+				}
+				
+				
+			}
+		}
+
+	}
+
+
+	return false;
 }
 
 CCollider_Manager* CCollider_Manager::Create()

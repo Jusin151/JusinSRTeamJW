@@ -34,6 +34,8 @@ public:
 	// 벽 충돌할거 먼저 충돌 처리
 	void Update_Collision_Structure();
 
+	void Update_Collision_Floor();
+
 	// 거리로만
 	void Collison_Sphere_To_Sphere( list<CCollider*> src, list<CCollider*> dst);
 	// OBB 충돌
@@ -64,6 +66,9 @@ public:
 
 	// aabb 구현, 벽 충돌에서만 사용
 	_bool Calc_AABB(CCollider* src, CCollider* dst);
+
+	// 바닥 체크
+	_bool Check_Floor_Ray(CCollider* src, _float& fY);
 
 private:
 

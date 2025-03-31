@@ -76,7 +76,7 @@ void CCrocman::Update(_float fTimeDelta)
 
 	if (m_eCurState != MS_DEATH)
 	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
