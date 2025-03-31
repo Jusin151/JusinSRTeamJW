@@ -63,22 +63,25 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 void CHarpoonguy::Update(_float fTimeDelta)
 {
-	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
+
+
+	if (nullptr == m_pTarget)
+		return;
+
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	Select_Pattern(fTimeDelta);
+
+	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	__super::Update(fTimeDelta);
+
 	if (m_eCurState != MS_DEATH)
 	{
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
-
-	if (nullptr == m_pTarget)
-		return;
-
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	Select_Pattern(fTimeDelta);
-
-	__super::Update(fTimeDelta);
 }
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
@@ -169,8 +172,8 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		m_eCurState = MS_HIT;
 		break;
 	case CG_STRUCTURE_WALL:
-		fPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
 	default:
 		break;

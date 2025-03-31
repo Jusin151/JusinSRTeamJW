@@ -41,6 +41,10 @@ protected:
 	_int m_iAp = 0;
 	COLLIDERGROUP m_eType = CG_END;
 
+	// 현재 위치, 다음 위치
+	_float3 m_vCurPos = {};
+	_float3 m_vNextPos = {};
+
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free();

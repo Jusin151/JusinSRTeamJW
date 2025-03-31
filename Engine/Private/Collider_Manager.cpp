@@ -72,13 +72,15 @@ void CCollider_Manager::Update_Collision_Structure()
 			{
 				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 				{
-
-					if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
+					if (!Calc_AABB(srcEntry, dstEntry))
+						continue;
+					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 					{
 						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
 						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
 					}
+					
 
 				}
 			}
@@ -259,27 +261,13 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 	edges.push_back({ corners[2], corners[7] });
 	edges.push_back({ corners[3], corners[6] });
 
+	_float3 fMin = dstDesc.fMin;
+	_float3 fMax = dstDesc.fMax;
+	
 
-	// 1. 각 꼭지점의 최대 최소를 구하고
-	// 최소에는 반지름을 빼주고 최대에는 반지름을 더함
-	// 그 후 구의 중심이 사이에 있는지 체크
-	_float3 minCorner = corners[0];
-	_float3 maxCorner = corners[0];
-
-	for (const auto& corner : corners)
-	{
-		minCorner.x = min(minCorner.x, corner.x);
-		minCorner.y = min(minCorner.y, corner.y);
-		minCorner.z = min(minCorner.z, corner.z);
-
-		maxCorner.x = max(maxCorner.x, corner.x);
-		maxCorner.y = max(maxCorner.y, corner.y);
-		maxCorner.z = max(maxCorner.z, corner.z);
-	}
-
-	if (srcPos.x < minCorner.x - srcRadius || srcPos.x > maxCorner.x + srcRadius ||
-		srcPos.y < minCorner.y - srcRadius || srcPos.y > maxCorner.y + srcRadius ||
-		srcPos.z < minCorner.z - srcRadius || srcPos.z > maxCorner.z + srcRadius)
+	if (srcPos.x < fMin.x - srcRadius || srcPos.x > fMax.x + srcRadius ||
+		srcPos.y < fMin.y - srcRadius || srcPos.y > fMax.y + srcRadius ||
+		srcPos.z < fMin.z - srcRadius || srcPos.z > fMax.z + srcRadius)
 	{
 		return false; // AABB 밖에 있으므로 충돌 없음
 	}
@@ -388,7 +376,6 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 {
 
-	setAxes.clear();
 	// 큐브 큐브 사이 거리가, 큐브와 큐브를 외접하는 두 구의 반지름 합보다 길면 true
 	// 아니면 false
 
@@ -405,6 +392,8 @@ _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 {
+	setAxes.clear();
+
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
@@ -570,54 +559,16 @@ _bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_AABB(CCollider* src, CCollider* dst)
 {
-	//_float3 fDir = src->Get_State(CTransform::STATE_POSITION) - dst->Get_State(CTransform::STATE_POSITION);
-
-	//CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	//CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
-
-	//// 반지름 계산 or 가져와서 이제 처리
-	//_float fRadiusSrc = srcDesc.fRadius;
-	//_float fRadiusDst = dstDesc.fRadius;
-
-	//_float fLengthSq = fDir.LengthSq();
-
-
-	//// 반지름 합보다 길이 합이 짧으면 충돌
-	//if ((fRadiusSrc + fRadiusDst) * (fRadiusSrc + fRadiusDst) >= fLengthSq)
-	//{
-
-	//	// 충돌 시 MTV 계산
-	//	fDir.Normalize();
-	//	_float fOverlap = fRadiusSrc + fRadiusDst - sqrtf(fLengthSq);  // 겹친 정도 (겹친 길이)
-
-	//	// MTV 계산 (두 구가 겹치는 정도만큼 이동)
-	//	src->Set_MTV(fDir * fOverlap * 0.5f);
-	//	dst->Set_MTV(-fDir * fOverlap * 0.5f);
-
-	//	return true;
-	//}
-	//else
-	//	return false;
 
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
-	// AABB의 최소값(min)과 최대값(max)을 계산
-	_float3 srcMin = { FLT_MAX, FLT_MAX, FLT_MAX };
-	_float3 srcMax = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
-	for (const auto& p : srcDesc.vecIndices)
-	{
-		srcMin = min(srcMin, p);
-		srcMax = max(srcMax, p);
-	}
+	_float3 srcMin = srcDesc.fMin;
+	_float3 srcMax = srcDesc.fMax;
 
-	_float3 dstMin = { FLT_MAX, FLT_MAX, FLT_MAX };
-	_float3 dstMax = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
-	for (const auto& p : dstDesc.vecIndices)
-	{
-		dstMin = min(dstMin, p);
-		dstMax = max(dstMax, p);
-	}
+	_float3 dstMin = dstDesc.fMin;
+	_float3 dstMax = dstDesc.fMax;
+	
 
 	if (srcMax.x < dstMin.x || dstMax.x < srcMin.x ||
 		srcMax.y < dstMin.y || dstMax.y < srcMin.y ||
@@ -625,47 +576,6 @@ _bool CCollider_Manager::Calc_AABB(CCollider* src, CCollider* dst)
 	{
 		return false; // 충돌 없음
 	}
-
-	// 충돌 발생 시 MTV 계산
-	_float3 mtv = { 0.f, 0.f, 0.f };
-	_float depth = FLT_MAX;
-
-	// x축에서 겹치는 정도 계산
-	if (srcMax.x > dstMin.x && srcMin.x < dstMax.x)
-	{
-		_float xPenetration = min(srcMax.x - dstMin.x, dstMax.x - srcMin.x);
-		if (xPenetration < depth)
-		{
-			depth = xPenetration;
-			mtv.x = (srcDesc.fPos.x < dstDesc.fPos.x) ? -xPenetration : xPenetration;
-		}
-	}
-
-	// y축에서 겹치는 정도 계산
-	if (srcMax.y > dstMin.y && srcMin.y < dstMax.y)
-	{
-		_float yPenetration = min(srcMax.y - dstMin.y, dstMax.y - srcMin.y);
-		if (yPenetration < depth)
-		{
-			depth = yPenetration;
-			mtv.y = (srcDesc.fPos.y < dstDesc.fPos.y) ? -yPenetration : yPenetration;
-		}
-	}
-
-	// z축에서 겹치는 정도 계산
-	if (srcMax.z > dstMin.z && srcMin.z < dstMax.z)
-	{
-		_float zPenetration = min(srcMax.z - dstMin.z, dstMax.z - srcMin.z);
-		if (zPenetration < depth)
-		{
-			depth = zPenetration;
-			mtv.z = (srcDesc.fPos.z < dstDesc.fPos.z) ? -zPenetration : zPenetration;
-		}
-	}
-
-	// MTV를 각각 src와 dst에 적용하여 객체를 밀어준다
-	src->Set_MTV(mtv);
-	dst->Set_MTV(-mtv); // dst는 반대 방향으로 밀기
 
 	// 충돌 발생
 	return true;

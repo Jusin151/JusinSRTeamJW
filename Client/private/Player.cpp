@@ -51,8 +51,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	// Antarctic1_Test pos
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.2f, 0.5f, -1.f));
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// Gameplay start pos
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
@@ -85,12 +88,17 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+
+
 
 	Input_Key(fTimeDelta);
 
+	m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
 	/////////트리거용 
 
@@ -252,13 +260,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 
 	case CG_STRUCTURE_WALL:
 
-		if (dirOthertoOldPos.Dot(direction) < 0)
-			fPos = m_vOldPos;
-		else
-			fPos += vMove;
-
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
 		break;
 	default:
@@ -266,7 +268,6 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	}
 
 
-	m_vOldPos = fPos;
 
 
 	return S_OK;
@@ -299,7 +300,6 @@ void CPlayer::Move(_float fTimeDelta)
 
 	if (moveDir.LengthSq() > 0) {
 		moveDir.Normalize(); // 방향 정규화
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		moveDir.y = 0.f;
 		fPos += moveDir * fTimeDelta * moveSpeed * 10;

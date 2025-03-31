@@ -67,9 +67,11 @@ void CCrocman::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	Select_Pattern(fTimeDelta);
+
+	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	__super::Update(fTimeDelta);
 
@@ -178,8 +180,8 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_STRUCTURE_WALL:
-		fPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
 	default:
 		break;

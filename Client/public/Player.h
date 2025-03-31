@@ -118,7 +118,7 @@ private:
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
 	LONG			m_lMiddlePointX = { g_iWinSizeX / 2 };
-	_float3			m_vOldPos = {};
+
 private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
