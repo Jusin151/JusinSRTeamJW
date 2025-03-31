@@ -4712,6 +4712,35 @@
         ],
         "target_tags": "Layer_Door_Normal3",
         "trigger_type": 0
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          -23.19,
+          0.56,
+          -56.16
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "target_tags": "Layer_Door_Normal4",
+        "trigger_type": 0
       }
     ],
     "Layer_Wall": [
