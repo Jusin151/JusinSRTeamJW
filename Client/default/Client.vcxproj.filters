@@ -378,9 +378,6 @@
     <ClInclude Include="..\public\UI_Player_Icon.h">
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Player.h">
-      <Filter>02.GameObjects\00.Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_MP_Bar.h">
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display\01.MP</Filter>
     </ClInclude>
@@ -574,16 +571,19 @@
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_PointShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_Portal.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_SpellShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_WeaponShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\00.Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -835,16 +835,16 @@
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_PointShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_Portal.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_SpellShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_WeaponShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

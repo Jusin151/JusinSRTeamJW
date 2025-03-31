@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "UI_Shop_Base.h"
 #include "Hub_PointShop.h"
+#include "GamePlay_Button.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -73,6 +74,11 @@ private:
 	_uint m_iSprit{};
 	_uint m_iCapacity{};
 	_uint m_iLevel{};
+	_uint m_iPoint{};
+
+	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
+
+	CGamePlay_Button* m_pSelectedSpellButton = { nullptr };
 };
 
 END
