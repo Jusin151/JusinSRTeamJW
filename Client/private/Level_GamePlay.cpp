@@ -137,6 +137,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 {
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Sky"))))
+		return E_FAIL;
+
 	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
 	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
 	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };

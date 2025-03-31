@@ -35,7 +35,7 @@ private:
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
 private:
-
+	_float3				m_vDir = {};
 	CParticle_System* m_pParticleCom = { nullptr };
 
 public:

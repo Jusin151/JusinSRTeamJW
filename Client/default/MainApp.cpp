@@ -13,6 +13,7 @@
 #include "Light.h"
 #include "PickingSys.h"
 #include "Particles.h"
+#include "Sky.h"
 
 
 
@@ -280,6 +281,11 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Projectile_Test"),
 		CGameObject_Projectile_Test::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Sky"),
+		CSky::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 
