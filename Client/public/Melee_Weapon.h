@@ -49,11 +49,9 @@ protected:
 public: // 근접 들었을때 총알바 안뜨게 해야할꺼같아서
     void Notify_Bullet()
     {
-		for (auto& it : m_pObservers)
-		{
-			it->OnNotify(nullptr, L"BULLET_NO");
-		}
 
+        if (m_pObserver)
+            m_pObserver->OnNotify(nullptr, L"BULLET_NO");
     }
 
 

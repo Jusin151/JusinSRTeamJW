@@ -20,6 +20,8 @@ CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
 }
 
 
+
+
 void CWeapon_Base::Priority_Update(_float fTimeDelta)
 {
 }

@@ -1,4 +1,5 @@
 ﻿#include "Loader.h"
+
 #include "GameInstance.h"
 #include "Terrain.h"
 #include "Camera_Free.h"
@@ -11,15 +12,15 @@
 #include "Weapon_Headers.h"
 #include "Weapon_Effect.h"
 #include "Staff_Bullet.h"
-#include "Hub_PointShop.h"
+#include "PointShop.h"
 #include "UI_Point_Shop.h"
 #include "UI_WeaponShop_UI.h"
 #include "UI_Spell_Shop.h"
-#include "Hub_SpellShop.h"
-#include "Hub_WeaponShop.h"
-#include "Hub_Episode..h"
+#include "SpellShop.h"
+#include "WeaponShop.h"
+#include "Episode_Hub.h"
 #include "UI_Episode_Hub.h"
-#include "Hub_Portal.h"
+#include "Portal.h"
 #include "Image.h"
 #include "Inven_UI.h"
 
@@ -160,6 +161,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CInventory::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 미니건 테스트 삭제 X
 		TEXT("Prototype_GameObject_Minigun"),
 		CMinigun::Create(m_pGraphic_Device))))
@@ -194,7 +197,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 월드객체 삭제 X
 		TEXT("Prototype_GameObject_Point_Shop"),
-		CHub_PointShop::Create(m_pGraphic_Device))))
+		CPoint_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 포인트샵 UI 삭제 X
@@ -244,7 +247,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 웨폰샵 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
 		TEXT("Prototype_GameObject_Weapon_Shop"),
-		CHub_WeaponShop::Create(m_pGraphic_Device))))
+		CWeaponShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 웨폰상점  월드 객체 사진
@@ -256,7 +259,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 스펠샵 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, 
 		TEXT("Prototype_GameObject_Spell_Shop"),
-		CHub_SpellShop::Create(m_pGraphic_Device))))
+		CSpellShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 스펠샵  월드객체 사진
@@ -291,7 +294,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 에피소드 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Episode_Hub"),
-		CHub_Episode::Create(m_pGraphic_Device))))
+		CEpisode_Hub::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 스펠샵  월드객체 사진
@@ -302,7 +305,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	// 포탈 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
 		TEXT("Prototype_GameObject_Portal"),
-		CHub_Portal::Create(m_pGraphic_Device))))
+		CPortal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	//// 포탈  월드객체 사진

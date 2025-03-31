@@ -59,18 +59,7 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
 	inline void Add_Ammo(_int iAmmo);
-	inline void Add_Strength(_int type) { iStr += type; }
-	inline void Add_MaxHP(_int type)
-	{
-		m_iHp += type;
-		m_iPlayerHP.second += type;
-		Notify(m_iHp, L"HP");
-	}
-		
-	inline void Add_Sprit(_int type) { iSprit += type; }
-	inline void Add_Capacity(_int type) { iCapacity += type; }
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
@@ -122,6 +111,7 @@ private: // 플레이어 관련
 	_uint iBullet{};//총알 , 임시임 웨폰에서 할께
 	CWeapon_Base* m_pPlayer_Weapon={nullptr};
 	CInventory*   m_pPlayer_Inven={nullptr};
+
 
 	
 };

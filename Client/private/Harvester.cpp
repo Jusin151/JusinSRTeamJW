@@ -21,11 +21,8 @@ HRESULT CHarvester::Initialize_Prototype()
 }
 
 HRESULT CHarvester::Initialize(void* pArg)
-{ 
-	if (FAILED(__super::Ready_Components()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Texture()))
+{
+	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (pArg != nullptr)
@@ -45,16 +42,6 @@ HRESULT CHarvester::Initialize(void* pArg)
 	m_TextureRanges["Firing"] = { 1, 4 };
 	m_TextureRanges["Reloading"] = { 5, 26 };
 	
-	m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
-	//m_Weapon_INFO.vPos = {};
-	//m_Weapon_INFO.vSize = {};
-	m_Weapon_INFO.Damage = 2;
-	m_Weapon_INFO.AttackSpeed = 1.2f;
-
-	Ranged_INFO.CurrentAmmo = 20; //현총알
-	Ranged_INFO.MaxAmmo = 20;    // 최대 5
-	m_fAnimationSpeed = 0.01f; //미니건에서는  발사애니메이션속도
-
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Harvester", this);
 
@@ -80,13 +67,9 @@ HRESULT CHarvester::Ready_Icon()
 
 	return S_OK;
 }
-HRESULT CHarvester::Ready_Texture()
-{
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Harvester"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
 
-	return S_OK;
+void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
+{
 }
 
 void CHarvester::Priority_Update(_float fTimeDelta)
@@ -95,29 +78,64 @@ void CHarvester::Priority_Update(_float fTimeDelta)
 
 void CHarvester::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	//__super::Picking_Object(8);
 
+	if (GetAsyncKeyState('W') & 0x8000)
+	{
+		t += speed;
+	}
+	else if (GetAsyncKeyState('A') & 0x8000)
+	{
+		t += speed;
+	}
+	else if (GetAsyncKeyState('D') & 0x8000)
+	{
+		t += speed;
+	}
+	else if (GetAsyncKeyState('S') & 0x8000)
+	{
+		t += speed;
+	}
+
+	float v = 20.0f;  // 폭을 설정 하는변수
+	_float3 vNewPos;
+	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
+	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
+
+	Attack(fTimeDelta);
+	return;
+}
+void CHarvester::Attack(_float fTimeDelta)
+{
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	{
+		if (m_eState == State::Idle)
+		{
+			m_eState = State::Firing;
+			m_iCurrentFrame = m_TextureRanges["Firing"].first;
+			m_fElapsedTime = 0.0f;
+		}
+	}
 
 	m_fElapsedTime += fTimeDelta;
 
 	switch (m_eState)
 	{
+	case State::Idle:
+		m_iCurrentFrame = m_TextureRanges["Idle"].first;
+		break;
+
 	case State::Firing:
-		if (m_fElapsedTime >= m_fAnimationSpeed * (1.f / m_Weapon_INFO.AttackSpeed)) // AttackSpeed 2면 2배라는뜻
+		if (m_fElapsedTime >= 0.02f)
 		{
+
 			m_fElapsedTime = 0.0f;
-
-			if (!m_bHasFired && m_iCurrentFrame == m_TextureRanges["Firing"].first + 1)
-			{
-				__super::Picking_Object(5, m_Weapon_INFO.Damage);
-				Ranged_INFO.CurrentAmmo--;
-				Notify_Bullet();
-				m_bHasFired = true;
-			}
-
-
 			if (m_iCurrentFrame < m_TextureRanges["Firing"].second)
+			{
 				m_iCurrentFrame++;
+			}
 			else
 			{
 				m_eState = State::Reloading;
@@ -131,7 +149,9 @@ void CHarvester::Update(_float fTimeDelta)
 		{
 			m_fElapsedTime = 0.0f;
 			if (m_iCurrentFrame < m_TextureRanges["Reloading"].second)
+			{
 				m_iCurrentFrame++;
+			}
 			else
 			{
 				m_eState = State::Idle;
@@ -139,29 +159,7 @@ void CHarvester::Update(_float fTimeDelta)
 			}
 		}
 		break;
-
-	case State::Idle:
-		m_iCurrentFrame = m_TextureRanges["Idle"].first;
-		break;
 	}
-
-	return;
-}
-
-void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
-{
-	if (m_eState == State::Idle && Ranged_INFO.CurrentAmmo > 0)
-	{
-		m_eState = State::Firing;
-		m_iCurrentFrame = m_TextureRanges["Firing"].first;
-		m_fElapsedTime = 0.f;
-		m_bHasFired = false;
-	}
-
-}
-void CHarvester::Attack(_float fTimeDelta)
-{
-	__super::Attack(fTimeDelta);
 }
 
 void CHarvester::Late_Update(_float fTimeDelta)
@@ -233,6 +231,23 @@ HRESULT CHarvester::On_Collision()
 	return S_OK;
 }
 
+HRESULT CHarvester::Ready_Components()
+{
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Harvester"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 CHarvester* CHarvester::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

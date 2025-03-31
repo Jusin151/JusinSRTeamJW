@@ -2,12 +2,12 @@
 #include "Shop.h"
 
 BEGIN(Client)
-class CHub_Portal : public CGameObject
+class CPortal : public CGameObject
 {
 private:
-    CHub_Portal(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CHub_Portal(const CHub_Portal& Prototype);
-    virtual ~CHub_Portal() = default;
+    CPortal(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CPortal(const CPortal& Prototype);
+    virtual ~CPortal() = default;
 
 public:
 
@@ -31,7 +31,7 @@ private:
     HRESULT Ready_Components();
 
 public:
-    static CHub_Portal* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    static CPortal* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
 
