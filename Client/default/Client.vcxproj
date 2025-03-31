@@ -173,7 +173,7 @@
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
-    <ClInclude Include="..\public\Episode_Hub.h" />
+    <ClInclude Include="..\public\Hub_Episode..h" />
     <ClInclude Include="..\Public\Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
@@ -205,10 +205,10 @@
     <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\Public\Observer.h" />
-    <ClInclude Include="..\public\PointShop.h" />
+    <ClInclude Include="..\public\Hub_PointShop.h" />
     <ClInclude Include="..\public\Particles.h" />
-    <ClInclude Include="..\Public\Portal.h" />
-    <ClInclude Include="..\public\SpellShop.h" />
+    <ClInclude Include="..\Public\Hub_Portal.h" />
+    <ClInclude Include="..\public\Hub_SpellShop.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
@@ -250,7 +250,7 @@
     <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="..\Public\UI_Spell_Shop.h" />
     <ClInclude Include="..\public\UI_Structs.h" />
-    <ClInclude Include="..\public\WeaponShop.h" />
+    <ClInclude Include="..\public\Hub_WeaponShop.h" />
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
@@ -269,13 +269,13 @@
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\Private\Inven_UI.cpp" />
-    <ClCompile Include="..\private\Episode_Hub.cpp" />
+    <ClCompile Include="..\private\Hub_Episode.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
-    <ClCompile Include="..\Private\Portal.cpp" />
+    <ClCompile Include="..\Private\Hub_Portal.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
-    <ClCompile Include="..\private\SpellShop.cpp" />
+    <ClCompile Include="..\private\Hub_SpellShop.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
@@ -307,7 +307,7 @@
     <ClCompile Include="..\private\Minigun.cpp" />
     <ClCompile Include="..\Private\Monster_Base.cpp" />
     <ClCompile Include="..\private\MyImGui.cpp" />
-    <ClCompile Include="..\private\PointShop.cpp" />
+    <ClCompile Include="..\private\Hub_PointShop.cpp" />
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
@@ -336,7 +336,7 @@
     <ClCompile Include="..\private\UI_HP_Bar.cpp" />
     <ClCompile Include="..\private\UI_Left_Display.cpp" />
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
-    <ClCompile Include="..\private\WeaponShop.cpp" />
+    <ClCompile Include="..\private\Hub_WeaponShop.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />

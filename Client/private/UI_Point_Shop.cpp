@@ -189,6 +189,20 @@ HRESULT CUI_Point_Shop::Render()
      m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("소울 수집가"), _float2(223.f, -39.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
      m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("폭탄광"), _float2(15.f, 5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
      m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스프린터"), _float2(234.f,5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+
+     m_pGameInstance->Render_Font_Size(L"MainFont",to_wstring(m_iStr),
+         _float2(-300.f, -100.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+     m_pGameInstance->Render_Font_Size(L"MainFont",to_wstring(m_iMaxHP),
+         _float2(-300.f, -50.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+     m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iSprit),
+         _float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+     m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iCapacity),
+         _float2(-300.f, 50.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
     return S_OK;
 }
 void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
@@ -323,21 +337,29 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
             {
                 m_vecButtons.push_back(pButton); // 버튼 저장
 
-                pButton->SetOnClickCallback([index]()
+                pButton->SetOnClickCallback([this,index]()
                     {
                         switch (index)
                         {
                         case 0:
                             MessageBox(nullptr, L"근력 강화!",nullptr, MB_OK);
+                            if (m_pPointShop)
+								m_pPointShop->Buy_Stat(index);
                             break;
                         case 1:
                             MessageBox(nullptr, L"생명력 강화!", nullptr, MB_OK);
+                            if (m_pPointShop)
+                                m_pPointShop->Buy_Stat(index);
                             break;
                         case 2:
                             MessageBox(nullptr, L"정신력 강화!", nullptr, MB_OK);
+                            if (m_pPointShop)
+                                m_pPointShop->Buy_Stat(index);
                             break;
                         case 3:
                             MessageBox(nullptr, L"용량 강화!", nullptr, MB_OK);
+                            if (m_pPointShop)
+                                m_pPointShop->Buy_Stat(index);
                             break;                   
                         default:
                             break;

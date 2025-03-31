@@ -303,8 +303,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 1)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, 1)))
+	//	return E_FAIL;
 
 	/*CTransform::TRANSFORM_DESC randTransDesc{};
 

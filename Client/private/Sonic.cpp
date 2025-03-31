@@ -85,6 +85,11 @@ void CSonic::Attack_WeaponSpecific(_float fTimeDelta)
 {
 }
 
+HRESULT CSonic::Ready_Texture()
+{
+    return E_NOTIMPL;
+}
+
 void CSonic::Priority_Update(_float fTimeDelta)
 {
     //__super::Priority_Update(fTimeDelta);
