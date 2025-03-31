@@ -90,8 +90,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 	Input_Key(fTimeDelta);
 
-
-
 	/////////트리거용 
 
 	if (GetAsyncKeyState('0') & 0x8000)
@@ -100,9 +98,9 @@ void CPlayer::Update(_float fTimeDelta)
 
 	}
 
-	static _bool m_basd = { true };
-
-	if (m_basd)
+	static _bool m_asdasdasd = { true };
+ 
+	if (m_asdasdasd)
 	{
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
@@ -112,10 +110,11 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
 		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
-
-
-		m_basd = false;
+		
+		m_asdasdasd = false;
 	}
+
+	
 
 }
 void CPlayer::Late_Update(_float fTimeDelta)

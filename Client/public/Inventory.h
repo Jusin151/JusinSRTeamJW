@@ -6,6 +6,7 @@
 #include "Inven_UI.h"
 #include "Ranged_Weapon.h"
 #include "Melee_Weapon.h"
+#include "Item.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -49,19 +50,45 @@ public:
     virtual void Free();
 
 
-    void Add_Weapon(wstring tag, _uint Index)
+    void Add_Weapon(const _wstring& tag, _uint Index)
     {
         Index -= 1;
         // 인벤 공간은 최대 7개 
-        if (m_vecpItem.size() < Index)
+        if (m_vecpWeapons.size() < Index)
         {
             MSG_BOX("무기 추가할때 인덱스 신경써주세욤");
             return;
         }
-        m_vecpItem[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
+        m_vecpWeapons[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
         m_pInven_UI->Add_WeaponIcon(tag);
+		Add_Item(tag);  
+    }
+    void Add_Item(const _wstring& tag)
+    {
+        if (!Exist_item(tag))
+        {
+            m_MapItem[tag] = true;
+        }
+    }
+    _bool Exist_item(const _wstring& tag)
+    {
+		auto it = m_MapItem.find(tag);
+		if (it != m_MapItem.end())
+		{
+			return true;
+		}
+		return false;
     }
     CWeapon_Base* Get_Weapon(const wstring& tag)
+    {
+        auto it = m_WeaponMap.find(tag);
+        if (it != m_WeaponMap.end())
+        {
+            return it->second;
+        }
+        return nullptr;
+    }
+    CWeapon_Base* Get_Item(const wstring& tag)
     {
         auto it = m_WeaponMap.find(tag);
         if (it != m_WeaponMap.end())
@@ -73,7 +100,7 @@ public:
     CWeapon_Base* Weapon_Equip(_uint Index)
     {
     
-        for (auto& pItem : m_vecpItem)
+        for (auto& pItem : m_vecpWeapons)
         {
             if (pItem&&pItem->IsActive()) //
             {
@@ -84,7 +111,7 @@ public:
 
         // 끼려고 하는 아이템 껴보리기
        
-        auto it = m_vecpItem[Index];
+        auto it = m_vecpWeapons[Index];
         if (it != nullptr)
         {
             it->SetActive(true);
@@ -116,7 +143,8 @@ private:
     unordered_map<wstring, CWeapon_Base*> m_WeaponMap;
      CWeapon_Base* m_pItem = { nullptr };
      CInven_UI* m_pInven_UI = { nullptr };
-     vector<CWeapon_Base*> m_vecpItem{ 8, nullptr };
+     vector<CWeapon_Base*> m_vecpWeapons{ 8, nullptr };
+	 unordered_map<wstring, _bool> m_MapItem; //
 private:
      Inven_DESC m_Inven_INFO{};
      _bool m_bRender{};
@@ -127,5 +155,7 @@ private:
     _float m_fNoInputAccTime = 0.f;
     _bool bInputReceived = {};
     _bool m_bKeyPressed = { false };
+private:
+
 };
 END
