@@ -160,7 +160,7 @@ void CDoor::Close_Door()
 	}
 }
 
-bool CDoor::TryOpen(CCollisionObject* pPlayer)
+void CDoor::TryOpen(CCollisionObject* pPlayer)
 {
 	// 열쇠가 필요한 문인 경우
 	if (m_eDoorType == DOOR_TYPE::KEY)
@@ -192,21 +192,14 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 			if (hasKey)
 			{
 				Open_Door();
-				return true;
 			}
-			else
-			{
-				//"열쇠가 필요합니다"
-				return false;
-			}
+
 		}
-		return false;
 	}
 	else if(m_eDoorType == DOOR_TYPE::NORMAL)
 	{
 		// 일반 문은 바로 열림
 		Open_Door();
-		return true;
 	}
 }
 

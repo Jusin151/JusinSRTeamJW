@@ -69,7 +69,7 @@ public:
     _bool IsMoving() const { return m_eDoorState == DOOR_STATE::OPENING || m_eDoorState == DOOR_STATE::CLOSING; }
 
     // 열쇠 확인 함수
-    _bool TryOpen(CCollisionObject* pPlayer);
+    void TryOpen(CCollisionObject* pPlayer);
     void SetKeyRequired(const _wstring& keyItemTag) { m_stKeyItemTag = keyItemTag; }
 
 private:
