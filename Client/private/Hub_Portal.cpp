@@ -1,16 +1,16 @@
-﻿#include "Portal.h"
+﻿#include "Hub_Portal.h"
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 #include "Player.h"
 #include "CollisionObject.h"
 #include "Level_Loading.h"
 
-CPortal::CPortal(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHub_Portal::CHub_Portal(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CGameObject{pGraphic_Device}
 {
 }
 
-CPortal::CPortal(const CPortal& Prototype)
+CHub_Portal::CHub_Portal(const CHub_Portal& Prototype)
     : CGameObject (Prototype),
     m_pTextureCom{ Prototype.m_pTextureCom },
      m_pTransformCom(Prototype.m_pTransformCom),
@@ -18,13 +18,13 @@ CPortal::CPortal(const CPortal& Prototype)
 {
 }
 
-HRESULT CPortal::Initialize_Prototype()
+HRESULT CHub_Portal::Initialize_Prototype()
 {
    
     return S_OK;
 }
 
-HRESULT CPortal::Initialize(void* pArg)
+HRESULT CHub_Portal::Initialize(void* pArg)
 {
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -49,11 +49,11 @@ HRESULT CPortal::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPortal::Priority_Update(_float fTimeDelta)
+void CHub_Portal::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CPortal::Update(_float fTimeDelta)
+void CHub_Portal::Update(_float fTimeDelta)
 {
     LookAtPlayer(fTimeDelta);
     m_pGameInstance->Add_Collider(CG_SHOP, m_pColliderCom);
@@ -87,7 +87,7 @@ void CPortal::Update(_float fTimeDelta)
 }
 
 
-void CPortal::Late_Update(_float fTimeDelta)
+void CHub_Portal::Late_Update(_float fTimeDelta)
 {
     if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
@@ -95,7 +95,7 @@ void CPortal::Late_Update(_float fTimeDelta)
 }
 
 
-HRESULT CPortal::SetUp_RenderState()
+HRESULT CHub_Portal::SetUp_RenderState()
 {
 
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -106,7 +106,7 @@ HRESULT CPortal::SetUp_RenderState()
     return S_OK;
 }
 
-HRESULT CPortal::Release_RenderState()
+HRESULT CHub_Portal::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -114,7 +114,7 @@ HRESULT CPortal::Release_RenderState()
 }
 
 
-HRESULT CPortal::Render()
+HRESULT CHub_Portal::Render()
 {
     if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))  
         return E_FAIL;
@@ -138,7 +138,7 @@ HRESULT CPortal::Render()
 
 
 
-HRESULT CPortal::On_Collision()
+HRESULT CHub_Portal::On_Collision()
 {
     // 플레이어의 위치와 상점의 위치를 가져옴
     CTransform* pPlayerTransform = static_cast<CTransform*>(m_pPlayer->Get_Component(L"Com_Transform"));
@@ -180,7 +180,7 @@ HRESULT CPortal::On_Collision()
     return E_FAIL;
 }
 
-void CPortal::LookAtPlayer(_float fTimeDelta)
+void CHub_Portal::LookAtPlayer(_float fTimeDelta)
 {
     if (!m_pPlayer)
         return;
@@ -212,7 +212,7 @@ void CPortal::LookAtPlayer(_float fTimeDelta)
     m_pTransformCom->Set_Scale(1.7f, 2.f, 2.f);
 }
 
-HRESULT CPortal::Ready_Components()
+HRESULT CHub_Portal::Ready_Components()
 {
     /* Transform Component */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -247,34 +247,34 @@ HRESULT CPortal::Ready_Components()
     return S_OK;
 }
 
-CPortal* CPortal::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHub_Portal* CHub_Portal::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 
-    CPortal* pInstance = new CPortal(pGraphic_Device);
+    CHub_Portal* pInstance = new CHub_Portal(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CPortal");
+        MSG_BOX("Failed to Created : CHub_Portal");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CPortal::Clone(void* pArg)
+CGameObject* CHub_Portal::Clone(void* pArg)
 {
-    CPortal* pInstance = new CPortal(*this);
+    CHub_Portal* pInstance = new CHub_Portal(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CPortal");
+        MSG_BOX("Failed to Cloned : CHub_Portal");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CPortal::Free()
+void CHub_Portal::Free()
 {
     __super::Free();
 

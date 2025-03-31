@@ -2,15 +2,15 @@
 #include "Shop.h"
 
 BEGIN(Client)
-class CPoint_Shop : public CShop
+class CHub_SpellShop : public CShop
 {
 private:
-    CPoint_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CPoint_Shop(const CPoint_Shop& Prototype);
-    virtual ~CPoint_Shop() = default;
+    CHub_SpellShop(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CHub_SpellShop(const CHub_SpellShop& Prototype);
+    virtual ~CHub_SpellShop() = default;
 
 public:
-
+    // 기본 상속 함수
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
 
@@ -19,7 +19,8 @@ public:
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
 
-public: //상점관련
+    // Shop 인터페이스 구현
+
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
     virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) override;
@@ -36,11 +37,11 @@ private:
     HRESULT Ready_Components();
 
 public:
-    static CPoint_Shop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    static CHub_SpellShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
 private:
-    class CUI_Point_Shop* m_pUI_Point_Hub = { nullptr };
+    class CUI_Spell_Shop* m_pUI_SpellShop = { nullptr };
 
 };
 END
