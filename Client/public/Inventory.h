@@ -60,6 +60,7 @@ public:
             return;
         }
         m_vecpWeapons[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
+        m_WeaponMap[tag] = m_vecpWeapons[Index];
         m_pInven_UI->Add_WeaponIcon(tag);
 		Add_Item(tag);  
     }

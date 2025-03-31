@@ -60,7 +60,7 @@ public:
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
-	void Add_Ammo(_int iAmmo);
+	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
 	void Add_Strength(_int Str) { m_iStr += Str; }
 	void Add_MaxHP(_int Hp)
 	{
@@ -82,6 +82,10 @@ public:
 		m_iSkillPoint += SkillPoint;
 	}
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
+
+
+	inline _bool Has_Item(const _wstring& stItemTag);
+	inline HRESULT Add_Item(const _wstring& stItemTag);
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
