@@ -2790,7 +2790,7 @@
           "ProtoLevel": 3
         },
         "door_color": 4,
-        "door_state":0,
+        "door_state": 0,
         "door_type": 2,
         "open_speed": 1.0,
         "position": [
@@ -2875,6 +2875,40 @@
           0.5,
           2.59,
           2.59
+        ],
+        "slide_distance": 3.5
+      }
+    ],
+    "Layer_Door_Normal4": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Door_Normal4",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_TexturedCube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Door",
+          "ProtTextureTag": "Prototype_Component_Texture_Door_Normal",
+          "ProtoLevel": 3
+        },
+        "door_color": 3,
+        "door_state": 0,
+        "door_type": 0,
+        "open_speed": 2.0,
+        "position": [
+          -22.72,
+          1.23,
+          -45.43
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          3.5,
+          3.5,
+          1.0
         ],
         "slide_distance": 3.5
       }
