@@ -51,15 +51,18 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-10.f, 1.0f, 8.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.2f, 0.5f, -1.f));
 	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
-	//m_pTransformCom->Rotation(_float3(0.f, 0.8f, 0.f), D3DXToRadian(90.f));
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
+
 	if (FAILED(Ready_Player_SetUP()))
 		return E_FAIL;
+
+
 
 
 	CPickingSys::Get_Instance()->Set_Player(this);
@@ -108,7 +111,8 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+
 
 		m_basd = false;
 	}
@@ -138,6 +142,17 @@ void CPlayer::Equip(_float fTimeDelta)
 	}
 
 
+	if (m_pPlayer_Weapon)
+	{
+		if (auto pObserver = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Bullet_Bar")))
+		{
+			if (auto pRanged = dynamic_cast<CWeapon_Base*>(m_pPlayer_Weapon))
+			{
+				pRanged->Add_Observer(pObserver);
+			}
+		}
+	}
+
 
 }
 HRESULT CPlayer::Render()
@@ -155,11 +170,12 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 체력:") + to_wstring(m_iHp),
 		_float2(-600.f, -250.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.first),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.second),
+		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 경험치:") + to_wstring(m_iPlayerEXP.second),
 		_float2(-600.f, -230.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 경험치:") + to_wstring(m_iPlayerEXP.first),
-		_float2(-600.f, -210.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근력:") + to_wstring(m_iStr),
 		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
@@ -169,6 +185,7 @@ HRESULT CPlayer::Render()
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("용량:") + to_wstring(m_iCapacity),
 		_float2(-600.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
@@ -261,33 +278,37 @@ void CPlayer::Move(_float fTimeDelta)
 	_float moveSpeed = 0.25f;
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
-	if (GetKeyState('W') & 0x8000) {
+	if (GetAsyncKeyState('W') & 0x8000) {
 		moveDir += m_pTransformCom->Get_State(CTransform::STATE_LOOK); // 앞 방향
 	}
 
-	if (GetKeyState('S') & 0x8000) {
+	if (GetAsyncKeyState('S') & 0x8000) {
 		moveDir -= m_pTransformCom->Get_State(CTransform::STATE_LOOK); // 뒤 방향
 	}
 
-	if (GetKeyState('A') & 0x8000) {
+	if (GetAsyncKeyState('A') & 0x8000) {
 		moveDir -= m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 왼쪽 방향
 	}
 
-	if (GetKeyState('D') & 0x8000) {
+	if (GetAsyncKeyState('D') & 0x8000) {
 		moveDir += m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 오른쪽 방향
 	}
+
+
 
 
 	if (moveDir.LengthSq() > 0) {
 		moveDir.Normalize(); // 방향 정규화
 		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		moveDir.y = 0.f;
 		fPos += moveDir * fTimeDelta * moveSpeed * 10;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
 
 
-	POINT ptMouse{};
+
+	/*POINT ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
@@ -302,7 +323,7 @@ void CPlayer::Move(_float fTimeDelta)
 	{
 		if (LDistX > 80)
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
-	}
+	}*/
 
 }
 
@@ -411,7 +432,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+	CTransform::TRANSFORM_DESC		TransformDesc{ 20.f, D3DXToRadian(90.f) };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
