@@ -27,8 +27,6 @@ HRESULT CHit_Effect::Initialize(void* pArg)
 	
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 
 	m_fAnimationSpeed = { 0.2f };
 	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
@@ -63,7 +61,7 @@ HRESULT CHit_Effect::Ready_Components()
 	}
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBufferm"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
@@ -97,8 +95,8 @@ void CHit_Effect::Update(_float fTimeDelta)
 		else
 		{
 			//처음 루프이후 다음루프라면 이펙트를 끈다.
-			//m_bDead = true;
-			m_iCurrentFrame = 0;
+			m_bDead = true;
+			//m_iCurrentFrame = 0;
 		}
 	}
 }
@@ -111,6 +109,13 @@ void CHit_Effect::Late_Update(_float fTimeDelta)
 
 HRESULT CHit_Effect::Pre_Render()
 {
+	// 깊이 버퍼 테스트 비활성화 (항상 그리도록)
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+
+	// (선택 사항) 깊이 버퍼 쓰기 비활성화
+	// 이 객체가 다른 객체의 렌더링에 영향을 주지 않도록 합니다.
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
@@ -143,8 +148,11 @@ HRESULT CHit_Effect::Render()
 
 HRESULT CHit_Effect::Post_Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	return S_OK;
 }
 

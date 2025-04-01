@@ -25,18 +25,23 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+#pragma region 랜덤생성
+	srand((_uint)time(NULL));
+#pragma endregion
 
-
+#pragma region Engine 준비
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;
 	Desc.isWindowed = true;
-	Desc.iWinSizeX = g_iWinSizeX; 
+	Desc.iWinSizeX = g_iWinSizeX;
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
-		return E_FAIL;
+		return E_FAIL;	
+#pragma endregion
 
+#pragma region 준비
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
 
@@ -48,6 +53,9 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_Component()))
 		return E_FAIL;
+#pragma endregion
+
+	
 
 
 

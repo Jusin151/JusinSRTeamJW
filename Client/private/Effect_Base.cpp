@@ -21,6 +21,28 @@ HRESULT CEffect_Base::Initialize_Prototype()
 
 HRESULT CEffect_Base::Initialize(void* pArg)
 {
+	if (pArg)
+		m_Weapon_Effect_INFO = *reinterpret_cast<EFFECT_DESC*>(pArg);
+
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	m_pTransformCom->Set_State(
+		CTransform::STATE_POSITION,
+		m_Weapon_Effect_INFO.vPos
+	);
+
+	if(m_pParticleCom) 
+		m_pParticleCom->Set_Origin(m_Weapon_Effect_INFO.vPos);
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_Weapon_Effect_INFO.vRight);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, m_Weapon_Effect_INFO.vUp);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_Weapon_Effect_INFO.vLook);
+
+	m_pTransformCom->Set_Scale(
+		m_Weapon_Effect_INFO.vScale.x,
+		m_Weapon_Effect_INFO.vScale.y,
+		m_Weapon_Effect_INFO.vScale.z);
 	return S_OK;
 }
 

@@ -78,7 +78,6 @@ void CWeapon_Effect::Late_Update(_float fTimeDelta)
 HRESULT CWeapon_Effect::SetUp_RenderState()
 {
 	// 일단 추가해보기
-
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링

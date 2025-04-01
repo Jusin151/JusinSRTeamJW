@@ -1,7 +1,7 @@
 ﻿#include "Ranged_Weapon.h"
 #include "GameInstance.h"
 #include "PickingSys.h"
-#include "Effect_Base.h"
+#include "Effects.h"
 #include "UI_Manager.h"
 
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -176,7 +176,6 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
     _float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
     _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
-
     float denom = vWallNormal.Dot(vRayDir);
     if (fabs(denom) < 1e-7f) return;
 
@@ -203,17 +202,27 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
     float fOffset = (vWallNormal.Dot(vTileToCam) > 0.f) ? 0.01f : -0.01f;
     _float3 vEffectPos = vPlaneHit + vWallNormal * fOffset;
 
+
+#pragma region Effect 생성
     CEffect_Base::EFFECT_DESC effectDesc;
     effectDesc.vRight = pWallTransform->Get_State(CTransform::STATE_RIGHT);
     effectDesc.vUp = pWallTransform->Get_State(CTransform::STATE_UP);
     effectDesc.vLook = pWallTransform->Get_State(CTransform::STATE_LOOK);
     effectDesc.vScale = { 0.5f, 0.5f, 0.5f };
 
+    CHit_Effect::HIT_DESC hitDesc;
+    hitDesc.vRight = pWallTransform->Get_State(CTransform::STATE_RIGHT);
+    hitDesc.vUp = pWallTransform->Get_State(CTransform::STATE_UP);
+    hitDesc.vLook = pWallTransform->Get_State(CTransform::STATE_LOOK);
+    hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
+    hitDesc.type = rand() % 4;
+
     for (_uint i = 0; i < EffectNum; ++i)
     {
         _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
         _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
         effectDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+        hitDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
 
         m_pGameInstance->Add_GameObject(
             LEVEL_GAMEPLAY,
@@ -221,12 +230,82 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
             LEVEL_GAMEPLAY,
             TEXT("Layer_Weapon_Effect"),
             &effectDesc);
+
+        m_pGameInstance->Add_GameObject(
+            LEVEL_STATIC,
+            TEXT("Prototype_GameObject_Hit_Effect"),
+            LEVEL_GAMEPLAY,
+            TEXT("Layer_Hit_Effect"),
+            &hitDesc);
     }
+#pragma endregion
 }
 void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
 {
     if (auto pTarget = dynamic_cast<CCollisionObject*>(pCollider->Get_Owner()))
     {
         pTarget->Set_Hp(pTarget->Get_Hp() - static_cast<_int>(Damage));
+        CTransform* pTargetTransform = static_cast<CTransform*>(pCollider->Get_Owner()->Get_Component(L"Com_Transform"));
+
+        _float3 vWallNormal = pTargetTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
+        _float3 vTilePos = pTargetTransform->Get_State(CTransform::STATE_POSITION);
+        _float3 vRayOrigin = m_pPickingSys->Get_Ray().vOrigin;
+        _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
+
+        float denom = vWallNormal.Dot(vRayDir);
+        if (fabs(denom) < 1e-7f) return;
+
+        float t = vWallNormal.Dot(vTilePos - vRayOrigin) / denom;
+        if (t < 0.f) return;
+
+        _float3 vPlaneHit = vRayOrigin + vRayDir * t;
+
+        _float4x4 worldMat = pTargetTransform->Get_WorldMat();
+        _float4x4 invWorld;
+        D3DXMatrixInverse(&invWorld, nullptr, &worldMat);
+        D3DXVECTOR3 vLocalHit;
+        D3DXVec3TransformCoord(&vLocalHit, reinterpret_cast<D3DXVECTOR3*>(&vPlaneHit), &invWorld);
+
+        if (vLocalHit.x < -0.55f || vLocalHit.x > 0.55f || vLocalHit.y < -0.55f || vLocalHit.y > 0.55f)
+            return;
+
+        _float3 vCamPos = dynamic_cast<CTransform*>(
+            m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))
+            ->Get_State(CTransform::STATE_POSITION);
+
+        _float3 vecTemp = vCamPos - vTilePos;
+        _float3 vTileToCam = vecTemp.GetNormalized();
+        float fOffset = (vWallNormal.Dot(vTileToCam) > 0.f) ? 0.01f : -0.01f;
+        _float3 vEffectPos = vPlaneHit + vWallNormal * fOffset;
+
+
+#pragma region Effect 생성
+        CEffect_Base::EFFECT_DESC effectDesc;
+        effectDesc.vRight = pTargetTransform->Get_State(CTransform::STATE_RIGHT);
+        effectDesc.vUp = pTargetTransform->Get_State(CTransform::STATE_UP);
+        effectDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
+        effectDesc.vScale = { 0.5f, 0.5f, 0.5f };
+
+        CHit_Effect::HIT_DESC hitDesc;
+        hitDesc.vRight = pTargetTransform->Get_State(CTransform::STATE_RIGHT);
+        hitDesc.vUp = pTargetTransform->Get_State(CTransform::STATE_UP);
+        hitDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
+        hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
+        hitDesc.type = rand() % 4;
+
+
+        _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
+        _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
+        effectDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+        hitDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+
+        m_pGameInstance->Add_GameObject(
+            LEVEL_STATIC,
+            TEXT("Prototype_GameObject_Hit_Effect"),
+            LEVEL_GAMEPLAY,
+            TEXT("Layer_Hit_Effect"),
+            &hitDesc);
+
+#pragma endregion
     }
 }

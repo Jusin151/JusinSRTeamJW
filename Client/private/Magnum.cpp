@@ -155,6 +155,7 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 		Ranged_INFO.CurrentAmmo--; 
 		Notify_Bullet();
 		m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
+		int a = 10;
 	}
 }
 

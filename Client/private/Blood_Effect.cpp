@@ -87,8 +87,8 @@ void CBlood_Effect::Update(_float fTimeDelta)
 		else
 		{
 			//처음 루프이후 다음루프라면 이펙트를 끈다.
-			//m_bDead = true;
-			m_iCurrentFrame = 0;
+			m_bDead = true;
+			//m_iCurrentFrame = 0;
 		}
 	}
 }
@@ -101,6 +101,8 @@ void CBlood_Effect::Late_Update(_float fTimeDelta)
 
 HRESULT CBlood_Effect::Pre_Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
@@ -133,8 +135,11 @@ HRESULT CBlood_Effect::Render()
 
 HRESULT CBlood_Effect::Post_Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	return S_OK;
 }
 
