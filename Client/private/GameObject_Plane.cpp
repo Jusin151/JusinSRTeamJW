@@ -99,9 +99,9 @@ HRESULT CGameObject_Plane::Ready_Components()
         return E_FAIL;
 
     CBlood_Particle_System::BLOODDESC bloodDesc = {};
-    bloodDesc.Bounding_Box.m_vMin = { -0.1, -0.1, -0.1 };
-    bloodDesc.Bounding_Box.m_vMax = { 0.1, 0.1, 0.1 };
-    bloodDesc.iNumParticles = { 100 };
+    bloodDesc.Bounding_Box.m_vMin = { -0.1f, -0.1f, -0.1f };
+    bloodDesc.Bounding_Box.m_vMax = { 0.1f, 0.1f, 0.1f };
+    bloodDesc.iNumParticles = { 100u };
     bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 
     /* For.Com_BloodParticle */
