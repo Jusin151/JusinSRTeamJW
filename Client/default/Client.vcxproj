@@ -174,6 +174,8 @@
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\MiniMap.h" />
+    <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -281,9 +283,11 @@
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
+    <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
