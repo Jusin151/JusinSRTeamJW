@@ -35,6 +35,7 @@ public:
 	virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
 	virtual void Select_Pattern(_float fTimeDelta) PURE;
 	void Look_Player();
+	void Chasing(_float fTimeDelta);
 
 	// texturecom는 각 monster에서 추가
 	HRESULT Ready_Components();

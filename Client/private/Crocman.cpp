@@ -36,6 +36,8 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 	m_iHp = 30;
 
+	m_fSpeed = 0.15f;
+
 	return S_OK;
 }
 
@@ -71,7 +73,7 @@ void CCrocman::Update(_float fTimeDelta)
 
 	Select_Pattern(fTimeDelta);
 
-	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 
 	__super::Update(fTimeDelta);
 
@@ -159,8 +161,8 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		if (m_eCurState != MS_ATTACK)
 		{
 			Take_Damage(other);
-			fPos -= vMove;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+			
 		}
 		else
 		{
@@ -184,8 +186,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 	case CG_DOOR:
-		m_vNextPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
 		break;
 	default:
@@ -214,6 +215,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		else
 		{
 			Attack_Melee(fTimeDelta);
+			m_vNextPos = m_vCurPos;
 		}
 		break;
 	case MS_WALK:
@@ -221,6 +223,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_HIT:
 		// 맞고 바로 안바뀌도록
+		m_vNextPos = m_vCurPos;
 		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_IDLE;
 		else
@@ -229,6 +232,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_ATTACK:
 		Attack_Melee(fTimeDelta);
+		m_vNextPos = m_vCurPos;
 		break;
 
 	default:
@@ -237,15 +241,6 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 
 
 	
-}
-
-void CCrocman::Chasing(_float fTimeDelta)
-{
-
-	if (m_eCurState != MS_WALK)
-		m_eCurState = MS_WALK;
-
-	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.15f);
 }
 
 void CCrocman::Attack_Melee(_float fTimeDelta)

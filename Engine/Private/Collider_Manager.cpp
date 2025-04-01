@@ -45,7 +45,7 @@ void CCollider_Manager::Clear()
 void CCollider_Manager::Update_Collison()
 {
 	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
-	
+	Update_Collision_Floor();
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER_PROJECTILE_CUBE]);
@@ -57,8 +57,6 @@ void CCollider_Manager::Update_Collison()
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
-
-	Update_Collision_Floor();
 
 	Clear();
 }
@@ -82,7 +80,7 @@ void CCollider_Manager::Update_Collision_Structure()
 
 				_bool bCollision = false;
 
-				// 최소 한번은 처리하도록
+				// c
 				iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
 				
 
@@ -110,12 +108,6 @@ void CCollider_Manager::Update_Collision_Structure()
 						{
 							
 								srcEntry->Get_Owner()->Set_NextPos(testPos);
-
-								//// MTV의 방향이 오브젝트의 이동 방향과 반대가 되도록 수정
-								//if (srcEntry->Get_MTV().Dot(srcEntry->Get_Owner()->Get_Dir()) > 0)
-								//{
-								//	srcEntry->Set_MTV(-srcEntry->Get_MTV());
-								//}
 
 								// 충돌 처리
 								srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());

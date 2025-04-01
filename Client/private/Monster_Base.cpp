@@ -40,6 +40,10 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 
 void CMonster_Base::Update(_float fTimeDelta)
 {
+	m_vDir = m_vNextPos - m_vCurPos;
+	m_fLength = m_vDir.Length();
+	m_vDir.Normalize();
+
 	Look_Player();
 	//m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 }
@@ -61,6 +65,20 @@ void CMonster_Base::Look_Player()
 		return;
 
 	m_pTransformCom->LookAt(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+}
+
+void CMonster_Base::Chasing(_float fTimeDelta)
+{
+	if (m_eCurState != MS_WALK)
+		m_eCurState = MS_WALK;
+
+	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * m_fSpeed);
+
+	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+
+	
 }
 
 HRESULT CMonster_Base::Ready_Components()

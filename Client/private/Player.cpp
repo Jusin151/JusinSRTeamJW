@@ -65,7 +65,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.f;
+	m_fSpeed = 0.7f;
 
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -236,17 +236,8 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
-		// gameObject.Get_Tag() == "Bullet"
-		// if(CMonster* pMonster = dynamic_cast<CMonster*>(gameObject))
-		// {
-		// _int iDamge = pMonster->Get_Damge();
-		// Set_Hp()llll
-		// Update_UI()
-		// 
-		// 
-		// 
-		//
-
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 
 	case CG_MONSTER_PROJECTILE_CUBE:

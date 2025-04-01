@@ -36,6 +36,8 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 
 	m_iHp = 30;
 
+	m_fSpeed = 0.25f;
+
 	return S_OK;
 }
 
@@ -72,7 +74,6 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 	Select_Pattern(fTimeDelta);
 
-	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	__super::Update(fTimeDelta);
 
@@ -164,8 +165,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 
 		m_eCurState = MS_HIT;
 		Take_Damage(other);
-		fPos -= vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
 
 	case CG_WEAPON:
@@ -176,8 +176,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 	case CG_DOOR:
-		m_vNextPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
 		break;
 	default:
@@ -206,12 +205,14 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		else
 		{
 			Shooting(fTimeDelta);
+			m_vNextPos = m_vCurPos;
 		}
 		break;
 	case MS_WALK:
 		Chasing(fTimeDelta);
 		break;
 	case MS_HIT:
+		m_vNextPos = m_vCurPos;
 		// 맞고 바로 안바뀌도록
 		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_IDLE;
@@ -221,6 +222,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_ATTACK:
 		Shooting(fTimeDelta);
+		m_vNextPos = m_vCurPos;
 		break;
 
 	default:
@@ -231,14 +233,6 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		
 }
 
-void CHarpoonguy::Chasing(_float fTimeDelta)
-{
-
-	if (m_eCurState != MS_WALK)
-		m_eCurState = MS_WALK;
-
-	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.25f);
-}
 
 void CHarpoonguy::Shooting(_float fTimeDelta)
 {
