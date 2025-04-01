@@ -46,13 +46,13 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	bFirstUpdate = true;
 
-	if (auto pInvenUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Inven_UI")))
+ 	if (auto pInvenUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Inven_UI")))
 		Add_Observer(pInvenUI);
 
 	//CItem_Manager::GetInstance()->Add_Inven(this);
 
 	return S_OK;
-}
+} 
 
 
 void CInventory::Priority_Update(_float fTimeDelta)
@@ -106,7 +106,7 @@ HRESULT CInventory::Ready_Components()
 CWeapon_Base* CInventory::Equip(_uint type)
 {
 
-	m_bKeyPressed = false;
+	//m_bKeyPressed = false;
 
 		m_pItem = Weapon_Equip(type-1);
 		m_bKeyPressed = true;
