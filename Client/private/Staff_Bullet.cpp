@@ -39,7 +39,7 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 {
 	
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
-	
+	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	_float3 a = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
 	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 dir = b - a;
@@ -84,6 +84,8 @@ HRESULT CStaff_Bullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+	if (FAILED(m_pParticleTransformCom->Bind_Resource()))
+		return E_FAIL;
 	if (FAILED(m_pParticleCom->Render()))
 		return E_FAIL;
 
@@ -125,7 +127,6 @@ HRESULT CStaff_Bullet::SetUp_RenderState()
 HRESULT CStaff_Bullet::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	return S_OK;
 }
@@ -145,6 +146,10 @@ HRESULT CStaff_Bullet::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))
 		return E_FAIL;
 
 	return S_OK;
@@ -186,4 +191,5 @@ void CStaff_Bullet::Free()
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pParticleCom);
+	Safe_Release(m_pParticleTransformCom);
 }
