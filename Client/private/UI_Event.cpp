@@ -1,4 +1,4 @@
-#include "UI_Event.h"
+Ôªø#include "UI_Event.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 
@@ -46,7 +46,7 @@ HRESULT CUI_Event::Render()
 		const auto& evt = m_vecEventTexts[i];
 
 
-		if (evt.wstr == L"∑π∫ßæ˜!")
+		if (evt.wstr == L"Î†àÎ≤®ÏóÖ!")
 		{
 			_float2 centerPos = _float2(-100.f, 0.f); 
 			_float2 centerSize = _float2(20.f, 40.f);
@@ -77,7 +77,7 @@ CUI_Event* CUI_Event::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("¿Ã∫•∆Æ UI ø¯∫ª ª˝º∫ Ω«∆– ");
+		MSG_BOX("Ïù¥Î≤§Ìä∏ UI ÏõêÎ≥∏ ÏÉùÏÑ± Ïã§Ìå® ");
 		Safe_Release(pInstance);
 	}
 
@@ -90,7 +90,7 @@ CGameObject* CUI_Event::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("¿Ã∫•∆Æ UI ∫π¡¶ Ω«∆–");
+		MSG_BOX("Ïù¥Î≤§Ìä∏ UI Î≥µÏ†ú Ïã§Ìå®");
 		Safe_Release(pInstace);
 	}
 

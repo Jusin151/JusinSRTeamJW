@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "GameObject.h"
@@ -8,7 +8,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)
@@ -51,15 +51,15 @@ public:
 		wstring text;
 
 		if (tag == L"Exp")
-			text = L"°æÇèÄ¡ È¹µæ!  +" + to_wstring(value);
+			text = L"ê²½í—˜ì¹˜ íšë“!  +" + to_wstring(value);
 		else if (tag == L"Hp")
 			text = L"+HP " + to_wstring(value);
 		else if (tag == L"Ammo")
-			text = L"´ç½ÅÀº ¾à°£ÀÇ Åº¾àÀ» ¾ò¾ú½À´Ï´Ù! +" + to_wstring(value);
+			text = L"ë‹¹ì‹ ì€ ì•½ê°„ì˜ íƒ„ì•½ì„ ì–»ì—ˆìŠµë‹ˆë‹¤! +" + to_wstring(value);
 		else if (tag == L"LevelUp")
-			text = L"·¹º§¾÷!";
+			text = L"ë ˆë²¨ì—…!";
 
-		m_vecEventTexts.push_back({ text, 1.5f }); // 1.5ÃÊ°£ À¯Áö
+		m_vecEventTexts.push_back({ text, 1.5f }); // 1.5ì´ˆê°„ ìœ ì§€
 	}
 
 
@@ -67,11 +67,11 @@ public:
 private:
 	_uint m_iType{};
 	wstring m_strText = L"";
-	_float m_fTextDuration = { 0.f }; // ¸î ÃÊ ³²¾Ò´ÂÁö
+	_float m_fTextDuration = { 0.f }; // ëª‡ ì´ˆ ë‚¨ì•˜ëŠ”ì§€
 
 
 
-	// CObserverÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// CObserverì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	void OnNotify(void* pArg, const wstring& type) override;
 
 };
