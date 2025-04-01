@@ -21,6 +21,12 @@ public:
 
         static const DWORD FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
     };
+
+    struct GridCoord
+    {
+        int row;
+        int col;
+    };
 private:
     CMiniMap(LPDIRECT3DDEVICE9 pGraphic_Device);
     CMiniMap(const CMiniMap& Prototype);
@@ -41,13 +47,15 @@ private:
 private:
     void CalculateMapSize();
     _float2 ConvertToMiniMapPos(_float3 vPos);
-    void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color);
     void UpdateGridMap();
     void RenderGridMap();
     void InitializeGridMap();
     CMiniMap::GridCoord WorldToGrid(_float3 worldPos);
-    _bool IsValidGridCoord(const GridCoord& coord)
+    _bool IsValidGridCoord(const GridCoord& coord);
+    // 그리기 함수
+    void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color);
     void DrawRectOnMiniMap(float x, float y, float width, float height, D3DCOLOR color);
+    void RenderPlayerOnMiniMap();
 private:
     list<class CDoor*> m_DoorList;
     list<class CStructure*> m_StructureList;
@@ -66,9 +74,12 @@ private:
     _float m_MapMinZ{ 0.f };
     _float4x4 m_OldProjMatrix{};
     _float4x4 m_OldViewMatrix{};
-    _int m_iGridX = 5;
-    _int m_iGridY = 10;
-    bool m_bGrids[5][10];
+   
+    float m_GridCellSize = 2.0f;    // 그리드 셀 크기
+    int m_GridRows = 0;             // 그리드 행 수
+    int m_GridColumns = 0;          // 그리드 열 수
+
+    vector<vector<int>> m_GridMap;
 
 public:
     static CMiniMap* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

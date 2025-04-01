@@ -305,6 +305,7 @@ void CMiniMap::InitializeGridMap()
     // 월드 좌표를 그리드 좌표로 변환하여 벽과 문 배치
     for (const auto& structure : m_StructureList)
     {
+        if (structure->Get_Tag().find(L"Floor") != _wstring::npos) continue;
         _float3 pos = dynamic_cast<CTransform*>(structure->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
         GridCoord gridPos = WorldToGrid(pos);
 
@@ -328,6 +329,19 @@ void CMiniMap::InitializeGridMap()
     }
 }
 
+CMiniMap::GridCoord CMiniMap::WorldToGrid(_float3 worldPos)
+{
+    int col = static_cast<int>((worldPos.x - m_MapMinX) / m_GridCellSize);
+    int row = static_cast<int>((worldPos.z - m_MapMinZ) / m_GridCellSize);
+    return { row, col };
+}
+
+_bool CMiniMap::IsValidGridCoord(const GridCoord& coord)
+{
+    return coord.row >= 0 && coord.row < m_GridRows &&
+        coord.col >= 0 && coord.col < m_GridColumns;
+}
+
 void CMiniMap::DrawRectOnMiniMap(float x, float y, float width, float height, D3DCOLOR color)
 {
     VERTEX* pVertices;
@@ -344,6 +358,21 @@ void CMiniMap::DrawRectOnMiniMap(float x, float y, float width, float height, D3
     m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
     m_pGraphic_Device->SetFVF(VERTEX::FVF);
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+}
+
+void CMiniMap::RenderPlayerOnMiniMap()
+{
+    if (m_pPlayer)
+    {
+        // 플레이어 위치 가져오기
+        _float3 playerPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+        // 미니맵 좌표로 변환
+        _float2 miniMapPos = ConvertToMiniMapPos(playerPos);
+
+        // 플레이어를 빨간색 점으로 표시
+        DrawBoxOnMiniMap(D3DXVECTOR2(miniMapPos.x, miniMapPos.y), D3DCOLOR_XRGB(255, 0, 0));
+    }
 }
 
 json CMiniMap::Serialize()
