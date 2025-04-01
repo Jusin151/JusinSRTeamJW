@@ -72,6 +72,13 @@ void CSnowspider::Update(_float fTimeDelta)
     if (nullptr == m_pTarget)
         return;
 
+    _float3 vDist;
+    vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+
+    if (vDist.LengthSq() > 400)
+        return;
+
+
     m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
     Select_Pattern(fTimeDelta);
@@ -184,6 +191,11 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
 
         break;
 
+    case CG_MONSTER:
+        m_vNextPos += vMove;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+        break;
     case CG_STRUCTURE_WALL:
         m_vNextPos += vMove;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);

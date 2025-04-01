@@ -57,6 +57,7 @@ void CCollider_Manager::Update_Collison()
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
+	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_MONSTER]);
 
 	Clear();
 }
@@ -225,6 +226,9 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 
 		for (auto& dstEntry : dst)
 		{
+			if (srcEntry == dstEntry)
+				continue;
+
 			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
 			dstEntry->Set_Depth(0.f);
 			if (Calc_Cube_To_Cube(srcEntry, dstEntry))

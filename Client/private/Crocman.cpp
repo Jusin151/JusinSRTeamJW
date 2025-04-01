@@ -38,6 +38,8 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 	m_fSpeed = 0.15f;
 
+	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+
 	return S_OK;
 }
 
@@ -69,6 +71,14 @@ void CCrocman::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
+	_float3 vDist;
+	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+
+	if (vDist.LengthSq() > 400)
+		return;
+
+	
+
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	Select_Pattern(fTimeDelta);
@@ -91,7 +101,6 @@ void CCrocman::Late_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
 		return;
-
 
 	Select_Frame(fTimeDelta);
 
@@ -181,6 +190,11 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 
 		break;
 
+	case CG_MONSTER:
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+		break;
 	case CG_STRUCTURE_WALL:
 		m_vNextPos += vMove;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
