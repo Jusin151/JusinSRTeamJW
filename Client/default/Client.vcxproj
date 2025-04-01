@@ -281,6 +281,7 @@
     <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
+    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
@@ -319,7 +320,6 @@
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Staff_Bullet.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />

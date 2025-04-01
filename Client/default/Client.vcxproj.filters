@@ -306,7 +306,7 @@
     </Filter>
     <Filter Include="02.GameObjects\97. UI\98. Event_UI">
       <UniqueIdentifier>{5b94c9c3-01fd-4bdf-8ac4-2489ea4ff91d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="01.Levels\Hub">
       <UniqueIdentifier>{573b79d6-4ecb-46b7-9aa9-d3a8176ff281}</UniqueIdentifier>
     </Filter>
@@ -804,7 +804,6 @@
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp">
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClCompile>
@@ -863,6 +862,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_Hub.cpp">
       <Filter>01.Levels\Hub</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
