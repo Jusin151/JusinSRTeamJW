@@ -4,8 +4,10 @@ BEGIN(Client)
 class CBlood_Effect final : public CEffect_Base
 {
 public:
-
     enum HitType { HT_A, HT_B, HT_END };
+    typedef struct tagHitDesc : EFFECT_DESC {
+        _uint       type;
+    } HIT_DESC;
 private:
     CBlood_Effect(LPDIRECT3DDEVICE9 pGraphic_Device);
     CBlood_Effect(const CBlood_Effect& Prototype);
@@ -28,6 +30,6 @@ public:
     virtual void Free()override;
 private:
     CGameObject*    m_pTarget = { nullptr };
-    HitType         m_eType = { HT_A };
+    HitType         m_eHitType = { HT_A };
 };
 END
