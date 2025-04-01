@@ -307,14 +307,14 @@
     <Filter Include="02.GameObjects\03. Effect\Blood_Effect">
       <UniqueIdentifier>{a5b91c4b-4dc7-4d8d-b66a-e4029d6c5abf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\03. Effect\Hit_Effect">
-      <UniqueIdentifier>{c3c6e2eb-a32e-49bd-ab05-1e52bdcb8d29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\97. UI\98. Event_UI">
       <UniqueIdentifier>{5b94c9c3-01fd-4bdf-8ac4-2489ea4ff91d}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\Hub">
       <UniqueIdentifier>{573b79d6-4ecb-46b7-9aa9-d3a8176ff281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03. Effect\BulletHit_Effect">
+      <UniqueIdentifier>{c3c6e2eb-a32e-49bd-ab05-1e52bdcb8d29}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -607,7 +607,7 @@
       <Filter>01.Levels\Hub</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hit_Effect.h">
-      <Filter>02.GameObjects\03. Effect\Hit_Effect</Filter>
+      <Filter>02.GameObjects\03. Effect\BulletHit_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -883,7 +883,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp">
-      <Filter>02.GameObjects\03. Effect\Hit_Effect</Filter>
+      <Filter>02.GameObjects\03. Effect\BulletHit_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

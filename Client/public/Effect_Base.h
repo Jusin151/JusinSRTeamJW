@@ -42,27 +42,35 @@ protected:
     CEffect_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
     CEffect_Base(const CEffect_Base& Prototype);
     virtual ~CEffect_Base() = default;
-
+    
 public:
     virtual HRESULT Initialize_Prototype()PURE;
     virtual HRESULT Initialize(void* pArg)PURE;
+    virtual HRESULT Ready_Components();
+public:
     virtual void Priority_Update(_float fTimeDelta)PURE;
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
+public:
     virtual HRESULT Render()override;
-    virtual HRESULT Ready_Components();
+public:
     virtual  void Free();
 
 protected:
-    CTexture* m_pTextureCom = {};
-    CVIBuffer_Rect* m_pVIBufferCom = {};
-    CTransform* m_pTransformCom = {};
-    CParticle_System* m_pParticleCom = {};
-    EFFECT_DESC m_Weapon_Effect_INFO{};
+    CTexture*           m_pTextureCom           = {};
+    CVIBuffer_Rect*     m_pVIBufferCom          = {};
+    CTransform*         m_pTransformCom         = {};
+    CParticle_System*   m_pParticleCom          = {};
+    EFFECT_DESC         m_Weapon_Effect_INFO    = {};
 
 protected: // 이펙트 관련
-    _float m_fLifeTime = {}; // 최대 몇초까지 남게할껀지
-    _float m_fCurrentTime = {}; // 현재 시간
-    _bool m_bDead = {}; // 뒈지면 Active 활성화
+    _float  m_fLifeTime = {}; // 최대 몇초까지 남게할껀지
+    _float  m_fCurrentTime = {}; // 현재 시간
+    _bool   m_bDead = {}; // 죽으면 Active 활성화
+    _float  m_fAnimationSpeed = {}; // 애니메이션속도
+    _float  m_fElapsedTime = {};
+    _int    m_iCurrentFrame = {};
+    _int    m_iLastFrame = {};
+    const _float m_fFrameDuration = { 2.0f };
 };
 END

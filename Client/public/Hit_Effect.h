@@ -3,6 +3,11 @@
 BEGIN(Client)
 class CHit_Effect final : public CEffect_Base
 {
+public:
+    enum HitType { HT_A, HT_B, HT_C, HT_D, HT_END };
+    typedef struct tagHitDesc :  EFFECT_DESC {
+        _uint       type;
+    } HIT_DESC;
 private:
     CHit_Effect(LPDIRECT3DDEVICE9 pGraphic_Device);
     CHit_Effect(const CHit_Effect& Prototype);
@@ -24,7 +29,8 @@ public:
     virtual CHit_Effect* Clone(void* pArg) override;
     virtual void Free()override;
 private:
-    CGameObject* m_pTarget = { nullptr };
+    CGameObject*    m_pTarget   = { nullptr };
+    HitType         m_eHitType  = { HT_A };
     //Frame
 };
 END

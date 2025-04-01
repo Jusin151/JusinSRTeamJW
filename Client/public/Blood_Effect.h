@@ -3,6 +3,9 @@
 BEGIN(Client)
 class CBlood_Effect final : public CEffect_Base
 {
+public:
+
+    enum HitType { HT_A, HT_B, HT_END };
 private:
     CBlood_Effect(LPDIRECT3DDEVICE9 pGraphic_Device);
     CBlood_Effect(const CBlood_Effect& Prototype);
@@ -24,6 +27,7 @@ public:
     virtual CBlood_Effect* Clone(void* pArg) override;
     virtual void Free()override;
 private:
-    CGameObject* m_pTarget = { nullptr };
+    CGameObject*    m_pTarget = { nullptr };
+    HitType         m_eType = { HT_A };
 };
 END

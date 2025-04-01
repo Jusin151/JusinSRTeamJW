@@ -60,7 +60,7 @@ protected:
 	D3DXVECTOR3						m_vPos = {};
 	LPDIRECT3DVERTEXBUFFER9			m_PointVB = { nullptr };
 	LPDIRECT3DTEXTURE9				m_pTexture = { nullptr };
-	CTexture*						m_pTextureT = { nullptr };
+	class CTexture*					m_pTextureT = { nullptr };
 
 	//인스턴싱 변수
 	LPDIRECT3DVERTEXBUFFER9			m_InstanceVB = { nullptr };
