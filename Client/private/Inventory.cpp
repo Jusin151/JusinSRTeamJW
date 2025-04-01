@@ -38,13 +38,16 @@ HRESULT CInventory::Initialize(void* pArg)
 		LEVEL_GAMEPLAY, TEXT("Layer_Inven_UI"))))
 		return E_FAIL; 
 
-	if (m_pInven_UI = dynamic_cast<CInven_UI*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Inven_UI")));
-	else
-		return E_FAIL;
+	//if (m_pInven_UI = dynamic_cast<CInven_UI*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Inven_UI")));
+	//else
+	//	return E_FAIL;
 
 //	m_vecpItem.resize(7); // 7번까지만 할래
 
 	bFirstUpdate = true;
+
+	if (auto pInvenUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Inven_UI")))
+		Add_Observer(pInvenUI);
 
 	//CItem_Manager::GetInstance()->Add_Inven(this);
 
@@ -65,11 +68,13 @@ void CInventory::Update(_float fTimeDelta)
 
 	if (m_fNoInputAccTime >= 2.f)
 	{
-		m_pInven_UI->Inven_OnOff(false);
+		Notify(nullptr, L"Close");
 		return;
 	}
 	if (m_bKeyPressed)
-		m_pInven_UI->Inven_OnOff(true);
+		Notify(nullptr, L"Open");
+
+	//m_pInven_UI->Inven_OnOff(true);
 
 	m_bKeyPressed = false;
 }
@@ -106,13 +111,6 @@ CWeapon_Base* CInventory::Equip(_uint type)
 		m_pItem = Weapon_Equip(type-1);
 		m_bKeyPressed = true;
 	
-
-	if (GetAsyncKeyState('9') & 0x8000)
-	{
-		m_pInven_UI->Inven_OnOff(false);
-		return nullptr;
-	}
-
 
 	return m_pItem;
 }

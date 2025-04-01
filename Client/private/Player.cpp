@@ -90,8 +90,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 	Input_Key(fTimeDelta);
 
-
-
 	/////////트리거용 
 
 	if (GetAsyncKeyState('0') & 0x8000)
@@ -117,8 +115,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 
 	if (GetAsyncKeyState('Q') & 0x8000)
-	{
-		
+	{	
 		Add_Exp(1);
 	}
 
@@ -209,7 +206,11 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("용량:") + to_wstring(m_iCapacity),
 		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스킬포인트:") + to_wstring(m_iSkillpoint),
+		_float2(400.f, -50.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스탯포인트:") + to_wstring(m_iStatpoint),
+		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -548,6 +549,16 @@ HRESULT CPlayer::Ready_Player_SetUP()
 
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
 		Add_Observer(pPlayer_Icon);
+
+	if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
+		Add_Observer(m_pHub_PointShop); 
+
+	if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Shop"))))
+		Add_Observer(m_pHub_WeaponShop);
+
+	if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop"))))
+		Add_Observer(m_pHub_SpellShop);
+
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);
 

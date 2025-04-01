@@ -66,6 +66,7 @@ HRESULT CUI_WeaponShop_UI::Register_Buttons()
 
     return S_OK;
 }
+
 void CUI_WeaponShop_UI::Priority_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);

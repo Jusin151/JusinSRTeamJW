@@ -7,6 +7,7 @@
 #include "Ranged_Weapon.h"
 #include "Melee_Weapon.h"
 #include "Item.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -61,8 +62,11 @@ public:
         }
         m_vecpWeapons[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
         m_WeaponMap[tag] = m_vecpWeapons[Index];
-        m_pInven_UI->Add_WeaponIcon(tag);
-		Add_Item(tag);  
+
+        _wstring ptag = tag;  
+        Notify((void*)(&tag), L"AddWeaponIcon"); // AddWeapon
+
+        Add_Item(tag);  
     }
     void Add_Item(const _wstring& tag)
     {
@@ -116,7 +120,9 @@ public:
         if (it != nullptr)
         {
             it->SetActive(true);
-            m_pInven_UI->WeaponIcon_isActive(Index);
+
+           //m_pInven_UI->WeaponIcon_isActive(Index);
+			Notify(&Index, L"IconActive");
 
             if (CRanged_Weapon* pRanged = dynamic_cast<CRanged_Weapon*>(it))
             {
@@ -134,7 +140,18 @@ public:
         }
         return nullptr; 
     }
-
+private:
+	vector<CObserver*> m_pObservers{};
+public:
+	void Add_Observer(CObserver* pObserver)
+	{
+		m_pObservers.push_back(pObserver);
+	}
+	virtual void Notify(void* pArg, const wstring& type)
+	{
+		for (auto& obs : m_pObservers)
+			obs->OnNotify(pArg, type);
+	}
 protected:
     CTexture* m_pTextureCom = { nullptr };
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
@@ -143,7 +160,7 @@ private:
 
     unordered_map<wstring, CWeapon_Base*> m_WeaponMap;
      CWeapon_Base* m_pItem = { nullptr };
-     CInven_UI* m_pInven_UI = { nullptr };
+    // CInven_UI* m_pInven_UI = { nullptr };
      vector<CWeapon_Base*> m_vecpWeapons{ 8, nullptr };
 	 unordered_map<wstring, _bool> m_MapItem; //
 private:

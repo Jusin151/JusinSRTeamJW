@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Shop_Base.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +14,7 @@ END
 BEGIN(Client)
 
 
-class CUI_Spell_Shop final : public CUI_Shop_Base
+class CUI_Spell_Shop final : public CUI_Shop_Base, public CObserver
 {
 private:
 	CUI_Spell_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -56,9 +57,24 @@ private:
 	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
 
 
-	
-
 	CGamePlay_Button* m_pSelectedSpellButton = { nullptr };
+public:
+	void OnNotify(void* pArg, const wstring& tag)
+	{	
+		if (tag == L"Open")
+		{
+			SetActive(true);
+			Button_Set_Active(true);
+			m_bOnUI = true;
+		}
+		else if (tag == L"Close")
+		{
+			SetActive(false);
+			Button_Set_Active(false);
+			m_bOnUI = false;
+		}
+
+	}
 };
 
 END

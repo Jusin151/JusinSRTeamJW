@@ -49,6 +49,9 @@ HRESULT CUI_Spell_Shop::Initialize(void* pArg)
 
     CUI_Manager::GetInstance()->AddUI(L"Spell_Shop_UI", this);
 
+
+
+
     return S_OK;
 }
 HRESULT CUI_Spell_Shop::Register_Buttons()
