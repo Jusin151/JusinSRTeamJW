@@ -236,7 +236,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
-		m_vNextPos += vMove;
+		m_vNextPos += vMove * 0.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 
