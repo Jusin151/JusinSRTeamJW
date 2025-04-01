@@ -45,7 +45,7 @@ void CCollider_Manager::Clear()
 void CCollider_Manager::Update_Collison()
 {
 	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
-	Update_Collision_Floor();
+	
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER_PROJECTILE_CUBE]);
@@ -57,6 +57,8 @@ void CCollider_Manager::Update_Collison()
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
+
+	Update_Collision_Floor();
 
 	Clear();
 }
@@ -73,19 +75,78 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
-				{
-					if (!Calc_AABB(srcEntry, dstEntry))
-						continue;
-					if (Calc_Cube_To_Cube(srcEntry, dstEntry))
-					{
-						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
-						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
-					}
-					
+				srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+				srcEntry->Set_Depth(0.f);
+				// 특정 속도 이상이면 여러번 체크하도록 count를 정하기
+				_int iCount = 0;
 
+				_bool bCollision = false;
+
+				// 최소 한번은 처리하도록
+				iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
+				
+
+				_float3 originalPos = srcEntry->Get_State(CTransform::STATE_POSITION);
+
+				for (_int step = 1; step <= iCount; ++step)
+				{
+
+					_float3 testPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length() * (float(step) / iCount);
+					srcEntry->Set_State(CTransform::STATE_POSITION, testPos);
+
+					for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
+					{
+						dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+						dstEntry->Set_Depth(0.f);
+
+						
+
+						// AABB 충돌 검사
+						if (!Calc_AABB(srcEntry, dstEntry))
+							continue;
+
+						// 실제 충돌 검사
+						if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+						{
+							
+								srcEntry->Get_Owner()->Set_NextPos(testPos);
+
+								//// MTV의 방향이 오브젝트의 이동 방향과 반대가 되도록 수정
+								//if (srcEntry->Get_MTV().Dot(srcEntry->Get_Owner()->Get_Dir()) > 0)
+								//{
+								//	srcEntry->Set_MTV(-srcEntry->Get_MTV());
+								//}
+
+								// 충돌 처리
+								srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+								dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+
+								// Collider 업데이트 (트랜스폼 적용)
+								srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+
+								bCollision = true;
+								break;
+							
+						}
+					}
+					if (bCollision)
+					{
+						srcEntry->Get_Owner()->Set_NextPos(testPos);
+						break;
+					}
 				}
+
+				// 만약 충돌이 없었다면, 이동한 다음 위치로 업데이트
+				if (!bCollision)
+				{
+					_float3 nextPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length();
+					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+					pTrans->Set_State(CTransform::STATE_POSITION, nextPos);
+		
+				}
+
+
+				
 			}
 		}
 
@@ -142,8 +203,14 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 
 	for (auto& srcEntry : src)
 	{
+		srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+		srcEntry->Set_Depth(0.f);
+
 		for (auto& dstEntry : dst)
 		{
+			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+			dstEntry->Set_Depth(0.f);
+
 			if (Calc_Sphere_To_Sphere(srcEntry, dstEntry))
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
@@ -161,8 +228,13 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 
 	for (auto& srcEntry : src)
 	{
+		srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+		srcEntry->Set_Depth(0.f);
+
 		for (auto& dstEntry : dst)
 		{
+			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+			dstEntry->Set_Depth(0.f);
 			if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());

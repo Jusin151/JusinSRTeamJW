@@ -65,7 +65,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
+	m_fSpeed = 1.f;
 
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -90,11 +90,14 @@ void CPlayer::Update(_float fTimeDelta)
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 
-
-
 	Input_Key(fTimeDelta);
 
-	m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+
+	m_vDir = m_vNextPos - m_vCurPos;
+	m_fLength = m_vDir.Length();
+	m_vDir.Normalize();
 
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"),m_pTransformCom->Compute_Scaled());
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
@@ -226,13 +229,9 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
-	_float3 direction = vMove.GetNormalized();
 
-	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
 	switch (other->Get_Type())
 	{
@@ -276,7 +275,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	_float moveSpeed = 0.25f;
+	
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
@@ -302,9 +301,15 @@ void CPlayer::Move(_float fTimeDelta)
 		moveDir.Normalize(); // 방향 정규화
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		moveDir.y = 0.f;
-		fPos += moveDir * fTimeDelta * moveSpeed * 10;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		fPos += moveDir * fTimeDelta * m_fSpeed * 10;
+		m_vNextPos = fPos;	
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
+	else
+	{
+		m_vNextPos = m_vCurPos;
+	}
+	
 
 
 
