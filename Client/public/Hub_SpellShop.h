@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Shop.h"
+#include "Observer.h"
 
 BEGIN(Client)
 class CHub_SpellShop : public CShop
@@ -40,8 +41,20 @@ public:
     static CHub_SpellShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
     virtual void Free() override;
-private:
-    class CUI_Spell_Shop* m_pUI_SpellShop = { nullptr };
-
+//private:
+//    class CUI_Spell_Shop* m_pUI_SpellShop = { nullptr };
+private: //옵저버 관련
+    vector<CObserver*> m_pObservers{};
+public:
+    void Add_Observer(CObserver* pObserver)
+    {
+        m_pObservers.push_back(pObserver);
+    }
+    virtual void Notify(void* pArg, const wstring& type)
+    {
+        for (auto& obs : m_pObservers)
+            obs->OnNotify(&pArg, type);
+    }
+  
 };
 END

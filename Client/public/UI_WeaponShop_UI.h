@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Shop_Base.h"
+#include"Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +14,7 @@ END
 BEGIN(Client)
 
 
-class CUI_WeaponShop_UI final : public CUI_Shop_Base
+class CUI_WeaponShop_UI final : public CUI_Shop_Base, public CObserver
 {
 private:
 	CUI_WeaponShop_UI(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -54,6 +55,23 @@ private:
 
 public:
 	_bool m_bOnUI = { false };
+
+public:
+	void OnNotify(void* pArg, const _wstring& tag) override
+	{
+		if (tag == L"Open")
+		{
+			SetActive(true);
+			Button_Set_Active(true);
+			m_bOnUI = true;
+		}
+		else if (tag == L"Close")
+		{
+			SetActive(false);
+			Button_Set_Active(false);
+			m_bOnUI = false;
+		}
+	}
 };
 
 END

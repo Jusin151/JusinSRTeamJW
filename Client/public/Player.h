@@ -76,7 +76,7 @@ public:
 	}
 	void Add_SkillPoint(_int SkillPoint)
 	{
-		m_iSkillPoint += SkillPoint;
+		m_iSkillpoint += SkillPoint;
 	}
 	inline void Add_Capacity(_int type) { m_iCapacity += type; }
 	void Add_Exp(_int Exp)
@@ -88,7 +88,8 @@ public:
 		{
 			m_iPlayerEXP.first -= m_iPlayerEXP.second;  
 			++m_iLevel;  //레벨업
-			++m_iSkillPoint; 
+			++m_iSkillpoint;
+			++m_iStatpoint; 
 			m_iPlayerEXP.second += 10; 
 
 			
@@ -160,7 +161,8 @@ private: // 플레이어 관련
 	_uint m_iSprit{};//정신력
 	_uint m_iCapacity{};//용량
 	_uint m_iLevel{}; // 레벨
-	_uint m_iSkillPoint{};//스킬포인트
+	_uint m_iSkillpoint{};//스킬포인트
+	_uint m_iStatpoint{};//스탯포인트
 	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
 	CInventory* m_pPlayer_Inven = { nullptr };
 

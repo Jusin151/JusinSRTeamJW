@@ -79,9 +79,9 @@ HRESULT CLevel_GamePlay::Initialize()
 
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Episode_Hub"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))

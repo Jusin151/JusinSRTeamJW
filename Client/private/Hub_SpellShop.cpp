@@ -33,7 +33,10 @@ HRESULT CHub_SpellShop::Initialize(void* pArg)
 
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
-    m_pUI_SpellShop = static_cast<CUI_Spell_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Spell_Shop_UI"));
+   // m_pUI_SpellShop = static_cast<CUI_Spell_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Spell_Shop_UI"));
+
+    if (auto pSpellShopUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Spell_Shop_UI")))
+        Add_Observer(pSpellShopUI);
 
     return S_OK;
 }
@@ -117,21 +120,7 @@ HRESULT CHub_SpellShop::Ready_ShopItems()
 
 HRESULT CHub_SpellShop::Open_Shop()
 {
-    //// 이미 열려있다면 무시
-    //if (m_bIsOpen)
-    //    return S_OK;
-
-   // m_bIsOpen = true;
-
-   
-    //m_pUI_SpellShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")); 
-
-    if (m_pUI_SpellShop)
-    {
-        m_pUI_SpellShop->SetActive(true); // 보이게 설정
-        m_pUI_SpellShop->Button_Set_Active(true);
-        m_pUI_SpellShop->m_bOnUI=true;
-    }
+    Notify(nullptr, L"Open");
 
   
     // 상점 아이템 새로고침
@@ -142,19 +131,7 @@ HRESULT CHub_SpellShop::Open_Shop()
 
 HRESULT CHub_SpellShop::Close_Shop()
 {
-    // 이미 닫혀있다면 무시
- 
-
-    //m_pUI_SpellShop = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
-
-    if (m_pUI_SpellShop)
-    {
-        m_pUI_SpellShop->SetActive(false); 
-        m_pUI_SpellShop->Button_Set_Active(false);
-        m_pUI_SpellShop->m_bOnUI = false;
-    }
-
-
+    Notify(nullptr, L"Close");
 
     return S_OK;
 }

@@ -104,6 +104,27 @@ private:
 	_bool bStat_Button_Active{};
 public:
 	_bool m_bOnUI = { false };
+
+public:
+	void OnNotify(void* pArg, const wstring& tag)
+	{
+
+		if (tag == L"Open")
+		{
+			SetActive(true);
+			Button_Set_Active(true);
+			Button_Map_Set_Active(true);
+			m_bOnUI = true;
+		}
+		else if (tag == L"Close")
+		{
+			SetActive(false);
+			Button_Set_Active(false);
+			Button_Map_Set_Active(false);
+			m_bOnUI = false;
+		}
+
+	}
 };
 
 END
