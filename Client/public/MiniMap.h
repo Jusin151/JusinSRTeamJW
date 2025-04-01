@@ -42,6 +42,12 @@ private:
     void CalculateMapSize();
     _float2 ConvertToMiniMapPos(_float3 vPos);
     void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color);
+    void UpdateGridMap();
+    void RenderGridMap();
+    void InitializeGridMap();
+    CMiniMap::GridCoord WorldToGrid(_float3 worldPos);
+    _bool IsValidGridCoord(const GridCoord& coord)
+    void DrawRectOnMiniMap(float x, float y, float width, float height, D3DCOLOR color);
 private:
     list<class CDoor*> m_DoorList;
     list<class CStructure*> m_StructureList;
