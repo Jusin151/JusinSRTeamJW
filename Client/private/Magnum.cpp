@@ -4,6 +4,7 @@
 #include "Item_Manager.h"
 #include "Image_Manager.h"
 #include "Sound_Source.h"
+#include "Sound_Event.h"
 #include "Light.h"
 #include "Sound_Event.h"
 

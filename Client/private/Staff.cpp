@@ -53,7 +53,7 @@ HRESULT CStaff::Initialize(void* pArg)
 
 	m_vInitialPos = m_Staff_INFO.vPos;
 
-    // 초기화 시 설정
+
     m_TextureRanges["Idle"] = { 0,0 };
     m_TextureRanges["Charging"] = { 1, 16 };
     m_TextureRanges["Loop"] = { 17, 26 };
@@ -68,7 +68,6 @@ HRESULT CStaff::Initialize(void* pArg)
 }
 HRESULT CStaff::Ready_Icon()
 {
-
     CImage::Image_DESC Image_INFO = {};
     Image_INFO.vPos = { 0.f,150.f };
     Image_INFO.vSize = { 80.f,40.f };
@@ -131,7 +130,7 @@ void CStaff::Attack(_float fTimeDelta)
             m_eState = State::Charging;
             m_iCurrentFrame = m_TextureRanges["Charging"].first;
             m_fElapsedTime = 0.0f;
-            m_bHasFired = false; // 발사 상태 초기화
+            m_bHasFired = false; 
         }
     }
     else
@@ -148,7 +147,7 @@ void CStaff::Attack(_float fTimeDelta)
 
     switch (m_eState)
     {
-    case State::Charging: //차징
+    case State::Charging: 
         if (m_fElapsedTime >= 0.02f)
         {
             m_fElapsedTime = 0.0f;

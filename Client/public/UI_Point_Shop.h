@@ -3,7 +3,8 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Shop_Base.h"
-
+#include "Hub_PointShop.h"
+#include "GamePlay_Button.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -48,8 +49,11 @@ private:
 	HRESULT Register_Buttons() override;
 	void Create_SkillButton(); // 특성관련 버튼
 	void Create_StatButton();  // 스탯버튼
+private:
+	class CHub_PointShop* m_pPointShop = { nullptr };
+
 public:
-	
+	void Set_Shop(CHub_PointShop* pShop) { m_pPointShop = pShop; }
 
 
 
@@ -64,6 +68,17 @@ private:
 	_bool bStat_Button_Active{};
 public:
 	_bool m_bOnUI = { false };
+private:
+	_uint m_iStr{};
+	_uint m_iMaxHP{};
+	_uint m_iSprit{};
+	_uint m_iCapacity{};
+	_uint m_iLevel{};
+	_uint m_iPoint{};
+
+	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
+
+	CGamePlay_Button* m_pSelectedSpellButton = { nullptr };
 };
 
 END

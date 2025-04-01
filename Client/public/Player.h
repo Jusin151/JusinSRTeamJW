@@ -8,6 +8,7 @@
 #include "CollisionObject.h"
 #include "Observer.h"
 #include "UI_Manager.h"
+#include "UI_Event.h"
 
 
 BEGIN(Engine)
@@ -23,7 +24,7 @@ BEGIN(Client)
 class CPlayer final : public CCollisionObject
 {
 
-	
+
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -59,16 +60,66 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-	inline void Add_Ammo(_int iAmmo);
+	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
+	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
+	void Add_Strength(_int Str) { m_iStr += Str; }
+	void Add_MaxHP(_int Hp)
+	{
+		m_iHp += Hp;
+		m_iPlayerHP.second += Hp;
+		Notify(m_iHp, L"HP");
+	}
+	void Add_Sprit(_int Sprit)
+	{
+		m_iSprit += Sprit;
+		m_iPlayerMP.first += Sprit * 5;
+	}
+	void Add_SkillPoint(_int SkillPoint)
+	{
+		m_iSkillPoint += SkillPoint;
+	}
+	inline void Add_Capacity(_int type) { m_iCapacity += type; }
+	void Add_Exp(_int Exp)
+	{
+		m_iPlayerEXP.first += Exp; //경험치 들어오면
+
+	
+		while (m_iPlayerEXP.first >= m_iPlayerEXP.second)
+		{
+			m_iPlayerEXP.first -= m_iPlayerEXP.second;  
+			++m_iLevel;  //레벨업
+			++m_iSkillPoint; 
+			m_iPlayerEXP.second += 10; 
+
+			
+			if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+			{
+				pUI_Event->ShowEventText(0, L"LevelUp"); 
+			}
+		}
+
+		Notify(m_iPlayerEXP.first, L"Exp");
+
+		
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(Exp, L"Exp");
+		}
+	}
+
+
+
+	 _bool Has_Item(const _wstring& stItemTag);
+	 HRESULT Add_Item(const _wstring& stItemTag);
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
-	HRESULT Ready_Player_SetUP(); 
+	HRESULT Ready_Player_SetUP();
 public:
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device); 
+	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
-	virtual void Free();
+	virtual void Free(); 
 
 private: // 인벤관련
 	void Input_WeapontoInven(wstring tag, _uint Index)
@@ -98,22 +149,22 @@ private:
 	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
-	LONG			m_lMiddlePointX = {g_iWinSizeX / 2};
+	LONG			m_lMiddlePointX = { g_iWinSizeX / 2 };
 	_float3			m_vOldPos = {};
 private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
 	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
-	_uint iStr{}; // 근력
-	_uint iLife{};//생명력
-	_uint iSprit{};//정신력
-	_uint iCapacity{};//용량
-	_uint iBullet{};//총알 , 임시임 웨폰에서 할께
-	CWeapon_Base* m_pPlayer_Weapon={nullptr};
-	CInventory*   m_pPlayer_Inven={nullptr};
+	_uint m_iStr{}; // 근력
+	_uint m_iLife{};//생명력
+	_uint m_iSprit{};//정신력
+	_uint m_iCapacity{};//용량
+	_uint m_iLevel{}; // 레벨
+	_uint m_iSkillPoint{};//스킬포인트
+	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
+	CInventory* m_pPlayer_Inven = { nullptr };
 
 
-	
 };
 
 

@@ -63,7 +63,7 @@ void CGamePlay_Button::Update(_float fTimeDelta)
     { 
         if(!m_bVisible_Click)
         m_strMouseOnText.clear();
-
+     
 
         m_bVisible = false;
     }
@@ -132,10 +132,7 @@ void CGamePlay_Button::Render_MouseOn_Button_TexT() // 마우스 올렸을때 �
             _float2(8.f, 22.f), //글자 크기
             _float3(1.f, 1.f, 0.f)); // R G B
     }
-    if (m_OnMouse && !m_strMouseOnText.empty() && m_Button_Info.Button_Type == POINT_SHOP_SKILL) // 오른쪽 스탯 버튼
-    {
-        m_bVisible = true;
-    }
+ 
   
 }
 
@@ -150,7 +147,6 @@ void CGamePlay_Button::Render_MouseClick_Button_TexT() // 마우스 클릭했을
             _float2(135.f, -100.f),
             _float2(8.f, 22.f),
             _float3(1.f, 1.f, 0.f));
-
    
     }
    
@@ -177,6 +173,17 @@ void CGamePlay_Button::Render_ToolTip_Button() // 설명창
             _float2(8.f, 22.f),
             _float3(1.f, 1.f, 0.f));
     }
+
+    if (m_Button_Info.Button_Type == POINT_SHOP_SKILL) // 스펠 설명 버튼
+    {
+        m_pGameInstance->Render_Font_Size(
+            L"MainFont",
+            m_strMouseOnText,
+            _float2(30.f, 50.f),
+            _float2(8.f, 22.f),
+            _float3(1.f, 1.f, 0.f));
+    }
+
 
 }
 

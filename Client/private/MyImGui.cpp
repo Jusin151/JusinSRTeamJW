@@ -1517,12 +1517,12 @@ void CMyImGui::ShowItemCreationTab()
 	static float s_fItemFloatMax = 0.7f;
 
 	// 아이템 타입 및 서브타입 배열도 static으로 선언
-	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat","Key"};
+	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat","Key" };
 	static const char* s_HPSubTypeNames[] = { "Small HP", "Big HP" };
 	static const char* s_MPSubTypeNames[] = { "Small MP", "Big MP" };
-	static const char* s_AmmoSubTypeNames[] = { "Shotgun_Ammo_Small","Shotgun_Ammo_Big",  "Staff_Ammo_Small", "Staff_Ammo_Big",
-		"Pistol_Ammo_Small",
-		"Pistol_Ammo_Big" };
+	static const char* s_AmmoSubTypeNames[] = { "ShotGun_Ammo_Small","ShotGun_Ammo_Big",  "Staff_Ammo_Small", "Staff_Ammo_Big",
+		"Magnum_Ammo_Small",
+		"Magnum_Ammo_Big" };
 	static const char* s_ExpSubTypeNames[] = { "Small EXP", "Medium EXP", "Large EXP" };
 
 	static const char* s_KeySubTypeNames[] = { "Blue", "Red", "Yellow" };
@@ -1553,7 +1553,7 @@ void CMyImGui::ShowItemCreationTab()
 		case 2: // Ammo
 			s_pCurrentSubTypeNames = s_AmmoSubTypeNames;
 			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_AmmoSubTypeNames);
-			strcpy_s(s_szItemNameBuffer, "Shotgun_Ammo_Small");
+			strcpy_s(s_szItemNameBuffer, "ShotGun_Ammo_Small");
 			s_iItemValue = 20;
 			s_bItemAnimation = false;
 			break;
@@ -1565,9 +1565,18 @@ void CMyImGui::ShowItemCreationTab()
 			s_bItemAnimation = false;
 			break;
 		case 4: // Stat
-			strcpy_s(s_szItemNameBuffer, "STAT");
+			s_pCurrentSubTypeNames = nullptr;
+			s_iCurrentSubTypeCount = 0;
+			strcpy_s(s_szItemNameBuffer, "Stat");
 			s_iItemValue = 1;
 			s_bItemAnimation = true;
+			break;
+		case 5: // Key
+			s_pCurrentSubTypeNames = s_KeySubTypeNames;
+			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_KeySubTypeNames);
+			strcpy_s(s_szItemNameBuffer, "Blue");
+			s_iItemValue = 1;
+			s_bItemAnimation = false;
 			break;
 		default:
 			s_pCurrentSubTypeNames = nullptr;
@@ -1605,12 +1614,12 @@ void CMyImGui::ShowItemCreationTab()
 			case 2: // Ammo
 				switch (s_iSelectedItemSubType)
 				{
-				case 0: strcpy_s(s_szItemNameBuffer, "Shotgun_Ammo_Small"); break;
-				case 1: strcpy_s(s_szItemNameBuffer, "Shotgun_Ammo_Big"); break;
+				case 0: strcpy_s(s_szItemNameBuffer, "ShotGun_Ammo_Small"); break;
+				case 1: strcpy_s(s_szItemNameBuffer, "ShotGun_Ammo_Big"); break;
 				case 2: strcpy_s(s_szItemNameBuffer, "Staff_Ammo_Small"); break;
 				case 3: strcpy_s(s_szItemNameBuffer, "Staff_Ammo_Big"); break;
-				case 4: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Small"); break;
-				case 5: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Big"); break;
+				case 4: strcpy_s(s_szItemNameBuffer, "Magnum_Ammo_Small"); break;
+				case 5: strcpy_s(s_szItemNameBuffer, "Magnum_Ammo_Big"); break;
 				default: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Small"); break;
 				}
 				break;
@@ -1622,8 +1631,10 @@ void CMyImGui::ShowItemCreationTab()
 				case 2: strcpy_s(s_szItemNameBuffer, "EXP_Large"); break;
 				default: strcpy_s(s_szItemNameBuffer, "EXP"); break;
 				}
+				break;
 			case 4: //Stat
-				strcpy_s(s_szItemNameBuffer, "Stat"); break;
+				strcpy_s(s_szItemNameBuffer, "Stat");
+				break;
 			case 5: //Key
 				switch (s_iSelectedItemSubType)
 				{
@@ -1672,10 +1683,25 @@ void CMyImGui::ShowItemCreationTab()
 			}
 			break;
 		case CItem::ITEM_TYPE::EXP:
-			strItemName = L"EXP";
+			switch (s_iSelectedItemSubType)
+			{
+			case 0: strItemName = L"EXP_Small"; break;
+			case 1: strItemName = L"EXP_Medium"; break;
+			case 2: strItemName = L"EXP_Large"; break;
+			default: strItemName = L"EXP"; break;
+			}
 			break;
 		case CItem::ITEM_TYPE::STAT:
-			strItemName = L"STAT";
+			strItemName = L"Stat";
+			break;
+		case CItem::ITEM_TYPE::KEY:
+			switch (s_iSelectedItemSubType)
+			{
+			case 0: strItemName = L"Blue"; break;
+			case 1: strItemName = L"Red"; break;
+			case 2: strItemName = L"Yellow"; break;
+			default: strItemName = L"Blue"; break;
+			}
 			break;
 		default:
 			strItemName = L""; // 기본값
@@ -1771,7 +1797,7 @@ void CMyImGui::ShowItemCreationTab()
 			"",
 			tItemDesc.stProtTag,         // 오브젝트 태그
 			tItemDesc.iLevel,        // 오브젝트 레벨
-		    L"CItem",        // 클래스 이름
+			L"CItem",        // 클래스 이름
 			tItemDesc.stProtTextureTag,       // 텍스처 태그
 			tItemDesc.iLevel,             // 텍스처 레벨
 			L"",     // 텍스처 경로
@@ -1779,7 +1805,7 @@ void CMyImGui::ShowItemCreationTab()
 			tItemDesc.stBufferTag,        // 버퍼 태그
 			3,                  // 버퍼 레벨 (기본값)
 			tItemDesc.stBufferTag // 버퍼 클래스 이름
-			);
+		);
 
 		//tHistoryItem historyItem;
 		//historyItem.iLevel = 3;
@@ -2606,7 +2632,7 @@ void CMyImGui::ShowDoorTab()
 	static float s_vPosition[3] = { 0.0f, 0.0f, 0.0f };
 	static char s_szTextureTagBuffer[256] = "Prototype_Component_Texture_Door";
 	static const char* s_DoorTypeNames[] = { "Normal", "Key" };
-	static const char* s_DoorColorNames[] = { "Blue", "Red", "Yellow", "Green", "Normal" };
+	static const char* s_DoorColorNames[] = { "Blue", "Red", "Yellow", "Normal" };
 
 	ImGui::Separator();
 	ImGui::Text("Door Settings");

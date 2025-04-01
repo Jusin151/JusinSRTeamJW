@@ -43,12 +43,6 @@
       "count": 1
     },
     {
-      "tag": "Prototype_Component_Texture_Exp_Bar",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Middle/SR_EXP_BlackBar%d.png",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Right_Panel",
       "level": 3,
       "path": "../../Resources/Textures/UI/Right/SR_HUD_bottom_right.png",
@@ -661,7 +655,7 @@
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Pistol_Ammo_Small"
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
     },
     {
       "class": "CItem",
@@ -671,17 +665,17 @@
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Shotgun_Ammo_Big"
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
     },
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Shotgun_Ammo_Small"
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Small"
     },
     {
       "class": "CItem",
       "level": 3,
-      "tag": "Prototype_GameObject_Item_Pistol_Ammo_Big"
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
     },
     {
       "class": "CStructure",
@@ -717,6 +711,11 @@
       "class": "CDoor",
       "level": 3,
       "tag": "Prototype_GameObject_Door_Key_Red"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Red"
     }
   ],
   "buffers": [
