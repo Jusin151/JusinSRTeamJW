@@ -23,6 +23,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Hub_SpellShop.h"
+#include "Level_Hub.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -79,6 +80,9 @@ HRESULT CLoader::Loading()
 	case LEVEL_TEST:
 		hr = Loading_For_Test();
 		break;
+	case LEVEL_HUB:
+		hr = Loading_For_Hub();
+		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -102,9 +106,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
-	m_pGameInstance->Load_Bank(L"Background");
+// 	m_pGameInstance->Load_Bank(L"Background");
 
-	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+ 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
 	Add_To_Logo_Prototype();
 
@@ -411,6 +415,218 @@ HRESULT CLoader::Loading_For_Test()
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Hub()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../../Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 인벤 테스트 삭제 X
+		TEXT("Prototype_GameObject_Inven"),
+		CInventory::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 미니건 테스트 삭제 X
+		TEXT("Prototype_GameObject_Minigun"),
+		CMinigun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 하베스터 테스트 삭제 X
+		TEXT("Prototype_GameObject_Harvester"),
+		CHarvester::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 소닉 테스트 삭제 X
+		TEXT("Prototype_GameObject_Sonic"),
+		CSonic::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_Weapon_Effect"),
+		CWeapon_Effect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 스태프총알 테스트 삭제 X
+		TEXT("Prototype_GameObject_Staff_Bullet"),
+		CStaff_Bullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 게임플레이버튼 UI 삭제 X
+		TEXT("Prototype_GameObject_GamePlayer_Button"),
+		CGamePlay_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 포인트샵 월드객체 삭제 X
+		TEXT("Prototype_GameObject_Point_Shop"),
+		CHub_PointShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 포인트샵 UI 삭제 X
+		TEXT("Prototype_GameObject_UI_Point_Shop"),
+		CUI_Point_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰샵 UI 삭제 X
+		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
+		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰샵 UI 삭제 X
+		TEXT("Prototype_GameObject_UI_Spell_Shop"),
+		CUI_Spell_Shop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 웨폰상점  UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Weapon_Shop_Display"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Upgrade_Weapon_UI/lweaponshop.png"), 1))))
+		return E_FAIL;
+
+	//// 웨폰상점 선택 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Weapon_Shop_Selected"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Upgrade_Weapon_UI/Weapon_Selected.png"), 1))))
+		return E_FAIL;
+
+	//// 스펠상점 선택 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spell_Shop_DisPlay"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI.png"), 1))))
+		return E_FAIL;
+
+
+	////// 스펠상점 Selected UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spell_Shop_Selected"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Spell_UI/Spell_UI_Selected.png"), 1))))
+		return E_FAIL;
+
+	////// 스펠상점 겟스펠 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spell_Shop_Button"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Spell_UI/Spell_BuyButton_%d.png"), 3))))
+		return E_FAIL;
+
+
+
+	// 웨폰샵 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Weapon_Shop"),
+		CHub_WeaponShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 웨폰상점  월드 객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Weapon_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/Gunsmith_station.png"), 1))))
+		return E_FAIL;
+
+
+	// 스펠샵 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Spell_Shop"),
+		CHub_SpellShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 스펠샵  월드객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spell_Shop"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/Spellstation.png"), 1))))
+		return E_FAIL;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 에피소드 UI 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_UI_Episode_Hub"),
+		CUI_Episode_Hub::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	//// 에피소드  UI 디스플레이 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Episode_Hub_UI"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Episode_UI/Episode_Display.png"), 1))))
+		return E_FAIL;
+
+	//// 에피소드  UI 초록색 셀렉트 박스
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Episode_Hub_UI_Selected"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Button/Episode_Selected/level_selected_%d.png"), 2))))
+		return E_FAIL;
+
+	//// 에피소드  UI 초록색 셀렉트 박스
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Episode_Hub_UI_Level_1"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Button/Level_1/Level_1_%d.png"), 14))))
+		return E_FAIL;
+
+	// 에피소드 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Episode_Hub"),
+		CHub_Episode::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 스펠샵  월드객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Episode_Hub"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/TEXTURE_HUB_desk_1.png"), 1))))
+		return E_FAIL;
+
+	// 포탈 월드객체 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Portal"),
+		CHub_Portal::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 포탈  월드객체 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Portal"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Portal/Portal_%d.png"), 8))))
+		return E_FAIL;
+
+	// 이미지 클래스 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Image"),
+		CImage::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 이미지클래스의 예시 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Image"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Player/Player.png"), 1))))
+		return E_FAIL;
+
+
+	////// 웨폰들의  아이콘 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Weapon_Icon"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"), 8))))
+		return E_FAIL;
+
+
+	// 인벤토리UI 클래스 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Inven_UI"),
+		CInven_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 인벤토리UI 예시 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Inven_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Inven/Inven.png"), 1))))
+		return E_FAIL;
+
+
+	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
+
+	// JSON 로더를 사용하여 모든 프로토타입 로드
+	CJsonLoader jsonLoader;
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json")))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
 	return S_OK;
 }
 

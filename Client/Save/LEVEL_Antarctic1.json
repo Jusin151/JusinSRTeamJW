@@ -1376,7 +1376,7 @@
                     0.0
                 ],
                 "scale": [
-                    2.28,
+                    2.25,
                     5.0,
                     1.0
                 ]
@@ -2653,7 +2653,7 @@
                 "door_type": 1,
                 "open_speed": 2.0,
                 "position": [
-                    -19.71,
+                    -19.70,
                     0.5,
                     -39.22
                 ],
@@ -2755,8 +2755,8 @@
                 "door_type": 0,
                 "open_speed": 1.0,
                 "position": [
-                    15.65,
-                    0.76,
+                    15.64,
+                    0.75,
                     -7.82
                 ],
                 "rotation": [
@@ -2766,8 +2766,42 @@
                 ],
                 "scale": [
                     0.5,
-                    2.59,
-                    2.59
+                    2.56,
+                    2.56
+                ],
+                "slide_distance": 3.5
+            }
+        ],
+        "Layer_Door_Normal4": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Door_Normal4",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_TexturedCube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Door",
+                    "ProtTextureTag": "Prototype_Component_Texture_Door_Normal",
+                    "ProtoLevel": 3
+                },
+                "door_color": 3,
+                "door_state": 0,
+                "door_type": 0,
+                "open_speed": 2.0,
+                "position": [
+                    -22.71,
+                    1.23,
+                    -45.43
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    3.5,
+                    3.5,
+                    1.0
                 ],
                 "slide_distance": 3.5
             }
@@ -2846,7 +2880,7 @@
                 "Type": 0,
                 "position": [
                     -17.35,
-                    0.44,
+                    0.37,
                     -16.18
                 ],
                 "rotation": [
@@ -2875,7 +2909,7 @@
                 "Type": 0,
                 "position": [
                     -16.79,
-                    0.44,
+                    0.37,
                     -28.12
                 ],
                 "rotation": [
@@ -2904,7 +2938,7 @@
                 "Type": 0,
                 "position": [
                     3.18,
-                    0.44,
+                    0.37,
                     -19.29
                 ],
                 "rotation": [
@@ -2933,7 +2967,7 @@
                 "Type": 0,
                 "position": [
                     5.78,
-                    0.44,
+                    0.37,
                     -29.75
                 ],
                 "rotation": [
@@ -2962,7 +2996,7 @@
                 "Type": 0,
                 "position": [
                     -13.14,
-                    0.44,
+                    0.37,
                     -35.47
                 ],
                 "rotation": [
@@ -2991,7 +3025,7 @@
                 "Type": 2,
                 "position": [
                     -4.86,
-                    0.44,
+                    0.37,
                     -19.20
                 ],
                 "rotation": [
@@ -3020,7 +3054,7 @@
                 "Type": 2,
                 "position": [
                     -1.25,
-                    0.44,
+                    0.37,
                     -17.25
                 ],
                 "rotation": [
@@ -3049,7 +3083,7 @@
                 "Type": 2,
                 "position": [
                     5.96,
-                    0.44,
+                    0.37,
                     -28.44
                 ],
                 "rotation": [
@@ -3078,7 +3112,7 @@
                 "Type": 2,
                 "position": [
                     -1.12,
-                    0.44,
+                    0.37,
                     -36.74
                 ],
                 "rotation": [
@@ -3107,7 +3141,7 @@
                 "Type": 1,
                 "position": [
                     -9.35,
-                    0.44,
+                    0.37,
                     -32.79
                 ],
                 "rotation": [
@@ -3136,7 +3170,7 @@
                 "Type": 1,
                 "position": [
                     -18.70,
-                    0.44,
+                    0.37,
                     -31.87
                 ],
                 "rotation": [
@@ -3165,7 +3199,7 @@
                 "Type": 1,
                 "position": [
                     -21.60,
-                    0.44,
+                    0.37,
                     -26.11
                 ],
                 "rotation": [
@@ -3194,7 +3228,7 @@
                 "Type": 1,
                 "position": [
                     -21.12,
-                    0.44,
+                    0.37,
                     -20.54
                 ],
                 "rotation": [
@@ -3223,7 +3257,7 @@
                 "Type": 1,
                 "position": [
                     -17.45,
-                    0.44,
+                    0.37,
                     -17.54
                 ],
                 "rotation": [
@@ -3252,7 +3286,7 @@
                 "Type": 0,
                 "position": [
                     -10.39,
-                    0.44,
+                    0.37,
                     -18.12
                 ],
                 "rotation": [
@@ -3281,7 +3315,7 @@
                 "Type": 0,
                 "position": [
                     -11.14,
-                    0.44,
+                    0.37,
                     -25.29
                 ],
                 "rotation": [
@@ -3310,7 +3344,7 @@
                 "Type": 0,
                 "position": [
                     -11.71,
-                    0.44,
+                    0.37,
                     -30.95
                 ],
                 "rotation": [
@@ -3339,7 +3373,7 @@
                 "Type": 2,
                 "position": [
                     7.69,
-                    0.44,
+                    0.37,
                     -20.86
                 ],
                 "rotation": [
@@ -3368,7 +3402,7 @@
                 "Type": 2,
                 "position": [
                     -0.80,
-                    0.44,
+                    0.37,
                     -21.62
                 ],
                 "rotation": [
@@ -3397,7 +3431,7 @@
                 "Type": 2,
                 "position": [
                     -15.0,
-                    0.44,
+                    0.37,
                     -18.20
                 ],
                 "rotation": [
@@ -3426,7 +3460,7 @@
                 "Type": 2,
                 "position": [
                     -19.5,
-                    0.44,
+                    0.37,
                     -19.29
                 ],
                 "rotation": [
@@ -3455,7 +3489,7 @@
                 "Type": 2,
                 "position": [
                     -24.67,
-                    0.44,
+                    0.37,
                     -16.12
                 ],
                 "rotation": [
@@ -3484,7 +3518,7 @@
                 "Type": 2,
                 "position": [
                     22.29,
-                    0.44,
+                    0.37,
                     -23.12
                 ],
                 "rotation": [
@@ -3513,7 +3547,7 @@
                 "Type": 2,
                 "position": [
                     21.87,
-                    0.44,
+                    0.37,
                     -18.20
                 ],
                 "rotation": [
@@ -3542,7 +3576,7 @@
                 "Type": 2,
                 "position": [
                     25.42,
-                    0.44,
+                    0.37,
                     -13.60
                 ],
                 "rotation": [
@@ -3571,7 +3605,7 @@
                 "Type": 2,
                 "position": [
                     20.43,
-                    0.44,
+                    0.37,
                     -2.24
                 ],
                 "rotation": [
@@ -3600,7 +3634,7 @@
                 "Type": 2,
                 "position": [
                     12.5,
-                    0.44,
+                    0.37,
                     3.98
                 ],
                 "rotation": [
@@ -3629,7 +3663,7 @@
                 "Type": 2,
                 "position": [
                     7.13,
-                    0.44,
+                    0.37,
                     2.25
                 ],
                 "rotation": [
@@ -3658,7 +3692,7 @@
                 "Type": 2,
                 "position": [
                     5.36,
-                    0.44,
+                    0.37,
                     6.15
                 ],
                 "rotation": [
@@ -3687,7 +3721,7 @@
                 "Type": 2,
                 "position": [
                     21.29,
-                    0.44,
+                    0.37,
                     3.75
                 ],
                 "rotation": [
@@ -3716,7 +3750,7 @@
                 "Type": 2,
                 "position": [
                     17.45,
-                    0.44,
+                    0.37,
                     3.0
                 ],
                 "rotation": [
@@ -3745,7 +3779,7 @@
                 "Type": 2,
                 "position": [
                     22.52,
-                    0.44,
+                    0.37,
                     -0.30
                 ],
                 "rotation": [
@@ -3774,7 +3808,7 @@
                 "Type": 0,
                 "position": [
                     21.29,
-                    0.44,
+                    0.37,
                     -16.27
                 ],
                 "rotation": [
@@ -3803,7 +3837,7 @@
                 "Type": 0,
                 "position": [
                     21.17,
-                    0.44,
+                    0.37,
                     -9.18
                 ],
                 "rotation": [
@@ -3832,7 +3866,7 @@
                 "Type": 0,
                 "position": [
                     16.67,
-                    0.44,
+                    0.37,
                     -2.75
                 ],
                 "rotation": [
@@ -3861,7 +3895,7 @@
                 "Type": 1,
                 "position": [
                     17.04,
-                    0.44,
+                    0.37,
                     5.32
                 ],
                 "rotation": [
@@ -3890,7 +3924,7 @@
                 "Type": 0,
                 "position": [
                     -37.34,
-                    0.44,
+                    0.37,
                     -44.34
                 ],
                 "rotation": [
@@ -3919,7 +3953,7 @@
                 "Type": 0,
                 "position": [
                     -42.61,
-                    0.44,
+                    0.37,
                     -39.34
                 ],
                 "rotation": [
@@ -3948,7 +3982,7 @@
                 "Type": 0,
                 "position": [
                     -42.22,
-                    0.44,
+                    0.37,
                     -32.04
                 ],
                 "rotation": [
@@ -3977,7 +4011,7 @@
                 "Type": 0,
                 "position": [
                     -43.61,
-                    0.44,
+                    0.37,
                     -30.10
                 ],
                 "rotation": [
@@ -4006,7 +4040,7 @@
                 "Type": 0,
                 "position": [
                     -41.63,
-                    0.44,
+                    0.37,
                     -46.34
                 ],
                 "rotation": [
@@ -4035,7 +4069,7 @@
                 "Type": 2,
                 "position": [
                     -41.56,
-                    0.44,
+                    0.37,
                     -43.84
                 ],
                 "rotation": [
@@ -4064,7 +4098,7 @@
                 "Type": 2,
                 "position": [
                     -41.33,
-                    0.44,
+                    0.37,
                     -31.92
                 ],
                 "rotation": [
@@ -4093,7 +4127,7 @@
                 "Type": 2,
                 "position": [
                     -41.27,
-                    0.44,
+                    0.37,
                     -29.45
                 ],
                 "rotation": [
@@ -4122,7 +4156,7 @@
                 "Type": 0,
                 "position": [
                     -20.76,
-                    0.44,
+                    0.37,
                     -49.74
                 ],
                 "rotation": [
@@ -4151,7 +4185,7 @@
                 "Type": 0,
                 "position": [
                     -16.20,
-                    0.44,
+                    0.37,
                     -56.47
                 ],
                 "rotation": [
@@ -4180,7 +4214,7 @@
                 "Type": 2,
                 "position": [
                     -21.04,
-                    0.44,
+                    0.37,
                     -59.70
                 ],
                 "rotation": [
@@ -4209,7 +4243,7 @@
                 "Type": 2,
                 "position": [
                     -24.29,
-                    0.44,
+                    0.37,
                     -54.72
                 ],
                 "rotation": [
@@ -4238,7 +4272,7 @@
                 "Type": 2,
                 "position": [
                     -41.15,
-                    0.44,
+                    0.37,
                     -45.86
                 ],
                 "rotation": [
@@ -4267,7 +4301,7 @@
                 "Type": 2,
                 "position": [
                     -44.81,
-                    0.44,
+                    0.37,
                     -40.34
                 ],
                 "rotation": [
@@ -4296,7 +4330,7 @@
                 "Type": 2,
                 "position": [
                     -37.49,
-                    0.44,
+                    0.37,
                     -28.87
                 ],
                 "rotation": [
@@ -4325,7 +4359,7 @@
                 "Type": 2,
                 "position": [
                     -35.63,
-                    0.44,
+                    0.37,
                     -31.04
                 ],
                 "rotation": [
@@ -4354,7 +4388,7 @@
                 "Type": 0,
                 "position": [
                     -3.40,
-                    0.44,
+                    0.37,
                     -34.25
                 ],
                 "rotation": [
@@ -4366,6 +4400,35 @@
                     0.5,
                     0.5,
                     1.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "Item_Name": "Red",
+                "LayerTag": "Layer_Item",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Item_Red",
+                    "ProtTextureTag": "Prototype_Component_Texture_Items",
+                    "ProtoLevel": 3
+                },
+                "Type": 5,
+                "position": [
+                    6.88,
+                    0.28,
+                    4.92
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.5,
+                    0.5,
+                    0.10
                 ]
             }
         ],
@@ -4527,8 +4590,37 @@
                 },
                 "position": [
                     14.46,
-                    0.63,
+                    0.62,
                     -4.59
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "target_tags": "",
+                "trigger_type": 0
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Trigger",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Trigger_Button",
+                    "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -23.19,
+                    0.56,
+                    -56.16
                 ],
                 "rotation": [
                     0.0,

@@ -160,7 +160,7 @@ void CDoor::Close_Door()
 	}
 }
 
-bool CDoor::TryOpen(CCollisionObject* pPlayer)
+void CDoor::TryOpen(CCollisionObject* pPlayer)
 {
 	// 열쇠가 필요한 문인 경우
 	if (m_eDoorType == DOOR_TYPE::KEY)
@@ -177,14 +177,9 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 			case DOOR_COLOR::BLUE:
 				break;
 			case DOOR_COLOR::RED:
+				hasKey = pPlayerObj->Has_Item(L"Red");
 				break;
 			case DOOR_COLOR::YELLOW:
-
-				break;
-				break;
-			case DOOR_COLOR::NORMAL:
-				// 일반 문은 특정 키 확인 없이 열림
-				hasKey = true;
 				break;
 			}
 
@@ -197,21 +192,14 @@ bool CDoor::TryOpen(CCollisionObject* pPlayer)
 			if (hasKey)
 			{
 				Open_Door();
-				return true;
 			}
-			else
-			{
-				//"열쇠가 필요합니다"
-				return false;
-			}
+
 		}
-		return false;
 	}
 	else if(m_eDoorType == DOOR_TYPE::NORMAL)
 	{
 		// 일반 문은 바로 열림
 		Open_Door();
-		return true;
 	}
 }
 

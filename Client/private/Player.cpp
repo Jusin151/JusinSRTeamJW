@@ -277,7 +277,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	_float moveSpeed = 0.25f;
+	_float moveSpeed = 0.5f;
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
@@ -400,16 +400,14 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 	//}
 }
 
-
-
-inline _bool CPlayer::Has_Item(const _wstring& stItemTag)
+_bool CPlayer::Has_Item(const _wstring& stItemTag)
 {
 	if (!m_pPlayer_Inven) return false;
 
 	return m_pPlayer_Inven->Exist_item(stItemTag);
 }
 
-inline HRESULT CPlayer::Add_Item(const _wstring& stItemTag)
+HRESULT CPlayer::Add_Item(const _wstring& stItemTag)
 {
 	if (!m_pPlayer_Inven) return E_FAIL;
 
