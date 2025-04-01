@@ -165,12 +165,12 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		//m_pTransformCom->Go_Backward(fTimeDelta);
-		m_eCurState = MS_HIT;
+	
 
 		if (m_eCurState != MS_ATTACK)
 		{
 			Take_Damage(other);
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+			
 			
 		}
 		else
@@ -180,6 +180,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 			m_iAp /= 3;
 		}
 		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
 
 	case CG_WEAPON:
@@ -191,7 +192,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		m_vNextPos += vMove;
+		m_vNextPos += vMove * 0.3f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
@@ -267,11 +268,6 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 			return;
 	}
 
-
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
-	// 일단 투사체 판정으로 해놓고 나중에 다른 enum 사용하면 될듯?
-	m_pGameInstance->Add_Collider(CG_MONSTER, m_pAttackCollider);
 }
 
 void CCrocman::Select_Frame(_float fTimeDelta)

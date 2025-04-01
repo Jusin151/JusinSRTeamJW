@@ -171,7 +171,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 	{
 	case CG_PLAYER:
 
-		m_eCurState = MS_HIT;
+		
 		Take_Damage(other);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
@@ -181,7 +181,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		m_vNextPos += vMove;
+		m_vNextPos += vMove * 0.3f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;

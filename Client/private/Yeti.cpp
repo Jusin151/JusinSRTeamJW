@@ -89,17 +89,10 @@ void CYeti::Update(_float fTimeDelta)
 
     if (m_eCurState != MS_DEATH)
     {
-        if (m_eCurState == MS_ATTACK)
-        {
-            m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled() * 2.f);
-        }
-        else
-        {
-            m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
-        }
+      
+       m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
        
-
-        m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+       m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
     }
 }
 
@@ -169,20 +162,20 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
 
         //m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
         //m_pTransformCom->Go_Backward(fTimeDelta);
-        m_eCurState = MS_HIT;
-
+   
         if (m_eCurState != MS_ATTACK)
         {
             Take_Damage(other);
-            m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+           
         }
         else
         {
             m_iAp *= 3;
             Take_Damage(other);
             m_iAp /= 3;
+            
         }
-
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
         break;
 
     case CG_WEAPON:
@@ -192,7 +185,7 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
         break;
 
     case CG_MONSTER:
-        m_vNextPos += vMove;
+        m_vNextPos += vMove * 0.3f;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
         break;

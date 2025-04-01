@@ -89,17 +89,10 @@ void CSnowspider::Update(_float fTimeDelta)
 
     if (m_eCurState != MS_DEATH)
     {
-        if (m_eCurState == MS_ATTACK)
-        {
-            m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale() * 2.f);
-        }
-        else
-        {
-            m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-        }
-
-
-        m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+      
+       m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+       
+       m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
     }
 }
 
@@ -169,12 +162,11 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
 
         //m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
         //m_pTransformCom->Go_Backward(fTimeDelta);
-        m_eCurState = MS_HIT;
 
         if (m_eCurState != MS_ATTACK)
         {
             Take_Damage(other);
-            m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+            
         }
         else
         {
@@ -182,6 +174,8 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
             Take_Damage(other);
             m_iAp /= 3;
         }
+
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
         break;
 
@@ -192,7 +186,7 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
         break;
 
     case CG_MONSTER:
-        m_vNextPos += vMove;
+        m_vNextPos += vMove * 0.3f;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
         break;
@@ -227,7 +221,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > 100)
+            if (vDist.LengthSq() > 10)
                 Chasing(fTimeDelta);
             else
             {
