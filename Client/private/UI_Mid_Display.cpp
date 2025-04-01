@@ -66,7 +66,7 @@ void CUI_Mid_Display::Update_Exp_Bar()
 
 void CUI_Mid_Display::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI_BACKGROUND, this)))
 		return;
 }
 

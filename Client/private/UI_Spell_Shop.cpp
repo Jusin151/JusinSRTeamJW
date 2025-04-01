@@ -200,42 +200,42 @@ void CUI_Spell_Shop::Create_SkillButton() //오른쪽 특성 버튼
                         switch (index)
                         {
                         case 0:
-                            MessageBox(nullptr, L"첫번째 스펠샵 !!", L"구매 완료", MB_OK);
+                           // MessageBox(nullptr, L"첫번째 스펠샵 !!", L"구매 완료", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 1:
-                            MessageBox(nullptr, L"두번째 스펠샵 !!", L"구매 완료", MB_OK);
+                           // MessageBox(nullptr, L"두번째 스펠샵 !!", L"구매 완료", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 2:
-                            MessageBox(nullptr, L"세번째 스펠샵 !!", L"구매 완료", MB_OK);
+                           // MessageBox(nullptr, L"세번째 스펠샵 !!", L"구매 완료", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 3:
-                            MessageBox(nullptr, L"네번째 스펠샵 !!", L"구매 완료", MB_OK);
+                            //MessageBox(nullptr, L"네번째 스펠샵 !!", L"구매 완료", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 4:
-                            MessageBox(nullptr, L"다섯번째 스펠샵 !!", L"구매 완료",MB_OK);
+                           // MessageBox(nullptr, L"다섯번째 스펠샵 !!", L"구매 완료",MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 5:
-                            MessageBox(nullptr, L"여섯번째 스펠샵 !!", L"빈 공간", MB_OK);
+                           // MessageBox(nullptr, L"여섯번째 스펠샵 !!", L"빈 공간", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 6:
-                            MessageBox(nullptr, L"일곱번째 스펠샵 !!", L"빈 공간!", MB_OK);
+                            //MessageBox(nullptr, L"일곱번째 스펠샵 !!", L"빈 공간!", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;
                         case 7:
-                            MessageBox(nullptr, L"여덟번째 스펠샵 !!", L"빈 공간", MB_OK);
+                            //MessageBox(nullptr, L"여덟번째 스펠샵 !!", L"빈 공간", MB_OK);
                             pButton->m_strMouseOnText = m_str_Spell_Text[index];
                             pButton->m_strToolTipText = m_str_ToolTip_Text[index];
                             break;

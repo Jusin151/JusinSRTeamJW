@@ -256,9 +256,6 @@
     <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base">
       <UniqueIdentifier>{bb213674-67d3-4261-9ba1-5b4500644739}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Mele">
-      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Ranged">
       <UniqueIdentifier>{8670e8d0-3b90-4a0d-bc81-097a7947b485}</UniqueIdentifier>
     </Filter>
@@ -303,6 +300,18 @@
     </Filter>
     <Filter Include="02.GameObjects\96. Structure\Door">
       <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\00_2. Weapon\Weapon_Base\Melee">
+      <UniqueIdentifier>{7a57b8c7-c3d7-4e13-a64b-5a26341a0d7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Blood_Effect">
+      <UniqueIdentifier>{a5b91c4b-4dc7-4d8d-b66a-e4029d6c5abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Hit_Effect">
+      <UniqueIdentifier>{c3c6e2eb-a32e-49bd-ab05-1e52bdcb8d29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\98. Event_UI">
+      <UniqueIdentifier>{5b94c9c3-01fd-4bdf-8ac4-2489ea4ff91d}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\Hub">
       <UniqueIdentifier>{573b79d6-4ecb-46b7-9aa9-d3a8176ff281}</UniqueIdentifier>
@@ -380,9 +389,6 @@
     </ClInclude>
     <ClInclude Include="..\public\UI_Player_Icon.h">
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display\02.PlayerIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Player.h">
-      <Filter>02.GameObjects\00.Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_MP_Bar.h">
       <Filter>02.GameObjects\97. UI\99. Player_UI\01.UI_Left_Display\01.MP</Filter>
@@ -516,7 +522,7 @@
     <ClInclude Include="..\public\Harpoon.h">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Exp_Bar.h">
+    <ClInclude Include="..\Public\UI_Exp_Bar.h">
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Point_Shop.h">
@@ -559,7 +565,7 @@
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Melee_Weapon.h">
-      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Mele</Filter>
+      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Melee</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ranged_Weapon.h">
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Ranged</Filter>
@@ -573,20 +579,29 @@
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\96. Structure\Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Blood_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Blood_Effect</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Hub_Episode.h">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_PointShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_Portal.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_SpellShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_WeaponShop.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\00.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Event.h">
+      <Filter>02.GameObjects\97. UI\98. Event_UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Hub.h">
       <Filter>01.Levels\Hub</Filter>
@@ -771,7 +786,7 @@
     <ClCompile Include="..\private\Harpoon.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\Harpoon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Exp_Bar.cpp">
+    <ClCompile Include="..\Private\UI_Exp_Bar.cpp">
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Point_Shop.cpp">
@@ -798,7 +813,6 @@
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp">
       <Filter>02.GameObjects\ParticleSystemTest\GameObject_Projectile</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp">
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClCompile>
@@ -818,7 +832,7 @@
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Melee_Weapon.cpp">
-      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Mele</Filter>
+      <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Melee</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Ranged_Weapon.cpp">
       <Filter>02.GameObjects\00_2. Weapon\Weapon_Base\Ranged</Filter>
@@ -837,23 +851,35 @@
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\96. Structure\Door</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Blood_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Blood_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Hub_Episode.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_PointShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_Portal.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_SpellShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_WeaponShop.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\WeaponShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Event.cpp">
+      <Filter>02.GameObjects\97. UI\98. Event_UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Hub.cpp">
       <Filter>01.Levels\Hub</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

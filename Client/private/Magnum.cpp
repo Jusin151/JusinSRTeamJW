@@ -6,6 +6,7 @@
 #include "Sound_Source.h"
 #include "Sound_Event.h"
 #include "Light.h"
+#include "Sound_Event.h"
 
 
 
@@ -162,10 +163,17 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 
 void CMagnum::Late_Update(_float fTimeDelta)
 {
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	if (nullptr == pPlayer)
+		return;
+	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+	if (nullptr == pTransform)
+		return;
 	__super::Late_Update(fTimeDelta);
-	if (m_bIsAnimating)
+	if (State::Firing == m_eState)
 	{
 		m_pGameInstance->Add_Light(m_pLightCom);
+		m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
 	}
 }
 

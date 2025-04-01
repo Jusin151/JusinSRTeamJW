@@ -352,6 +352,26 @@ HRESULT CLoader::Loading_For_GamePlay()
 			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Inven/Inven.png"), 1))))
 		return E_FAIL;
 
+	// ExpBar UI 클래스 생성 
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_ExpBar_UI"),
+		CUI_Exp_Bar::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	// ExpBar UI 이미지 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_Component_Texture_ExpBar_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Middle/SR_EXP_BlackBar0.png"), 1))))
+		return E_FAIL;
+
+	// Event UI 클래스 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Event_UI"),
+		CUI_Event::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
@@ -881,6 +901,7 @@ HRESULT CLoader::Add_To_UI_Mid_DisPlay_Textures()
 			TEXT("../../Resources/Textures/UI/Middle/SR_EXP_Bar.png"),
 			1))))
 		return E_FAIL;
+
 
 
 	return S_OK;

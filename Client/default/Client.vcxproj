@@ -167,13 +167,15 @@
     <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
-    <ClInclude Include="..\Public\Exp_Bar.h" />
+    <ClInclude Include="..\Public\UI_Event.h" />
+    <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
@@ -266,6 +268,7 @@
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
@@ -280,11 +283,13 @@
     <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
+    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
+    <ClCompile Include="..\Private\UI_Event.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
-    <ClCompile Include="..\Private\Exp_Bar.cpp" />
+    <ClCompile Include="..\Private\UI_Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\Private\Effect_Base.cpp" />
@@ -317,7 +322,6 @@
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
-    <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\Private\Staff_Bullet.cpp" />
     <ClCompile Include="..\private\Structure.cpp" />
     <ClCompile Include="..\private\UI_Menu.cpp" />

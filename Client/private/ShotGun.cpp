@@ -14,12 +14,10 @@ CShotGun::CShotGun(const CShotGun& Prototype)
 	: CRanged_Weapon(Prototype)
 {
 }
-
 HRESULT CShotGun::Initialize_Prototype()
 {
 	return S_OK;
 }
-
 HRESULT CShotGun::Initialize(void* pArg)
 {
 	if (pArg != nullptr)

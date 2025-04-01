@@ -25,13 +25,12 @@ HRESULT CLevel_GamePlay::Initialize()
 {
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
-
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	CJsonLoader jsonLoader;
- 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+ 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Event(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
@@ -137,6 +136,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 {
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Sky"))))
+		return E_FAIL;
+
 	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
 	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
 	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
@@ -415,7 +419,22 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Mid_Panel"), &EXP_Desc)))
 		return E_FAIL;
 
+ 	CUI_Base::UI_Child_Desc EXPBar_Desc{};  // Exp 검은바
+	EXPBar_Desc.vSize = { 850,4.f };
+	EXPBar_Desc.fAlpha = 1.0f;
+	EXPBar_Desc.vPos = { 4.f,-1.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_ExpBar_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_ExpBar_UI"), &EXPBar_Desc)))
+		return E_FAIL;
 
+
+	if (FAILED(m_pGameInstance->Add_GameObject
+	(LEVEL_GAMEPLAY,
+		TEXT("Prototype_GameObject_Event_UI"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Event_UI"))))
+		return E_FAIL;
 
 
 	CUI_Base::UI_Child_Desc RIght_Panel{};  // 우하단 패널 

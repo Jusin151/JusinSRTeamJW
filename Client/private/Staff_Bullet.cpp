@@ -1,6 +1,7 @@
 ﻿#include "Staff_Bullet.h"
 #include "VIBuffer_Rect.h"
 #include "GameInstance.h"
+#include "Particles.h"
 
 CStaff_Bullet::CStaff_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CBullet_Base(pGraphic_Device)
@@ -24,8 +25,8 @@ HRESULT CStaff_Bullet::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
 	m_fSpeed = 5.f;
+	m_vDir = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
 	return S_OK;
 }
 
@@ -37,8 +38,14 @@ void CStaff_Bullet::Priority_Update(_float fTimeDelta)
 void CStaff_Bullet::Update(_float fTimeDelta)
 {
 	
-	m_pTransformCom->Go_Straight(fTimeDelta * m_fSpeed);
-
+	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	_float3 a = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
+	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 dir = b - a;
+	D3DXVec3Normalize(&dir, &dir);
+	dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+	m_pParticleCom->Update(fTimeDelta);
 	m_fElapsedTime += fTimeDelta;
 	if (m_fElapsedTime >= 0.02f) 
 	{
@@ -76,6 +83,10 @@ HRESULT CStaff_Bullet::Render()
 	SetUp_RenderState();
 
 	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+	if (FAILED(m_pParticleTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pParticleCom->Render()))
 		return E_FAIL;
 
 	Release_RenderState();
@@ -116,7 +127,6 @@ HRESULT CStaff_Bullet::SetUp_RenderState()
 HRESULT CStaff_Bullet::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	return S_OK;
 }
@@ -126,6 +136,20 @@ HRESULT CStaff_Bullet::Ready_Components()
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Bullet"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	CProjectile_Particle_System::TRAILDESC     trailDesc{};
+	trailDesc.fDistance = 30.f;
+	trailDesc.fWidth = 1.f;
+	trailDesc.iNumParticles = 1;
+	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))
 		return E_FAIL;
 
 	return S_OK;
@@ -166,4 +190,6 @@ void CStaff_Bullet::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pAttackCollider);
+	Safe_Release(m_pParticleCom);
+	Safe_Release(m_pParticleTransformCom);
 }

@@ -53,7 +53,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.2f, 0.5f, -1.f));
 	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
+	m_pTransformCom->Set_Scale(1.0f,1.0f,1.0f);
 	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
@@ -90,6 +90,8 @@ void CPlayer::Update(_float fTimeDelta)
 
 	Input_Key(fTimeDelta);
 
+
+
 	/////////트리거용 
 
 	if (GetAsyncKeyState('0') & 0x8000)
@@ -109,12 +111,17 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 		
 		m_asdasdasd = false;
 	}
 
-	
+	if (GetAsyncKeyState('Q') & 0x8000)
+	{
+		
+		Add_Exp(1);
+	}
+
 
 }
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -166,24 +173,41 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 LOOK X:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_LOOK).x),
+		_float2(-300.f, -277.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 LOOK Y:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_LOOK).y),
+		_float2(-300.f, -257.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 LOOK Z:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_LOOK).z),
+		_float2(-300.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Right X:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_RIGHT).x),
+		_float2(-100.f, -277.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Right Y:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_RIGHT).y),
+		_float2(-100.f, -257.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Right Z:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_RIGHT).z),
+		_float2(-100.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Up X:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_UP).x),
+		_float2(100.f, -277.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Up Y:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_UP).y),
+		_float2(100.f, -257.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 Up Z:") + to_wstring(m_pTransformCom->Get_State(CTransform::STATE_UP).z),
+		_float2(100.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 체력:") + to_wstring(m_iHp),
 		_float2(-600.f, -250.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.second),
-		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 경험치:") + to_wstring(m_iPlayerEXP.second),
 		_float2(-600.f, -230.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근력:") + to_wstring(m_iStr),
-		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -210.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("정신력:") + to_wstring(m_iSprit),
-		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("용량:") + to_wstring(m_iCapacity),
-		_float2(-600.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
 
@@ -373,12 +397,20 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 		{
 			auto pWeapon = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Inven->Get_Weapon(weaponName));
 
-			if (pWeapon)
+			if (pWeapon) 
 			{
 				pWeapon->Add_Ammo(iAmmo);
 			}
 		}
 	}
+
+
+	// 이벤트 텍스트 출력
+	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	{
+		pUI_Event->ShowEventText(iAmmo, L"Ammo");
+	}
+
 
 	//if (!m_pPlayer_Weapon)
 	//	return;
@@ -514,7 +546,12 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon")))
 		Add_Observer(pPlayer_Icon);
 
+	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
+		Add_Observer(pPlayer_Icon);
+
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);
+
+	CUI_Manager::GetInstance()->Init_Exp_UI(m_iPlayerEXP.first, m_iPlayerEXP.second);
 
 	return S_OK;
 }

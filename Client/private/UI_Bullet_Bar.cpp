@@ -67,7 +67,6 @@ void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
 void CUI_Bullet_Bar::Update_Bullet_Bar()
 {
 	_float fBullet_Ratio = (float)m_iBullet / (float)m_iMxBullet;
-	;
 	if (fBullet_Ratio < 0.f)
 		fBullet_Ratio = 0.f;
 	if (fBullet_Ratio > 1.f)
