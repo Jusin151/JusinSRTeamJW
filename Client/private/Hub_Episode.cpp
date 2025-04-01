@@ -37,6 +37,9 @@ HRESULT CHub_Episode::Initialize(void* pArg)
 
     if (m_pUI_Episode_Hub == nullptr)
         return E_FAIL;
+
+	if (auto pEpisodeHubUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Episode_Hub_UI")))
+		Add_Observer(pEpisodeHubUI); 
      
  /*   if (m_pUI_Episode_Hub == nullptr)
         return E_FAIL;*/
@@ -55,9 +58,9 @@ void CHub_Episode::Update(_float fTimeDelta)
 
     __super::Update(fTimeDelta); 
 
-    m_pUI_Episode_Hub->SetActive(false);
+ /*   m_pUI_Episode_Hub->SetActive(false);
     m_pUI_Episode_Hub->Button_Set_Active(false);
-    m_pUI_Episode_Hub->m_bOnUI = false;
+    m_pUI_Episode_Hub->m_bOnUI = false;*/
 
     if (m_bIsOpen)
     {
@@ -113,6 +116,7 @@ HRESULT CHub_Episode::Open_Shop()
     //    return S_OK;
 
    // m_bIsOpen = true;
+
 
 
     if (m_pUI_Episode_Hub)

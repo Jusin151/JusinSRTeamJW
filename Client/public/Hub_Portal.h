@@ -2,7 +2,7 @@
 #include "Shop.h"
 
 BEGIN(Client)
-class CHub_Portal : public CGameObject
+class CHub_Portal : public CGameObject 
 {
 private:
     CHub_Portal(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -41,5 +41,9 @@ private:
     CGameObject* m_pPlayer = { nullptr }; // 상점이 늘 플레이어를 쳐다보게 하기 위해서 선언
     _float m_fFrameTime = {};
     _uint m_iCurrentFrame = {};
+public:
+    void OnNotify(void* pArg, const wstring& type)
+    {
+    }
 };
 END

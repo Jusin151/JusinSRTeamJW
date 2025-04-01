@@ -295,9 +295,6 @@
     <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Episode">
       <UniqueIdentifier>{e73c9cba-1f0d-4d0c-b8e2-58573837af75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Portal">
-      <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\96. Structure\Door">
       <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
     </Filter>
@@ -315,6 +312,9 @@
     </Filter>
     <Filter Include="01.Levels\Hub">
       <UniqueIdentifier>{573b79d6-4ecb-46b7-9aa9-d3a8176ff281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Episode\Portal">
+      <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -589,7 +589,7 @@
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_Portal.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_SpellShop.h">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
@@ -822,9 +822,6 @@
     <ClCompile Include="..\Private\Image.cpp">
       <Filter>02.GameObjects\Image</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Staff.cpp">
-      <Filter>02.GameObjects\08. Weapon\01. Ranged Weapon\04. Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_Base.cpp">
       <Filter>02.GameObjects\97. UI</Filter>
     </ClCompile>
@@ -864,7 +861,7 @@
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_Portal.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_SpellShop.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
@@ -881,6 +878,7 @@
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">

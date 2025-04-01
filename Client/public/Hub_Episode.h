@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Shop.h"
+#include "Observer.h"
 
 BEGIN(Client)
 class CHub_Episode: public CShop
@@ -41,6 +42,17 @@ public:
     virtual void Free() override;
 private:
     class CUI_Episode_Hub* m_pUI_Episode_Hub = { nullptr };
-
+private: //옵저버 관련
+    vector<CObserver*> m_pObservers{};
+public:
+    void Add_Observer(CObserver* pObserver)
+    {
+        m_pObservers.push_back(pObserver);
+    }
+    virtual void Notify(void* pArg, const wstring& type)
+    {
+        for (auto& obs : m_pObservers)
+            obs->OnNotify(&pArg, type);
+    }
 };
 END

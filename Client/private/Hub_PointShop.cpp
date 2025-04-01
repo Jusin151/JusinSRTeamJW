@@ -30,23 +30,12 @@ HRESULT CHub_PointShop::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(1.5f, 0.6f, 0.5f));
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.6f, 8.3f));
 
 	m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
+	if (auto pPointShopUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")))
+		Add_Observer(pPointShopUI);
 
-	m_pUI_Point_Hub = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
-
-	/*   if (m_pUI_Point_Hub == nullptr)
-		   return E_FAIL;*/
-
-	m_pUI_Point_Hub = static_cast<CUI_Point_Shop*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI"));
-	if (m_pUI_Point_Hub)
-	{
-		m_pUI_Point_Hub->Set_Shop(this);
-	}
-
-	
 	return S_OK;
 }
 
@@ -111,35 +100,17 @@ HRESULT CHub_PointShop::Ready_ShopItems()
 
 HRESULT CHub_PointShop::Open_Shop()
 {
-	if (m_pUI_Point_Hub == nullptr) return E_FAIL;
-	// 이미 열려있다면 무시
-	if (m_pUI_Point_Hub->IsActive())
-		return S_OK;
-
-
-	m_pUI_Point_Hub->SetActive(true); // 보이게 설정
-	m_pUI_Point_Hub->Button_Set_Active(true);
-	m_pUI_Point_Hub->m_bOnUI = true;
-
+	Notify(nullptr, L"Open");
 
 	// 상점 아이템 새로고침
 	Refresh_Shop_Items();
 
 	return S_OK;
-}//뭘봐 ㅋ
+}
 
 HRESULT CHub_PointShop::Close_Shop()
 {
-	if (m_pUI_Point_Hub == nullptr) return E_FAIL;
-	if (!m_pUI_Point_Hub->IsActive())
-		return S_OK;
-
-
-	m_pUI_Point_Hub->SetActive(false);
-	m_pUI_Point_Hub->Button_Set_Active(false);
-	m_pUI_Point_Hub->m_bOnUI = false;
-
-
+	Notify(nullptr, L"Close");
 
 	return S_OK;
 }
@@ -238,37 +209,7 @@ void CHub_PointShop::Free()
 
 }
 
-void CHub_PointShop::Buy_Stat(_uint iStatIndex)
-{
-	if (m_pPlayer == nullptr)
-		return;
 
-	switch (iStatIndex)
-	{
-	case STR:
-		if (CPlayer* m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))))
-		{
-			m_pPlayer->Add_Strength(1);
-		}
-		break;
-	case MAXHP:
-		if (CPlayer* m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))))
-		{
-			m_pPlayer->Add_MaxHP(5);
-		}
-		break;
-	case SPRIT:
-		if (CPlayer* m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))))
-		{
-			m_pPlayer->Add_Sprit(1);
-		}
-		break;
-	case CAPACITY:
-		if (CPlayer* m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"))))
-		{
-			m_pPlayer->Add_Capacity(1);
-		}
-		break;
-	}
-}
+
+
 

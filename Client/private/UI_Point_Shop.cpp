@@ -4,7 +4,6 @@
 #include "UI_Manager.h"
 
 
-
 CUI_Point_Shop::CUI_Point_Shop(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CUI_Shop_Base(pGraphic_Device)
 {

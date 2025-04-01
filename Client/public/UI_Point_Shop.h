@@ -5,6 +5,7 @@
 #include "UI_Shop_Base.h"
 #include "Hub_PointShop.h"
 #include "GamePlay_Button.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -15,7 +16,7 @@ END
 BEGIN(Client)
 
 
-class CUI_Point_Shop final : public CUI_Shop_Base
+class CUI_Point_Shop final : public CUI_Shop_Base, public CObserver
 {
 private:
 	CUI_Point_Shop(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -79,6 +80,38 @@ private:
 	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
 
 	CGamePlay_Button* m_pSelectedSpellButton = { nullptr };
+public:
+
+	void OnNotify(void* pArg, const wstring& tag) 
+	{
+		if (tag == L"StatBuy")
+		{
+			int statType = *reinterpret_cast<_int*>(pArg); 
+
+			switch (statType)
+			{
+			case 0: ++m_iStr; break;
+			case 1: ++m_iMaxHP; break;
+			case 2: ++m_iSprit; break;
+			case 3: ++m_iCapacity; break;
+			}
+		}
+		if (tag == L"Open")
+		{
+			SetActive(true);
+			Button_Set_Active(true);
+			m_bOnUI = true;
+		}
+		else if (tag == L"Close")
+		{
+			SetActive(false);
+			Button_Set_Active(false);
+			m_bOnUI = false;
+		}
+
+	}
+
+
 };
 
 END
