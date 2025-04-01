@@ -173,7 +173,9 @@
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Door.h" />
+    <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -272,6 +274,7 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
+    <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
     <ClCompile Include="..\private\Hub_PointShop.cpp" />
     <ClCompile Include="..\private\Hub_Portal.cpp" />

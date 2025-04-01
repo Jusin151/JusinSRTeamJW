@@ -286,7 +286,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     </ClCompile>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Blood_Particle_System.cpp" />
-    <ClCompile Include="..\private\Bounding_Sphere.cpp" />
     <ClCompile Include="..\private\BlendObject.cpp" />
     <ClCompile Include="..\private\BulletShell_Particle_System.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />

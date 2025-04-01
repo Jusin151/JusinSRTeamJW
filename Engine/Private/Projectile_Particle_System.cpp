@@ -48,6 +48,7 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 	pAttribute->vVelocity = -m_vDir;
 	pAttribute->fLifetime = 2.0f;
 
+	pAttribute->fSize = m_fSize;
 	pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
 	pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }
@@ -72,7 +73,7 @@ HRESULT CProjectile_Particle_System::Render()
 	PARTICLE* v = 0;
 
 	m_pGraphic_Device->SetTexture(0, m_pTexture);
-	m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+	m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_PSIZE | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 	m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
 
 	m_PointVB->Lock(

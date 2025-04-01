@@ -36,6 +36,72 @@
           "OBJECT_DESC": {
             "BufferTag": "Prototype_Component_VIBuffer_Rect",
             "Level": 5,
+            "ProtTag": "Prototype_GameObject_Hit_Effect",
+            "ProtTextureTag": "Prototype_Component_Texture_Hit_Effect1",
+            "ProtoLevel": 0
+          },
+          "position": [
+            -6.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "FromPool": false,
+          "IsActive": true,
+          "LayerTag": "Layer_GameObject",
+          "OBJECT_DESC": {
+            "BufferTag": "Prototype_Component_VIBuffer_Rect",
+            "Level": 5,
+            "ProtTag": "Prototype_GameObject_Blood_Effect",
+            "ProtTextureTag": "Prototype_Component_Texture_Blood_Effect1",
+            "ProtoLevel": 0
+          },
+          "position": [
+            -3.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "FromPool": false,
+          "IsActive": true,
+          "LayerTag": "Layer_GameObject",
+          "OBJECT_DESC": {
+            "BufferTag": "Prototype_Component_VIBuffer_Cube",
+            "Level": 5,
+            "ProtTag": "Prototype_GameObject_Sky",
+            "ProtTextureTag": "Prototype_Component_Texture_Cube_Base",
+            "ProtoLevel": 0
+          }
+        },
+        {
+          "FromPool": false,
+          "IsActive": true,
+          "LayerTag": "Layer_GameObject",
+          "OBJECT_DESC": {
+            "BufferTag": "Prototype_Component_VIBuffer_Rect",
+            "Level": 5,
             "ProtTag": "Prototype_GameObject_Plane",
             "ProtTextureTag": "Prototype_Component_Texture_Base",
             "ProtoLevel": 0
