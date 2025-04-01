@@ -173,7 +173,8 @@
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
-    <ClInclude Include="..\Public\Exp_Bar.h" />
+    <ClInclude Include="..\Public\UI_Event.h" />
+    <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
     <ClInclude Include="..\public\GameObject_Cube.h" />
     <ClInclude Include="..\public\GameObject_Light.h" />
@@ -283,8 +284,9 @@
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
+    <ClCompile Include="..\Private\UI_Event.cpp" />
     <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
-    <ClCompile Include="..\Private\Exp_Bar.cpp" />
+    <ClCompile Include="..\Private\UI_Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\Private\Effect_Base.cpp" />

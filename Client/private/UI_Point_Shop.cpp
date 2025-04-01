@@ -144,23 +144,23 @@ HRESULT CUI_Point_Shop::Ready_Skill_Button_Text()
 
 HRESULT CUI_Point_Shop::Ready_Stat_Button_Text()
 {
-    m_str_Stat_MouseOn_Text.resize(3);
+    m_str_Stat_MouseOn_Text.resize(4);
 
-    for (int index = 0; index < 3; ++index)
+    for (int index = 0; index < 4; ++index)
     {
         switch (index)
         {
         case 0:
-            m_str_Skill_MouseOn_Text[index] = L"근력은 근접 무기의 공격력을 \n 0.25만큼 증가시킵니다";
+            m_str_Stat_MouseOn_Text[index] = L"근력은 근접 무기의 공격력을 \n 0.25만큼 증가시킵니다";
             break;
         case 1:
-            m_str_Skill_MouseOn_Text[index] = L"생명력은 최대체력을\n 10 증가시킵니다";
+            m_str_Stat_MouseOn_Text[index] = L"생명력은 최대체력을\n 10 증가시킵니다";
             break;
         case 2:
-            m_str_Skill_MouseOn_Text[index] = L"정신력은.. \n어쩌구 저쩌구 ( 번역필요 ) ";
+            m_str_Stat_MouseOn_Text[index] = L"정신력은.. \n어쩌구 저쩌구 ( 번역필요 ) ";
             break;
         case 3:
-            m_str_Skill_MouseOn_Text[index] = L"용량은 모든 무기들의\n 최대 탄약을 증가시킵니다.";
+            m_str_Stat_MouseOn_Text[index] = L"용량은 모든 무기들의\n 최대 탄약을 증가시킵니다.";
             break;
         default:
             return E_FAIL;
@@ -204,7 +204,10 @@ HRESULT CUI_Point_Shop::Render()
 
 
     m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iLevel),
-        _float2(-200.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+        _float2(-163.f, -220.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iPoint),
+        _float2(-358.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
     return S_OK;
 }
@@ -238,45 +241,65 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
             {
                 m_vecButtons.push_back(pButton); // 버튼 저장
 
-                pButton->SetOnClickCallback([index]()
+                pButton->SetOnClickCallback([this,pButton,index]()
                     {
+                        if (m_pSelectedSpellButton)
+                        {
+                            m_pSelectedSpellButton->m_strMouseOnText.clear();
+                          // m_pSelectedSpellButton->m_strToolTipText.clear();
+                        }
+
+                        m_pSelectedSpellButton = pButton;
+
                         switch (index)
                         {
                         case 0:
-                            MessageBox(nullptr, L"도끼 강화 스킬 구매!", L"구매 완료", MB_OK);
+                           
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 1:
-                            MessageBox(nullptr, L"보물 탐색 강화!", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 2:
-                            MessageBox(nullptr, L"메디킷 회복량 증가!", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 3:
-                            MessageBox(nullptr, L"마나 회복 속도 증가", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 4:
-                            MessageBox(nullptr, L" 산탄총 탄약 +2", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 5:
-                            MessageBox(nullptr, L"연료 및 폭발 아이템 증가", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 6:
-                            MessageBox(nullptr, L" 총기 탄약 획득량 증가", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 7:
-                            MessageBox(nullptr, L"몬스터 통과 가능", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 8:
-                            MessageBox(nullptr, L"최대 체력 +30, 피해 -20%", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 9:
-                            MessageBox(nullptr, L"최대 마나 +30", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 10:
-                            MessageBox(nullptr, L"적 처치 시 마나 회복", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         case 11:
-                            MessageBox(nullptr, L"이동 속도 대폭 증가", L"구매 완료", MB_OK);
+                            
+                            pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                             break;
                         default:
                             break;
@@ -285,14 +308,14 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
 
                 pButton->SetOnMouseCallback([this, pButton, index]()
                     {
-                        if (index < m_str_Skill_MouseOn_Text.size())
+                      /*  if (index < m_str_Skill_MouseOn_Text.size())
                         {
                             pButton->SetOnMouseCallback([this, pButton, index]()
                                 {
                                     pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
                                 }
                             );
-                        }
+                        }*/
 
                     });
 
@@ -379,7 +402,8 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
                     {
                         pButton->SetOnMouseCallback([this, pButton, index]()
                             {
-                                pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                                pButton->m_strMouseOnText = m_str_Stat_MouseOn_Text[index];
+
                             });
                     }
 
