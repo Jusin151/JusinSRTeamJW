@@ -24,7 +24,8 @@ public:
 	virtual HRESULT Pre_Render() override;
 	virtual HRESULT Post_Render() override;
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
-	
+private:
+	BOUNDINGBOX						m_Bounding_Box = {};
 
 public:
 	static CFirework_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

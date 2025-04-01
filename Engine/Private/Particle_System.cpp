@@ -38,7 +38,6 @@ CParticle_System::CParticle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CParticle_System::CParticle_System(const CParticle_System& Prototype)
 	: CComponent{ Prototype },
-	m_Bounding_Box{Prototype.m_Bounding_Box},
 	m_fEmit_Rate{ Prototype.m_fEmit_Rate },
 	m_fSize{ Prototype.m_fSize },
 	m_iMaxParticles{ Prototype.m_iMaxParticles },
@@ -133,7 +132,7 @@ HRESULT CParticle_System::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fSize));
+	//m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fSize));
 
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
 
@@ -165,7 +164,7 @@ HRESULT CParticle_System::Render()
 	if (!m_Particles.empty())
 	{
 		m_pGraphic_Device->SetTexture(0, m_pTexture);
-		m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+		m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_PSIZE | D3DFVF_DIFFUSE);
 		m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
 
 		if (m_VBOffset >= m_VBSize)
@@ -187,6 +186,7 @@ HRESULT CParticle_System::Render()
 			{
 				v->vPosition = i->vPosition;
 				v->vColor = (D3DCOLOR)i->vColor;
+				v->fSize = i->fSize;
 				v++;
 				numParticlesInBatch++;
 

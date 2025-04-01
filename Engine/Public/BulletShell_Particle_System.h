@@ -25,6 +25,7 @@ public:
 
 private:
 	_float3		m_vDir = {};
+	BOUNDINGBOX						m_Bounding_Box = {};
 public:
 	static	CBulletShell_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CBulletShell_Particle_System* Clone(void* pArg) override;

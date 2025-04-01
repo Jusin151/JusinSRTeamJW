@@ -60,13 +60,13 @@ protected:
 	D3DXVECTOR3						m_vPos = {};
 	LPDIRECT3DVERTEXBUFFER9			m_PointVB = { nullptr };
 	LPDIRECT3DTEXTURE9				m_pTexture = { nullptr };
+	CTexture*						m_pTextureT = { nullptr };
 
 	//인스턴싱 변수
 	LPDIRECT3DVERTEXBUFFER9			m_InstanceVB = { nullptr };
 	LPDIRECT3DVERTEXDECLARATION9	m_pVertexDecl = { nullptr };
 	LPDIRECT3DVERTEXSHADER9			m_pVertexShader = { nullptr };
 
-	BOUNDINGBOX						m_Bounding_Box = {};
 	_float							m_fEmit_Rate = {};
 	_float							m_fSize = {};
 	_uint							m_iMaxParticles = {};

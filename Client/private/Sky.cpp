@@ -53,7 +53,7 @@ HRESULT CSky::Render()
 
 	
 
-	if (FAILED(m_pTextureCom->Bind_Resource(2)))
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))

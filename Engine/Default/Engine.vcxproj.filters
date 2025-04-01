@@ -531,9 +531,6 @@
     <ClCompile Include="..\private\Editor.cpp">
       <Filter>999. JsonManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Bounding_Sphere.cpp">
-      <Filter>04.Components\Particle\BoundingSphere</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Snow_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Snow</Filter>
     </ClCompile>

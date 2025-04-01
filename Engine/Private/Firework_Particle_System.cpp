@@ -28,6 +28,8 @@ HRESULT CFirework_Particle_System::Initialize(void* pArg)
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
 
+	
+
 	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
 
 	if (FAILED(__super::Initialize(&pDesc)))
@@ -57,6 +59,7 @@ void CFirework_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 
 	pAttribute->fAge = 0.0f;
 	pAttribute->fLifetime = 2.0f; // lives for 2 seconds
+	pAttribute->fSize = m_fSize;
 }
 
 void CFirework_Particle_System::Update(float fTimeDelta)

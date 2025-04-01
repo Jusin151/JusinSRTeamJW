@@ -23,6 +23,7 @@ public:
 
 private:
 	_float3		m_vDir = {};
+	BOUNDINGBOX						m_Bounding_Box = {};
 public:
 	static	CGold_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGold_Particle_System* Clone(void* pArg) override;
