@@ -47,12 +47,22 @@
     {
       "tag": "Prototype_GameObject_Hit_Effect",
       "level":0,
-      "class": "CBlood_Effect"
+      "class": "CHit_Effect"
     },
     {
       "tag": "Prototype_GameObject_Blood_Effect",
       "level": 0,
-      "class": "CHit_Effect"
+      "class": "CBlood_Effect"
+    },
+    {
+      "tag": "Prototype_GameObject_Terrain",
+      "level": 0,
+      "class": "CTerrain"
+    },
+    {
+      "tag": "Prototype_GameObject_Camera_Free",
+      "level": 0,
+      "class": "CCamera_Free"
     }
   ],
   "buffers": [

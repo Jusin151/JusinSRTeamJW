@@ -48,7 +48,7 @@ void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     pAttribute->fLifetime = 2.0f;
 
 	pAttribute->fSize = m_fSize / D3DXVec3Length(&pAttribute->vPosition);
-    pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 0.0f, 0.0f, 1.0f);
+    pAttribute->vColor = 0xFF883932;
 }
 
 void CBlood_Particle_System::Update(float fTimeDelta)

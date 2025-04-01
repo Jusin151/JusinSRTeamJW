@@ -16,12 +16,12 @@ CEffect_Base::CEffect_Base(const CEffect_Base& Prototype)
 
 HRESULT CEffect_Base::Initialize_Prototype()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CEffect_Base::Initialize(void* pArg)
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void CEffect_Base::Priority_Update(_float fTimeDelta)

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Client_Defines.h"
+#include "GameInstance.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Texture.h"
@@ -69,8 +70,8 @@ protected: // 이펙트 관련
     _bool   m_bDead = {}; // 죽으면 Active 활성화
     _float  m_fAnimationSpeed = {}; // 애니메이션속도
     _float  m_fElapsedTime = {};
-    _int    m_iCurrentFrame = {};
-    _int    m_iLastFrame = {};
+    _uint    m_iCurrentFrame = {};
+    _uint    m_iLastFrame = {};
     const _float m_fFrameDuration = { 2.0f };
 };
 END

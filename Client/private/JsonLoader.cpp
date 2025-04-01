@@ -15,6 +15,7 @@
 #include "Trigger.h"
 #include "Harpoonguy.h"
 #include "Door.h"
+#include "Effects.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath)
@@ -274,140 +275,163 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 	return S_OK;
 }
 
-	CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT3DDEVICE9 pGraphic_Device)
-	{
-		// ê¸°ë³¸ ê²Œìž„ ì˜¤ë¸Œì íŠ¸
-		if (className == "CPlayer")
-			return CPlayer::Create(pGraphic_Device);
-		else if (className == "CTerrain")
-			return CTerrain::Create(pGraphic_Device);
-		else if (className == "CStructure")
-			return CStructure::Create(pGraphic_Device);
-		// ì¹´ë©”ë¼
-		else if (className == "CCamera_Free")
-			return CCamera_Free::Create(pGraphic_Device);
-		else if (className == "CCamera_FirstPerson")
-			return CCamera_FirstPerson::Create(pGraphic_Device);
-		// UI ì»´í¬ë„ŒíŠ¸
-		else if (className == "CUI_Default_Panel")
-			return CUI_Default_Panel::Create(pGraphic_Device);
-		else if (className == "CUI_Left_Display")
-			return CUI_Left_Display::Create(pGraphic_Device);
-		else if (className == "CUI_Player_Icon")
-			return CUI_Player_Icon::Create(pGraphic_Device);
-		else if (className == "CUI_HP_Bar")
-			return CUI_HP_Bar::Create(pGraphic_Device);
-		else if (className == "CUI_MP_Bar")
-			return CUI_MP_Bar::Create(pGraphic_Device);
-		else if (className == "CUI_Mid_Display")
-			return CUI_Mid_Display::Create(pGraphic_Device);
-		else if (className == "CUI_Right_Display")
-			return CUI_Right_Display::Create(pGraphic_Device);
-		else if (className == "CUI_Bullet_Bar")
-			return CUI_Bullet_Bar::Create(pGraphic_Device);
-		else if (className == "CUI_Menu")
-			return CUI_Menu::Create(pGraphic_Device);
-		else if (className == "CGamePlay_Button")
-			return CGamePlay_Button::Create(pGraphic_Device);
-		else if (className == "CUI_Spell_Shop")
-			return CUI_Spell_Shop::Create(pGraphic_Device);
-		else if (className == "CUI_Spell_Shop")
-			return CUI_Spell_Shop::Create(pGraphic_Device);
-		else if (className == "CUI_Spell_Shop")
-			return CUI_Spell_Shop::Create(pGraphic_Device);
-		else if (className == "CAxe")
-			return CAxe::Create(pGraphic_Device);
-		else if (className == "CClaymore")
-			return CClaymore::Create(pGraphic_Device);
-		else if (className == "CMagnum")
-			return CMagnum::Create(pGraphic_Device);
-		else if (className == "CStaff")
-			return CStaff::Create(pGraphic_Device);
-		else if (className == "CShotGun")
-			return CShotGun::Create(pGraphic_Device);
-		else if (className == "CAnubis")
-			return CAnubis::Create(pGraphic_Device);
-		else if (className == "CCrocman")
-			return CCrocman::Create(pGraphic_Device);
-		else if (className == "CHarpoonguy")
-			return CHarpoonguy::Create(pGraphic_Device);
-		else if (className == "CHarpoon")
-			return CHarpoon::Create(pGraphic_Device);
-		else if (className == "CItem")
-			return CItem::Create(pGraphic_Device);
-		else if (className == "CDoor")
-			return CDoor::Create(pGraphic_Device);
-		else if (className == "CTrigger")
-			return CTrigger::Create(pGraphic_Device);
+CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+#pragma region Player
+	if (className == "CPlayer")
+		return CPlayer::Create(pGraphic_Device);
+#pragma endregion
 
-		return nullptr;
-	}
+#pragma region Camera
+	else if (className == "CCamera_Free")
+		return CCamera_Free::Create(pGraphic_Device);
+	else if (className == "CCamera_FirstPerson")
+		return CCamera_FirstPerson::Create(pGraphic_Device);
+#pragma endregion
 
-	HRESULT CJsonLoader::LoadClassNamesFromJson(const string & filePath, vector<string>&outClassNames)
+	else if (className == "CTerrain")
+		return CTerrain::Create(pGraphic_Device);
+	else if (className == "CStructure")
+		return CStructure::Create(pGraphic_Device);
+
+#pragma region UI
+	else if (className == "CUI_Default_Panel")
+		return CUI_Default_Panel::Create(pGraphic_Device);
+	else if (className == "CUI_Left_Display")
+		return CUI_Left_Display::Create(pGraphic_Device);
+	else if (className == "CUI_Player_Icon")
+		return CUI_Player_Icon::Create(pGraphic_Device);
+	else if (className == "CUI_HP_Bar")
+		return CUI_HP_Bar::Create(pGraphic_Device);
+	else if (className == "CUI_MP_Bar")
+		return CUI_MP_Bar::Create(pGraphic_Device);
+	else if (className == "CUI_Mid_Display")
+		return CUI_Mid_Display::Create(pGraphic_Device);
+	else if (className == "CUI_Right_Display")
+		return CUI_Right_Display::Create(pGraphic_Device);
+	else if (className == "CUI_Bullet_Bar")
+		return CUI_Bullet_Bar::Create(pGraphic_Device);
+	else if (className == "CUI_Menu")
+		return CUI_Menu::Create(pGraphic_Device);
+	else if (className == "CGamePlay_Button")
+		return CGamePlay_Button::Create(pGraphic_Device);
+	else if (className == "CUI_Spell_Shop")
+		return CUI_Spell_Shop::Create(pGraphic_Device);
+	else if (className == "CUI_Spell_Shop")
+		return CUI_Spell_Shop::Create(pGraphic_Device);
+	else if (className == "CUI_Spell_Shop")
+		return CUI_Spell_Shop::Create(pGraphic_Device);
+#pragma endregion
+
+#pragma region Weapons
+	else if (className == "CAxe")
+		return CAxe::Create(pGraphic_Device);
+	else if (className == "CClaymore")
+		return CClaymore::Create(pGraphic_Device);
+	else if (className == "CMagnum")
+		return CMagnum::Create(pGraphic_Device);
+	else if (className == "CStaff")
+		return CStaff::Create(pGraphic_Device);
+	else if (className == "CShotGun")
+		return CShotGun::Create(pGraphic_Device);
+#pragma endregion
+
+#pragma region Monsters
+	else if (className == "CAnubis")
+		return CAnubis::Create(pGraphic_Device);
+	else if (className == "CCrocman")
+		return CCrocman::Create(pGraphic_Device);
+	else if (className == "CHarpoonguy")
+		return CHarpoonguy::Create(pGraphic_Device);
+	else if (className == "CHarpoon")
+		return CHarpoon::Create(pGraphic_Device);
+#pragma endregion
+
+	else if (className == "CItem")
+		return CItem::Create(pGraphic_Device);
+	else if (className == "CDoor")
+		return CDoor::Create(pGraphic_Device);
+	else if (className == "CTrigger")
+		return CTrigger::Create(pGraphic_Device);
+
+#pragma region Effect
+	else if (className == "CHit_Effect")
+		return CHit_Effect::Create(pGraphic_Device);
+	else if (className == "CBlood_Effect")
+		return CBlood_Effect::Create(pGraphic_Device);
+	else if (className == "CWeapon_Effect")
+		return CWeapon_Effect::Create(pGraphic_Device);
+#pragma endregion
+
+
+	return nullptr;
+}
+
+HRESULT CJsonLoader::LoadClassNamesFromJson(const string & filePath, vector<string>&outClassNames)
+{
+	try
 	{
-		try
+
+		ifstream file(filePath);
+		if (!file.is_open())
 		{
+			MSG_BOX("클래스 이름 JSON 파일을 찾을 수 없습니다.");
+			return E_FAIL;
+		}
 
-			ifstream file(filePath);
-			if (!file.is_open())
+		json jsonData;
+		file >> jsonData;
+		file.close();
+
+		outClassNames.clear();
+
+		if (jsonData.contains("classes") && jsonData["classes"].is_array())
+		{
+			for (const auto& className : jsonData["classes"])
 			{
-				MSG_BOX("클래스 이름 JSON 파일을 찾을 수 없습니다.");
-				return E_FAIL;
-			}
-
-			json jsonData;
-			file >> jsonData;
-			file.close();
-
-			outClassNames.clear();
-
-			if (jsonData.contains("classes") && jsonData["classes"].is_array())
-			{
-				for (const auto& className : jsonData["classes"])
+				if (className.is_string())
 				{
-					if (className.is_string())
-					{
-						outClassNames.push_back(className.get<string>());
-					}
+					outClassNames.push_back(className.get<string>());
 				}
-
-				return S_OK;
 			}
-			else
-			{
-				MSG_BOX("JSON 파일에 'classes' 배열이 없거나 형식이 잘못되었습니다.");
-				return E_FAIL;
-			}
-		}
-		catch (const json::exception&)
-		{
-			MSG_BOX("JSON 파싱 오류가 발생했습니다.");
-			return E_FAIL;
-		}
-		catch (const exception&)
-		{
 
-			MSG_BOX("예외가 발생했습니다.");
+			return S_OK;
+		}
+		else
+		{
+			MSG_BOX("JSON 파일에 'classes' 배열이 없거나 형식이 잘못되었습니다.");
 			return E_FAIL;
 		}
 	}
-
-	_wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring & layerName)
+	catch (const json::exception&)
 	{
-		if (layerName == L"Layer_Player")
-			return L"Prototype_GameObject_Player";
-		else if (layerName == L"Layer_Monster_Crocman")
-			return L"Prototype_GameObject_Crocman";
-		else if (layerName == L"Layer_Monster_Harpoonguy")
-			return L"Prototype_GameObject_Harpoonguy";
-		else if (layerName == L"Layer_Monster_Projectile_Harpoon")
-			return L"Prototype_GameObject_Harpoon";
-		else if (layerName == L"Layer_BackGround")
-			return L"Prototype_GameObject_Terrain";
-		else if (layerName == L"Layer_Camera")
-			return L"Prototype_GameObject_Camera_FirstPerson";
-		else if (layerName == L"Layer_Default_PlayerUI")
-			return L"Prototype_GameObject_Default_PlayerUI";
-
-		return L"";
+		MSG_BOX("JSON 파싱 오류가 발생했습니다.");
+		return E_FAIL;
 	}
+	catch (const exception&)
+	{
+
+		MSG_BOX("예외가 발생했습니다.");
+		return E_FAIL;
+	}
+}
+
+_wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring & layerName)
+{
+	if (layerName == L"Layer_Player")
+		return L"Prototype_GameObject_Player";
+	else if (layerName == L"Layer_Monster_Crocman")
+		return L"Prototype_GameObject_Crocman";
+	else if (layerName == L"Layer_Monster_Harpoonguy")
+		return L"Prototype_GameObject_Harpoonguy";
+	else if (layerName == L"Layer_Monster_Projectile_Harpoon")
+		return L"Prototype_GameObject_Harpoon";
+	else if (layerName == L"Layer_BackGround")
+		return L"Prototype_GameObject_Terrain";
+	else if (layerName == L"Layer_Camera")
+		return L"Prototype_GameObject_Camera_FirstPerson";
+	else if (layerName == L"Layer_Default_PlayerUI")
+		return L"Prototype_GameObject_Default_PlayerUI";
+
+	return L"";
+}

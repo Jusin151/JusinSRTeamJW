@@ -609,6 +609,9 @@
     <ClInclude Include="..\public\Hit_Effect.h">
       <Filter>02.GameObjects\03. Effect\BulletHit_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Effects.h">
+      <Filter>02.GameObjects\03. Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

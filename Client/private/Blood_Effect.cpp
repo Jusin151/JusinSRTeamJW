@@ -28,6 +28,11 @@ HRESULT CBlood_Effect::Initialize(void* pArg)
 		return E_FAIL;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	m_fAnimationSpeed = { 0.2f };
+	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
+	m_iCurrentFrame = { 0 };
+
 	return S_OK;
 }
 
@@ -68,27 +73,69 @@ void CBlood_Effect::Priority_Update(_float fTimeDelta)
 
 void CBlood_Effect::Update(_float fTimeDelta)
 {
-
 	__super::Update(fTimeDelta);
+	m_fElapsedTime += fTimeDelta;
+
+	if (m_fElapsedTime >= m_fAnimationSpeed)
+	{
+		m_fElapsedTime = 0.0f;
+
+		if (m_iCurrentFrame < m_iLastFrame)
+		{
+			m_iCurrentFrame++;
+		}
+		else
+		{
+			//처음 루프이후 다음루프라면 이펙트를 끈다.
+			//m_bDead = true;
+			m_iCurrentFrame = 0;
+		}
+	}
 }
 
 void CBlood_Effect::Late_Update(_float fTimeDelta)
 {
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+		return;
 }
 
 HRESULT CBlood_Effect::Pre_Render()
 {
-	return E_NOTIMPL;
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+	return S_OK;
 }
 
 HRESULT CBlood_Effect::Render()
 {
-	return E_NOTIMPL;
+	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
+		return E_FAIL;
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	Pre_Render();
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	Post_Render();
+
+	/*if (FAILED(m_pParticleCom->Render()))
+		return E_FAIL;*/
+	return S_OK;
 }
 
 HRESULT CBlood_Effect::Post_Render()
 {
-	return E_NOTIMPL;
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	return S_OK;
 }
 
 CBlood_Effect* CBlood_Effect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -122,4 +169,5 @@ CBlood_Effect* CBlood_Effect::Clone(void* pArg)
 
 void CBlood_Effect::Free()
 {
+	__super::Free();
 }
