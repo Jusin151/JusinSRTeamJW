@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "Image.h"
 #include "Image_Manager.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -12,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CInven_UI : public CUI_Base
+class CInven_UI : public CUI_Base, public CObserver
 {
 public:
   
@@ -92,6 +93,29 @@ private:
     CImage* asdasd={ nullptr };
     unordered_map<wstring, CImage*> m_Map_pWeaponIcon={};
 
+    void OnNotify(void* pArg, const wstring& tag)
+    {
+      
+        if (tag == L"Open")
+        {
+			Inven_OnOff(true);  // 인벤창 on
+        }
+        else if (tag == L"Close")
+        {
+			Inven_OnOff(false);  // 인벤창 off
+        }
+		else if (tag == L"AddWeaponIcon") // 해당 무기의 아이콘도 같이 추가할께
+		{		
+            wstring WeaponTag =*static_cast<wstring*>(pArg); 
+			Add_WeaponIcon(WeaponTag);
+		}
+		else if (tag == L"IconActive")
+		{ 
+			_uint Index = *static_cast<_uint*>(pArg);
+			WeaponIcon_isActive(Index);
+		}
+
+    }
 
 private: // 인빈 이미지에 관련된 변수들
     _bool m_bRender={false};
