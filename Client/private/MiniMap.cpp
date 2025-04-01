@@ -19,30 +19,22 @@ CMiniMap::CMiniMap(const CMiniMap& Prototype)
 
 HRESULT CMiniMap::Initialize_Prototype()
 {
+  
+    return S_OK;
+}
+
+HRESULT CMiniMap::Initialize(void* pArg)
+{  // 미니맵 텍스처 생성
     m_pGraphic_Device->CreateTexture(256, 256, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT,
         &m_pMiniMapTexture, NULL);
     m_pMiniMapTexture->GetSurfaceLevel(0, &m_pMiniMapSurface);
 
-    //// 기본 바닥을 흰색으로 칠하기
-    //D3DLOCKED_RECT lockedRect;
-    //m_pMiniMapSurface->LockRect(&lockedRect, NULL, 0);
+    // 스프라이트 객체 생성
+    D3DXCreateSprite(m_pGraphic_Device, &m_pSprite);
 
-    //DWORD* pPixel = (DWORD*)lockedRect.pBits;
-    //for (int y = 0; y < 256; ++y)
-    //{
-    //    for (int x = 0; x < 256; ++x)
-    //    {
-    //        pPixel[x + y * (lockedRect.Pitch / 4)] = D3DCOLOR_XRGB(255, 255, 255); // 흰색 바닥
-    //    }
-    //}
-
-    //m_pMiniMapSurface->UnlockRect();
-    return S_OK;
-}
-
-HRESULT CMiniMap::Initialize(void* pArg)
-{
+    // 미니맵 출력 위치 및 크기 설정
+    m_MiniMapRect = { 10, 10, 10 + 150, 10 + 150 }; // 좌상단 위치(10,10)에 150x150 크기로 표시
     m_pGraphic_Device->CreateVertexBuffer(
         4 * sizeof(VERTEX), // 정점 4개
         0,
@@ -65,7 +57,7 @@ HRESULT CMiniMap::Initialize(void* pArg)
     {
         return E_FAIL;
     }
-    
+    CalculateMapSize();
     return S_OK;
 }
 
@@ -80,42 +72,102 @@ void CMiniMap::Late_Update(_float fTimeDelta)
 
 HRESULT CMiniMap::Render()
 {
+    // 1. 원래 렌더 타겟 저장
+    LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
+    m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
+
+    // 2. 렌더 타겟을 미니맵 텍스처로 변경
+    m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
+
+    //// 3. 미니맵 텍스처 클리어
+    m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+
+    // 4. 미니맵 내용 그리기
     SetUp_RenderState();
-    // 1. 벽을 검은색으로 칠하기
+
+    // 벽을 검은색으로 칠하기
     for (const auto& structure : m_StructureList)
     {
         D3DXVECTOR2 miniMapPos = ConvertToMiniMapPos(dynamic_cast<CTransform*>(structure->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION));
         DrawBoxOnMiniMap(miniMapPos, D3DCOLOR_XRGB(0, 0, 0)); // 검은색 벽
     }
 
-    // 2. 문을 회색으로 칠하기
+    // 문을 회색으로 칠하기
     for (const auto& door : m_DoorList)
     {
         D3DXVECTOR2 miniMapPos = ConvertToMiniMapPos(dynamic_cast<CTransform*>(door->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION));
         DrawBoxOnMiniMap(miniMapPos, D3DCOLOR_XRGB(150, 150, 150)); // 회색 문
     }
 
-    // 3. 플레이어 위치 표시
+    // 플레이어 위치 표시
     D3DXVECTOR2 playerMiniMapPos = ConvertToMiniMapPos(dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION));
-    DrawBoxOnMiniMap(playerMiniMapPos,D3DCOLOR_XRGB(0, 255, 0)); // 초록색 플레이어
+    DrawBoxOnMiniMap(playerMiniMapPos, D3DCOLOR_XRGB(0, 255, 0)); // 초록색 플레이어
+
     Release_RenderState();
+
+    // 5. 원래 렌더 타겟으로 복원
+    m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
+    Safe_Release(pBackBuffer);
+
+    // 6. 미니맵 텍스처를 화면 좌상단에 그리기
+    if (m_pSprite && m_pMiniMapTexture)
+    {
+        // 스프라이트 시작
+        m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+        // 미니맵 텍스처를 화면 좌상단에 그리기
+        D3DXVECTOR3 pos(100.0f, 100.0f, 0.0f); // 좌상단 위치 (10, 10)
+
+        // 텍스처 크기 조정 (선택적)
+        D3DXMATRIX matScale;
+        D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.0f); // 텍스처 크기를 60%로 조정
+
+        D3DXMATRIX matTranslation;
+        D3DXMatrixTranslation(&matTranslation, pos.x, pos.y, 0.0f);
+
+        D3DXMATRIX matFinal = matScale * matTranslation;
+        m_pSprite->SetTransform(&matFinal);
+
+        m_pSprite->Draw(m_pMiniMapTexture, NULL, NULL, NULL, D3DCOLOR_ARGB(200, 255, 255, 255)); // 약간 투명하게(알파값 200)
+
+        // 스프라이트 종료
+        m_pSprite->End();
+    }
+
     return S_OK;
 }
 
 HRESULT CMiniMap::SetUp_RenderState()
 {
     m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_OldViewMatrix); // 기존 뷰 행렬 저장
+
+    // 렌더 상태 설정
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE); // 조명 비활성화
+
+    // 뷰 행렬 설정 (중요!)
+    D3DXMATRIX matView;
+    D3DXMatrixIdentity(&matView); // 단위 행렬로 설정
+    D3DXVECTOR3 eye(0.0f, 0.0f, -10.0f);
+    D3DXVECTOR3 at(0.0f, 0.0f, 0.0f);
+    D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
+    D3DXMatrixLookAtLH(&matView, &eye, &at, &up);
+    m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
 
     // 직교 투영 행렬 설정
     D3DXMATRIX matOrtho;
-    D3DXMatrixOrthoLH(&matOrtho, 100.0f, 100.0f, 0.1f, 1000.0f); // 크기는 미니맵 크기에 맞게 조절
+    D3DXMatrixOrthoLH(&matOrtho, 256.0f, 256.0f, 0.1f, 1000.0f); // 미니맵 크기에 맞게 조정
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOrtho);
     return S_OK;
 }
 
 HRESULT CMiniMap::Release_RenderState()
 {
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE); // 조명 상태 복원
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
+    m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix); // 뷰 행렬 복원
     return S_OK;
 }
 
@@ -158,8 +210,14 @@ void CMiniMap::CalculateMapSize()
 
 _float2 CMiniMap::ConvertToMiniMapPos(_float3 vPos)
 {
-    float scale = 0.1f; // 월드 크기에 맞춰 조절
-    return _float2(vPos.x * scale, vPos.z * scale);
+    // 월드 좌표 -> 미니맵 좌표 변환
+    float scaleX = 256.0f / m_MapWidth; // 미니맵의 너비를 월드의 너비로 나눔
+    float scaleY = 256.0f / m_MapHeight; // 미니맵의 높이를 월드의 높이로 나눔
+
+    float miniMapPosX = (vPos.x - m_MapMinX) * scaleX; // 월드 좌표를 미니맵 좌표로 변환
+    float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY; // 월드 좌표를 미니맵 좌표로 변환
+
+    return _float2(miniMapPosX, miniMapPosY);
 }
 
 void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos,D3DCOLOR color)
@@ -176,6 +234,7 @@ void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos,D3DCOLOR color)
 
     m_pVertexBuffer->Unlock();
 
+    // TRIANGLELIST에서 TRIANGLEFAN으로 변경
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 }
 
@@ -220,6 +279,7 @@ void CMiniMap::Free()
     Safe_Release(m_pMiniMapSurface);
     Safe_Release(m_pMiniMapTexture);
     Safe_Release(m_pVertexBuffer);
+    Safe_Release(m_pSprite); // 스프라이트 해제 추가
     //Safe_Release(m_pTransformCom);
     //Safe_Release(m_pMaterialCom);
 }

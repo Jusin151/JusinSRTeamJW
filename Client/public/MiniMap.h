@@ -49,16 +49,20 @@ private:
     LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // 미니맵 렌더 타겟
     LPDIRECT3DSURFACE9 m_pMiniMapSurface = {nullptr};
     LPDIRECT3DVERTEXBUFFER9 m_pVertexBuffer = { nullptr };
+    // 스프라이트 객체 추가
+    LPD3DXSPRITE m_pSprite = nullptr;
+    // 미니맵 출력 위치 및 크기
+    RECT m_MiniMapRect;
 
     _float m_MapWidth{0.f};
     _float m_MapHeight{0.f};
     _float m_MapMinX{0.f };
     _float m_MapMinZ{ 0.f };
     _float4x4 m_OldProjMatrix{};
-//    CTransform* m_pTransformCom = { nullptr };
-//  //  CTexture* m_pTextureCom = { nullptr };
-////  CVIBuffer* m_pVIBufferCom = { nullptr };
-//    CMaterial* m_pMaterialCom = { nullptr };
+    _float4x4 m_OldViewMatrix{};
+    _int m_iGridX = 5;
+    _int m_iGridY = 10;
+    bool m_bGrids[5][10];
 
 public:
     static CMiniMap* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
