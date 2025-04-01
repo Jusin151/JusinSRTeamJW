@@ -19,8 +19,12 @@ HRESULT CHit_Effect::Initialize_Prototype()
 
 HRESULT CHit_Effect::Initialize(void* pArg)
 {
-	HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
-	m_eHitType = (HitType)desc.type;
+	if (pArg != nullptr)
+	{
+		HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
+		m_eHitType = (HitType)desc.type;
+	}
+	
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	if (FAILED(Ready_Components()))

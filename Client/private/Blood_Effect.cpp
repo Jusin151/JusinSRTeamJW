@@ -13,13 +13,21 @@ CBlood_Effect::CBlood_Effect(const CBlood_Effect& Prototype)
 
 HRESULT CBlood_Effect::Initialize_Prototype()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CBlood_Effect::Initialize(void* pArg)
 {
-	HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
-	m_eHitType = (HitType)desc.type;
+	if (pArg != nullptr)
+	{
+		HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
+		m_eHitType = (HitType)desc.type;
+	}
+
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -60,6 +68,8 @@ void CBlood_Effect::Priority_Update(_float fTimeDelta)
 
 void CBlood_Effect::Update(_float fTimeDelta)
 {
+
+	__super::Update(fTimeDelta);
 }
 
 void CBlood_Effect::Late_Update(_float fTimeDelta)
