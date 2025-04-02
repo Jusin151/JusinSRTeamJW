@@ -289,8 +289,8 @@ void CMiniMap::RenderPlayerOnMiniMap()
 
 	// 회전 반영할 월드 행렬 구성
 	D3DXMATRIX matTrans, matRotZ, matWorld;
-	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, vPos.z);
-	D3DXMatrixRotationZ(&matRotZ, -3.f);
+	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y+0.5f, vPos.z);
+	D3DXMatrixRotationZ(&matRotZ, -fYaw);
 	matWorld = matRotZ*matTrans;
 
 	// 월드 행렬 설정
@@ -299,9 +299,9 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	// 삼각형 정점 생성
 	float size =2.0f; // 삼각형 크기
 	VERTEX vertices[3] = {
-		{ D3DXVECTOR3(0.f, 0.f, size), D3DCOLOR_XRGB(255, 0, 0) },
-		{ D3DXVECTOR3(-size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_XRGB(255, 0, 0) },
-		{ D3DXVECTOR3(size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_XRGB(255, 0, 0) }
+		{ D3DXVECTOR3(0.f, 0.f, size), D3DCOLOR_RGBA(255, 0, 0, 255) },
+		{ D3DXVECTOR3(-size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) },
+		{ D3DXVECTOR3(size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) }
 	};
 
 	// 정점 버퍼에 쓰기
@@ -309,10 +309,13 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	m_pVertexBuffer->Lock(0, sizeof(vertices), &pVertices, 0);
 	memcpy(pVertices, vertices, sizeof(vertices));
 	m_pVertexBuffer->Unlock();
-
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
 	m_pGraphic_Device->SetFVF(VERTEX::FVF);
 	m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
 
 	//// 다시 단위 행렬로 복원 (다른 UI 영향 방지)
 	//D3DXMATRIX matIdentity;
