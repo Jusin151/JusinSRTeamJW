@@ -96,38 +96,40 @@ HRESULT CMiniMap::Render()
 
     if (!m_bStaticMapRendered)
     {
-        // 1. 원래 렌더 타겟 저장
-        LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
-        m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
-
-        // 2. 렌더 타겟을 미니맵 텍스처로 변경
-        m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
-
-        // 3. 미니맵 텍스처 클리어 (배경색을 어두운 회색으로 설정 - 복도 표현)
-        m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
-
-        SetUp_RenderState();
-        for (const auto& structure : m_StructureList)
-        {
-            // "Floor"나 "Ceil" 태그가 있는 것은 건너뜁니다.
-            if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
-                structure->Get_Tag().find(L"Ceil") != std::wstring::npos||
-                structure->Get_Tag().find(L"Magma") != std::wstring::npos)
-                continue;
-
-            structure->Render();
-        }
-        if (m_pPlayer)
-        {
-            RenderPlayerOnMiniMap();
-        }
-        m_bStaticMapRendered = true;
-        //m_pPlayer->Render();
-        Release_RenderState();
-        // 5. 원래 렌더 타겟으로 복원
-        m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
-        Safe_Release(pBackBuffer);
+     
     }
+
+    // 1. 원래 렌더 타겟 저장
+    LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
+    m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
+
+    // 2. 렌더 타겟을 미니맵 텍스처로 변경
+    m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
+
+    // 3. 미니맵 텍스처 클리어 (배경색을 어두운 회색으로 설정 - 복도 표현)
+    m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
+
+    SetUp_RenderState();
+    for (const auto& structure : m_StructureList)
+    {
+        // "Floor"나 "Ceil" 태그가 있는 것은 건너뜁니다.
+        if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
+            structure->Get_Tag().find(L"Ceil") != std::wstring::npos ||
+            structure->Get_Tag().find(L"Magma") != std::wstring::npos)
+            continue;
+
+        structure->Render();
+    }
+    if (m_pPlayer)
+    {
+        RenderPlayerOnMiniMap();
+    }
+    m_bStaticMapRendered = true;
+    //m_pPlayer->Render();
+    Release_RenderState();
+    // 5. 원래 렌더 타겟으로 복원
+    m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
+    Safe_Release(pBackBuffer);
     //RenderTestSquare();
 
 
