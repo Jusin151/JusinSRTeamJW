@@ -201,6 +201,7 @@ HRESULT CMiniMap::SetUp_RenderState()
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_matMiniMapProj);
 
 	}
+
 	return S_OK;
 }
 
@@ -232,7 +233,7 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	CTransform* pPlayerTransform = static_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")));
 	if (!pPlayerTransform)
 		return;
-
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, pPlayerTransform->Get_WorldMatrix());
 
 	static _bool bInit = { false };
