@@ -15,8 +15,7 @@ CUI_HP_Bar::CUI_HP_Bar(const CUI_HP_Bar& Prototype)
 
 HRESULT CUI_HP_Bar::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+
 
 	return S_OK;
 }

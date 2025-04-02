@@ -18,10 +18,7 @@ CUI_Player_Icon::CUI_Player_Icon(const CUI_Player_Icon& Prototype)
 
 HRESULT CUI_Player_Icon::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-	{
-		return E_FAIL;
-	}
+	
 
 	return S_OK;
 }

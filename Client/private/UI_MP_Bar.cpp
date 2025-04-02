@@ -15,8 +15,7 @@ CUI_MP_Bar::CUI_MP_Bar(const CUI_MP_Bar& Prototype)
 
 HRESULT CUI_MP_Bar::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+
 
 
 	return S_OK;

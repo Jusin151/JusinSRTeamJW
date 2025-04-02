@@ -42,9 +42,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
-
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -196,10 +193,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera_Free"),
-	//	LEVEL_GAMEPLAY, strLayerTag)))
-	//	return E_FAIL;
 	return S_OK;
 }
 
@@ -208,15 +201,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
-
-	/*CTransform::TRANSFORM_DESC randTransDesc{};
-
-	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
-	randTransDesc.fSpeedPerSec = 10.f;
-	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
-
-	if (nullptr ==(m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag, &randTransDesc)))
-		return E_FAIL;*/
 
 
 	return S_OK;
@@ -244,8 +228,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		TEXT("Prototype_GameObject_Menu_Panel"),
 		LEVEL_GAMEPLAY, TEXT("1"), &Menu_Panel)))
 		return E_FAIL;
-
-
 
 	CUI_Base::UI_Parent_Desc DefaultUI_Desc{}; // 부모 UI는 총 6개의 정보 소유
 
@@ -347,15 +329,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_1"), &Left_Panel)))
 		return E_FAIL;
 
-	CUI_Base::UI_Child_Desc RIght_Panel_Bullet{};  // 자식 UI는 3개만 소유 부모 상대적으로 위치 잡을꺼임
-	Left_Panel_HP.vSize = { 222.f,29.f };
-	Left_Panel_HP.fAlpha = 1.0f;
-	Left_Panel_HP.vPos = { 8.f,-59.f }; // 부모위치가 원점 상대적으로 얼만큼 잡을껀지
+	CUI_Base::UI_Child_Desc RIght_Panel_Bullet{};  // 
+	RIght_Panel_Bullet.vSize = { 222.f,29.f };
+	RIght_Panel_Bullet.fAlpha = 1.0f;
+	RIght_Panel_Bullet.vPos = { 8.f,-59.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Bullet_Bar"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_2"), &Left_Panel_HP)))
+		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_2"), &RIght_Panel_Bullet)))
 		return E_FAIL;
 
 

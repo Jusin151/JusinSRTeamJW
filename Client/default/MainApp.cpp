@@ -398,6 +398,21 @@ HRESULT CMainApp::Ready_Prototype_UI()
 			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png"), 1))))
 		return E_FAIL;
 
+	// 총알바 UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Bullet_Bar"),
+		CUI_Bullet_Bar::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	// 총알바 UI 텍스쳐						
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Bullet_Bar"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Right/SR_HUD_bar_ammo.png"), 1))))
+		return E_FAIL;
+
+
 	// ExpBar UI 이미지 생성 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_ExpBar_UI"),

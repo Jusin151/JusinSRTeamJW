@@ -93,12 +93,6 @@
     {
       "count": 1,
       "level": 6,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png",
-      "tag": "Prototype_Component_Texture_UI_Point_Shop"
-    },
-    {
-      "count": 1,
-      "level": 6,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
       "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
     },
@@ -155,11 +149,6 @@
       "tag": "Prototype_GameObject_Right_Bar",
       "level": 0,
       "class": "CUI_Right_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Bullet_Bar",
-      "level": 0,
-      "class": "CUI_Bullet_Bar"
     },
     {
       "tag": "Prototype_GameObject_Menu_Panel",

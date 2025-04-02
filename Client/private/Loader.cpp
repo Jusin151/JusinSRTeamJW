@@ -263,6 +263,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 HRESULT CLoader::Loading_For_Hub()
 {
 	
@@ -630,6 +642,18 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 
 	return S_OK;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 HRESULT CLoader::Add_To_UI_Textures()// 텍스쳐 컴포넌트
 {
 	// 게임플레이 레벨 전체 UI의 캔버스 판넬

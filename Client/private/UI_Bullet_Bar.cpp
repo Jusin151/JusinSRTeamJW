@@ -15,10 +15,7 @@ CUI_Bullet_Bar::CUI_Bullet_Bar(const CUI_Bullet_Bar& Prototype)
 
 HRESULT CUI_Bullet_Bar::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-	{
-		return E_FAIL;
-	}
+	
 
 	return S_OK;
 }
@@ -63,6 +60,7 @@ void CUI_Bullet_Bar::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
+
 }
 void CUI_Bullet_Bar::Update_Bullet_Bar()
 {
@@ -93,11 +91,41 @@ void CUI_Bullet_Bar::Update_Bullet_Bar()
 HRESULT CUI_Bullet_Bar::Render()
 {
 
-	if (FAILED(__super::Render()))
+	D3DXMATRIX matOldView, matOldProj;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView); 
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
+
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIX matProj;
+	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
+
 	if(m_iMxBullet!=0)
-	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iBullet), _float2(583.f, 320.0f), _float2(15.f, 25.f), _float3(1.f, 1.f, 1.f));
+	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iBullet), _float2(583.f, 320.f), _float2(15.f, 25.f), _float3(1.f, 1.f, 1.f));
+
+
 
 
 	return S_OK;
@@ -127,7 +155,7 @@ CUI_Bullet_Bar* CUI_Bullet_Bar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("총알 UI 원본 생성 실패 ");
+		MSG_BOX("총알바 UI 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -141,7 +169,7 @@ CGameObject* CUI_Bullet_Bar::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("총알 UI 클론 생성 실패");
+		MSG_BOX("총알바 UI 클론 생성 실패");
 		Safe_Release(pInstace);
 	}
 

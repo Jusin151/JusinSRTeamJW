@@ -209,6 +209,10 @@ HRESULT CShotGun::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
+
+
+
+
 	return S_OK;
 }
 

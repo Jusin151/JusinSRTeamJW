@@ -31,12 +31,6 @@
       "count": 1
     },
     {
-      "tag": "Prototype_Component_Texture_Bullet_Bar",
-      "level": 0,
-      "path": "../../Resources/Textures/UI/Right/SR_HUD_bar_ammo.png",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Menu_Panel",
       "level": 0,
       "path": "../../Resources/Textures/UI/Game_Menu.png",
@@ -432,11 +426,6 @@
       "tag": "Prototype_GameObject_Right_Bar",
       "level": 0,
       "class": "CUI_Right_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Bullet_Bar",
-      "level": 0,
-      "class": "CUI_Bullet_Bar"
     },
     {
       "tag": "Prototype_GameObject_Menu_Panel",
