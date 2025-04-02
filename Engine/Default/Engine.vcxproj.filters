@@ -409,6 +409,9 @@
     <Filter Include="04.Components\VIBuffer\TexturedCube">
       <UniqueIdentifier>{9eb0b145-9ea1-45b1-a3de-644b7a2b97cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Gib">
+      <UniqueIdentifier>{44029e43-1310-44fa-8ea0-d0c465121f2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

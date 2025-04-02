@@ -31,7 +31,6 @@ HRESULT CBlood_Effect::Initialize(void* pArg)
 	m_fAnimationSpeed = { 0.2f };
 	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
 	m_iCurrentFrame = { 0 };
-	m_pParticleCom->Set_Origin(m_Weapon_Effect_INFO.vPos);
 
 	return S_OK;
 }
@@ -65,7 +64,8 @@ HRESULT CBlood_Effect::Ready_Components()
 	bloodDesc.iNumParticles = { 10u };
 	bloodDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
 	bloodDesc.Bound.m_fRadius = 0.1f;
-	bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+	bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gore_%d.png";
+	bloodDesc.iNumTextures = 3;
 
 	/* For.Com_BloodParticle */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),

@@ -43,7 +43,8 @@ CParticle_System::CParticle_System(const CParticle_System& Prototype)
 	m_iMaxParticles{ Prototype.m_iMaxParticles },
 	m_VBSize{ Prototype.m_VBSize },
 	m_VBOffset{ Prototype.m_VBOffset },
-	m_VBBatchSize{ Prototype.m_VBBatchSize }
+	m_VBBatchSize{ Prototype.m_VBBatchSize },
+	m_pTexture { Prototype.m_pTexture }
 {
 }
 
@@ -58,7 +59,6 @@ HRESULT CParticle_System::Initialize(void* pArg)
 	if (nullptr != pArg)
 	{
 		desc = *reinterpret_cast<PARTICLEDESC*>(pArg);
-		m_VBSize = desc.VBSize;
 	}
 	HRESULT hr = m_pGraphic_Device->CreateVertexBuffer(
 		m_VBSize * sizeof(PARTICLE),
@@ -66,30 +66,11 @@ HRESULT CParticle_System::Initialize(void* pArg)
 		D3DFVF_XYZ | D3DFVF_DIFFUSE,
 		D3DPOOL_DEFAULT,
 		&m_PointVB, 0);
+	m_pTexture = m_pTexture->Create(m_pGraphic_Device, CTexture::TYPE_2D, desc.strTexturePath.c_str(), desc.iNumTextures);
+	if(nullptr == m_pTexture)
+		return E_FAIL;
 
-	//wsprintf(szTextureFileName, desc.strTexturePath, 0);
-
-	D3DXIMAGE_INFO imageInfo;
-	// 먼저 이미지 정보를 가져옴
-	if (FAILED(D3DXGetImageInfoFromFile(desc.strTexturePath.c_str(), &imageInfo)))
-		return E_FAIL; // 이미지 정보를 가져오지 못한 경우
-
-
-	hr = D3DXCreateTextureFromFileEx(m_pGraphic_Device,
-		desc.strTexturePath.c_str(),
-		imageInfo.Width,  // 원본 너비
-		imageInfo.Height, // 원본 높이
-		D3DX_DEFAULT,
-		0,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_MANAGED,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		0,
-		&imageInfo,
-		nullptr,
-		&m_pTexture);
-	return hr;
+	return S_OK;
 }
 
 void CParticle_System::Priority_Update(_float fTimeDelta)
@@ -163,7 +144,7 @@ HRESULT CParticle_System::Render()
 	Pre_Render();
 	if (!m_Particles.empty())
 	{
-		m_pGraphic_Device->SetTexture(0, m_pTexture);
+		m_pTexture->Bind_Resource(rand() % m_pTexture->Get_NumTextures());
 		m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_PSIZE | D3DFVF_DIFFUSE);
 		m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
 
@@ -184,6 +165,7 @@ HRESULT CParticle_System::Render()
 		{
 			if (i->bIsAlive)
 			{
+				//m_pTexture->Bind_Resource(i->iIndex);
 				v->vPosition = i->vPosition;
 				v->vColor = (D3DCOLOR)i->vColor;
 				v->fSize = i->fSize;
@@ -228,6 +210,12 @@ HRESULT CParticle_System::Render()
 
 HRESULT CParticle_System::Post_Render()
 {
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);

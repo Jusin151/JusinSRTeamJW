@@ -143,6 +143,7 @@ HRESULT CStaff_Bullet::Ready_Components()
 	trailDesc.fWidth = 1.f;
 	trailDesc.iNumParticles = 1;
 	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+	trailDesc.iNumTextures = 1;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))

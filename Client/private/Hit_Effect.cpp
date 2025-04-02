@@ -1,4 +1,5 @@
 ﻿#include "Hit_Effect.h"
+#include "Particles.h"
 
 CHit_Effect::CHit_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect_Base { pGraphic_Device }
@@ -69,9 +70,18 @@ HRESULT CHit_Effect::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
+	CFirework_Particle_System::FIREWORKDESC     FireworkDesc{};
+	FireworkDesc.fSize = 0.2f;
+	FireworkDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
+	FireworkDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
+	FireworkDesc.vOrigin = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	FireworkDesc.iNumParticles = 100;
+	FireworkDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+	FireworkDesc.iNumTextures = 1;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
-		return E_FAIL;*/
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -99,6 +109,7 @@ void CHit_Effect::Update(_float fTimeDelta)
 			//m_iCurrentFrame = 0;
 		}
 	}
+	m_pParticleCom->Update(fTimeDelta);
 }
 
 void CHit_Effect::Late_Update(_float fTimeDelta)
@@ -141,8 +152,8 @@ HRESULT CHit_Effect::Render()
 
 	Post_Render();
 
-	/*if (FAILED(m_pParticleCom->Render()))
-		return E_FAIL;*/
+	if (FAILED(m_pParticleCom->Render()))
+		return E_FAIL;
 	return S_OK;
 }
 

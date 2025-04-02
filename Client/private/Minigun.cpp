@@ -250,13 +250,9 @@ HRESULT CMinigun::Render()
 
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
-
     
     if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
   
-     
-
-
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
     if (FAILED(m_pVIBufferCom->Render()))

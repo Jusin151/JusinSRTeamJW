@@ -151,11 +151,10 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.f;
 		m_bHasFired = false;
-		__super::Picking_Object(5, m_Weapon_INFO.Damage);
+		__super::Picking_Object(1, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo--; 
 		Notify_Bullet();
 		m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
-		int a = 10;
 	}
 }
 
@@ -175,6 +174,7 @@ void CMagnum::Late_Update(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_Light(m_pLightCom);
 		m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
+		m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
 	}
 }
 
@@ -230,9 +230,9 @@ HRESULT CMagnum::Ready_Components()
 		return E_FAIL;
 
 
-	//CLight::LIGHT_DESC lDesc = {};
+	CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
-		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
+		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
 		return E_FAIL;
 
 	//CSound_Source::LIGHT_DESC lDesc = {};

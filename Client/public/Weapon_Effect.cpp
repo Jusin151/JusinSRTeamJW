@@ -108,8 +108,8 @@ HRESULT CWeapon_Effect::Render()
 
 	Release_RenderState();
 
-	if (FAILED(m_pParticleCom->Render()))
-		return E_FAIL;
+	/*if (FAILED(m_pParticleCom->Render()))
+		return E_FAIL;*/
 	
 
 
@@ -139,6 +139,7 @@ HRESULT CWeapon_Effect::Ready_Components()
 	FireworkDesc.vOrigin = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	FireworkDesc.iNumParticles = 100;
 	FireworkDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+	FireworkDesc.iNumTextures = 1;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
