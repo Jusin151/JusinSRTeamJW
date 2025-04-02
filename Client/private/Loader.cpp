@@ -24,7 +24,7 @@
 #include "Inven_UI.h"
 #include "Hub_SpellShop.h"
 #include "Level_Hub.h"
-#include "MiniMap.h"
+
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -154,10 +154,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
 	//m_isFinished = true;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
-		TEXT("Prototype_GameObject_MiniMap"),
-		CMiniMap::Create(m_pGraphic_Device))))
-		return E_FAIL;
+
 	
 
 	/* For.Prototype_Component_Texture_Sky */
