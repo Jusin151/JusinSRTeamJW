@@ -16,6 +16,7 @@
 #include "Harpoonguy.h"
 #include "Yeti.h"
 #include "Snowspider.h"
+#include "Glacier.h"
 #include "Door.h"
 
 
@@ -275,16 +276,17 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 		// ê¸°ë³¸ ê²Œìž„ ì˜¤ë¸Œì íŠ¸
 		if (className == "CPlayer")
 			return CPlayer::Create(pGraphic_Device);
+		// floor, wall, ceil
 		else if (className == "CTerrain")
 			return CTerrain::Create(pGraphic_Device);
 		else if (className == "CStructure")
 			return CStructure::Create(pGraphic_Device);
-		// ì¹´ë©”ë¼
+		// camera
 		else if (className == "CCamera_Free")
 			return CCamera_Free::Create(pGraphic_Device);
 		else if (className == "CCamera_FirstPerson")
 			return CCamera_FirstPerson::Create(pGraphic_Device);
-		// UI ì»´í¬ë„ŒíŠ¸
+		// UI 
 		else if (className == "CUI_Default_Panel")
 			return CUI_Default_Panel::Create(pGraphic_Device);
 		else if (className == "CUI_Left_Display")
@@ -311,6 +313,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CUI_Spell_Shop::Create(pGraphic_Device);
 		else if (className == "CUI_Spell_Shop")
 			return CUI_Spell_Shop::Create(pGraphic_Device);
+		// weapon
 		else if (className == "CAxe")
 			return CAxe::Create(pGraphic_Device);
 		else if (className == "CClaymore")
@@ -321,6 +324,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CStaff::Create(pGraphic_Device);
 		else if (className == "CShotGun")
 			return CShotGun::Create(pGraphic_Device);
+		// monster
 		else if (className == "CAnubis")
 			return CAnubis::Create(pGraphic_Device);
 		else if (className == "CCrocman")
@@ -333,6 +337,9 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CYeti::Create(pGraphic_Device);
 		else if (className == "CSnowspider")
 			return CSnowspider::Create(pGraphic_Device);
+		else if (className == "CGlacier")
+			return CGlacier::Create(pGraphic_Device);
+		// object?
 		else if (className == "CItem")
 			return CItem::Create(pGraphic_Device);
 		else if (className == "CDoor")
@@ -404,6 +411,8 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return L"Prototype_GameObject_Yeti";
 		else if (layerName == L"Layer_Monster_Snowspider")
 			return L"Prototype_GameObject_Snowspider";
+		else if (layerName == L"Layer_Monster_Giacier")
+			return L"Prototype_GameObject_Giacier";
 		else if (layerName == L"Layer_Monster_Projectile_Harpoon")
 			return L"Prototype_GameObject_Harpoon";
 		else if (layerName == L"Layer_BackGround")

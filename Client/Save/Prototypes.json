@@ -139,6 +139,12 @@
       "count": 28
     },
     {
+      "tag": "Prototype_Component_Texture_Glacier",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_%d.png",
+      "count": 53
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -438,6 +444,11 @@
       "tag": "Prototype_GameObject_Yeti",
       "level": 3,
       "class": "CYeti"
+    },
+    {
+      "tag": "Prototype_GameObject_Glacier",
+      "level": 3,
+      "class": "CGlacier"
     },
     {
       "tag": "Prototype_GameObject_Snowspider",

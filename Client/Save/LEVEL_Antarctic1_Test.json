@@ -7,7 +7,7 @@
         "LayerTag": "Layer_Player"
       }
     ],
-    "Layer_Crocman": [
+    "Layer_Glacier": [
       {
         "FromPool": false,
         "IsActive": true,
@@ -15,8 +15,8 @@
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Crocman",
-          "ProtTextureTag": "Prototype_Component_Texture_Crocman",
+          "ProtTag": "Prototype_GameObject_Glacier",
+          "ProtTextureTag": "Prototype_Component_Texture_Glacier",
           "ProtoLevel": 3
         },
         "collider_tag": "",
@@ -32,9 +32,9 @@
           0.0
         ],
         "scale": [
-          1.5,
-          1.5,
-          1.5
+          2.0,
+          2.0,
+          2.0
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -43,12 +43,12 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Crocman",
+        "LayerTag": "Layer_Glacier",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
-          "ProtTag": "Prototype_GameObject_Crocman",
-          "ProtTextureTag": "Prototype_Component_Texture_Crocman",
+          "ProtTag": "Prototype_GameObject_Glacier",
+          "ProtTextureTag": "Prototype_Component_Texture_Glacier",
           "ProtoLevel": 3
         },
         "collider_tag": "",
@@ -64,9 +64,9 @@
           0.0
         ],
         "scale": [
-          1.5,
-          1.5,
-          1.5
+          2.0,
+          2.0,
+          2.0
         ],
         "texture_path": "",
         "texture_tag": "",

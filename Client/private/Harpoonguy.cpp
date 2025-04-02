@@ -58,7 +58,7 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
 
-	if (m_iCurrentFrame > 26)
+	if (m_iCurrentFrame >= 26)
 	{
 		m_bIsActive = false;
 
@@ -278,9 +278,11 @@ void CHarpoonguy::Shooting(_float fTimeDelta)
 
 void CHarpoonguy::Select_Frame(_float fTimeDelta)
 {
+
+	if (m_iCurrentFrame == 26)
+		return;
+
 	m_fElapsedTime += fTimeDelta;
-
-
 
 	switch (m_eCurState)
 	{

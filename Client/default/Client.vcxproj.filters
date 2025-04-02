@@ -328,6 +328,12 @@
     <Filter Include="02.GameObjects\01.Monster\normal\Snowspider">
       <UniqueIdentifier>{6d7eec96-9ae1-44dd-bb7f-3c074c62d2e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Glacier">
+      <UniqueIdentifier>{d6c61556-dcd3-4078-849c-a3e03df9b130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster\GlacierBullet">
+      <UniqueIdentifier>{6c7faba0-4663-4fe7-b403-71c22cf0e524}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -615,6 +621,9 @@
     <ClInclude Include="..\public\Snowspider.h">
       <Filter>02.GameObjects\01.Monster\normal\Snowspider</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Glacier.h">
+      <Filter>02.GameObjects\01.Monster\normal\Glacier</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -882,6 +891,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Snowspider.cpp">
       <Filter>02.GameObjects\01.Monster\normal\Snowspider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Glacier.cpp">
+      <Filter>02.GameObjects\01.Monster\normal\Glacier</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
