@@ -242,9 +242,9 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y+0.5f, vPos.z);
 	D3DXMatrixRotationY(&matRotZ, fYaw);
 	matWorld = matRotZ*matTrans;
-
+	auto worldMat = matRotZ*pPlayerTransform->Get_WorldMat();
 	// 월드 행렬 설정
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &worldMat);
 
 	static _bool bInit = { false };
 
