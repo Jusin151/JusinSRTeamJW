@@ -81,7 +81,7 @@ private:
     float m_GridCellSize = 2.0f;    // 그리드 셀 크기
     int m_GridRows = 0;             // 그리드 행 수
     int m_GridColumns = 0;          // 그리드 열 수
-
+    _bool m_bStaticMapRendered = false;
     vector<vector<int>> m_GridMap;
 
 public:

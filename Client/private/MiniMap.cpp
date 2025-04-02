@@ -1,17 +1,17 @@
-#include "MiniMap.h"
+ï»¿#include "MiniMap.h"
 #include "Player.h"
 #include <Transform.h>
 #include <StructureManager.h>
 
-const int GRID_SIZE = 32;      // ±×¸®µå ÇÏ³ªÀÇ Å©±â (32x32 ±×¸®µå)
-const int MINIMAP_SIZE = 256;  // ¹Ì´Ï¸Ê ÅØ½ºÃ³ Å©±â
+const int GRID_SIZE = 32;      // ê·¸ë¦¬ë“œ í•˜ë‚˜ì˜ í¬ê¸° (32x32 ê·¸ë¦¬ë“œ)
+const int MINIMAP_SIZE = 256;  // ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ í¬ê¸°
 
-// ±×¸®µå ¼¿ Å¸ÀÔ Á¤ÀÇ
+// ê·¸ë¦¬ë“œ ì…€ íƒ€ì… ì •ì˜
 enum GRID_CELL_TYPE
 {
-    GRID_CELL_CORRIDOR = 0, // º¹µµ
-    GRID_CELL_WALL = 1,     // º®
-    GRID_CELL_DOOR = 2      // ¹®
+    GRID_CELL_CORRIDOR = 0, // ë³µë„
+    GRID_CELL_WALL = 1,     // ë²½
+    GRID_CELL_DOOR = 2      // ë¬¸
 };
 
 
@@ -38,21 +38,21 @@ HRESULT CMiniMap::Initialize_Prototype()
 }
 
 HRESULT CMiniMap::Initialize(void* pArg)
-{ // ¹Ì´Ï¸Ê ÅØ½ºÃ³ »ı¼º
+{ // ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ ìƒì„±
     m_pGraphic_Device->CreateTexture(MINIMAP_SIZE, MINIMAP_SIZE, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT,
         &m_pMiniMapTexture, NULL);
     m_pMiniMapTexture->GetSurfaceLevel(0, &m_pMiniMapSurface);
 
-    // ½ºÇÁ¶óÀÌÆ® °´Ã¼ »ı¼º
+    // ìŠ¤í”„ë¼ì´íŠ¸ ê°ì²´ ìƒì„±
     D3DXCreateSprite(m_pGraphic_Device, &m_pSprite);
 
-    // ¹Ì´Ï¸Ê Ãâ·Â À§Ä¡ ¹× Å©±â ¼³Á¤
-    m_MiniMapRect = { 10, 10, 10 + 150, 10 + 150 }; // ÁÂ»ó´Ü À§Ä¡(10,10)¿¡ 150x150 Å©±â·Î Ç¥½Ã
+    // ë¯¸ë‹ˆë§µ ì¶œë ¥ ìœ„ì¹˜ ë° í¬ê¸° ì„¤ì •
+    m_MiniMapRect = { 10, 10, 10 + 150, 10 + 150 }; // ì¢Œìƒë‹¨ ìœ„ì¹˜(10,10)ì— 150x150 í¬ê¸°ë¡œ í‘œì‹œ
 
-    // Á¤Á¡ ¹öÆÛ »ı¼º
+    // ì •ì  ë²„í¼ ìƒì„±
     m_pGraphic_Device->CreateVertexBuffer(
-        4 * sizeof(VERTEX), // Á¤Á¡ 4°³
+        4 * sizeof(VERTEX), // ì •ì  4ê°œ
         0,
         VERTEX::FVF,
         D3DPOOL_MANAGED,
@@ -60,11 +60,11 @@ HRESULT CMiniMap::Initialize(void* pArg)
         NULL
     );
 
-    // ±¸Á¶¹° ¸®½ºÆ® °¡Á®¿À±â
+    // êµ¬ì¡°ë¬¼ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
     m_DoorList = CStructureManager::Get_Instance()->Get_Doors();
     m_StructureList = CStructureManager::Get_Instance()->Get_Structures();
 
-    // ÇÃ·¹ÀÌ¾î Ã£±â
+    // í”Œë ˆì´ì–´ ì°¾ê¸°
     m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player"));
     if (!m_pPlayer)
     {
@@ -76,7 +76,7 @@ HRESULT CMiniMap::Initialize(void* pArg)
         return E_FAIL;
     }
 
-    // ¸Ê »çÀÌÁî °è»ê ¹× ±×¸®µå ¸Ê ÃÊ±âÈ­
+    // ë§µ ì‚¬ì´ì¦ˆ ê³„ì‚° ë° ê·¸ë¦¬ë“œ ë§µ ì´ˆê¸°í™”
     CalculateMapSize();
     InitializeGridMap();
     return S_OK;
@@ -88,48 +88,59 @@ void CMiniMap::Update(_float fTimeDelta)
 
 void CMiniMap::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this);
 }
 
 HRESULT CMiniMap::Render()
 {
 
-    // 1. ¿ø·¡ ·»´õ Å¸°Ù ÀúÀå
-    LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
-    m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
+    if (!m_bStaticMapRendered)
+    {
+        // 1. ì›ë˜ ë Œë” íƒ€ê²Ÿ ì €ì¥
+        LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
+        m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
 
-    // 2. ·»´õ Å¸°ÙÀ» ¹Ì´Ï¸Ê ÅØ½ºÃ³·Î º¯°æ
-    m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
+        // 2. ë Œë” íƒ€ê²Ÿì„ ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ë¡œ ë³€ê²½
+        m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
 
-    // 3. ¹Ì´Ï¸Ê ÅØ½ºÃ³ Å¬¸®¾î (¹è°æ»öÀ» ¾îµÎ¿î È¸»öÀ¸·Î ¼³Á¤ - º¹µµ Ç¥Çö)
-    m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 250, 50), 1.0f, 0);
+        // 3. ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ í´ë¦¬ì–´ (ë°°ê²½ìƒ‰ì„ ì–´ë‘ìš´ íšŒìƒ‰ìœ¼ë¡œ ì„¤ì • - ë³µë„ í‘œí˜„)
+        m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
 
-    // 4. ¹Ì´Ï¸Ê ³»¿ë ±×¸®±â
-    SetUp_RenderState();
+        SetUp_RenderState();
+        for (const auto& structure : m_StructureList)
+        {
+            // "Floor"ë‚˜ "Ceil" íƒœê·¸ê°€ ìˆëŠ” ê²ƒì€ ê±´ë„ˆëœë‹ˆë‹¤.
+            if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
+                structure->Get_Tag().find(L"Ceil") != std::wstring::npos||
+                structure->Get_Tag().find(L"Magma") != std::wstring::npos)
+                continue;
 
-    // ±×¸®µå ±â¹İÀ¸·Î ¹Ì´Ï¸Ê ·»´õ¸µ
-    RenderGridMap();
+            structure->Render();
+        }
+        if (m_pPlayer)
+        {
+            RenderPlayerOnMiniMap();
+        }
+        m_bStaticMapRendered = true;
+        //m_pPlayer->Render();
+        Release_RenderState();
+        // 5. ì›ë˜ ë Œë” íƒ€ê²Ÿìœ¼ë¡œ ë³µì›
+        m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
+        Safe_Release(pBackBuffer);
+    }
+    //RenderTestSquare();
 
-    // ÇÃ·¹ÀÌ¾î À§Ä¡ Ç¥½Ã
-    RenderPlayerOnMiniMap();
-  //  RenderTestSquare();
-    Release_RenderState();
 
-    RenderTestSquare();
-
-    // 5. ¿ø·¡ ·»´õ Å¸°ÙÀ¸·Î º¹¿ø
-    m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
-    Safe_Release(pBackBuffer);
-    // 6. ¹Ì´Ï¸Ê ÅØ½ºÃ³¸¦ È­¸é¿¡ ±×¸®±â
+    // 6. ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ë¥¼ í™”ë©´ì— ê·¸ë¦¬ê¸°
     if (m_pSprite && m_pMiniMapTexture)
     {
-        // ½ºÇÁ¶óÀÌÆ® ½ÃÀÛ
+        // ìŠ¤í”„ë¼ì´íŠ¸ ì‹œì‘
         m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 
-        // ¹Ì´Ï¸Ê ÅØ½ºÃ³¸¦ È­¸é ÁÂ»ó´Ü¿¡ ±×¸®±â
-        D3DXVECTOR3 pos(100.0f, 100.0f, 0.0f); // À§Ä¡ Á¶Á¤
+        // ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ë¥¼ í™”ë©´ ì¢Œìƒë‹¨ì— ê·¸ë¦¬ê¸°
+        D3DXVECTOR3 pos(100.0f, 100.0f, 0.0f); // ìœ„ì¹˜ ì¡°ì •
 
-        // ÅØ½ºÃ³ Å©±â Á¶Á¤
+        // í…ìŠ¤ì²˜ í¬ê¸° ì¡°ì •
         D3DXMATRIX matScale;
         D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.0f);
 
@@ -139,9 +150,9 @@ HRESULT CMiniMap::Render()
         D3DXMATRIX matFinal = matScale * matTranslation;
         m_pSprite->SetTransform(&matFinal);
 
-        m_pSprite->Draw(m_pMiniMapTexture, NULL, NULL, NULL, D3DCOLOR_ARGB(200, 255, 255, 255)); // ¾à°£ Åõ¸íÇÏ°Ô
+        m_pSprite->Draw(m_pMiniMapTexture, NULL, NULL, NULL, D3DCOLOR_ARGB(180, 255, 255, 255)); // ì•½ê°„ íˆ¬ëª…í•˜ê²Œ
 
-        // ½ºÇÁ¶óÀÌÆ® Á¾·á
+        // ìŠ¤í”„ë¼ì´íŠ¸ ì¢…ë£Œ
         m_pSprite->End();
     }
  
@@ -153,24 +164,24 @@ HRESULT CMiniMap::SetUp_RenderState()
     m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_OldViewMatrix);
 
-    // ·»´õ »óÅÂ ¼³Á¤
     m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+   m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 
-    // ºä Çà·Ä ¼³Á¤
-    D3DXMATRIX matView;
-    D3DXMatrixIdentity(&matView);
+    // ğŸ‘‡ í”Œë ˆì´ì–´ ìœ„ì—ì„œ ì•„ë˜ë¡œ ë³´ëŠ” ë·° í–‰ë ¬
     _float3 vPos = static_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-    D3DXVECTOR3 eye(vPos.x, 1.f, vPos.z -10.0f);
-    D3DXVECTOR3 at(vPos.x, 1.f, vPos.z);
-    D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
+    D3DXVECTOR3 eye(vPos.x, vPos.y + 5.f, vPos.z );  // ìœ„ì—ì„œ
+    D3DXVECTOR3 at(vPos.x, vPos.y, vPos.z);           // í”Œë ˆì´ì–´ ì¤‘ì‹¬
+    D3DXVECTOR3 up(0.0f, 0.0f, 1.0f);                 // yì¶•ì„ ìœ„ë¡œ
+
+    D3DXMATRIX matView;
     D3DXMatrixLookAtLH(&matView, &eye, &at, &up);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
 
-    // Á÷±³ Åõ¿µ Çà·Ä ¼³Á¤
+    // ğŸ‘‡ í”Œë ˆì´ì–´ ì£¼ë³€ ì¼ì • ë²”ìœ„ë§Œ ë³´ì´ê²Œ ì§êµ íˆ¬ì˜ ì„¤ì •
+    const float VIEW_RANGE = 20.f; // í”Œë ˆì´ì–´ ì£¼ë³€ 50 ìœ ë‹›
     D3DXMATRIX matOrtho;
-    D3DXMatrixOrthoLH(&matOrtho, MINIMAP_SIZE, MINIMAP_SIZE, 0.1f, 1000.0f);
+    D3DXMatrixOrthoLH(&matOrtho, VIEW_RANGE, VIEW_RANGE, 0.1f, 1000.0f);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOrtho);
 
     return S_OK;
@@ -180,9 +191,9 @@ HRESULT CMiniMap::Release_RenderState()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE); // Á¶¸í »óÅÂ º¹¿ø
+   m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false); // ì¡°ëª… ìƒíƒœ ë³µì›
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
-    m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix); // ºä Çà·Ä º¹¿ø
+    m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix); // ë·° í–‰ë ¬ ë³µì›
     return S_OK;
 }
 
@@ -196,7 +207,7 @@ void CMiniMap::CalculateMapSize()
     //float minX = FLT_MAX, minZ = FLT_MAX;
     //float maxX = FLT_MIN, maxZ = FLT_MIN;
 
-    //// º®°ú ¹®ÀÇ À§Ä¡¸¦ ÀüºÎ È®ÀÎ
+    //// ë²½ê³¼ ë¬¸ì˜ ìœ„ì¹˜ë¥¼ ì „ë¶€ í™•ì¸
     //for (const auto& structure : m_StructureList)
     //{
     //    _float3 pos = dynamic_cast<CTransform*>(structure->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
@@ -218,18 +229,18 @@ void CMiniMap::CalculateMapSize()
     //m_MapWidth = maxX - minX;
     //m_MapHeight = maxZ - minZ;
 
-    //// ÃÖ¼Ò ÁÂÇ¥ ÀúÀå (ÁÂÇ¥ º¯È¯¿¡ »ç¿ë)
+    //// ìµœì†Œ ì¢Œí‘œ ì €ì¥ (ì¢Œí‘œ ë³€í™˜ì— ì‚¬ìš©)
     //m_MapMinX = minX;
     //m_MapMinZ = minZ;
 
-    //// ±×¸®µå Å©±â °è»ê
+    //// ê·¸ë¦¬ë“œ í¬ê¸° ê³„ì‚°
     //m_GridColumns = _int(ceil(m_MapWidth / m_GridCellSize));
     //m_GridRows = _int(ceil(m_MapHeight / m_GridCellSize));
 
     float minX = FLT_MAX, minZ = FLT_MAX;
     float maxX = -FLT_MAX, maxZ = -FLT_MAX;
 
-    // ±¸Á¶¹°(º®, ¹Ù´Ú, ¹® µî) ÁÂÇ¥ °í·Á
+    // êµ¬ì¡°ë¬¼(ë²½, ë°”ë‹¥, ë¬¸ ë“±) ì¢Œí‘œ ê³ ë ¤
     for (const auto& structure : m_StructureList)
     {
         if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
@@ -251,7 +262,7 @@ void CMiniMap::CalculateMapSize()
         maxZ = max(maxZ, pos.z);
     }
 
-    // ÇÃ·¹ÀÌ¾î ÁÂÇ¥µµ Æ÷ÇÔ½ÃÅµ´Ï´Ù.
+    // í”Œë ˆì´ì–´ ì¢Œí‘œë„ í¬í•¨ì‹œí‚µë‹ˆë‹¤.
     if (m_pPlayer)
     {
         _float3 pPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
@@ -270,31 +281,31 @@ void CMiniMap::CalculateMapSize()
 
 _float2 CMiniMap::ConvertToMiniMapPos(_float3 vPos)
 {
-    //// ¿ùµå ÁÂÇ¥ -> ¹Ì´Ï¸Ê ÁÂÇ¥ º¯È¯
-    //_float scaleX = 256.f / m_MapWidth; // ¹Ì´Ï¸ÊÀÇ ³Êºñ¸¦ ¿ùµåÀÇ ³Êºñ·Î ³ª´®
-    //_float scaleY = 256.f / m_MapHeight; // ¹Ì´Ï¸ÊÀÇ ³ôÀÌ¸¦ ¿ùµåÀÇ ³ôÀÌ·Î ³ª´®
+    //// ì›”ë“œ ì¢Œí‘œ -> ë¯¸ë‹ˆë§µ ì¢Œí‘œ ë³€í™˜
+    //_float scaleX = 256.f / m_MapWidth; // ë¯¸ë‹ˆë§µì˜ ë„ˆë¹„ë¥¼ ì›”ë“œì˜ ë„ˆë¹„ë¡œ ë‚˜ëˆ”
+    //_float scaleY = 256.f / m_MapHeight; // ë¯¸ë‹ˆë§µì˜ ë†’ì´ë¥¼ ì›”ë“œì˜ ë†’ì´ë¡œ ë‚˜ëˆ”
 
-    //_float miniMapPosX = (vPos.x - m_MapMinX) * scaleX; // ¿ùµå ÁÂÇ¥¸¦ ¹Ì´Ï¸Ê ÁÂÇ¥·Î º¯È¯
-    //_float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY; // ¿ùµå ÁÂÇ¥¸¦ ¹Ì´Ï¸Ê ÁÂÇ¥·Î º¯È¯
+    //_float miniMapPosX = (vPos.x - m_MapMinX) * scaleX; // ì›”ë“œ ì¢Œí‘œë¥¼ ë¯¸ë‹ˆë§µ ì¢Œí‘œë¡œ ë³€í™˜
+    //_float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY; // ì›”ë“œ ì¢Œí‘œë¥¼ ë¯¸ë‹ˆë§µ ì¢Œí‘œë¡œ ë³€í™˜
 
     //return _float2(miniMapPosX, miniMapPosY);
 
-      // ÀüÃ¼ ¿ùµå ¹üÀ§¿¡ µû¸¥ ½ºÄÉÀÏ °è»ê (¹Ì´Ï¸Ê ÅØ½ºÃ³ Å©±â´Â 256¡¿256)
+      // ì „ì²´ ì›”ë“œ ë²”ìœ„ì— ë”°ë¥¸ ìŠ¤ì¼€ì¼ ê³„ì‚° (ë¯¸ë‹ˆë§µ í…ìŠ¤ì²˜ í¬ê¸°ëŠ” 256Ã—256)
     float scaleX = 256.f / m_MapWidth;
     float scaleY = 256.f / m_MapHeight;
 
-    // ÇÃ·¹ÀÌ¾îÀÇ ¿ùµå ÁÂÇ¥¸¦ °¡Á®¿È (CTransform ÄÄÆ÷³ÍÆ® ÀÌ¿ë)
+    // í”Œë ˆì´ì–´ì˜ ì›”ë“œ ì¢Œí‘œë¥¼ ê°€ì ¸ì˜´ (CTransform ì»´í¬ë„ŒíŠ¸ ì´ìš©)
     _float3 playerPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
-    // ÇÃ·¹ÀÌ¾îÀÇ ¹Ì´Ï¸Ê »ó ÁÂÇ¥(ÇöÀç º¯È¯½Ä ±âÁØ)
+    // í”Œë ˆì´ì–´ì˜ ë¯¸ë‹ˆë§µ ìƒ ì¢Œí‘œ(í˜„ì¬ ë³€í™˜ì‹ ê¸°ì¤€)
     float playerMiniMapX = (playerPos.x - m_MapMinX) * scaleX;
     float playerMiniMapY = (playerPos.z - m_MapMinZ) * scaleY;
 
-    // ÇÃ·¹ÀÌ¾î°¡ ¹Ì´Ï¸Ê Áß¾Ó(128,128)¿¡ ¿Àµµ·Ï ÇÏ´Â ¿ÀÇÁ¼Â °è»ê
+    // í”Œë ˆì´ì–´ê°€ ë¯¸ë‹ˆë§µ ì¤‘ì•™(128,128)ì— ì˜¤ë„ë¡ í•˜ëŠ” ì˜¤í”„ì…‹ ê³„ì‚°
     float offsetX = (256.f / 2.0f) - playerMiniMapX;
     float offsetY = (256.f / 2.0f) - playerMiniMapY;
 
-    // ÀÔ·ÂµÈ ¿ùµå ÁÂÇ¥¸¦ ¹Ì´Ï¸Ê ÁÂÇ¥·Î º¯È¯ÇÏ°í ¿ÀÇÁ¼Â Àû¿ë
+    // ì…ë ¥ëœ ì›”ë“œ ì¢Œí‘œë¥¼ ë¯¸ë‹ˆë§µ ì¢Œí‘œë¡œ ë³€í™˜í•˜ê³  ì˜¤í”„ì…‹ ì ìš©
     float miniMapPosX = (vPos.x - m_MapMinX) * scaleX + offsetX;
     float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY + offsetY;
 
@@ -317,65 +328,25 @@ void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color, float size)
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 }
 
-void CMiniMap::UpdateGridMap()
-{
-}
-
-void CMiniMap::RenderGridMap()
-{
-    // ¹Ì´Ï¸Ê ÅØ½ºÃ³ÀÇ Å©±â¿¡ ¸ÂÃç °¢ ¼¿ÀÇ Å©±â¸¦ °è»ê (ÇÈ¼¿ ´ÜÀ§)
-    float cellSizeX = static_cast<float>(MINIMAP_SIZE) / m_GridColumns;
-    float cellSizeY = static_cast<float>(MINIMAP_SIZE) / m_GridRows;
-
-    for (int row = 0; row < m_GridRows; ++row)
-    {
-        for (int col = 0; col < m_GridColumns; ++col)
-        {
-            // ¹Ì´Ï¸Ê »óÀÇ ÁÂÇ¥ °è»ê (°¢ ¼¿ÀÇ ÁÂÃø »ó´Ü)
-            float x = col * cellSizeX;
-            float y = row * cellSizeY;
-
-            // ¼¿ Å¸ÀÔ¿¡ µû¶ó »ö»ó °áÁ¤
-            D3DCOLOR color;
-            switch (m_GridMap[row][col])
-            {
-            case GRID_CELL_WALL:
-                color = D3DCOLOR_XRGB(0, 0, 0);        // º®: °ËÁ¤»ö
-                break;
-            case GRID_CELL_DOOR:
-                color = D3DCOLOR_XRGB(150, 150, 150);    // ¹®: È¸»ö
-                break;
-            case GRID_CELL_CORRIDOR:
-            default:
-                color = D3DCOLOR_XRGB(255, 200, 200);    // º¹µµ(ÀÌµ¿ °¡´ÉÇÑ ¿µ¿ª): ¿¬ÇÑ È¸»ö
-                break;
-            }
-
-            // °è»êµÈ ÁÂÇ¥¿Í Å©±â·Î ¼¿ ±×¸®±â
-            DrawRectOnMiniMap(x, y, cellSizeX, cellSizeY, color);
-        }
-    }
-}
-
 void CMiniMap::InitializeGridMap()
-{ // ±×¸®µå ¼¿ Å©±â ¼³Á¤ (½ÇÁ¦ ¿ùµå ´ÜÀ§)
-    m_GridCellSize = 1.0f; // ½ÇÁ¦ ¿ùµå ´ÜÀ§ ¼¿ Å©±â ¼³Á¤
+{ // ê·¸ë¦¬ë“œ ì…€ í¬ê¸° ì„¤ì • (ì‹¤ì œ ì›”ë“œ ë‹¨ìœ„)
+    m_GridCellSize = 1.0f; // ì‹¤ì œ ì›”ë“œ ë‹¨ìœ„ ì…€ í¬ê¸° ì„¤ì •
 
-    // ±×¸®µå Çà°ú ¿­ ¼ö °è»ê
+    // ê·¸ë¦¬ë“œ í–‰ê³¼ ì—´ ìˆ˜ ê³„ì‚°
     m_GridColumns = ceil(m_MapWidth / m_GridCellSize);
     m_GridRows = ceil(m_MapHeight / m_GridCellSize);
 
-    // ±×¸®µå ¸Ê ¸Ş¸ğ¸® ÇÒ´ç
+    // ê·¸ë¦¬ë“œ ë§µ ë©”ëª¨ë¦¬ í• ë‹¹
     m_GridMap.resize(m_GridRows);
     for (int i = 0; i < m_GridRows; ++i)
     {
-        m_GridMap[i].resize(m_GridColumns, GRID_CELL_CORRIDOR); // ±âº»°ªÀº º¹µµ(ÀÌµ¿ °¡´É ¿µ¿ª)
+        m_GridMap[i].resize(m_GridColumns, GRID_CELL_CORRIDOR); // ê¸°ë³¸ê°’ì€ ë³µë„(ì´ë™ ê°€ëŠ¥ ì˜ì—­)
     }
 
-    // ±¸Á¶¹°(º®, ¹® µî) ¹èÄ¡: ¹Ù´Ú°ú ÃµÀåÀº Á¦¿Ü
+    // êµ¬ì¡°ë¬¼(ë²½, ë¬¸ ë“±) ë°°ì¹˜: ë°”ë‹¥ê³¼ ì²œì¥ì€ ì œì™¸
     for (const auto& structure : m_StructureList)
     {
-        // "Floor"³ª "Ceil" ÅÂ±×°¡ ÀÖ´Â °ÍÀº °Ç³Ê¶İ´Ï´Ù.
+        // "Floor"ë‚˜ "Ceil" íƒœê·¸ê°€ ìˆëŠ” ê²ƒì€ ê±´ë„ˆëœë‹ˆë‹¤.
         if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
             structure->Get_Tag().find(L"Ceil") != std::wstring::npos)
             continue;
@@ -428,7 +399,7 @@ void CMiniMap::DrawRectOnMiniMap(float x, float y, float width, float height, D3
 
     m_pVertexBuffer->Unlock();
 
-    // TRIANGLEFANÀ¸·Î ±×¸®±â
+    // TRIANGLEFANìœ¼ë¡œ ê·¸ë¦¬ê¸°
     m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
     m_pGraphic_Device->SetFVF(VERTEX::FVF);
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
@@ -440,19 +411,19 @@ void CMiniMap::RenderStructureOnMiniMap(CGameObject* pObject)
     _float2 miniMapPos = ConvertToMiniMapPos(worldPos);
     float iconSize = GetIconSizeForObject(pObject);
 
-    // ¿¹½Ã·Î Èò»ö ¾ÆÀÌÄÜÀ¸·Î ±×¸²
+    // ì˜ˆì‹œë¡œ í°ìƒ‰ ì•„ì´ì½˜ìœ¼ë¡œ ê·¸ë¦¼
     DrawBoxOnMiniMap(D3DXVECTOR2(miniMapPos.x, miniMapPos.y), D3DCOLOR_XRGB(255, 255, 255), iconSize);
 }
 
 _float CMiniMap::GetIconSizeForObject(CGameObject* pObject)
 {
-    // ±âº» ¾ÆÀÌÄÜ Å©±â (¹Ì´Ï¸Ê »ó¿¡¼­ÀÇ ±âº» Å©±â)
+    // ê¸°ë³¸ ì•„ì´ì½˜ í¬ê¸° (ë¯¸ë‹ˆë§µ ìƒì—ì„œì˜ ê¸°ë³¸ í¬ê¸°)
     float baseSize = 10.f;
 
-    // °´Ã¼ÀÇ ½ºÄÉÀÏÀ» °¡Á®¿È
+    // ê°ì²´ì˜ ìŠ¤ì¼€ì¼ì„ ê°€ì ¸ì˜´
     _float3 scale = dynamic_cast<CTransform*>(pObject->Get_Component(TEXT("Com_Transform")))->Compute_Scaled();
 
-    // ¿¹¸¦ µé¾î xÃàÀÇ ½ºÄÉÀÏÀ» ±âÁØÀ¸·Î Å©±â Á¶Á¤
+    // ì˜ˆë¥¼ ë“¤ì–´ xì¶•ì˜ ìŠ¤ì¼€ì¼ì„ ê¸°ì¤€ìœ¼ë¡œ í¬ê¸° ì¡°ì •
     return baseSize * scale.x;
 }
 
@@ -460,13 +431,13 @@ void CMiniMap::RenderPlayerOnMiniMap()
 {
     if (m_pPlayer)
     {
-        // ÇÃ·¹ÀÌ¾î À§Ä¡ °¡Á®¿À±â
+        // í”Œë ˆì´ì–´ ìœ„ì¹˜ ê°€ì ¸ì˜¤ê¸°
         _float3 playerPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
-        // ¹Ì´Ï¸Ê ÁÂÇ¥·Î º¯È¯
+        // ë¯¸ë‹ˆë§µ ì¢Œí‘œë¡œ ë³€í™˜
         _float2 miniMapPos = ConvertToMiniMapPos(playerPos);
 
-        // ÇÃ·¹ÀÌ¾î¸¦ »¡°£»ö Á¡À¸·Î Ç¥½Ã
+        // í”Œë ˆì´ì–´ë¥¼ ë¹¨ê°„ìƒ‰ ì ìœ¼ë¡œ í‘œì‹œ
         DrawBoxOnMiniMap(D3DXVECTOR2(miniMapPos.x, miniMapPos.y), D3DCOLOR_XRGB(255, 0, 0),5.f);
     }
 }
@@ -480,14 +451,14 @@ void CMiniMap::RenderTestSquare()
          { D3DXVECTOR3(100, 200, 0), 0xFFFF0000 }
     };
 
-    // ÀÓ½Ã ¹öÅØ½º ¹öÆÛ »ı¼º
+    // ì„ì‹œ ë²„í…ìŠ¤ ë²„í¼ ìƒì„±
     LPDIRECT3DVERTEXBUFFER9 pVB = nullptr;
     if (FAILED(m_pGraphic_Device->CreateVertexBuffer(sizeof(vertices), 0, (D3DFVF_XYZ | D3DFVF_DIFFUSE), D3DPOOL_MANAGED, &pVB, nullptr)))
     {
-        return; // ¹öÆÛ »ı¼º ½ÇÆĞ ½Ã Ã³¸®
+        return; // ë²„í¼ ìƒì„± ì‹¤íŒ¨ ì‹œ ì²˜ë¦¬
     }
 
-    // ¹öÅØ½º ¹öÆÛ¿¡ µ¥ÀÌÅÍ º¹»ç
+    // ë²„í…ìŠ¤ ë²„í¼ì— ë°ì´í„° ë³µì‚¬
     void* pData = nullptr;
     pVB->Lock(0, sizeof(vertices), (void**)&pData, 0);
     memcpy(pData, vertices, sizeof(vertices));
@@ -495,10 +466,10 @@ void CMiniMap::RenderTestSquare()
     m_pGraphic_Device->SetFVF((D3DFVF_XYZ | D3DFVF_DIFFUSE));
     m_pGraphic_Device->SetStreamSource(0, pVB, 0, sizeof(VERTEX));
 
-    // TRIANGLEFAN ¹æ½ÄÀ¸·Î »ç°¢Çü(µÎ °³ÀÇ »ï°¢Çü)À» ±×¸³´Ï´Ù.
+    // TRIANGLEFAN ë°©ì‹ìœ¼ë¡œ ì‚¬ê°í˜•(ë‘ ê°œì˜ ì‚¼ê°í˜•)ì„ ê·¸ë¦½ë‹ˆë‹¤.
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 
-    // »ç¿ë ÈÄ ¹öÅØ½º ¹öÆÛ ÇØÁ¦
+    // ì‚¬ìš© í›„ ë²„í…ìŠ¤ ë²„í¼ í•´ì œ
     pVB->Release();
 }
 
@@ -543,7 +514,7 @@ void CMiniMap::Free()
     Safe_Release(m_pMiniMapSurface);
     Safe_Release(m_pMiniMapTexture);
     Safe_Release(m_pVertexBuffer);
-    Safe_Release(m_pSprite); // ½ºÇÁ¶óÀÌÆ® ÇØÁ¦ Ãß°¡
+    Safe_Release(m_pSprite); // ìŠ¤í”„ë¼ì´íŠ¸ í•´ì œ ì¶”ê°€
     //Safe_Release(m_pTransformCom);
     //Safe_Release(m_pMaterialCom);
 }
