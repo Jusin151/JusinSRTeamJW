@@ -81,7 +81,8 @@ HRESULT CLight::Bind_Resouce(_uint iIndex)
 void CLight::DecreaseIntensity(_uint iFrame)
 {
 	//0123
-	m_tInfo.fAttenuation1 = iFrame;
+	m_tInfo.fAttenuation1 = iFrame / 5.f;
+	//m_tInfo.fAttenuation2 = iFrame;
 }
 
 CLight* CLight::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LIGHTTYPE eType)
