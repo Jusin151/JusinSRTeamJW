@@ -95,15 +95,15 @@ void CHit_Effect::Update(_float fTimeDelta)
 		else
 		{
 			//처음 루프이후 다음루프라면 이펙트를 끈다.
-			//m_bDead = true;
-			m_iCurrentFrame = 0;
+			m_bDead = true;
+			//m_iCurrentFrame = 0;
 		}
 	}
 }
 
 void CHit_Effect::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 

@@ -24,6 +24,17 @@ public:
         int CurrentAmmo;     // 현재 탄약
     }Ranged_DESC;
 
+    struct CollisionInfo {
+        CCollider* pCollider = nullptr; // 충돌한 콜라이더 포인터
+        _float3 vHitPosition{};         // 충돌 지점
+        float fDistance = std::numeric_limits<float>::max(); // 광선 원점으로부터의 거리
+
+        // 거리를 기준으로 오름차순 정렬하기 위한 비교 연산자
+        bool operator<(const CollisionInfo& other) const {
+            return fDistance < other.fDistance;
+        }
+    };
+
 
 protected:
     CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -80,6 +91,8 @@ protected:
     _bool m_bWall = { false };   // 벽체크용 변수
     _bool m_bMonster = { false }; // 몬스터 체크용 변수=
     void Move_Hand(_float fTimeDelta) override;
+protected:
+    _float  m_fRange = { 100.f };
 
 
 public:

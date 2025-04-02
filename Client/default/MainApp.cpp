@@ -17,8 +17,6 @@
 #include "MiniMap.h"
 #include "StructureManager.h"
 
-
-
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {

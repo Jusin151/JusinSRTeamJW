@@ -64,8 +64,6 @@ void CWeapon_Effect::Update(_float fTimeDelta)
 	);
 
 	m_pParticleCom->Update(fTimeDelta);
-
-	int a = 10;
 }
 
 

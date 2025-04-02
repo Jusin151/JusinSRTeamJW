@@ -108,11 +108,12 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     if(m_pPickingSys)
     m_pPickingSys->Update();
 
-    if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
-        return S_OK;
+    /*if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+        return S_OK;*/
 
     vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
-
+    vector<CollisionInfo> vecPotentialCollisions;
+    unordered_set<CCollider*> setAddedColliders;
     bool bCollisionProcessed = false; // 이번 프레임에 충돌 처리가 완료되었는지 확인하는 플래그
 
     for (auto& group : colliderGroups)
@@ -122,36 +123,51 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             if (!collider || !collider->Get_Owner())
                 continue;
 
+            if (setAddedColliders.count(collider)) // count()가 1 이상이면 이미 존재함
+            {
+                continue; // 이미 이번 프레임에서 충돌 후보로 추가된 콜라이더이므로 건너뜀
+            }
+
             _float3 vHitPos{};
             if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
                 continue;
+
+            _float3 vDiff = vHitPos - m_pPickingSys->Get_Ray().vOrigin;
+
+            _float fDist = vDiff.Length();
+
+            if (fDist > m_fRange) continue;
 
             const wstring& tag = collider->Get_Owner()->Get_Tag();
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
                 continue;
 
-            // 유효한 충돌 대상을 찾았을 경우
-            if (tag.find(L"Wall") != wstring::npos)
-            {
-                Wall_Picking(collider, EffectNum);
-                m_bWall = true;
-                bCollisionProcessed = true; // 충돌 처리 완료 플래그 설정
-            }
-            else if (tag == L"Layer_Harpoonguy")
-            {
-                Monster_Hit(collider, Damage);
-                m_bMonster = true;
-                bCollisionProcessed = true; // 충돌 처리 완료 플래그 설정
-            }
-
-            // 충돌 처리가 완료되었다면 내부 루프 탈출
-            if (bCollisionProcessed)
-                break;
+            vecPotentialCollisions.push_back({ collider, vHitPos, fDist });  
+            setAddedColliders.insert(collider);
         }
+    }
+    if (!vecPotentialCollisions.empty())
+    {
+        // 가장 가까운 충돌 정보 가져오기 (벡터의 첫 번째 요소)
+        const CollisionInfo& closestCollision = vecPotentialCollisions.front();
+        CCollider* pClosestCollider = closestCollision.pCollider; // 가장 가까운 콜라이더
+        const wstring& closestTag = pClosestCollider->Get_Owner()->Get_Tag(); // 가장 가까운 객체의 태그
 
-        // 충돌 처리가 완료되었다면 외부 루프도 탈출
-        if (bCollisionProcessed)
-            break;
+        // 가장 가까운 객체의 태그에 따라 적절한 처리 수행
+        if (closestTag.find(L"Wall") != wstring::npos)
+        {
+            // 가장 가까운 벽과 충돌 처리
+            Wall_Picking(pClosestCollider, EffectNum); // EffectNum 변수가 정의되어 있어야 함
+            m_bWall = true; // 벽과 충돌했음을 표시 (필요한 경우)
+        }
+        else if (closestTag == L"Layer_Harpoonguy")
+        {
+            // 가장 가까운 Harpoonguy와 충돌 처리
+            Monster_Hit(pClosestCollider, Damage); // Damage 변수가 정의되어 있어야 함
+            m_bMonster = true; // 몬스터와 충돌했음을 표시 (필요한 경우)
+        }
+        // TODO: 다른 종류의 객체 태그에 대한 처리 로직을 여기에 추가할 수 있습니다.
+
     }
 
     return S_OK;
@@ -280,7 +296,7 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         hitDesc.vUp = pTargetTransform->Get_State(CTransform::STATE_UP);
         hitDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
         hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
-        hitDesc.type = rand() % 4;
+        hitDesc.type = rand() % 2;
 
 
         _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
