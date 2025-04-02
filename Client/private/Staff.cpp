@@ -67,16 +67,7 @@ HRESULT CStaff::Initialize(void* pArg)
 }
 HRESULT CStaff::Ready_Icon()
 {
-    CImage::Image_DESC Image_INFO = {};
-    Image_INFO.vPos = { 0.f,150.f };
-    Image_INFO.vSize = { 80.f,40.f };
-    Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-    Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-    Image_INFO.WeaponTag = L"Staff";
-    Image_INFO.TextureImageNum = Staff;
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-        LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-        return E_FAIL;
+ 
 
     return S_OK;
 }
@@ -181,8 +172,9 @@ void CStaff::Attack(_float fTimeDelta)
                 {
                     if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Staff_Bullet"),
                         LEVEL_GAMEPLAY, TEXT("Layer_Staff_Bullet"))))
+
                         return;
-                    m_bHasFired = true; // 발사 상태를 true로 설정
+                    m_bHasFired = true;
                 }
             }
             else

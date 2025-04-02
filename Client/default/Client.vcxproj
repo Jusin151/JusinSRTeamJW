@@ -176,6 +176,7 @@
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
+    <ClInclude Include="..\public\Hub_Headers.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />

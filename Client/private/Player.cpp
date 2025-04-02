@@ -199,23 +199,6 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스탯포인트:") + to_wstring(m_iStatpoint),
 		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
-		return E_FAIL;
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
-	SetUp_RenderState();
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-
-	Release_RenderState();
-
-	m_pColliderCom->Render();*/
-
 
 	return S_OK;
 }
@@ -308,7 +291,8 @@ void CPlayer::Move(_float fTimeDelta)
 
 
 
-	if (moveDir.LengthSq() > 0) {
+	if (moveDir.LengthSq() > 0) 
+	{
 		moveDir.Normalize(); // 방향 정규화
 		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -317,24 +301,6 @@ void CPlayer::Move(_float fTimeDelta)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
 
-
-
-	/*POINT ptMouse{};
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
-
-	LONG LDistX = abs(ptMouse.x - m_lMiddlePointX);
-
-	if (ptMouse.x - m_lMiddlePointX > 0)
-	{
-		if (LDistX > 80)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * LDistX * 0.005f);
-	}
-	else if (ptMouse.x - m_lMiddlePointX < 0)
-	{
-		if (LDistX > 80)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
-	}*/
 
 }
 

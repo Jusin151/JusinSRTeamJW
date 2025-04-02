@@ -57,8 +57,8 @@ HRESULT CShotGun::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 90;
 	m_fAnimationSpeed = 0.03f;
 
-	//if (FAILED(Ready_Icon()))
-	//	return E_FAIL;
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -68,16 +68,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 HRESULT CShotGun::Ready_Icon()
 {
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -200.f,150.f };
-	Image_INFO.vSize = { 100.f,50.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"ShotGun";
-	Image_INFO.TextureImageNum = ShotGun;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
+
 
 	return S_OK;
 }

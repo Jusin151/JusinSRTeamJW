@@ -66,8 +66,8 @@ HRESULT CMagnum::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
 	m_fAnimationSpeed = 0.03f; // 애니메이션속도
 
-	//if (FAILED(Ready_Icon()))
-	//	return E_FAIL;
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -76,16 +76,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 
 HRESULT CMagnum::Ready_Icon()
 {
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -100.f,150.f };
-	Image_INFO.vSize = { 74.f,31.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"Magnum";
-	Image_INFO.TextureImageNum = Magnum;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
+
 
 	return S_OK;
 }

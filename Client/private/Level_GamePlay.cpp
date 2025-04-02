@@ -29,15 +29,20 @@ HRESULT CLevel_GamePlay::Initialize()
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Event(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Inven_UI"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
+		return E_FAIL;
+
+	
+
 	if (FAILED(Ready_Layer_Weapon()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Weapon_Icon()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI()))
@@ -186,6 +191,88 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_Weapon_Icon()
+{
+	CImage::Image_DESC ClaymoreIcon_INFO = {};
+	ClaymoreIcon_INFO.vPos = { -400.f,150.f };
+	ClaymoreIcon_INFO.vSize = { 90.f,34.f };
+	ClaymoreIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	ClaymoreIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	ClaymoreIcon_INFO.WeaponTag = L"Claymore";
+	ClaymoreIcon_INFO.TextureImageNum = CWeapon_Base::Claymore;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &ClaymoreIcon_INFO)))
+		return E_FAIL;
+
+	CImage::Image_DESC AxeIcon_INFO = {};
+	AxeIcon_INFO.vPos = { -300.f,150.f };
+	AxeIcon_INFO.vSize = { 100.f,50.f };
+	AxeIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	AxeIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	AxeIcon_INFO.WeaponTag = L"Axe";
+	AxeIcon_INFO.TextureImageNum = CWeapon_Base::Axe;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &AxeIcon_INFO)))
+		return E_FAIL;
+
+	CImage::Image_DESC ShotGunIcon_INFO = {};
+	ShotGunIcon_INFO.vPos = { -200.f,150.f };
+	ShotGunIcon_INFO.vSize = { 100.f,50.f };
+	ShotGunIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	ShotGunIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	ShotGunIcon_INFO.WeaponTag = L"ShotGun";
+	ShotGunIcon_INFO.TextureImageNum = CWeapon_Base::ShotGun;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &ShotGunIcon_INFO)))
+		return E_FAIL;
+
+	CImage::Image_DESC MagnumIcon_INFO = {};
+	MagnumIcon_INFO.vPos = { -100.f,150.f };
+	MagnumIcon_INFO.vSize = { 74.f,31.f };
+	MagnumIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	MagnumIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	MagnumIcon_INFO.WeaponTag = L"Magnum";
+	MagnumIcon_INFO.TextureImageNum = CWeapon_Base::Magnum;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &MagnumIcon_INFO)))
+		return E_FAIL;
+
+	CImage::Image_DESC StaffIcon_INFO = {};
+	StaffIcon_INFO.vPos = { 0.f,150.f };
+	StaffIcon_INFO.vSize = { 80.f,40.f };
+	StaffIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	StaffIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	StaffIcon_INFO.WeaponTag = L"Staff";
+	StaffIcon_INFO.TextureImageNum = CWeapon_Base::Staff;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &StaffIcon_INFO)))
+		return E_FAIL;
+
+	CImage::Image_DESC MinigunIcon_INFO = {};
+	MinigunIcon_INFO.vPos = { 100.f,150.f };
+	MinigunIcon_INFO.vSize = { 80.f,26.f };
+	MinigunIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	MinigunIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	MinigunIcon_INFO.WeaponTag = L"Minigun";
+	MinigunIcon_INFO.TextureImageNum = CWeapon_Base::Minigun;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &MinigunIcon_INFO)))
+		return E_FAIL;
+
+	CImage::Image_DESC HarvesterIcon_INFO = {};
+	HarvesterIcon_INFO.vPos = { 200.f,150.f };
+	HarvesterIcon_INFO.vSize = { 100.f,41.f };
+	HarvesterIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
+	HarvesterIcon_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
+	HarvesterIcon_INFO.WeaponTag = L"Harvester";
+	HarvesterIcon_INFO.TextureImageNum = CWeapon_Base::Harvester;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &HarvesterIcon_INFO)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
@@ -226,7 +313,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Menu_Panel"),
-		LEVEL_GAMEPLAY, TEXT("1"), &Menu_Panel)))
+		LEVEL_STATIC, TEXT("1"), &Menu_Panel)))
 		return E_FAIL;
 
 	CUI_Base::UI_Parent_Desc DefaultUI_Desc{}; // 부모 UI는 총 6개의 정보 소유
@@ -241,7 +328,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Default_PlayerUI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Default_PlayerUI"), &DefaultUI_Desc)))
+		LEVEL_STATIC, TEXT("Layer_Default_PlayerUI"), &DefaultUI_Desc)))
 		return E_FAIL;
 
 
@@ -253,7 +340,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Left_Panel"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_1"), &Left_Panel)))
+		LEVEL_STATIC, TEXT("Layer_Left_Panel_UI_1"), &Left_Panel)))
 		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc Left_Panel_HP{};  // HP 바
@@ -264,7 +351,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Hp_Bar"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_2"), &Left_Panel_HP)))
+		LEVEL_STATIC, TEXT("Layer_Left_Panel_UI_2"), &Left_Panel_HP)))
 		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc Left_Panel_Player_Icon{};  // 플레이어 아이콘
@@ -275,7 +362,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Player_Icon"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_3"), &Left_Panel_Player_Icon)))
+		LEVEL_STATIC, TEXT("Layer_Left_Panel_UI_3"), &Left_Panel_Player_Icon)))
 		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc Left_Panel_Mana_Bar{};  // MP 아이콘
@@ -286,7 +373,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_MP_Bar"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Left_Panel_UI_4"), &Left_Panel_Mana_Bar)))
+		LEVEL_STATIC, TEXT("Layer_Left_Panel_UI_4"), &Left_Panel_Mana_Bar)))
 		return E_FAIL;
 
 
@@ -297,7 +384,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Mid_Panel"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Mid_Panel"), &EXP_Desc)))
+		LEVEL_STATIC, TEXT("Layer_Mid_Panel"), &EXP_Desc)))
 		return E_FAIL;
 
  	CUI_Base::UI_Child_Desc EXPBar_Desc{};  // Exp 검은바
@@ -307,14 +394,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_ExpBar_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_ExpBar_UI"), &EXPBar_Desc)))
+		LEVEL_STATIC, TEXT("Layer_ExpBar_UI"), &EXPBar_Desc)))
 		return E_FAIL;
 
 
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Event_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Event_UI"))))
+		LEVEL_STATIC, TEXT("Layer_Event_UI"))))
 		return E_FAIL;
 
 
@@ -326,7 +413,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Right_Bar"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_1"), &Left_Panel)))
+		LEVEL_STATIC, TEXT("Layer_Right_Panel_UI_1"), &Left_Panel)))
 		return E_FAIL;
 
 	CUI_Base::UI_Child_Desc RIght_Panel_Bullet{};  // 
@@ -337,7 +424,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI()
 	if (FAILED(m_pGameInstance->Add_GameObject
 	(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Bullet_Bar"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Right_Panel_UI_2"), &RIght_Panel_Bullet)))
+		LEVEL_STATIC, TEXT("Layer_Right_Panel_UI_2"), &RIght_Panel_Bullet)))
 		return E_FAIL;
 
 

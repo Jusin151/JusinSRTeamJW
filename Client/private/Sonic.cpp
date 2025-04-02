@@ -59,8 +59,8 @@ HRESULT CSonic::Initialize(void* pArg)
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Sonic", this); 
 
-   // if (FAILED(Ready_Icon()))
-   //     return E_FAIL;
+    if (FAILED(Ready_Icon()))
+        return E_FAIL;
     
 	return S_OK;
 }
@@ -74,7 +74,7 @@ HRESULT CSonic::Ready_Icon()
     Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
     Image_INFO.WeaponTag = L"Sonic";
     Image_INFO.TextureImageNum = Sonic;
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
+    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
         LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
         return E_FAIL;
 

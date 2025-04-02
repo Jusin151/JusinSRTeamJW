@@ -61,8 +61,8 @@ HRESULT CClaymore::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 	
 
-	//if (FAILED(Ready_Icon()))
-	//	return E_FAIL;
+	if (FAILED(Ready_Icon()))
+		return E_FAIL;
 
 	m_eType = CG_WEAPON;
 	m_iAp = 15;
@@ -72,16 +72,7 @@ HRESULT CClaymore::Initialize(void* pArg)
 
 HRESULT CClaymore::Ready_Icon()
 {
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -400.f,150.f };
-	Image_INFO.vSize = { 90.f,34.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"Claymore";
-	Image_INFO.TextureImageNum = Claymore;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
+	
 
 	return S_OK;
 }
