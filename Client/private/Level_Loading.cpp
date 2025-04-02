@@ -39,7 +39,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 void CLevel_Loading::Update(_float fTimeDelta)
 {
 
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		if (true == m_pLoader->isFinished())
 		{

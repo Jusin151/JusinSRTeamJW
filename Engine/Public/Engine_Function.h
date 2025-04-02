@@ -151,6 +151,15 @@ namespace Engine
 	{
 		return a + t * (b - a);
 	}
+
+	inline D3DXVECTOR3 VectorLerp(const D3DXVECTOR3& a, const D3DXVECTOR3& b, float t)
+	{
+		return {
+			Lerp(a.x, b.x, t),
+			Lerp(a.y, b.y, t),
+			Lerp(a.z, b.z, t) // z축도 보간
+		};
+	}
 }
 
 	

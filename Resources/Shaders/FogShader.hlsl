@@ -26,7 +26,6 @@ sampler DefaultSampler = sampler_state
 //IndexBuffer = 0 1 2 0 2 3 
 
 
-
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -34,7 +33,7 @@ struct VS_IN
 };
 
 struct VS_OUT
-{    
+{
     float4 vPosition : POSITION;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
@@ -48,16 +47,16 @@ VS_OUT VS_MAIN(VS_IN In)
     VS_OUT Out;
 
     /* 로컬 정점의 위치 * 월드 * 뷰 * 투영 */    
-    vector      vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    vector vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
     Out.vWorldPos = vPosition;
     
     vPosition = mul(vPosition, g_ViewMatrix);
-    vPosition = mul(vPosition, g_ProjMatrix);        
+    vPosition = mul(vPosition, g_ProjMatrix);
     
     Out.vPosition = vPosition;
-    Out.vTexcoord = In.vTexcoord;   
+    Out.vTexcoord = In.vTexcoord;
     
-    return Out;   
+    return Out;
 }
 
 /* 정점3개가 나온다 */
@@ -83,7 +82,7 @@ struct PS_OUT
 
 PS_OUT PS_MAIN(PS_IN In)
 {
-    PS_OUT Out;    
+    PS_OUT Out;
     
     Out.vColor = tex2D(DefaultSampler, In.vTexcoord);
     //texCUBE(CubeSampler, In.vTexcoord);
@@ -93,7 +92,7 @@ PS_OUT PS_MAIN(PS_IN In)
     Out.vColor.gb = Out.vColor.r;
     
     if (Out.vColor.a < 0.1f)
-        discard;        
+        discard;
     
     Out.vColor.a = 0.5f;
         
@@ -114,7 +113,7 @@ PS_OUT PS_MAIN_RED(PS_IN In)
 technique DefaultTechnique
 {
     pass DefaultPass
-    { 
+    {
 
         aLPHAbLENDeNABLE = True;
         SrcBlend = SrcAlpha;
@@ -131,3 +130,4 @@ technique DefaultTechnique
         PixelShader = compile ps_3_0 PS_MAIN_RED();
     }
 }
+

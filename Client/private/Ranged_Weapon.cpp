@@ -130,10 +130,12 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     if(m_pPickingSys)
     m_pPickingSys->Update();
 
-    if (!(GetKeyState(VK_LBUTTON) & 0x8000))
+    if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
         return S_OK;
 
     vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
+
+    bool bCollisionProcessed = false; // 이번 프레임에 충돌 처리가 완료되었는지 확인하는 플래그
 
     for (auto& group : colliderGroups)
     {
@@ -150,19 +152,28 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
                 continue;
 
+            // 유효한 충돌 대상을 찾았을 경우
             if (tag.find(L"Wall") != wstring::npos)
             {
                 Wall_Picking(collider, EffectNum);
                 m_bWall = true;
+                bCollisionProcessed = true; // 충돌 처리 완료 플래그 설정
             }
             else if (tag == L"Layer_Harpoonguy")
             {
                 Monster_Hit(collider, Damage);
                 m_bMonster = true;
+                bCollisionProcessed = true; // 충돌 처리 완료 플래그 설정
             }
 
-            break; // 하나만 처리
+            // 충돌 처리가 완료되었다면 내부 루프 탈출
+            if (bCollisionProcessed)
+                break;
         }
+
+        // 충돌 처리가 완료되었다면 외부 루프도 탈출
+        if (bCollisionProcessed)
+            break;
     }
 
     return S_OK;

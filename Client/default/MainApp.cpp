@@ -195,7 +195,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma region Shader
 	/*For.Prototype_Component_Shader*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		CShader::Create(m_pGraphic_Device, L"../../Shader/Shader_Rect.hlsl"))))
+		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/Shader_Rect.hlsl"))))
 		return E_FAIL;
 #pragma endregion
 	
