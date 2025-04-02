@@ -62,7 +62,7 @@ void CInventory::Update(_float fTimeDelta)
 	if (m_bKeyPressed)
 		Notify(nullptr, L"Open");
 
-	//m_pInven_UI->Inven_OnOff(true);
+
 
 	m_bKeyPressed = false;
 }

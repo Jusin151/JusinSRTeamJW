@@ -161,7 +161,7 @@ private:
     unordered_map<wstring, CWeapon_Base*> m_WeaponMap;
      CWeapon_Base* m_pItem = { nullptr };
     // CInven_UI* m_pInven_UI = { nullptr };
-     vector<CWeapon_Base*> m_vecpWeapons{ 8, nullptr };
+      vector<CWeapon_Base*> m_vecpWeapons{ 8, nullptr };
 	 unordered_map<wstring, _bool> m_MapItem; //
 private:
      Inven_DESC m_Inven_INFO{};

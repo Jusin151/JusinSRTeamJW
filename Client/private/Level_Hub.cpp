@@ -34,34 +34,36 @@ HRESULT CLevel_Hub::Initialize()
 		LEVEL_HUB, TEXT("Layer_Inven_UI"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Weapon()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_UI()))
 		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Weapon()))
-		return E_FAIL;
-
+	
 	if (FAILED(Ready_Layer_Shop_UI()))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Point_Shop"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Point_Shop"),
 		LEVEL_HUB, TEXT("Layer_Point_Shop"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Shop"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Weapon_Shop"),
 		LEVEL_HUB, TEXT("Layer_Weapon_Shop"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Spell_Shop"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Spell_Shop"),
 		LEVEL_HUB, TEXT("Layer_Spell_Shop"))))
 		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Episode_Hub"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Episode_Hub"),
 		LEVEL_HUB, TEXT("Layer_Shop"))))
 		return E_FAIL;
 
