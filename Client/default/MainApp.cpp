@@ -14,6 +14,7 @@
 #include "PickingSys.h"
 #include "Particles.h"
 #include "Sky.h"
+#include "MiniMap.h"
 #include "StructureManager.h"
 
 
@@ -265,6 +266,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		return E_FAIL;
 #pragma endregion
 	
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_MiniMap"),
+		CMiniMap::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -343,6 +349,7 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Release_Engine();
+
 
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);

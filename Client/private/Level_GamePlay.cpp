@@ -29,8 +29,8 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	CJsonLoader jsonLoader;
- 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+ 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Event(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
@@ -99,7 +99,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MiniMap"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
 
