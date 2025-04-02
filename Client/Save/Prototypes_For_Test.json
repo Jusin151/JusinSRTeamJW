@@ -1,7 +1,64 @@
 {
   "textures": [
+    {
+      "tag": "Prototype_Component_Texture_Blood_Effect_Base",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Blood/bloodhit0000.png",
+      "count": 1
+    },
+    {
+      "tag": "Prototype_Component_Texture_Blood_Effect1",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Blood/bloodhit_2_big%d.png",
+      "count": 7
+    },
+    {
+      "tag": "Prototype_Component_Texture_Blood_Effect2",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Blood/bloodhit_big000%d.png",
+      "count": 7
+    },
+    {
+      "tag": "Prototype_Component_Texture_Hit_Effect1",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Bullet/bullet_hit_A_%d.png",
+      "count": 4
+    },
+    {
+      "tag": "Prototype_Component_Texture_Hit_Effect2",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Bullet/bullet_hit_B_%d.png",
+      "count": 3
+    },
+    {
+      "tag": "Prototype_Component_Texture_Hit_Effect3",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Bullet/bullet_hit_C_%d.png",
+      "count": 5
+    },
+    {
+      "tag": "Prototype_Component_Texture_Hit_Effect4",
+      "level" : 0,
+      "path": "../../Resources/Textures/Effect/Hit/Bullet/bullet_hit_D_%d.png",
+      "count": 3
+    }
   ],
   "gameObjects" :[
+    {
+      "tag": "Prototype_GameObject_Hit_Effect",
+      "level":0,
+      "class": "CHit_Effect"
+    },
+    {
+      "tag": "Prototype_GameObject_Blood_Effect",
+      "level": 0,
+      "class": "CBlood_Effect"
+    },
+    {
+      "tag": "Prototype_GameObject_Terrain",
+      "level": 0,
+      "class": "CTerrain"
+    },
     {
       "tag": "Prototype_GameObject_Camera_Free",
       "level": 0,

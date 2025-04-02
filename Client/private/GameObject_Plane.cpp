@@ -102,6 +102,9 @@ HRESULT CGameObject_Plane::Ready_Components()
     bloodDesc.Bounding_Box.m_vMin = { -0.1f, -0.1f, -0.1f };
     bloodDesc.Bounding_Box.m_vMax = { 0.1f, 0.1f, 0.1f };
     bloodDesc.iNumParticles = { 100u };
+    bloodDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
+    bloodDesc.Bound.m_fRadius = 0.1f;
+    bloodDesc.iNumParticles = { 100 };
     bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 
     /* For.Com_BloodParticle */

@@ -47,6 +47,7 @@ void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     pAttribute->fAge = 0;
     pAttribute->fLifetime = 2.0f;
 
+    pAttribute->fSize = m_fSize;
     pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 0.0f, 1.0f);
     //pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }

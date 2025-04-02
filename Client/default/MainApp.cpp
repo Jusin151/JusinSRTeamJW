@@ -25,18 +25,23 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+#pragma region 랜덤생성
+	srand((_uint)time(NULL));
+#pragma endregion
 
-
+#pragma region Engine 준비
 	ENGINE_DESC		Desc{};
 	Desc.hWnd = g_hWnd;
 	Desc.isWindowed = true;
-	Desc.iWinSizeX = g_iWinSizeX; 
+	Desc.iWinSizeX = g_iWinSizeX;
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
-		return E_FAIL;
+		return E_FAIL;	
+#pragma endregion
 
+#pragma region 준비
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
 
@@ -48,6 +53,9 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_Component()))
 		return E_FAIL;
+#pragma endregion
+
+	
 
 
 
@@ -89,6 +97,7 @@ HRESULT CMainApp::Ready_Default_Setting()
 }
 HRESULT CMainApp::Ready_Component_For_Static()
 {
+#pragma region VIBuffer
 	/* For.Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
@@ -102,14 +111,27 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if(FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_EXP"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_EXP"),
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_TexturedCube"),
 		CVIBuffer_TexturedCube::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
+		CVIBuffer_Rect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* For.Prototype_Component_VIBuffer_Cube*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	/* For.Prototype_Component_VIBuffer_Sphere*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Sphere"),
+		CVIBuffer_Sphere::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
+	
+#pragma region Texture
 	/* For.Prototype_Component_Texture_Base*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Base"),
@@ -132,7 +154,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		return E_FAIL;
 
 
-	
+
 	/* For.Prototype_Component_Texture_Snow*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Snow"),
@@ -153,8 +175,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
 			TEXT("../../Resources/Textures/XYZ.dds"), 1))))
 		return E_FAIL;
-
-
+#pragma endregion
+	
+#pragma region Light
 	/* For.Prototype_Component_Light_Point*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
 		CLight::Create(m_pGraphic_Device, CLight::LT_POINT))))
@@ -167,12 +190,16 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Light_Spot"),
 		CLight::Create(m_pGraphic_Device, CLight::LT_SPOT))))
 		return E_FAIL;
+#pragma endregion
 
+#pragma region Shader
 	/*For.Prototype_Component_Shader*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
 		CShader::Create(m_pGraphic_Device, L"../../Shader/Shader_Rect.hlsl"))))
 		return E_FAIL;
-
+#pragma endregion
+	
+#pragma region Particle
 	/* For.Prototype_Component_Particle_Snow*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),
 		CSnow_Particle_System::Create(m_pGraphic_Device))))
@@ -201,26 +228,16 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
 		CBulletShell_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Bullet"),
-		CVIBuffer_Rect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
+#pragma endregion
+	
+#pragma region Transform
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
+#pragma endregion
 
-	/* For.Prototype_Component_VIBuffer_Cube*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,  TEXT("Prototype_Component_VIBuffer_Cube"),
-		CVIBuffer_Cube::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	/* For.Prototype_Component_VIBuffer_Sphere*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Sphere"),
-		CVIBuffer_Sphere::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
+#pragma region Collider
 	/* For.Prototype_Component_Collider_Sphere */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		CCollider_Sphere::Create(m_pGraphic_Device))))
@@ -230,17 +247,22 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		CCollider_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
+#pragma endregion
 
+#pragma region Material
 	/* For.Prototype_Component_Material */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		CMaterial::Create(m_pGraphic_Device, L"../../Resources/Materials/TestMaterial.json"))))
 		return E_FAIL;
+#pragma endregion
 
+#pragma region Font
 	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Font(L"EventFont", L"../../Resources/Textures/Font/함초롱돋움R.ttf")))
 		return E_FAIL;
+#pragma endregion
 	
 	return S_OK;
 }
@@ -255,6 +277,7 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
+#pragma region BaseGameObjects
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Plane"),
 		CGameObject_Plane::Create(m_pGraphic_Device))))
@@ -289,7 +312,7 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		TEXT("Prototype_GameObject_Sky"),
 		CSky::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+#pragma endregion
 
 	return S_OK;
 }

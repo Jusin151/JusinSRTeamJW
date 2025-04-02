@@ -23,6 +23,8 @@ public:
 	static CSnow_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CSnow_Particle_System* Clone(void* pArg) override;
 	virtual void Free();
+private:
+	BOUNDINGBOX						m_Bounding_Box = {};
 };
 
 END
