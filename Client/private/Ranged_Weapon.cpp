@@ -27,29 +27,7 @@ void CRanged_Weapon::Priority_Update(_float fTimeDelta)
 
 void CRanged_Weapon::Update(_float fTimeDelta)
 {
-    if (GetAsyncKeyState('W') & 0x8000)
-    {
-        t += speed;
-    }
-    else if (GetAsyncKeyState('A') & 0x8000)
-    {
-        t += speed;
-    }
-    else if (GetAsyncKeyState('D') & 0x8000)
-    {
-        t += speed;
-    }
-    else if (GetAsyncKeyState('S') & 0x8000)
-    {
-        t += speed;
-    }
-
-    float v = 20.0f;  // 폭을 설정 하는변수
-    _float3 vNewPos;
-    vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-    vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
+    __super::Move_Hand(fTimeDelta);
 
 	//Attack(fTimeDelta);
 
@@ -312,9 +290,9 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
 
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
-            TEXT("Prototype_GameObject_Hit_Effect"),
+            TEXT("Prototype_GameObject_Blood_Effect"),
             LEVEL_GAMEPLAY,
-            TEXT("Layer_Hit_Effect"),
+            TEXT("Layer_Blood_Effect"),
             &hitDesc);
 
 #pragma endregion

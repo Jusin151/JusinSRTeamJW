@@ -15,12 +15,7 @@ CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
 {
 
 
-
-
 }
-
-
-
 
 void CWeapon_Base::Priority_Update(_float fTimeDelta)
 {
@@ -40,19 +35,10 @@ void CWeapon_Base::Free()
 
 void CWeapon_Base::Move_Hand(_float fTimeDelta)
 {
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
+	if (GetAsyncKeyState('W') & 0x8000 || 
+		GetAsyncKeyState('A') & 0x8000 || 
+		GetAsyncKeyState('S') & 0x8000 || 
+		GetAsyncKeyState('D') & 0x8000 )
 	{
 		t += speed;
 	}

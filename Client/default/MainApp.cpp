@@ -14,6 +14,7 @@
 #include "PickingSys.h"
 #include "Particles.h"
 #include "Sky.h"
+#include "StructureManager.h"
 
 
 
@@ -338,10 +339,12 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+	CStructureManager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Release_Engine();
 
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
+	
 }
