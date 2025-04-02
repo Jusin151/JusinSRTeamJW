@@ -16,17 +16,19 @@ enum GRID_CELL_TYPE
 
 
 CMiniMap::CMiniMap(LPDIRECT3DDEVICE9 pGraphic_Device)
-    :CGameObject(pGraphic_Device)
+    :CGameObject(pGraphic_Device),
+    m_MiniMapRect()
 {
 }
 
 CMiniMap::CMiniMap(const CMiniMap& Prototype)
     : CGameObject(Prototype),
     m_pMiniMapSurface(Prototype.m_pMiniMapSurface),
-    m_pMiniMapTexture(Prototype.m_pMiniMapTexture)
+    m_pMiniMapTexture(Prototype.m_pMiniMapTexture),
+    m_MiniMapRect(Prototype.m_MiniMapRect)
 {
-    Safe_AddRef(m_pMiniMapSurface);
-    Safe_AddRef(m_pMiniMapTexture);
+  //  Safe_AddRef(m_pMiniMapSurface);
+  //  Safe_AddRef(m_pMiniMapTexture);
 }
 
 HRESULT CMiniMap::Initialize_Prototype()
@@ -86,11 +88,12 @@ void CMiniMap::Update(_float fTimeDelta)
 
 void CMiniMap::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this);
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 }
 
 HRESULT CMiniMap::Render()
 {
+
     // 1. 원래 렌더 타겟 저장
     LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
     m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
@@ -99,7 +102,7 @@ HRESULT CMiniMap::Render()
     m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
 
     // 3. 미니맵 텍스처 클리어 (배경색을 어두운 회색으로 설정 - 복도 표현)
-    m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
+    m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 250, 50), 1.0f, 0);
 
     // 4. 미니맵 내용 그리기
     SetUp_RenderState();
@@ -109,13 +112,14 @@ HRESULT CMiniMap::Render()
 
     // 플레이어 위치 표시
     RenderPlayerOnMiniMap();
-
+  //  RenderTestSquare();
     Release_RenderState();
+
+    RenderTestSquare();
 
     // 5. 원래 렌더 타겟으로 복원
     m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
     Safe_Release(pBackBuffer);
-
     // 6. 미니맵 텍스처를 화면에 그리기
     if (m_pSprite && m_pMiniMapTexture)
     {
@@ -140,6 +144,7 @@ HRESULT CMiniMap::Render()
         // 스프라이트 종료
         m_pSprite->End();
     }
+ 
     return S_OK;
 }
 
@@ -149,14 +154,16 @@ HRESULT CMiniMap::SetUp_RenderState()
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_OldViewMatrix);
 
     // 렌더 상태 설정
+    m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
     // 뷰 행렬 설정
     D3DXMATRIX matView;
     D3DXMatrixIdentity(&matView);
-    D3DXVECTOR3 eye(0.0f, 0.0f, -10.0f);
-    D3DXVECTOR3 at(0.0f, 0.0f, 0.0f);
+    _float3 vPos = static_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+    D3DXVECTOR3 eye(vPos.x, 1.f, vPos.z -10.0f);
+    D3DXVECTOR3 at(vPos.x, 1.f, vPos.z);
     D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
     D3DXMatrixLookAtLH(&matView, &eye, &at, &up);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
@@ -171,6 +178,7 @@ HRESULT CMiniMap::SetUp_RenderState()
 
 HRESULT CMiniMap::Release_RenderState()
 {
+    m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE); // 조명 상태 복원
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
@@ -185,12 +193,48 @@ HRESULT CMiniMap::Ready_Components()
 
 void CMiniMap::CalculateMapSize()
 {
-    float minX = FLT_MAX, minZ = FLT_MAX;
-    float maxX = FLT_MIN, maxZ = FLT_MIN;
+    //float minX = FLT_MAX, minZ = FLT_MAX;
+    //float maxX = FLT_MIN, maxZ = FLT_MIN;
 
-    // 벽과 문의 위치를 전부 확인
+    //// 벽과 문의 위치를 전부 확인
+    //for (const auto& structure : m_StructureList)
+    //{
+    //    _float3 pos = dynamic_cast<CTransform*>(structure->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+    //    minX = min(minX, pos.x);
+    //    maxX = max(maxX, pos.x);
+    //    minZ = min(minZ, pos.z);
+    //    maxZ = max(maxZ, pos.z);
+    //}
+
+    //for (const auto& door : m_DoorList)
+    //{
+    //    _float3 pos = dynamic_cast<CTransform*>(door->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+    //    minX = min(minX, pos.x);
+    //    maxX = max(maxX, pos.x);
+    //    minZ = min(minZ, pos.z);
+    //    maxZ = max(maxZ, pos.z);
+    //}
+
+    //m_MapWidth = maxX - minX;
+    //m_MapHeight = maxZ - minZ;
+
+    //// 최소 좌표 저장 (좌표 변환에 사용)
+    //m_MapMinX = minX;
+    //m_MapMinZ = minZ;
+
+    //// 그리드 크기 계산
+    //m_GridColumns = _int(ceil(m_MapWidth / m_GridCellSize));
+    //m_GridRows = _int(ceil(m_MapHeight / m_GridCellSize));
+
+    float minX = FLT_MAX, minZ = FLT_MAX;
+    float maxX = -FLT_MAX, maxZ = -FLT_MAX;
+
+    // 구조물(벽, 바닥, 문 등) 좌표 고려
     for (const auto& structure : m_StructureList)
     {
+        if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
+            structure->Get_Tag().find(L"Ceil") != std::wstring::npos)
+            continue;
         _float3 pos = dynamic_cast<CTransform*>(structure->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
         minX = min(minX, pos.x);
         maxX = max(maxX, pos.x);
@@ -207,36 +251,62 @@ void CMiniMap::CalculateMapSize()
         maxZ = max(maxZ, pos.z);
     }
 
+    // 플레이어 좌표도 포함시킵니다.
+    if (m_pPlayer)
+    {
+        _float3 pPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+        minX = min(minX, pPos.x);
+        maxX = max(maxX, pPos.x);
+        minZ = min(minZ, pPos.z);
+        maxZ = max(maxZ, pPos.z);
+    }
+
     m_MapWidth = maxX - minX;
     m_MapHeight = maxZ - minZ;
 
-    // 최소 좌표 저장 (좌표 변환에 사용)
     m_MapMinX = minX;
     m_MapMinZ = minZ;
-
-    // 그리드 크기 계산
-    m_GridColumns = ceil(m_MapWidth / m_GridCellSize);
-    m_GridRows = ceil(m_MapHeight / m_GridCellSize);
 }
 
 _float2 CMiniMap::ConvertToMiniMapPos(_float3 vPos)
 {
-    // 월드 좌표 -> 미니맵 좌표 변환
-    float scaleX = 256.0f / m_MapWidth; // 미니맵의 너비를 월드의 너비로 나눔
-    float scaleY = 256.0f / m_MapHeight; // 미니맵의 높이를 월드의 높이로 나눔
+    //// 월드 좌표 -> 미니맵 좌표 변환
+    //_float scaleX = 256.f / m_MapWidth; // 미니맵의 너비를 월드의 너비로 나눔
+    //_float scaleY = 256.f / m_MapHeight; // 미니맵의 높이를 월드의 높이로 나눔
 
-    float miniMapPosX = (vPos.x - m_MapMinX) * scaleX; // 월드 좌표를 미니맵 좌표로 변환
-    float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY; // 월드 좌표를 미니맵 좌표로 변환
+    //_float miniMapPosX = (vPos.x - m_MapMinX) * scaleX; // 월드 좌표를 미니맵 좌표로 변환
+    //_float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY; // 월드 좌표를 미니맵 좌표로 변환
+
+    //return _float2(miniMapPosX, miniMapPosY);
+
+      // 전체 월드 범위에 따른 스케일 계산 (미니맵 텍스처 크기는 256×256)
+    float scaleX = 256.f / m_MapWidth;
+    float scaleY = 256.f / m_MapHeight;
+
+    // 플레이어의 월드 좌표를 가져옴 (CTransform 컴포넌트 이용)
+    _float3 playerPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+    // 플레이어의 미니맵 상 좌표(현재 변환식 기준)
+    float playerMiniMapX = (playerPos.x - m_MapMinX) * scaleX;
+    float playerMiniMapY = (playerPos.z - m_MapMinZ) * scaleY;
+
+    // 플레이어가 미니맵 중앙(128,128)에 오도록 하는 오프셋 계산
+    float offsetX = (256.f / 2.0f) - playerMiniMapX;
+    float offsetY = (256.f / 2.0f) - playerMiniMapY;
+
+    // 입력된 월드 좌표를 미니맵 좌표로 변환하고 오프셋 적용
+    float miniMapPosX = (vPos.x - m_MapMinX) * scaleX + offsetX;
+    float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY + offsetY;
 
     return _float2(miniMapPosX, miniMapPosY);
 }
 
-void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos,D3DCOLOR color)
+void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color, float size)
 {
     VERTEX* pVertices;
+    m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
+    m_pGraphic_Device->SetFVF(VERTEX::FVF);
     m_pVertexBuffer->Lock(0, 0, (void**)&pVertices, 0);
-
-    float size = 2.0f; // 박스 크기
 
     pVertices[0] = { D3DXVECTOR3(pos.x - size, pos.y - size, 0), color };
     pVertices[1] = { D3DXVECTOR3(pos.x + size, pos.y - size, 0), color };
@@ -244,8 +314,6 @@ void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos,D3DCOLOR color)
     pVertices[3] = { D3DXVECTOR3(pos.x - size, pos.y + size, 0), color };
 
     m_pVertexBuffer->Unlock();
-
-    // TRIANGLELIST에서 TRIANGLEFAN으로 변경
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 }
 
@@ -255,6 +323,7 @@ void CMiniMap::UpdateGridMap()
 
 void CMiniMap::RenderGridMap()
 {
+    // 미니맵 텍스처의 크기에 맞춰 각 셀의 크기를 계산 (픽셀 단위)
     float cellSizeX = static_cast<float>(MINIMAP_SIZE) / m_GridColumns;
     float cellSizeY = static_cast<float>(MINIMAP_SIZE) / m_GridRows;
 
@@ -262,7 +331,7 @@ void CMiniMap::RenderGridMap()
     {
         for (int col = 0; col < m_GridColumns; ++col)
         {
-            // 미니맵 상의 위치 계산
+            // 미니맵 상의 좌표 계산 (각 셀의 좌측 상단)
             float x = col * cellSizeX;
             float y = row * cellSizeY;
 
@@ -271,17 +340,18 @@ void CMiniMap::RenderGridMap()
             switch (m_GridMap[row][col])
             {
             case GRID_CELL_WALL:
-                color = D3DCOLOR_XRGB(0, 0, 0); // 검은색 - 벽
+                color = D3DCOLOR_XRGB(0, 0, 0);        // 벽: 검정색
                 break;
             case GRID_CELL_DOOR:
-                color = D3DCOLOR_XRGB(150, 150, 150); // 회색 - 문
+                color = D3DCOLOR_XRGB(150, 150, 150);    // 문: 회색
                 break;
             case GRID_CELL_CORRIDOR:
             default:
-                continue; // 복도는 배경색(어두운 회색)으로 이미 그려져 있으므로 스킵
+                color = D3DCOLOR_XRGB(255, 200, 200);    // 복도(이동 가능한 영역): 연한 회색
+                break;
             }
 
-            // 셀 그리기
+            // 계산된 좌표와 크기로 셀 그리기
             DrawRectOnMiniMap(x, y, cellSizeX, cellSizeY, color);
         }
     }
@@ -289,7 +359,7 @@ void CMiniMap::RenderGridMap()
 
 void CMiniMap::InitializeGridMap()
 { // 그리드 셀 크기 설정 (실제 월드 단위)
-    m_GridCellSize = 2.0f; // 적절한 크기로 조정
+    m_GridCellSize = 1.0f; // 실제 월드 단위 셀 크기 설정
 
     // 그리드 행과 열 수 계산
     m_GridColumns = ceil(m_MapWidth / m_GridCellSize);
@@ -299,21 +369,26 @@ void CMiniMap::InitializeGridMap()
     m_GridMap.resize(m_GridRows);
     for (int i = 0; i < m_GridRows; ++i)
     {
-        m_GridMap[i].resize(m_GridColumns, GRID_CELL_CORRIDOR); // 기본값은 복도
+        m_GridMap[i].resize(m_GridColumns, GRID_CELL_CORRIDOR); // 기본값은 복도(이동 가능 영역)
     }
 
-    // 월드 좌표를 그리드 좌표로 변환하여 벽과 문 배치
+    // 구조물(벽, 문 등) 배치: 바닥과 천장은 제외
     for (const auto& structure : m_StructureList)
     {
-        if (structure->Get_Tag().find(L"Floor") != _wstring::npos) continue;
+        // "Floor"나 "Ceil" 태그가 있는 것은 건너뜁니다.
+        if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
+            structure->Get_Tag().find(L"Ceil") != std::wstring::npos)
+            continue;
+
         _float3 pos = dynamic_cast<CTransform*>(structure->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
         GridCoord gridPos = WorldToGrid(pos);
 
-        // 그리드 범위 체크
         if (IsValidGridCoord(gridPos))
         {
-            m_GridMap[gridPos.row][gridPos.col] = GRID_CELL_WALL;
+           
         }
+
+        m_GridMap[gridPos.row][gridPos.col] = GRID_CELL_WALL;
     }
 
     for (const auto& door : m_DoorList)
@@ -321,7 +396,6 @@ void CMiniMap::InitializeGridMap()
         _float3 pos = dynamic_cast<CTransform*>(door->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
         GridCoord gridPos = WorldToGrid(pos);
 
-        // 그리드 범위 체크
         if (IsValidGridCoord(gridPos))
         {
             m_GridMap[gridPos.row][gridPos.col] = GRID_CELL_DOOR;
@@ -360,6 +434,28 @@ void CMiniMap::DrawRectOnMiniMap(float x, float y, float width, float height, D3
     m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 }
 
+void CMiniMap::RenderStructureOnMiniMap(CGameObject* pObject)
+{
+    _float3 worldPos = dynamic_cast<CTransform*>(pObject->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+    _float2 miniMapPos = ConvertToMiniMapPos(worldPos);
+    float iconSize = GetIconSizeForObject(pObject);
+
+    // 예시로 흰색 아이콘으로 그림
+    DrawBoxOnMiniMap(D3DXVECTOR2(miniMapPos.x, miniMapPos.y), D3DCOLOR_XRGB(255, 255, 255), iconSize);
+}
+
+_float CMiniMap::GetIconSizeForObject(CGameObject* pObject)
+{
+    // 기본 아이콘 크기 (미니맵 상에서의 기본 크기)
+    float baseSize = 10.f;
+
+    // 객체의 스케일을 가져옴
+    _float3 scale = dynamic_cast<CTransform*>(pObject->Get_Component(TEXT("Com_Transform")))->Compute_Scaled();
+
+    // 예를 들어 x축의 스케일을 기준으로 크기 조정
+    return baseSize * scale.x;
+}
+
 void CMiniMap::RenderPlayerOnMiniMap()
 {
     if (m_pPlayer)
@@ -371,8 +467,39 @@ void CMiniMap::RenderPlayerOnMiniMap()
         _float2 miniMapPos = ConvertToMiniMapPos(playerPos);
 
         // 플레이어를 빨간색 점으로 표시
-        DrawBoxOnMiniMap(D3DXVECTOR2(miniMapPos.x, miniMapPos.y), D3DCOLOR_XRGB(255, 0, 0));
+        DrawBoxOnMiniMap(D3DXVECTOR2(miniMapPos.x, miniMapPos.y), D3DCOLOR_XRGB(255, 0, 0),5.f);
     }
+}
+
+void CMiniMap::RenderTestSquare()
+{
+    VERTEX vertices[4] = {
+         { D3DXVECTOR3(100, 100, 0), 0xFFFF0000 },
+         { D3DXVECTOR3(200, 100, 0), 0xFFFF0000 },
+         { D3DXVECTOR3(200, 200, 0), 0xFFFF0000 },
+         { D3DXVECTOR3(100, 200, 0), 0xFFFF0000 }
+    };
+
+    // 임시 버텍스 버퍼 생성
+    LPDIRECT3DVERTEXBUFFER9 pVB = nullptr;
+    if (FAILED(m_pGraphic_Device->CreateVertexBuffer(sizeof(vertices), 0, (D3DFVF_XYZ | D3DFVF_DIFFUSE), D3DPOOL_MANAGED, &pVB, nullptr)))
+    {
+        return; // 버퍼 생성 실패 시 처리
+    }
+
+    // 버텍스 버퍼에 데이터 복사
+    void* pData = nullptr;
+    pVB->Lock(0, sizeof(vertices), (void**)&pData, 0);
+    memcpy(pData, vertices, sizeof(vertices));
+    pVB->Unlock();
+    m_pGraphic_Device->SetFVF((D3DFVF_XYZ | D3DFVF_DIFFUSE));
+    m_pGraphic_Device->SetStreamSource(0, pVB, 0, sizeof(VERTEX));
+
+    // TRIANGLEFAN 방식으로 사각형(두 개의 삼각형)을 그립니다.
+    m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+
+    // 사용 후 버텍스 버퍼 해제
+    pVB->Release();
 }
 
 json CMiniMap::Serialize()

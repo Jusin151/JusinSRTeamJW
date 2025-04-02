@@ -53,9 +53,12 @@ private:
     CMiniMap::GridCoord WorldToGrid(_float3 worldPos);
     _bool IsValidGridCoord(const GridCoord& coord);
     // 그리기 함수
-    void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color);
+    void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color, float size);
     void DrawRectOnMiniMap(float x, float y, float width, float height, D3DCOLOR color);
+    void RenderStructureOnMiniMap(CGameObject* pObject);
+    _float GetIconSizeForObject(CGameObject* pObject);
     void RenderPlayerOnMiniMap();
+    void RenderTestSquare();
 private:
     list<class CDoor*> m_DoorList;
     list<class CStructure*> m_StructureList;
