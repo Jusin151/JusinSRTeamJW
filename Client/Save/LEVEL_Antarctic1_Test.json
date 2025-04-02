@@ -2697,20 +2697,6 @@
         ]
       }
     ],
-    "Layer_Camera": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Camera",
-        "OBJECT_DESC": {
-          "BufferTag": "",
-          "Level": 3,
-          "ProtTag": "Prototype_GameObject_Camera_Free",
-          "ProtTextureTag": "",
-          "ProtoLevel": 0
-        }
-      }
-    ],
     "Layer_Door": [
       {
         "FromPool": false,

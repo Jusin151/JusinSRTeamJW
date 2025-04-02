@@ -93,13 +93,9 @@ HRESULT CInventory::Ready_Components()
 }
 CWeapon_Base* CInventory::Equip(_uint type)
 {
-
-	//m_bKeyPressed = false;
-
 		m_pItem = Weapon_Equip(type-1);
 		m_bKeyPressed = true;
 	
-
 	return m_pItem;
 }
 
@@ -111,7 +107,7 @@ CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("인벤 UI 원본 생성 실패 ");
+		MSG_BOX("인벤 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -124,7 +120,7 @@ CGameObject* CInventory::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("인벤 UI 복제 실패");
+		MSG_BOX("인벤 복제 실패");
 		Safe_Release(pInstace);
 	}
 
@@ -139,9 +135,3 @@ void CInventory::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
-//if (!m_pWeapon) return;
-// 
-//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
-//{
-//    pRangeWeapon->Add_Ammo(iAmmo);
-//}

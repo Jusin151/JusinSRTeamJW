@@ -21,14 +21,13 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
-	//m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
+
 	return S_OK;
 }
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
 	
-
 	if (!pArg)
 	{
 		m_tObjDesc.iLevel = 3;
@@ -69,12 +68,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 
 }
-//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
 
-	//if (pTransform)
-	//{
-	//	pTransform->Go_Straight(fTimeDelta);
-	//}
 
 void CPlayer::Update(_float fTimeDelta)
 {
@@ -95,14 +89,14 @@ void CPlayer::Update(_float fTimeDelta)
  
 	if (m_asdasdasd)
 	{
-		//m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
-		//m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		//m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
-		//m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
-		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		//m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
+		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
+		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
+		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 		
 		m_asdasdasd = false;
 	}
@@ -520,12 +514,23 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	m_iHp = m_iPlayerHP.first;
 
 
-	//m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-	//(LEVEL_STATIC, TEXT("Layer_Inven")));
+	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+	(LEVEL_STATIC, TEXT("Layer_Inven")));
 
-	//if (!m_pPlayer_Inven)
-	//	return E_FAIL;
-
+	if (!m_pPlayer_Inven)
+	{
+ 		m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+		(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+		if (!m_pPlayer_Inven)
+		{
+			m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+			(LEVEL_HUB, TEXT("Layer_Inven")));
+				if(!m_pPlayer_Inven)
+				{
+					return E_FAIL;
+				}
+		}		
+	}
 
 	if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hp_Bar")))
 		Add_Observer(pHpUI);
