@@ -44,9 +44,6 @@ private:
     HRESULT Ready_Components();
 
 private:
-    _float2 ConvertToMiniMapPos(_float3 vPos);
-    // 그리기 함수
-    void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color, float size);
     void RenderPlayerOnMiniMap();
 private:
     list<class CDoor*> m_DoorList;

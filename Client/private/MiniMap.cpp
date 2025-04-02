@@ -224,56 +224,6 @@ HRESULT CMiniMap::Ready_Components()
 	return S_OK;
 }
 
-_float2 CMiniMap::ConvertToMiniMapPos(_float3 vPos)
-{
-	//// 월드 좌표 -> 미니맵 좌표 변환
-	//_float scaleX = 256.f / m_MapWidth; // 미니맵의 너비를 월드의 너비로 나눔
-	//_float scaleY = 256.f / m_MapHeight; // 미니맵의 높이를 월드의 높이로 나눔
-
-	//_float miniMapPosX = (vPos.x - m_MapMinX) * scaleX; // 월드 좌표를 미니맵 좌표로 변환
-	//_float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY; // 월드 좌표를 미니맵 좌표로 변환
-
-	//return _float2(miniMapPosX, miniMapPosY);
-
-	//  // 전체 월드 범위에 따른 스케일 계산 (미니맵 텍스처 크기는 256×256)
-	//float scaleX = 256.f / m_MapWidth;
-	//float scaleY = 256.f / m_MapHeight;
-
-	//// 플레이어의 월드 좌표를 가져옴 (CTransform 컴포넌트 이용)
-	//_float3 playerPos = dynamic_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-	//// 플레이어의 미니맵 상 좌표(현재 변환식 기준)
-	//float playerMiniMapX = (playerPos.x - m_MapMinX) * scaleX;
-	//float playerMiniMapY = (playerPos.z - m_MapMinZ) * scaleY;
-
-	//// 플레이어가 미니맵 중앙(128,128)에 오도록 하는 오프셋 계산
-	//float offsetX = (256.f / 2.0f) - playerMiniMapX;
-	//float offsetY = (256.f / 2.0f) - playerMiniMapY;
-
-	//// 입력된 월드 좌표를 미니맵 좌표로 변환하고 오프셋 적용
-	//float miniMapPosX = (vPos.x - m_MapMinX) * scaleX + offsetX;
-	//float miniMapPosY = (vPos.z - m_MapMinZ) * scaleY + offsetY;
-
-	//return _float2(miniMapPosX, miniMapPosY);
-	return _float2();
-}
-
-void CMiniMap::DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color, float size)
-{
-	VERTEX* pVertices;
-	m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
-	m_pGraphic_Device->SetFVF(VERTEX::FVF);
-	m_pVertexBuffer->Lock(0, 0, (void**)&pVertices, 0);
-
-	pVertices[0] = { D3DXVECTOR3(pos.x - size, pos.y - size, 0), color };
-	pVertices[1] = { D3DXVECTOR3(pos.x + size, pos.y - size, 0), color };
-	pVertices[2] = { D3DXVECTOR3(pos.x + size, pos.y + size, 0), color };
-	pVertices[3] = { D3DXVECTOR3(pos.x - size, pos.y + size, 0), color };
-
-	m_pVertexBuffer->Unlock();
-	m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
-}
-
 void CMiniMap::RenderPlayerOnMiniMap()
 {
 	if (!m_pPlayer)
@@ -290,18 +240,18 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	// 회전 반영할 월드 행렬 구성
 	D3DXMATRIX matTrans, matRotZ, matWorld;
 	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y+0.5f, vPos.z);
-	D3DXMatrixRotationZ(&matRotZ, -fYaw);
+	D3DXMatrixRotationY(&matRotZ, fYaw);
 	matWorld = matRotZ*matTrans;
 
 	// 월드 행렬 설정
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
 	// 삼각형 정점 생성
-	float size =2.0f; // 삼각형 크기
+	float size =1.5f; // 삼각형 크기
 	VERTEX vertices[3] = {
 		{ D3DXVECTOR3(0.f, 0.f, size), D3DCOLOR_RGBA(255, 0, 0, 255) },
-		{ D3DXVECTOR3(-size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) },
-		{ D3DXVECTOR3(size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) }
+		{ D3DXVECTOR3(size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) },
+		{ D3DXVECTOR3(-size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) }
 	};
 
 	// 정점 버퍼에 쓰기
@@ -309,18 +259,10 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	m_pVertexBuffer->Lock(0, sizeof(vertices), &pVertices, 0);
 	memcpy(pVertices, vertices, sizeof(vertices));
 	m_pVertexBuffer->Unlock();
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+
 	m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
 	m_pGraphic_Device->SetFVF(VERTEX::FVF);
 	m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
-
-	//// 다시 단위 행렬로 복원 (다른 UI 영향 방지)
-	//D3DXMATRIX matIdentity;
-	//D3DXMatrixIdentity(&matIdentity);
-	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matIdentity);
 }
 
 
