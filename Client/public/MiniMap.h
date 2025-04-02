@@ -5,7 +5,6 @@
 
 BEGIN(Engine)
 class CTransform;
-//class CTexture;
 class CVIBuffer;
 class CMaterial;
 END
@@ -45,44 +44,29 @@ private:
     HRESULT Ready_Components();
 
 private:
-    void CalculateMapSize();
     _float2 ConvertToMiniMapPos(_float3 vPos);
-    void UpdateGridMap();
-    void RenderGridMap();
-    void InitializeGridMap();
-    CMiniMap::GridCoord WorldToGrid(_float3 worldPos);
-    _bool IsValidGridCoord(const GridCoord& coord);
     // 그리기 함수
     void DrawBoxOnMiniMap(D3DXVECTOR2 pos, D3DCOLOR color, float size);
-    void DrawRectOnMiniMap(float x, float y, float width, float height, D3DCOLOR color);
-    void RenderStructureOnMiniMap(CGameObject* pObject);
-    _float GetIconSizeForObject(CGameObject* pObject);
     void RenderPlayerOnMiniMap();
-    void RenderTestSquare();
 private:
     list<class CDoor*> m_DoorList;
     list<class CStructure*> m_StructureList;
     class CPlayer* m_pPlayer = { nullptr };
+    class CCamera_FirstPerson* m_pCamera = { nullptr };
     LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // 미니맵 렌더 타겟
     LPDIRECT3DSURFACE9 m_pMiniMapSurface = {nullptr};
     LPDIRECT3DVERTEXBUFFER9 m_pVertexBuffer = { nullptr };
-    // 스프라이트 객체 추가
     LPD3DXSPRITE m_pSprite = nullptr;
     // 미니맵 출력 위치 및 크기
     RECT m_MiniMapRect;
-
-    _float m_MapWidth{0.f};
-    _float m_MapHeight{0.f};
-    _float m_MapMinX{0.f };
-    _float m_MapMinZ{ 0.f };
+    _bool m_bIsOriginal = { true };
+    CTransform* m_pTransformCom = { nullptr };
     _float4x4 m_OldProjMatrix{};
     _float4x4 m_OldViewMatrix{};
-   
-    float m_GridCellSize = 2.0f;    // 그리드 셀 크기
-    int m_GridRows = 0;             // 그리드 행 수
-    int m_GridColumns = 0;          // 그리드 열 수
+    _float4x4 m_matMiniMapView;
+    _float4x4 m_matMiniMapProj;
     _bool m_bStaticMapRendered = false;
-    vector<vector<int>> m_GridMap;
+    
 
 public:
     static CMiniMap* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

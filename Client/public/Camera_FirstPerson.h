@@ -27,6 +27,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
+public:
+	_float Get_Yaw() const { return m_fYaw; }
+
 private:
 	void Shaking(_float fTimeDelta);
 
