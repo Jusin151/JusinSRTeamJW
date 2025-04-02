@@ -233,18 +233,7 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	if (!pPlayerTransform)
 		return;
 
-	// 월드 좌표 위치 및 Yaw 가져오기
-	_float3 vPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
-	_float fYaw = m_pCamera->Get_Yaw();  // 카메라의 회전값을 사용할 수도 있음
-
-	// 회전 반영할 월드 행렬 구성
-	D3DXMATRIX matTrans, matRotZ, matWorld;
-	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y+0.5f, vPos.z);
-	D3DXMatrixRotationY(&matRotZ, fYaw);
-	matWorld = matRotZ*matTrans;
-	auto worldMat = matRotZ*pPlayerTransform->Get_WorldMat();
-	// 월드 행렬 설정
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &worldMat);
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, pPlayerTransform->Get_WorldMatrix());
 
 	static _bool bInit = { false };
 
