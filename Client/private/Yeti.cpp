@@ -73,13 +73,15 @@ void CYeti::Update(_float fTimeDelta)
     if (nullptr == m_pTarget)
         return;
 
-    _float3 vDist;
-    vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+    _float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
     if (vDist.LengthSq() > 400)
+    {
         return;
+    }
 
-    m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    if (m_eCurState != MS_BACK)
+        m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
     Select_Pattern(fTimeDelta);
 
@@ -87,12 +89,12 @@ void CYeti::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
 
-    if (m_eCurState != MS_DEATH)
+    if (m_eCurState != MS_DEATH && m_eCurState != MS_BACK)
     {
-      
-       m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
-       
-       m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+
+        m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+
+        m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
     }
 }
 
@@ -185,7 +187,7 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
         break;
 
     case CG_MONSTER:
-        m_vNextPos += vMove * 0.3f;
+        m_vNextPos += vMove * 0.2f;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
         break;
@@ -213,7 +215,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
 
     _float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-   
+  
 
     switch (m_eCurState)
     {
@@ -221,7 +223,10 @@ void CYeti::Select_Pattern(_float fTimeDelta)
         if (Check_DIstance(fTimeDelta))
         {
             if (vDist.LengthSq() > 10)
+            {
+                m_eCurState = MS_WALK;
                 Chasing(fTimeDelta);
+            }
             else
             {
                 Attack_Melee(fTimeDelta);
@@ -237,12 +242,12 @@ void CYeti::Select_Pattern(_float fTimeDelta)
         
         m_fBackTime -= fTimeDelta;
         m_pTransformCom->Chase(m_vAnchorPoint, fTimeDelta * m_fSpeed * 2.f);
-        m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
         if (m_fBackTime <= 0)
         {
             m_eCurState = MS_IDLE; // 2초 후에 IDLE 상태로 복귀
+            m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+            m_vNextPos = m_vCurPos;
         }
               
      

@@ -185,7 +185,7 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
         break;
 
     case CG_MONSTER:
-        m_vNextPos += vMove * 0.3f;
+        m_vNextPos += vMove * 0.2f;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
         break;
@@ -281,7 +281,7 @@ void CGlacier::Shooting(_float fTimeDelta)
         pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
         // 오브젝트 풀링으로 변경 필요
-        //m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_Harpoon"), &pDesc);
+        m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GlacierBullet"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_GlacierBullet"), &pDesc);
 
         m_iCurrentFrame++;
     }

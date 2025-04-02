@@ -69,8 +69,6 @@ void CMonster_Base::Look_Player()
 
 void CMonster_Base::Chasing(_float fTimeDelta)
 {
-	if (m_eCurState != MS_WALK)
-		m_eCurState = MS_WALK;
 
 	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * m_fSpeed);
 

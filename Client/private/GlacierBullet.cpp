@@ -1,33 +1,32 @@
-ï»¿#include "Harpoon.h"
+#include "GlacierBullet.h"
 #include "GameObject.h"
 #include "GameInstance.h"
 #include "Collider_Cube.h"
+#include "Player.h"
 
-
-CHarpoon::CHarpoon(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CProjectile_Base(pGraphic_Device)
+CGlacierBullet::CGlacierBullet(LPDIRECT3DDEVICE9 pGraphic_Device)
+    :CProjectile_Base(pGraphic_Device)
 {
 }
 
-CHarpoon::CHarpoon(const CHarpoon& Prototype)
-	:CProjectile_Base(Prototype)
+CGlacierBullet::CGlacierBullet(const CGlacierBullet& Prototype)
+    :CProjectile_Base(Prototype)
 {
 }
 
-HRESULT CHarpoon::Initialize_Prototype()
+HRESULT CGlacierBullet::Initialize_Prototype()
 {
-	return S_OK;
+    return S_OK;
 }
 
-HRESULT CHarpoon::Initialize(void* pArg)
+HRESULT CGlacierBullet::Initialize(void* pArg)
 {
-	
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	
+
 	if (nullptr != pArg)
 	{
 		PROJ_DESC* pDesc = static_cast<PROJ_DESC*>(pArg);
@@ -39,49 +38,45 @@ HRESULT CHarpoon::Initialize(void* pArg)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	}
-	
+
 
 	m_eType = CG_MONSTER_PROJECTILE_CUBE;
 	m_iAp = 5;
-	
+
 
 	return S_OK;
 }
 
-void CHarpoon::Priority_Update(_float fTimeDelta)
+void CGlacierBullet::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CHarpoon::Update(_float fTimeDelta)
+void CGlacierBullet::Update(_float fTimeDelta)
 {
 
-	m_fRotateTime += fTimeDelta;
-
-	m_pTransformCom->LookAt(m_vPos - m_vDir);
-	
-	m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), D3DXToRadian(-90.f));
-	
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fRotateTime);
-	
-	
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	fPos += m_vDir * m_fSpeed * fTimeDelta;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 
+	CPlayer* m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+
+	m_pTransformCom->LookAt(m_pPlayer->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 
 	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pColliderCom);
+
 }
 
-void CHarpoon::Late_Update(_float fTimeDelta)
+void CGlacierBullet::Late_Update(_float fTimeDelta)
 {
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
-HRESULT CHarpoon::Render()
+HRESULT CGlacierBullet::Render()
 {
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -103,7 +98,7 @@ HRESULT CHarpoon::Render()
 	return S_OK;
 }
 
-HRESULT CHarpoon::On_Collision(CCollisionObject* other)
+HRESULT CGlacierBullet::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
@@ -112,7 +107,7 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 		return S_OK;
 
 
-	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
+	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
@@ -125,7 +120,7 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 
 		Take_Damage(other);
 		m_bIsActive = false;
-		
+
 		break;
 	case CG_STRUCTURE_WALL:
 		m_bIsActive = false;
@@ -141,18 +136,18 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 	return S_OK;
 }
 
-HRESULT CHarpoon::SetUp_RenderState()
+HRESULT CGlacierBullet::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
 
 	return S_OK;
 }
 
-HRESULT CHarpoon::Release_RenderState()
+HRESULT CGlacierBullet::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -160,19 +155,19 @@ HRESULT CHarpoon::Release_RenderState()
 	return S_OK;
 }
 
-HRESULT CHarpoon::Ready_Components()
+HRESULT CGlacierBullet::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Harpoon"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_GlacierBullet"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
-	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
+	// ÀÌ°É·Î ÄÝ¶óÀÌ´õ Å©±â ¼³Á¤
 	ColliderDesc.fScale = { 0.5f, 0.5f, 0.5f };
-	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
+	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
@@ -182,34 +177,33 @@ HRESULT CHarpoon::Ready_Components()
 	return S_OK;
 }
 
-CHarpoon* CHarpoon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGlacierBullet* CGlacierBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CHarpoon* pInstance = new CHarpoon(pGraphic_Device);
+	CGlacierBullet* pInstance = new CGlacierBullet(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CHarpoon");
+		MSG_BOX("Failed to Created : CGlacierBullet");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CHarpoon::Clone(void* pArg)
+CGameObject* CGlacierBullet::Clone(void* pArg)
 {
-	CHarpoon* pInstance = new CHarpoon(*this);
+	CGlacierBullet* pInstance = new CGlacierBullet(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CHarpoon");
+		MSG_BOX("Failed to Created : CGlacierBullet");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-
-void CHarpoon::Free()
+void CGlacierBullet::Free()
 {
 	__super::Free();
 	Safe_Release(m_pTextureCom);

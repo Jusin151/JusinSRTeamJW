@@ -145,6 +145,12 @@
       "count": 53
     },
     {
+      "tag": "Prototype_Component_Texture_GlacierBullet",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_bullet_%d.png",
+      "count": 4
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -449,6 +455,11 @@
       "tag": "Prototype_GameObject_Glacier",
       "level": 3,
       "class": "CGlacier"
+    },
+    {
+      "tag": "Prototype_GameObject_GlacierBullet",
+      "level": 3,
+      "class": "CGlacierBullet"
     },
     {
       "tag": "Prototype_GameObject_Snowspider",

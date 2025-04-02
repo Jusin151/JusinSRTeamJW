@@ -72,14 +72,15 @@ void CSnowspider::Update(_float fTimeDelta)
     if (nullptr == m_pTarget)
         return;
 
-    _float3 vDist;
-    vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+    	_float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-    if (vDist.LengthSq() > 400)
-        return;
+	if (vDist.LengthSq() > 400)
+	{
+		return;
+	}
 
-
-    m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    if(m_eCurState != MS_BACK)
+        m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
     Select_Pattern(fTimeDelta);
 
@@ -87,7 +88,7 @@ void CSnowspider::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
 
-    if (m_eCurState != MS_DEATH)
+    if (m_eCurState != MS_DEATH && m_eCurState != MS_BACK)
     {
       
        m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
@@ -186,7 +187,7 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
         break;
 
     case CG_MONSTER:
-        m_vNextPos += vMove * 0.3f;
+        m_vNextPos += vMove * 0.2f;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
         break;
@@ -196,7 +197,6 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
         break;
     case CG_DOOR:
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-
         break;
     default:
         break;
@@ -214,7 +214,8 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
 
     _float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-
+    if (vDist.LengthSq() > 400 && m_eCurState != MS_BACK)
+        return;
 
     switch (m_eCurState)
     {
@@ -222,7 +223,10 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
         if (Check_DIstance(fTimeDelta))
         {
             if (vDist.LengthSq() > 10)
+            {
+                m_eCurState = MS_WALK;
                 Chasing(fTimeDelta);
+            }
             else
             {
                 Attack_Melee(fTimeDelta);
@@ -238,14 +242,13 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
 
         m_fBackTime -= fTimeDelta;
         m_pTransformCom->Chase(m_vAnchorPoint, fTimeDelta * m_fSpeed * 2.f);
-        m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
         if (m_fBackTime <= 0)
         {
             m_eCurState = MS_IDLE; // 2초 후에 IDLE 상태로 복귀
+            m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+            m_vNextPos = m_vCurPos;
         }
-
 
         break;
     case MS_WALK:

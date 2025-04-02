@@ -72,11 +72,12 @@ void CHarpoonguy::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	_float3 vDist;
-	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+	_float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
 	if (vDist.LengthSq() > 400)
+	{
 		return;
+	}
 
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -140,8 +141,8 @@ HRESULT CHarpoonguy::Render()
 	}
 
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("활잽이 체력:") + to_wstring(m_iHp),
-		_float2(400.f, -110.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("활잽이 체력:") + to_wstring(m_iHp),
+	//	_float2(400.f, -110.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	return S_OK;
 }
@@ -181,7 +182,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		m_vNextPos += vMove * 0.3f;
+		m_vNextPos += vMove * 0.2f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
@@ -209,13 +210,18 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
+	
 	//Shooting(fTimeDelta);
 
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
 		if (vDist.LengthSq() > 90)
+		{
+			
+			m_eCurState = MS_WALK;
 			Chasing(fTimeDelta);
+		}
 		else
 		{
 			Shooting(fTimeDelta);

@@ -71,14 +71,14 @@ void CCrocman::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	_float3 vDist;
-	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
-
+	_float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+	
 	if (vDist.LengthSq() > 400)
+	{
 		return;
+	}
 
 	
-
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	Select_Pattern(fTimeDelta);
@@ -192,7 +192,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		m_vNextPos += vMove * 0.3f;
+		m_vNextPos += vMove * 0.2f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
@@ -226,7 +226,11 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 	{
 	case MS_IDLE:
 		if (vDist.LengthSq() > 10)
+		{
+			if (m_eCurState != MS_WALK)
+				m_eCurState = MS_WALK;
 			Chasing(fTimeDelta);
+		}
 		else
 		{
 			Attack_Melee(fTimeDelta);

@@ -124,6 +124,14 @@ void CCollider_Manager::Update_Collision_Structure()
 					}
 					if (bCollision)
 					{
+						_float3 vMtv = srcEntry->Get_MTV().GetNormalized();
+						_float3 vDir = srcEntry->Get_Owner()->Get_Dir();
+
+						if (vMtv.Dot(vDir) > 0)
+						{
+							srcEntry->Set_MTV(-srcEntry->Get_MTV());
+						}
+
 						srcEntry->Get_Owner()->Set_NextPos(testPos);
 						break;
 					}

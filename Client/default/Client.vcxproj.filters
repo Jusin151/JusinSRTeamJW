@@ -85,12 +85,6 @@
     <Filter Include="02.GameObjects\01.Monster\Base">
       <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\01.Monster\Anubis">
-      <UniqueIdentifier>{54719e9f-0839-471c-a96f-16d435f626d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\01.Monster\Harpoonguy">
-      <UniqueIdentifier>{0d132fd3-9009-4ee7-be71-25807adcb069}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Inven">
       <UniqueIdentifier>{09a4a540-e0c5-4137-aa67-00aa62d9aff5}</UniqueIdentifier>
     </Filter>
@@ -624,6 +618,9 @@
     <ClInclude Include="..\public\Glacier.h">
       <Filter>02.GameObjects\01.Monster\normal\Glacier</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GlacierBullet.h">
+      <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -894,6 +891,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Glacier.cpp">
       <Filter>02.GameObjects\01.Monster\normal\Glacier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GlacierBullet.cpp">
+      <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

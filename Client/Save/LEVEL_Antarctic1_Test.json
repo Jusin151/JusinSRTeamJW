@@ -11,7 +11,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Crocman",
+        "LayerTag": "Layer_Glacier",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -22,9 +22,9 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          21.0,
+          10.0,
           0.21,
-          -28.0
+          5.0
         ],
         "rotation": [
           0.0,

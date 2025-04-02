@@ -183,6 +183,7 @@
     <ClInclude Include="..\public\GameObject_Projectile_Test.h" />
     <ClInclude Include="..\public\GameObject_Sphere.h" />
     <ClInclude Include="..\public\Glacier.h" />
+    <ClInclude Include="..\public\GlacierBullet.h" />
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
+    <ClCompile Include="..\private\GlacierBullet.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
     <ClCompile Include="..\private\Hub_PointShop.cpp" />
     <ClCompile Include="..\private\Hub_Portal.cpp" />

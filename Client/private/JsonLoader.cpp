@@ -17,6 +17,7 @@
 #include "Yeti.h"
 #include "Snowspider.h"
 #include "Glacier.h"
+#include "GlacierBullet.h"
 #include "Door.h"
 
 
@@ -331,14 +332,17 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return CCrocman::Create(pGraphic_Device);
 		else if (className == "CHarpoonguy")
 			return CHarpoonguy::Create(pGraphic_Device);
-		else if (className == "CHarpoon")
-			return CHarpoon::Create(pGraphic_Device);
 		else if (className == "CYeti")
 			return CYeti::Create(pGraphic_Device);
 		else if (className == "CSnowspider")
 			return CSnowspider::Create(pGraphic_Device);
 		else if (className == "CGlacier")
 			return CGlacier::Create(pGraphic_Device);
+		// monster projectile
+		else if (className == "CHarpoon")
+			return CHarpoon::Create(pGraphic_Device);
+		else if (className == "CGlacierBullet")
+			return CGlacierBullet::Create(pGraphic_Device);
 		// object?
 		else if (className == "CItem")
 			return CItem::Create(pGraphic_Device);
@@ -411,10 +415,12 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			return L"Prototype_GameObject_Yeti";
 		else if (layerName == L"Layer_Monster_Snowspider")
 			return L"Prototype_GameObject_Snowspider";
-		else if (layerName == L"Layer_Monster_Giacier")
-			return L"Prototype_GameObject_Giacier";
+		else if (layerName == L"Layer_Monster_Glacier")
+			return L"Prototype_GameObject_Glacier";
 		else if (layerName == L"Layer_Monster_Projectile_Harpoon")
 			return L"Prototype_GameObject_Harpoon";
+		else if (layerName == L"Layer_Monster_Projectile_GlacierBullet")
+			return L"Prototype_GameObject_GlacierBullet";
 		else if (layerName == L"Layer_BackGround")
 			return L"Prototype_GameObject_Terrain";
 		else if (layerName == L"Layer_Camera")
