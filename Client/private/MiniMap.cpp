@@ -79,7 +79,7 @@ HRESULT CMiniMap::Initialize(void* pArg)
 		return E_FAIL;
 	}
 
-	m_pTransformCom->Set_Scale(-1.f, -1.f, 1.f);
+	//m_pTransformCom->Set_Scale(-1.f, -1.f, 1.f);
 
 	// 3. Transform 행렬 바인딩
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -246,6 +246,11 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	// 월드 행렬 설정
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
+	static _bool bInit = { false };
+
+	if (!bInit)
+	{
+
 	// 삼각형 정점 생성
 	float size =1.5f; // 삼각형 크기
 	VERTEX vertices[3] = {
@@ -259,6 +264,8 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	m_pVertexBuffer->Lock(0, sizeof(vertices), &pVertices, 0);
 	memcpy(pVertices, vertices, sizeof(vertices));
 	m_pVertexBuffer->Unlock();
+	bInit = true;
+	}
 
 	m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
 	m_pGraphic_Device->SetFVF(VERTEX::FVF);
