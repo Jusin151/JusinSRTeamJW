@@ -204,7 +204,7 @@ HRESULT CUI_Player_Icon::Render()
 
 HRESULT CUI_Player_Icon::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player_Icon"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Player_Icon"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_PlayerICon_pTextureCom))))
 		return E_FAIL;
 

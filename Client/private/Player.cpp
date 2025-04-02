@@ -27,14 +27,7 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-	/*CLandObject::LANDOBJECT_DESC		Desc{};
-	Desc.iLevelIndex = LEVEL_GAMEPLAY;
-	Desc.strLayerTag = TEXT("Layer_BackGround");
-	Desc.strComponentTag = TEXT("Com_VIBuffer");
-	Desc.iIndex = 0;
-
-	if (FAILED(__super::Initialize(&Desc)))
-		return E_FAIL;*/
+	
 
 	if (!pArg)
 	{
@@ -479,13 +472,13 @@ HRESULT CPlayer::Release_RenderState()
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
+	/*if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	{
 		if (FAILED(__super::Add_Component(LEVEL_EDITOR, m_tObjDesc.stProtTextureTag,
 			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 			return E_FAIL;
-	}
+	}*/
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
@@ -526,16 +519,12 @@ HRESULT CPlayer::Ready_Player_SetUP()
 
 	m_iHp = m_iPlayerHP.first;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
 
-	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-	(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+	//m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+	//(LEVEL_STATIC, TEXT("Layer_Inven")));
 
-	if (!m_pPlayer_Inven)
-		return E_FAIL;
-
+	//if (!m_pPlayer_Inven)
+	//	return E_FAIL;
 
 
 	if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hp_Bar")))
@@ -550,14 +539,14 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
 		Add_Observer(pPlayer_Icon);
 
-	if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
-		Add_Observer(m_pHub_PointShop); 
+	//if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop"))))
+	//	Add_Observer(m_pHub_PointShop); 
 
-	if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Shop"))))
-		Add_Observer(m_pHub_WeaponShop);
+	//if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Weapon_Shop"))))
+	//	Add_Observer(m_pHub_WeaponShop);
 
-	if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop"))))
-		Add_Observer(m_pHub_SpellShop);
+	//if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Spell_Shop"))))
+	//	Add_Observer(m_pHub_SpellShop);
 
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);

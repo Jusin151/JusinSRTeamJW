@@ -122,19 +122,9 @@
       "class": "CItem"
     },
     {
-      "tag": "Prototype_GameObject_Player",
-      "level": 0,
-      "class": "CPlayer"
-    },
-    {
       "tag": "Prototype_GameObject_Camera_FirstPerson",
       "level": 0,
       "class": "CCamera_FirstPerson"
-    },
-    {
-      "tag": "Prototype_GameObject_Default_PlayerUI",
-      "level": 0,
-      "class": "CUI_Default_Panel"
     },
     {
       "tag": "Prototype_GameObject_Left_Panel",

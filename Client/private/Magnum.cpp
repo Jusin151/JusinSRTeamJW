@@ -66,8 +66,8 @@ HRESULT CMagnum::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
 	m_fAnimationSpeed = 0.03f; // 애니메이션속도
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+	//if (FAILED(Ready_Icon()))
+	//	return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -164,7 +164,7 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 
 void CMagnum::Late_Update(_float fTimeDelta)
 {
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == pPlayer)
 		return;
 	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
@@ -216,7 +216,7 @@ HRESULT CMagnum::Render()
 
 HRESULT CMagnum::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Magnum"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Magnum"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

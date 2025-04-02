@@ -291,7 +291,6 @@
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Event.cpp" />
-    <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
@@ -322,6 +321,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />

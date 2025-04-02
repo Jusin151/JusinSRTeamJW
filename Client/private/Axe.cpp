@@ -59,8 +59,8 @@ HRESULT CAxe::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this); // 도끼를 아이템 매니저에 등록
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+	//if (FAILED(Ready_Icon()))
+	//	return E_FAIL;
 
 
 	m_eType = CG_WEAPON;
@@ -135,7 +135,7 @@ HRESULT CAxe::On_Collision(CCollisionObject* other)
 
 HRESULT CAxe::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Axe"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Axe"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

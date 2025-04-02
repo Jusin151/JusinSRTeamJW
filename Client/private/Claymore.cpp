@@ -61,8 +61,8 @@ HRESULT CClaymore::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 	
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+	//if (FAILED(Ready_Icon()))
+	//	return E_FAIL;
 
 	m_eType = CG_WEAPON;
 	m_iAp = 15;
@@ -154,7 +154,7 @@ HRESULT CClaymore::On_Collision(CCollisionObject* other)
 
 HRESULT CClaymore::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Claymore"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Claymore"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

@@ -176,7 +176,7 @@ _bool CHub_WeaponShop::Can_Purchase(_uint iItemID, _uint iCount)
 HRESULT CHub_WeaponShop::Ready_Components()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Weapon_Shop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

@@ -33,6 +33,10 @@ private:
 
 	HRESULT Ready_Prototype_GameObject();
 	HRESULT Ready_Prototype_Component();
+	HRESULT Ready_Prototype_UI();
+	HRESULT Ready_Prototype_Weapon();
+	HRESULT Ready_Prototype_Inven();
+	HRESULT Ready_Prototype_Player();
 public:
 	static CMainApp* Create();
 	virtual void Free() override;

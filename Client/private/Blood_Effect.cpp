@@ -1,4 +1,4 @@
-#include "Blood_Effect.h"
+ï»¿#include "Blood_Effect.h"
 
 CBlood_Effect::CBlood_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect_Base { pGraphic_Device }
@@ -86,7 +86,7 @@ void CBlood_Effect::Update(_float fTimeDelta)
 		}
 		else
 		{
-			//Ã³À½ ·çÇÁÀÌÈÄ ´ÙÀ½·çÇÁ¶ó¸é ÀÌÆåÆ®¸¦ ²ö´Ù.
+			//ì²˜ìŒ ë£¨í”„ì´í›„ ë‹¤ìŒë£¨í”„ë¼ë©´ ì´íŽ™íŠ¸ë¥¼ ëˆë‹¤.
 			m_bDead = true;
 			//m_iCurrentFrame = 0;
 		}
@@ -105,8 +105,8 @@ HRESULT CBlood_Effect::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	return S_OK;
 }
 

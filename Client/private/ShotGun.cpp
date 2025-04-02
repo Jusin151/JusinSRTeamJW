@@ -57,8 +57,8 @@ HRESULT CShotGun::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 90;
 	m_fAnimationSpeed = 0.03f;
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+	//if (FAILED(Ready_Icon()))
+	//	return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -220,7 +220,7 @@ HRESULT CShotGun::On_Collision()
 
 HRESULT CShotGun::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,m_Weapon_INFO.TextureKey,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,m_Weapon_INFO.TextureKey,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -243,7 +243,7 @@ CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("샷건 UI 원본 생성 실패 ");
+		MSG_BOX("샷건  원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -259,7 +259,7 @@ CGameObject* CShotGun::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("샷건 UI 복제 실패");
+		MSG_BOX("샷건  복제 실패");
 
 		Safe_Release(pInstace);
 	}

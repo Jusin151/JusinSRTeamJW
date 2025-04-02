@@ -33,23 +33,11 @@ HRESULT CInventory::Initialize(void* pArg)
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
 	 
 
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven_UI"))))
-		return E_FAIL; 
-
-	//if (m_pInven_UI = dynamic_cast<CInven_UI*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Inven_UI")));
-	//else
-	//	return E_FAIL;
-
-//	m_vecpItem.resize(7); // 7번까지만 할래
-
 	bFirstUpdate = true;
 
  	if (auto pInvenUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Inven_UI")))
 		Add_Observer(pInvenUI);
 
-	//CItem_Manager::GetInstance()->Add_Inven(this);
 
 	return S_OK;
 } 

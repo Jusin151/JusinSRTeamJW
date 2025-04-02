@@ -40,7 +40,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	
 
 	if (FAILED(Ready_Layer_Weapon()))
 		return E_FAIL;
@@ -65,37 +64,12 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_Item"))))
 		return E_FAIL;
 
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_InvenUI"))))
-		return E_FAIL;*/
-
-
-
-	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	//	return E_FAIL;
-
-	/*if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), TEXT("Layer_Monster_Projectile_Harpoon"), 10)))
-		return E_FAIL;*/
-
-
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Point_Shop"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
-	//	return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Episode_Hub"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Shop"))))
 		return E_FAIL;
 
 	
-
-	/*CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { 0.f,0.f };
-	Image_INFO.vSize = { 1000.f,1000.f };
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Image";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"),&Image_INFO)))
-		return E_FAIL;*/
 
 
 

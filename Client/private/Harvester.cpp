@@ -45,8 +45,8 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Harvester", this);
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+	//if (FAILED(Ready_Icon()))
+	//	return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -233,7 +233,7 @@ HRESULT CHarvester::On_Collision()
 
 HRESULT CHarvester::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Harvester"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Harvester"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -256,7 +256,7 @@ CHarvester* CHarvester::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("샷건 UI 원본 생성 실패 ");
+		MSG_BOX("하베스터 원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -272,7 +272,7 @@ CGameObject* CHarvester::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("샷건 UI 복제 실패");
+		MSG_BOX("하베스터 복제 실패");
 
 		Safe_Release(pInstace);
 	}

@@ -59,8 +59,8 @@ HRESULT CSonic::Initialize(void* pArg)
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Sonic", this); 
 
-    if (FAILED(Ready_Icon()))
-        return E_FAIL;
+   // if (FAILED(Ready_Icon()))
+   //     return E_FAIL;
     
 	return S_OK;
 }
@@ -239,7 +239,7 @@ HRESULT CSonic::On_Collision()
 
 HRESULT CSonic::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sonic"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sonic"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
  		return E_FAIL;
 
@@ -262,7 +262,7 @@ CSonic* CSonic::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("스태프 UI 원본 생성 실패 ");
+		MSG_BOX("소닉 원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -278,7 +278,7 @@ CGameObject* CSonic::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("스태프 UI 복제 실패");
+		MSG_BOX("소닉 복제 실패");
 
 		Safe_Release(pInstace);
 	}
