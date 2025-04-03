@@ -918,7 +918,13 @@
     <FxCompile Include="..\..\Shader\VertexShader.hlsl">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\Shader_Rect.hlsl">
+    <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\Shader_Rect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\FogShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

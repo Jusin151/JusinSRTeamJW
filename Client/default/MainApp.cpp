@@ -17,8 +17,6 @@
 #include "MiniMap.h"
 #include "StructureManager.h"
 
-
-
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
@@ -197,7 +195,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma region Shader
 	/*For.Prototype_Component_Shader*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		CShader::Create(m_pGraphic_Device, L"../../Shader/Shader_Rect.hlsl"))))
+		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/Shader_Rect.hlsl"))))
 		return E_FAIL;
 #pragma endregion
 	
@@ -353,4 +351,5 @@ void CMainApp::Free()
 
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
+	
 }

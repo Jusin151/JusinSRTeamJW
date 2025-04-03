@@ -1,4 +1,4 @@
-#include "Hit_Effect.h"
+ï»¿#include "Hit_Effect.h"
 
 CHit_Effect::CHit_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect_Base { pGraphic_Device }
@@ -94,7 +94,7 @@ void CHit_Effect::Update(_float fTimeDelta)
 		}
 		else
 		{
-			//Ã³À½ ·çÇÁÀÌÈÄ ´ÙÀ½·çÇÁ¶ó¸é ÀÌÆåÆ®¸¦ ²ö´Ù.
+			//ì²˜ìŒ ë£¨í”„ì´í›„ ë‹¤ìŒë£¨í”„ë¼ë©´ ì´íŽ™íŠ¸ë¥¼ ëˆë‹¤.
 			m_bDead = true;
 			//m_iCurrentFrame = 0;
 		}
@@ -103,23 +103,23 @@ void CHit_Effect::Update(_float fTimeDelta)
 
 void CHit_Effect::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 
 HRESULT CHit_Effect::Pre_Render()
 {
-	// ±íÀÌ ¹öÆÛ Å×½ºÆ® ºñÈ°¼ºÈ­ (Ç×»ó ±×¸®µµ·Ï)
+	// ê¹Šì´ ë²„í¼ í…ŒìŠ¤íŠ¸ ë¹„í™œì„±í™” (í•­ìƒ ê·¸ë¦¬ë„ë¡)
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 
-	// (¼±ÅÃ »çÇ×) ±íÀÌ ¹öÆÛ ¾²±â ºñÈ°¼ºÈ­
-	// ÀÌ °´Ã¼°¡ ´Ù¸¥ °´Ã¼ÀÇ ·»´õ¸µ¿¡ ¿µÇâÀ» ÁÖÁö ¾Êµµ·Ï ÇÕ´Ï´Ù.
+	// (ì„ íƒ ì‚¬í•­) ê¹Šì´ ë²„í¼ ì“°ê¸° ë¹„í™œì„±í™”
+	// ì´ ê°ì²´ê°€ ë‹¤ë¥¸ ê°ì²´ì˜ ë Œë”ë§ì— ì˜í–¥ì„ ì£¼ì§€ ì•Šë„ë¡ í•©ë‹ˆë‹¤.
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	return S_OK;
 }
 
@@ -149,10 +149,11 @@ HRESULT CHit_Effect::Render()
 HRESULT CHit_Effect::Post_Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	return S_OK;
 }
 
