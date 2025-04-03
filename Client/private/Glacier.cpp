@@ -112,11 +112,10 @@ void CGlacier::Late_Update(_float fTimeDelta)
         0.5f * vScale.y,
         0.5f * vScale.z
     );
-    if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
-    {
+   
         if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
             return;
-    }
+   
     Select_Frame(fTimeDelta);
     if (nullptr == m_pTarget)
         return;
