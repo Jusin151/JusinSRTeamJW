@@ -37,32 +37,26 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[0].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 위
 	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-
 
 	// 오른쪽 아래
 	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[2].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 
-
 	// 왼쪽 아래
 	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[3].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-
 
 	// 후면 (Back Face: +Z)
 	// 왼쪽 위
 	m_pVertexPositions[4] = pVertices[4].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[4].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 위
 	m_pVertexPositions[5] = pVertices[5].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[5].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-
 
 	// 오른쪽 아래
 	m_pVertexPositions[6] = pVertices[6].vPosition = _float3(-0.5f, -0.5f, 0.5f);
@@ -72,12 +66,10 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	m_pVertexPositions[7] = pVertices[7].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
 
-
 	// 왼쪽면 (Left Face: -X)
 	// 왼쪽 위
 	m_pVertexPositions[8] = pVertices[8].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[8].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
-
 
 	// 오른쪽 위
 	m_pVertexPositions[9] = pVertices[9].vPosition = _float3(-0.5f, 0.5f, -0.5f);
@@ -87,48 +79,39 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	m_pVertexPositions[10] = pVertices[10].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[10].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 
-
 	// 왼쪽 아래
 	m_pVertexPositions[11] = pVertices[11].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[11].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-
 
 	// 오른쪽면 (Right Face: +X)
 	// 왼쪽 위
 	m_pVertexPositions[12] = pVertices[12].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[12].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 위
 	m_pVertexPositions[13] = pVertices[13].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[13].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
-
 
 	// 오른쪽 아래
 	m_pVertexPositions[14] = pVertices[14].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[14].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
 
-
 	// 왼쪽 아래
 	m_pVertexPositions[15] = pVertices[15].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[15].vTexcoord = _float3(0.0f, 1.0f, 0.0f);
-
 
 	// 윗면 (Top Face: +Y)
 	// 왼쪽 위
 	m_pVertexPositions[16] = pVertices[16].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[16].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 위
 	m_pVertexPositions[17] = pVertices[17].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[17].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 아래
 	m_pVertexPositions[18] = pVertices[18].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[18].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-
 
 	// 왼쪽 아래
 	m_pVertexPositions[19] = pVertices[19].vPosition = _float3(-0.5f, 0.5f, -0.5f);
@@ -139,16 +122,13 @@ HRESULT CVIBuffer_TexturedCube::Initialize_Prototype()
 	m_pVertexPositions[20] = pVertices[20].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[20].vTexcoord = _float3(0.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 위
 	m_pVertexPositions[21] = pVertices[21].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[21].vTexcoord = _float3(1.0f, 0.0f, 0.0f);
 
-
 	// 오른쪽 아래
 	m_pVertexPositions[22] = pVertices[22].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[22].vTexcoord = _float3(1.0f, 1.0f, 0.0f);
-
 
 	// 왼쪽 아래
 	m_pVertexPositions[23] = pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.5f);

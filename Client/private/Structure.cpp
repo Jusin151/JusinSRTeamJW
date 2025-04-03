@@ -49,7 +49,12 @@ void CStructure::Update(_float fTimeDelta)
 
 	if (m_bIsCubeCollider)
 	{
-		(m_pColliderCom)->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+		if (!m_bInit)
+		{
+			(m_pColliderCom)->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+			m_bInit = true;
+		}
+			
 	}
 
 	// 바닥

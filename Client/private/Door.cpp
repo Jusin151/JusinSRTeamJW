@@ -52,6 +52,7 @@ HRESULT CDoor::Initialize(void* pArg)
 
 void CDoor::Update(_float fTimeDelta)
 {
+	
 	// 문 애니메이션 업데이트
 	if (m_eDoorState == DOOR_STATE::OPENING)
 	{
@@ -79,9 +80,12 @@ void CDoor::Update(_float fTimeDelta)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+		
 	}
 
-	m_pGameInstance->Add_Collider(CG_DOOR, m_pColliderCom);
+	if(m_eDoorState != DOOR_STATE::OPEN)
+		m_pGameInstance->Add_Collider(CG_DOOR, m_pColliderCom);
+	
 }
 
 void CDoor::Late_Update(_float fTimeDelta)

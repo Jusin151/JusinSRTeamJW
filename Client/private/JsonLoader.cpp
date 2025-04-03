@@ -14,6 +14,10 @@
 #include "Item.h"
 #include "Trigger.h"
 #include "Harpoonguy.h"
+#include "Yeti.h"
+#include "Snowspider.h"
+#include "Glacier.h"
+#include "GlacierBullet.h"
 #include "Door.h"
 #include "Effects.h"
 
@@ -317,10 +321,6 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CGamePlay_Button::Create(pGraphic_Device);
 	else if (className == "CUI_Spell_Shop")
 		return CUI_Spell_Shop::Create(pGraphic_Device);
-	else if (className == "CUI_Spell_Shop")
-		return CUI_Spell_Shop::Create(pGraphic_Device);
-	else if (className == "CUI_Spell_Shop")
-		return CUI_Spell_Shop::Create(pGraphic_Device);
 #pragma endregion
 
 #pragma region Weapons
@@ -343,8 +343,16 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CCrocman::Create(pGraphic_Device);
 	else if (className == "CHarpoonguy")
 		return CHarpoonguy::Create(pGraphic_Device);
+	else if (className == "CYeti")
+		return CYeti::Create(pGraphic_Device);
+	else if (className == "CSnowspider")
+		return CSnowspider::Create(pGraphic_Device);
+	else if (className == "CGlacier")
+		return CGlacier::Create(pGraphic_Device);
 	else if (className == "CHarpoon")
-		return CHarpoon::Create(pGraphic_Device);
+	return CHarpoon::Create(pGraphic_Device);
+	else if (className == "CGlacierBullet")
+		return CGlacierBullet::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")
@@ -407,6 +415,30 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string & filePath, vector<stri
 	{
 		MSG_BOX("JSON 파싱 오류가 발생했습니다.");
 		return E_FAIL;
+		if (layerName == L"Layer_Player")
+			return L"Prototype_GameObject_Player";
+		else if (layerName == L"Layer_Monster_Crocman")
+			return L"Prototype_GameObject_Crocman";
+		else if (layerName == L"Layer_Monster_Harpoonguy")
+			return L"Prototype_GameObject_Harpoonguy";
+		else if (layerName == L"Layer_Monster_Yeti")
+			return L"Prototype_GameObject_Yeti";
+		else if (layerName == L"Layer_Monster_Snowspider")
+			return L"Prototype_GameObject_Snowspider";
+		else if (layerName == L"Layer_Monster_Glacier")
+			return L"Prototype_GameObject_Glacier";
+		else if (layerName == L"Layer_Monster_Projectile_Harpoon")
+			return L"Prototype_GameObject_Harpoon";
+		else if (layerName == L"Layer_Monster_Projectile_GlacierBullet")
+			return L"Prototype_GameObject_GlacierBullet";
+		else if (layerName == L"Layer_BackGround")
+			return L"Prototype_GameObject_Terrain";
+		else if (layerName == L"Layer_Camera")
+			return L"Prototype_GameObject_Camera_FirstPerson";
+		else if (layerName == L"Layer_Default_PlayerUI")
+			return L"Prototype_GameObject_Default_PlayerUI";
+
+		return L"";
 	}
 	catch (const exception&)
 	{

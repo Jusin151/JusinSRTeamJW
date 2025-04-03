@@ -17,7 +17,7 @@ BEGIN(Client)
 class CMonster_Base abstract : public CCollisionObject
 {
 public:
-	enum MONSTERSTATE { MS_IDLE, MS_WALK, MS_HIT, MS_ATTACK, MS_DEATH, MS_END };
+	enum MONSTERSTATE { MS_IDLE, MS_BACK, MS_HIT, MS_WALK,  MS_ATTACK, MS_DEATH, MS_END };
 
 protected:
 	CMonster_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -35,6 +35,7 @@ public:
 	virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
 	virtual void Select_Pattern(_float fTimeDelta) PURE;
 	void Look_Player();
+	void Chasing(_float fTimeDelta);
 
 	// texturecom는 각 monster에서 추가
 	HRESULT Ready_Components();

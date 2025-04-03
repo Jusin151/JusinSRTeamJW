@@ -43,10 +43,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-2.5f, 1.f, -1.f));
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_pTransformCom->Set_Scale(1.0f,1.0f,1.0f);
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
+	// Antarctic1_Test pos
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.5f, -1.f));
+
+	// Gameplay start pos
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
+	m_pTransformCom->Set_Scale(1.f, 1.5f, 1.f);
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -55,7 +57,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
+	m_fSpeed = 0.7f;
 
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -72,10 +74,20 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 
 	Input_Key(fTimeDelta);
+
+	//m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+
+	m_vDir = m_vNextPos - m_vCurPos;
+	m_fLength = m_vDir.Length();
+	m_vDir.Normalize();
+
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"),m_pTransformCom->Compute_Scaled());
+	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
 	/////////트리거용 
 
@@ -212,46 +224,28 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
-	_float3 direction = vMove.GetNormalized();
 
-	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-	_float3 dirOthertoOldPos = fPos - otherPos;
-	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
-	_float fDepth = vMove.Length();
 
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
-		// gameObject.Get_Tag() == "Bullet"
-		// if(CMonster* pMonster = dynamic_cast<CMonster*>(gameObject))
-		// {
-		// _int iDamge = pMonster->Get_Damge();
-		// Set_Hp()llll
-		// Update_UI()
-		// 
-		// 
-		// 
-		//
-
+		m_vNextPos += vMove * 0.3f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 
 	case CG_MONSTER_PROJECTILE_CUBE:
 		break;
 
 	case CG_STRUCTURE_WALL:
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
-		if (dirOthertoOldPos.Dot(direction) < 0)
-			fPos = m_vOldPos;
-		else
-			fPos += vMove;
-
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		break;
+	case CG_DOOR:
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
 		break;
 	default:
@@ -259,7 +253,6 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	}
 
 
-	m_vOldPos = fPos;
 
 
 	return S_OK;
@@ -268,7 +261,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	_float moveSpeed = 0.5f;
+	
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
@@ -293,12 +286,17 @@ void CPlayer::Move(_float fTimeDelta)
 	if (moveDir.LengthSq() > 0) 
 	{
 		moveDir.Normalize(); // 방향 정규화
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		moveDir.y = 0.f;
-		fPos += moveDir * fTimeDelta * moveSpeed * 10;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		fPos += moveDir * fTimeDelta * m_fSpeed * 10;
+		m_vNextPos = fPos;	
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
+	else
+	{
+		m_vNextPos = m_vCurPos;
+	}
+	
 
 
 }
@@ -454,7 +452,7 @@ HRESULT CPlayer::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.5f,0.5f,0.5f };
+	ColliderDesc.fScale = { 1.f, 1.5f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 

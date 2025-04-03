@@ -87,12 +87,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         if (fTimeAcc >= 1.f / 60.f /*1초에 60번만 트루를 리턴한다. */ )
         {
-            pGameInstance->Update_Timer(TEXT("Timer_60"));
 
-            /* 내 게임의 반복적인 업데이트와 렌더를 호출해준다. */
-            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
-            pMainApp->Render();
+           
+            if (fTimeAcc < 0.2f)
+            {
+                pGameInstance->Update_Timer(TEXT("Timer_60"));
+                /* 내 게임의 반복적인 업데이트와 렌더를 호출해준다. */
+                pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
+                pMainApp->Render();
 
+              
+            }
             fTimeAcc = 0.f;
         }
     }

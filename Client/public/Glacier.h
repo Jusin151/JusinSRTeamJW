@@ -1,19 +1,22 @@
-ï»¿#pragma once
+#pragma once
 
 #include "Monster_Base.h"
 
-class CHarpoonguy : public CMonster_Base
+class CGlacier : public CMonster_Base
 {
+public:
+	enum HPSTATE {HP_MAX, HP_HURT, HP_VERYHURT};
+
 private:
-	CHarpoonguy(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CHarpoonguy(const CHarpoonguy& Prototype);
-	virtual ~CHarpoonguy() = default;
+	CGlacier(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CGlacier(const CGlacier& Prototype);
+	virtual ~CGlacier() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
-	// ë§ˆì§€ë§‰ì— í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ë°”ë¼ë³´ë„ë¡ í•¨
+	// ¸¶Áö¸·¿¡ ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¹Ù¶óº¸µµ·Ï ÇÔ
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
@@ -22,29 +25,34 @@ public:
 
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
-	// ì¼ì • ê±°ë¦¬ ê¹Œì§€ ì«“ì•„ê°€ê±°ë‚˜, ì¼ì • ê±°ë¦¬ ì´ë‚´ë©´ ì½œë¼ì´ë” ìƒì„±í•´ì„œ ê³µê²©í•˜ë„ë¡
+	// ÀÏÁ¤ °Å¸® ±îÁö ÂÑ¾Æ°¡°Å³ª, ÀÏÁ¤ °Å¸® ÀÌ³»¸é Äİ¶óÀÌ´õ »ı¼ºÇØ¼­ °ø°İÇÏµµ·Ï
 	virtual void Select_Pattern(_float fTimeDelta) override;
 
-	
+	// hp È®ÀÎÇÏ¸é¼­ HPSTATE º¯°æ
+	void Select_HpState();
+	// ¸ó½ºÅÍ ±âÁØÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ ¿ŞÂÊ¿¡ ÀÖ´ÂÁö ¿À¸¥ÂÊ¿¡ ÀÖ´ÂÁö È®ÀÎ. 0ÀÌ¸é look, 0 ÃÊ°úÇÏ¸é ¿À¸¥ÂÊ, 0 ¹Ì¸¸ÀÌ¸é ¿ŞÂÊ
+	_float Check_Direction();
+
 	void Shooting(_float fTimeDelta);
 
-	// ê° ìƒíƒœì— ë§ê²Œ í”„ë ˆì„ì„ ì„¤ì •í•¨
+	// °¢ »óÅÂ¿¡ ¸Â°Ô ÇÁ·¹ÀÓÀ» ¼³Á¤ÇÔ
 	void Select_Frame(_float fTimeDelta);
 
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 
-	// í…ìŠ¤ì²˜ ì¶”ê°€ 
+	// ÅØ½ºÃ³ Ãß°¡ 
 	HRESULT Ready_Components();
 
 
 private:
-
-	_float3			m_vOldPos = {};
+	HPSTATE m_eHpState = { HP_MAX };
+	_uint m_iMaxHp = {0};
+	_bool m_bRight = { false };
 
 public:
-	static CHarpoonguy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CGlacier* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

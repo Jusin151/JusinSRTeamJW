@@ -97,6 +97,30 @@
       "count": 27
     },
     {
+      "tag": "Prototype_Component_Texture_Yeti",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Yeti/Yeti_%d.png",
+      "count": 41
+    },
+    {
+      "tag": "Prototype_Component_Texture_Snowspider",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Snowspider/Snowspider_%d.png",
+      "count": 28
+    },
+    {
+      "tag": "Prototype_Component_Texture_Glacier",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_%d.png",
+      "count": 53
+    },
+    {
+      "tag": "Prototype_Component_Texture_GlacierBullet",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_bullet_%d.png",
+      "count": 4
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -386,6 +410,26 @@
       "tag": "Prototype_GameObject_Harpoon",
       "level": 3,
       "class": "CHarpoon"
+    },
+    {
+      "tag": "Prototype_GameObject_Yeti",
+      "level": 3,
+      "class": "CYeti"
+    },
+    {
+      "tag": "Prototype_GameObject_Glacier",
+      "level": 3,
+      "class": "CGlacier"
+    },
+    {
+      "tag": "Prototype_GameObject_GlacierBullet",
+      "level": 3,
+      "class": "CGlacierBullet"
+    },
+    {
+      "tag": "Prototype_GameObject_Snowspider",
+      "level": 3,
+      "class": "CSnowspider"
     },
     {
       "tag": "Prototype_GameObject_Terrain",
