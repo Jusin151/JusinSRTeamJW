@@ -197,35 +197,7 @@
           0.5
         ]
       }
-    ],
-    "Layer_Hub_Floor1": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Hub_Floor1",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 6,
-          "ProtTag": "Prototype_GameObject_Hub_Floor1",
-          "ProtTextureTag": "Prototype_Component_Texture_Hub_Floor1",
-          "ProtoLevel": 6
-        },
-        "is_cube_collider": true,
-        "position": [
-          -171039.1875,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
+    ]
       },
       {
         "FromPool": false,

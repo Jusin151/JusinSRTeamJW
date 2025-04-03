@@ -51,7 +51,7 @@ void CGamePlay_Button::Update(_float fTimeDelta)
         if (m_OnMouse)  
             m_OnMouse();
 
-        if (GetKeyState(VK_LBUTTON) & 0x8000)
+        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
         {
             if (m_OnClick)
                 m_OnClick();

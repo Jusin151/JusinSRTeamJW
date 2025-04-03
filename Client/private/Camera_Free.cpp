@@ -84,7 +84,7 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	}
 
 	// 이동 속도 조절 (SHIFT 키로 가속)
-	if (GetKeyState(VK_SHIFT) & 0x8000)
+	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
 		fSpeed = 3.f;
 	else
 		fSpeed = 1.f;
@@ -95,27 +95,27 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 	/* 카메라의 움직임 제어 */
 
 
-	if (GetKeyState('W') & 0x8000)
+	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		vTargetVelocity.z += 1.f * fSpeed;
 	}
-	if (GetKeyState('S') & 0x8000)
+	if (GetAsyncKeyState('S') & 0x8000)
 	{
 		vTargetVelocity.z -= 1.f * fSpeed;
 	}
-	if (GetKeyState('A') & 0x8000)
+	if (GetAsyncKeyState('A') & 0x8000)
 	{
 		vTargetVelocity.x -= 1.f * fSpeed;
 	}
-	if (GetKeyState('D') & 0x8000)
+	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		vTargetVelocity.x += 1.f * fSpeed;
 	}
-	if (GetKeyState('Q') & 0x8000) // 수직 이동 추가
+	if (GetAsyncKeyState('Q') & 0x8000) // 수직 이동 추가
 	{
 		vTargetVelocity.y -= 1.f * fSpeed;
 	}
-	if (GetKeyState('E') & 0x8000) // 수직 이동 추가
+	if (GetAsyncKeyState('E') & 0x8000) // 수직 이동 추가
 	{
 		vTargetVelocity.y += 1.f * fSpeed;
 	}

@@ -41,7 +41,8 @@
 #include "Inven_UI.h"
 #include "Hub_SpellShop.h"
 #include "Level_Hub.h"
-
+#include "MiniMap.h"
+#include "StructureManager.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -236,7 +237,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma region Shader
 	/*For.Prototype_Component_Shader*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		CShader::Create(m_pGraphic_Device, L"../../Shader/Shader_Rect.hlsl"))))
+		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/Shader_Rect.hlsl"))))
 		return E_FAIL;
 #pragma endregion
 	
@@ -305,6 +306,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		return E_FAIL;
 #pragma endregion
 	
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_MiniMap"),
+		CMiniMap::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -533,10 +539,13 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+	CStructureManager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Release_Engine();
 
+
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
+	
 }

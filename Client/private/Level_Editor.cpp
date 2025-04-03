@@ -70,7 +70,7 @@ void CLevel_Editor::Update(_float fTimeDelta)
 			});
 	}
 
-	if (!(GetKeyState(VK_LBUTTON) & 0x8000))
+	if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
 	{
 		dragObject = nullptr;
 	}

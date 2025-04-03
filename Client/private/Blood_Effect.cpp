@@ -1,4 +1,5 @@
 ﻿#include "Blood_Effect.h"
+#include "Particles.h"
 
 CBlood_Effect::CBlood_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect_Base { pGraphic_Device }
@@ -26,12 +27,11 @@ HRESULT CBlood_Effect::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 
 	m_fAnimationSpeed = { 0.2f };
 	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
 	m_iCurrentFrame = { 0 };
+	m_pParticleCom->Set_Origin(m_Weapon_Effect_INFO.vPos);
 
 	return S_OK;
 }
@@ -61,9 +61,16 @@ HRESULT CBlood_Effect::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
-		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
-		return E_FAIL;*/
+	CBlood_Particle_System::BLOODDESC bloodDesc = {};
+	bloodDesc.iNumParticles = { 10u };
+	bloodDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
+	bloodDesc.Bound.m_fRadius = 0.1f;
+	bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+
+	/* For.Com_BloodParticle */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &bloodDesc)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -91,16 +98,18 @@ void CBlood_Effect::Update(_float fTimeDelta)
 			//m_iCurrentFrame = 0;
 		}
 	}
+	m_pParticleCom->Update(fTimeDelta);
 }
 
 void CBlood_Effect::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 
 HRESULT CBlood_Effect::Pre_Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -128,8 +137,8 @@ HRESULT CBlood_Effect::Render()
 
 	Post_Render();
 
-	/*if (FAILED(m_pParticleCom->Render()))
-		return E_FAIL;*/
+	if (FAILED(m_pParticleCom->Render()))
+		return E_FAIL;
 	return S_OK;
 }
 

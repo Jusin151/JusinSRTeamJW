@@ -3,6 +3,7 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 #include "Player.h"  
+#include "StructureManager.h"
 
 
 CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -43,6 +44,9 @@ HRESULT CDoor::Initialize(void* pArg)
 	// 열렸을 때의 위치 계산 (아래로 슬라이드)
 	m_vSlidePosition = m_vOriginalPosition;
 	m_vSlidePosition.y -= m_fSlideDistance;  // Y축 기준 하강
+
+
+	CStructureManager::Get_Instance()->Add_Door(this);
 	return S_OK;
 }
 

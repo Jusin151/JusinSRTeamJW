@@ -295,6 +295,9 @@
     <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Episode">
       <UniqueIdentifier>{e73c9cba-1f0d-4d0c-b8e2-58573837af75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Portal">
+      <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\96. Structure\Door">
       <UniqueIdentifier>{84c38e30-77c8-4fc7-8179-86152f141ab9}</UniqueIdentifier>
     </Filter>
@@ -310,8 +313,11 @@
     <Filter Include="01.Levels\Hub">
       <UniqueIdentifier>{573b79d6-4ecb-46b7-9aa9-d3a8176ff281}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\05. Hub\00. Hub_Object\Episode\Portal">
-      <UniqueIdentifier>{ef947528-16d2-4fb9-b568-e7cbfddb7c99}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\96. Structure\Manager">
+      <UniqueIdentifier>{2a86182f-27fa-443c-9739-68eb3d3e1b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\95. MiniMap">
+      <UniqueIdentifier>{bc3a91b7-869c-4c01-ad12-4606379fb6ca}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\03. Effect\BulletHit_Effect">
       <UniqueIdentifier>{c3c6e2eb-a32e-49bd-ab05-1e52bdcb8d29}</UniqueIdentifier>
@@ -589,7 +595,7 @@
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_Portal.h">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode\Portal</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_SpellShop.h">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
@@ -605,6 +611,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Level_Hub.h">
       <Filter>01.Levels\Hub</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\StructureManager.h">
+      <Filter>02.GameObjects\96. Structure\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MiniMap.h">
+      <Filter>02.GameObjects\95. MiniMap</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hit_Effect.h">
       <Filter>02.GameObjects\03. Effect\BulletHit_Effect</Filter>
@@ -863,7 +875,7 @@
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\PointShop</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_Portal.cpp">
-      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Episode\Portal</Filter>
+      <Filter>02.GameObjects\05. Hub\00. Hub_Object\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_SpellShop.cpp">
       <Filter>02.GameObjects\05. Hub\00. Hub_Object\SpellShop</Filter>
@@ -880,7 +892,12 @@
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\private\StructureManager.cpp">
+      <Filter>02.GameObjects\96. Structure\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MiniMap.cpp">
+      <Filter>02.GameObjects\95. MiniMap</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Hit_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\BulletHit_Effect</Filter>
     </ClCompile>
@@ -904,7 +921,13 @@
     <FxCompile Include="..\..\Shader\VertexShader.hlsl">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\Shader_Rect.hlsl">
+    <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\Shader_Rect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\FogShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

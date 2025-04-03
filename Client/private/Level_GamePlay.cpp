@@ -55,7 +55,9 @@ HRESULT CLevel_GamePlay::Initialize()
 
 
 
-
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
+		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
+		return E_FAIL;
 
 	return S_OK;
 }

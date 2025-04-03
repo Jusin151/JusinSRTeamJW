@@ -103,7 +103,7 @@ void CHit_Effect::Update(_float fTimeDelta)
 
 void CHit_Effect::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 
@@ -149,10 +149,11 @@ HRESULT CHit_Effect::Render()
 HRESULT CHit_Effect::Post_Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	return S_OK;
 }
 

@@ -26,6 +26,7 @@
 #include "Level_Hub.h"
 
 
+
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
 	, m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -120,7 +121,83 @@ HRESULT CLoader::Loading_For_Logo()
 }
 HRESULT CLoader::Loading_For_GamePlay()
 {
-			if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
+	//lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+	//Add_To_GamePlay_Textures();
+
+	///* For.Prototype_Component_Texture_Player */
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+	//	CTexture::Create(m_pGraphic_Device, TEXT("../../Resources/Textures/Player/Player.png"), 1))))
+	//	return E_FAIL;
+
+	//lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+
+	//Add_To_GamePlay_Buffer();
+
+
+	//lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	//lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+
+	//Add_To_GamePlay_Prototype();
+
+	///* For.Prototype_GameObject_Player */
+ //	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+	//	CPlayer::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+
+	///* For.Prototype_GameObject_Monster */
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"),
+	//	CTestMonster::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+
+	//lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+
+	//m_isFinished = true;
+
+	
+
+	/* For.Prototype_Component_Texture_Sky */
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE, TEXT("../../Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+    return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 인벤 테스트 삭제 X
+		TEXT("Prototype_GameObject_Inven"),
+		CInventory::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 미니건 테스트 삭제 X
+		TEXT("Prototype_GameObject_Minigun"),
+		CMinigun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 하베스터 테스트 삭제 X
+		TEXT("Prototype_GameObject_Harvester"),
+		CHarvester::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 소닉 테스트 삭제 X
+		TEXT("Prototype_GameObject_Sonic"),
+		CSonic::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 웨폰이펙트 테스트 삭제 X
+		TEXT("Prototype_GameObject_Weapon_Effect"),
+		CWeapon_Effect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 스태프총알 테스트 삭제 X
+		TEXT("Prototype_GameObject_Staff_Bullet"),
+		CStaff_Bullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 게임플레이버튼 UI 삭제 X
 		TEXT("Prototype_GameObject_GamePlayer_Button"),
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;

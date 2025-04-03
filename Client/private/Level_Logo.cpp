@@ -28,7 +28,7 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_LBUTTON)&0x8000 && 
+	if (GetAsyncKeyState(VK_LBUTTON)&0x8000 && 
 		CUI_Manager::GetInstance()->GetUI(L"Start_Button")->Get_MouseClick())
 	{
    		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
@@ -37,14 +37,14 @@ void CLevel_Logo::Update(_float fTimeDelta)
 	}
 
 
-	if (GetKeyState('E') & 0x8000)
+	if (GetAsyncKeyState('E') & 0x8000)
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_EDITOR))))
 			return;
 	}
 
-	if (GetKeyState('T') & 0x8000)
+	if (GetAsyncKeyState('T') & 0x8000)
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_TEST))))

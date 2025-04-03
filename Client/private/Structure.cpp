@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include <StructureManager.h>
 
 
 
@@ -32,6 +33,8 @@ HRESULT CStructure::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
+
+	CStructureManager::Get_Instance()->Add_Structure(this);
 	return S_OK;
 }
 

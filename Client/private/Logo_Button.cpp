@@ -55,7 +55,7 @@ void CLogo_Button::Update(_float fTimeDelta)
 		if (true == isPick(g_hWnd))
 		{
 			m_bIsMouseOver = true;
-			if (GetKeyState(VK_LBUTTON) & 0x8000)
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 				m_bIsMouseClick = true;
 		}
 		else
@@ -66,7 +66,7 @@ void CLogo_Button::Update(_float fTimeDelta)
 		if (isPick(g_hWnd))
 		{
 			m_bIsMouseOver = true;
-			if (GetKeyState(VK_LBUTTON) & 0x8000)
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 				PostQuitMessage(0);
 		}
 		else

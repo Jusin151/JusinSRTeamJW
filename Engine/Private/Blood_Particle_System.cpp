@@ -61,7 +61,8 @@ void CBlood_Particle_System::Update(float fTimeDelta)
 			i.fAge += fTimeDelta;
 			i.fSize = m_fSize / D3DXVec3Length(&i.vPosition);
 			if (i.fAge > i.fLifetime)
-				Reset_Particle(&i);
+				i.bIsAlive = false;
+				//Reset_Particle(&i);
 		}
 	}
 }
