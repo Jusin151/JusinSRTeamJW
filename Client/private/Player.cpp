@@ -88,7 +88,7 @@ void CPlayer::Update(_float fTimeDelta)
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
-	Input_Key(fTimeDelta);
+	
 
 	/////////트리거용 
 
@@ -123,6 +123,7 @@ void CPlayer::Update(_float fTimeDelta)
 }
 void CPlayer::Late_Update(_float fTimeDelta)
 {
+	Input_Key(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 

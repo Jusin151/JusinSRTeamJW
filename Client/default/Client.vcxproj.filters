@@ -322,6 +322,12 @@
     <Filter Include="02.GameObjects\03. Effect\BulletHit_Effect">
       <UniqueIdentifier>{c3c6e2eb-a32e-49bd-ab05-1e52bdcb8d29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\JW_Boss">
+      <UniqueIdentifier>{f17f07ff-3427-4d12-87d7-35ad7cc58c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\JW_Boss\Node">
+      <UniqueIdentifier>{3ef36980-e865-44b9-b329-b87404afb115}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -624,6 +630,21 @@
     <ClInclude Include="..\public\Effects.h">
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CTaskNode.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CCompositeNode.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CBehaviorTree.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CNode.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Cthulhu.h">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -906,6 +927,13 @@
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CBehaviorTree.cpp">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\privateCthulhu.cpp" />
+    <ClCompile Include="..\public\Cthulhu.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

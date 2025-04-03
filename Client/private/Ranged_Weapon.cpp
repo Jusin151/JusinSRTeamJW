@@ -1,6 +1,8 @@
 ﻿#include "Ranged_Weapon.h"
 #include "GameInstance.h"
 #include "PickingSys.h"
+#include "Collider_Cube.h"
+#include "Collider_Sphere.h"
 #include "Effects.h"
 #include "UI_Manager.h"
 
@@ -127,8 +129,8 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
     //  매 프레임마다 마우스/레이 갱신
-    if(m_pPickingSys)
-    m_pPickingSys->Update();
+    if (m_pPickingSys)
+        m_pPickingSys->Update();
 
     if (!(GetKeyState(VK_LBUTTON) & 0x8000))
         return S_OK;
@@ -150,8 +152,14 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
                 continue;
 
+            if (tag == L"Layer_Monster_Projectile_Harpoon")
+            {
+                break;
+            }
+       
             if (tag.find(L"Wall") != wstring::npos)
             {
+                continue;
                 Wall_Picking(collider, EffectNum);
                 m_bWall = true;
             }
@@ -161,7 +169,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
                 m_bMonster = true;
             }
 
-            break; // 하나만 처리
+            return S_OK; // 하나만 처리
         }
     }
 
@@ -277,7 +285,34 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         _float3 vTileToCam = vecTemp.GetNormalized();
         float fOffset = (vWallNormal.Dot(vTileToCam) > 0.f) ? 0.01f : -0.01f;
         _float3 vEffectPos = vPlaneHit + vWallNormal * fOffset;
+        float offsetRangeX = 0.f, offsetRangeY = 0.f;
+        if (auto pSphere = dynamic_cast<CCollider_Sphere*>(pCollider))
+        {
+            // 구 콜라이더: 반지름을 사용 (전체 지름을 기준으로 랜덤하게)
+            float radius = pSphere->Get_Radius();
+            offsetRangeX = radius;
+            offsetRangeY = radius;
+        }
+        else if (auto pCube = dynamic_cast<CCollider_Cube*>(pCollider))
+        {
+            // 큐브 콜라이더: 각 축의 길이의 절반을 사용
+            offsetRangeX = pCube->Get_Desc().fAxisX.Length() * 0.5f;
+            offsetRangeY = pCube->Get_Desc().fAxisY.Length() * 0.5f;
+        }
+        else
+        {
+            // 기본값 (보정 필요 시 수정)
+            offsetRangeX = 0.55f;
+            offsetRangeY = 0.55f;
+        }
 
+        // 랜덤 오프셋을 -offsetRange ~ +offsetRange 범위 내에서 결정
+        _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeX * 2.0f);
+        _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeY * 2.0f);
+        // -------------------------------------------------------------------
+
+        // 히트 이펙트 위치에 적용
+        _float3 vFinalEffectPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
 
 #pragma region Effect 생성
         CEffect_Base::EFFECT_DESC effectDesc;
@@ -293,11 +328,8 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
         hitDesc.type = rand() % 4;
 
-
-        _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-        _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-        effectDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
-        hitDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+        effectDesc.vPos = vFinalEffectPos;
+        hitDesc.vPos = vFinalEffectPos;
 
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
@@ -305,7 +337,6 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
             LEVEL_GAMEPLAY,
             TEXT("Layer_Hit_Effect"),
             &hitDesc);
-
 #pragma endregion
     }
 }
