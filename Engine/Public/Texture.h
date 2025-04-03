@@ -20,6 +20,8 @@ public:
 	HRESULT Bind_Resource(class CShader* pShader, D3DXHANDLE hParameters, _uint iIndex);
 public:
 	_uint Get_NumTextures() { return m_iNumTextures; }
+	IDirect3DBaseTexture9* Get_Texture(_uint iIndex) {
+		if (m_iNumTextures <= iIndex && iIndex < 0) return nullptr; return m_Textures[iIndex];}
 private:
 	_uint								m_iNumTextures = { };
 	vector<IDirect3DBaseTexture9*>		m_Textures;

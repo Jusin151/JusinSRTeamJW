@@ -299,7 +299,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	_float moveSpeed = 0.5f;
+	_float moveSpeed = 0.52f;
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
