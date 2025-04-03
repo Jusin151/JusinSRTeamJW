@@ -106,6 +106,8 @@ public:
 		{
 			pUI_Event->ShowEventText(Exp, L"Exp");
 		}
+
+
 	}
 
 
