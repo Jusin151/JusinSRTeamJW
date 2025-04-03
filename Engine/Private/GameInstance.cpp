@@ -145,7 +145,6 @@ HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 	//// 레벨 변경 상태 종료
 	//m_eLevelState = LEVEL_STATE::NORMAL;
 
-	return hr;
 
 	return hr;
 }

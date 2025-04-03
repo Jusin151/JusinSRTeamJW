@@ -100,7 +100,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
- 	m_pGameInstance->Load_Bank(L"Background");
+ //	m_pGameInstance->Load_Bank(L"Background");
 
  	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
@@ -279,6 +279,8 @@ HRESULT CLoader::Loading_For_Hub()
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
+
+	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL);
 
 	return S_OK;
 }
