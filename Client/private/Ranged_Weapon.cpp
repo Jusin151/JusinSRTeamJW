@@ -104,70 +104,70 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
-    //  매 프레임마다 마우스/레이 갱신
-    if(m_pPickingSys)
-    m_pPickingSys->Update();
+    // 매 프레임마다 마우스/레이 갱신
+    if (m_pPickingSys)
+        m_pPickingSys->Update();
 
-    /*if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
-        return S_OK;*/
+    // 가장 가까운 충돌 정보를 저장할 변수들
+    CCollider* pClosestCollider = nullptr;
+    _float fMinDist = m_fRange; // 최소 거리를 최대 사정거리로 초기화
+    _float3 vClosestHitPos{};   // 가장 가까운 충돌 지점
 
+    // 게임 인스턴스에서 모든 콜라이더 그룹 가져오기
     vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
-    vector<CollisionInfo> vecPotentialCollisions;
-    unordered_set<CCollider*> setAddedColliders;
-    bool bCollisionProcessed = false; // 이번 프레임에 충돌 처리가 완료되었는지 확인하는 플래그
 
     for (auto& group : colliderGroups)
     {
         for (auto* collider : group)
         {
+            // 유효성 검사
             if (!collider || !collider->Get_Owner())
                 continue;
 
-            if (setAddedColliders.count(collider)) // count()가 1 이상이면 이미 존재함
-            {
-                continue; // 이미 이번 프레임에서 충돌 후보로 추가된 콜라이더이므로 건너뜀
-            }
-
-            _float3 vHitPos{};
-            if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
-                continue;
-
-            _float3 vDiff = vHitPos - m_pPickingSys->Get_Ray().vOrigin;
-
-            _float fDist = vDiff.Length();
-
-            if (fDist > m_fRange) continue;
-
+            // 플레이어나 바닥 레이어는 무시
             const wstring& tag = collider->Get_Owner()->Get_Tag();
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
                 continue;
 
-            vecPotentialCollisions.push_back({ collider, vHitPos, fDist });  
-            setAddedColliders.insert(collider);
+            _float3 vHitPos{};
+            // 레이와 콜라이더의 교차 검사
+            if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
+                continue;
+
+            // 충돌 지점까지의 거리 계산
+            _float3 vDiff = vHitPos - m_pPickingSys->Get_Ray().vOrigin;
+            _float fDist = vDiff.Length();
+
+            // 현재까지의 최소 거리보다 가까운 경우에만 정보 갱신
+            if (fDist < fMinDist) // 현재 최소 거리보다 가까우면
+            {
+                fMinDist = fDist;             // 최소 거리 갱신
+                pClosestCollider = collider;  // 가장 가까운 콜라이더 갱신
+                vClosestHitPos = vHitPos;     // 가장 가까운 충돌 지점 갱신
+            }
         }
     }
-    if (!vecPotentialCollisions.empty())
-    {
-        // 가장 가까운 충돌 정보 가져오기 (벡터의 첫 번째 요소)
-        const CollisionInfo& closestCollision = vecPotentialCollisions.front();
-        CCollider* pClosestCollider = closestCollision.pCollider; // 가장 가까운 콜라이더
-        const wstring& closestTag = pClosestCollider->Get_Owner()->Get_Tag(); // 가장 가까운 객체의 태그
 
-        // 가장 가까운 객체의 태그에 따라 적절한 처리 수행
+    // 가장 가까운 충돌체가 발견되었다면 처리
+    if (pClosestCollider != nullptr)
+    {
+        // 가장 가까운 콜라이더의 소유 객체 태그 가져오기
+        const wstring& closestTag = pClosestCollider->Get_Owner()->Get_Tag();
+
+        // 태그에 따라 적절한 처리 수행
         if (closestTag.find(L"Wall") != wstring::npos)
         {
-            // 가장 가까운 벽과 충돌 처리
-            Wall_Picking(pClosestCollider, EffectNum); // EffectNum 변수가 정의되어 있어야 함
-            m_bWall = true; // 벽과 충돌했음을 표시 (필요한 경우)
+            // 벽과 충돌 처리 (EffectNum 변수는 여전히 필요합니다)
+            Wall_Picking(pClosestCollider, EffectNum);
+            m_bWall = true; // 필요하다면 플래그 설정
         }
         else if (closestTag == L"Layer_Harpoonguy")
         {
-            // 가장 가까운 Harpoonguy와 충돌 처리
-            Monster_Hit(pClosestCollider, Damage); // Damage 변수가 정의되어 있어야 함
-            m_bMonster = true; // 몬스터와 충돌했음을 표시 (필요한 경우)
+            // Harpoonguy와 충돌 처리 (Damage 변수는 여전히 필요합니다)
+            Monster_Hit(pClosestCollider, Damage);
+            m_bMonster = true; // 필요하다면 플래그 설정
         }
-        // TODO: 다른 종류의 객체 태그에 대한 처리 로직을 여기에 추가할 수 있습니다.
-
+        // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
 
     return S_OK;
