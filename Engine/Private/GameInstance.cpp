@@ -98,13 +98,14 @@ HRESULT CGameInstance::Draw()
 		return E_FAIL;
 
 	m_pGraphic_Device->Render_Begin();
+	if (m_eLevelState == LEVEL_STATE::NORMAL)
+	{
+		m_pRenderer->Draw();
 
-	m_pRenderer->Draw();
+		m_pLevel_Manager->Render();
 
-	m_pLevel_Manager->Render();
-
-	m_pGraphic_Device->Render_End();
-
+		m_pGraphic_Device->Render_End();
+	}
 	return S_OK;
 }
 
@@ -114,9 +115,10 @@ void CGameInstance::Clear(_uint iLevelIndex)
 
 	/* 특정 레벨의 객체을 삭제한다. */
 	m_pObject_Manager->Clear(iLevelIndex);
-
+	m_pCollider_Manager->Clear();
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
+
 }
 
 #pragma region LEVEL_MANAGER
@@ -127,20 +129,23 @@ HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 }
 HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 {
+	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 	if (m_eLevelState == LEVEL_STATE::CHANGING)
 		return E_FAIL; // 이미 레벨 변경 중인 경우 방지
 
-	// 레벨 변경 상태로 설정
-	m_eLevelState = LEVEL_STATE::CHANGING;
+	//// 레벨 변경 상태로 설정
+	//m_eLevelState = LEVEL_STATE::CHANGING;
 
 	// 모든 사운드 이벤트 정지
 	m_pSound_Manager->Stop_All_Event();
 
 	// 실제 레벨 변경 수행
-	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 
-	// 레벨 변경 상태 종료
-	m_eLevelState = LEVEL_STATE::NORMAL;
+
+	//// 레벨 변경 상태 종료
+	//m_eLevelState = LEVEL_STATE::NORMAL;
+
+	return hr;
 
 	return hr;
 }
