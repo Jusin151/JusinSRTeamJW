@@ -44,7 +44,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	// Antarctic1_Test pos
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.5f, -1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.7f, -1.6f));
 
 	// Gameplay start pos
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));

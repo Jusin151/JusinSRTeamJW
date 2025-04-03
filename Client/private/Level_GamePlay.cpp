@@ -24,8 +24,8 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_GamePlay::Initialize()
 {
 	CJsonLoader jsonLoader;
-	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
-	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
+	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Event(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
@@ -53,9 +53,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Light"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Light"))))
+		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Light"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
 
@@ -100,7 +103,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 		return E_FAIL;
 
 	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
-	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+ 	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
 	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
 	Weapon_Claymore_Desc.vSize = { 2048.,682.f };
 	Weapon_Claymore_Desc.AttackSpeed = { 1.f };

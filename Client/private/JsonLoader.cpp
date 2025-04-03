@@ -415,30 +415,6 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string & filePath, vector<stri
 	{
 		MSG_BOX("JSON 파싱 오류가 발생했습니다.");
 		return E_FAIL;
-		if (layerName == L"Layer_Player")
-			return L"Prototype_GameObject_Player";
-		else if (layerName == L"Layer_Monster_Crocman")
-			return L"Prototype_GameObject_Crocman";
-		else if (layerName == L"Layer_Monster_Harpoonguy")
-			return L"Prototype_GameObject_Harpoonguy";
-		else if (layerName == L"Layer_Monster_Yeti")
-			return L"Prototype_GameObject_Yeti";
-		else if (layerName == L"Layer_Monster_Snowspider")
-			return L"Prototype_GameObject_Snowspider";
-		else if (layerName == L"Layer_Monster_Glacier")
-			return L"Prototype_GameObject_Glacier";
-		else if (layerName == L"Layer_Monster_Projectile_Harpoon")
-			return L"Prototype_GameObject_Harpoon";
-		else if (layerName == L"Layer_Monster_Projectile_GlacierBullet")
-			return L"Prototype_GameObject_GlacierBullet";
-		else if (layerName == L"Layer_BackGround")
-			return L"Prototype_GameObject_Terrain";
-		else if (layerName == L"Layer_Camera")
-			return L"Prototype_GameObject_Camera_FirstPerson";
-		else if (layerName == L"Layer_Default_PlayerUI")
-			return L"Prototype_GameObject_Default_PlayerUI";
-
-		return L"";
 	}
 	catch (const exception&)
 	{
