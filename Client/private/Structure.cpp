@@ -351,25 +351,11 @@ json CStructure::Serialize()
 
 void CStructure::Deserialize(const json& j)
 {
-
 	SET_TRANSFORM(j, m_pTransformCom);
-	//if (j.contains("position")) 
-	//{
-	//	auto pos = j["position"];
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-	//		_float3(pos[0], pos[1], pos[2]));
-	//}
-
-	//if (j.contains("rotation"))
-	//{
-	//	auto angle = j["rotation"];
-	//	m_pTransformCom->Rotate_EulerAngles(
-	//		_float3(angle[0], angle[1], angle[2]));
-	//}
-
-	//if (j.contains("scale"))
-	//{
-	//	auto scale = j["scale"];
-	//	m_pTransformCom->Set_Scale(scale[0], scale[1], scale[2]);
-	//}
+	if (j.contains("material"))
+	{
+		_wstring t = Utf8ToWide(j["material"]);
+		CMaterial::MATERIAL_DESC mDesc = { t };
+		m_pMaterialCom->Initialize(&mDesc);
+	}
 }

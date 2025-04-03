@@ -117,6 +117,7 @@ void CGameObject::Deserialize(const json& j)
 			if (objectDesc.contains("Level")) m_tObjDesc.iLevel = objectDesc["Level"];
 			if (objectDesc.contains("ProtoLevel")) m_tObjDesc.iProtoLevel = objectDesc["ProtoLevel"];
 		}
+		
 }
 
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)

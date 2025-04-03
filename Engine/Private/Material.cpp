@@ -15,16 +15,27 @@ HRESULT CMaterial::Initialize_Prototype(const _tchar* pMaterialFilePath)
 {
     ifstream f(pMaterialFilePath);
     json data = json::parse(f);
-    m_tMaterial.Diffuse =   { data["Diffuse"]["x"], data["Diffuse"]["z"], data["Diffuse"]["y"], data["Diffuse"]["w"] };
-    m_tMaterial.Ambient =   { data["Ambient"]["x"], data["Ambient"]["z"], data["Ambient"]["y"], data["Ambient"]["w"] };
-    m_tMaterial.Specular =  { data["Specular"]["x"], data["Specular"]["z"], data["Specular"]["y"], data["Specular"]["w"] };
+    m_tMaterial.Diffuse =   { data["Diffuse"]["x"], data["Diffuse"]["y"], data["Diffuse"]["z"], data["Diffuse"]["w"] };
+    m_tMaterial.Ambient =   { data["Ambient"]["x"], data["Ambient"]["y"], data["Ambient"]["z"], data["Ambient"]["w"] };
+    m_tMaterial.Specular =  { data["Specular"]["x"], data["Specular"]["y"], data["Specular"]["z"], data["Specular"]["w"] };
     m_tMaterial.Power =     { data["Power"] };
-    m_tMaterial.Emissive =  { data["Emissive"]["x"], data["Emissive"]["z"], data["Emissive"]["y"], data["Emissive"]["w"] };
+    m_tMaterial.Emissive =  { data["Emissive"]["x"], data["Emissive"]["y"], data["Emissive"]["z"], data["Emissive"]["w"] };
     return S_OK;
 }
 
 HRESULT CMaterial::Initialize(void* pArg)
 {
+    if (pArg)
+    {
+        MATERIAL_DESC desc = *reinterpret_cast<MATERIAL_DESC*>(pArg);
+        ifstream f(desc.MaterialFilePath);
+        json data = json::parse(f);
+        m_tMaterial.Diffuse = { data["Diffuse"]["x"], data["Diffuse"]["y"], data["Diffuse"]["z"], data["Diffuse"]["w"] };
+        m_tMaterial.Ambient = { data["Ambient"]["x"], data["Ambient"]["y"], data["Ambient"]["z"], data["Ambient"]["w"] };
+        m_tMaterial.Specular = { data["Specular"]["x"], data["Specular"]["y"], data["Specular"]["z"], data["Specular"]["w"] };
+        m_tMaterial.Power = { data["Power"] };
+        m_tMaterial.Emissive = { data["Emissive"]["x"], data["Emissive"]["y"], data["Emissive"]["z"], data["Emissive"]["w"] };
+    }
     return S_OK;
 }
 

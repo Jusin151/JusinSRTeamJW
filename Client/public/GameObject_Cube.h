@@ -4,6 +4,7 @@
 
 BEGIN(Engine)
 class CTexture;
+class CMaterial;
 class CTransform;
 class CVIBuffer_Cube;
 class CCollider_Sphere;
@@ -34,10 +35,11 @@ public:
 	virtual void Reset() {}; // 차후에 오브젝트 풀링때 SetActive가 true가 될 때 기본정보 다시 셋팅을 위한 함수
 
 private:
-	HRESULT Ready_Components();
+	HRESULT			Ready_Components();
 	CTexture*		m_pTextureCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
+	CMaterial*		m_pMaterialCom = { nullptr };
 
 public:
 	virtual json Serialize() override;

@@ -217,14 +217,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     //        return 0;
     //    break;
     //}
-	case WM_KEYDOWN:
+	/*case WM_KEYDOWN:
 	{
         if (VK_ESCAPE == wParam)
         {
             PostQuitMessage(0);
         }
         break;
-	}
+	}*/
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

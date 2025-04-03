@@ -100,6 +100,8 @@ HRESULT CMainApp::Initialize()
 
 void CMainApp::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+		PostQuitMessage(0);
 //	m_pMyImGui->Update(fTimeDelta);
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
@@ -282,7 +284,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma region Material
 	/* For.Prototype_Component_Material */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		CMaterial::Create(m_pGraphic_Device, L"../../Resources/Materials/TestMaterial.json"))))
+		CMaterial::Create(m_pGraphic_Device, L"../../Resources/Materials/BaseMaterial.json"))))
 		return E_FAIL;
 #pragma endregion
 

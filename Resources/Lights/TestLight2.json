@@ -7,9 +7,9 @@
 		"w": 1.0
 	},
 	"Ambient": {
-		"x": 0.3,
-		"y": 0.3,
-		"z": 0.3,
+		"x": 0.2,
+		"y": 0.2,
+		"z": 0.2,
 		"w": 1.0
 	},
 	"Specular": {
@@ -28,11 +28,11 @@
 		"y": 0.0,
 		"z": 0.0
 	},
-	"Attenuation0": 0.5,
-	"Attenuation1": 0.0,
-	"Attenuation2": 0.02,
+	"Attenuation0": 0.0,
+	"Attenuation1": 0.1,
+	"Attenuation2": 0.3,
 	"Falloff": 1.0,
-	"Range": 50.0,
+	"Range": 5.0,
 	"Theta": 4.0,
 	"Phi": 2.0
 }

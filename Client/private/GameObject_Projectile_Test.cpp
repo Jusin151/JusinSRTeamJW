@@ -66,6 +66,7 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
     particleDesc.fDistance = { 10.f };
     particleDesc.fWidth = { 2.f };
     particleDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    particleDesc.iNumTextures = { 1 };
 
     /* For.Com_Particle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
@@ -77,6 +78,7 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
     goldDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
     goldDesc.iNumParticles = { 10 };
     goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
+    goldDesc.iNumTextures = { 1 };
 
     /* For.Com_GoldParticle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
@@ -88,6 +90,7 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
     bloodDesc.Bound.m_fRadius = 1.f;
     bloodDesc.iNumParticles = { 100 };
     bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    bloodDesc.iNumTextures = { 1 };
 
     /* For.Com_BloodParticle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),

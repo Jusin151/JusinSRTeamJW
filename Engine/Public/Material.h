@@ -6,6 +6,11 @@ BEGIN(Engine)
 
 class ENGINE_DLL CMaterial final : public CComponent
 {
+public:
+	typedef struct tagMaterialInit
+	{
+		const _wstring MaterialFilePath;
+	} MATERIAL_DESC;
 private:
 	CMaterial(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CMaterial(const CMaterial& Prototype);

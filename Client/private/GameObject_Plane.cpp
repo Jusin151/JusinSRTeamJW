@@ -104,6 +104,7 @@ HRESULT CGameObject_Plane::Ready_Components()
     bloodDesc.Bound.m_fRadius = 0.1f;
     bloodDesc.iNumParticles = { 100 };
     bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    bloodDesc.iNumTextures = { 1 };
 
     /* For.Com_BloodParticle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
