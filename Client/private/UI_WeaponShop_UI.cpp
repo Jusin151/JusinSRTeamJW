@@ -85,7 +85,7 @@ void CUI_WeaponShop_UI::Late_Update(_float fTimeDelta)
 HRESULT CUI_WeaponShop_UI::Ready_Texture()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Shop_Display"),
+    if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Weapon_Shop_Display"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -174,14 +174,14 @@ void CUI_WeaponShop_UI::Create_SkillButton() //오른쪽 특성 버튼
             vecButtonDescs[index].bActive = true;
             vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::WEAPON_SHOP_BUTTON;
             if (FAILED(m_pGameInstance->Add_GameObject(
-                LEVEL_GAMEPLAY,
+                LEVEL_HUB,
                 TEXT("Prototype_GameObject_GamePlayer_Button"), //  이건 프로토타입 이름이고
-                LEVEL_GAMEPLAY,
+                LEVEL_HUB,
                 vecButtonDescs[index].strUIName, // 이건 레이어 이름이고
                 &vecButtonDescs[index])))
                 continue;
 
-            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_HUB, vecButtonDescs[index].strUIName.c_str()));
 
             if (pButton)
             {

@@ -54,7 +54,17 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 		m_pPlayer = m_pGameInstance->Find_Object(LEVEL_EDITOR, TEXT("Layer_Player"));
 		if (nullptr == m_pPlayer)
 		{
-			return E_FAIL;
+			m_pPlayer = m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Player"));
+			if (nullptr == m_pPlayer)
+			{
+				m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+				if (nullptr == m_pPlayer)
+				{
+					return E_FAIL;
+				}
+
+			}
+			
 		}
 	}
 		

@@ -178,6 +178,7 @@
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
+    <ClInclude Include="..\public\Hub_Headers.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -295,7 +296,6 @@
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Event.cpp" />
-    <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
@@ -326,6 +326,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />

@@ -21,21 +21,13 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
-	//m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
+
 	return S_OK;
 }
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-	/*CLandObject::LANDOBJECT_DESC		Desc{};
-	Desc.iLevelIndex = LEVEL_GAMEPLAY;
-	Desc.strLayerTag = TEXT("Layer_BackGround");
-	Desc.strComponentTag = TEXT("Com_VIBuffer");
-	Desc.iIndex = 0;
-
-	if (FAILED(__super::Initialize(&Desc)))
-		return E_FAIL;*/
-
+	
 	if (!pArg)
 	{
 		m_tObjDesc.iLevel = 3;
@@ -76,12 +68,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 
 }
-//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
 
-	//if (pTransform)
-	//{
-	//	pTransform->Go_Straight(fTimeDelta);
-	//}
 
 void CPlayer::Update(_float fTimeDelta)
 {
@@ -109,7 +96,7 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 		
 		m_asdasdasd = false;
 	}
@@ -212,23 +199,6 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스탯포인트:") + to_wstring(m_iStatpoint),
 		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
-		return E_FAIL;
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
-	SetUp_RenderState();
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-
-	Release_RenderState();
-
-	m_pColliderCom->Render();*/
-
 
 	return S_OK;
 }
@@ -321,7 +291,8 @@ void CPlayer::Move(_float fTimeDelta)
 
 
 
-	if (moveDir.LengthSq() > 0) {
+	if (moveDir.LengthSq() > 0) 
+	{
 		moveDir.Normalize(); // 방향 정규화
 		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -330,24 +301,6 @@ void CPlayer::Move(_float fTimeDelta)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
 
-
-
-	/*POINT ptMouse{};
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
-
-	LONG LDistX = abs(ptMouse.x - m_lMiddlePointX);
-
-	if (ptMouse.x - m_lMiddlePointX > 0)
-	{
-		if (LDistX > 80)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * LDistX * 0.005f);
-	}
-	else if (ptMouse.x - m_lMiddlePointX < 0)
-	{
-		if (LDistX > 80)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
-	}*/
 
 }
 
@@ -479,13 +432,13 @@ HRESULT CPlayer::Release_RenderState()
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
+	/*if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	{
 		if (FAILED(__super::Add_Component(LEVEL_EDITOR, m_tObjDesc.stProtTextureTag,
 			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 			return E_FAIL;
-	}
+	}*/
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
@@ -526,17 +479,24 @@ HRESULT CPlayer::Ready_Player_SetUP()
 
 	m_iHp = m_iPlayerHP.first;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
 
 	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-	(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+	(LEVEL_STATIC, TEXT("Layer_Inven")));
 
 	if (!m_pPlayer_Inven)
-		return E_FAIL;
-
-
+	{
+ 		m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+		(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+		if (!m_pPlayer_Inven)
+		{
+			m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+			(LEVEL_HUB, TEXT("Layer_Inven")));
+				if(!m_pPlayer_Inven)
+				{
+					return E_FAIL;
+				}
+		}		
+	}
 
 	if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hp_Bar")))
 		Add_Observer(pHpUI);
@@ -550,14 +510,14 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
 		Add_Observer(pPlayer_Icon);
 
-	if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
-		Add_Observer(m_pHub_PointShop); 
+	//if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop"))))
+	//	Add_Observer(m_pHub_PointShop); 
 
-	if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Shop"))))
-		Add_Observer(m_pHub_WeaponShop);
+	//if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Weapon_Shop"))))
+	//	Add_Observer(m_pHub_WeaponShop);
 
-	if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop"))))
-		Add_Observer(m_pHub_SpellShop);
+	//if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Spell_Shop"))))
+	//	Add_Observer(m_pHub_SpellShop);
 
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);

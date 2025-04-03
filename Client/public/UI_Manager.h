@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Headers.h"
-#include "UI_Exp_Bar.h"
 
 class CUI_Manager
 {

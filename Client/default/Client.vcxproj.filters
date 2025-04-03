@@ -624,6 +624,9 @@
     <ClInclude Include="..\public\Effects.h">
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Hub_Headers.h">
+      <Filter>97. Hong_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -807,9 +810,6 @@
     <ClCompile Include="..\Private\UI_Exp_Bar.cpp">
       <Filter>02.GameObjects\97. UI\99. Player_UI\03.UI_Mid_Display\Exp_Bar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Point_Shop.cpp">
-      <Filter>02.GameObjects\05. Hub\01. Hub_UI\Shop\Point_Shop_UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp">
       <Filter>02.GameObjects\05. Hub\01. Hub_UI\Shop\Weapon_Shop_UI</Filter>
     </ClCompile>
@@ -858,9 +858,6 @@
     <ClCompile Include="..\private\Trigger.cpp">
       <Filter>02.GameObjects\96. Structure\Trigger</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Staff.cpp">
-      <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\96. Structure\Door</Filter>
@@ -906,6 +903,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Staff.cpp">
+      <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Point_Shop.cpp">
+      <Filter>02.GameObjects\05. Hub\01. Hub_UI\Shop\Point_Shop_UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

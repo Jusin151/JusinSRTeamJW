@@ -24,7 +24,7 @@ HRESULT CShop::Initialize(void* pArg) // 자식에서 무조건 __Super:: 로 �
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Player"));
 
     m_pPlayer = static_cast<CPlayer*>(m_pPlayer);
     if (m_pPlayer == nullptr)
@@ -60,7 +60,7 @@ void CShop::Update(_float fTimeDelta)
             if (!m_bSpacePressed)  
             {
                 m_bIsOpen = !m_bIsOpen;
-                m_pGameInstance->Open_UI(LEVEL_GAMEPLAY, m_bIsOpen);
+                m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen);
                 m_bSpacePressed = true; 
                 static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
             }

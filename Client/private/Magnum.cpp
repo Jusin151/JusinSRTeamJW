@@ -76,16 +76,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 
 HRESULT CMagnum::Ready_Icon()
 {
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -100.f,150.f };
-	Image_INFO.vSize = { 74.f,31.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"Magnum";
-	Image_INFO.TextureImageNum = Magnum;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -164,7 +155,7 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 
 void CMagnum::Late_Update(_float fTimeDelta)
 {
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == pPlayer)
 		return;
 	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
@@ -216,7 +207,7 @@ HRESULT CMagnum::Render()
 
 HRESULT CMagnum::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Magnum"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Magnum"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

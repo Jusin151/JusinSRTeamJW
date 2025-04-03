@@ -68,16 +68,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 HRESULT CShotGun::Ready_Icon()
 {
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -200.f,150.f };
-	Image_INFO.vSize = { 100.f,50.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"ShotGun";
-	Image_INFO.TextureImageNum = ShotGun;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -209,6 +200,10 @@ HRESULT CShotGun::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
+
+
+
+
 	return S_OK;
 }
 
@@ -220,7 +215,7 @@ HRESULT CShotGun::On_Collision()
 
 HRESULT CShotGun::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,m_Weapon_INFO.TextureKey,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,m_Weapon_INFO.TextureKey,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -243,7 +238,7 @@ CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("샷건 UI 원본 생성 실패 ");
+		MSG_BOX("샷건  원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -259,7 +254,7 @@ CGameObject* CShotGun::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("샷건 UI 복제 실패");
+		MSG_BOX("샷건  복제 실패");
 
 		Safe_Release(pInstace);
 	}

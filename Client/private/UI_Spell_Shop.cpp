@@ -78,7 +78,7 @@ void CUI_Spell_Shop::Late_Update(_float fTimeDelta)
 HRESULT CUI_Spell_Shop::Ready_Texture()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop_DisPlay"),
+    if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Spell_Shop_DisPlay"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -178,14 +178,14 @@ void CUI_Spell_Shop::Create_SkillButton() //오른쪽 특성 버튼
                 vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::SPELL_SHOP_BUTTON;
 
                 if (FAILED(m_pGameInstance->Add_GameObject(
-                    LEVEL_GAMEPLAY,
+                    LEVEL_HUB,
                     TEXT("Prototype_GameObject_GamePlayer_Button"),
-                    LEVEL_GAMEPLAY,
+                    LEVEL_HUB,
                     vecButtonDescs[index].strUIName,
                     &vecButtonDescs[index])))
                     continue;
 
-                CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+                CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_HUB, vecButtonDescs[index].strUIName.c_str()));
 
             if (pButton)
             {
