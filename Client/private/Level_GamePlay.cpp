@@ -14,12 +14,9 @@
 #include "Sound_Event.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device },
-	m_pPickingSys{ CPickingSys::Get_Instance() }
+	: CLevel{ pGraphic_Device }
 
 {
-	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
-	Safe_AddRef(m_pPickingSys);
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
@@ -423,8 +420,4 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pPickingSys);
-	CPickingSys::Destroy_Instance();
-
 }

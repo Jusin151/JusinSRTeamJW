@@ -43,7 +43,7 @@ HRESULT CUI_Episode_Hub::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
-	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this);
+	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this, UI_TYPE::UI_DYNAMIC);
 
 	return S_OK;
 }

@@ -15,41 +15,45 @@
 #include "Sound_Event.h"
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device },
-	m_pPickingSys{ CPickingSys::Get_Instance() }
-
+ 	: CLevel{ pGraphic_Device }
 {
-	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
-	Safe_AddRef(m_pPickingSys);
+
 }
 HRESULT CLevel_Hub::Initialize()
 
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
-		LEVEL_STATIC, TEXT("Layer_Inven_UI"))))
-		return E_FAIL;
+	static _bool bIsLoading = false;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_STATIC, TEXT("Layer_Inven"))))
-		return E_FAIL;
+	if (!bIsLoading)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
+			LEVEL_STATIC, TEXT("Layer_Inven_UI"))))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
+			LEVEL_STATIC, TEXT("Layer_Inven"))))
+			return E_FAIL;
 
 
-	if (FAILED(Ready_Layer_Weapon()))
- 		return E_FAIL;
+		if (FAILED(Ready_Layer_Weapon()))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_Weapon_Icon()))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Weapon_Icon()))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_UI()))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+			return E_FAIL;
 
-	
+		bIsLoading = true;
+
+	}
+
 	if (FAILED(Ready_Layer_Shop_UI()))
 		return E_FAIL;
 
@@ -333,6 +337,8 @@ HRESULT CLevel_Hub::Ready_Layer_Camera(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_FirstPerson"),
 		LEVEL_STATIC, strLayerTag)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CLevel_Hub::Ready_Layer_Player(const _wstring& strLayerTag)
@@ -501,6 +507,4 @@ void CLevel_Hub::Free()
 	__super::Free();
 
 	Safe_Release(m_pPickingSys);
-	CPickingSys::Destroy_Instance();
-
 }

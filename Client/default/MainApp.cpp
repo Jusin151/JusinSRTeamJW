@@ -33,9 +33,12 @@
 
 
 CMainApp::CMainApp()
-	: m_pGameInstance{ CGameInstance::Get_Instance() }
-{
+	: m_pGameInstance{ CGameInstance::Get_Instance() },
+	m_pPickingSys{ CPickingSys::Get_Instance() }
+{ 
+	
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pPickingSys);
 }
 
 HRESULT CMainApp::Initialize()
@@ -84,7 +87,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 #pragma endregion
-
+	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
 	CJsonLoader jsonLoader;
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_Static.json")))
 		return E_FAIL;
@@ -430,6 +433,8 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+	Safe_Release(m_pPickingSys);
+	CPickingSys::Destroy_Instance();
 	CStructureManager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();
