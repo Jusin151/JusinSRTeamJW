@@ -58,7 +58,6 @@ HRESULT CItem::Initialize(void* pArg)
 		//테스트용
 		m_eItemType = ITEM_TYPE::AMMO;
 		m_strItemName = L"Magnum_Ammo_Small";
-		//
 	}
 
 
@@ -114,8 +113,6 @@ HRESULT CItem::Render()
 		return E_FAIL;
 
 	Release_RenderState();
-
-	m_pColliderCom->Render();
 	return S_OK;
 }
 

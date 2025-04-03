@@ -61,8 +61,12 @@ private:
     TRIGGER_TYPE m_eTriggerType = TRIGGER_TYPE::BUTTON;
     _bool m_bWasTriggered = false;
 
+
     class CDoor* m_pTargetObject = { nullptr };
     _wstring m_stTargetTag;
+    set<class CCollisionObject*> m_setMonsters;
+    _bool m_bInitMonsters = { false };
+    _uint m_iPrevSize = { 0 };
 
 private:
     HRESULT Ready_Components();
