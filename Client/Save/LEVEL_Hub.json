@@ -197,8 +197,8 @@
           0.5
         ]
       }
-    ]
-      },
+    ],
+    "Layer_Hub_Floor1": [
       {
         "FromPool": false,
         "IsActive": true,
@@ -1082,81 +1082,6 @@
           8.399999618530273,
           0.5
         ]
-      }
-    ],
-    "Layer_Player": [
-      {
-        "FromPool": true,
-        "IsActive": true,
-        "LayerTag": "Layer_Player"
-      }
-    ],
-    "Layer_Crocman": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Crocman",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 6,
-          "ProtTag": "Prototype_GameObject_Crocman",
-          "ProtTextureTag": "Prototype_Component_Texture_Crocman",
-          "ProtoLevel": 6
-        },
-        "collider_tag": "",
-        "is_cube_collider": false,
-        "position": [
-          10.0,
-          0.5,
-          10.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ],
-        "texture_path": "",
-        "texture_tag": "",
-        "vibuffer": ""
-      }
-    ],
-    "Layer_Harpoonguy": [
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 6,
-          "ProtTag": "Prototype_GameObject_Harpoonguy",
-          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
-          "ProtoLevel": 6
-        },
-        "collider_tag": "",
-        "is_cube_collider": false,
-        "position": [
-          10.0,
-          0.5,
-          0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ],
-        "texture_path": "",
-        "texture_tag": "",
-        "vibuffer": ""
       }
     ],
     "Layer_Wall": [

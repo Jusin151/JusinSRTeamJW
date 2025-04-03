@@ -128,7 +128,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 	}
 
 	json j;
-	file >> j;
+ 	file >> j;
 
 	for (const auto& item : j["layers"].items())
 	{

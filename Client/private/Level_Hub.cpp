@@ -22,12 +22,15 @@ CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Hub::Initialize()
 
 {
+	CJsonLoader jsonLoader;
+	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hub.json", LEVEL_HUB);
 	static _bool bIsLoading = false;
 
 	if (!bIsLoading)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
-			LEVEL_STATIC, TEXT("Layer_Inven_UI"))))
+			LEVEL_STATIC, TEXT("Layer_Inven_UI")))) 
 			return E_FAIL;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
