@@ -12,6 +12,7 @@
 #include "UI_Point_Shop.h"
 #include "Image.h"
 #include "Sound_Event.h"
+#include "Level_Loading.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -31,6 +32,13 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('F') & 0x8000)
+	{
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+			return;
+
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()

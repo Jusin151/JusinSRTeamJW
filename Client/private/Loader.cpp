@@ -119,14 +119,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
-	//// JSON 로더를 사용하여 모든 프로토타입 로드
-	//CJsonLoader jsonLoader;
- // 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
-	//	return E_FAIL;
+	// JSON 로더를 사용하여 모든 프로토타입 로드
+	CJsonLoader jsonLoader;
+ 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
+	return E_FAIL;
 
-	//// JSON 로더를 사용하여 모든 프로토타입 로드
-	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
-	//	return E_FAIL;
+	// JSON 로더를 사용하여 모든 프로토타입 로드
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
@@ -270,6 +270,8 @@ HRESULT CLoader::Loading_For_Hub()
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	CJsonLoader jsonLoader;
+
+
 
 	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"); // 건물관련
 
