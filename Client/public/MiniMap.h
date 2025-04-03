@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
 
@@ -15,8 +15,8 @@ class CMiniMap final : public CGameObject
 public:
     struct VERTEX
     {
-        D3DXVECTOR3 position; // 3D ��ǥ
-        D3DCOLOR color;       // ����
+        D3DXVECTOR3 position; // 3D ÁÂÇ¥
+        D3DCOLOR color;       // »ö»ó
 
         static const DWORD FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
     };
@@ -50,11 +50,11 @@ private:
     list<class CStructure*> m_StructureList;
     class CPlayer* m_pPlayer = { nullptr };
     class CCamera_FirstPerson* m_pCamera = { nullptr };
-    LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // �̴ϸ� ���� Ÿ��
+    LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // ¹Ì´Ï¸Ê ·»´õ Å¸°Ù
     LPDIRECT3DSURFACE9 m_pMiniMapSurface = {nullptr};
     LPDIRECT3DVERTEXBUFFER9 m_pVertexBuffer = { nullptr };
     LPD3DXSPRITE m_pSprite = nullptr;
-    // �̴ϸ� ��� ��ġ �� ũ��
+    // ¹Ì´Ï¸Ê Ãâ·Â À§Ä¡ ¹× Å©±â
     RECT m_MiniMapRect;
     _bool m_bIsOriginal = { true };
     CTransform* m_pTransformCom = { nullptr };

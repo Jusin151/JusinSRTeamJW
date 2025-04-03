@@ -84,7 +84,6 @@ void CPlayer::Update(_float fTimeDelta)
 		Add_Ammo(L"Magnum_Ammo",10);
 
 	}
-
 	static _bool m_asdasdasd = { true };
  
 	if (m_asdasdasd)

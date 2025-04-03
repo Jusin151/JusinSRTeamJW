@@ -14,35 +14,23 @@
 #include "PickingSys.h"
 #include "Particles.h"
 #include "Sky.h"
-#include <Weapon_Base.h>
-
-
-#include "GameInstance.h"
+#include "MiniMap.h"
+#include "StructureManager.h"
 #include "Terrain.h"
 #include "Camera_Free.h"
 #include "Camera_FirstPerson.h"
 #include "Player.h"
 #include "UI_Headers.h" // UI 헤더들 
+#include "Hub_Headers.h" // 허브 헤더들
+#include <Weapon_Base.h>
 #include "GamePlay_Button.h"
 #include "JsonLoader.h"
-#include "Sky.h"
-#include "Weapon_Headers.h"
 #include "Weapon_Effect.h"
 #include "Staff_Bullet.h"
-#include  "Hub_PointShop.h"
-#include "UI_Point_Shop.h"
-#include "UI_WeaponShop_UI.h"
-#include "UI_Spell_Shop.h"
-#include "Hub_Episode.h"
-#include "Hub_WeaponShop.h"
-#include "UI_Episode_Hub.h"
-#include "Hub_Portal.h"
 #include "Image.h"
 #include "Inven_UI.h"
-#include "Hub_SpellShop.h"
 #include "Level_Hub.h"
-#include "MiniMap.h"
-#include "StructureManager.h"
+
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
