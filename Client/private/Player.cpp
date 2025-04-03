@@ -21,21 +21,13 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
-	//m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
+
 	return S_OK;
 }
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-	/*CLandObject::LANDOBJECT_DESC		Desc{};
-	Desc.iLevelIndex = LEVEL_GAMEPLAY;
-	Desc.strLayerTag = TEXT("Layer_BackGround");
-	Desc.strComponentTag = TEXT("Com_VIBuffer");
-	Desc.iIndex = 0;
-
-	if (FAILED(__super::Initialize(&Desc)))
-		return E_FAIL;*/
-
+	
 	if (!pArg)
 	{
 		m_tObjDesc.iLevel = 3;
@@ -51,10 +43,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-2.5f, 1.f, -1.f));
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_pTransformCom->Set_Scale(1.0f,1.0f,1.0f);
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
+	// Antarctic1_Test pos
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.7f, -1.6f));
+
+	// Gameplay start pos
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
+	m_pTransformCom->Set_Scale(1.f, 1.8f, 1.f);
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -63,7 +57,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
+	m_fSpeed = 0.7f;
 
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -76,19 +70,24 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 
 }
-//CTransform* pTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Com_Transform")));
 
-	//if (pTransform)
-	//{
-	//	pTransform->Go_Straight(fTimeDelta);
-	//}
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 
 	Input_Key(fTimeDelta);
+
+	//m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+
+	m_vDir = m_vNextPos - m_vCurPos;
+	m_fLength = m_vDir.Length();
+	m_vDir.Normalize();
+
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"),m_pTransformCom->Compute_Scaled());
+	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
 	/////////트리거용 
 
@@ -97,7 +96,6 @@ void CPlayer::Update(_float fTimeDelta)
 		Add_Ammo(L"Magnum_Ammo",10);
 
 	}
-
 	static _bool m_asdasdasd = { true };
  
 	if (m_asdasdasd)
@@ -109,7 +107,7 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 		
 		m_asdasdasd = false;
 	}
@@ -212,23 +210,6 @@ HRESULT CPlayer::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스탯포인트:") + to_wstring(m_iStatpoint),
 		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	/*if (FAILED(m_pTextureCom->Bind_Resource(0)))
-		return E_FAIL;
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
-	SetUp_RenderState();
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-
-	Release_RenderState();
-
-	m_pColliderCom->Render();*/
-
 
 	return S_OK;
 }
@@ -243,46 +224,28 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
-	_float3 direction = vMove.GetNormalized();
 
-	_float3 otherPos = static_cast<CTransform*>(other->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-	_float3 dirOthertoOldPos = fPos - otherPos;
-	_float3 dirOthertoNewPos = fPos + vMove - otherPos;
-	_float fDepth = vMove.Length();
 
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
-		// gameObject.Get_Tag() == "Bullet"
-		// if(CMonster* pMonster = dynamic_cast<CMonster*>(gameObject))
-		// {
-		// _int iDamge = pMonster->Get_Damge();
-		// Set_Hp()llll
-		// Update_UI()
-		// 
-		// 
-		// 
-		//
-
+		m_vNextPos += vMove * 0.3f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 		break;
 
 	case CG_MONSTER_PROJECTILE_CUBE:
 		break;
 
 	case CG_STRUCTURE_WALL:
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
-		if (dirOthertoOldPos.Dot(direction) < 0)
-			fPos = m_vOldPos;
-		else
-			fPos += vMove;
-
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		break;
+	case CG_DOOR:
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
 	default:
@@ -290,7 +253,6 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	}
 
 
-	m_vOldPos = fPos;
 
 
 	return S_OK;
@@ -299,7 +261,7 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	_float moveSpeed = 0.5f;
+	
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
@@ -321,33 +283,21 @@ void CPlayer::Move(_float fTimeDelta)
 
 
 
-	if (moveDir.LengthSq() > 0) {
+	if (moveDir.LengthSq() > 0) 
+	{
 		moveDir.Normalize(); // 방향 정규화
-		m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		moveDir.y = 0.f;
-		fPos += moveDir * fTimeDelta * moveSpeed * 10;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		fPos += moveDir * fTimeDelta * m_fSpeed * 10;
+		m_vNextPos = fPos;	
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
-
-
-
-	/*POINT ptMouse{};
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
-
-	LONG LDistX = abs(ptMouse.x - m_lMiddlePointX);
-
-	if (ptMouse.x - m_lMiddlePointX > 0)
+	else
 	{
-		if (LDistX > 80)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * LDistX * 0.005f);
+		m_vNextPos = m_vCurPos;
 	}
-	else if (ptMouse.x - m_lMiddlePointX < 0)
-	{
-		if (LDistX > 80)
-			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), -fTimeDelta * LDistX * 0.005f);
-	}*/
+	
+
 
 }
 
@@ -479,13 +429,13 @@ HRESULT CPlayer::Release_RenderState()
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
+	/*if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_tObjDesc.stProtTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	{
 		if (FAILED(__super::Add_Component(LEVEL_EDITOR, m_tObjDesc.stProtTextureTag,
 			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 			return E_FAIL;
-	}
+	}*/
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
@@ -502,7 +452,7 @@ HRESULT CPlayer::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.5f,0.5f,0.5f };
+	ColliderDesc.fScale = { 1.f, 1.5f, 1.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
@@ -526,17 +476,24 @@ HRESULT CPlayer::Ready_Player_SetUP()
 
 	m_iHp = m_iPlayerHP.first;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
 
 	m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-	(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+	(LEVEL_STATIC, TEXT("Layer_Inven")));
 
 	if (!m_pPlayer_Inven)
-		return E_FAIL;
-
-
+	{
+ 		m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+		(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+		if (!m_pPlayer_Inven)
+		{
+			m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
+			(LEVEL_HUB, TEXT("Layer_Inven")));
+				if(!m_pPlayer_Inven)
+				{
+					return E_FAIL;
+				}
+		}		
+	}
 
 	if (auto pHpUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hp_Bar")))
 		Add_Observer(pHpUI);
@@ -550,14 +507,14 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
 		Add_Observer(pPlayer_Icon);
 
-	if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Point_Shop"))))
-		Add_Observer(m_pHub_PointShop); 
+	//if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop"))))
+	//	Add_Observer(m_pHub_PointShop); 
 
-	if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Shop"))))
-		Add_Observer(m_pHub_WeaponShop);
+	//if (auto m_pHub_WeaponShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Weapon_Shop"))))
+	//	Add_Observer(m_pHub_WeaponShop);
 
-	if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Spell_Shop"))))
-		Add_Observer(m_pHub_SpellShop);
+	//if (auto m_pHub_SpellShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Spell_Shop"))))
+	//	Add_Observer(m_pHub_SpellShop);
 
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);

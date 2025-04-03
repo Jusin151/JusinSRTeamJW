@@ -18,10 +18,7 @@ CUI_Left_Display::CUI_Left_Display(const CUI_Left_Display& Prototype)
 
 HRESULT CUI_Left_Display::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-	{
-		return E_FAIL;
-	}
+	
 
 	return S_OK;
 }
@@ -29,7 +26,6 @@ HRESULT CUI_Left_Display::Initialize_Prototype()
 HRESULT CUI_Left_Display::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
-
 		return E_FAIL;
 
 	if (pArg != nullptr)
@@ -101,7 +97,7 @@ HRESULT CUI_Left_Display::Render()
 
 HRESULT CUI_Left_Display::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Left_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Left_Panel"),
 		TEXT("Com_Texture_HP"), reinterpret_cast<CComponent**>(&m_HP_pTextureCom))))
 		return E_FAIL;
 
@@ -123,7 +119,7 @@ CUI_Left_Display* CUI_Left_Display::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("체력바 UI 원본 생성 실패 ");
+		MSG_BOX("레프트디스플레이 UI 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -137,7 +133,7 @@ CGameObject* CUI_Left_Display::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("체력바 UI 복제 실패");
+		MSG_BOX("레프트디스플레이 UI 복제 실패");
 		Safe_Release(pInstace);
 	}
 

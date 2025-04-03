@@ -172,7 +172,7 @@ _bool CHub_SpellShop::Can_Purchase(_uint iItemID, _uint iCount)
 HRESULT CHub_SpellShop::Ready_Components()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Spell_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Spell_Shop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

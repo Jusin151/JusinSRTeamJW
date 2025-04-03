@@ -1,0 +1,7 @@
+hurt_idle 0
+idle_move_left 1~ 8
+idle_move_right 9 ~16
+hurt_move_left 17 ~ 24
+hurt_move_right 25 ~ 32
+veryhurt_attack 33 ~ 43
+vertyhurt_death 44 ~ 52

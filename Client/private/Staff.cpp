@@ -38,7 +38,6 @@ HRESULT CStaff::Initialize(void* pArg)
 {
 
 	if (FAILED(Ready_Components()))
-
 		return E_FAIL;
 
 	if (pArg != nullptr)
@@ -61,23 +60,14 @@ HRESULT CStaff::Initialize(void* pArg)
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Staff", this);
 
-    if (FAILED(Ready_Icon()))
-        return E_FAIL;
+    //if (FAILED(Ready_Icon()))
+    //    return E_FAIL;
 
 	return S_OK;
 }
 HRESULT CStaff::Ready_Icon()
 {
-    CImage::Image_DESC Image_INFO = {};
-    Image_INFO.vPos = { 0.f,150.f };
-    Image_INFO.vSize = { 80.f,40.f };
-    Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-    Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-    Image_INFO.WeaponTag = L"Staff";
-    Image_INFO.TextureImageNum = Staff;
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-        LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-        return E_FAIL;
+ 
 
     return S_OK;
 }
@@ -182,8 +172,9 @@ void CStaff::Attack(_float fTimeDelta)
                 {
                     if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Staff_Bullet"),
                         LEVEL_GAMEPLAY, TEXT("Layer_Staff_Bullet"))))
+
                         return;
-                    m_bHasFired = true; // 발사 상태를 true로 설정
+                    m_bHasFired = true;
                 }
             }
             else
@@ -270,7 +261,7 @@ HRESULT CStaff::On_Collision()
 
 HRESULT CStaff::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Staff"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Staff"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
  		return E_FAIL;
 
@@ -293,7 +284,7 @@ CStaff* CStaff::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("스태프 UI 원본 생성 실패 ");
+		MSG_BOX("스태프 원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -309,7 +300,7 @@ CGameObject* CStaff::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("스태프 UI 복제 실패");
+		MSG_BOX("스태프 복제 실패");
 
 		Safe_Release(pInstace);
 	}

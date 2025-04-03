@@ -18,9 +18,7 @@ CUI_Right_Display::CUI_Right_Display(const CUI_Right_Display& Prototype)
 
 HRESULT CUI_Right_Display::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
+	
 
 	return S_OK;
 }
@@ -59,7 +57,7 @@ void CUI_Right_Display::Update(_float fTimeDelta)
 
 void CUI_Right_Display::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI_BACKGROUND, this)))
 		return;
 }
 
@@ -101,7 +99,7 @@ HRESULT CUI_Right_Display::Render()
 
 HRESULT CUI_Right_Display::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Right_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Right_Panel"),
 		TEXT("Com_Texture_Ammo"), reinterpret_cast<CComponent**>(&m_Ammo_pTextureCom))))
 		return E_FAIL;
 

@@ -70,6 +70,11 @@ HRESULT CItem::Initialize(void* pArg)
 
 void CItem::Priority_Update(_float fTimeDelta)
 {
+	if (m_pPlayer == nullptr)
+	{
+		m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+
+	}
 }
 
 void CItem::Update(_float fTimeDelta)

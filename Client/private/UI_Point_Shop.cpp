@@ -45,7 +45,6 @@ HRESULT CUI_Point_Shop::Initialize(void* pArg)
         return E_FAIL;
 
 
-
     m_pTransformCom->Set_Scale(m_Shop_INFO.vSize.x, m_Shop_INFO.vSize.y, 1.f);
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -81,7 +80,7 @@ void CUI_Point_Shop::Late_Update(_float fTimeDelta)
 HRESULT CUI_Point_Shop::Ready_Texture()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
+    if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -227,14 +226,14 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
             vecButtonDescs[index].bActive = true;
             vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_SKILL;
             if (FAILED(m_pGameInstance->Add_GameObject(
-                LEVEL_GAMEPLAY,
+                LEVEL_HUB,
                 TEXT("Prototype_GameObject_GamePlayer_Button"), //  이건 프로토타입 이름이고
-                LEVEL_GAMEPLAY,
+                LEVEL_HUB,
                 vecButtonDescs[index].strUIName, // 이건 레이어 이름이고
                 &vecButtonDescs[index])))
                 continue;
 
-            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+            CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_HUB, vecButtonDescs[index].strUIName.c_str()));
 
             if (pButton)
             {
@@ -349,14 +348,14 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
         vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_STAT;
 
         if (FAILED(m_pGameInstance->Add_GameObject(
-            LEVEL_GAMEPLAY,
+            LEVEL_HUB,
             TEXT("Prototype_GameObject_GamePlayer_Button"), //  이건 프로토타입 이름이고
-            LEVEL_GAMEPLAY,
+            LEVEL_HUB,
             vecButtonDescs[index].strUIName, // 이건 레이어 이름이고
             &vecButtonDescs[index])))
             continue;
 
-        CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+        CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_HUB, vecButtonDescs[index].strUIName.c_str()));
 
         if (pButton)
         {
