@@ -94,8 +94,8 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	
 
 
-	
-	HandleMouseInput(fTimeDelta);
+	if(m_tmpState)
+		HandleMouseInput(fTimeDelta);
 	
 	__super::Update_VP_Matrices();
 	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT) * fPos.x);
@@ -106,7 +106,10 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
 {	
-	
+	if (GetAsyncKeyState(VK_TAB) & 0x8000)
+	{
+		m_tmpState = !m_tmpState;
+	}
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {

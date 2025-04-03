@@ -212,15 +212,11 @@ void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
 
 }
 
-
-
-
-
-
 void CMinigun::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);;
 }
+
 HRESULT CMinigun::Render()
 {
     D3DXMATRIX matOldView, matOldProj;
