@@ -41,9 +41,9 @@ HRESULT CLight::Initialize(void* pArg)
 		if (data["Type"] == "Point") m_tInfo.eType = LT_POINT;
 		else if (data["Type"] == "Spot") m_tInfo.eType = LT_SPOT;
 		else if (data["Type"] == "Direction") m_tInfo.eType = LT_DIR;
-		m_tInfo.fDiffuse = { data["Diffuse"]["x"], data["Diffuse"]["z"], data["Diffuse"]["y"], data["Diffuse"]["w"] };
-		m_tInfo.fAmbient = { data["Ambient"]["x"], data["Ambient"]["z"], data["Ambient"]["y"], data["Ambient"]["w"] };
-		m_tInfo.fSpecular = { data["Specular"]["x"], data["Specular"]["z"], data["Specular"]["y"], data["Specular"]["w"] };
+		m_tInfo.fDiffuse = { data["Diffuse"]["x"], data["Diffuse"]["y"], data["Diffuse"]["z"], data["Diffuse"]["w"] };
+		m_tInfo.fAmbient = { data["Ambient"]["x"], data["Ambient"]["y"], data["Ambient"]["z"], data["Ambient"]["w"] };
+		m_tInfo.fSpecular = { data["Specular"]["x"], data["Specular"]["y"], data["Specular"]["z"], data["Specular"]["w"] };
 		m_tInfo.fDirection = { data["Direction"]["x"], data["Direction"]["y"], data["Direction"]["z"] };
 		m_tInfo.fAttenuation0 = { data["Attenuation0"] };
 		m_tInfo.fAttenuation1 = { data["Attenuation1"] };
@@ -76,6 +76,13 @@ HRESULT CLight::Bind_Resouce(_uint iIndex)
 	m_pGraphic_Device->SetLight(iIndex, &light);
 
 	return S_OK;
+}
+
+void CLight::DecreaseIntensity(_uint iFrame)
+{
+	//0123
+	m_tInfo.fAttenuation1 = iFrame / 5.f;
+	//m_tInfo.fAttenuation2 = iFrame;
 }
 
 CLight* CLight::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LIGHTTYPE eType)

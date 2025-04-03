@@ -930,5 +930,8 @@
     <FxCompile Include="..\..\Resources\Shaders\FogShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\DoubleSideRect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

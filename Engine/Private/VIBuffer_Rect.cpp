@@ -70,13 +70,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
-	pIndices[0] = 0;
-	pIndices[1] = 1;
-	pIndices[2] = 2;
-
-	pIndices[3] = 0;
-	pIndices[4] = 2;
-	pIndices[5] = 3;
+	pIndices[0] = 0, pIndices[1] = 1, pIndices[2] = 2;
+	pIndices[3] = 0, pIndices[4] = 2, pIndices[5] = 3;
 
 	m_pIB->Unlock();
 

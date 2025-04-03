@@ -51,6 +51,7 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 	pAttribute->fSize = m_fSize;
 	pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
 	pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
+	pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
 }
 
 void CProjectile_Particle_System::Update(float fTimeDelta)
@@ -72,7 +73,7 @@ HRESULT CProjectile_Particle_System::Render()
 
 	PARTICLE* v = 0;
 
-	m_pGraphic_Device->SetTexture(0, m_pTexture);
+	m_pTexture->Bind_Resource(0);
 	m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_PSIZE | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 	m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
 
