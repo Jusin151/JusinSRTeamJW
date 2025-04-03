@@ -1,34 +1,30 @@
 ﻿struct VS_INPUT
 {
-    float3 position : POSITION; // 파티클 기본 위치
-    float4 color : COLOR; // 파티클 색상
-    float3 instanceOffset : TEXCOORD0; // 인스턴싱 오프셋
+    float3 Pos : POSITION;
+    float4 Color : COLOR0;
+};
+
+struct VS_INSTANCE_INPUT
+{
+    float4x4 World : TEXCOORD1; // 월드 행렬
+    float Size : TEXCOORD2; // 파티클 크기
+    float4 InstanceColor : COLOR1; // 인스턴스 색상
 };
 
 struct VS_OUTPUT
 {
-    float4 position : POSITION;
-    float4 color : COLOR;
+    float4 Pos : SV_Position;
+    float4 Color : COLOR0;
+    float PointSize : PSIZE;
 };
 
-float4x4 g_mWorldViewProj;
-float g_fTimeDelta;
-
-VS_OUTPUT main(VS_INPUT input)
+// 정점 셰이더 함수
+VS_OUTPUT VS_Main(VS_INPUT input, VS_INSTANCE_INPUT inst)
 {
     VS_OUTPUT output;
-    
-    // 인스턴싱된 위치 적용
-    float3 worldPos = input.position + input.instanceOffset;
-    
-    // 중력 적용 (시간에 따라 Y축 감소)
-    worldPos.y -= g_fTimeDelta * 0.5;
-    
-    // 월드뷰프로젝션 변환
-    output.position = mul(float4(worldPos, 1.0f), g_mWorldViewProj);
-    
-    // 색상 전달
-    output.color = input.color;
-    
+    output.Pos = mul(float4(input.Pos, 1.0f), inst.World);
+    output.Pos = mul(output.Pos, g_mViewProj);
+    output.Color = input.Color * inst.InstanceColor;
+    output.PointSize = inst.Size; // 파티클 크기 설정
     return output;
 }

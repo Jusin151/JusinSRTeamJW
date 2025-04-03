@@ -961,15 +961,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="TestPixelShader.hlsl">
-      <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Shader\VertexShader.hlsl">
-      <Filter>02.GameObjects\ParticleSystemTest</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
@@ -980,6 +971,15 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\DoubleSideRect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\PixelShader.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\TestPixelShader.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\VertexShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

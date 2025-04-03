@@ -17,6 +17,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\default\Editor.vcxproj", "{F7C4DB7D-D676-4CA4-8CD4-0B35565F8727}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saves", "Saves", "{C8D5274F-AC00-46C7-1F8D-E88E81087A52}"
+	ProjectSection(SolutionItems) = preProject
+		Client\Save\ClassNames.json = Client\Save\ClassNames.json
+		Client\Save\LEVEL.json = Client\Save\LEVEL.json
+		Client\Save\LEVEL_Antarctic1.json = Client\Save\LEVEL_Antarctic1.json
+		Client\Save\LEVEL_Antarctic1_Test.json = Client\Save\LEVEL_Antarctic1_Test.json
+		Client\Save\LEVEL_Antarctic1_Test3.json = Client\Save\LEVEL_Antarctic1_Test3.json
+		Client\Save\LEVEL_AntarcticBoss.json = Client\Save\LEVEL_AntarcticBoss.json
+		Client\Save\LEVEL_Editor.json = Client\Save\LEVEL_Editor.json
+		Client\Save\LEVEL_GAMEPLAY.json = Client\Save\LEVEL_GAMEPLAY.json
+		Client\Save\LEVEL_Hub.json = Client\Save\LEVEL_Hub.json
+		Client\Save\LEVEL_TEST.json = Client\Save\LEVEL_TEST.json
+		Client\Save\Prototypes - 백업.json = Client\Save\Prototypes - 백업.json
+		Client\Save\Prototypes.json = Client\Save\Prototypes.json
+		Client\Save\Prototypes_For_Editor.json = Client\Save\Prototypes_For_Editor.json
+		Client\Save\Prototypes_For_Hub.json = Client\Save\Prototypes_For_Hub.json
+		Client\Save\Prototypes_For_Test.json = Client\Save\Prototypes_For_Test.json
+		Client\Save\Prototypes_Static.json = Client\Save\Prototypes_Static.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

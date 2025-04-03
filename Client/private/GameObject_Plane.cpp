@@ -31,54 +31,6 @@ HRESULT CGameObject_Plane::Initialize(void* pArg)
     return S_OK;
 }
 
-void CGameObject_Plane::Priority_Update(_float fTimeDelta)
-{
-}
-
-void CGameObject_Plane::Update(_float fTimeDelta)
-{
-    __super::Update(fTimeDelta);
-    m_pBloodParticleCom->Update(fTimeDelta);
-}
-
-void CGameObject_Plane::Late_Update(_float fTimeDelta)
-{
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-}
-
-HRESULT CGameObject_Plane::Pre_Render()
-{
-    return E_NOTIMPL;
-}
-
-HRESULT CGameObject_Plane::Render()
-{
-    if (FAILED(m_pTextureCom->Bind_Resource(0)))
-        return E_FAIL;
-
-    if (FAILED(m_pTransformCom->Bind_Resource()))
-        return E_FAIL;
-
-    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-        return E_FAIL;
-
-    Pre_Render();
-
-    if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
-    if (FAILED(m_pBloodParticleCom->Render()))
-        return E_FAIL;
-
-    Post_Render();
-
-    return S_OK;
-}
-
-HRESULT CGameObject_Plane::Post_Render()
-{
-    return S_OK;
-}
-
 HRESULT CGameObject_Plane::Ready_Components()
 {
     /* For.Com_Transform */
@@ -111,8 +63,80 @@ HRESULT CGameObject_Plane::Ready_Components()
         TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
         return E_FAIL;
 
+    CShader::SHADER_DESC shaderDesc = {};
+    shaderDesc.filePath = L"../../Resources/Shaders/DoubleSideRect.hlsl";
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), &shaderDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
+
+void CGameObject_Plane::Priority_Update(_float fTimeDelta)
+{
+}
+
+void CGameObject_Plane::Update(_float fTimeDelta)
+{
+    __super::Update(fTimeDelta);
+    m_pBloodParticleCom->Update(fTimeDelta);
+}
+
+void CGameObject_Plane::Late_Update(_float fTimeDelta)
+{
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+}
+
+HRESULT CGameObject_Plane::Pre_Render()
+{
+    return E_NOTIMPL;
+}
+
+HRESULT CGameObject_Plane::Render()
+{
+    if (FAILED(m_pTextureCom->Bind_Resource(0)))
+        return E_FAIL;
+
+    if (FAILED(m_pTransformCom->Bind_Resource()))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+        return E_FAIL;
+
+
+    
+    Pre_Render();
+    _float4x4 viewMatrix = {};
+    _float4x4 projMatrix = {};
+    m_pTextureCom->Bind_Resource(m_pShaderCom, "g_Texture", 1);
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &viewMatrix);
+    m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &projMatrix);
+    m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix());
+    m_pShaderCom->Bind_Matrix("g_ViewMatrix", &viewMatrix);
+    m_pShaderCom->Bind_Matrix("g_ProjMatrix", &projMatrix);
+    m_pShaderCom->Bind_Vector("g_CameraPosition", static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_TEST, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION));
+    
+    m_pShaderCom->Begin(1);
+
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+    if (FAILED(m_pBloodParticleCom->Render()))
+        return E_FAIL;
+    m_pShaderCom->End();
+
+    Post_Render();
+
+    return S_OK;
+}
+
+HRESULT CGameObject_Plane::Post_Render()
+{
+    return S_OK;
+}
+
+
 
 
 CGameObject_Plane* CGameObject_Plane::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -144,6 +168,7 @@ CGameObject_Plane* CGameObject_Plane::Clone(void* pArg)
 void CGameObject_Plane::Free()
 {
     __super::Free();
+    Safe_Release(m_pShaderCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTransformCom);

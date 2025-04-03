@@ -2,6 +2,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 BEGIN(Engine)
+class CShader;
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
@@ -33,10 +34,11 @@ public:
 
 private:
 	HRESULT Ready_Components();
-	CTexture*		m_pTextureCom = { nullptr };
-	CTransform*		m_pTransformCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CParticle_System* m_pBloodParticleCom = { nullptr };
+	CTexture*			m_pTextureCom = { nullptr };
+	CTransform*			m_pTransformCom = { nullptr };
+	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CParticle_System*	m_pBloodParticleCom = { nullptr };
+	CShader*			m_pShaderCom = { nullptr };
 
 public:
 	static CGameObject_Plane* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

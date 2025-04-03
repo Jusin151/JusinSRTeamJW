@@ -135,7 +135,7 @@ HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& s
 		return E_FAIL;
 
 	CComponent*		pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, iPrototypeLevelIndex, strPrototypeTag, pArg));
-	if (nullptr == pComponent)
+ 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_Components.emplace(strComponentTag, pComponent);
