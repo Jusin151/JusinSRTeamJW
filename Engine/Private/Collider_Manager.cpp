@@ -45,7 +45,6 @@ void CCollider_Manager::Clear()
 void CCollider_Manager::Update_Collison()
 {
 	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
-	Update_Collision_Floor();
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER_PROJECTILE_CUBE]);
@@ -58,6 +57,8 @@ void CCollider_Manager::Update_Collison()
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_MONSTER]);
+
+	Update_Collision_Floor();
 
 	Clear();
 }
@@ -80,14 +81,14 @@ void CCollider_Manager::Update_Collision_Structure()
 				_int iCount = 0;
 
 				_bool bCollision = false;
-
+				
 				// c
 				iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
 				
 
 				_float3 originalPos = srcEntry->Get_State(CTransform::STATE_POSITION);
 
-				for (_int step = 1; step <= iCount; ++step)
+				for (_int step = 0; step <= iCount; ++step)
 				{
 
 					_float3 testPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length() * (float(step) / iCount);
@@ -140,6 +141,7 @@ void CCollider_Manager::Update_Collision_Structure()
 				// 만약 충돌이 없었다면, 이동한 다음 위치로 업데이트
 				if (!bCollision)
 				{
+					srcEntry->Set_MTV(_float3(0.f, 0.f, 0.f));
 					_float3 nextPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length();
 					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
 					pTrans->Set_State(CTransform::STATE_POSITION, nextPos);
@@ -207,6 +209,8 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 		srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
 		srcEntry->Set_Depth(0.f);
 
+		_bool bCollision = false;
+
 		for (auto& dstEntry : dst)
 		{
 			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
@@ -216,9 +220,10 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-
+				bCollision = true;
 			}
 		}
+
 	}
 }
 

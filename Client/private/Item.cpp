@@ -120,7 +120,6 @@ HRESULT CItem::Render()
 
 	Release_RenderState();
 
-	m_pColliderCom->Render();
 	return S_OK;
 }
 

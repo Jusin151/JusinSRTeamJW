@@ -76,10 +76,8 @@ private:
 
 
 
-	//// 축 계산할때 넣어두는 용도로, 정규화해서 방향만 넣을 용도로
+	//// 축 계산할때 넣어두는 용도로
 	set<_float3> setAxes;
-	//// 거리 작은 순서대로 넣어주기, 충돌 후 이동시킬때 사용
-	//priority_queue<_float, vector<_float>, greater<_float>> m_Depths;
 	
 
 public:

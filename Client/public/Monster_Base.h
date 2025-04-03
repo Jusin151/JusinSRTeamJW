@@ -37,6 +37,8 @@ public:
 	void Look_Player();
 	void Chasing(_float fTimeDelta);
 
+	void Set_Trigger();
+
 	// texturecom는 각 monster에서 추가
 	HRESULT Ready_Components();
 

@@ -79,6 +79,11 @@ void CMonster_Base::Chasing(_float fTimeDelta)
 	
 }
 
+void CMonster_Base::Set_Trigger()
+{
+
+}
+
 HRESULT CMonster_Base::Ready_Components()
 {
 
