@@ -29,6 +29,11 @@ public:
 	virtual void Set_Ap(_int iAp) { m_iAp = iAp; }
 
 	void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }
+	
+	CGameObject* Get_Trigger() { return m_pTrigger; }
+	void Set_Trigger(CGameObject* pTrigger) { m_pTrigger = pTrigger; }
+
+	
 
 protected:
 
@@ -40,6 +45,9 @@ protected:
 	_int m_iHp = 0;
 	_int m_iAp = 0;
 	COLLIDERGROUP m_eType = CG_END;
+
+	CGameObject* m_pTrigger = { nullptr };
+
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

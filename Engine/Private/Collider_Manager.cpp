@@ -44,6 +44,8 @@ void CCollider_Manager::Clear()
 
 void CCollider_Manager::Update_Collison()
 {
+	Update_Collision_Trigger();
+
 	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
@@ -51,9 +53,9 @@ void CCollider_Manager::Update_Collison()
 
  	Collison_Cube_To_Cube(m_pColliders[CG_WEAPON], m_pColliders[CG_MONSTER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_ITEM]);
- 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_TRIGGER]);
- 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_TRIGGER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
+
+	
 
 	Clear();
 }
@@ -84,6 +86,35 @@ void CCollider_Manager::Update_Collision_Structure()
 			}
 		}
 
+	}
+}
+
+void CCollider_Manager::Update_Collision_Trigger()
+{
+	for (auto& srcEntry : m_pColliders[CG_MONSTER])
+	{
+		for (auto& dstEntry : m_pColliders[CG_TRIGGER])
+		{
+			if (Calc_AABB(srcEntry, dstEntry))
+			{
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+			}
+			
+		}
+	}
+
+	for (auto& srcEntry : m_pColliders[CG_PLAYER])
+	{
+		for (auto& dstEntry : m_pColliders[CG_TRIGGER])
+		{
+			if (Calc_AABB(srcEntry, dstEntry))
+			{
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+			}
+			
+		}
 	}
 }
 

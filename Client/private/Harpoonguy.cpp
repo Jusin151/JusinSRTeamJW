@@ -51,6 +51,8 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 		Safe_AddRef(pTarget);
 	}
 
+	
+
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
 
@@ -63,7 +65,16 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 void CHarpoonguy::Update(_float fTimeDelta)
 {
-	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
+	if (nullptr == m_pTarget)
+		return;
+
+	if (m_pTrigger != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+	{
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		return;
+	}
+	
+
 	if (m_eCurState != MS_DEATH)
 	{
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
@@ -71,8 +82,7 @@ void CHarpoonguy::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
-	if (nullptr == m_pTarget)
-		return;
+	
 
 	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -83,6 +93,15 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
+	if (m_pTarget == nullptr)
+		return;
+	if (m_pTrigger != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+	{
+		//m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		return;
+	}
+
+
 	_float3 vScale = m_pTransformCom->Compute_Scaled();
 	_float3 extents = _float3(
 		0.5f * vScale.x,

@@ -34,6 +34,8 @@ public:
 	// 벽 충돌할거 먼저 충돌 처리
 	void Update_Collision_Structure();
 
+	void Update_Collision_Trigger();
+
 	// 거리로만
 	void Collison_Sphere_To_Sphere( list<CCollider*> src, list<CCollider*> dst);
 	// OBB 충돌
