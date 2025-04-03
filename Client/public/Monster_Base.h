@@ -63,6 +63,8 @@ protected:
 	MONSTERSTATE m_eCurState = { MS_IDLE };
 	MONSTERSTATE m_ePreState = { MS_IDLE };
 
+	_bool		m_bCheck = { false };
+
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

@@ -160,6 +160,8 @@ void CCollider_Manager::Update_Collision_Trigger()
 {
 	for (auto& srcEntry : m_pColliders[CG_MONSTER])
 	{
+		if (nullptr != srcEntry->Get_Owner()->Get_Trigger())
+			continue;
 		for (auto& dstEntry : m_pColliders[CG_TRIGGER])
 		{
 			if (Calc_AABB(srcEntry, dstEntry))

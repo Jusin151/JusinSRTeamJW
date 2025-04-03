@@ -62,6 +62,7 @@ void CTrigger::Update(_float fTimeDelta)
 
 void CTrigger::Late_Update(_float fTimeDelta)
 {
+	if(m_eTriggerType == TRIGGER_TYPE::BUTTON)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 

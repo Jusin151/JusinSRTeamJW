@@ -333,14 +333,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 }
 
 
-	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
-	m_isFinished = true;
-
-	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL);
-	return S_OK;
-}
-
-
 
 
 

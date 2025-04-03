@@ -55,6 +55,11 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 		Safe_AddRef(pTarget);
 	}
 
+	if (!m_bCheck)
+	{
+		if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+			m_bCheck = true;
+	}
 	
 
 	if (m_iHp <= 0)
@@ -72,7 +77,7 @@ void CHarpoonguy::Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	if (m_pTrigger != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+	if (!m_bCheck)
 	{
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 		return;
@@ -123,9 +128,6 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 			return;
 	}
 	Select_Frame(fTimeDelta);
-	if (nullptr == m_pTarget)
-		return;
-
 	
 
 	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 

@@ -57,6 +57,12 @@ void CGlacier::Priority_Update(_float fTimeDelta)
         Safe_AddRef(pTarget);
     }
 
+    if (!m_bCheck)
+    {
+        if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+            m_bCheck = true;
+    }
+
     if (m_iHp <= 0)
         m_eCurState = MS_DEATH;
 
@@ -65,14 +71,14 @@ void CGlacier::Priority_Update(_float fTimeDelta)
 
 void CGlacier::Update(_float fTimeDelta)
 {
-    if (nullptr == m_pTarget)
+    if (m_pTarget == nullptr)
         return;
-
-    _float3 vDist;
-    vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
-
-    if (vDist.LengthSq() > 400)
+    if (!m_bCheck)
+    {
+        m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
         return;
+    }
+
 
     m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
