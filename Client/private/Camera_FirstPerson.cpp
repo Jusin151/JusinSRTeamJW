@@ -93,10 +93,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
 {	
-	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
-	{
-		m_tmpState = !m_tmpState;
-	}
+	
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
