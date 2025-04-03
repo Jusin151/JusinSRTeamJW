@@ -12,6 +12,7 @@
 #include "UI_Point_Shop.h"
 #include "Image.h"
 #include "Sound_Event.h"
+#include "Level_Loading.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device },
@@ -61,9 +62,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Item"))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Item"))))
+	//	return E_FAIL;
 
 	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
 		LEVEL_GAMEPLAY, TEXT("Layer_InvenUI"))))
@@ -108,6 +109,13 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('F') & 0x8000)
+	{
+ 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+			return;
+		return;
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()

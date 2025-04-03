@@ -36,6 +36,11 @@ HRESULT CTrigger::Initialize(void* pArg)
 	}
 
 	Find_Target();
+
+	if (m_eTriggerType == TRIGGER_TYPE::INTERACTION)
+	{
+		m_pTransformCom->Set_Scale(40.f, 1.f, 40.f);
+	}
 	return S_OK;
 }
 
@@ -50,6 +55,19 @@ void CTrigger::Update(_float fTimeDelta)
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 	}
 
+	if (m_eTriggerType == TRIGGER_TYPE::INTERACTION)
+	{
+		if (m_pTargetObject&& m_pTargetObject->IsMoving())
+		{
+			for (auto& monster : m_setMonsters)
+			{
+				monster->SetActive(true);
+			}
+			m_setMonsters.clear();
+		}
+	}
+
+	if(!m_bInitMonsters)
 	// 게임 인스턴스의 충돌 확인 시스템에 콜라이더 추가
 	m_pGameInstance->Add_Collider(CG_TRIGGER, m_pColliderCom);
 }
@@ -81,7 +99,7 @@ HRESULT CTrigger::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+	m_pColliderCom->Render();
 	Release_RenderState();
 
 	return S_OK;
@@ -93,15 +111,15 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	if (!m_bIsActive)
 		return S_OK;
 
-	// 플레이어인지 확인 (CG_PLAYER와 비교)
-	if (other->Get_Type() != CG_PLAYER)
-		return S_OK;
+
 
 	// 트리거 타입에 따른 처리
 	switch (m_eTriggerType)
 	{
 	case TRIGGER_TYPE::BUTTON:
-	{
+	{	// 플레이어인지 확인 (CG_PLAYER와 비교)
+		if (other->Get_Type() != CG_PLAYER)
+			return S_OK;
  		if (!m_bWasTriggered&&GetAsyncKeyState(VK_SPACE)&0x8000)
 		{
 			m_bWasTriggered = true;
@@ -111,6 +129,22 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	}
 	case TRIGGER_TYPE::INTERACTION:
 	{
+		if (!m_bInitMonsters)
+		{
+			m_setMonsters.insert(other);
+
+			if (m_iPrevSize == m_setMonsters.size())
+			{
+				m_bInitMonsters = true;
+				for (auto& monster : m_setMonsters)
+				{
+					monster->SetActive(false);
+				}
+				break;
+			}
+			m_iPrevSize = m_setMonsters.size();
+
+		}
 
 		break;
 	}
@@ -164,6 +198,8 @@ void CTrigger::Find_Target()
 		CDoor* pDoor = dynamic_cast<CDoor*>(m_pGameInstance->Find_Object(m_tObjDesc.iLevel, m_stTargetTag));
 		AddTargetObject(pDoor);
 	}
+
+	
 }
 
 HRESULT CTrigger::SetUp_RenderState()
