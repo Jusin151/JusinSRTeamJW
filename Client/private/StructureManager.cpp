@@ -1,4 +1,4 @@
-#include <StructureManager.h>
+﻿#include <StructureManager.h>
 
 IMPLEMENT_SINGLETON(CStructureManager);
 

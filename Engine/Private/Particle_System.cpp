@@ -210,6 +210,7 @@ HRESULT CParticle_System::Render()
 
 HRESULT CParticle_System::Post_Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
