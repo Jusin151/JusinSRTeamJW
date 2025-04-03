@@ -138,8 +138,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 HRESULT CLoader::Loading_For_Hub()
 {
-	
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, // 게임플레이버튼 UI 
@@ -223,7 +221,6 @@ HRESULT CLoader::Loading_For_Hub()
 		return E_FAIL;
 
 	
-
 	// 에피소드 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB,
 		TEXT("Prototype_GameObject_Episode_Hub"),

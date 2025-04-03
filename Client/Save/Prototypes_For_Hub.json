@@ -83,6 +83,30 @@
       "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\magma%d.png",
       "tag": "Prototype_Component_Texture_Magma"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
+      "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png",
+      "tag": "Prototype_Component_Texture_UI_Point_Shop"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
+      "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
+      "tag": "Prototype_Component_Texture_Point_Shop"
     }
   ],
   "gameObjects": [

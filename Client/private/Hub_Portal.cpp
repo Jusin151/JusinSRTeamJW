@@ -29,7 +29,8 @@ HRESULT CHub_Portal::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+   
+    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 
     m_pPlayer = static_cast<CPlayer*>(m_pPlayer);
     if (m_pPlayer == nullptr)

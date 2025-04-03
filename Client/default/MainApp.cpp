@@ -380,6 +380,24 @@ HRESULT CMainApp::Ready_Prototype_Weapon()
 
 HRESULT CMainApp::Ready_Prototype_Inven()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 인벤 테스트 삭제 X
+		TEXT("Prototype_GameObject_Inven"),
+		CInventory::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	// 인벤토리UI 클래스 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Inven_UI"),
+		CInven_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 인벤토리UI 예시 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, 
+		TEXT("Prototype_Component_Texture_Inven_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Inven/Inven.png"), 1))))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -387,7 +405,11 @@ HRESULT CMainApp::Ready_Prototype_Inven()
 
 HRESULT CMainApp::Ready_Prototype_Player()
 {
-
+	// 플레이어	클래스 생성
+   	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
 }

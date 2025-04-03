@@ -215,7 +215,7 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
 							{
 								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Portal"),
-									LEVEL_GAMEPLAY, TEXT("Layer_Portal"))))
+									LEVEL_HUB, TEXT("Layer_Portal"))))
 									return;
 
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;

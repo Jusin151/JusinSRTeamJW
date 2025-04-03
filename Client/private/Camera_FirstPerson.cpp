@@ -92,21 +92,23 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	Shaking(fTimeDelta);
 
 	
-
-
 	
-	HandleMouseInput(fTimeDelta);
-	
+	if (m_tmpState)
+	{
+		HandleMouseInput(fTimeDelta);
+		fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
+		fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP));
+		fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+	}
 	__super::Update_VP_Matrices();
-	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT) * fPos.x);
-	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP) * fPos.y);
-	fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK) * fPos.z);
-	//fPlayerTrans->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
-{	
-	
+{
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+	{
+		m_tmpState = !m_tmpState;
+	}
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {

@@ -35,7 +35,7 @@ HRESULT CLevel_Hub::Initialize()
 
 
 	if (FAILED(Ready_Layer_Weapon()))
-		return E_FAIL;
+ 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Weapon_Icon()))
 		return E_FAIL;

@@ -171,11 +171,6 @@
   ],
   "gameObjects": [
     {
-      "tag": "Prototype_GameObject_Item",
-      "level": 0,
-      "class": "CItem"
-    },
-    {
       "tag": "Prototype_GameObject_Camera_Free",
       "level": 0,
       "class": "CCamera_Free"
@@ -277,6 +272,11 @@
     },
     {
       "tag": "Prototype_GameObject_Harvester",
+      "level": 0,
+      "class": "CHarvester"
+    },
+    {
+      "tag": "Prototype_GameObject_Sonic",
       "level": 0,
       "class": "CSonic"
     },
