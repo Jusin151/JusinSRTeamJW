@@ -63,25 +63,9 @@ public:
 	HRESULT Add_To_GamePlay_Textures();
 	HRESULT Add_To_GamePlay_Buffer();
 	HRESULT Add_To_GamePlay_Prototype();
-//////////////////////////////////////////////////////////// 
-	HRESULT Add_To_UI_Textures();
-
-     HRESULT Add_To_UI_Left_DisPlay_Textures();
-	 HRESULT Add_To_UI_Mid_DisPlay_Textures();
-	 HRESULT Add_To_UI_Right_DisPlay_Textures();
-	 HRESULT Add_To_UI_Menu_DisPlay_Textures();
-//////////////////////////////////////////////////////////// 
-    HRESULT Add_To_UI_Prototype();
-
-    HRESULT Add_To_UI_Left_DisPlay_Prototype();
-	HRESULT Add_To_UI_Mid_DisPlay_Prototype();
-	HRESULT Add_To_UI_Right_DisPlay_Prototype();
-	HRESULT Add_To_UI_Right_Menu_Prototype();
 
 
-
-				
-
+		
 
 		
 };

@@ -34,7 +34,7 @@ HRESULT CHub_PointShop::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
 	if (auto pPointShopUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")))
-		Add_Observer(pPointShopUI);
+ 		Add_Observer(pPointShopUI);
 
 	return S_OK;
 }

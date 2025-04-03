@@ -75,12 +75,6 @@
     {
       "count": 1,
       "level": 6,
-      "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
-      "tag": "Prototype_Component_Texture_Point_Shop"
-    },
-    {
-      "count": 1,
-      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\TEXTURE_HUB_FLOOR_1.png",
       "tag": "Prototype_Component_Texture_Hub_Floor3"
     },
@@ -89,102 +83,9 @@
       "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\magma%d.png",
       "tag": "Prototype_Component_Texture_Magma"
-    },
-    {
-      "count": 1,
-      "level": 6,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
-      "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
-    },
-    {
-      "count": 1,
-      "level": 6,
-      "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
-      "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
-    },
-    {
-      "count": 97,
-      "level": 0,
-      "path": "../../Resources/Textures/Item/Item%d.png",
-      "tag": "Prototype_Component_Texture_Items"
     }
   ],
   "gameObjects": [
-    {
-      "tag": "Prototype_GameObject_Item",
-      "level": 0,
-      "class": "CItem"
-    },
-    {
-      "tag": "Prototype_GameObject_Camera_FirstPerson",
-      "level": 0,
-      "class": "CCamera_FirstPerson"
-    },
-    {
-      "tag": "Prototype_GameObject_Left_Panel",
-      "level": 0,
-      "class": "CUI_Left_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Player_Icon",
-      "level": 0,
-      "class": "CUI_Player_Icon"
-    },
-    {
-      "tag": "Prototype_GameObject_Hp_Bar",
-      "level": 0,
-      "class": "CUI_HP_Bar"
-    },
-    {
-      "tag": "Prototype_GameObject_MP_Bar",
-      "level": 0,
-      "class": "CUI_MP_Bar"
-    },
-    {
-      "tag": "Prototype_GameObject_Mid_Panel",
-      "level": 0,
-      "class": "CUI_Mid_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Right_Bar",
-      "level": 0,
-      "class": "CUI_Right_Display"
-    },
-    {
-      "tag": "Prototype_GameObject_Menu_Panel",
-      "level": 0,
-      "class": "CUI_Menu"
-    },
-    {
-      "tag": "Prototype_GameObject_Weapon_Axe",
-      "level": 0,
-      "class": "CAxe"
-    },
-    {
-      "tag": "Prototype_GameObject_Weapon_Claymore",
-      "level": 0,
-      "class": "CClaymore"
-    },
-    {
-      "tag": "Prototype_GameObject_Weapon_Magnum",
-      "level": 0,
-      "class": "CMagnum"
-    },
-    {
-      "tag": "Prototype_GameObject_Weapon_Staff",
-      "level": 0,
-      "class": "CStaff"
-    },
-    {
-      "tag": "Prototype_GameObject_Weapon_ShotGun",
-      "level": 0,
-      "class": "CShotGun"
-    },
-    {
-      "tag": "Prototype_GameObject_Inven",
-      "level": 0,
-      "class": "CInventory"
-    },
     {
       "class": "CStructure",
       "level": 6,
