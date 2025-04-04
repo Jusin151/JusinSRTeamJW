@@ -110,6 +110,8 @@ public:
 
 	}
 
+	void Add_Weapon(const _wstring& stWeaponTag);
+
 
 
 	 _bool Has_Item(const _wstring& stItemTag);

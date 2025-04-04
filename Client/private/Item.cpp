@@ -189,6 +189,16 @@ void CItem::Use_Item()
 			return;
 		}
 		break;
+	case Client::CItem::ITEM_TYPE::WEAPON:
+		if (m_pPlayer->Has_Item(m_strItemName))
+		{
+			m_pPlayer->Add_Ammo(m_strItemName, 10);
+		}
+		else
+		{
+			m_pPlayer->Add_Weapon(m_strItemName);
+		}
+		break;
 	case Client::CItem::ITEM_TYPE::MAX:
 		break;
 	default:

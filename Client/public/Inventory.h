@@ -64,7 +64,8 @@ public:
         m_WeaponMap[tag] = m_vecpWeapons[Index];
 
         _wstring ptag = tag;  
-        Notify((void*)(&tag), L"AddWeaponIcon"); // AddWeapon
+		pair<const _wstring&, _uint> testTag = { tag, Index };
+        Notify((void*)(&testTag), L"AddWeaponIcon"); // AddWeapon
 
         Add_Item(tag);  
     }

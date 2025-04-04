@@ -102,7 +102,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+	//	m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
@@ -370,6 +370,23 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 	//{
 	//	pRanged->Add_Ammo(iAmmo);
 	//}
+}
+
+void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
+{
+	if (!m_pPlayer_Inven) return;
+
+	if (m_pPlayer_Inven->Exist_item(stWeaponTag))
+	{
+		return;
+	}
+
+	if (stWeaponTag == L"ShotGun")
+	{
+
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag,3);
+
+	}
 }
 
 _bool CPlayer::Has_Item(const _wstring& stItemTag)

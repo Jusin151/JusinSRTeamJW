@@ -38,6 +38,16 @@ public:
     virtual HRESULT Render()override;
     virtual HRESULT Ready_Components();
 
+    void Add_WeaponIcon(pair<const wstring& ,_uint> weaponIconTagAndiIndex) //인벤의 Add_Weapon에서 호출됨
+    {
+        CImage* pImage = CImage_Manager::GetInstance()->Get_WeaponIcon(weaponIconTagAndiIndex.first);
+
+        if (weaponIconTagAndiIndex.second < 0 || weaponIconTagAndiIndex.second >= m_pWeaponIcon.size()) return;
+        if (pImage != nullptr)
+        {
+            m_pWeaponIcon[weaponIconTagAndiIndex.second] = pImage;
+        }
+    }
 
     void Add_WeaponIcon(const wstring& WeaponIconTag) //인벤의 Add_Weapon에서 호출됨
     {
@@ -51,8 +61,11 @@ public:
 
     void WeaponIcon_isActive(_uint Index)
     {
+
+        // 버그 있음 (무기 미리 셋팅 안하면 인덱스 밀려서 나옴)
         for (auto& it : m_pWeaponIcon)
         {
+            if(it)
             it->Select_WeaponIcon(false);
         }
 
@@ -70,6 +83,7 @@ public:
         {
             for (auto& it : m_pWeaponIcon)
             {
+                if (it)
                 it->SetActive(true);
             }
         }
@@ -77,6 +91,7 @@ public:
         {      
             for (auto& it : m_pWeaponIcon)
             {
+                if (it)
                 it->SetActive(false);
             }
             
@@ -106,8 +121,10 @@ private:
         }
 		else if (tag == L"AddWeaponIcon") // 해당 무기의 아이콘도 같이 추가할께
 		{		
-            wstring WeaponTag =*static_cast<wstring*>(pArg); 
-			Add_WeaponIcon(WeaponTag);
+			pair<const wstring&, _uint> WeaponIconTagAndIndex = *static_cast<pair<const wstring&, _uint>*>(pArg);
+           // wstring WeaponTag =*static_cast<wstring*>(pArg); 
+			//Add_WeaponIcon(WeaponTag);
+			Add_WeaponIcon(WeaponIconTagAndIndex);
 		}
 		else if (tag == L"IconActive")
 		{ 
