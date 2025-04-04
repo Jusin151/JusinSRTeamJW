@@ -38,16 +38,17 @@ HRESULT CBlood_Particle_System::Initialize(void* pArg)
 
 void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
-    pAttribute->bIsAlive = true;
-    GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
-    pAttribute->vPosition.z = -1.f;
-    pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f), 0.f };
-    pAttribute->fAge = 0;
-    pAttribute->fLifetime = 2.0f;
+	pAttribute->bIsAlive = true;
+	GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
+	pAttribute->vPosition.z = -1.f;
+	pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f), 0.f };
+	pAttribute->vAcceleration = { 1.5f, 1.2f, 0.0f };
+	pAttribute->fAge = 0;
+	pAttribute->fLifetime = 2.0f;
 	pAttribute->iIndex = rand() % m_pTexture->Get_NumTextures();
 
 	pAttribute->fSize = m_fSize / D3DXVec3Length(&pAttribute->vPosition);
-    pAttribute->vColor = 0xFF883932;
+	pAttribute->vColor = 0xFF883932;
 }
 
 void CBlood_Particle_System::Update(float fTimeDelta)
@@ -56,12 +57,12 @@ void CBlood_Particle_System::Update(float fTimeDelta)
 	{
 		if (i.bIsAlive)
 		{
-			i.vPosition += i.vVelocity * fTimeDelta;
+			i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
 			i.fAge += fTimeDelta;
 			i.fSize = m_fSize / D3DXVec3Length(&i.vPosition);
 			if (i.fAge > i.fLifetime)
 				i.bIsAlive = false;
-				//Reset_Particle(&i);
+			//Reset_Particle(&i);
 		}
 	}
 }
