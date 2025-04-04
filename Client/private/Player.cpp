@@ -77,7 +77,7 @@ void CPlayer::Update(_float fTimeDelta)
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 
-	Input_Key(fTimeDelta);
+	
 
 	//m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -121,6 +121,7 @@ void CPlayer::Update(_float fTimeDelta)
 }
 void CPlayer::Late_Update(_float fTimeDelta)
 {
+	Input_Key(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	Attack(fTimeDelta);//좌클
 }
