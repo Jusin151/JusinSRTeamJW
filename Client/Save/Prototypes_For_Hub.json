@@ -1,6 +1,12 @@
 {
   "textures": [
     {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources\\Textures\\Map\\Hub\\TEXTURE_HUB_FLOOR_1.png",
+      "tag": "Prototype_Component_Texture_Hub_Floor3"
+    },
+    {
       "level": 6,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -71,12 +77,6 @@
       "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\texture_hub_arcanewall_01.png",
       "tag": "Prototype_Component_Texture_Hub_Wall6"
-    },
-    {
-      "count": 1,
-      "level": 6,
-      "path": "../../Resources\\Textures\\Map\\Hub\\TEXTURE_HUB_FLOOR_1.png",
-      "tag": "Prototype_Component_Texture_Hub_Floor3"
     },
     {
       "count": 4,
@@ -162,7 +162,7 @@
     },
     {
       "class": "CStructure",
-      "level": 3,
+      "level": 6,
       "tag": "Prototype_GameObject_Hub_Floor3"
     },
     {

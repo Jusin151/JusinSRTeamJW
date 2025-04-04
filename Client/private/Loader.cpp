@@ -408,10 +408,7 @@ HRESULT CLoader::Add_To_Logo_Textures()
 HRESULT CLoader::Add_To_GamePlay_Prototype()
 {
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Camera_FirstPerson"),
