@@ -20,7 +20,9 @@ HRESULT CCthulhu::Initialize_Prototype()
 
 HRESULT CCthulhu::Initialize(void* pArg)
 {
-
+	INIT_PARENT(pArg)
+		
+	m_eType = CG_MONSTER;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -35,7 +37,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 HRESULT CCthulhu::Ready_Components()
 {
 	// 컴포넌트 초기화 코드
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Cthulhu"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Cthulhu"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -44,8 +46,14 @@ HRESULT CCthulhu::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom)))
 		return E_FAIL;
+
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom)))
+		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
 	return S_OK;
 }
@@ -59,6 +67,38 @@ void CCthulhu::Select_Pattern(_float fTimeDelta)
 {// 패턴 선택 로직 추가
 	// 예를 들어, 비헤이비어 트리에서 특정 패턴을 선택하는 로직을 작성할 수 있습니다.
 }
+
+json CCthulhu::Serialize()
+{
+	json j = __super::Serialize();
+
+	auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	auto scale = m_pTransformCom->Compute_Scaled();
+	auto angle = m_pTransformCom->Get_EulerAngles();
+	j["position"] = {
+	RoundToDecimalPlaces(pos.x, 2),
+	RoundToDecimalPlaces(pos.y, 2),
+	RoundToDecimalPlaces(pos.z, 2)
+	};
+	j["rotation"] = {
+		RoundToDecimalPlaces(angle.x, 2),
+		RoundToDecimalPlaces(angle.y, 2),
+		RoundToDecimalPlaces(angle.z, 2)
+	};
+	j["scale"] = {
+		RoundToDecimalPlaces(scale.x, 2),
+		RoundToDecimalPlaces(scale.y, 2),
+		RoundToDecimalPlaces(scale.z, 2)
+	};
+
+	return j;
+}
+
+void CCthulhu::Deserialize(const json& j)
+{
+
+	SET_TRANSFORM(j, m_pTransformCom);
+}
 void CCthulhu::Priority_Update(_float fTimeDelta)
 {
 	Billboarding(fTimeDelta);
@@ -69,7 +109,13 @@ void CCthulhu::Priority_Update(_float fTimeDelta)
 
 void CCthulhu::Update(_float fTimeDelta)
 {
+	if (m_pColliderCom)
+	{
+	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
+	m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
+	m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+	}
 	Select_Pattern(fTimeDelta);
 }
 
@@ -152,7 +198,7 @@ void CCthulhu::Billboarding(_float fTimeDelta)
 
 CCthulhu* CCthulhu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CCthulhu* pInstance = new CCthulhu(pGraphic_Device);
+ 	CCthulhu* pInstance = new CCthulhu(pGraphic_Device);
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Failed to create CCthulhu instance");

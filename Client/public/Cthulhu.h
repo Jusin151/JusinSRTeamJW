@@ -23,9 +23,14 @@ public:
     virtual HRESULT On_Collision(CCollisionObject* other);
     void Billboarding(_float fTimeDelta);
     void Select_Pattern(_float fTimeDelta) override;
-protected:
+
+    virtual json Serialize() override;
+    virtual void Deserialize(const json& j) override;
+
+private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
+
 
     // 텍스처 추가 
     HRESULT Ready_Components();

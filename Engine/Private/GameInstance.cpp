@@ -83,10 +83,11 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	if (m_eLevelState == LEVEL_STATE::NORMAL)
 	{
 		m_pObject_Manager->Priority_Update(fTimeDelta);
-		m_pLevel_Manager->Update(fTimeDelta);
+
 		////m_pSound_Manager->Update(fTimeDelta);
 		m_pObject_Manager->Update(fTimeDelta);
 	    m_pCollider_Manager->Update_Collison();
+		m_pLevel_Manager->Update(fTimeDelta);
 		//m_pFrustumCull->Update();
 		m_pObject_Manager->Late_Update(fTimeDelta);
 		m_pCollider_Manager->Clear();

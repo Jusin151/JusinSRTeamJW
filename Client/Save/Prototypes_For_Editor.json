@@ -339,6 +339,11 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Staff"
+    },
+    {
+      "class": "CCthulhu",
+      "level": 3,
+      "tag": "Prototype_GameObject_Cthulhu"
     }
   ],
   "textures": [
@@ -593,6 +598,12 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
       "tag": "Prototype_Component_Texture_Door_Red"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Monster\\Cthulhu\\cthulhu.png",
+      "tag": "Prototype_Component_Texture_Cthulhu"
     }
   ]
 }

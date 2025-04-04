@@ -1,0 +1,201 @@
+{
+  "buffers": [
+  ],
+  "gameObjects": [
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntWall1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntCeil1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntFloor1"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntBossWall"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntWall2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_AntWall3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Wall"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Floor"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Floor2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant1_Wall2"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall3"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall4"
+    },
+    {
+      "class": "CTrigger",
+      "level": 3,
+      "tag": "Prototype_GameObject_Trigger_Button"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall6"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ant_Wall5"
+    },
+    {
+      "class": "CStructure",
+      "level": 3,
+      "tag": "Prototype_GameObject_Ocean"
+    },
+    {
+      "class": "CCthulhu",
+      "level": 4,
+      "tag": "Prototype_GameObject_Cthulhu"
+    }
+  ],
+  "textures": [
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_6.png",
+      "tag": "Prototype_Component_Texture_AntWall1"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_ceiling_1.png",
+      "tag": "Prototype_Component_Texture_AntCeil1"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_Boss_floor.png",
+      "tag": "Prototype_Component_Texture_AntFloor1"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_BossWall.png",
+      "tag": "Prototype_Component_Texture_AntBossWall"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_2.png",
+      "tag": "Prototype_Component_Texture_AntWall2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_base_1.png",
+      "tag": "Prototype_Component_Texture_AntWall3"
+    },
+    {
+      "count": 100,
+      "level": 3,
+      "path": "../../Resources/Textures/Item/Item%d.png",
+      "tag": "Prototype_Component_Texture_Items"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
+      "tag": "Prototype_Component_Texture_Ant1_Wall"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_4.png",
+      "tag": "Prototype_Component_Texture_Ant1_Floor"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_floor_14.png",
+      "tag": "Prototype_Component_Texture_Ant1_Floor2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_stage1_wall.png",
+      "tag": "Prototype_Component_Texture_Ant1_Wall2"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_11.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall3"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_2_snow.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall4"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_1c.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall6"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_wall_7.png",
+      "tag": "Prototype_Component_Texture_Ant_Wall5"
+    },
+    {
+      "count": 4,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Ocean%d.png",
+      "tag": "Prototype_Component_Texture_Ocean"
+    },
+    {
+      "count": 2,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Map\\Antarctic\\Button%d.png",
+      "tag": "Prototype_Component_Texture_Trigger"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Monster\\Cthulhu\\cthulhu.png",
+      "tag": "Prototype_Component_Texture_Cthulhu"
+    }
+  ]
+}
