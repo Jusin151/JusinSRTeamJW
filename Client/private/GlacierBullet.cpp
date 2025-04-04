@@ -60,7 +60,7 @@ void CGlacierBullet::Update(_float fTimeDelta)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 
-	CPlayer* m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+	CPlayer* m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
 
 	m_pTransformCom->LookAt(m_pPlayer->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
 
