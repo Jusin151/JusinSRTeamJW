@@ -122,13 +122,14 @@ void CHarvester::Late_Update(_float fTimeDelta)
 
 void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
 {
+	if (Ranged_INFO.CurrentAmmo == 0) return;
 	if (m_eState == State::Idle)
 	{
 		m_eState = State::Firing;
 		m_iCurrentFrame = m_TextureRanges["Firing"].first;
 		m_fElapsedTime = 0.0f;
 		__super::Picking_Object(5, m_Weapon_INFO.Damage);
-		Ranged_INFO.CurrentAmmo-=4;
+		Ranged_INFO.CurrentAmmo = max(0,Ranged_INFO.CurrentAmmo-4);
 		Notify_Bullet();
 	}
 }

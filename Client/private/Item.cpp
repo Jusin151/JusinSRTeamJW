@@ -61,9 +61,14 @@ HRESULT CItem::Initialize(void* pArg)
 	}
 
 
-	if (m_eItemType == ITEM_TYPE::STAT || m_strItemName.find(L"Staff") != _wstring::npos)
+	if (m_eItemType == ITEM_TYPE::STAT || (m_strItemName.find(L"Staff") != _wstring::npos&& m_eItemType == ITEM_TYPE::AMMO))
 	{
 		m_bIsNeedAnim = true;
+	}
+
+	if (m_eItemType == ITEM_TYPE::WEAPON)
+	{
+		m_pTransformCom->Set_Scale(1.5f, 1.5f, 1.5f);
 	}
 	return S_OK;
 }
@@ -184,6 +189,16 @@ void CItem::Use_Item()
 			return;
 		}
 		break;
+	case Client::CItem::ITEM_TYPE::WEAPON:
+		if (m_pPlayer->Has_Item(m_strItemName))
+		{
+			m_pPlayer->Add_Ammo(m_strItemName, 10);
+		}
+		else
+		{
+			m_pPlayer->Add_Weapon(m_strItemName);
+		}
+		break;
 	case Client::CItem::ITEM_TYPE::MAX:
 		break;
 	default:
@@ -217,6 +232,10 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::KEY][L"Red"] = 61;
 	m_mapTextureTag[ITEM_TYPE::KEY][L"Blue"] = 60;
 	m_mapTextureTag[ITEM_TYPE::KEY][L"Yellow"] = 62;
+
+	m_mapTextureTag[ITEM_TYPE::WEAPON][L"ShotGun"] = 97;
+	m_mapTextureTag[ITEM_TYPE::WEAPON][L"Staff"] = 98;
+	m_mapTextureTag[ITEM_TYPE::WEAPON][L"Minigun"] = 99;
 }
 
 void CItem::Play_Animation(_float fTimeDelta) 

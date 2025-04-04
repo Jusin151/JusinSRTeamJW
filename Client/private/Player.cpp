@@ -102,7 +102,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+	//	m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
@@ -134,11 +134,18 @@ void CPlayer::Input_ItemtoInven()
 
 void CPlayer::Equip(_float fTimeDelta)
 {
+	if (m_eWeaponState != WEAPON_STATE::IDLE) return;
+	m_eWeaponState = WEAPON_STATE::CHANGE;
 	for (int i = 1; i <= 8; ++i)
 	{
 		if (GetAsyncKeyState('0' + i) & 0x8000)
 		{
+			if (m_pPlayer_Weapon)
+			{
+				m_pPlayer_Weapon->SetActive(false);
+			}
 			m_pPlayer_Weapon = m_pPlayer_Inven->Equip(i);
+			//m_pPlayer_Weapon->SetActive(true);
 			break;
 		}
 	}
@@ -154,7 +161,7 @@ void CPlayer::Equip(_float fTimeDelta)
 			}
 		}
 	}
-
+	m_eWeaponState = WEAPON_STATE::IDLE;
 
 }
 HRESULT CPlayer::Render()
@@ -305,14 +312,18 @@ void CPlayer::Move(_float fTimeDelta)
 
 void CPlayer::Attack(_float fTimeDelta)
 {
-	if (m_pPlayer_Weapon == nullptr)
+	if (m_pPlayer_Weapon == nullptr||m_eWeaponState == WEAPON_STATE::CHANGE)
 		return;
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
+		m_eWeaponState = WEAPON_STATE::FIRE;
 		m_pPlayer_Weapon->Attack(fTimeDelta);
 	}
-
+	else
+	{
+		m_eWeaponState = WEAPON_STATE::IDLE;
+	}
 }
 
 void CPlayer::Input_Key(_float fTimeDelta)
@@ -371,6 +382,23 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 	//{
 	//	pRanged->Add_Ammo(iAmmo);
 	//}
+}
+
+void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
+{
+	if (!m_pPlayer_Inven) return;
+
+	if (m_pPlayer_Inven->Exist_item(stWeaponTag))
+	{
+		return;
+	}
+
+	if (stWeaponTag == L"ShotGun")
+	{
+
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag,3);
+
+	}
 }
 
 _bool CPlayer::Has_Item(const _wstring& stItemTag)

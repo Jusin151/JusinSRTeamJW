@@ -579,9 +579,6 @@
     <ClInclude Include="..\Public\Bullet_Base.h">
       <Filter>02.GameObjects\06. Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Inven_UI.h">
-      <Filter>02.GameObjects\00_1. Inven</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Image_Manager.h">
       <Filter>96. Manager\Image_Manager</Filter>
     </ClInclude>
@@ -662,6 +659,9 @@
     </ClInclude>
     <ClInclude Include="..\public\GlacierBullet.h">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Inven_UI.h">
+      <Filter>02.GameObjects\00_1. Inven</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

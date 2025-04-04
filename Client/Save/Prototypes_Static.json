@@ -304,6 +304,21 @@
       "tag": "Prototype_GameObject_Player",
       "level": 0,
       "class": "CPlayer"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_ShotGun"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Minigun"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Staff"
     }
   ],
   "buffers": [
