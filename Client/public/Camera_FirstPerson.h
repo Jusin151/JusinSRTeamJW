@@ -29,6 +29,7 @@ public:
 
 public:
 	_float Get_Yaw() const { return m_fYaw; }
+	void Set_Yaw(_float fYaw) { m_fYaw = fYaw; }
 
 private:
 	void Shaking(_float fTimeDelta);

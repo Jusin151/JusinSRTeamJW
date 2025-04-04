@@ -13,6 +13,7 @@
 #include "Image.h"
 #include "Sound_Event.h"
 #include "Level_Loading.h"
+#include <Camera_FirstPerson.h>
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -39,8 +40,16 @@ HRESULT CLevel_GamePlay::Initialize()
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-4.6f, 0.f, -1.1f));
-		pTransform->Rotation(_float3(0.f,-1.f,0.f), D3DXToRadian(180.f));
 	}
+
+	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+	if (pCamera)
+	{
+		pCamera->Set_Yaw(D3DXToRadian(180.f));
+	}
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
+		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -4,7 +4,7 @@
 #include <StructureManager.h>
 #include <Camera_FirstPerson.h>
 
-constexpr _float VIEW_RANGE = 25.f;
+constexpr _float VIEW_RANGE = 15.f;
 constexpr _uint MINIMAP_SIZE = 256;
 
 CMiniMap::CMiniMap(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -73,18 +73,13 @@ HRESULT CMiniMap::Initialize(void* pArg)
 	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player"));
 	if (!m_pPlayer)
 	{
-		m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Player"));
-	}
-
-	if (!m_pPlayer)
-	{
 		return E_FAIL;
 	}
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,_float3(200.f,200.f, 0.0f));
-	//m_pTransformCom->Set_Scale(0.7f, 0.7f,1.f);
+	m_pTransformCom->Set_Scale(0.7f, 0.7f,0.7f);
 	D3DXMatrixOrthoLH(&m_matMiniMapProj, VIEW_RANGE, VIEW_RANGE, 0.1f, 1000.0f);
 
-	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera"));
+	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera"));
 	if (pCamera)
 	{
 		m_pCamera = pCamera;
@@ -182,7 +177,7 @@ HRESULT CMiniMap::Render()
 		);
 	
 		m_pTransformCom->Set_Scale(vPrevSize.x, vPrevSize.y, vPrevSize.z);
-	//	m_pSprite->SetTransform(m_pTransformCom->Get_WorldMatrix());
+		m_pSprite->SetTransform(m_pTransformCom->Get_WorldMatrix());
 		}
 		m_pSprite->End();
 	}
@@ -209,7 +204,7 @@ HRESULT CMiniMap::SetUp_RenderState()
 	_float3 vLook2 = pCameraTransform->Get_State(CTransform::STATE_LOOK);
 
 	D3DXVECTOR3 eye(vPos.x, vPos.y + 10.f, vPos.z);
-	D3DXVECTOR3 at(vPos.x , vPos.y, 0.f );
+	D3DXVECTOR3 at(vPos.x , vPos.y, vPos.z);
 	D3DXVECTOR3 up(0.0f, 0.0f, 1.0f);
 
 	D3DXMatrixLookAtLH(&m_matMiniMapView, &eye, &at, &up);
