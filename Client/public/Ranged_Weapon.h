@@ -62,8 +62,6 @@ public:
     void Free();
     
     
-    
-    virtual HRESULT Ready_Icon()PURE;
 protected: 
     Ranged_DESC Ranged_INFO = {};
     _bool m_bAttackInput = { false };

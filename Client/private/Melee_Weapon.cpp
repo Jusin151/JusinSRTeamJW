@@ -36,7 +36,7 @@ void CMelee_Weapon::Priority_Update(_float fTimeDelta)
 
 void CMelee_Weapon::Update(_float fTimeDelta)
 {
-	CGameObject* pPlayer =m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	CGameObject* pPlayer =m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == pPlayer)
 		return;
 	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));

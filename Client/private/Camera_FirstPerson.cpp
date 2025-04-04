@@ -48,7 +48,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 	CPickingSys::Get_Instance()->Set_CameraTransform(m_pTransformCom);
 
 
-	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == m_pPlayer)
 	{
 		m_pPlayer = m_pGameInstance->Find_Object(LEVEL_EDITOR, TEXT("Layer_Player"));
@@ -57,7 +57,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 			m_pPlayer = m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Player"));
 			if (nullptr == m_pPlayer)
 			{
-				m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+				m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
 				if (nullptr == m_pPlayer)
 				{
 					return E_FAIL;
@@ -78,7 +78,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 {
 	CTransform* fPlayerTrans = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
-	_float3 fPos = fPlayerTrans->Compute_Scaled();
+	_float3 fScale = fPlayerTrans->Compute_Scaled();
 	
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT).GetNormalized() * m_vScale.x);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP).GetNormalized() * m_vScale.y);
@@ -98,15 +98,15 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 		HandleMouseInput(fTimeDelta);
 	
 	__super::Update_VP_Matrices();
-	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT) * fPos.x);
-	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP) * fPos.y);
-	fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK) * fPos.z);
+	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT).GetNormalized() * fScale.x);
+	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP).GetNormalized() * fScale.y);
+	fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized() * fScale.z);
 	//fPlayerTrans->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
-{	
-	if (GetAsyncKeyState(VK_TAB) & 0x8000)
+{
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
 	{
 		m_tmpState = !m_tmpState;
 	}
@@ -176,7 +176,7 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 {
 	m_fShakeTime += fTimeDelta * 10.f;
 
-	float shakeAmount = 0.05f; // 흔들림 강도
+	float shakeAmount = 0.42f; // 흔들림 강도
 	_float3 shake = {
 		cos(m_fShakeTime) * shakeAmount,
 		sin(m_fShakeTime) * shakeAmount,

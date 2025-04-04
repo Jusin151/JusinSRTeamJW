@@ -61,8 +61,6 @@ HRESULT CClaymore::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Claymore",this);
 	
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
 
 	m_eType = CG_WEAPON;
 	m_iAp = 15;
@@ -70,12 +68,7 @@ HRESULT CClaymore::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CClaymore::Ready_Icon()
-{
-	
 
-	return S_OK;
-}
 
 
 

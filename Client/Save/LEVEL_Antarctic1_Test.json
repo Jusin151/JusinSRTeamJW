@@ -454,9 +454,9 @@
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1.5,
+          1.5,
+          1.5
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -486,9 +486,9 @@
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1.5,
+          1.5,
+          1.5
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -518,9 +518,9 @@
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1.5,
+          1.5,
+          1.5
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -550,9 +550,9 @@
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1.5,
+          1.5,
+          1.5
         ],
         "texture_path": "",
         "texture_tag": "",
@@ -3331,7 +3331,7 @@
         },
         "door_color": 3,
         "door_state": 0,
-        "door_type": 0,
+        "door_type": 2,
         "open_speed": 2.0,
         "position": [
           -22.72,
@@ -5179,6 +5179,153 @@
         ],
         "target_tags": "Layer_Door_Normal4",
         "trigger_type": 0
+      }
+    ],
+    "Layer_Trigger_Room": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          22.57,
+          0.0,
+          -21.55
+        ],
+        "rotation": [
+          0.0,
+          88.0,
+          0.0
+        ],
+        "scale": [
+          30.0,
+          5.0,
+          10.0
+        ],
+        "target_tags": "",
+        "trigger_type": 1
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          15.69,
+          0.0,
+          4.26
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          19.0,
+          5.0,
+          27.0
+        ],
+        "target_tags": "",
+        "trigger_type": 1
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          -39.83,
+          -0.00,
+          -30.97
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          13.0,
+          5.0,
+          9.0
+        ],
+        "target_tags": "",
+        "trigger_type": 1
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          -37.59,
+          -0.0,
+          -44.68
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          18.0,
+          5.0,
+          8.0
+        ],
+        "target_tags": "",
+        "trigger_type": 1
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Trigger",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Trigger_Button",
+          "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+          "ProtoLevel": 3
+        },
+        "position": [
+          -6,
+          0,
+          -27.40
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          40.0,
+          5.0,
+          40.0
+        ],
+        "target_tags": "Layer_Door",
+        "trigger_type": 1
       }
     ],
     "Layer_Wall": [

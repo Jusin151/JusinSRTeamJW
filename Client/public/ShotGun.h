@@ -50,8 +50,6 @@ private:
 	State m_eState = State::Idle;
 private:
 
-	// CRanged_Weapon을(를) 통해 상속됨
-	HRESULT Ready_Icon() override;
 
 };
 END

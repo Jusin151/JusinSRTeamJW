@@ -41,7 +41,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.6f, 0.f));
 	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 
@@ -58,7 +58,6 @@ HRESULT CItem::Initialize(void* pArg)
 		//테스트용
 		m_eItemType = ITEM_TYPE::AMMO;
 		m_strItemName = L"Magnum_Ammo_Small";
-		//
 	}
 
 
@@ -71,11 +70,11 @@ HRESULT CItem::Initialize(void* pArg)
 
 void CItem::Priority_Update(_float fTimeDelta)
 {
-	if (m_pPlayer == nullptr)
-	{
-		m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
+	//if (m_pPlayer == nullptr)
+	//{
+	//	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
 
-	}
+	//}
 }
 
 void CItem::Update(_float fTimeDelta)
@@ -119,8 +118,6 @@ HRESULT CItem::Render()
 		return E_FAIL;
 
 	Release_RenderState();
-
-	m_pColliderCom->Render();
 	return S_OK;
 }
 

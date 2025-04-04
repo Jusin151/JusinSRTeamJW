@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CTransform;
 class CVIBuffer;
 class CMaterial;
+class CTexture;
 END
 
 BEGIN(Client)
@@ -52,10 +53,9 @@ private:
     class CCamera_FirstPerson* m_pCamera = { nullptr };
     LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // ¹Ì´Ï¸Ê ·»´õ Å¸°Ù
     LPDIRECT3DSURFACE9 m_pMiniMapSurface = {nullptr};
+    CTexture* m_pTextureCom = { nullptr };
     LPDIRECT3DVERTEXBUFFER9 m_pVertexBuffer = { nullptr };
     LPD3DXSPRITE m_pSprite = nullptr;
-    // ¹Ì´Ï¸Ê Ãâ·Â À§Ä¡ ¹× Å©±â
-    RECT m_MiniMapRect;
     _bool m_bIsOriginal = { true };
     CTransform* m_pTransformCom = { nullptr };
     _float4x4 m_OldProjMatrix{};

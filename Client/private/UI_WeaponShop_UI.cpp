@@ -56,7 +56,7 @@ HRESULT CUI_WeaponShop_UI::Initialize(void* pArg)
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
         _float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
-    CUI_Manager::GetInstance()->AddUI(L"Weapon_Shop_UI", this);
+    CUI_Manager::GetInstance()->AddUI(L"Weapon_Shop_UI", this, UI_TYPE::UI_DYNAMIC);
 
     return S_OK;
 }

@@ -33,9 +33,12 @@
 
 
 CMainApp::CMainApp()
-	: m_pGameInstance{ CGameInstance::Get_Instance() }
-{
+	: m_pGameInstance{ CGameInstance::Get_Instance() },
+	m_pPickingSys{ CPickingSys::Get_Instance() }
+{ 
+	
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pPickingSys);
 }
 
 HRESULT CMainApp::Initialize()
@@ -84,8 +87,10 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 #pragma endregion
-
-	
+	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
+	CJsonLoader jsonLoader;
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_Static.json")))
+		return E_FAIL;
 
 
 
@@ -366,67 +371,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 HRESULT CMainApp::Ready_Prototype_UI()
 {
 
-	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_GameObject_Default_PlayerUI"),
-		CUI_Default_Panel::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-	// 게임플레이 레벨 전체 UI의 캔버스 판넬
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_Component_Texture_Default_PlayerUI"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/UI/Default_UI.png"),
-			1))))
-		return E_FAIL;
-
-	// 레프트 디스플레이 UI 클래스 생성 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_GameObject_Left_Panel"),
-		CUI_Left_Display::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// 레프트 디스플레이 UI 텍스쳐 생성							
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_Component_Texture_Left_Panel"),
-		CTexture::Create(m_pGraphic_Device,
-			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png"), 1))))
-		return E_FAIL;
-
-	// 총알바 UI
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_GameObject_Bullet_Bar"),
-		CUI_Bullet_Bar::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-	// 총알바 UI 텍스쳐						
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_Component_Texture_Bullet_Bar"),
-		CTexture::Create(m_pGraphic_Device,
-			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Right/SR_HUD_bar_ammo.png"), 1))))
-		return E_FAIL;
-
-
-	// ExpBar UI 이미지 생성 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_Component_Texture_ExpBar_UI"),
-		CTexture::Create(m_pGraphic_Device,
-			CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Middle/SR_EXP_BlackBar0.png"), 1))))
-		return E_FAIL;
-
-	// ExpBar UI 클래스 생성 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_GameObject_ExpBar_UI"),
-		CUI_Exp_Bar::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// ExpBar UI 클래스 생성 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_GameObject_Event_UI"),
-		CUI_Event::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 
 	return S_OK;
@@ -434,45 +378,7 @@ HRESULT CMainApp::Ready_Prototype_UI()
 
 HRESULT CMainApp::Ready_Prototype_Weapon()
 {
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 미니건 테스트 삭제 X
-		TEXT("Prototype_GameObject_Minigun"),
-		CMinigun::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 하베스터 테스트 삭제 X
-		TEXT("Prototype_GameObject_Harvester"),
-		CHarvester::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 소닉 테스트 삭제 X
-		TEXT("Prototype_GameObject_Sonic"),
-		CSonic::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 스태프총알 테스트 삭제 X
-		TEXT("Prototype_GameObject_Staff_Bullet"),
-		CStaff_Bullet::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰이펙트 테스트 삭제 X
-		TEXT("Prototype_GameObject_Weapon_Effect"),
-		CWeapon_Effect::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	// 이미지 클래스 (웨폰 아이콘 뽑아내려고)
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_GameObject_Image"),
-		CImage::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	////// 웨폰들의  아이콘 사진
- 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
-		TEXT("Prototype_Component_Texture_Weapon_Icon"),
-		CTexture::Create(m_pGraphic_Device,
-			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Icon/Weapon_Icon_%d.png"), 8))))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -529,6 +435,8 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+	Safe_Release(m_pPickingSys);
+	CPickingSys::Destroy_Instance();
 	CStructureManager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();

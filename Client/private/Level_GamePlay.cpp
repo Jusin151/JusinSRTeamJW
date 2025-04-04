@@ -12,61 +12,48 @@
 #include "UI_Point_Shop.h"
 #include "Image.h"
 #include "Sound_Event.h"
+#include "Level_Loading.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device },
-	m_pPickingSys{ CPickingSys::Get_Instance() }
+	: CLevel{ pGraphic_Device }
 
 {
-	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
-	Safe_AddRef(m_pPickingSys);
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
 	CJsonLoader jsonLoader;
-	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
-	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
+ 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1_Test.json", LEVEL_GAMEPLAY);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Event(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven_UI"))))
-		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven"))))
-		return E_FAIL;
-
-	
-
-	if (FAILED(Ready_Layer_Weapon()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Weapon_Icon()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Light"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Light"))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
-		return E_FAIL;
+		return E_FAIL;*/
+
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+	if (pPlayer)
+	{
+		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-4.6f, 0.f, -1.1f));
+		pTransform->Rotation(_float3(0.f,-1.f,0.f), D3DXToRadian(180.f));
+	}
 
 	return S_OK;
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('F') & 0x8000)
+	{
+
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+			return;
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -98,107 +85,107 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Weapon()
 {
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Sky"))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Sky"))))
+	//	return E_FAIL;
 
-	CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
- 	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
-	Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
-	Weapon_Claymore_Desc.vSize = { 2048.,682.f };
-	Weapon_Claymore_Desc.AttackSpeed = { 1.f };
-	//Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Claymore"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Claymore"),
-		&Weapon_Claymore_Desc)))
-		return E_FAIL;
+	//CWeapon_Base::Weapon_DESC Weapon_Claymore_Desc{}; // 클레이 모어
+ //	Weapon_Claymore_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Claymore;
+	//Weapon_Claymore_Desc.vPos = { 330.f,-40.f };
+	//Weapon_Claymore_Desc.vSize = { 2048.,682.f };
+	//Weapon_Claymore_Desc.AttackSpeed = { 1.f };
+	////Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Claymore"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Claymore"),
+	//	&Weapon_Claymore_Desc)))
+	//	return E_FAIL;
 
-	CWeapon_Base::Weapon_DESC Weapon_Axe_Desc{}; // 도끼
-	Weapon_Axe_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Axe;
-	Weapon_Axe_Desc.vPos = { 0.f,-160.f };
-	Weapon_Axe_Desc.vSize = { 1500,423.f };
-	Weapon_Axe_Desc.AttackSpeed = { 1.f };
-	//Weapon_Axe_Desc.TextureKey = L"Prototype_Component_Texture_Axe";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Axe"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Axe"),
-		&Weapon_Axe_Desc)))
-		return E_FAIL;
-
-
-	CWeapon_Base::Weapon_DESC Weapon_ShotGun_Desc{}; // 샷건
-	Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::ShotGun;
-	Weapon_ShotGun_Desc.vPos =  { 0.f,-170.f };
-	Weapon_ShotGun_Desc.vSize = { 749,420.f };
-	Weapon_ShotGun_Desc.AttackSpeed = { 1.f };
-	Weapon_ShotGun_Desc.Damage = { 1 };
-	Weapon_ShotGun_Desc.TextureKey =L"Prototype_Component_Texture_ShotGun";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_ShotGun"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
-		&Weapon_ShotGun_Desc)))
-		return E_FAIL;
-
-	CWeapon_Base::Weapon_DESC Weapon_Magnum_Desc{}; // 매그넘
-	Weapon_Magnum_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Magnum;
-	Weapon_Magnum_Desc.vPos = { 70.f,-250.f };
-	Weapon_Magnum_Desc.vSize = { 390.f,520.f };
-	Weapon_Magnum_Desc.AttackSpeed = { 1.f };
-	//Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Magnum"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Magnum"),
-		&Weapon_Magnum_Desc)))
-		return E_FAIL;
-
-	CWeapon_Base::Weapon_DESC Weapon_Staff_Desc{}; // 스태프 원형객체
-	Weapon_Staff_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Staff;
-	Weapon_Staff_Desc.vPos = { -10.f,-220.f };
-	Weapon_Staff_Desc.vSize = { 936,525.f };
-	Weapon_Staff_Desc.Damage = { 100 };
-	Weapon_Staff_Desc.AttackSpeed = { 1.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Staff"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staff"),
-		&Weapon_Staff_Desc)))
-		return E_FAIL;
-
-	CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
-	Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
-	Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
-	Weapon_Minigun_Desc.vSize = { 959,347.f };
-	Weapon_Minigun_Desc.Damage = { 100 };
-	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Minigun"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
-		&Weapon_Minigun_Desc)))
-		return E_FAIL;
+	//CWeapon_Base::Weapon_DESC Weapon_Axe_Desc{}; // 도끼
+	//Weapon_Axe_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Axe;
+	//Weapon_Axe_Desc.vPos = { 0.f,-160.f };
+	//Weapon_Axe_Desc.vSize = { 1500,423.f };
+	//Weapon_Axe_Desc.AttackSpeed = { 1.f };
+	////Weapon_Axe_Desc.TextureKey = L"Prototype_Component_Texture_Axe";
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Axe"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Axe"),
+	//	&Weapon_Axe_Desc)))
+	//	return E_FAIL;
 
 
-	CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
-	Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
-	Weapon_Harvester_Desc.vPos = { 80.f,-213.f };
-	Weapon_Harvester_Desc.vSize = { 356.f,375.f };
-	Weapon_Harvester_Desc.Damage = { 100 };
-	Weapon_Harvester_Desc.AttackSpeed = { 1.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Harvester"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Harvester"),
-		&Weapon_Harvester_Desc)))
-		return E_FAIL;
+	//CWeapon_Base::Weapon_DESC Weapon_ShotGun_Desc{}; // 샷건
+	//Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::ShotGun;
+	//Weapon_ShotGun_Desc.vPos =  { 0.f,-170.f };
+	//Weapon_ShotGun_Desc.vSize = { 749,420.f };
+	//Weapon_ShotGun_Desc.AttackSpeed = { 1.f };
+	//Weapon_ShotGun_Desc.Damage = { 1 };
+	//Weapon_ShotGun_Desc.TextureKey =L"Prototype_Component_Texture_ShotGun";
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_ShotGun"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_ShotGun"),
+	//	&Weapon_ShotGun_Desc)))
+	//	return E_FAIL;
 
-	CWeapon_Base::Weapon_DESC Weapon_Sonic_Desc{}; // 소닉 원형객체
-	Weapon_Sonic_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Sonic;
-	Weapon_Sonic_Desc.vPos = { 270.f,-200.f };
-	Weapon_Sonic_Desc.vSize = { 436.f,316.f };
-	Weapon_Sonic_Desc.Damage = { 100 };
-	Weapon_Sonic_Desc.AttackSpeed = { 1.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sonic"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Sonic"),
-		&Weapon_Sonic_Desc)))
-		return E_FAIL;
+	//CWeapon_Base::Weapon_DESC Weapon_Magnum_Desc{}; // 매그넘
+	//Weapon_Magnum_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Magnum;
+	//Weapon_Magnum_Desc.vPos = { 70.f,-250.f };
+	//Weapon_Magnum_Desc.vSize = { 390.f,520.f };
+	//Weapon_Magnum_Desc.AttackSpeed = { 1.f };
+	////Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Magnum"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Magnum"),
+	//	&Weapon_Magnum_Desc)))
+	//	return E_FAIL;
+
+	//CWeapon_Base::Weapon_DESC Weapon_Staff_Desc{}; // 스태프 원형객체
+	//Weapon_Staff_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Staff;
+	//Weapon_Staff_Desc.vPos = { -10.f,-220.f };
+	//Weapon_Staff_Desc.vSize = { 936,525.f };
+	//Weapon_Staff_Desc.Damage = { 100 };
+	//Weapon_Staff_Desc.AttackSpeed = { 1.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Staff"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Staff"),
+	//	&Weapon_Staff_Desc)))
+	//	return E_FAIL;
+
+	//CWeapon_Base::Weapon_DESC Weapon_Minigun_Desc{}; // 미니건 원형객체
+	//Weapon_Minigun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Minigun;
+	//Weapon_Minigun_Desc.vPos = { 0.f,-200.f };
+	//Weapon_Minigun_Desc.vSize = { 959,347.f };
+	//Weapon_Minigun_Desc.Damage = { 100 };
+	//Weapon_Minigun_Desc.AttackSpeed = { 1.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Minigun"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Minigun"),
+	//	&Weapon_Minigun_Desc)))
+	//	return E_FAIL;
+
+
+	//CWeapon_Base::Weapon_DESC Weapon_Harvester_Desc{}; // 하베스터 원형객체
+	//Weapon_Harvester_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Harvester;
+	//Weapon_Harvester_Desc.vPos = { 80.f,-213.f };
+	//Weapon_Harvester_Desc.vSize = { 356.f,375.f };
+	//Weapon_Harvester_Desc.Damage = { 100 };
+	//Weapon_Harvester_Desc.AttackSpeed = { 1.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Harvester"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Harvester"),
+	//	&Weapon_Harvester_Desc)))
+	//	return E_FAIL;
+
+	//CWeapon_Base::Weapon_DESC Weapon_Sonic_Desc{}; // 소닉 원형객체
+	//Weapon_Sonic_Desc.WeaponID = CWeapon_Base::WEAPON_ID::Sonic;
+	//Weapon_Sonic_Desc.vPos = { 270.f,-200.f };
+	//Weapon_Sonic_Desc.vSize = { 436.f,316.f };
+	//Weapon_Sonic_Desc.Damage = { 100 };
+	//Weapon_Sonic_Desc.AttackSpeed = { 1.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sonic"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Weapon_Sonic"),
+	//	&Weapon_Sonic_Desc)))
+	//	return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Weapon_Icon()
 {
-	CImage::Image_DESC ClaymoreIcon_INFO = {};
+	/*CImage::Image_DESC ClaymoreIcon_INFO = {};
 	ClaymoreIcon_INFO.vPos = { -400.f,150.f };
 	ClaymoreIcon_INFO.vSize = { 90.f,34.f };
 	ClaymoreIcon_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
@@ -273,7 +260,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon_Icon()
 	HarvesterIcon_INFO.TextureImageNum = CWeapon_Base::Harvester;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &HarvesterIcon_INFO)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -281,18 +268,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_Weapon_Icon()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_FirstPerson"),
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_FirstPerson"),
 		LEVEL_GAMEPLAY, strLayerTag)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_GAMEPLAY, strLayerTag)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 
 	return S_OK;
@@ -456,8 +443,4 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pPickingSys);
-	CPickingSys::Destroy_Instance();
-
 }

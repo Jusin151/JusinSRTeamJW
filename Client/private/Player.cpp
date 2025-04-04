@@ -30,10 +30,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 	
 	if (!pArg)
 	{
-		m_tObjDesc.iLevel = 3;
+		m_tObjDesc.iLevel = 0;
 		m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
 		m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Player");
-		m_tObjDesc.iProtoLevel = 3;
+		m_tObjDesc.iProtoLevel = 0;
 	}
 	else
 	{
@@ -44,11 +44,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	// Antarctic1_Test pos
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.7f, -1.6f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-10.f, 0.7f, 8.3f));
 
 	// Gameplay start pos
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
-	m_pTransformCom->Set_Scale(1.f, 1.5f, 1.f);
+	m_pTransformCom->Set_Scale(1.f, 1.8f, 1.f);
 	//m_pColliderCom->Set_Radius(5.f);
 	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
@@ -67,7 +67,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-
 
 }
 
@@ -244,8 +243,8 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 
 		break;
 	case CG_DOOR:
-		
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
 	default:
@@ -261,7 +260,8 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 void CPlayer::Move(_float fTimeDelta)
 {
 
-	
+	_float moveSpeed = 0.51f;
+
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
 	if (GetAsyncKeyState('W') & 0x8000) {
@@ -483,11 +483,11 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (!m_pPlayer_Inven)
 	{
  		m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-		(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+		(LEVEL_STATIC, TEXT("Layer_Inven")));
 		if (!m_pPlayer_Inven)
 		{
 			m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-			(LEVEL_HUB, TEXT("Layer_Inven")));
+			(LEVEL_STATIC, TEXT("Layer_Inven")));
 				if(!m_pPlayer_Inven)
 				{
 					return E_FAIL;

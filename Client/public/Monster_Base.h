@@ -38,6 +38,8 @@ public:
 	void Look_Player();
 	void Chasing(_float fTimeDelta);
 
+	void Set_Trigger();
+
 	// texturecom는 각 monster에서 추가
 	HRESULT Ready_Components();
 
@@ -63,6 +65,8 @@ protected:
 	// 몬스터 현재 상태, 이전 상태
 	MONSTERSTATE m_eCurState = { MS_IDLE };
 	MONSTERSTATE m_ePreState = { MS_IDLE };
+
+	_bool		m_bCheck = { false };
 
 
 public:

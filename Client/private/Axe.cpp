@@ -58,19 +58,11 @@ HRESULT CAxe::Initialize(void* pArg)
 
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this); // 도끼를 아이템 매니저에 등록
-
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+;
 
 
 	m_eType = CG_WEAPON;
 	m_iAp = 30;
-
-	return S_OK;
-}
-HRESULT CAxe::Ready_Icon()
-{
-	
 
 	return S_OK;
 }

@@ -66,20 +66,13 @@ HRESULT CMagnum::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
 	m_fAnimationSpeed = 0.03f; // 애니메이션속도
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+
 
 	__super::Ready_Picking();
 
 	return S_OK;
 }
 
-HRESULT CMagnum::Ready_Icon()
-{
-
-
-	return S_OK;
-}
 
 void CMagnum::Priority_Update(_float fTimeDelta)
 {
@@ -152,7 +145,7 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 
 void CMagnum::Late_Update(_float fTimeDelta) //요거는 나중에 LEVEL_GAMLPLAY 자리에 겟커렌트 레벨 만들면 댈듯
 {
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == pPlayer)
 		return;
 	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));

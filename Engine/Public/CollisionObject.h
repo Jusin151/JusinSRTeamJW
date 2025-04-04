@@ -32,6 +32,12 @@ public:
 	virtual void Set_Ap(_int iAp) { m_iAp = iAp; }
 
 	void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }
+	
+	CGameObject* Get_Trigger() { return m_pTrigger; }
+	void Set_Trigger(CGameObject* pTrigger) { m_pTrigger = pTrigger; }
+
+	
+
 
 	void Set_NextPos(_float3 fPos) { m_vNextPos = fPos; }
 
@@ -56,6 +62,9 @@ protected:
 
 	// ...
 	_float m_fSpeed = { 0.f };
+
+	CGameObject* m_pTrigger = { nullptr };
+
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
