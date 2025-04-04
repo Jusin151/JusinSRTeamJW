@@ -40,9 +40,9 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(7.f, 0.7f, -5.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(7.f, 3.f, -5.f));
 
-	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
+	m_pTransformCom->Set_Scale(12.f, 14.f, 10.f);
 
 
 	m_TextureRanges["1_Idle"] = { 0, 0 };
