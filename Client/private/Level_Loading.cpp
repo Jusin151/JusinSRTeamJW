@@ -7,7 +7,7 @@
 #include "Level_Hub.h"
 #include "Level_Test.h"
 #include "Loader.h"
-
+#include "StructureManager.h"
 #include "GameInstance.h"
 #include <UI_Manager.h>
 
@@ -77,7 +77,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			}
 
 			CUI_Manager::GetInstance()->Clear();
-							
+			CStructureManager::Get_Instance()->Clear();
 		}
 	}	
 }

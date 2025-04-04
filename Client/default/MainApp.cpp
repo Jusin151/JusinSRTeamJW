@@ -300,7 +300,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma endregion
 	
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 웨폰이펙트 테스트 삭제 X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, 
 		TEXT("Prototype_GameObject_MiniMap"),
 		CMiniMap::Create(m_pGraphic_Device))))
 		return E_FAIL;

@@ -13,6 +13,7 @@
 #include "Image.h"
 #include "Level_Loading.h"
 #include "Sound_Event.h"
+
 #include <Camera_FirstPerson.h>
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -93,6 +94,10 @@ HRESULT CLevel_Hub::Initialize()
 	{
 		pCamera->Set_Yaw(D3DXToRadian(90.f));
 	}
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
+		LEVEL_HUB, TEXT("Layer_MiniMap"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -524,6 +529,6 @@ CLevel_Hub* CLevel_Hub::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Hub::Free()
 {
 	__super::Free();
-
+	
 	Safe_Release(m_pPickingSys);
 }

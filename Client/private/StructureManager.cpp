@@ -18,6 +18,12 @@ void CStructureManager::Add_Door(CDoor* pDoor)
 	m_DoorList.push_back(pDoor);
 }
 
+void CStructureManager::Clear()
+{
+	m_StructureList.clear();
+	m_DoorList.clear();
+}
+
 void CStructureManager::Free()
 {
 	__super::Free();
