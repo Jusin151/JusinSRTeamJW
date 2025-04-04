@@ -201,6 +201,31 @@ PS_OUT PS_MAIN(PS_IN In, float facing : VFACE)
     return Out;
 }
 
+// 새로운 'Unlit' 픽셀 셰이더
+PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할 수 있음
+{
+    PS_OUT Out;
+
+    // 1. 텍스처 색상 가져오기
+    float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
+
+    // 2. (선택 사항) 재질의 Diffuse 색상을 곱하여 기본 색상 조절
+    // baseColor *= g_Material.Diffuse; // Material 구조체 사용
+
+    // 3. 최종 색상으로 텍스처 색상(또는 조절된 색상) 바로 사용
+    Out.vColor = baseColor;
+
+    // 4. 알파 값 처리 (기존 PS_MAIN과 유사하게 처리하거나 필요에 맞게 수정)
+    //    텍스처 알파와 재질 알파를 곱하는 방식 유지
+    Out.vColor.a = baseColor.a * g_Material.Diffuse.a;
+
+    // 5. (선택 사항) 알파 값에 따른 discard 로직 (필요 시)
+    // if (Out.vColor.a < 0.1f)
+    //    discard;
+
+    return Out;
+}
+
 PS_OUT PS_MAIN_RED(PS_IN In)
 {
     PS_OUT Out;
@@ -223,7 +248,24 @@ technique DefaultTechnique
         BlendOp = Add;
 
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_MAIN();
+        PixelShader = compile ps_3_0 PS_UNLIT();
+    }
+
+    pass DoubleSidedPlane
+    {
+        // --- 렌더 상태 설정 ---
+        // 양면 렌더링을 위해 컬링 비활성화
+        CullMode = None;
+
+        // 알파 블렌딩 설정 (기존 코드 유지, 오타 수정)
+        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
+        SrcBlend = SrcAlpha;
+        DestBlend = InvSrcAlpha;
+        BlendOp = Add;
+
+        // --- 셰이더 설정 ---
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_MAIN(); // 빛 계산이 포함된 PS_MAIN 사용
     }
 
     pass DoubleSidedPlane
