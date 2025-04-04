@@ -52,7 +52,7 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
     //m_Weapon_INFO.vPos = {};
     //m_Weapon_INFO.vSize = {};
-    m_Weapon_INFO.Damage = 2;
+    m_Weapon_INFO.Damage = 5;
     m_Weapon_INFO.AttackSpeed = 1.2f;
    
     Ranged_INFO.CurrentAmmo = 170; //현총알
@@ -81,12 +81,19 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 void CMinigun::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+  
+}
+
+void CMinigun::Late_Update(_float fTimeDelta)
+{
+    __super::Late_Update(fTimeDelta);;
+
     m_fElapsedTime += fTimeDelta;
 
     if (Ranged_INFO.CurrentAmmo <= 0)
     {
-		m_eState = State::Idle;
-		m_iCurrentFrame = m_TextureRanges["Idle"].first;
+        m_eState = State::Idle;
+        m_iCurrentFrame = m_TextureRanges["Idle"].first;
     }
 
 
@@ -143,9 +150,9 @@ void CMinigun::Update(_float fTimeDelta)
             {
                 if (Ranged_INFO.CurrentAmmo > 0)
                 {
-                    __super::Picking_Object(5, m_Weapon_INFO.Damage);
+                    __super::Picking_Object(1, m_Weapon_INFO.Damage);
                     Ranged_INFO.CurrentAmmo--;
-                    Notify_Bullet(); 
+                    Notify_Bullet();
                     m_bHasFired = true;
                 }
             }
@@ -179,8 +186,8 @@ void CMinigun::Update(_float fTimeDelta)
     }
 
     m_bAttackInput = false;
-}
 
+}
 
 
 
@@ -204,10 +211,6 @@ void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
 
 }
 
-void CMinigun::Late_Update(_float fTimeDelta)
-{
-    __super::Late_Update(fTimeDelta);;
-}
 
 HRESULT CMinigun::Render()
 {

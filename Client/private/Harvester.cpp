@@ -30,6 +30,17 @@ HRESULT CHarvester::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
+	// 일단 Level_GamePlay에서도 비슷한값 넣는중
+	m_Weapon_INFO.WeaponID = WEAPON_ID::ShotGun;
+	//m_Weapon_INFO.vPos = { 0.f,-170.f }; // 하베스터 위치
+	//m_Weapon_INFO.vSize = { 749,420.f };// 하베스터 크기 위에 두개는 일단 밖에서 하는중
+	m_Weapon_INFO.Damage = 50;                // 데미지
+	m_Weapon_INFO.AttackSpeed = 1.2f;        // 공격 속도 (ex. 초당 발사 가능 횟수)
+
+	Ranged_INFO.CurrentAmmo = 30; 
+	Ranged_INFO.MaxAmmo = 30;
+	m_fAnimationSpeed = 0.03f;
+
 
 	m_pTransformCom->Set_Scale(m_Staff_INFO.vSize.x, m_Staff_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -52,57 +63,12 @@ HRESULT CHarvester::Initialize(void* pArg)
 }
 
 
-void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
-{
-}
-
 void CHarvester::Priority_Update(_float fTimeDelta)
 {
 }
 
 void CHarvester::Update(_float fTimeDelta)
 {
-	//__super::Picking_Object(8);
-
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
-	{
-		t += speed;
-	}
-
-	float v = 20.0f;  // 폭을 설정 하는변수
-	_float3 vNewPos;
-	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-
-	Attack(fTimeDelta);
-	return;
-}
-void CHarvester::Attack(_float fTimeDelta)
-{
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		if (m_eState == State::Idle)
-		{
-			m_eState = State::Firing;
-			m_iCurrentFrame = m_TextureRanges["Firing"].first;
-			m_fElapsedTime = 0.0f;
-		}
-	}
-
 	m_fElapsedTime += fTimeDelta;
 
 	switch (m_eState)
@@ -119,6 +85,7 @@ void CHarvester::Attack(_float fTimeDelta)
 			if (m_iCurrentFrame < m_TextureRanges["Firing"].second)
 			{
 				m_iCurrentFrame++;
+	
 			}
 			else
 			{
@@ -144,12 +111,33 @@ void CHarvester::Attack(_float fTimeDelta)
 		}
 		break;
 	}
+
+	return;
 }
 
 void CHarvester::Late_Update(_float fTimeDelta)
 {
-
 	__super::Late_Update(fTimeDelta);;
+}
+
+void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
+{
+	if (m_eState == State::Idle)
+	{
+		m_eState = State::Firing;
+		m_iCurrentFrame = m_TextureRanges["Firing"].first;
+		m_fElapsedTime = 0.0f;
+		__super::Picking_Object(5, m_Weapon_INFO.Damage);
+		Ranged_INFO.CurrentAmmo-=4;
+		Notify_Bullet();
+	}
+}
+
+void CHarvester::Attack(_float fTimeDelta)
+{
+	__super::Attack(fTimeDelta);
+
+	
 }
 
 HRESULT CHarvester::Render()
