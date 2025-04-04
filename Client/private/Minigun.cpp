@@ -3,6 +3,7 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
+#include <Camera_FirstPerson.h>
 
 CMinigun::CMinigun(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CRanged_Weapon(pGraphic_Device)
@@ -156,6 +157,12 @@ void CMinigun::Late_Update(_float fTimeDelta)
                     Ranged_INFO.CurrentAmmo--;
                     Notify_Bullet();
                     m_bHasFired = true;
+
+                    CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+                    if (pCamera)
+                    {
+                        pCamera->ApplyRecoil(0.01f);
+                    }
                 }
             }
 

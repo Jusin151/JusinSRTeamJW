@@ -31,6 +31,13 @@ public:
 	_float Get_Yaw() const { return m_fYaw; }
 	void Set_Yaw(_float fYaw) { m_fYaw = fYaw; }
 
+	void ApplyRecoil(float fAmount)
+	{
+		m_fRecoil += fAmount;  // 반동에 누적
+	}
+
+	void UpdateRecoil(_float fTimeDelta);
+
 private:
 	void Shaking(_float fTimeDelta);
 
@@ -39,6 +46,11 @@ private:
 	_float				m_fMouseSensor = {};
 	// 플레이어 위치와 동기화하기 위해..
 	CGameObject*		m_pPlayer = { nullptr };
+
+private:
+	_float m_fRecoil = 0.f;       // 반동 강도
+	_float m_fRecoilDecay = 10.f;  // 반동 감쇠 속도
+
 private:
 	HRESULT Ready_Components();
 private:
