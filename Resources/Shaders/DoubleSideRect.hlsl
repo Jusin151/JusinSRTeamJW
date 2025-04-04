@@ -23,12 +23,22 @@ struct Light
     // float SpotCosOuterAngle; // 스포트라이트 외부 각 코사인값
 };
 
+struct Material
+{
+    float4  Diffuse;    // 재질의 확산광 반사율 (텍스처와 곱해짐)
+    float4  Ambient;    // 재질의 주변광 반사율
+    float4  Specular;   // 재질의 정반사광 색상
+    float4  Emissive;   // 재질의 자체 발광 색상
+    float   Power;      // 재질의 정반사 지수 (Shininess)
+};
+
+Material g_Material : MATERIAL;
 Light g_Lights[MAX_LIGHTS] : LIGHTS; // 라이트 정보 배열
 int g_NumActiveLights; // 현재 객체에 영향을 주는 활성 라이트 개수 (C++에서 설정)
 
 // 빛 관련 전역 변수 추가 (C++에서 설정 필요)
 float3 g_LightDirection = normalize(float3(-1.f, -1.f, -1.f)); // 예시: 조명 방향 (카메라 기준?)
-float4 g_LightColor = float4(1.f, 0.f, 0.f, 1.f); // 예시: 조명 색상
+float4 g_LightColor = float4(1.f, 1.f, 1.f, 1.f); // 예시: 조명 색상
 float4 g_AmbientLightColor = float4(0.2f, 0.2f, 0.2f, 1.f); // 예시: 주변광 색상
 
 // 카메라 위치 (Specular 계산에 필요, C++에서 설정)
@@ -38,7 +48,7 @@ float3 g_CameraPosition;
 float4 g_MaterialAmbient = float4(0.2f, 0.2f, 0.2f, 1.f); // 재질의 주변광 반사율
 float4 g_MaterialDiffuse = float4(1.f, 1.f, 1.f, 1.f); // 재질의 확산광 반사율 (텍스처와 곱해짐)
 float4 g_MaterialSpecular = float4(1.f, 1.f, 1.f, 1.f); // 재질의 정반사광 색상
-float g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
+float  g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
 float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
 sampler CubeSampler = sampler_state
@@ -102,6 +112,28 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
+VS_OUT VS_ORTHO(VS_IN In)
+{
+    VS_OUT Out;
+
+    // 월드 변환 (World Position 계산)
+    Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+
+    // 최종 클립 공간 위치 계산 (World * View * Projection)
+    Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
+    Out.vPosition = mul(Out.vPosition, g_ProjMatrix);
+
+    // 텍스처 좌표 전달
+    Out.vTexcoord = In.vTexcoord;
+
+    // 법선 벡터를 월드 공간으로 변환하여 전달
+    // WorldMatrix에 non-uniform scaling이 없다면 이것으로 충분
+    // 만약 있다면, WorldInverseTranspose 행렬을 사용해야 함
+    Out.vNormal = normalize(mul(In.vNormal, (float3x3) g_WorldMatrix));
+
+    return Out;
+}
+
 /* 정점3개가 나온다 */
 /* w나누기연산. */
 /* 뷰포트변환 */
@@ -138,27 +170,27 @@ PS_OUT PS_MAIN(PS_IN In, float facing : VFACE)
     float3 lightVec = -g_LightDirection; // g_LightDirection이 광원에서 나가는 방향일 경우
 
     // 4. 주변광(Ambient) 계산
-    float4 ambient = g_AmbientLightColor * g_MaterialAmbient;
+    float4 ambient = g_AmbientLightColor * g_Material.Ambient;
 
     // 5. 확산광(Diffuse) 계산
     float NdotL = saturate(dot(normal, lightVec));
-    float4 diffuse = NdotL * g_LightColor * g_MaterialDiffuse;
+    float4 diffuse = NdotL * g_LightColor * g_Material.Diffuse;
 
     // 6. 정반사광(Specular) 계산 (Blinn-Phong 모델 사용)
     float3 halfwayDir = normalize(lightVec + viewDir); // 하프 벡터
     float NdotH = saturate(dot(normal, halfwayDir));
-    float specPower = pow(NdotH, g_MaterialSpecularPower); // 하이라이트 집중도
-    float4 specular = specPower * g_LightColor * g_MaterialSpecular;
+    float specPower = pow(NdotH, g_Material.Power); // 하이라이트 집중도
+    float4 specular = specPower * g_LightColor * g_Material.Specular;
 
     // 7. 텍스처 색상 가져오기
     float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
 
     // 8. 최종 색상 조합
     // 최종색상 = 자체발광 + 주변광 + (확산광 * 텍스처) + 정반사광
-    Out.vColor.rgb = g_MaterialEmissive.rgb + ambient.rgb + (diffuse.rgb * baseColor.rgb) + specular.rgb;
+    Out.vColor.rgb = g_Material.Emissive.rgb + ambient.rgb + (diffuse.rgb * baseColor.rgb) + specular.rgb;
 
     // 9. 알파 값 처리 (텍스처 알파 * 재질 확산광 알파)
-    Out.vColor.a = baseColor.a * g_MaterialDiffuse.a;
+    Out.vColor.a = baseColor.a * g_Material.Diffuse.a;
 
     // --- 필요하다면 이전 알파 처리 로직 유지 ---
     // if (Out.vColor.a < 0.1f)

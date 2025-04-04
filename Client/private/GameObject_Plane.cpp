@@ -71,6 +71,13 @@ HRESULT CGameObject_Plane::Ready_Components()
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), &shaderDesc)))
         return E_FAIL;
 
+    CMaterial::MATERIAL_DESC mateiralDesc = {};
+
+    /* For.Com_Material */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -105,24 +112,19 @@ HRESULT CGameObject_Plane::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
-
     
     Pre_Render();
-    _float4x4 viewMatrix = {};
-    _float4x4 projMatrix = {};
-    m_pTextureCom->Bind_Resource(m_pShaderCom, "g_Texture", 1);
-    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &viewMatrix);
-    m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &projMatrix);
-    m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix());
-    m_pShaderCom->Bind_Matrix("g_ViewMatrix", &viewMatrix);
-    m_pShaderCom->Bind_Matrix("g_ProjMatrix", &projMatrix);
-    _float3 CameraPos = static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_TEST, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-    m_pShaderCom->Bind_Vector("g_CameraPosition", &CameraPos);
+    if (FAILED(m_pShaderCom->Bind_Transform()))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+        return E_FAIL;
+    m_pShaderCom->Bind_Material(m_pMaterialCom);
+
     
     m_pShaderCom->Begin(1);
 
-    if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
+    /*if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;*/
     if (FAILED(m_pBloodParticleCom->Render()))
         return E_FAIL;
     m_pShaderCom->End();
@@ -171,6 +173,7 @@ void CGameObject_Plane::Free()
     __super::Free();
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pTextureCom);
+    Safe_Release(m_pMaterialCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pBloodParticleCom);

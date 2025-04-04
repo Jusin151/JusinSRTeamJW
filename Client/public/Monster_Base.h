@@ -7,6 +7,7 @@
 BEGIN(Engine)
 class CShader;
 class CTexture;
+class CMaterial;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider_Sphere;
@@ -52,6 +53,7 @@ protected:
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
+	CMaterial*		m_pMaterialCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
 protected:
 

@@ -1,4 +1,5 @@
 ﻿#include "Shader.h"
+#include "Texture.h"
 #include "Material.h"
 #include "Light.h"
 
@@ -34,9 +35,39 @@ HRESULT CShader::Initialize(void* pArg)
     return S_OK;
 }
 
+HRESULT CShader::Bind_Transform()
+{
+	_float4x4 world, view, proj;
+	m_pGraphic_Device->GetTransform(D3DTS_WORLD, &world);
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &proj);
+
+	_float4x4 viewInverse = {};
+	D3DXMatrixInverse(&viewInverse, nullptr, &view);
+	_float3 cameraPos = *reinterpret_cast<_float3*>(&viewInverse.m[3][0]);
+
+	Bind_Matrix("g_WorldMatrix",	&world);
+	Bind_Matrix("g_ViewMatrix",		&view);
+	Bind_Matrix("g_ProjMatrix",		&proj);
+	Bind_Vector("g_CameraPosition", &cameraPos);
+	return S_OK;
+}
+
 HRESULT CShader::Bind_Texture(D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture)
 {
 	return m_pEffect->SetTexture(hParameter, pTexture);
+}
+
+HRESULT CShader::Bind_Texture(CTexture* pTexture, _uint iIndex)
+{
+	switch (pTexture->Get_Type())
+	{
+	case CTexture::TYPE_2D:
+		return m_pEffect->SetTexture("g_Texture", pTexture->Get_Texture(iIndex));
+	case CTexture::TYPE_CUBE:
+		return m_pEffect->SetTexture("g_CubeTexture", pTexture->Get_Texture(iIndex));
+	}
+	return E_FAIL;
 }
 
 HRESULT CShader::Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix)
@@ -76,6 +107,12 @@ HRESULT CShader::Bind_Material(CMaterial* pMaterial)
 {
 	pMaterial->Bind_Material(this);
 	return S_OK;
+}
+
+HRESULT CShader::Bind_Value(D3DXHANDLE hParameter, void* pArg, _uint bytes)
+{
+	m_pEffect->SetValue(hParameter, pArg, bytes);
+	return E_NOTIMPL;
 }
 
 void CShader::Begin(_uint iPassIndex)
@@ -119,6 +156,5 @@ CComponent* CShader::Clone(void* pArg)
 void CShader::Free()
 {
     __super::Free();
-
     Safe_Release(m_pEffect);
 }

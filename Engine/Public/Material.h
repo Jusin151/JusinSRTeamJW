@@ -30,7 +30,6 @@ public:
 	HRESULT Bind_Resource();
 	HRESULT Bind_Material(class CShader* pShader);
 private:
-	//D3DMATERIAL9					m_tMaterial;
 	MATERIAL						m_tMaterial;
 public:
 	static	CMaterial* Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar * pMaterialFilePath);

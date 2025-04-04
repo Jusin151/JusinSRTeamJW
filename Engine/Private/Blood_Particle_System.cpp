@@ -42,6 +42,7 @@ void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
     pAttribute->vPosition.z = -1.f;
     pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f), 0.f };
+	pAttribute->vAcceleration = { 1.5f, 1.5f, 0.0f };
     pAttribute->fAge = 0;
     pAttribute->fLifetime = 2.0f;
 	pAttribute->iIndex = rand() % m_pTexture->Get_NumTextures();
@@ -56,12 +57,11 @@ void CBlood_Particle_System::Update(float fTimeDelta)
 	{
 		if (i.bIsAlive)
 		{
-			i.vPosition += i.vVelocity * fTimeDelta;
+			i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
 			i.fAge += fTimeDelta;
 			i.fSize = m_fSize / D3DXVec3Length(&i.vPosition);
 			if (i.fAge > i.fLifetime)
 				i.bIsAlive = false;
-				//Reset_Particle(&i);
 		}
 	}
 }

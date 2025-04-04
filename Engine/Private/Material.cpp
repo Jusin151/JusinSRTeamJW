@@ -55,11 +55,7 @@ HRESULT CMaterial::Bind_Resource()
 
 HRESULT CMaterial::Bind_Material(CShader* pShader)
 {
-    pShader->Bind_Vector("g_MaterialDiffuse",       &m_tMaterial.Diffuse);
-    pShader->Bind_Vector("g_MaterialAmbient",       &m_tMaterial.Ambient);
-    pShader->Bind_Vector("g_MaterialSpecular",      &m_tMaterial.Specular);
-    pShader->Bind_Float("g_MaterialSpecularPower",  m_tMaterial.Power);
-    pShader->Bind_Vector("g_MaterialEmissive",      &m_tMaterial.Emissive);
+    pShader->Bind_Value("g_Material", &m_tMaterial, sizeof(MATERIAL));
     return S_OK;
 }
 
