@@ -105,9 +105,7 @@ HRESULT CGameInstance::Draw()
 	m_pLevel_Manager->Render();
 
 	m_pGraphic_Device->Render_End();
-	}
-
-		m_pGraphic_Device->Render_End();
+	
 	}
 	return S_OK;
 }
