@@ -165,8 +165,8 @@ void CStaff::Attack(_float fTimeDelta)
                 m_iCurrentFrame++;
                 if (!m_bHasFired) // 발사 상태가 false일 때만 발사
                 {
-                    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Staff_Bullet"),
-                        LEVEL_GAMEPLAY, TEXT("Layer_Staff_Bullet"))))
+                    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Staff_Bullet"),
+                        LEVEL_STATIC, TEXT("Layer_Staff_Bullet"))))
 
                         return;
                     m_bHasFired = true;

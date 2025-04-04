@@ -29,7 +29,7 @@ HRESULT CBullet_Base::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_Player_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	m_Player_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	Player_RIght = m_Player_Transform->Get_State(CTransform::STATE_RIGHT);
 	Player_Up = m_Player_Transform->Get_State(CTransform::STATE_UP);
 	Player_Look = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
