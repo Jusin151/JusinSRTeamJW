@@ -6,9 +6,9 @@
 
 constexpr _float VIEW_RANGE = 25.f;
 constexpr _uint MINIMAP_SIZE = 256;
+
 CMiniMap::CMiniMap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject(pGraphic_Device),
-	m_MiniMapRect(),
 	m_pMiniMapSurface(nullptr),
 	m_pMiniMapTexture(nullptr),
 	m_pSprite(nullptr),
@@ -23,13 +23,13 @@ CMiniMap::CMiniMap(const CMiniMap& Prototype)
 	m_pMiniMapTexture(Prototype.m_pMiniMapTexture),
 	m_pVertexBuffer(Prototype.m_pVertexBuffer),
 	m_pSprite(Prototype.m_pSprite),
-	m_MiniMapRect(Prototype.m_MiniMapRect),
 	m_bStaticMapRendered(false),
 	m_bIsOriginal(false)
 {
 	Safe_AddRef(m_pMiniMapSurface);
 	Safe_AddRef(m_pMiniMapTexture);
 	Safe_AddRef(m_pVertexBuffer);
+	Safe_AddRef(m_pTextureCom);
 	Safe_AddRef(m_pSprite);
 }
 
@@ -42,10 +42,6 @@ HRESULT CMiniMap::Initialize_Prototype()
 
 	// 스프라이트 객체 생성
 	D3DXCreateSprite(m_pGraphic_Device, &m_pSprite);
-
-	// 미니맵 출보 위치 및 크기 설정
-	m_MiniMapRect = { 10, 10, 10 + 150, 10 + 150 }; // 좌상단 위치(10,10)에 150x150 크기로 표시
-
 	// 정점 버퍼 생성
 	m_pGraphic_Device->CreateVertexBuffer(
 		4 * sizeof(VERTEX), // 정점 4개
@@ -55,6 +51,12 @@ HRESULT CMiniMap::Initialize_Prototype()
 		&m_pVertexBuffer,
 		NULL
 	);
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Vignette"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Effect/vignette-frame-1.png"), 1))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -78,14 +80,8 @@ HRESULT CMiniMap::Initialize(void* pArg)
 	{
 		return E_FAIL;
 	}
-
-	//m_pTransformCom->Set_Scale(-1.f, -1.f, 1.f);
-
-	// 3. Transform 행렬 바인딩
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,_float3(200.f,200.f, 0.0f));
+	//m_pTransformCom->Set_Scale(0.7f, 0.7f,1.f);
 	D3DXMatrixOrthoLH(&m_matMiniMapProj, VIEW_RANGE, VIEW_RANGE, 0.1f, 1000.0f);
 
 	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera"));
@@ -99,7 +95,8 @@ HRESULT CMiniMap::Initialize(void* pArg)
 }
 void CMiniMap::Update(_float fTimeDelta)
 {
-	
+	_float fAngleY = m_pCamera->Get_Yaw();
+	m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), -fAngleY);
 }
 
 void CMiniMap::Late_Update(_float fTimeDelta)
@@ -118,7 +115,7 @@ HRESULT CMiniMap::Render()
 	m_pGraphic_Device->SetRenderTarget(0, m_pMiniMapSurface);
 
 	// 3. 미니맵 텍스처 클리어 (배경색 회색)
-	m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
+	m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(10,50, 50, 50), 0.0f, 0);
 	
 	SetUp_RenderState();
 	for (const auto& structure : m_StructureList)
@@ -155,19 +152,38 @@ HRESULT CMiniMap::Render()
 	// 6. 미니맵 텍스처를 화면에 그리기
 	if (m_pSprite && m_pMiniMapTexture)
 	{
-		// 스프라이트 시작
+		D3DXVECTOR3 center(MINIMAP_SIZE *0.5f, MINIMAP_SIZE * 0.5f, 0.f);
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		m_pSprite->Draw(
+			m_pMiniMapTexture,
+			nullptr,
+			&center,
+			nullptr,
+			D3DCOLOR_ARGB(255, 255, 255, 255)
+		);
 
+		_float3 vPrevSize;
 		if (m_pTransformCom)
 		{
-			_float4x4 matWorld = m_pTransformCom->Get_WorldMat();
-			m_pSprite->SetTransform(&matWorld);
+			vPrevSize = m_pTransformCom->Compute_Scaled();
+
+		_float3 newSize{256.0f / 1897.f ,256.0f / 1920.f  ,vPrevSize.z };
+		m_pTransformCom->Set_Scale(newSize.x, newSize.y, newSize.z);
+
+		m_pSprite->SetTransform(m_pTransformCom->Get_WorldMatrix());
+		center = { 1897.f * 0.5f, 1920.f * 0.5f, 0.f };
+		m_pSprite->Draw(
+			static_cast<LPDIRECT3DTEXTURE9>(m_pTextureCom->Get_Texture(0)),
+			nullptr,
+			&center,
+			nullptr,
+			D3DCOLOR_ARGB(50, 255, 255, 255)
+
+		);
+	
+		m_pTransformCom->Set_Scale(vPrevSize.x, vPrevSize.y, vPrevSize.z);
+	//	m_pSprite->SetTransform(m_pTransformCom->Get_WorldMatrix());
 		}
-
-		D3DXVECTOR3 center(MINIMAP_SIZE / 2.f, MINIMAP_SIZE / 2.f, 0.f);
-		m_pSprite->Draw(m_pMiniMapTexture, NULL, &center, NULL, D3DCOLOR_ARGB(200, 255, 255, 255));
-	//	m_pSprite->Draw(m_pMiniMapTexture, NULL, NULL, NULL, D3DCOLOR_ARGB(180, 255, 255, 255)); // 약간 투명하게
-
 		m_pSprite->End();
 	}
 
@@ -191,11 +207,11 @@ HRESULT CMiniMap::SetUp_RenderState()
 	_float3 vPos = pCameraTransform->Get_State(CTransform::STATE_POSITION);
 	_float3 vLook = pPlayerTransform->Get_State(CTransform::STATE_LOOK);
 	_float3 vLook2 = pCameraTransform->Get_State(CTransform::STATE_LOOK);
-	_float fAngleY = m_pCamera->Get_Yaw();
+
 	D3DXVECTOR3 eye(vPos.x, vPos.y + 10.f, vPos.z);
-	D3DXVECTOR3 at(vPos.x , vPos.y, vPos.z );
+	D3DXVECTOR3 at(vPos.x , vPos.y, 0.f );
 	D3DXVECTOR3 up(0.0f, 0.0f, 1.0f);
-	m_pTransformCom->Rotate_EulerAngles(_float3(0.f, 0.f,fAngleY));
+
 	D3DXMatrixLookAtLH(&m_matMiniMapView, &eye, &at, &up);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_matMiniMapView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_matMiniMapProj);
@@ -217,10 +233,14 @@ HRESULT CMiniMap::Release_RenderState()
 
 HRESULT CMiniMap::Ready_Components()
 {
-	CTransform::TRANSFORM_DESC		TransformDesc{ 20.f, D3DXToRadian(180.f) };
+	CTransform::TRANSFORM_DESC		TransformDesc{ 20.f, D3DXToRadian(300.f) };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom),&TransformDesc)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Vignette"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 	return S_OK;
 }
@@ -234,7 +254,15 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	if (!pPlayerTransform)
 		return;
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, pPlayerTransform->Get_WorldMatrix());
+	_float fAngleY = m_pCamera->Get_Yaw();
+	_float3 playerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	D3DXMATRIX rotMat, matWorld, matTrans;
+
+	D3DXMatrixRotationY(&rotMat, fAngleY);
+	D3DXMatrixTranslation(&matTrans, playerPos.x,0.f, playerPos.z);
+	matWorld = rotMat * matTrans;
+
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
 	static _bool bInit = { false };
 
@@ -242,7 +270,7 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	{
 
 	// 삼각형 정점 생성
-	float size =1.5f; // 삼각형 크기
+	float size =1.f; // 삼각형 크기
 	VERTEX vertices[3] = {
 		{ D3DXVECTOR3(0.f, 0.f, size), D3DCOLOR_RGBA(255, 0, 0, 255) },
 		{ D3DXVECTOR3(size * 0.7f, 0.f, -size * 0.7f), D3DCOLOR_RGBA(255, 0, 0, 255) },
@@ -316,6 +344,7 @@ void CMiniMap::Free()
 	Safe_Release(m_pVertexBuffer);
 	Safe_Release(m_pSprite); // 스프라이트 해제 추가
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 	__super::Free();
 	//Safe_Release(m_pTransformCom);
 	//Safe_Release(m_pMaterialCom);
