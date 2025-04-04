@@ -322,12 +322,17 @@ HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
 {
 	return m_pCollider_Manager->Add_Collider(eGroup, Collider);
 }
-
 vector<list<class CCollider*>> CGameInstance::Get_Colliders()
 {
 	return m_pCollider_Manager->Get_Colliders();
 }
+void CGameInstance::Clear_Colliders()
+{
+	 m_pCollider_Manager->Clear();
+}
+#pragma endregion
 
+#pragma region FONT_MANAGER
 HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath)
 {
 	return m_pFont_Manager->Add_Font(strFontTag, strFontFilePath);
@@ -338,7 +343,7 @@ HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& s
 	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
 }
 
-// 사이즈 크기 조절하려고 홍동완이 만듬
+// 사이즈 크기 조절용 폰트
 HRESULT CGameInstance::Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition,const _float2& vSize, _float3 vColor)
 {
 	return m_pFont_Manager->Render_Font_size(strFontTag, strText, vPosition, vSize, vColor);

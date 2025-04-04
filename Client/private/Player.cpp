@@ -67,6 +67,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
+	Attack(fTimeDelta);//좌클
 
 
 }
@@ -318,8 +319,7 @@ void CPlayer::Input_Key(_float fTimeDelta)
 {
 	Equip(fTimeDelta); //인벤
 
-	Attack(fTimeDelta);//좌클
-
+	
 	Move(fTimeDelta); // 플레이어 이동
 }
 
