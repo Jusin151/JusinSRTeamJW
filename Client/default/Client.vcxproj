@@ -175,6 +175,7 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\HellBoss.h" />
     <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\StructureManager.h" />
@@ -282,6 +283,7 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
+    <ClCompile Include="..\private\HellBoss.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
     <ClCompile Include="..\private\GlacierBullet.cpp" />

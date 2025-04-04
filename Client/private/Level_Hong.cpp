@@ -39,8 +39,13 @@ HRESULT CLevel_Hong::Initialize()
 		pCamera->Set_Yaw(D3DXToRadian(180.f));
 	}
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
-		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
+		LEVEL_HONG, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
+		LEVEL_HONG, TEXT("Layer_HellBoss"))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -57,7 +62,7 @@ void CLevel_Hong::Update(_float fTimeDelta)
 
 HRESULT CLevel_Hong::Render()
 {
-	SetWindowText(g_hWnd, TEXT("홍동완 레벨입니다 ㅋㅋ"));
+	SetWindowText(g_hWnd, TEXT("홍동완 레벨입니다"));
 
 	return S_OK;
 }

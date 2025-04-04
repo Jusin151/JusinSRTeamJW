@@ -67,7 +67,11 @@ HRESULT CTexture::Initialize_Prototype(TYPE eType, const _tchar* pTextureFilePat
 		if (FAILED(hr))
 			return E_FAIL;
 
-		m_Textures.push_back(pTexture);
+		if (m_Textures.size() > 320)
+		{
+			int a = 10;
+		}
+  		m_Textures.push_back(pTexture);
 	}
 
     return S_OK;
