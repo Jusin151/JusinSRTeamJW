@@ -174,7 +174,7 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 {
 	m_fShakeTime += fTimeDelta * 10.f;
 
-	float shakeAmount = 0.05f; // 흔들림 강도
+	float shakeAmount = 0.42f; // 흔들림 강도
 	_float3 shake = {
 		cos(m_fShakeTime) * shakeAmount,
 		sin(m_fShakeTime) * shakeAmount,
