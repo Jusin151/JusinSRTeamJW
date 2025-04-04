@@ -175,6 +175,7 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
+    <ClCompile Include="..\private\Level_Hong.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />

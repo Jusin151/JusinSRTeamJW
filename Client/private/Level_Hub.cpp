@@ -99,6 +99,10 @@ HRESULT CLevel_Hub::Initialize()
 		LEVEL_HUB, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		LEVEL_STATIC, TEXT("Layer_SkyBox"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -108,6 +112,13 @@ void CLevel_Hub::Update(_float fTimeDelta)
 	{
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+			return;
+		return;
+	}
+	if (GetAsyncKeyState('H') & 0x8000)
+	{
+  		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HONG))))
 			return;
 		return;
 	}

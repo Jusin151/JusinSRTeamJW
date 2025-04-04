@@ -346,6 +346,9 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\GlacierBullet">
       <UniqueIdentifier>{6c7faba0-4663-4fe7-b403-71c22cf0e524}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Hong">
+      <UniqueIdentifier>{b4c2fce2-a84b-4ad4-968e-747857cf3ed0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -663,6 +666,9 @@
     <ClInclude Include="..\public\GlacierBullet.h">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Hong.h">
+      <Filter>01.Levels\Hong</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -958,6 +964,9 @@
     </ClCompile>
     <ClCompile Include="..\private\GlacierBullet.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Hong.cpp">
+      <Filter>01.Levels\Hong</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

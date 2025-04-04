@@ -46,6 +46,7 @@ public:
 	HRESULT Loading_For_Editor();
 	HRESULT Loading_For_Test();
 	HRESULT Loading_For_Hub();
+	HRESULT Loading_For_Hong();
 	
 
 
