@@ -47,7 +47,7 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
 	{
-		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 		if (nullptr == pTarget)
 			return;
 
@@ -82,12 +82,7 @@ void CHarpoonguy::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 		return;
 	}
-	
 
-
-
-
-	
 
 
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -109,11 +104,9 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
 	if (m_pTarget == nullptr)
 		return;
-	if (m_pTrigger != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
-	{
-		//m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+
+	if (!m_bCheck)
 		return;
-	}
 
 
 	_float3 vScale = m_pTransformCom->Compute_Scaled();

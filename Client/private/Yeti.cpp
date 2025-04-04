@@ -48,7 +48,7 @@ void CYeti::Priority_Update(_float fTimeDelta)
 {
     if (nullptr == m_pTarget)
     {
-        CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+        CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
         if (nullptr == pTarget)
             return;
 
@@ -58,11 +58,11 @@ void CYeti::Priority_Update(_float fTimeDelta)
         m_vAnchorPoint = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
     }
 
-    if (!m_bCheck)
+  /*  if (!m_bCheck)
     {
         if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
             m_bCheck = true;
-    }
+    }*/
 
     if (m_iHp <= 0)
         m_eCurState = MS_DEATH;
@@ -78,11 +78,11 @@ void CYeti::Update(_float fTimeDelta)
 {
     if (m_pTarget == nullptr)
         return;
-    if (!m_bCheck)
-    {
-        m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
-        return;
-    }
+    //if (!m_bCheck)
+    //{
+    //    m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+    //    return;
+    //}
 
     if (m_eCurState != MS_BACK)
         m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);

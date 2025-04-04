@@ -48,7 +48,7 @@ void CSnowspider::Priority_Update(_float fTimeDelta)
 {
     if (nullptr == m_pTarget)
     {
-        CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+        CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
         if (nullptr == pTarget)
             return;
 
@@ -108,6 +108,8 @@ void CSnowspider::Late_Update(_float fTimeDelta)
     if (nullptr == m_pTarget)
         return;
 
+    if (!m_bCheck)
+        return;
 
     
 
