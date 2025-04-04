@@ -321,7 +321,7 @@
     </Filter>
     <Filter Include="02.GameObjects\JW_Boss\Node">
       <UniqueIdentifier>{3ef36980-e865-44b9-b329-b87404afb115}</UniqueIdentifier>
-   </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\01.Monster\normal">
       <UniqueIdentifier>{ea8a0889-7989-443d-8892-efbf4a3f5719}</UniqueIdentifier>
     </Filter>
@@ -648,16 +648,7 @@
     <ClInclude Include="..\public\Effects.h">
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CTaskNode.h">
-      <Filter>02.GameObjects\JW_Boss\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CCompositeNode.h">
-      <Filter>02.GameObjects\JW_Boss\Node</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\CBehaviorTree.h">
-      <Filter>02.GameObjects\JW_Boss\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CNode.h">
       <Filter>02.GameObjects\JW_Boss\Node</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Cthulhu.h">
@@ -683,6 +674,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Inven_UI.h">
       <Filter>02.GameObjects\00_1. Inven</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Node.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CompositeNode.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TaskNode.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -965,12 +965,6 @@
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CBehaviorTree.cpp">
-      <Filter>02.GameObjects\JW_Boss\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\privateCthulhu.cpp" />
-      <Filter>02.GameObjects\JW_Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Staff.cpp">
       <Filter>02.GameObjects\00_2. Weapon\01. Ranged Weapon\04. Staff</Filter>
     </ClCompile>
@@ -985,6 +979,14 @@
     </ClCompile>
     <ClCompile Include="..\private\GlacierBullet.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\privateCthulhu.cpp" />
+    <ClCompile Include="..\public\Cthulhu.cpp" />
+    <ClCompile Include="..\private\Cthulhu.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BehaviorTree.cpp">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
