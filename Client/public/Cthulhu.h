@@ -17,14 +17,28 @@ public:
     virtual void Update(_float fTimeDelta)override;
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;
-    virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
+ 
+
+public:
+    virtual HRESULT On_Collision(CCollisionObject* other);
     void Billboarding(_float fTimeDelta);
+    void Select_Pattern(_float fTimeDelta) override;
+protected:
+    HRESULT SetUp_RenderState();
+    HRESULT Release_RenderState();
+
+    // 텍스처 추가 
+    HRESULT Ready_Components();
+
 private:
     CBehaviorTree* m_pBehaviorTree = nullptr;
 
 public:
-    virtual CGameObject* Clone(void* pArg) PURE;
+    static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    virtual CGameObject* Clone(void* pArg);
     virtual void Free();
+
+
 };
 END
 

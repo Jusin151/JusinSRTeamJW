@@ -174,11 +174,9 @@ void CCamera_FirstPerson::UpdateRecoil(_float fTimeDelta)
 {
 	if (m_fRecoil > 0.f)
 	{
-		// 예시: 현재 pitch에 반동값을 더해준다.
 		m_fYaw += m_fRecoil;
 		m_fPitch -= m_fRecoil;
 
-		// 반동 값은 시간에 따라 서서히 줄어든다.
 		m_fRecoil -= fTimeDelta * m_fRecoilDecay;
 		if (m_fRecoil < 0.f)
 			m_fRecoil = 0.f;

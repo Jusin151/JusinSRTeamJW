@@ -20,6 +20,7 @@
 #include "GlacierBullet.h"
 #include "Door.h"
 #include "Effects.h"
+#include "Cthulhu.h"
 
 
 
@@ -386,6 +387,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 	return CHarpoon::Create(pGraphic_Device);
 	else if (className == "CGlacierBullet")
 		return CGlacierBullet::Create(pGraphic_Device);
+	else if(className =="CCthulhu")
+		return CCthulhu::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")
