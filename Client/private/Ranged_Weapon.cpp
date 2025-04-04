@@ -36,7 +36,7 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 void CRanged_Weapon::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
-
+   
     
 }
 
@@ -106,6 +106,7 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
+  
 
     // 매 프레임마다 마우스/레이 갱신
     if (m_pPickingSys)
@@ -130,7 +131,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
      
             const wstring& tag = collider->Get_Owner()->Get_Tag();
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos||
-                tag.find(L"Trigger")!= wstring::npos)
+                tag.find(L"Trigger") != wstring::npos)
                 continue;
 
             _float3 vHitPos{};
@@ -179,6 +180,8 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
         }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
+
+  
 
     return S_OK;
 }

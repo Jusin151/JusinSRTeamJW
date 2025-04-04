@@ -67,7 +67,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	Attack(fTimeDelta);//좌클
+	
 
 }
 
@@ -122,6 +122,7 @@ void CPlayer::Update(_float fTimeDelta)
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	Attack(fTimeDelta);//좌클
 }
 
 

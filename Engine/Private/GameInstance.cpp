@@ -85,10 +85,11 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		m_pObject_Manager->Priority_Update(fTimeDelta);
 		m_pLevel_Manager->Update(fTimeDelta);
 		////m_pSound_Manager->Update(fTimeDelta);
-		m_pCollider_Manager->Update_Collison();
 		m_pObject_Manager->Update(fTimeDelta);
+	    m_pCollider_Manager->Update_Collison();
 		//m_pFrustumCull->Update();
 		m_pObject_Manager->Late_Update(fTimeDelta);
+		m_pCollider_Manager->Clear();
 	}
 }
 
@@ -118,7 +119,6 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pCollider_Manager->Clear();
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
-	m_pCollider_Manager->Clear();
 }
 
 #pragma region LEVEL_MANAGER
