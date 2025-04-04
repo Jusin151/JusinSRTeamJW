@@ -48,7 +48,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	//  등록
 	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
-	// 이미지에 따른 그거
+	// 이미지에 따른 그거 
 	m_TextureRanges["Idle"] = { 0, 0 };
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
@@ -72,6 +72,11 @@ void CShotGun::Priority_Update(_float fTimeDelta)
 void CShotGun::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+}
+void CShotGun::Late_Update(_float fTimeDelta)
+{
+	__super::Late_Update(fTimeDelta);
 
 	m_fElapsedTime += fTimeDelta;
 
@@ -137,10 +142,7 @@ void CShotGun::Attack(_float fTimeDelta)
 }
 
 
-void CShotGun::Late_Update(_float fTimeDelta)
-{
-	__super::Late_Update(fTimeDelta);
-}
+
 
 HRESULT CShotGun::Render()
 {
