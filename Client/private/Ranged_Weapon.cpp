@@ -3,7 +3,7 @@
 #include "PickingSys.h"
 #include "Effects.h"
 #include "UI_Manager.h"
-
+#include "Collider_Manager.h"
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{ pGraphic_Device }
 {
@@ -29,13 +29,15 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 {
     __super::Move_Hand(fTimeDelta);
 
-	//Attack(fTimeDelta);
+	
 
 }
 
 void CRanged_Weapon::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+
+    
 }
 
 HRESULT CRanged_Weapon::Render()
@@ -104,6 +106,7 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
+
     // 매 프레임마다 마우스/레이 갱신
     if (m_pPickingSys)
         m_pPickingSys->Update();
@@ -200,7 +203,7 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
         return;
 
     _float3 vCamPos = dynamic_cast<CTransform*>(
-        m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))
+        m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform"))
         ->Get_State(CTransform::STATE_POSITION);
 
     _float3 vecTemp = vCamPos - vTilePos;
