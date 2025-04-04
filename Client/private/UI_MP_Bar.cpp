@@ -15,8 +15,7 @@ CUI_MP_Bar::CUI_MP_Bar(const CUI_MP_Bar& Prototype)
 
 HRESULT CUI_MP_Bar::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+
 
 
 	return S_OK;
@@ -101,7 +100,7 @@ HRESULT CUI_MP_Bar::Render()
 
 HRESULT CUI_MP_Bar::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_MP_Bar"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MP_Bar"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

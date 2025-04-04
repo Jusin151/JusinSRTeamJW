@@ -51,6 +51,7 @@ private:
 	_float				m_fSensitivity = 0.001f;
 	_float				m_fShakeTime = 0.f;
 	_bool				m_tmpState = { false };
+	_float3				m_vScale = {};
 
 public:
 	static CCamera_FirstPerson* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

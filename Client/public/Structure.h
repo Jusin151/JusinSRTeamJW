@@ -69,6 +69,8 @@ private:
 
 #pragma endregion
 
+	_bool	m_bInit = { false };
+
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();

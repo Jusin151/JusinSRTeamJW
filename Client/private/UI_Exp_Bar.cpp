@@ -139,7 +139,7 @@ HRESULT CUI_Exp_Bar::Render()
 HRESULT CUI_Exp_Bar::Ready_Components()
 {
 
-   	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_ExpBar_UI"),
+   	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ExpBar_UI"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
        		return E_FAIL;
 

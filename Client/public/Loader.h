@@ -59,11 +59,11 @@ public:
 
 	HRESULT Add_To_Logo_Menu_Textures();
 	HRESULT Add_To_Logo_Menu_Prototype();
-
-
-
-				
-
+////////////////////////////////////////////////////////////
+	HRESULT Add_To_GamePlay_Textures();
+	HRESULT Add_To_GamePlay_Buffer();
+	HRESULT Add_To_GamePlay_Prototype();
+		
 
 		
 };

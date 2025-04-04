@@ -3,10 +3,14 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Headers.h"
-#include "UI_Exp_Bar.h"
-
+enum class UI_TYPE
+{
+    UI_STATIC,
+    UI_DYNAMIC
+};
 class CUI_Manager
 {
+
 public:
     static CUI_Manager* GetInstance()
     {
@@ -24,22 +28,35 @@ private:
     CUI_Manager& operator=(CUI_Manager&&) = delete;
 
 public:
-    void AddUI(const wstring& tag, CUI_Base* pUI)
+    void AddUI(const wstring& tag, CUI_Base* pUI, UI_TYPE eType = UI_TYPE::UI_STATIC)
     {
-        if (m_UIMap.find(tag) != m_UIMap.end())
-        {
-            return;
-        }
-        m_UIMap[tag] = pUI;
+		if (eType == UI_TYPE::UI_STATIC)
+		{
+            if (m_staticUIMap.find(tag) != m_staticUIMap.end())
+            {
+                return;
+            }
+            m_staticUIMap.emplace(tag, pUI);
+		}
+		else
+		{
+            if (m_dynamicUIMap.find(tag) != m_dynamicUIMap.end())
+            {
+                return;
+            }
+
+			m_dynamicUIMap.emplace(tag, pUI);
+		}
     }
 
     CUI_Base* GetUI(const wstring& tag)
     {
-        auto it = m_UIMap.find(tag);
-        if (it != m_UIMap.end())
-        {
-            return it->second;
-        }
+        auto it = m_staticUIMap.find(tag);
+        if (it != m_staticUIMap.end()) return it->second;
+
+        it = m_dynamicUIMap.find(tag);
+        if (it != m_dynamicUIMap.end()) return it->second;
+
         return nullptr;
     }
 
@@ -114,10 +131,15 @@ public:
         static_cast<CUI_Bullet_Bar*>(pUI)->Set_Bullet(type);
     }
 
+    void Clear()
+    {
+         m_dynamicUIMap.clear();
+    }
 
 
 private:
-    unordered_map<wstring, CUI_Base*> m_UIMap;
+    unordered_map<wstring, CUI_Base*> m_staticUIMap;
+    unordered_map<wstring, CUI_Base*> m_dynamicUIMap;
  
 
 };

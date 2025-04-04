@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "Light.h"
 #include "Collider.h"
+#include "GameInstance.h"
+
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -28,7 +30,6 @@ HRESULT CRenderer::Add_Light(CLight* pLight)
 		return E_FAIL;
 	m_Lights.push_back(pLight);
 	Safe_AddRef(pLight);
-
 	return S_OK;
 }
 
@@ -119,6 +120,42 @@ HRESULT CRenderer::Render_NonBlend()
 
 HRESULT CRenderer::Render_Blend()
 {
+	if (!m_RenderObjects[RG_BLEND].empty())
+	{
+		if (CGameInstance::Get_Instance()->Find_Object(3, L"Layer_Camera"))
+		{
+			CTransform* cameraTransform = dynamic_cast<CTransform*>(CGameInstance::Get_Instance()->Find_Object(3, L"Layer_Camera")->Get_Component(L"Com_Transform"));
+			if (cameraTransform)
+			{
+				m_RenderObjects[RG_BLEND].sort([cameraTransform](CGameObject* a, CGameObject* b) -> bool {
+					// 입력 유효성 검사 (선택 사항이지만 권장)
+					if (!a || !b) return false; // 혹은 다른 규칙 적용 (예: nullptr을 뒤로 보내기)
+					CTransform* transformA = static_cast<CTransform*>(a->Get_Component(L"Com_Transform"));
+					CTransform* transformB = static_cast<CTransform*>(b->Get_Component(L"Com_Transform"));
+					if (!transformA || !transformB) return false; // 위와 동일
+
+					// 각 게임 오브젝트의 월드 위치 가져오기
+					_float3 posA = transformA->Get_State(CTransform::STATE_POSITION);
+					_float3 posB = transformB->Get_State(CTransform::STATE_POSITION);
+					_float3 posC = cameraTransform->Get_State(CTransform::STATE_POSITION);
+
+					// 카메라로부터 각 오브젝트까지의 거리 '제곱' 계산
+					// 제곱 거리를 사용하는 이유: sqrt() 함수 호출보다 훨씬 빠르며, 크기 비교 목적으론 충분함
+					// YourVectorType은 D3DXVECTOR3 또는 사용하는 벡터 라이브러리에 맞춰 변경
+
+					_float3 CtoA = posC - posA;
+					_float3 CtoB = posC - posB;
+
+					_float distSqA = D3DXVec3LengthSq(&CtoA); // 아래 Helper 함수 참조
+					_float distSqB = D3DXVec3LengthSq(&CtoB); // 아래 Helper 함수 참조
+
+					// back-to-front 정렬: 거리 제곱이 큰 쪽(더 먼 쪽)이 먼저 오도록 함
+					return distSqA > distSqB;
+					// front-to-back 정렬 (가까운 순서)을 원하면: return distSqA < distSqB;
+					});
+			}
+		}
+	}
 	for (auto& pGameObject : m_RenderObjects[RG_BLEND])
 	{
 		if (nullptr != pGameObject && pGameObject->IsActive())

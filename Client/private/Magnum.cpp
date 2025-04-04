@@ -41,10 +41,10 @@ HRESULT CMagnum::Initialize(void* pArg)
 		return E_FAIL;
 
 	// 일단 Level_GamePlay에서도 비슷한값 넣는중
-	m_Weapon_INFO.WeaponID = WEAPON_ID::ShotGun;
+	m_Weapon_INFO.WeaponID = WEAPON_ID::Magnum;
 	m_Weapon_INFO.vPos = { 0.f,-170.f }; // 샷건 위치
 	m_Weapon_INFO.vSize = { 749,420.f };// 샷건 크기 위에 두개는 일단 밖에서 하는중
-	m_Weapon_INFO.Damage = 1;                // 데미지
+	m_Weapon_INFO.Damage = 20;                // 데미지
 	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
 
@@ -66,30 +66,12 @@ HRESULT CMagnum::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
 	m_fAnimationSpeed = 0.03f; // 애니메이션속도
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+
 
 	__super::Ready_Picking();
 
 	return S_OK;
 }
-
-HRESULT CMagnum::Ready_Icon()
-{
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -100.f,150.f };
-	Image_INFO.vSize = { 74.f,31.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"Magnum";
-	Image_INFO.TextureImageNum = Magnum;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 
 
 void CMagnum::Priority_Update(_float fTimeDelta)
@@ -151,20 +133,19 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 		m_iCurrentFrame = 0;
 		m_fElapsedTime = 0.f;
 		m_bHasFired = false;
-		__super::Picking_Object(5, m_Weapon_INFO.Damage);
+		__super::Picking_Object(1, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo--; 
 		Notify_Bullet();
 		m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
-		int a = 10;
 	}
 }
 
 
 
 
-void CMagnum::Late_Update(_float fTimeDelta)
+void CMagnum::Late_Update(_float fTimeDelta) //요거는 나중에 LEVEL_GAMLPLAY 자리에 겟커렌트 레벨 만들면 댈듯
 {
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == pPlayer)
 		return;
 	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
@@ -175,6 +156,7 @@ void CMagnum::Late_Update(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_Light(m_pLightCom);
 		m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
+		m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
 	}
 }
 
@@ -216,7 +198,7 @@ HRESULT CMagnum::Render()
 
 HRESULT CMagnum::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Magnum"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Magnum"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -230,9 +212,9 @@ HRESULT CMagnum::Ready_Components()
 		return E_FAIL;
 
 
-	//CLight::LIGHT_DESC lDesc = {};
+	CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
-		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom))))
+		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
 		return E_FAIL;
 
 	//CSound_Source::LIGHT_DESC lDesc = {};

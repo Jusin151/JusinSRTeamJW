@@ -44,6 +44,8 @@ void CCollider_Manager::Clear()
 
 void CCollider_Manager::Update_Collison()
 {
+	Update_Collision_Trigger();
+
 	//Collison_Sphere_To_Sphere(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
@@ -51,9 +53,12 @@ void CCollider_Manager::Update_Collison()
 
  	Collison_Cube_To_Cube(m_pColliders[CG_WEAPON], m_pColliders[CG_MONSTER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_ITEM]);
- 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_TRIGGER]);
- 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_TRIGGER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
+	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
+	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
+	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_MONSTER]);
+
+	Update_Collision_Floor();
 
 	Clear();
 }
@@ -70,21 +75,159 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
+				srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+				srcEntry->Set_Depth(0.f);
+				// 특정 속도 이상이면 여러번 체크하도록 count를 정하기
+				_int iCount = 0;
+
+				_bool bCollision = false;
+				
+				// c
+				iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
+				
+
+				_float3 originalPos = srcEntry->Get_State(CTransform::STATE_POSITION);
+
+				for (_int step = 0; step <= iCount; ++step)
 				{
 
-					if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
+					_float3 testPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length() * (float(step) / iCount);
+					srcEntry->Set_State(CTransform::STATE_POSITION, testPos);
+
+					for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
 					{
-						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
-						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+						dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+						dstEntry->Set_Depth(0.f);
+
+						
+
+						// AABB 충돌 검사
+						if (!Calc_AABB(srcEntry, dstEntry))
+							continue;
+
+						// 실제 충돌 검사
+						if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+						{
+							
+								srcEntry->Get_Owner()->Set_NextPos(testPos);
+
+								// 충돌 처리
+								srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+								dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+
+								// Collider 업데이트 (트랜스폼 적용)
+								srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+
+								bCollision = true;
+								break;
+							
+						}
 					}
+					if (bCollision)
+					{
+						_float3 vMtv = srcEntry->Get_MTV().GetNormalized();
+						_float3 vDir = srcEntry->Get_Owner()->Get_Dir();
+
+						if (vMtv.Dot(vDir) > 0)
+						{
+							srcEntry->Set_MTV(-srcEntry->Get_MTV());
+						}
+
+						srcEntry->Get_Owner()->Set_NextPos(testPos);
+						break;
+					}
+				}
+
+				// 만약 충돌이 없었다면, 이동한 다음 위치로 업데이트
+				if (!bCollision)
+				{
+					srcEntry->Set_MTV(_float3(0.f, 0.f, 0.f));
+					_float3 nextPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length();
+					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+					pTrans->Set_State(CTransform::STATE_POSITION, nextPos);
+		
+				}
+
+
+				
+			}
+		}
+
+	}
+}
+
+void CCollider_Manager::Update_Collision_Trigger()
+{
+	for (auto& srcEntry : m_pColliders[CG_MONSTER])
+	{
+		if (nullptr != srcEntry->Get_Owner()->Get_Trigger())
+			continue;
+		for (auto& dstEntry : m_pColliders[CG_TRIGGER])
+		{
+			if (Calc_AABB(srcEntry, dstEntry))
+			{
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+			}
+			
+		}
+	}
+
+	for (auto& srcEntry : m_pColliders[CG_PLAYER])
+	{
+		for (auto& dstEntry : m_pColliders[CG_TRIGGER])
+		{
+			if (Calc_AABB(srcEntry, dstEntry))
+			{
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+			}
+			
+		}
+	}
+}
+
+void CCollider_Manager::Update_Collision_Floor()
+{
+	for (int i = 0; i < CG_STRUCTURE_WALL; ++i)
+	{
+		if (i == CG_WEAPON)
+			continue;
+
+		if (i == CG_MONSTER_PROJECTILE_CUBE || i == CG_MONSTER_PROJECTILE_SPHERE ||
+			i == CG_PLAYER_PROJECTILE_CUBE || i == CG_PLAYER_PROJECTILE_SPHERE)
+		{
+			for (auto srcEntry : m_pColliders[i])
+			{
+				_float fY = 0.f;
+				if (!Check_Floor_Ray(srcEntry, fY))
+				{
+					srcEntry->Get_Owner()->SetActive(false);
+				}
+			}
+		}
+		else
+		{
+			for (auto srcEntry : m_pColliders[i])
+			{
+				_float fY = 0.f;
+				if (Check_Floor_Ray(srcEntry, fY))
+				{
+					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+
+					_float3 vPos = pTrans->Get_State(CTransform::STATE_POSITION);
+
+					vPos.y = fY + pTrans->Compute_Scaled().y * 0.5f;
+
+					pTrans->Set_State(CTransform::STATE_POSITION, vPos);
 
 				}
 			}
 		}
 
+		
 	}
+
 }
 
 void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCollider*> dst)
@@ -94,15 +237,24 @@ void CCollider_Manager::Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCo
 
 	for (auto& srcEntry : src)
 	{
+		srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+		srcEntry->Set_Depth(0.f);
+
+		_bool bCollision = false;
+
 		for (auto& dstEntry : dst)
 		{
+			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+			dstEntry->Set_Depth(0.f);
+
 			if (Calc_Sphere_To_Sphere(srcEntry, dstEntry))
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-
+				bCollision = true;
 			}
 		}
+
 	}
 }
 
@@ -113,8 +265,16 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 
 	for (auto& srcEntry : src)
 	{
+		srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+		srcEntry->Set_Depth(0.f);
+
 		for (auto& dstEntry : dst)
 		{
+			if (srcEntry == dstEntry)
+				continue;
+
+			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+			dstEntry->Set_Depth(0.f);
 			if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
@@ -180,7 +340,7 @@ _bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 {
-	
+
 	_float srcRadius = src->Get_Radius();
 	_float3 srcPos = src->Get_State(CTransform::STATE_POSITION);
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
@@ -216,27 +376,13 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 	edges.push_back({ corners[2], corners[7] });
 	edges.push_back({ corners[3], corners[6] });
 
+	_float3 fMin = dstDesc.fMin;
+	_float3 fMax = dstDesc.fMax;
+	
 
-	// 1. 각 꼭지점의 최대 최소를 구하고 
-	// 최소에는 반지름을 빼주고 최대에는 반지름을 더함
-	// 그 후 구의 중심이 사이에 있는지 체크
-	_float3 minCorner = corners[0];
-	_float3 maxCorner = corners[0];
-
-	for (const auto& corner : corners)
-	{
-		minCorner.x = min(minCorner.x, corner.x);
-		minCorner.y = min(minCorner.y, corner.y);
-		minCorner.z = min(minCorner.z, corner.z);
-
-		maxCorner.x = max(maxCorner.x, corner.x);
-		maxCorner.y = max(maxCorner.y, corner.y);
-		maxCorner.z = max(maxCorner.z, corner.z);
-	}
-
-	if (srcPos.x < minCorner.x - srcRadius || srcPos.x > maxCorner.x + srcRadius ||
-		srcPos.y < minCorner.y - srcRadius || srcPos.y > maxCorner.y + srcRadius ||
-		srcPos.z < minCorner.z - srcRadius || srcPos.z > maxCorner.z + srcRadius)
+	if (srcPos.x < fMin.x - srcRadius || srcPos.x > fMax.x + srcRadius ||
+		srcPos.y < fMin.y - srcRadius || srcPos.y > fMax.y + srcRadius ||
+		srcPos.z < fMin.z - srcRadius || srcPos.z > fMax.z + srcRadius)
 	{
 		return false; // AABB 밖에 있으므로 충돌 없음
 	}
@@ -274,7 +420,7 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 		_float distanceToPlane = diff.Dot(norVec); // 점과 평면 사이의 거리
 
 		// 거리 절댓값이 반지름보다 작으면 충돌
-		if (abs(distanceToPlane) <= srcRadius) 
+		if (abs(distanceToPlane) <= srcRadius)
 		{
 			_float penetrationDepth = srcRadius - abs(distanceToPlane);
 
@@ -319,7 +465,7 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 					fDepth = mtvLength;
 					mtv = direction * mtvLength;
 				}
-				
+
 			}
 			else  //  만약 distVec == 0이면 기본 방향 적용
 			{
@@ -345,7 +491,6 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 {
 
-	setAxes.clear();
 	// 큐브 큐브 사이 거리가, 큐브와 큐브를 외접하는 두 구의 반지름 합보다 길면 true
 	// 아니면 false
 
@@ -362,6 +507,8 @@ _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 {
+	setAxes.clear();
+
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
@@ -508,73 +655,55 @@ _bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 		if ((fSrcMax < fDstMin || fDstMax < fSrcMin)) // 범위가 안겹치면 충돌 안함
 			return false;
 
-		// 겹치는 범위를 계산해서 가장 작게 겹치는 걸 이제 mtv로
-		_float penetration = min(fSrcMax - fDstMin, fDstMax - fSrcMin);
+
+		// penetration 방향 결정
+		_float penetration1 = fSrcMax - fDstMin;
+		_float penetration2 = fDstMax - fSrcMin;
+		_float penetration;
+		_float3 axisDir;
+
+		if (penetration1 < penetration2)
+		{
+			penetration = penetration1;
+			axisDir = axis;  // 정방향
+		}
+		else
+		{
+			penetration = penetration2;
+			axisDir = -axis;  // 반대방향
+		}
 
 		if (penetration < fDepth)  // 가장 작은 penetration을 저장
 		{
 			fDepth = penetration;
-			bestAxis = axis;
-			src->Set_MTV(-bestAxis);
-			dst->Set_MTV(bestAxis);
-			src->Set_Depth(fDepth);
-			dst->Set_Depth(fDepth);
+			bestAxis = axisDir;
 		}
 	}
+
+	if (fDepth == FLT_MAX)
+		return false;
+
+	src->Set_MTV(-bestAxis.GetNormalized() * fDepth);
+	dst->Set_MTV(bestAxis.GetNormalized() * fDepth);
+	src->Set_Depth(fDepth);
+	dst->Set_Depth(fDepth);
+
 
 	return true;
 }
 
 _bool CCollider_Manager::Calc_AABB(CCollider* src, CCollider* dst)
 {
-	//_float3 fDir = src->Get_State(CTransform::STATE_POSITION) - dst->Get_State(CTransform::STATE_POSITION);
-
-	//CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	//CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
-
-	//// 반지름 계산 or 가져와서 이제 처리
-	//_float fRadiusSrc = srcDesc.fRadius;
-	//_float fRadiusDst = dstDesc.fRadius;
-
-	//_float fLengthSq = fDir.LengthSq();
-
-
-	//// 반지름 합보다 길이 합이 짧으면 충돌
-	//if ((fRadiusSrc + fRadiusDst) * (fRadiusSrc + fRadiusDst) >= fLengthSq)
-	//{
-
-	//	// 충돌 시 MTV 계산
-	//	fDir.Normalize();
-	//	_float fOverlap = fRadiusSrc + fRadiusDst - sqrtf(fLengthSq);  // 겹친 정도 (겹친 길이)
-
-	//	// MTV 계산 (두 구가 겹치는 정도만큼 이동)
-	//	src->Set_MTV(fDir * fOverlap * 0.5f);
-	//	dst->Set_MTV(-fDir * fOverlap * 0.5f);
-
-	//	return true;
-	//}
-	//else
-	//	return false;
 
 	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
 	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
-	// AABB의 최소값(min)과 최대값(max)을 계산
-	_float3 srcMin = { FLT_MAX, FLT_MAX, FLT_MAX };
-	_float3 srcMax = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
-	for (const auto& p : srcDesc.vecIndices)
-	{
-		srcMin = min(srcMin, p);
-		srcMax = max(srcMax, p);
-	}
+	_float3 srcMin = srcDesc.fMin;
+	_float3 srcMax = srcDesc.fMax;
 
-	_float3 dstMin = { FLT_MAX, FLT_MAX, FLT_MAX };
-	_float3 dstMax = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
-	for (const auto& p : dstDesc.vecIndices)
-	{
-		dstMin = min(dstMin, p);
-		dstMax = max(dstMax, p);
-	}
+	_float3 dstMin = dstDesc.fMin;
+	_float3 dstMax = dstDesc.fMax;
+	
 
 	if (srcMax.x < dstMin.x || dstMax.x < srcMin.x ||
 		srcMax.y < dstMin.y || dstMax.y < srcMin.y ||
@@ -583,49 +712,50 @@ _bool CCollider_Manager::Calc_AABB(CCollider* src, CCollider* dst)
 		return false; // 충돌 없음
 	}
 
-	// 충돌 발생 시 MTV 계산
-	_float3 mtv = { 0.f, 0.f, 0.f };
-	_float depth = FLT_MAX;
-
-	// x축에서 겹치는 정도 계산
-	if (srcMax.x > dstMin.x && srcMin.x < dstMax.x)
-	{
-		_float xPenetration = min(srcMax.x - dstMin.x, dstMax.x - srcMin.x);
-		if (xPenetration < depth)
-		{
-			depth = xPenetration;
-			mtv.x = (srcDesc.fPos.x < dstDesc.fPos.x) ? -xPenetration : xPenetration;
-		}
-	}
-
-	// y축에서 겹치는 정도 계산
-	if (srcMax.y > dstMin.y && srcMin.y < dstMax.y)
-	{
-		_float yPenetration = min(srcMax.y - dstMin.y, dstMax.y - srcMin.y);
-		if (yPenetration < depth)
-		{
-			depth = yPenetration;
-			mtv.y = (srcDesc.fPos.y < dstDesc.fPos.y) ? -yPenetration : yPenetration;
-		}
-	}
-
-	// z축에서 겹치는 정도 계산
-	if (srcMax.z > dstMin.z && srcMin.z < dstMax.z)
-	{
-		_float zPenetration = min(srcMax.z - dstMin.z, dstMax.z - srcMin.z);
-		if (zPenetration < depth)
-		{
-			depth = zPenetration;
-			mtv.z = (srcDesc.fPos.z < dstDesc.fPos.z) ? -zPenetration : zPenetration;
-		}
-	}
-
-	// MTV를 각각 src와 dst에 적용하여 객체를 밀어준다
-	src->Set_MTV(mtv);
-	dst->Set_MTV(-mtv); // dst는 반대 방향으로 밀기
-
 	// 충돌 발생
 	return true;
+}
+
+_bool CCollider_Manager::Check_Floor_Ray(CCollider* src, _float& fY)
+{
+	for (auto& entry : m_pColliders[CG_STRUCTURE_FLOOR])
+	{
+		CCollider_Cube::COL_CUBE_DESC entryDesc = static_cast<CCollider_Cube*>(entry)->Get_Desc();
+
+		_float3 vPos = src->Get_State(CTransform::STATE_POSITION);
+		_float3 vDir = { 0.f, -1.f, 0.f };
+
+
+		_float3 vColliderPos = entry->Get_State(CTransform::STATE_POSITION);
+		_float3 vNormal = { 0.f, 1.f, 0.f }; // 바닥의 법선벡터
+
+		// 평면 방정식: Ax + By + Cz + D = 0 (여기서 법선 = (A, B, C))
+		_float D = -(vNormal.x * vColliderPos.x + vNormal.y * vColliderPos.y + vNormal.z * vColliderPos.z);
+
+		float denominator = vNormal.x * vDir.x + vNormal.y * vDir.y + vNormal.z * vDir.z;
+		if (fabs(denominator) > 1e-6) // 0이 아니어야 함 (수직이 아닌 경우)
+		{
+			float t = -(vNormal.x * vPos.x + vNormal.y * vPos.y + vNormal.z * vPos.z + D) / denominator;
+			if (t >= 0.f) // 교차 지점이 레이의 방향에 있음
+			{
+				_float3 vIntersection = { vPos.x + t * vDir.x, vPos.y + t * vDir.y, vPos.z + t * vDir.z };
+
+				// aabb로 콜라이더가 안에 있는지 판단
+				if (vIntersection.x >= entryDesc.fMin.x && vIntersection.x <= entryDesc.fMax.x &&
+					vIntersection.z >= entryDesc.fMin.z && vIntersection.z <= entryDesc.fMax.z)
+				{
+					fY = vPos.y + t * vDir.y;
+					return true;
+				}
+				
+				
+			}
+		}
+
+	}
+
+
+	return false;
 }
 
 CCollider_Manager* CCollider_Manager::Create()

@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "GameInstance.h"
 #include "Collider_Cube.h"
-#include "Player.h"
 
 
 CHarpoon::CHarpoon(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -58,7 +57,6 @@ void CHarpoon::Update(_float fTimeDelta)
 
 	m_fRotateTime += fTimeDelta;
 
-	CPlayer* m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player")));
 	m_pTransformCom->LookAt(m_vPos - m_vDir);
 	
 	m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), D3DXToRadian(-90.f));
@@ -128,9 +126,11 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 		Take_Damage(other);
 		m_bIsActive = false;
 		
-
 		break;
 	case CG_STRUCTURE_WALL:
+		m_bIsActive = false;
+		break;
+	case CG_DOOR:
 		m_bIsActive = false;
 		break;
 	default:

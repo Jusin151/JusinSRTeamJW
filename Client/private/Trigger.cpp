@@ -55,25 +55,13 @@ void CTrigger::Update(_float fTimeDelta)
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 	}
 
-	if (m_eTriggerType == TRIGGER_TYPE::INTERACTION)
-	{
-		if (m_pTargetObject&& m_pTargetObject->IsMoving())
-		{
-			for (auto& monster : m_setMonsters)
-			{
-				monster->SetActive(true);
-			}
-			m_setMonsters.clear();
-		}
-	}
-
-	if(!m_bInitMonsters)
 	// 게임 인스턴스의 충돌 확인 시스템에 콜라이더 추가
 	m_pGameInstance->Add_Collider(CG_TRIGGER, m_pColliderCom);
 }
 
 void CTrigger::Late_Update(_float fTimeDelta)
 {
+	if(m_eTriggerType == TRIGGER_TYPE::BUTTON)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
@@ -129,22 +117,8 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	}
 	case TRIGGER_TYPE::INTERACTION:
 	{
-		if (!m_bInitMonsters)
-		{
-			m_setMonsters.insert(other);
 
-			if (m_iPrevSize == m_setMonsters.size())
-			{
-				m_bInitMonsters = true;
-				for (auto& monster : m_setMonsters)
-				{
-					monster->SetActive(false);
-				}
-				break;
-			}
-			m_iPrevSize = m_setMonsters.size();
-
-		}
+		other->Set_Trigger(this);
 
 		break;
 	}

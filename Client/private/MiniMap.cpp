@@ -225,7 +225,7 @@ HRESULT CMiniMap::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false); // 조명 상태 복원
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true); // 조명 상태 복원
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix); // 뷰 행렬 복원
 	return S_OK;

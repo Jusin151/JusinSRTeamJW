@@ -1,0 +1,6 @@
+idle 0
+hit 1
+back 2
+walk 3 ~ 8
+attack 9 ~ 17 
+death 18 ~ 27

@@ -14,8 +14,25 @@
 #include "Item.h"
 #include "Trigger.h"
 #include "Harpoonguy.h"
+#include "Yeti.h"
+#include "Snowspider.h"
+#include "Glacier.h"
+#include "GlacierBullet.h"
 #include "Door.h"
 #include "Effects.h"
+
+
+
+#include "UI_Headers.h" // UI 헤더들 
+#include "Hub_Headers.h" // 허브 헤더들
+#include <Weapon_Base.h>
+#include "Weapon_Effect.h"
+#include "Staff_Bullet.h"
+#include "Image.h"
+#include "Inven_UI.h"
+#include "Level_Hub.h"
+#include "Harvester.h"
+
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath)
@@ -111,7 +128,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 	}
 
 	json j;
-	file >> j;
+	 	file >> j;
 
 	for (const auto& item : j["layers"].items())
 	{
@@ -280,6 +297,10 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 #pragma region Player
 	if (className == "CPlayer")
 		return CPlayer::Create(pGraphic_Device);
+	else if (className == "CInventory")
+		return CInventory::Create(pGraphic_Device);
+
+
 #pragma endregion
 
 #pragma region Camera
@@ -313,14 +334,18 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CUI_Bullet_Bar::Create(pGraphic_Device);
 	else if (className == "CUI_Menu")
 		return CUI_Menu::Create(pGraphic_Device);
+	else if (className == "CUI_Exp_Bar")
+		return CUI_Exp_Bar::Create(pGraphic_Device);
+	else if (className == "CUI_Event")
+		return CUI_Event::Create(pGraphic_Device);
 	else if (className == "CGamePlay_Button")
 		return CGamePlay_Button::Create(pGraphic_Device);
 	else if (className == "CUI_Spell_Shop")
 		return CUI_Spell_Shop::Create(pGraphic_Device);
-	else if (className == "CUI_Spell_Shop")
-		return CUI_Spell_Shop::Create(pGraphic_Device);
-	else if (className == "CUI_Spell_Shop")
-		return CUI_Spell_Shop::Create(pGraphic_Device);
+	else if (className == "CImage")
+		return CImage::Create(pGraphic_Device);
+	else if (className == "CInven_UI")
+		return CInven_UI::Create(pGraphic_Device);
 #pragma endregion
 
 #pragma region Weapons
@@ -334,6 +359,14 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CStaff::Create(pGraphic_Device);
 	else if (className == "CShotGun")
 		return CShotGun::Create(pGraphic_Device);
+	else if (className == "CMinigun")
+		return CMinigun::Create(pGraphic_Device);
+	else if (className == "CHarvester")
+		return CHarvester::Create(pGraphic_Device);
+	else if (className == "CSonic")
+		return CSonic::Create(pGraphic_Device);
+	else if (className == "CStaff_Bullet")
+		return CStaff_Bullet::Create(pGraphic_Device);
 #pragma endregion
 
 #pragma region Monsters
@@ -343,8 +376,16 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CCrocman::Create(pGraphic_Device);
 	else if (className == "CHarpoonguy")
 		return CHarpoonguy::Create(pGraphic_Device);
+	else if (className == "CYeti")
+		return CYeti::Create(pGraphic_Device);
+	else if (className == "CSnowspider")
+		return CSnowspider::Create(pGraphic_Device);
+	else if (className == "CGlacier")
+		return CGlacier::Create(pGraphic_Device);
 	else if (className == "CHarpoon")
-		return CHarpoon::Create(pGraphic_Device);
+	return CHarpoon::Create(pGraphic_Device);
+	else if (className == "CGlacierBullet")
+		return CGlacierBullet::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")

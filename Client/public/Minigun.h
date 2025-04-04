@@ -56,8 +56,6 @@ public:
 	_float m_fHoldTime = {};
 
 
-	// CRanged_Weapon을(를) 통해 상속됨
-	HRESULT Ready_Icon() override;
 
 
 	// CRanged_Weapon을(를) 통해 상속됨

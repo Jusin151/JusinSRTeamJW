@@ -43,7 +43,7 @@ HRESULT CUI_Episode_Hub::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
-	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this);
+	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this, UI_TYPE::UI_DYNAMIC);
 
 	return S_OK;
 }
@@ -75,7 +75,7 @@ void CUI_Episode_Hub::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_Episode_Hub::Ready_Texture()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub_UI"),
+	if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Episode_Hub_UI"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 	return S_OK;
@@ -127,14 +127,14 @@ void CUI_Episode_Hub::Create_Episode_Select_Button() //초록색 셀렉트 버�
 		vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::EPISODE_BUTTON_SELECTED;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(
-			LEVEL_GAMEPLAY,
+			LEVEL_HUB,
 			TEXT("Prototype_GameObject_GamePlayer_Button"),
-			LEVEL_GAMEPLAY,
+			LEVEL_HUB,
 			vecButtonDescs[index].strUIName,
 			&vecButtonDescs[index])))
 			continue;
 
-		CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+		CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(LEVEL_HUB, vecButtonDescs[index].strUIName.c_str()));
 		if (pButton)
 		{
 			m_vecButtons.push_back(pButton);
@@ -187,15 +187,15 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 		vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::EPISODE_BUTTON_MAP_IMAGE;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(
-			LEVEL_GAMEPLAY,
+			LEVEL_HUB,
 			TEXT("Prototype_GameObject_GamePlayer_Button"),
-			LEVEL_GAMEPLAY,
+			LEVEL_HUB,
 			vecButtonDescs[index].strUIName,
 			&vecButtonDescs[index])))
 			continue;
 
 		CGamePlay_Button* pButton = static_cast<CGamePlay_Button*>(m_pGameInstance->Find_Object(
-			LEVEL_GAMEPLAY, vecButtonDescs[index].strUIName.c_str()));
+			LEVEL_HUB, vecButtonDescs[index].strUIName.c_str()));
 		if (pButton)
 		{
 			m_vecMapButtons.push_back(pButton);
@@ -214,8 +214,8 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 							if (m_vecMapButtons.size() > SECOND_NORMAL_MAP &&
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
 							{
-								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Portal"),
-									LEVEL_GAMEPLAY, TEXT("Layer_Portal"))))
+								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Portal"),
+									LEVEL_HUB, TEXT("Layer_Portal"))))
 									return;
 
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;

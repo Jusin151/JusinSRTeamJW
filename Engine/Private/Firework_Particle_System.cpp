@@ -30,9 +30,9 @@ HRESULT CFirework_Particle_System::Initialize(void* pArg)
 
 	
 
-	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
+	//PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath, };
 
-	if (FAILED(__super::Initialize(&pDesc)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	
 	for (_uint i = 0; i < desc.iNumParticles; ++i)
@@ -60,6 +60,7 @@ void CFirework_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 	pAttribute->fAge = 0.0f;
 	pAttribute->fLifetime = 2.0f; // lives for 2 seconds
 	pAttribute->fSize = m_fSize;
+	pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
 }
 
 void CFirework_Particle_System::Update(float fTimeDelta)
