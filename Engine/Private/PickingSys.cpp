@@ -232,7 +232,6 @@ bool CPickingSys::Ray_Intersection(CCollider* pCollider, _float3* pOutHitPos)
         return false;
     }
     return false;
-    return false;
 }
 
 _float3 CPickingSys::Get_Mouse_Effect()

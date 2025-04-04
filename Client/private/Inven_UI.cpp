@@ -31,7 +31,7 @@ HRESULT CInven_UI::Initialize(void* pArg)
 
 	CUI_Manager::GetInstance()->AddUI(L"Inven_UI", this);
 
-	m_pWeaponIcon.reserve(8);
+	m_pWeaponIcon.resize(8);
 	return S_OK;
 }
 
@@ -43,6 +43,8 @@ void CInven_UI::Priority_Update(_float fTimeDelta)
 	{
 		for (auto& it : m_pWeaponIcon)
 		{
+			if (nullptr == it)
+				continue;
 			it->SetActive(false);
 		}
 

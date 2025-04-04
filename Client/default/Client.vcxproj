@@ -170,13 +170,19 @@
     <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
+    <ClInclude Include="..\public\CBehaviorTree.h" />
+    <ClInclude Include="..\public\CCompositeNode.h" />
     <ClInclude Include="..\public\Claymore.h" />
+    <ClInclude Include="..\public\CNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
+    <ClInclude Include="..\public\CTaskNode.h" />
+    <ClInclude Include="..\public\Cthulhu.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\HellBoss.h" />
     <ClInclude Include="..\public\Level_Hong.h" />
+    <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
@@ -202,7 +208,6 @@
     <ClInclude Include="..\public\Hub_SpellShop.h" />
     <ClInclude Include="..\public\Hub_WeaponShop.h" />
     <ClInclude Include="..\public\Image_Manager.h" />
-    <ClInclude Include="..\Public\Inven_UI.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Image.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
@@ -276,12 +281,14 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\privateCthulhu.cpp" />
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
+    <ClCompile Include="..\private\CBehaviorTree.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
@@ -364,6 +371,7 @@
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
+    <ClCompile Include="..\public\Cthulhu.cpp" />
     <ClCompile Include="..\private\Yeti.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />
     <ClCompile Include="Client.cpp" />

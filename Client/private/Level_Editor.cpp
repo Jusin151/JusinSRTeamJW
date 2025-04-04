@@ -32,8 +32,8 @@ HRESULT CLevel_Editor::Initialize()
 	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 	//	return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
 
 	CJsonLoader jsonLoader;
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1.json", LEVEL_EDITOR);
@@ -132,15 +132,15 @@ HRESULT CLevel_Editor::Ready_Layer_BackGround(const _wstring& strLayerTag)
 
 
 HRESULT CLevel_Editor::Ready_Layer_Camera(const _wstring& strLayerTag)
-{
+{/*
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_EDITOR, TEXT("Prototype_GameObject_Camera_FirstPerson"),
 		LEVEL_EDITOR, strLayerTag)))
+		return E_FAIL;*/
+
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_Free"),
+		LEVEL_EDITOR, strLayerTag)))
 		return E_FAIL;
-
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_EDITOR, TEXT("Prototype_GameObject_Camera_Free"),
-	//	LEVEL_EDITOR, strLayerTag)))
-	//	return E_FAIL;
 	return S_OK;
 }
 
