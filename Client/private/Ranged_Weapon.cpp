@@ -123,11 +123,11 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     {
         for (auto* collider : group)
         {
-            // 유효성 검사
+       
             if (!collider || !collider->Get_Owner())
                 continue;
 
-            // 플레이어나 바닥 레이어는 무시
+     
             const wstring& tag = collider->Get_Owner()->Get_Tag();
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
                 continue;
@@ -355,7 +355,7 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
     // 5. 카메라 위치 가져오기 (캐싱 사용 권장)
     // CTransform* pCameraTransform = m_pGameInstance->GetCachedCameraTransform(); // 캐싱된 포인터 사용 예시
     CTransform* pCameraTransform = dynamic_cast<CTransform*>(
-        m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform")); // 기존 방식
+        m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform")); // 기존 방식
     if (!pCameraTransform) return; // 카메라 없으면 종료 (또는 기본값 처리)
     _float3 vCamPos = pCameraTransform->Get_State(CTransform::STATE_POSITION);
 

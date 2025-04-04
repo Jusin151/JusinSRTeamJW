@@ -48,7 +48,7 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 	m_vInitialPos = m_Staff_INFO.vPos;
 
-	// 초기화 시 설정
+	// 초기화 시 설정ㅠㅜ
 	m_TextureRanges["Idle"] = { 0,0 };
 	m_TextureRanges["Firing"] = { 1, 4 };
 	m_TextureRanges["Reloading"] = { 5, 26 };
