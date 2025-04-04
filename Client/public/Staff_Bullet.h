@@ -38,6 +38,7 @@ private:
 	_float3				m_vDir = {};
 	CParticle_System*	m_pParticleCom = { nullptr };
 	CTransform*			m_pParticleTransformCom = { nullptr };
+	CLight*				m_pLightCom = { nullptr };
 
 public:
 	static CStaff_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

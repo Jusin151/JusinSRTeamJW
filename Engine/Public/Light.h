@@ -39,10 +39,12 @@ public:
 public:
 	virtual HRESULT Initialize_Prototype(LIGHTTYPE eType);
 	virtual HRESULT Initialize(void* pArg);
-
 public:
 	HRESULT Bind_Resouce(_uint iIndex);
 	virtual void Reset() {}; // 차후에 오브젝트 풀링때 SetActive가 true가 될 때 기본정보 다시 셋팅을 위한 함수
+
+public:
+	void DecreaseIntensity(_uint iFrame);
 	
 private:
 	LIGHT_DESC	m_tInfo = {};

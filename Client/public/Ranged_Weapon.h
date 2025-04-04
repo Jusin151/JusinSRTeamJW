@@ -44,18 +44,24 @@ protected:
 public:
     virtual HRESULT Initialize_Prototype()PURE;
     virtual HRESULT Initialize(void* pArg)PURE;
+    virtual HRESULT Ready_Components();
+public:
     virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta);
     virtual void Late_Update(_float fTimeDelta);
+public:
     virtual HRESULT Render()override;
-    virtual HRESULT Ready_Components();
+public:
     virtual HRESULT Ready_Picking();
     virtual HRESULT Picking_Object(_uint EffectNum,_uint Damage);
     void Wall_Picking(CCollider* pCollider, _uint EffectNum);
     void Monster_Hit(CCollider* pCollider, _uint Damage);
-    void Free();
+    void CreateHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage);
+public:
     CGameObject* Clone(void* pArg) override;
-    virtual HRESULT Ready_Icon()PURE;
+    void Free();
+    
+    
 protected: 
     Ranged_DESC Ranged_INFO = {};
     _bool m_bAttackInput = { false };

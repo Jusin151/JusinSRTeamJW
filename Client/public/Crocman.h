@@ -25,7 +25,7 @@ public:
 	// 일정 거리 까지 쫓아가거나, 일정 거리 이내면 콜라이더 생성해서 공격하도록
 	virtual void Select_Pattern(_float fTimeDelta) override;
 
-	void Chasing(_float fTimeDelta);
+	
 	void Attack_Melee(_float fTimeDelta);
 
 	// 각 상태에 맞게 프레임을 설정함
@@ -43,7 +43,7 @@ private:
 	// 공격 때 만들 콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
 
-	_float3			m_vOldPos = {};
+	
 
 public:
 	static CCrocman* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

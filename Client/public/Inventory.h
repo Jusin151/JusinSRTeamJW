@@ -158,10 +158,10 @@ protected:
     CTransform* m_pTransformCom = { nullptr };
 private:
 
-    unordered_map<wstring, CWeapon_Base*> m_WeaponMap;
+    unordered_map<wstring, CWeapon_Base*> m_WeaponMap{};
      CWeapon_Base* m_pItem = { nullptr };
     // CInven_UI* m_pInven_UI = { nullptr };
-     vector<CWeapon_Base*> m_vecpWeapons{ 8, nullptr };
+      vector<CWeapon_Base*> m_vecpWeapons{ 8, nullptr };
 	 unordered_map<wstring, _bool> m_MapItem; //
 private:
      Inven_DESC m_Inven_INFO{};
@@ -170,7 +170,7 @@ private:
     _float fElapsedTime{};
     _bool bFirstUpdate = {};
     _bool m_bFristInit = {};
-    _float m_fNoInputAccTime = 0.f;
+    _float m_fNoInputAccTime = { 0.f };
     _bool bInputReceived = {};
     _bool m_bKeyPressed = { false };
 private:

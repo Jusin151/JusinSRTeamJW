@@ -109,7 +109,8 @@ public:
     _float2 Get_Position() const { return m_vPos; }
     _float2 Get_Size() const { return m_vSize; }
     _float Get_Alpha() const { return m_fAlpha; }
-    _bool  Get_MouseClick() const { return m_bIsMouseClick; }
+    _bool  Get_MouseClick() const { 
+        return m_bIsMouseClick; }
     void   Set_MouseClick(_bool type) { m_bIsMouseClick = type; }
     virtual wstring GetLayerID() { return L"Default"; }
 

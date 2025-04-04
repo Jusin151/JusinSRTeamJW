@@ -29,7 +29,8 @@ HRESULT CHub_Portal::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+   
+    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 
     m_pPlayer = static_cast<CPlayer*>(m_pPlayer);
     if (m_pPlayer == nullptr)
@@ -71,19 +72,7 @@ void CHub_Portal::Update(_float fTimeDelta)
     if (SUCCEEDED(On_Collision()))
     {
         
-        if (GetAsyncKeyState('F') & 0x8000)
-        {
-            if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-                CLevel_Loading::Create(m_pGraphic_Device, LEVEL_LOGO))))
-                return;
-            return;
-        }
-
-
     }
-
-
-
 }
 
 
@@ -225,7 +214,7 @@ HRESULT CHub_Portal::Ready_Components()
         return E_FAIL;
 
     ///* Texture Component */
-     if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,TEXT("Prototype_Component_Texture_Portal"),
+     if (FAILED(__super::Add_Component(LEVEL_HUB,TEXT("Prototype_Component_Texture_Portal"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
          return E_FAIL;
 

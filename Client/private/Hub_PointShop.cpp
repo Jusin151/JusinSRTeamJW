@@ -27,14 +27,14 @@ HRESULT CHub_PointShop::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
-		return E_FAIL;
+   		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(1.5f, 0.6f, 0.5f));
 
 	m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
 	if (auto pPointShopUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Point_Shop_UI")))
-		Add_Observer(pPointShopUI);
+ 		Add_Observer(pPointShopUI);
 
 	return S_OK;
 }
@@ -169,7 +169,7 @@ _bool CHub_PointShop::Can_Purchase(_uint iItemID, _uint iCount)
 HRESULT CHub_PointShop::Ready_Components()
 {
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Point_Shop"),
+	if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Point_Shop"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

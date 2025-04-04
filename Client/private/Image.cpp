@@ -105,7 +105,7 @@ HRESULT CImage::Render()
 
 HRESULT CImage::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,m_Image_INFO.TextureKey,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,m_Image_INFO.TextureKey,
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 

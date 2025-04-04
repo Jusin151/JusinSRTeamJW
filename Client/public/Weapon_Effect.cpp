@@ -108,8 +108,8 @@ HRESULT CWeapon_Effect::Render()
 
 	Release_RenderState();
 
-	if (FAILED(m_pParticleCom->Render()))
-		return E_FAIL;
+	/*if (FAILED(m_pParticleCom->Render()))
+		return E_FAIL;*/
 	
 
 
@@ -119,7 +119,7 @@ HRESULT CWeapon_Effect::Render()
 
 HRESULT CWeapon_Effect::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Weapon_Effect"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Weapon_Effect"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -139,6 +139,7 @@ HRESULT CWeapon_Effect::Ready_Components()
 	FireworkDesc.vOrigin = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	FireworkDesc.iNumParticles = 100;
 	FireworkDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+	FireworkDesc.iNumTextures = 1;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
@@ -154,7 +155,7 @@ CWeapon_Effect* CWeapon_Effect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("웨폰이펙트 UI 원본 생성 실패 ");
+		MSG_BOX("웨폰이펙트  원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -170,7 +171,7 @@ CGameObject* CWeapon_Effect::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("웨폰이펙트 UI 복제 실패");
+		MSG_BOX("웨폰이펙트  복제 실패");
 
 		Safe_Release(pInstace);
 	}

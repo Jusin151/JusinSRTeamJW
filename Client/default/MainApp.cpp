@@ -16,11 +16,29 @@
 #include "Sky.h"
 #include "MiniMap.h"
 #include "StructureManager.h"
+#include "Terrain.h"
+#include "Camera_Free.h"
+#include "Camera_FirstPerson.h"
+#include "Player.h"
+#include "UI_Headers.h" // UI 헤더들 
+#include "Hub_Headers.h" // 허브 헤더들
+#include <Weapon_Base.h>
+#include "GamePlay_Button.h"
+#include "JsonLoader.h"
+#include "Weapon_Effect.h"
+#include "Staff_Bullet.h"
+#include "Image.h"
+#include "Inven_UI.h"
+#include "Level_Hub.h"
+
 
 CMainApp::CMainApp()
-	: m_pGameInstance{ CGameInstance::Get_Instance() }
-{
+	: m_pGameInstance{ CGameInstance::Get_Instance() },
+	m_pPickingSys{ CPickingSys::Get_Instance() }
+{ 
+	
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pPickingSys);
 }
 
 HRESULT CMainApp::Initialize()
@@ -53,9 +71,26 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_Component()))
 		return E_FAIL;
-#pragma endregion
 
-	
+	if (FAILED(Ready_Prototype_Player()))
+		return E_FAIL;
+	if (FAILED(Ready_Prototype_UI()))
+		return E_FAIL;
+	if (FAILED(Ready_Prototype_Weapon()))
+		return E_FAIL;
+	if (FAILED(Ready_Prototype_Inven()))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Camera_FirstPerson"),
+		CCamera_FirstPerson::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
+	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
+	CJsonLoader jsonLoader;
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_Static.json")))
+		return E_FAIL;
 
 
 
@@ -317,6 +352,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		TEXT("Prototype_GameObject_Sky"),
 		CSky::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+
+	
+
 #pragma endregion
 
 	return S_OK;
@@ -324,6 +363,57 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 HRESULT CMainApp::Ready_Prototype_Component()
 {
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_UI()
+{
+
+
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_Weapon()
+{
+
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_Inven()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 인벤 테스트 삭제 X
+		TEXT("Prototype_GameObject_Inven"),
+		CInventory::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	// 인벤토리UI 클래스 생성 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Inven_UI"),
+		CInven_UI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//// 인벤토리UI 예시 사진
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, 
+		TEXT("Prototype_Component_Texture_Inven_UI"),
+		CTexture::Create(m_pGraphic_Device,
+			CTexture::TYPE_2D, TEXT("../../Resources/Textures/Inven/Inven.png"), 1))))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_Player()
+{
+	// 플레이어	클래스 생성
+   	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -343,6 +433,8 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+	Safe_Release(m_pPickingSys);
+	CPickingSys::Destroy_Instance();
 	CStructureManager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();

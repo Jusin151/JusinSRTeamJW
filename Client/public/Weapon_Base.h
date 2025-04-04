@@ -57,7 +57,7 @@ public:
     virtual void Move_Hand(_float fTimeDelta);
     virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
     virtual void Attack_WeaponSpecific(_float fTimeDelta) PURE;
-    virtual HRESULT Ready_Icon()PURE;
+
 
 protected:
     CTexture* m_pTextureCom = {};

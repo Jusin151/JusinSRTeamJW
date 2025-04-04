@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "BoundingBox.h"
 #include "Bounding_Sphere.h"
+#include "Texture.h"
 
 BEGIN(Engine)
 
@@ -10,10 +11,11 @@ class ENGINE_DLL CParticle_System abstract : public CComponent
 public:
 	typedef struct tagParticleSystemDesc
 	{		
-		DWORD	VBSize;
-		_wstring strShaderPath;
-		_wstring strTexturePath;
-		_float fSize;
+		DWORD		VBSize;
+		_wstring	strShaderPath;
+		_wstring	strTexturePath;
+		_float		fSize;
+		_uint		iNumTextures;
 	} PARTICLEDESC;
 protected:
 	typedef struct tagInstancedData
@@ -59,8 +61,7 @@ protected:
 
 	D3DXVECTOR3						m_vPos = {};
 	LPDIRECT3DVERTEXBUFFER9			m_PointVB = { nullptr };
-	LPDIRECT3DTEXTURE9				m_pTexture = { nullptr };
-	class CTexture*					m_pTextureT = { nullptr };
+	CTexture*						m_pTexture = { nullptr };
 
 	//인스턴싱 변수
 	LPDIRECT3DVERTEXBUFFER9			m_InstanceVB = { nullptr };

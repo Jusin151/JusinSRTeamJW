@@ -54,7 +54,17 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 		m_pPlayer = m_pGameInstance->Find_Object(LEVEL_EDITOR, TEXT("Layer_Player"));
 		if (nullptr == m_pPlayer)
 		{
-			return E_FAIL;
+			m_pPlayer = m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Player"));
+			if (nullptr == m_pPlayer)
+			{
+				m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+				if (nullptr == m_pPlayer)
+				{
+					return E_FAIL;
+				}
+
+			}
+			
 		}
 	}
 		
@@ -67,10 +77,12 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 {
 	CTransform* fPlayerTrans = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
+
+	_float3 fPos = fPlayerTrans->Compute_Scaled();
 	
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT));
-	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP));
-	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK));
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT).GetNormalized() * m_vScale.x);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP).GetNormalized() * m_vScale.y);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK).GetNormalized() * m_vScale.z);
 	auto vPos = fPlayerTrans->Get_State(CTransform::STATE_POSITION);
 	vPos.y += 0.2f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
@@ -80,7 +92,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	Shaking(fTimeDelta);
 
 	
-
+	
 	if (m_tmpState)
 	{
 		HandleMouseInput(fTimeDelta);
@@ -92,8 +104,11 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 }
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
-{	
-	
+{
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+	{
+		m_tmpState = !m_tmpState;
+	}
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
@@ -223,7 +238,7 @@ HRESULT CCamera_FirstPerson::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
+	m_vScale = { 1.f, 1.f, 1.f };
 	return S_OK;
 }
 
