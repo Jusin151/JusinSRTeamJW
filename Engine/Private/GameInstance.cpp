@@ -135,6 +135,10 @@ HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 	m_pSound_Manager->Stop_All_Event();
 	return hr;
 }
+_uint CGameInstance::Get_CurrentLevel() const
+{
+	return _uint();
+}
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER

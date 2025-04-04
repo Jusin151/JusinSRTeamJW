@@ -32,6 +32,16 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;*/
 
+	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+	if (pPlayer)
+	{
+		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-4.6f, 0.f, -1.1f));
+		pTransform->Rotation(_float3(0.f,-1.f,0.f), D3DXToRadian(180.f));
+	}
+
 	return S_OK;
 }
 
