@@ -402,40 +402,11 @@ HRESULT CLoader::Add_To_Logo_Textures()
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-HRESULT CLoader::Add_To_GamePlay_Textures()
-{
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 텍스쳐
-		TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
-			TEXT("../../Resources/Textures/Terrain/Tile0.jpg"), 1))))
-		return E_FAIL;
 
 
-	return S_OK;
-}
-
-HRESULT CLoader::Add_To_GamePlay_Buffer()
-{
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY,     // 터레인 버퍼
-		TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 256, 256))))
-		return E_FAIL;
-	/* For.Prototype_Component_VIBuffer_Cube */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Cube"),
-		CVIBuffer_Cube::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-
-
-	return S_OK;
-}
 
 HRESULT CLoader::Add_To_GamePlay_Prototype()
 {
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, // 터레인 원형객체
-		TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Camera_Free"),
