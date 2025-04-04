@@ -654,9 +654,6 @@
     <ClInclude Include="..\public\Effects.h">
       <Filter>02.GameObjects\03. Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CBehaviorTree.h">
-      <Filter>02.GameObjects\JW_Boss\Node</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Cthulhu.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
@@ -683,7 +680,7 @@
     </ClInclude>
     <ClInclude Include="..\public\HellBoss.h">
       <Filter>02.GameObjects\01.Monster\Boss\HellBoss</Filter>
-  </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Inven_UI.h">
       <Filter>02.GameObjects\00_1. Inven</Filter>
     </ClInclude>
@@ -694,6 +691,9 @@
       <Filter>02.GameObjects\JW_Boss\Node</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TaskNode.h">
+      <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BehaviorTree.h">
       <Filter>02.GameObjects\JW_Boss\Node</Filter>
     </ClInclude>
   </ItemGroup>
@@ -998,11 +998,11 @@
     <ClCompile Include="..\private\HellBoss.cpp">
       <Filter>02.GameObjects\01.Monster\Boss\HellBoss</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Cthulhu.cpp">
-      <Filter>02.GameObjects\JW_Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\BehaviorTree.cpp">
       <Filter>02.GameObjects\JW_Boss\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cthulhu.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 
-#include "CBehaviorTree.h"
+#include "BehaviorTree.h"
 
 void CBehaviorTree::Initialize()
 {

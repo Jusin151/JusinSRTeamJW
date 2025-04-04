@@ -1,6 +1,6 @@
 #pragma once
 #include <Client_Defines.h>
-#include "CNode.h"
+#include "Node.h"
 // 추상
 class CCompositeNode : public INode // Select , Sequence 에 사용
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include "CCompositeNode.h"
-#include "CTaskNode.h"
+#include "CompositeNode.h"
+#include "TaskNode.h"
 
 class CBehaviorTree 
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <Monster_Base.h>
-#include <CBehaviorTree.h>
+#include <BehaviorTree.h>
 BEGIN(Client)
 class CCthulhu final : public CMonster_Base
 {

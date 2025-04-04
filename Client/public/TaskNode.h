@@ -1,5 +1,5 @@
 #pragma once
-#include "CNode.h"
+#include "Node.h"
 class TaskNode : public INode
 {
 public:
