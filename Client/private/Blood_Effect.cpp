@@ -28,7 +28,7 @@ HRESULT CBlood_Effect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fAnimationSpeed = { 0.2f };
+	m_fAnimationSpeed = { 0.08f };
 	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
 	m_iCurrentFrame = { 0 };
 

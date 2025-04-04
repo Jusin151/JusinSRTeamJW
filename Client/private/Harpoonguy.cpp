@@ -298,7 +298,7 @@ void CHarpoonguy::Select_Frame(_float fTimeDelta)
 	if (m_iCurrentFrame == 26)
 		return;
 
-	m_fElapsedTime += fTimeDelta;
+	m_fElapsedTime += fTimeDelta * 1.7f; //임의로 애니메이션 속도 좀 올림
 
 	switch (m_eCurState)
 	{

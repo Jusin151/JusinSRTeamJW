@@ -32,7 +32,13 @@ HRESULT CStaff_Bullet::Initialize(void* pArg)
 
 void CStaff_Bullet::Priority_Update(_float fTimeDelta)
 {
+	m_fLifeTime += fTimeDelta;
 
+	if (m_fLifeTime >= 2.f)
+	{
+		m_bIsActive = false;
+		m_fLifeTime = 0.f;
+	}
 }
 
 void CStaff_Bullet::Update(_float fTimeDelta)
@@ -109,6 +115,32 @@ void CStaff_Bullet::Attack_Melee()
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
 	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+}
+
+void CStaff_Bullet::Reset()
+{
+	m_fElapsedTime = 0.f;
+	m_iCurrentFrame = 0;
+
+	if (!m_Player_Transform) return;
+
+	Player_RIght = m_Player_Transform->Get_State(CTransform::STATE_RIGHT);
+	Player_Up = m_Player_Transform->Get_State(CTransform::STATE_UP);
+	Player_Look = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
+	Player_Pos = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
+
+
+	/*Player_Pos += Player_Look * 0.8f;
+	Player_Pos += Player_RIght * 0.1f;
+	Player_Pos.y -= 0.5f;*/
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, Player_RIght);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, Player_Up);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, Player_Look);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, Player_Pos);
+	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
+	m_vDir = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
+
 }
 
 HRESULT CStaff_Bullet::SetUp_RenderState()
