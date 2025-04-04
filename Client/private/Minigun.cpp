@@ -80,6 +80,8 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 
 void CMinigun::Update(_float fTimeDelta)
 {
+    if (GetAsyncKeyState('R') & 0x8000)
+        Ranged_INFO.CurrentAmmo += 100;
     __super::Update(fTimeDelta);
   
 }
@@ -211,7 +213,6 @@ void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
 
 }
 
-
 HRESULT CMinigun::Render()
 {
     D3DXMATRIX matOldView, matOldProj;
@@ -230,13 +231,20 @@ HRESULT CMinigun::Render()
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+
+    _float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    vPos.z = 0.5f;
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
-    
+
     if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
-  
+        return E_FAIL;
+
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
+
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 

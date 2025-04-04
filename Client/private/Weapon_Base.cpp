@@ -23,7 +23,7 @@ void CWeapon_Base::Priority_Update(_float fTimeDelta)
 
 void CWeapon_Base::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_VIEWMODEL, this)))
 		return;
 }
 
