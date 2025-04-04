@@ -17,6 +17,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
+#include "HellBoss.h"
 
 
 
@@ -77,6 +78,9 @@ HRESULT CLoader::Loading()
 	case LEVEL_HUB:
 		hr = Loading_For_Hub();
 		break;
+	case LEVEL_HONG:
+		hr = Loading_For_Hong();
+		break;
 	}
  	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL); 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -115,7 +119,6 @@ HRESULT CLoader::Loading_For_Logo()
 HRESULT CLoader::Loading_For_GamePlay()
 {
 	
-
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
@@ -280,6 +283,30 @@ HRESULT CLoader::Loading_For_Hub()
 	m_isFinished = true;
 
 	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Hong()
+{
+
+
+
+	//헬보스 객체 등록
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
+		CHellBoss::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//헬보스 텍스쳐
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/HellBoss_%d.png"), 337))))
+		return E_FAIL;
+
+	
+
+ 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
 
 	return S_OK;
 }

@@ -337,9 +337,6 @@
     <Filter Include="02.GameObjects\01.Monster\normal\Yeti">
       <UniqueIdentifier>{3b6d0f33-319a-4e35-9986-f0b6ce0175be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\01.Monster\boss">
-      <UniqueIdentifier>{196ec3a9-0a99-46ad-a88b-f63300890c41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\01.Monster\Base">
       <UniqueIdentifier>{e893cfbc-4901-452a-82c8-362db3f51317}</UniqueIdentifier>
     </Filter>
@@ -351,6 +348,15 @@
     </Filter>
     <Filter Include="02.GameObjects\04. Projectile\Monster\GlacierBullet">
       <UniqueIdentifier>{6c7faba0-4663-4fe7-b403-71c22cf0e524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Hong">
+      <UniqueIdentifier>{b4c2fce2-a84b-4ad4-968e-747857cf3ed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Boss">
+      <UniqueIdentifier>{196ec3a9-0a99-46ad-a88b-f63300890c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Monster\Boss\HellBoss">
+      <UniqueIdentifier>{b09e795c-4b32-49ac-a691-8cdd289e4a36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -672,6 +678,12 @@
     <ClInclude Include="..\public\GlacierBullet.h">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Hong.h">
+      <Filter>01.Levels\Hong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss.h">
+      <Filter>02.GameObjects\01.Monster\Boss\HellBoss</Filter>
+  </ClInclude>
     <ClInclude Include="..\public\Inven_UI.h">
       <Filter>02.GameObjects\00_1. Inven</Filter>
     </ClInclude>
@@ -980,8 +992,12 @@
     <ClCompile Include="..\private\GlacierBullet.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\privateCthulhu.cpp" />
-    <ClCompile Include="..\public\Cthulhu.cpp" />
+    <ClCompile Include="..\private\Level_Hong.cpp">
+      <Filter>01.Levels\Hong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss.cpp">
+      <Filter>02.GameObjects\01.Monster\Boss\HellBoss</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Cthulhu.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
