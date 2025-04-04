@@ -270,8 +270,8 @@ HRESULT CLoader::Loading_For_Hub()
 
 
 
-	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"); // 건물관련
-
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"))) // 건물관련
+		return E_FAIL;
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json"))) // 명훈이형꺼 관련
 		return E_FAIL;
@@ -291,6 +291,14 @@ HRESULT CLoader::Loading_For_Editor()
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Editor.json")))
 		return E_FAIL;
+
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes.json")))
+		return E_FAIL;
+
+	// JSON 로더를 사용하여 모든 프로토타입 로드
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
+		return E_FAIL;
+
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

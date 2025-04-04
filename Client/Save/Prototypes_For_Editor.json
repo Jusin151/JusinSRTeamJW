@@ -324,6 +324,21 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_ShotGun"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Minigun"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Staff"
     }
   ],
   "textures": [
@@ -502,7 +517,7 @@
       "tag": "Prototype_Component_Texture_Magma"
     },
     {
-      "count": 97,
+      "count": 100,
       "level": 3,
       "path": "../../Resources/Textures/Item/Item%d.png",
       "tag": "Prototype_Component_Texture_Items"

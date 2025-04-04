@@ -3413,6 +3413,35 @@
       {
         "FromPool": false,
         "IsActive": true,
+        "Item_Name": "ShotGun",
+        "LayerTag": "Layer_Item",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Item_ShotGun",
+          "ProtTextureTag": "Prototype_Component_Texture_Items",
+          "ProtoLevel": 3
+        },
+        "Type": 6,
+        "position": [
+          15.5,
+          0.34,
+          -12.42
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
         "Item_Name": "HP_Small",
         "LayerTag": "Layer_Item",
         "OBJECT_DESC": {

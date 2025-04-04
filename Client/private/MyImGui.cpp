@@ -1517,7 +1517,7 @@ void CMyImGui::ShowItemCreationTab()
 	static float s_fItemFloatMax = 0.7f;
 
 	// 아이템 타입 및 서브타입 배열도 static으로 선언
-	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat","Key" };
+	static const char* s_ItemTypeNames[] = { "HP", "MP", "Ammo", "EXP", "Stat","Key" ,"Weapon"};
 	static const char* s_HPSubTypeNames[] = { "Small HP", "Big HP" };
 	static const char* s_MPSubTypeNames[] = { "Small MP", "Big MP" };
 	static const char* s_AmmoSubTypeNames[] = { "ShotGun_Ammo_Small","ShotGun_Ammo_Big",  "Staff_Ammo_Small", "Staff_Ammo_Big",
@@ -1526,6 +1526,7 @@ void CMyImGui::ShowItemCreationTab()
 	static const char* s_ExpSubTypeNames[] = { "Small EXP", "Medium EXP", "Large EXP" };
 
 	static const char* s_KeySubTypeNames[] = { "Blue", "Red", "Yellow" };
+	static const char* s_WeaponSubTypeNames[] = { "ShotGun", "Staff", "Minigun" };
 
 	// 현재 선택된 아이템 타입에 따른 서브타입 배열
 	static const char** s_pCurrentSubTypeNames = nullptr;
@@ -1575,6 +1576,13 @@ void CMyImGui::ShowItemCreationTab()
 			s_pCurrentSubTypeNames = s_KeySubTypeNames;
 			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_KeySubTypeNames);
 			strcpy_s(s_szItemNameBuffer, "Blue");
+			s_iItemValue = 1;
+			s_bItemAnimation = false;
+			break;
+		case 6: // Weapon
+			s_pCurrentSubTypeNames = s_WeaponSubTypeNames;
+			s_iCurrentSubTypeCount = IM_ARRAYSIZE(s_WeaponSubTypeNames);
+			strcpy_s(s_szItemNameBuffer, "ShotGun");
 			s_iItemValue = 1;
 			s_bItemAnimation = false;
 			break;
@@ -1644,6 +1652,15 @@ void CMyImGui::ShowItemCreationTab()
 				default: strcpy_s(s_szItemNameBuffer, "Blue"); break;
 				}
 				break;
+			case 6: //Weapon
+				switch (s_iSelectedItemSubType)
+				{
+				case 0: strcpy_s(s_szItemNameBuffer, "ShotGun"); break;
+				case 1: strcpy_s(s_szItemNameBuffer, "Staff"); break;
+				case 2: strcpy_s(s_szItemNameBuffer, "Minigun"); break;
+				default: strcpy_s(s_szItemNameBuffer, "ShotGun"); break;
+				}
+				break;
 			}
 		}
 	}
@@ -1701,6 +1718,16 @@ void CMyImGui::ShowItemCreationTab()
 			case 1: strItemName = L"Red"; break;
 			case 2: strItemName = L"Yellow"; break;
 			default: strItemName = L"Blue"; break;
+			}
+			break;
+
+		case CItem::ITEM_TYPE::WEAPON:
+			switch (s_iSelectedItemSubType)
+			{
+			case 0: strItemName = L"ShotGun"; break;
+			case 1: strItemName = L"Staff"; break;
+			case 2: strItemName = L"Minigun"; break;
+			default: strItemName = L"ShotGun"; break;
 			}
 			break;
 		default:
@@ -1767,13 +1794,21 @@ void CMyImGui::ShowItemCreationTab()
 				vCameraLook.Normalize();
 
 				// 카메라 앞 일정 거리에 아이템 배치
-				_float3 vItemPos = vCameraPos + vCameraLook * 5.0f;
+				_float3 vItemPos = vCameraPos + vCameraLook * 2.0f;
 
 				// 아이템 위치 설정
 				pTransform->Set_State(CTransform::STATE_POSITION, vItemPos);
 
+				if (eItemType == CItem::ITEM_TYPE::WEAPON)
+				{
+					s_fItemScale = 1.f;
+				}
+				else
+				{
+					s_fItemScale = 0.5f;
+				}
 				// 아이템 크기 설정
-				pTransform->Set_Scale(s_fItemScale, s_fItemScale, 0.01f);
+				pTransform->Set_Scale(s_fItemScale, s_fItemScale, s_fItemScale);
 
 				// 아이템 기본 방향 설정 (플레이어 없이도 작동하도록)
 				_float3 vRight = { 1.0f, 0.0f, 0.0f };
@@ -1786,7 +1821,7 @@ void CMyImGui::ShowItemCreationTab()
 
 				vRight *= s_fItemScale;
 				vUp *= s_fItemScale;
-				vLook *= 0.01f;
+				vLook *= s_fItemScale;
 
 				pTransform->Set_State(CTransform::STATE_RIGHT, vRight);
 				pTransform->Set_State(CTransform::STATE_UP, vUp);
