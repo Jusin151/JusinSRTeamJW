@@ -18,10 +18,7 @@ CUI_Player_Icon::CUI_Player_Icon(const CUI_Player_Icon& Prototype)
 
 HRESULT CUI_Player_Icon::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-	{
-		return E_FAIL;
-	}
+	
 
 	return S_OK;
 }
@@ -204,7 +201,7 @@ HRESULT CUI_Player_Icon::Render()
 
 HRESULT CUI_Player_Icon::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player_Icon"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Player_Icon"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_PlayerICon_pTextureCom))))
 		return E_FAIL;
 

@@ -23,7 +23,12 @@ BEGIN(Client)
 
 class CPlayer final : public CCollisionObject
 {
-
+	enum class WEAPON_STATE
+	{
+		IDLE,
+		FIRE,
+		CHANGE
+	};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -106,7 +111,11 @@ public:
 		{
 			pUI_Event->ShowEventText(Exp, L"Exp");
 		}
+
+
 	}
+
+	void Add_Weapon(const _wstring& stWeaponTag);
 
 
 
@@ -140,6 +149,7 @@ private:
 private:
 	POINT m_ptOldMousePos = {};
 	_float m_fMouseSensor = {};
+	WEAPON_STATE m_eWeaponState = WEAPON_STATE::IDLE;
 private:
 	CGameObject* m_pCamera = nullptr;
 	CCollider_Cube* m_pColliderCom = { nullptr };
@@ -151,7 +161,7 @@ private:
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
 	LONG			m_lMiddlePointX = { g_iWinSizeX / 2 };
-	_float3			m_vOldPos = {};
+
 private: // 플레이어 관련
 	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나

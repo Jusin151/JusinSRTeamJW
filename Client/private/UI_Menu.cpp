@@ -53,7 +53,7 @@ void CUI_Menu::Priority_Update(_float fTimeDelta)
 
 void CUI_Menu::Update(_float fTimeDelta)
 {
-	if (GetKeyState('U') & 0x8000)
+	if (GetAsyncKeyState('U') & 0x8000)
 	{
 		if (!m_bKeyPressed)
 		{
@@ -85,7 +85,7 @@ HRESULT CUI_Menu::Render()
 
 HRESULT CUI_Menu::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Menu_Panel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Menu_Panel"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

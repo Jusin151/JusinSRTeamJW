@@ -24,6 +24,17 @@ public:
         int CurrentAmmo;     // 현재 탄약
     }Ranged_DESC;
 
+    struct CollisionInfo {
+        CCollider* pCollider = nullptr; // 충돌한 콜라이더 포인터
+        _float3 vHitPosition{};         // 충돌 지점
+        float fDistance = std::numeric_limits<float>::max(); // 광선 원점으로부터의 거리
+
+        // 거리를 기준으로 오름차순 정렬하기 위한 비교 연산자
+        bool operator<(const CollisionInfo& other) const {
+            return fDistance < other.fDistance;
+        }
+    };
+
 
 protected:
     CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -33,18 +44,24 @@ protected:
 public:
     virtual HRESULT Initialize_Prototype()PURE;
     virtual HRESULT Initialize(void* pArg)PURE;
+    virtual HRESULT Ready_Components();
+public:
     virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta);
     virtual void Late_Update(_float fTimeDelta);
+public:
     virtual HRESULT Render()override;
-    virtual HRESULT Ready_Components();
+public:
     virtual HRESULT Ready_Picking();
     virtual HRESULT Picking_Object(_uint EffectNum,_uint Damage);
     void Wall_Picking(CCollider* pCollider, _uint EffectNum);
     void Monster_Hit(CCollider* pCollider, _uint Damage);
-    void Free();
+    void CreateHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage);
+public:
     CGameObject* Clone(void* pArg) override;
-    virtual HRESULT Ready_Icon()PURE;
+    void Free();
+    
+    
 protected: 
     Ranged_DESC Ranged_INFO = {};
     _bool m_bAttackInput = { false };
@@ -80,6 +97,8 @@ protected:
     _bool m_bWall = { false };   // 벽체크용 변수
     _bool m_bMonster = { false }; // 몬스터 체크용 변수=
     void Move_Hand(_float fTimeDelta) override;
+protected:
+    _float  m_fRange = { 100.f };
 
 
 public:

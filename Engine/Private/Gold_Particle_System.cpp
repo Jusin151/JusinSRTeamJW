@@ -28,9 +28,7 @@ HRESULT CGold_Particle_System::Initialize(void* pArg)
     m_iMaxParticles = desc.iNumParticles;
     m_vDir = { 0.0f, 1.0f, 0.0f };
 
-    PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
-
-    if (FAILED(__super::Initialize(&pDesc)))
+    if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
     for (_uint i = 0; i < m_iMaxParticles; ++i)
     {
@@ -48,6 +46,7 @@ void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     pAttribute->fLifetime = 2.0f;
 
     pAttribute->fSize = m_fSize;
+    pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
     pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 0.0f, 1.0f);
     //pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }

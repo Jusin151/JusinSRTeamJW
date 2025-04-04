@@ -79,29 +79,17 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	{
 		g_bDebugCollider = !g_bDebugCollider;
 	}
-	//m_pObject_Manager->Priority_Update(fTimeDelta);
-
-	//m_pLevel_Manager->Update(fTimeDelta);
-	//m_pSound_Manager->Update(fTimeDelta);
-	//m_pCollider_Manager->Update_Collison();
-
-	///*m_pPicking->Update();*/
-
-	//m_pObject_Manager->Update(fTimeDelta);	
-
-	//m_pFrustumCull->Update();
-	//m_pObject_Manager->Late_Update(fTimeDelta);
-
 
 	if (m_eLevelState == LEVEL_STATE::NORMAL)
 	{
 		m_pObject_Manager->Priority_Update(fTimeDelta);
 		m_pLevel_Manager->Update(fTimeDelta);
-		m_pSound_Manager->Update(fTimeDelta);
-		m_pCollider_Manager->Update_Collison();
+		////m_pSound_Manager->Update(fTimeDelta);
 		m_pObject_Manager->Update(fTimeDelta);
-		m_pFrustumCull->Update();
+	    m_pCollider_Manager->Update_Collison();
+		//m_pFrustumCull->Update();
 		m_pObject_Manager->Late_Update(fTimeDelta);
+		m_pCollider_Manager->Clear();
 	}
 }
 
@@ -111,23 +99,24 @@ HRESULT CGameInstance::Draw()
 		return E_FAIL;
 
 	m_pGraphic_Device->Render_Begin();
-
+	if (m_eLevelState == LEVEL_STATE::NORMAL)
+	{
 	m_pRenderer->Draw();
 
 	m_pLevel_Manager->Render();
 
 	m_pGraphic_Device->Render_End();
+	}
 
 	return S_OK;
 }
 
 void CGameInstance::Clear(_uint iLevelIndex)
 {
-	/* 특정 레벨의 자원을 삭제한다. */
 
 	/* 특정 레벨의 객체을 삭제한다. */
 	m_pObject_Manager->Clear(iLevelIndex);
-
+	m_pCollider_Manager->Clear();
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
 }
@@ -140,22 +129,15 @@ HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 }
 HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 {
+	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 	if (m_eLevelState == LEVEL_STATE::CHANGING)
 		return E_FAIL; // 이미 레벨 변경 중인 경우 방지
-
-	// 레벨 변경 상태로 설정
-	m_eLevelState = LEVEL_STATE::CHANGING;
-
-	// 모든 사운드 이벤트 정지
 	m_pSound_Manager->Stop_All_Event();
-
-	// 실제 레벨 변경 수행
-	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
-
-	// 레벨 변경 상태 종료
-	m_eLevelState = LEVEL_STATE::NORMAL;
-
 	return hr;
+}
+_uint CGameInstance::Get_CurrentLevel() const
+{
+	return _uint();
 }
 #pragma endregion
 
@@ -344,12 +326,17 @@ HRESULT CGameInstance::Add_Collider(COLLIDERGROUP eGroup, CCollider* Collider)
 {
 	return m_pCollider_Manager->Add_Collider(eGroup, Collider);
 }
-
 vector<list<class CCollider*>> CGameInstance::Get_Colliders()
 {
 	return m_pCollider_Manager->Get_Colliders();
 }
+void CGameInstance::Clear_Colliders()
+{
+	 m_pCollider_Manager->Clear();
+}
+#pragma endregion
 
+#pragma region FONT_MANAGER
 HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath)
 {
 	return m_pFont_Manager->Add_Font(strFontTag, strFontFilePath);
@@ -360,7 +347,7 @@ HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& s
 	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
 }
 
-// 사이즈 크기 조절하려고 홍동완이 만듬
+// 사이즈 크기 조절용 폰트
 HRESULT CGameInstance::Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition,const _float2& vSize, _float3 vColor)
 {
 	return m_pFont_Manager->Render_Font_size(strFontTag, strText, vPosition, vSize, vColor);

@@ -1,98 +1,74 @@
 {
   "textures": [
     {
-      "tag": "Prototype_Component_Texture_Player",
-      "level": 3,
-      "path": "../../Resources/Textures/Player/Player.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Default_PlayerUI",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Default_UI.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Left_Panel",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Left/SR_HUD_bottom_left.png",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Hp_Bar",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Left/SR_HUD_bar_HP.png",
       "count": 1
     },
     {
       "tag": "Prototype_Component_Texture_Player_Icon",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Left/Player_Icon/All/1_SR_face_unhurt_%d.png",
       "count": 20
     },
     {
       "tag": "Prototype_Component_Texture_MP_Bar",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Left/SR_HUD_bar_mana.png",
       "count": 1
     },
     {
       "tag": "Prototype_Component_Texture_Mid_Panel",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Middle/SR_EXP_Bar%d.png",
       "count": 1
     },
     {
       "tag": "Prototype_Component_Texture_Right_Panel",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Right/SR_HUD_bottom_right.png",
       "count": 1
     },
     {
-      "tag": "Prototype_Component_Texture_Bullet_Bar",
-      "level": 3,
-      "path": "../../Resources/Textures/UI/Right/SR_HUD_bar_ammo.png",
-      "count": 1
-    },
-    {
       "tag": "Prototype_Component_Texture_Menu_Panel",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Game_Menu.png",
       "count": 1
     },
     {
       "tag": "Prototype_Component_Texture_Axe",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Axe/axe_attack%d.png",
       "count": 10
     },
     {
       "tag": "Prototype_Component_Texture_Claymore",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Claymoreee/claymore_pwI%d.png",
       "count": 14
     },
     {
       "tag": "Prototype_Component_Texture_Magnum",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Magnum/magnum_shoot%d.png",
       "count": 6
     },
     {
       "tag": "Prototype_Component_Texture_Staff",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Staff/Default/Staff_%d.png",
       "count": 32
     },
     {
       "tag": "Prototype_Component_Texture_ShotGun",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/ShotGun/ShotGun_%d.png",
       "count": 17
     },
     {
       "tag": "Prototype_Component_Texture_Inven",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Inven/Inven.png",
       "count": 1
     },
@@ -121,6 +97,30 @@
       "count": 27
     },
     {
+      "tag": "Prototype_Component_Texture_Yeti",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Yeti/Yeti_%d.png",
+      "count": 41
+    },
+    {
+      "tag": "Prototype_Component_Texture_Snowspider",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Snowspider/Snowspider_%d.png",
+      "count": 28
+    },
+    {
+      "tag": "Prototype_Component_Texture_Glacier",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_%d.png",
+      "count": 53
+    },
+    {
+      "tag": "Prototype_Component_Texture_GlacierBullet",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_bullet_%d.png",
+      "count": 4
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -134,37 +134,37 @@
     },
     {
       "tag": "Prototype_Component_Texture_Minigun",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Minigun/Minigun%d.png",
       "count": 8
     },
     {
       "tag": "Prototype_Component_Texture_Minigun_LeftHand",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Minigun/Left_Hand/Left_Hand%d.png",
       "count": 3
     },
     {
       "tag": "Prototype_Component_Texture_Harvester",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Harvester/Harvester%d.png",
       "count": 27
     },
     {
       "tag": "Prototype_Component_Texture_Sonic",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Sonic/sonic_launcher%d.png",
       "count": 7
     },
     {
       "tag": "Prototype_Component_Texture_Weapon_Effect",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/BulletHole/TEXTURE_bulletHole_%d.png",
       "count": 4
     },
     {
       "tag": "Prototype_Component_Texture_Weapon_Bullet",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png",
       "count": 7
     },
@@ -230,7 +230,7 @@
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
       "tag": "Prototype_Component_Texture_Point_Shop"
     },
@@ -284,24 +284,30 @@
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png",
       "tag": "Prototype_Component_Texture_UI_Point_Shop"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_1.png",
       "tag": "Prototype_Component_Texture_Button_Point_Shop_Skill"
     },
     {
       "count": 1,
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_2.png",
       "tag": "Prototype_Component_Texture_Button_Point_Shop_Stat"
     },
     {
-      "count": 97,
+      "count": 100,
+      "level": 0,
+      "path": "../../Resources/Textures/Item/Item%d.png",
+      "tag": "Prototype_Component_Texture_Items"
+    },
+    {
+      "count": 100,
       "level": 3,
       "path": "../../Resources/Textures/Item/Item%d.png",
       "tag": "Prototype_Component_Texture_Items"
@@ -392,11 +398,6 @@
       "class": "CItem"
     },
     {
-      "tag": "Prototype_GameObject_Player",
-      "level": 3,
-      "class": "CPlayer"
-    },
-    {
       "tag": "Prototype_GameObject_Anubis",
       "level": 3,
       "class": "CAnubis"
@@ -417,6 +418,26 @@
       "class": "CHarpoon"
     },
     {
+      "tag": "Prototype_GameObject_Yeti",
+      "level": 3,
+      "class": "CYeti"
+    },
+    {
+      "tag": "Prototype_GameObject_Glacier",
+      "level": 3,
+      "class": "CGlacier"
+    },
+    {
+      "tag": "Prototype_GameObject_GlacierBullet",
+      "level": 3,
+      "class": "CGlacierBullet"
+    },
+    {
+      "tag": "Prototype_GameObject_Snowspider",
+      "level": 3,
+      "class": "CSnowspider"
+    },
+    {
       "tag": "Prototype_GameObject_Terrain",
       "level": 3,
       "class": "CTerrain"
@@ -427,88 +448,68 @@
       "class": "CCamera_Free"
     },
     {
-      "tag": "Prototype_GameObject_Camera_FirstPerson",
-      "level": 3,
-      "class": "CCamera_FirstPerson"
-    },
-    {
       "tag": "Prototype_GameObject_Monster",
       "level": 3,
       "class": "CTestMonster"
     },
     {
-      "tag": "Prototype_GameObject_Default_PlayerUI",
-      "level": 3,
-      "class": "CUI_Default_Panel"
-    },
-    {
-      "tag": "Prototype_GameObject_Left_Panel",
-      "level": 3,
-      "class": "CUI_Left_Display"
-    },
-    {
       "tag": "Prototype_GameObject_Player_Icon",
-      "level": 3,
+      "level": 0,
       "class": "CUI_Player_Icon"
     },
     {
       "tag": "Prototype_GameObject_Hp_Bar",
-      "level": 3,
+      "level": 0,
       "class": "CUI_HP_Bar"
     },
     {
       "tag": "Prototype_GameObject_MP_Bar",
-      "level": 3,
+      "level": 0,
       "class": "CUI_MP_Bar"
     },
     {
       "tag": "Prototype_GameObject_Mid_Panel",
-      "level": 3,
+      "level": 0,
       "class": "CUI_Mid_Display"
     },
     {
       "tag": "Prototype_GameObject_Right_Bar",
-      "level": 3,
+      "level": 0,
       "class": "CUI_Right_Display"
     },
     {
-      "tag": "Prototype_GameObject_Bullet_Bar",
-      "level": 3,
-      "class": "CUI_Bullet_Bar"
-    },
-    {
       "tag": "Prototype_GameObject_Menu_Panel",
-      "level": 3,
+      "level": 0,
       "class": "CUI_Menu"
     },
     {
       "tag": "Prototype_GameObject_Weapon_Axe",
-      "level": 3,
+      "level": 0,
       "class": "CAxe"
     },
     {
       "tag": "Prototype_GameObject_Weapon_Claymore",
-      "level": 3,
+      "level": 0,
       "class": "CClaymore"
     },
     {
       "tag": "Prototype_GameObject_Weapon_Magnum",
-      "level": 3,
+      "level": 0,
       "class": "CMagnum"
     },
     {
       "tag": "Prototype_GameObject_Weapon_Staff",
-      "level": 3,
+      "level": 0,
       "class": "CStaff"
     },
     {
       "tag": "Prototype_GameObject_Weapon_ShotGun",
-      "level": 3,
+      "level": 0,
       "class": "CShotGun"
     },
     {
       "tag": "Prototype_GameObject_Inven",
-      "level": 3,
+      "level": 0,
       "class": "CInventory"
     },
     {

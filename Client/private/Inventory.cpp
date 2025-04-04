@@ -33,23 +33,11 @@ HRESULT CInventory::Initialize(void* pArg)
 		_float3(m_Inven_INFO.vPos.x, m_Inven_INFO.vPos.y, 0.f));
 	 
 
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Inven_UI"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Inven_UI"))))
-		return E_FAIL; 
-
-	//if (m_pInven_UI = dynamic_cast<CInven_UI*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Inven_UI")));
-	//else
-	//	return E_FAIL;
-
-//	m_vecpItem.resize(7); // 7번까지만 할래
-
 	bFirstUpdate = true;
 
  	if (auto pInvenUI = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Inven_UI")))
 		Add_Observer(pInvenUI);
 
-	//CItem_Manager::GetInstance()->Add_Inven(this);
 
 	return S_OK;
 } 
@@ -74,7 +62,7 @@ void CInventory::Update(_float fTimeDelta)
 	if (m_bKeyPressed)
 		Notify(nullptr, L"Open");
 
-	//m_pInven_UI->Inven_OnOff(true);
+
 
 	m_bKeyPressed = false;
 }
@@ -105,13 +93,9 @@ HRESULT CInventory::Ready_Components()
 }
 CWeapon_Base* CInventory::Equip(_uint type)
 {
-
-	//m_bKeyPressed = false;
-
 		m_pItem = Weapon_Equip(type-1);
 		m_bKeyPressed = true;
 	
-
 	return m_pItem;
 }
 
@@ -123,7 +107,7 @@ CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("인벤 UI 원본 생성 실패 ");
+		MSG_BOX("인벤 원본 생성 실패 ");
 		Safe_Release(pInstance);
 	}
 
@@ -136,7 +120,7 @@ CGameObject* CInventory::Clone(void* pArg)
 
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("인벤 UI 복제 실패");
+		MSG_BOX("인벤 복제 실패");
 		Safe_Release(pInstace);
 	}
 
@@ -151,9 +135,3 @@ void CInventory::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
-//if (!m_pWeapon) return;
-// 
-//if (CRanged_Weapon* pRangeWeapon = dynamic_cast<CRanged_Weapon*>(m_pWeapon))
-//{
-//    pRangeWeapon->Add_Ammo(iAmmo);
-//}

@@ -36,6 +36,8 @@ public:
 	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
 	HRESULT Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel);
 	LEVEL_STATE GetLevelState() const { return m_eLevelState; }
+	void Set_LevelState(LEVEL_STATE eLevelState) const { eLevelState = m_eLevelState; }
+	_uint Get_CurrentLevel() const;
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -92,6 +94,7 @@ public:
 
 	HRESULT Add_Collider(COLLIDERGROUP eGroup, class CCollider* Collider);
 	vector<list<class CCollider*>> Get_Colliders();
+	void Clear_Colliders();
 
 #pragma endregion
 

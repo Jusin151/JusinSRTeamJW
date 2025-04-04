@@ -27,9 +27,7 @@ HRESULT CBlood_Particle_System::Initialize(void* pArg)
     m_VBBatchSize = 512;
     m_iMaxParticles = desc.iNumParticles;
 
-    PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
-
-    if (FAILED(__super::Initialize(&pDesc)))
+    if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
     for (_uint i = 0; i < m_iMaxParticles; ++i)
     {
@@ -40,15 +38,17 @@ HRESULT CBlood_Particle_System::Initialize(void* pArg)
 
 void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
-    pAttribute->bIsAlive = true;
-    GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
-    pAttribute->vPosition.z = -1.f;
-    pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f), 0.f };
-    pAttribute->fAge = 0;
-    pAttribute->fLifetime = 2.0f;
+	pAttribute->bIsAlive = true;
+	GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
+	pAttribute->vPosition.z = -1.f;
+	pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f), 0.f };
+	pAttribute->vAcceleration = { 1.5f, 1.2f, 0.0f };
+	pAttribute->fAge = 0;
+	pAttribute->fLifetime = 2.0f;
+	pAttribute->iIndex = rand() % m_pTexture->Get_NumTextures();
 
 	pAttribute->fSize = m_fSize / D3DXVec3Length(&pAttribute->vPosition);
-    pAttribute->vColor = 0xFF883932;
+	pAttribute->vColor = 0xFF883932;
 }
 
 void CBlood_Particle_System::Update(float fTimeDelta)
@@ -57,13 +57,58 @@ void CBlood_Particle_System::Update(float fTimeDelta)
 	{
 		if (i.bIsAlive)
 		{
-			i.vPosition += i.vVelocity * fTimeDelta;
+			i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
 			i.fAge += fTimeDelta;
 			i.fSize = m_fSize / D3DXVec3Length(&i.vPosition);
 			if (i.fAge > i.fLifetime)
-				Reset_Particle(&i);
+				i.bIsAlive = false;
+			//Reset_Particle(&i);
 		}
 	}
+}
+
+HRESULT CBlood_Particle_System::Pre_Render()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+	//m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fSize));
+
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
+
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
+
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);  // Multiply color arguments
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);   // Argument 1: Texture color
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);   // Argument 2: Vertex color (diffuse)
+
+	DWORD temp1;
+	DWORD temp2;
+	DWORD temp3;
+	DWORD temp4;
+	DWORD temp5;
+	DWORD temp6;
+
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLOROP, &temp1);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG1, &temp2);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG2, &temp3);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAOP, &temp4);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG1, &temp5);
+	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG2, &temp6);
+
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // 정점 색상만 사용
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // 텍스쳐 색상 지정
+
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE); // 텍스처 알파값 사용
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);  // 텍스처에서 알파값 가져옴
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);  // 정점에서 알파값 가져옴
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	return S_OK;
 }
 
 CBlood_Particle_System* CBlood_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

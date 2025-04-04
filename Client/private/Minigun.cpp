@@ -52,7 +52,7 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
     //m_Weapon_INFO.vPos = {};
     //m_Weapon_INFO.vSize = {};
-    m_Weapon_INFO.Damage = 2;
+    m_Weapon_INFO.Damage = 5;
     m_Weapon_INFO.AttackSpeed = 1.2f;
    
     Ranged_INFO.CurrentAmmo = 170; //현총알
@@ -68,28 +68,11 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_TextureRanges["Attack"] = { 4, 7 };
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Minigun", this);
-    if (FAILED(Ready_Icon()))
-        return E_FAIL;
+
+
     __super::Ready_Picking();
     return S_OK;
 }
-HRESULT CMinigun::Ready_Icon()
-{
-
-    CImage::Image_DESC Image_INFO = {};
-    Image_INFO.vPos = { 100.f,150.f };
-    Image_INFO.vSize = { 80.f,26.f };
-    Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-    Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-    Image_INFO.WeaponTag = L"Minigun";
-    Image_INFO.TextureImageNum = Minigun;
-    if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-        LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-        return E_FAIL;
-
-    return S_OK;
-}
-
 
 void CMinigun::Priority_Update(_float fTimeDelta)
 {
@@ -97,13 +80,22 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 
 void CMinigun::Update(_float fTimeDelta)
 {
+    if (GetAsyncKeyState('R') & 0x8000)
+        Ranged_INFO.CurrentAmmo += 100;
     __super::Update(fTimeDelta);
+  
+}
+
+void CMinigun::Late_Update(_float fTimeDelta)
+{
+    __super::Late_Update(fTimeDelta);;
+
     m_fElapsedTime += fTimeDelta;
 
     if (Ranged_INFO.CurrentAmmo <= 0)
     {
-		m_eState = State::Idle;
-		m_iCurrentFrame = m_TextureRanges["Idle"].first;
+        m_eState = State::Idle;
+        m_iCurrentFrame = m_TextureRanges["Idle"].first;
     }
 
 
@@ -160,9 +152,9 @@ void CMinigun::Update(_float fTimeDelta)
             {
                 if (Ranged_INFO.CurrentAmmo > 0)
                 {
-                    __super::Picking_Object(5, m_Weapon_INFO.Damage);
+                    __super::Picking_Object(1, m_Weapon_INFO.Damage);
                     Ranged_INFO.CurrentAmmo--;
-                    Notify_Bullet(); 
+                    Notify_Bullet();
                     m_bHasFired = true;
                 }
             }
@@ -196,8 +188,8 @@ void CMinigun::Update(_float fTimeDelta)
     }
 
     m_bAttackInput = false;
-}
 
+}
 
 
 
@@ -221,15 +213,6 @@ void CMinigun::Attack_WeaponSpecific(_float fTimeDelta)
 
 }
 
-
-
-
-
-
-void CMinigun::Late_Update(_float fTimeDelta)
-{
-    __super::Late_Update(fTimeDelta);;
-}
 HRESULT CMinigun::Render()
 {
     D3DXMATRIX matOldView, matOldProj;
@@ -248,17 +231,20 @@ HRESULT CMinigun::Render()
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+
+    _float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    vPos.z = 0.5f;
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
 
-    
     if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
-  
-     
-
+        return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
+
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
@@ -281,7 +267,7 @@ HRESULT CMinigun::On_Collision()
 
 HRESULT CMinigun::Ready_Components()
 {
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Minigun"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Minigun"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -304,7 +290,7 @@ CMinigun* CMinigun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     if (FAILED(pInstance->Initialize_Prototype()))
     {
 
-        MSG_BOX("스태프 UI 원본 생성 실패 ");
+        MSG_BOX("미니건 원본 생성 실패 ");
 
         Safe_Release(pInstance);
     }
@@ -320,7 +306,7 @@ CGameObject* CMinigun::Clone(void* pArg)
     if (FAILED(pInstace->Initialize(pArg)))
     {
 
-        MSG_BOX("스태프 UI 복제 실패");
+        MSG_BOX("미니건 복제 실패");
 
         Safe_Release(pInstace);
     }

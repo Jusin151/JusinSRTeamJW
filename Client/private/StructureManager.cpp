@@ -1,4 +1,4 @@
-#include <StructureManager.h>
+﻿#include <StructureManager.h>
 
 IMPLEMENT_SINGLETON(CStructureManager);
 
@@ -16,6 +16,12 @@ void CStructureManager::Add_Door(CDoor* pDoor)
 {
 	if (!pDoor) return;
 	m_DoorList.push_back(pDoor);
+}
+
+void CStructureManager::Clear()
+{
+	m_StructureList.clear();
+	m_DoorList.clear();
 }
 
 void CStructureManager::Free()

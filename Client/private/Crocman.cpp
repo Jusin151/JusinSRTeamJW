@@ -36,6 +36,10 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 	m_iHp = 30;
 
+	m_fSpeed = 0.15f;
+
+	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+
 	return S_OK;
 }
 
@@ -43,7 +47,7 @@ void CCrocman::Priority_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
 	{
-		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 		if (nullptr == pTarget)
 			return;
 
@@ -51,6 +55,12 @@ void CCrocman::Priority_Update(_float fTimeDelta)
 		Safe_AddRef(pTarget);
 		
 	}
+
+	//if (!m_bCheck)
+	//{
+	//	if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+	//		m_bCheck = true;
+	//}
 
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
@@ -64,19 +74,27 @@ void CCrocman::Priority_Update(_float fTimeDelta)
 
 void CCrocman::Update(_float fTimeDelta)
 {
-	if (nullptr == m_pTarget)
+	if (m_pTarget == nullptr)
 		return;
+	/*if (!m_bCheck)
+	{
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		return;
+	}*/
 
-	m_vOldPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	Select_Pattern(fTimeDelta);
+
+
 
 	__super::Update(fTimeDelta);
 
 
 	if (m_eCurState != MS_DEATH)
 	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
@@ -87,7 +105,6 @@ void CCrocman::Late_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
 		return;
-
 
 	Select_Frame(fTimeDelta);
 
@@ -152,13 +169,13 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		//m_pTransformCom->Go_Backward(fTimeDelta);
-		m_eCurState = MS_HIT;
+	
 
 		if (m_eCurState != MS_ATTACK)
 		{
 			Take_Damage(other);
-			fPos -= vMove;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+			
+			
 		}
 		else
 		{
@@ -167,6 +184,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 			m_iAp /= 3;
 		}
 		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 		break;
 
 	case CG_WEAPON:
@@ -177,9 +195,18 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 
 		break;
 
+	case CG_MONSTER:
+		m_vNextPos += vMove * 0.2f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+		break;
 	case CG_STRUCTURE_WALL:
-		fPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		m_vNextPos += vMove;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		break;
+	case CG_DOOR:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+
 		break;
 	default:
 		break;
@@ -203,10 +230,15 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 	{
 	case MS_IDLE:
 		if (vDist.LengthSq() > 10)
+		{
+			if (m_eCurState != MS_WALK)
+				m_eCurState = MS_WALK;
 			Chasing(fTimeDelta);
+		}
 		else
 		{
 			Attack_Melee(fTimeDelta);
+			m_vNextPos = m_vCurPos;
 		}
 		break;
 	case MS_WALK:
@@ -214,6 +246,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_HIT:
 		// 맞고 바로 안바뀌도록
+		m_vNextPos = m_vCurPos;
 		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_IDLE;
 		else
@@ -222,6 +255,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_ATTACK:
 		Attack_Melee(fTimeDelta);
+		m_vNextPos = m_vCurPos;
 		break;
 
 	default:
@@ -230,15 +264,6 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 
 
 	
-}
-
-void CCrocman::Chasing(_float fTimeDelta)
-{
-
-	if (m_eCurState != MS_WALK)
-		m_eCurState = MS_WALK;
-
-	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * 0.15f);
 }
 
 void CCrocman::Attack_Melee(_float fTimeDelta)
@@ -251,11 +276,6 @@ void CCrocman::Attack_Melee(_float fTimeDelta)
 			return;
 	}
 
-
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
-	// 일단 투사체 판정으로 해놓고 나중에 다른 enum 사용하면 될듯?
-	m_pGameInstance->Add_Collider(CG_MONSTER, m_pAttackCollider);
 }
 
 void CCrocman::Select_Frame(_float fTimeDelta)

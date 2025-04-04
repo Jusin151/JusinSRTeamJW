@@ -30,6 +30,7 @@ CGameObject* CPool_Manager::Acquire_Object(_uint iPrototypeLevelIndex, const _ws
 		}
 	}
 
+	if (objQueue.empty()) return nullptr; // 여전히 비어있다면 nullptr 반환
 	CGameObject* pGameObject = objQueue.front();
 	Safe_AddRef(pGameObject); // 빌려줄 때 레퍼런스 올리기
 	objQueue.pop();
@@ -59,11 +60,17 @@ HRESULT CPool_Manager::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& 
 		{
 			pGameObject->Set_Tag(strLayerTag);
 			pGameObject->Set_FromPool(true);
+			pGameObject->SetActive(false);
+
 			m_Pools[iPrototypeLevelIndex][strLayerTag].push(pGameObject);
 
 			if (pArg)
 			{
 				m_InitArgMap[strLayerTag] = { strPrototypeTag, pArg };
+			}
+			else
+			{
+				m_InitArgMap[strLayerTag] = { strPrototypeTag, nullptr };
 			}
 		}
 	}

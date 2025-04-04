@@ -7,8 +7,9 @@
 #include "Level_Hub.h"
 #include "Level_Test.h"
 #include "Loader.h"
-
+#include "StructureManager.h"
 #include "GameInstance.h"
+#include <UI_Manager.h>
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -39,7 +40,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 void CLevel_Loading::Update(_float fTimeDelta)
 {
 
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		if (true == m_pLoader->isFinished())
 		{
@@ -74,7 +75,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			{
 				return;
 			}
-							
+
+			CUI_Manager::GetInstance()->Clear();
+			CStructureManager::Get_Instance()->Clear();
 		}
 	}	
 }

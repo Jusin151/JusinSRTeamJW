@@ -10,10 +10,12 @@ CGamePlay_Button::CGamePlay_Button(const CGamePlay_Button& Prototype)
     : CUI_Base(Prototype),
     m_pTextureCom(Prototype.m_pTextureCom),
     m_pVIBufferCom(Prototype.m_pVIBufferCom),
-    m_pTransformCom(Prototype.m_pTransformCom) {
+    m_pTransformCom(Prototype.m_pTransformCom)
+{
 }
 
-HRESULT CGamePlay_Button::Initialize_Prototype() {
+HRESULT CGamePlay_Button::Initialize_Prototype() 
+{
     return S_OK;
 }
 
@@ -49,7 +51,7 @@ void CGamePlay_Button::Update(_float fTimeDelta)
         if (m_OnMouse)  
             m_OnMouse();
 
-        if (GetKeyState(VK_LBUTTON) & 0x8000)
+        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
         {
             if (m_OnClick)
                 m_OnClick();
@@ -192,7 +194,7 @@ void CGamePlay_Button::Render_ToolTip_Button() // 설명창
 HRESULT CGamePlay_Button::Ready_Components()
 {
   
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_Button_Info.strTexture_Default_Tag,
+    if (FAILED(__super::Add_Component(LEVEL_HUB, m_Button_Info.strTexture_Default_Tag,
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 

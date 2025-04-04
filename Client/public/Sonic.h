@@ -39,7 +39,12 @@ public:
 
 	 HRESULT Ready_Components();
 
-
+	 virtual void Reset() override
+	 {
+		 m_eState = State::Idle;
+ 		 m_iCurrentFrame = 0;
+		 m_fElapsedTime = 0.0f;
+	 }
 
 private:
 	State m_eState = State::Idle;
@@ -54,8 +59,6 @@ public:
 	_float2 m_vInitialPos = {};
 
 
-	// CRanged_Weapon을(를) 통해 상속됨
-	HRESULT Ready_Icon() override;
 
 
 	// CRanged_Weapon을(를) 통해 상속됨

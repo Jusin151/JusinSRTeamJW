@@ -22,19 +22,30 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath)
 
 HRESULT CShader::Initialize(void* pArg)
 {
+	if (pArg)
+	{
+		SHADER_DESC desc = *reinterpret_cast<SHADER_DESC*>(pArg);
+		Safe_Release(m_pEffect);
+		if (FAILED(D3DXCreateEffectFromFile(m_pGraphic_Device, desc.filePath.c_str(), nullptr, nullptr, 0, nullptr, &m_pEffect, nullptr)))
+			return E_FAIL;
+	}
     return S_OK;
 }
 
 HRESULT CShader::Bind_Texture(D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture)
 {
-
 	return m_pEffect->SetTexture(hParameter, pTexture);
 }
 
 HRESULT CShader::Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix)
 {
 	return m_pEffect->SetMatrix(hParameter, pMatrix);
-	
+}
+
+HRESULT CShader::Bind_Vector(D3DXHANDLE hParameter, const _float3 pVector)
+{
+	D3DXVECTOR4 vec = { pVector, 1.0f };
+	return m_pEffect->SetVector(hParameter, &vec);
 }
 
 void CShader::Begin(_uint iPassIndex)

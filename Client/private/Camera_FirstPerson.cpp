@@ -48,13 +48,23 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 	CPickingSys::Get_Instance()->Set_CameraTransform(m_pTransformCom);
 
 
-	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == m_pPlayer)
 	{
 		m_pPlayer = m_pGameInstance->Find_Object(LEVEL_EDITOR, TEXT("Layer_Player"));
 		if (nullptr == m_pPlayer)
 		{
-			return E_FAIL;
+			m_pPlayer = m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Player"));
+			if (nullptr == m_pPlayer)
+			{
+				m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
+				if (nullptr == m_pPlayer)
+				{
+					return E_FAIL;
+				}
+
+			}
+			
 		}
 	}
 		
@@ -67,10 +77,12 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 {
 	CTransform* fPlayerTrans = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
+
+	_float3 fScale = fPlayerTrans->Compute_Scaled();
 	
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT));
-	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP));
-	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK));
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT).GetNormalized() * m_vScale.x);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP).GetNormalized() * m_vScale.y);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK).GetNormalized() * m_vScale.z);
 	auto vPos = fPlayerTrans->Get_State(CTransform::STATE_POSITION);
 	vPos.y += 0.2f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
@@ -80,19 +92,18 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	Shaking(fTimeDelta);
 
 	
-
-	if (m_tmpState)
-	{
+	
 		HandleMouseInput(fTimeDelta);
-		fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
-		fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP));
-		fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK));
-	}
+
 	__super::Update_VP_Matrices();
+	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT).GetNormalized() * fScale.x);
+	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP).GetNormalized() * fScale.y);
+	fPlayerTrans->Set_State(CTransform::STATE_LOOK, m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized() * fScale.z);
+	//fPlayerTrans->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
-{	
+{
 	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
 	{
 		m_tmpState = !m_tmpState;
@@ -163,34 +174,57 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 {
 	m_fShakeTime += fTimeDelta * 10.f;
 
-	float shakeAmount = 0.05f; // 흔들림 강도
+	float shakeAmount = 0.42f; // 흔들림 강도
 	_float3 shake = {
 		cos(m_fShakeTime) * shakeAmount,
 		sin(m_fShakeTime) * shakeAmount,
 		0.f
 	};
 
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
-	}
-	if (GetAsyncKeyState('S') & 0x8000)
-	{
-		
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
-	}
-	if (GetAsyncKeyState('A') & 0x8000)
-	{
+	// 보간 계수 (0.0 ~ 1.0 사이 값). 작을수록 부드럽지만 느리게 목표 도달.
+	// 예시: 고정값 사용 (값을 조절하며 테스트 필요)
+	float smoothFactor = 0.15f;
+	// 또는 시간 기반 보간 (프레임 영향 받을 수 있으므로 clamp나 다른 기법 고려)
+	// float smoothFactor = min(1.f, fTimeDelta * 10.f); // 예시
 
-	
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
-	}
-	if (GetAsyncKeyState('D') & 0x8000)
+	bool bIsMoving = false; // 이동 키가 눌렸는지 확인
+
+	if (GetAsyncKeyState('W') & 0x8000 ||
+		GetAsyncKeyState('S') & 0x8000 ||
+		GetAsyncKeyState('A') & 0x8000 ||
+		GetAsyncKeyState('D') & 0x8000 )
 	{
-		
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+		bIsMoving = true;
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 	}
+	if (bIsMoving)
+	{
+		// 1. 현재 카메라 위치 가져오기
+		_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		// 2. 목표 위치 계산 (현재 위치 + 흔들림 오프셋)
+		_float3 targetPos = currentPos + shake;
+
+		// 3. 현재 위치에서 목표 위치로 부드럽게 보간하여 새 위치 계산
+		_float3 newPos = VectorLerp(currentPos, targetPos, smoothFactor);
+		// 만약 VectorLerp 헬퍼 함수를 사용하지 않는다면:
+		/*
+		_float3 newPos = {
+			Lerp(currentPos.x, targetPos.x, smoothFactor),
+			Lerp(currentPos.y, targetPos.y, smoothFactor),
+			Lerp(currentPos.z, targetPos.z, smoothFactor) // Z축도 일관성을 위해 보간
+		};
+		*/
+
+		// 4. 계산된 새 위치로 카메라 상태 업데이트
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
+	}
+	// else
+	// {
+	//     // 만약 키를 뗐을 때 원래 위치로 부드럽게 돌아가게 하려면
+	//     // 여기에 원래 위치(흔들림 없는)로 돌아가는 Lerp 로직 추가 필요
+	// }
+
 }
 
 HRESULT CCamera_FirstPerson::Ready_Components()
@@ -203,7 +237,7 @@ HRESULT CCamera_FirstPerson::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
+	m_vScale = { 1.f, 1.f, 1.f };
 	return S_OK;
 }
 

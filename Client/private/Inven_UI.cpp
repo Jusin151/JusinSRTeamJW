@@ -31,7 +31,7 @@ HRESULT CInven_UI::Initialize(void* pArg)
 
 	CUI_Manager::GetInstance()->AddUI(L"Inven_UI", this);
 
-	m_pWeaponIcon.reserve(8);
+	m_pWeaponIcon.resize(8);
 	return S_OK;
 }
 
@@ -43,6 +43,8 @@ void CInven_UI::Priority_Update(_float fTimeDelta)
 	{
 		for (auto& it : m_pWeaponIcon)
 		{
+			if (nullptr == it)
+				continue;
 			it->SetActive(false);
 		}
 
@@ -105,7 +107,7 @@ HRESULT CInven_UI::Render()
 
 HRESULT CInven_UI::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Inven_UI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inven_UI"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

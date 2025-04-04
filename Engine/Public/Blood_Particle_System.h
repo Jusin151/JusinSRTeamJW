@@ -17,9 +17,13 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+
 public:
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
 	virtual void Update(float fTimeDelta) override;
+
+public:
+	virtual HRESULT Pre_Render() override;
 
 private:
 	BOUNDINGSPHERE		m_Bound = {};

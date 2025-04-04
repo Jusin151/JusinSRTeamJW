@@ -180,9 +180,11 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
+    <ClInclude Include="..\public\Hub_Headers.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -193,6 +195,8 @@
     <ClInclude Include="..\public\GameObject_Plane.h" />
     <ClInclude Include="..\public\GameObject_Projectile_Test.h" />
     <ClInclude Include="..\public\GameObject_Sphere.h" />
+    <ClInclude Include="..\public\Glacier.h" />
+    <ClInclude Include="..\public\GlacierBullet.h" />
     <ClInclude Include="..\public\Harpoon.h" />
     <ClInclude Include="..\public\Harpoonguy.h" />
     <ClInclude Include="..\public\Harvester.h" />
@@ -202,7 +206,6 @@
     <ClInclude Include="..\public\Hub_SpellShop.h" />
     <ClInclude Include="..\public\Hub_WeaponShop.h" />
     <ClInclude Include="..\public\Image_Manager.h" />
-    <ClInclude Include="..\Public\Inven_UI.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Image.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\Public\Observer.h" />
     <ClInclude Include="..\public\Particles.h" />
+    <ClInclude Include="..\public\Snowspider.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
@@ -267,6 +271,7 @@
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
     <ClInclude Include="..\Public\UI_WeaponShop_UI.h" />
+    <ClInclude Include="..\public\Yeti.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -284,6 +289,8 @@
     <ClCompile Include="..\private\CBehaviorTree.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
+    <ClCompile Include="..\private\Glacier.cpp" />
+    <ClCompile Include="..\private\GlacierBullet.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
     <ClCompile Include="..\private\Hub_PointShop.cpp" />
     <ClCompile Include="..\private\Hub_Portal.cpp" />
@@ -298,11 +305,11 @@
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
+    <ClCompile Include="..\private\Snowspider.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
     <ClCompile Include="..\Private\UI_Event.cpp" />
-    <ClCompile Include="..\Private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
     <ClCompile Include="..\private\Crocman.cpp" />
@@ -333,6 +340,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />
@@ -360,6 +368,7 @@
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\public\Cthulhu.cpp" />
+    <ClCompile Include="..\private\Yeti.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
@@ -372,7 +381,33 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Shader\Shader_Rect.hlsl" />
+    <FxCompile Include="..\..\Resources\Shaders\DoubleSideRect.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\FogShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\Shader_Rect.hlsl" />
+    <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">3.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\Shader\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

@@ -34,7 +34,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_Weapon_INFO.WeaponID = WEAPON_ID::ShotGun;
 	m_Weapon_INFO.vPos = { 0.f,-170.f }; // 샷건 위치
 	m_Weapon_INFO.vSize ={ 749,420.f };// 샷건 크기 위에 두개는 일단 밖에서 하는중
-	m_Weapon_INFO.Damage = 1;                // 데미지
+	m_Weapon_INFO.Damage = 50;                // 데미지
 	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
 
@@ -48,7 +48,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	//  등록
 	CItem_Manager::GetInstance()->Add_Weapon(L"ShotGun", this);
 
-	// 이미지에 따른 그거
+	// 이미지에 따른 그거 
 	m_TextureRanges["Idle"] = { 0, 0 };
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
@@ -57,8 +57,6 @@ HRESULT CShotGun::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 90;
 	m_fAnimationSpeed = 0.03f;
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -66,21 +64,6 @@ HRESULT CShotGun::Initialize(void* pArg)
 }
 
 
-HRESULT CShotGun::Ready_Icon()
-{
-	CImage::Image_DESC Image_INFO = {};
-	Image_INFO.vPos = { -200.f,150.f };
-	Image_INFO.vSize = { 100.f,50.f };
-	Image_INFO.IMAGE_TYPE = CImage::IMAGE_TYPE::WEAPON_ICON;
-	Image_INFO.TextureKey = L"Prototype_Component_Texture_Weapon_Icon";
-	Image_INFO.WeaponTag = L"ShotGun";
-	Image_INFO.TextureImageNum = ShotGun;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Image"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Image"), &Image_INFO)))
-		return E_FAIL;
-
-	return S_OK;
-}
 
 void CShotGun::Priority_Update(_float fTimeDelta)
 {
@@ -89,6 +72,11 @@ void CShotGun::Priority_Update(_float fTimeDelta)
 void CShotGun::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+}
+void CShotGun::Late_Update(_float fTimeDelta)
+{
+	__super::Late_Update(fTimeDelta);
 
 	m_fElapsedTime += fTimeDelta;
 
@@ -154,10 +142,7 @@ void CShotGun::Attack(_float fTimeDelta)
 }
 
 
-void CShotGun::Late_Update(_float fTimeDelta)
-{
-	__super::Late_Update(fTimeDelta);
-}
+
 
 HRESULT CShotGun::Render()
 {
@@ -209,6 +194,10 @@ HRESULT CShotGun::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
 
+
+
+
+
 	return S_OK;
 }
 
@@ -220,7 +209,7 @@ HRESULT CShotGun::On_Collision()
 
 HRESULT CShotGun::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,m_Weapon_INFO.TextureKey,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,m_Weapon_INFO.TextureKey,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -243,7 +232,7 @@ CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 
-		MSG_BOX("샷건 UI 원본 생성 실패 ");
+		MSG_BOX("샷건  원본 생성 실패 ");
 
 		Safe_Release(pInstance);
 	}
@@ -259,7 +248,7 @@ CGameObject* CShotGun::Clone(void* pArg)
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
 
-		MSG_BOX("샷건 UI 복제 실패");
+		MSG_BOX("샷건  복제 실패");
 
 		Safe_Release(pInstace);
 	}

@@ -30,6 +30,8 @@ public:
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
 	void Attack_Melee();
+
+	virtual void Reset() override;
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
@@ -38,6 +40,8 @@ private:
 	_float3				m_vDir = {};
 	CParticle_System*	m_pParticleCom = { nullptr };
 	CTransform*			m_pParticleTransformCom = { nullptr };
+	CLight*				m_pLightCom = { nullptr };
+	_float				m_fLifeTime = 0.f;
 
 public:
 	static CStaff_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

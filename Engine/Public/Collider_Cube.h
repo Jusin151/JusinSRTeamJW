@@ -15,6 +15,10 @@ public:
 		_float3 fAxisZ;
 		_float3 fPos;
 
+		// AABB에 사용할 min, max 미리 구해놓기
+		_float3 fMin;
+		_float3 fMax;
+
 		// 점들 저장
 		vector<_float3> vecIndices;
 

@@ -20,8 +20,7 @@ CUI_Default_Panel::CUI_Default_Panel(const CUI_Default_Panel& Prototype)
 
 HRESULT CUI_Default_Panel::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+
 	return S_OK;
 }
 HRESULT CUI_Default_Panel::Initialize(void* pArg)
@@ -93,9 +92,9 @@ HRESULT CUI_Default_Panel::Render()
 
 HRESULT CUI_Default_Panel::Ready_Components()
  {
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Default_PlayerUI"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Default_PlayerUI"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_Default_pTextureCom))))
-		return E_FAIL;
+   		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_Default_pVIBufferCom))))

@@ -208,7 +208,7 @@ _bool CHub_Episode::Can_Purchase(_uint iItemID, _uint iCount)
 HRESULT CHub_Episode::Ready_Components()
 {
 
-    if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Episode_Hub"),
+    if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Episode_Hub"),
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

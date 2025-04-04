@@ -171,14 +171,15 @@ namespace Engine
 
 	typedef struct tagParticleAttribute
 	{
-		D3DXVECTOR3 vPosition;
-		D3DXVECTOR3 vVelocity;
-		D3DXVECTOR3 vAcceleration;
-		float		fSize;
-		float		fLifetime;
-		float		fAge;
-		D3DCOLOR	vColor;
-		D3DCOLOR	vColorFade;
-		bool		bIsAlive;
+		D3DXVECTOR3		vPosition;
+		D3DXVECTOR3		vVelocity;
+		D3DXVECTOR3		vAcceleration;
+		float			fSize;
+		float			fLifetime;
+		float			fAge;
+		D3DCOLOR		vColor;
+		D3DCOLOR		vColorFade;
+		bool			bIsAlive;
+		unsigned int	iIndex;
 	} ATTRIBUTE;
 }

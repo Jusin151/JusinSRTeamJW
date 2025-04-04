@@ -34,6 +34,10 @@ public:
 	// 벽 충돌할거 먼저 충돌 처리
 	void Update_Collision_Structure();
 
+	void Update_Collision_Floor();
+
+	void Update_Collision_Trigger();
+
 	// 거리로만
 	void Collison_Sphere_To_Sphere( list<CCollider*> src, list<CCollider*> dst);
 	// OBB 충돌
@@ -65,16 +69,17 @@ public:
 	// aabb 구현, 벽 충돌에서만 사용
 	_bool Calc_AABB(CCollider* src, CCollider* dst);
 
+	// 바닥 체크
+	_bool Check_Floor_Ray(CCollider* src, _float& fY);
+
 private:
 
 	vector<list<CCollider*>> m_pColliders{ static_cast<size_t>(CG_END) };
 
 
 
-	//// 축 계산할때 넣어두는 용도로, 정규화해서 방향만 넣을 용도로
+	//// 축 계산할때 넣어두는 용도로
 	set<_float3> setAxes;
-	//// 거리 작은 순서대로 넣어주기, 충돌 후 이동시킬때 사용
-	//priority_queue<_float, vector<_float>, greater<_float>> m_Depths;
 	
 
 public:
