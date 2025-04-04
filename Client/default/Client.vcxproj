@@ -171,11 +171,9 @@
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\CBehaviorTree.h" />
-    <ClInclude Include="..\public\CCompositeNode.h" />
     <ClInclude Include="..\public\Claymore.h" />
-    <ClInclude Include="..\public\CNode.h" />
+    <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
-    <ClInclude Include="..\public\CTaskNode.h" />
     <ClInclude Include="..\public\Cthulhu.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
@@ -184,9 +182,11 @@
     <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
+    <ClInclude Include="..\public\Node.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
+    <ClInclude Include="..\public\TaskNode.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -285,10 +285,11 @@
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\BehaviorTree.cpp" />
     <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
-    <ClCompile Include="..\private\CBehaviorTree.cpp" />
+    <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
