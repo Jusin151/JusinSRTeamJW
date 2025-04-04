@@ -63,7 +63,6 @@ public:
         m_vecpWeapons[Index]=CItem_Manager::GetInstance()->Get_Weapon(tag);
         m_WeaponMap[tag] = m_vecpWeapons[Index];
 
-        _wstring ptag = tag;  
 		pair<const _wstring&, _uint> testTag = { tag, Index };
         Notify((void*)(&testTag), L"AddWeaponIcon"); // AddWeapon
 

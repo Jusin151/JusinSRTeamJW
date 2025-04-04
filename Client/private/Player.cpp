@@ -133,11 +133,18 @@ void CPlayer::Input_ItemtoInven()
 
 void CPlayer::Equip(_float fTimeDelta)
 {
+	if (m_eWeaponState != WEAPON_STATE::IDLE) return;
+	m_eWeaponState = WEAPON_STATE::CHANGE;
 	for (int i = 1; i <= 8; ++i)
 	{
 		if (GetAsyncKeyState('0' + i) & 0x8000)
 		{
+			if (m_pPlayer_Weapon)
+			{
+				m_pPlayer_Weapon->SetActive(false);
+			}
 			m_pPlayer_Weapon = m_pPlayer_Inven->Equip(i);
+			//m_pPlayer_Weapon->SetActive(true);
 			break;
 		}
 	}
@@ -153,7 +160,7 @@ void CPlayer::Equip(_float fTimeDelta)
 			}
 		}
 	}
-
+	m_eWeaponState = WEAPON_STATE::IDLE;
 
 }
 HRESULT CPlayer::Render()
@@ -304,14 +311,18 @@ void CPlayer::Move(_float fTimeDelta)
 
 void CPlayer::Attack(_float fTimeDelta)
 {
-	if (m_pPlayer_Weapon == nullptr)
+	if (m_pPlayer_Weapon == nullptr||m_eWeaponState == WEAPON_STATE::CHANGE)
 		return;
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
+		m_eWeaponState = WEAPON_STATE::FIRE;
 		m_pPlayer_Weapon->Attack(fTimeDelta);
 	}
-
+	else
+	{
+		m_eWeaponState = WEAPON_STATE::IDLE;
+	}
 }
 
 void CPlayer::Input_Key(_float fTimeDelta)

@@ -23,7 +23,12 @@ BEGIN(Client)
 
 class CPlayer final : public CCollisionObject
 {
-
+	enum class WEAPON_STATE
+	{
+		IDLE,
+		FIRE,
+		CHANGE
+	};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -144,6 +149,7 @@ private:
 private:
 	POINT m_ptOldMousePos = {};
 	_float m_fMouseSensor = {};
+	WEAPON_STATE m_eWeaponState = WEAPON_STATE::IDLE;
 private:
 	CGameObject* m_pCamera = nullptr;
 	CCollider_Cube* m_pColliderCom = { nullptr };

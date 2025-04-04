@@ -175,6 +175,7 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
@@ -200,7 +201,6 @@
     <ClInclude Include="..\public\Hub_SpellShop.h" />
     <ClInclude Include="..\public\Hub_WeaponShop.h" />
     <ClInclude Include="..\public\Image_Manager.h" />
-    <ClInclude Include="..\Public\Inven_UI.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Image.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
