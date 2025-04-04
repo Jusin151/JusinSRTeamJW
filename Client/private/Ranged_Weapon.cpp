@@ -164,12 +164,11 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
         }
-        else if (closestTag == L"Layer_Harpoonguy")
+        else if ((closestTag.find(L"Monster") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
-            // Harpoonguy와 충돌 처리 (Damage 변수는 여전히 필요합니다)
-            //Monster_Hit(pClosestCollider, Damage);
-            m_bMonster = true; // 필요하다면 플래그 설정
+        
+            m_bMonster = true; 
         }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
@@ -318,7 +317,6 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
 #pragma endregion
     }
 }
-
 void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage)
 {
     // 1. 유효성 검사 및 소유 객체 가져오기

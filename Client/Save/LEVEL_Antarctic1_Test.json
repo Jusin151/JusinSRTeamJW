@@ -7,11 +7,11 @@
         "LayerTag": "Layer_Player"
       }
     ],
-    "Layer_Glacier": [
+    "Layer_Monster_Glacier": [
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Glacier",
+        "LayerTag": "Layer_Monster_Glacier",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -43,7 +43,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Glacier",
+        "LayerTag": "Layer_Monster_Glacier",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -73,11 +73,11 @@
         "vibuffer": ""
       }
     ],
-    "Layer_Yeti": [
+    "Layer_Monster_Yeti": [
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Yeti",
+        "LayerTag": "Layer_Monster_Yeti",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -109,7 +109,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Yeti",
+        "LayerTag": "Layer_Monster_Yeti",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -141,7 +141,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Yeti",
+        "LayerTag": "Layer_Monster_Yeti",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -173,7 +173,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Yeti",
+        "LayerTag": "Layer_Monster_Yeti",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -203,11 +203,11 @@
         "vibuffer": ""
       }
     ],
-    "Layer_Harpoonguy": [
+    "Layer_Monster_Harpoonguy": [
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -239,7 +239,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -271,7 +271,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -303,7 +303,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -335,7 +335,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -367,7 +367,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -399,7 +399,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Harpoonguy",
+        "LayerTag": "Layer_Monster_Harpoonguy",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -429,11 +429,11 @@
         "vibuffer": ""
       }
     ],
-    "Layer_Snowspider": [
+    "Layer_Monster_Snowspider": [
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Snowspider",
+        "LayerTag": "Layer_Monster_Snowspider",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -465,7 +465,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Snowspider",
+        "LayerTag": "Layer_Monster_Snowspider",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -497,7 +497,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Snowspider",
+        "LayerTag": "Layer_Monster_Snowspider",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
@@ -529,7 +529,7 @@
       {
         "FromPool": false,
         "IsActive": true,
-        "LayerTag": "Layer_Snowspider",
+        "LayerTag": "Layer_Monster_Snowspider",
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 3,
