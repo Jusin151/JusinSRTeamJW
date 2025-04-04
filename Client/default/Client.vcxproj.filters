@@ -346,6 +346,21 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\GlacierBullet">
       <UniqueIdentifier>{6c7faba0-4663-4fe7-b403-71c22cf0e524}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Prefabs">
+      <UniqueIdentifier>{1656e8b7-2cf7-472a-985a-9ae77722a495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Torch">
+      <UniqueIdentifier>{9ae03cb0-b5f4-4e40-9de2-d073b8557fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Hub_Lamp">
+      <UniqueIdentifier>{78d09b1c-0e6d-4365-b4e5-6aa88ced3b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Candles">
+      <UniqueIdentifier>{24f26e6a-53b1-48c4-9c36-b2ce99d6eda8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Long_Torch">
+      <UniqueIdentifier>{23a6045c-871e-47ed-80f3-b9190ac4e8ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -663,6 +678,9 @@
     <ClInclude Include="..\public\GlacierBullet.h">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Torch.h">
+      <Filter>02.GameObjects\Prefabs\Torch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -958,6 +976,9 @@
     </ClCompile>
     <ClCompile Include="..\private\GlacierBullet.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Torch.cpp">
+      <Filter>02.GameObjects\Prefabs\Torch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
