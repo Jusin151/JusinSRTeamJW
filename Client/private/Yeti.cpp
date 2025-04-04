@@ -70,7 +70,6 @@ void CYeti::Priority_Update(_float fTimeDelta)
     if (m_iCurrentFrame > 40)
     {
         m_bIsActive = false;
-
     }
 }
 
@@ -324,7 +323,7 @@ _bool CYeti::Check_DIstance(_float fTimeDelta)
 
 void CYeti::Select_Frame(_float fTimeDelta)
 {
-    m_fElapsedTime += fTimeDelta;
+    m_fElapsedTime += fTimeDelta*1.7f; //임의로 애니메이션 속도 좀 올림
 
 
 

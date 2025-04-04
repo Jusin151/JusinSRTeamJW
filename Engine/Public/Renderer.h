@@ -15,6 +15,7 @@ public:
 		RG_PRIORITY,
 		RG_NONBLEND,
 		RG_BLEND,
+		RG_VIEWMODEL,
 		RG_UI_BACKGROUND,  //  UI 배경
 		RG_UI_BUTTON,      //  UI 버튼
 		RG_UI,             // 원래 UI
@@ -45,7 +46,9 @@ private:
 	HRESULT Render_NonBlend();
 	HRESULT Render_Blend();
 
-	HRESULT Render_UI_Background();
+	HRESULT Render_ViewModel();
+
+	HRESULT Render_UI_Background(); 
 
 	HRESULT Render_UI_Button();
 

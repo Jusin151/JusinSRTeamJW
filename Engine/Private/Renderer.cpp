@@ -43,6 +43,8 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
+	if (FAILED(Render_ViewModel()))
+		return E_FAIL;
 	if (FAILED(Disable_Lights()))
 		return E_FAIL;
 	if (FAILED(Render_UI_Background()))
@@ -224,6 +226,20 @@ HRESULT CRenderer::Render_Blend()
 //
 //	return S_OK;
 //}
+
+HRESULT CRenderer::Render_ViewModel()
+{
+	for (auto& pGameObject : m_RenderObjects[RG_VIEWMODEL])
+	{
+		if (nullptr != pGameObject && pGameObject->IsActive())
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderObjects[RG_VIEWMODEL].clear(); 
+
+	return S_OK;
+}
 
 HRESULT CRenderer::Render_UI_Background()
 {

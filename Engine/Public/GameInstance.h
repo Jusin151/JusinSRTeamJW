@@ -94,6 +94,7 @@ public:
 
 	HRESULT Add_Collider(COLLIDERGROUP eGroup, class CCollider* Collider);
 	vector<list<class CCollider*>> Get_Colliders();
+	void Clear_Colliders();
 
 #pragma endregion
 

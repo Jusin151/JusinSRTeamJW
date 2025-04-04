@@ -3,7 +3,7 @@
 #include "PickingSys.h"
 #include "Effects.h"
 #include "UI_Manager.h"
-
+#include "Collider_Manager.h"
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{ pGraphic_Device }
 {
@@ -29,13 +29,15 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 {
     __super::Move_Hand(fTimeDelta);
 
-	//Attack(fTimeDelta);
+	
 
 }
 
 void CRanged_Weapon::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+
+    
 }
 
 HRESULT CRanged_Weapon::Render()
@@ -104,6 +106,7 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
+
     // 매 프레임마다 마우스/레이 갱신
     if (m_pPickingSys)
         m_pPickingSys->Update();
@@ -120,13 +123,14 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     {
         for (auto* collider : group)
         {
-            // 유효성 검사
+       
             if (!collider || !collider->Get_Owner())
                 continue;
 
-            // 플레이어나 바닥 레이어는 무시
+     
             const wstring& tag = collider->Get_Owner()->Get_Tag();
-            if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos)
+            if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos||
+                tag.find(L"Trigger")!= wstring::npos)
                 continue;
 
             _float3 vHitPos{};
@@ -161,12 +165,17 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
         }
-        else if (closestTag == L"Layer_Harpoonguy")
+        else if (closestTag.find(L"Ceil") != wstring::npos)
+        {
+            Wall_Picking(pClosestCollider, EffectNum);
+            m_bWall = true; // 필요하다면 플래그 설정
+
+        }
+        else if ((closestTag.find(L"Monster") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
-            // Harpoonguy와 충돌 처리 (Damage 변수는 여전히 필요합니다)
-            //Monster_Hit(pClosestCollider, Damage);
-            m_bMonster = true; // 필요하다면 플래그 설정
+        
+            m_bMonster = true; 
         }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
@@ -176,6 +185,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
 {
     CTransform* pWallTransform = static_cast<CTransform*>(pCollider->Get_Owner()->Get_Component(L"Com_Transform"));
+    if (!pWallTransform) return;
 
     _float3 vWallNormal = pWallTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
     _float3 vTilePos = pWallTransform->Get_State(CTransform::STATE_POSITION);
@@ -183,33 +193,45 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
     _float3 vRayDir = m_pPickingSys->Get_Ray().vDir;
 
     float denom = vWallNormal.Dot(vRayDir);
-    if (fabs(denom) < 1e-7f) return;
+    if (fabs(denom) < 1e-9f) return;
 
     float t = vWallNormal.Dot(vTilePos - vRayOrigin) / denom;
     if (t < 0.f) return;
 
     _float3 vPlaneHit = vRayOrigin + vRayDir * t;
 
+    // 역행렬로 로컬 위치 변환
     _float4x4 worldMat = pWallTransform->Get_WorldMat();
     _float4x4 invWorld;
-    D3DXMatrixInverse(&invWorld, nullptr, &worldMat);
+    if (D3DXMatrixInverse(&invWorld, nullptr, &worldMat) == nullptr)
+        return;
+
     D3DXVECTOR3 vLocalHit;
     D3DXVec3TransformCoord(&vLocalHit, reinterpret_cast<D3DXVECTOR3*>(&vPlaneHit), &invWorld);
 
     if (vLocalHit.x < -0.55f || vLocalHit.x > 0.55f || vLocalHit.y < -0.55f || vLocalHit.y > 0.55f)
         return;
+    
 
-    _float3 vCamPos = dynamic_cast<CTransform*>(
-        m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))
-        ->Get_State(CTransform::STATE_POSITION);
+    CGameObject* pCamObj = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera");
+    if (!pCamObj) return;
 
-    _float3 vecTemp = vCamPos - vTilePos;
-    _float3 vTileToCam = vecTemp.GetNormalized();
-    float fOffset = (vWallNormal.Dot(vTileToCam) > 0.f) ? 0.01f : -0.01f;
-    _float3 vEffectPos = vPlaneHit + vWallNormal * fOffset;
+    CTransform* pCamTransform = static_cast<CTransform*>(pCamObj->Get_Component(L"Com_Transform"));
+    if (!pCamTransform) return;
 
+    _float3 vCamPos = pCamTransform->Get_State(CTransform::STATE_POSITION);
+
+
+    _float3 vToCamDir = vCamPos - vPlaneHit; 
+    vToCamDir.Normalize(); 
+    float dot = vWallNormal.Dot(vToCamDir);
+    float offsetDir = (dot > 0.f) ? 1.f : -1.f;
+
+    float wallThickness = pWallTransform->Compute_Scaled().z;
+    _float3 vEffectPos = vPlaneHit + vWallNormal * offsetDir * (wallThickness * 0.5f + 0.01f);
 
 #pragma region Effect 생성
+    // 이펙트 생성
     CEffect_Base::EFFECT_DESC effectDesc;
     effectDesc.vRight = pWallTransform->Get_State(CTransform::STATE_RIGHT);
     effectDesc.vUp = pWallTransform->Get_State(CTransform::STATE_UP);
@@ -217,35 +239,39 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
     effectDesc.vScale = { 0.5f, 0.5f, 0.5f };
 
     CHit_Effect::HIT_DESC hitDesc;
-    hitDesc.vRight = pWallTransform->Get_State(CTransform::STATE_RIGHT);
-    hitDesc.vUp = pWallTransform->Get_State(CTransform::STATE_UP);
-    hitDesc.vLook = pWallTransform->Get_State(CTransform::STATE_LOOK);
-    hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
+    hitDesc.vRight = effectDesc.vRight;
+    hitDesc.vUp = effectDesc.vUp;
+    hitDesc.vLook = effectDesc.vLook;
+    hitDesc.vScale = effectDesc.vScale;
     hitDesc.type = rand() % 4;
 
     for (_uint i = 0; i < EffectNum; ++i)
     {
         _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
         _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-        effectDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
-        hitDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+        _float3 vOffset = _float3(offsetX, offsetY, 0.f);
+
+        effectDesc.vPos = vEffectPos + vOffset;
+        hitDesc.vPos = vEffectPos + vOffset;
 
         m_pGameInstance->Add_GameObject(
-            LEVEL_GAMEPLAY,
+            LEVEL_STATIC,
             TEXT("Prototype_GameObject_Weapon_Effect"),
-            LEVEL_GAMEPLAY,
+            LEVEL_STATIC,
             TEXT("Layer_Weapon_Effect"),
             &effectDesc);
 
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
             TEXT("Prototype_GameObject_Hit_Effect"),
-            LEVEL_GAMEPLAY,
+            LEVEL_STATIC,
             TEXT("Layer_Hit_Effect"),
             &hitDesc);
     }
 #pragma endregion
 }
+
+
 void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
 {
     if (auto pTarget = dynamic_cast<CCollisionObject*>(pCollider->Get_Owner()))
@@ -276,7 +302,7 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
             return;
 
         _float3 vCamPos = dynamic_cast<CTransform*>(
-            m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))
+            m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform"))
             ->Get_State(CTransform::STATE_POSITION);
 
         _float3 vecTemp = vCamPos - vTilePos;
@@ -308,64 +334,58 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
             TEXT("Prototype_GameObject_Blood_Effect"),
-            LEVEL_GAMEPLAY,
+            LEVEL_STATIC,
             TEXT("Layer_Blood_Effect"),
             &hitDesc);
 
 #pragma endregion
     }
 }
-
 void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage)
 {
-    // 1. 유효성 검사 및 소유 객체 가져오기
+
     if (!pClosestCollider) return;
+
     CGameObject* pOwner = pClosestCollider->Get_Owner();
     if (!pOwner) return;
 
-    // 2. (선택적) HP 업데이트 등 충돌 대상에 대한 처리
-    //    dynamic_cast 최적화 고려 (static_cast 또는 타입 ID 확인)
-    if (auto pTarget = dynamic_cast<CCollisionObject*>(pOwner)) // 또는 최적화된 캐스팅 방식 사용
+    if (auto pTarget = dynamic_cast<CCollisionObject*>(pOwner)) 
     {
         pTarget->Set_Hp(pTarget->Get_Hp() - static_cast<_int>(Damage));
     }
-    // else if (auto pWall = dynamic_cast<CWall*>(pOwner)) { /* 벽 관련 처리 */ }
+    // else if (auto pWall = dynamic_cast<CWall*>(pOwner)) 
+    // { 
+    // 
+    //  벽 관련 처리 
+    // 
+    // }
 
-    // 3. 대상의 Transform 컴포넌트 가져오기 (캐싱 사용 권장)
-    // CTransform* pTargetTransform = pOwner->GetCachedTransform(); // 캐싱된 포인터 사용 예시
-    CTransform* pTargetTransform = static_cast<CTransform*>(pOwner->Get_Component(L"Com_Transform")); // 기존 방식 (캐싱 구현 필요)
+    CTransform* pTargetTransform = static_cast<CTransform*>(pOwner->Get_Component(L"Com_Transform"));
     if (!pTargetTransform) return;
 
-    // --- 이전 코드의 불필요한 계산 제거 ---
-    // - 레이-평면 교차 재계산 (vPlaneHit 계산) -> 제거 (vWorldHitPos 사용)
-    // - 월드 역행렬 계산 (invWorld) -> 제거
-    // - 로컬 좌표 변환 (vLocalHit) -> 제거
-    // - 로컬 좌표 경계 검사 -> 제거 (Ray_Intersection이 정확한 충돌을 보장한다고 가정)
-    // ------------------------------------
 
-    // 4. 표면 법선 벡터 가져오기 (주의: 아래는 여전히 근사값일 수 있음)
-    //    Ray_Intersection에서 정확한 법선을 제공한다면 그것을 사용하는 것이 가장 좋음!
     _float3 vSurfaceNormal = pTargetTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
-    // 만약 Ray_Intersection이 법선을 반환한다면:
-    // _float3 vSurfaceNormal = GetNormalFromRayIntersectionResult(...);
 
-    // 5. 카메라 위치 가져오기 (캐싱 사용 권장)
-    // CTransform* pCameraTransform = m_pGameInstance->GetCachedCameraTransform(); // 캐싱된 포인터 사용 예시
+
     CTransform* pCameraTransform = dynamic_cast<CTransform*>(
-        m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform")); // 기존 방식
-    if (!pCameraTransform) return; // 카메라 없으면 종료 (또는 기본값 처리)
+
+        m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform")); 
+
+    if (!pCameraTransform) 
+        return; // 카메라 없으면 종료 
+
     _float3 vCamPos = pCameraTransform->Get_State(CTransform::STATE_POSITION);
 
-    // 6. 이펙트 Z-Offset 계산 (카메라 방향 기준)
+  
     _float3 vHitToCamDir = (vCamPos - vWorldHitPos); // 방향 벡터
-    if (vHitToCamDir.LengthSq() > 1e-6f) // 길이가 0에 가까운 경우 정규화 방지
+    if (vHitToCamDir.LengthSq() > 1e-6f) 
     {
-        vHitToCamDir.Normalize(); // 정규화 (Normalize는 원본을 수정한다고 가정)
+        vHitToCamDir.Normalize(); 
     }
     else
     {
-        // 충돌 지점과 카메라 위치가 거의 같을 경우 기본 방향 설정 (예: 카메라의 Look 벡터)
-        vHitToCamDir = dynamic_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_LOOK);
+     
+        vHitToCamDir = dynamic_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_LOOK);
         vHitToCamDir.Normalize();
     }
 
@@ -422,7 +442,7 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
     m_pGameInstance->Add_GameObject(
         LEVEL_STATIC,         // 이펙트가 속할 레벨 (STATIC 또는 GAMEPLAY 등)
         effectPrototypeName,  // 사용할 이펙트 프로토타입 이름 (ID 기반 검색 권장)
-        LEVEL_GAMEPLAY,       // 이펙트 오브젝트가 추가될 레벨
+        LEVEL_STATIC,       // 이펙트 오브젝트가 추가될 레벨
         effectLayerName,      // 이펙트 오브젝트가 속할 레이어 이름 (ID 기반 검색 권장)
         &hitDesc);            // 이펙트 초기화 데이터
 

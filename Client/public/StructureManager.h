@@ -18,6 +18,7 @@ public:
 
 	const auto& Get_Structures() const { return m_StructureList; }
 	const auto& Get_Doors() const { return m_DoorList; }
+	void Clear();
 
 private:
 	list<CDoor*> m_DoorList;
