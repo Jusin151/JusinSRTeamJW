@@ -15,40 +15,48 @@
 #include "Sound_Event.h"
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device },
-	m_pPickingSys{ CPickingSys::Get_Instance() }
-
+ 	: CLevel{ pGraphic_Device }
 {
-	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
-	Safe_AddRef(m_pPickingSys);
+
 }
 HRESULT CLevel_Hub::Initialize()
+
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
-		LEVEL_HUB, TEXT("Layer_Inven_UI"))))
-		return E_FAIL;
+	CJsonLoader jsonLoader;
+	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hub.json", LEVEL_HUB);
+	static _bool bIsLoading = false;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
-		LEVEL_HUB, TEXT("Layer_Inven"))))
-		return E_FAIL;
+	if (!bIsLoading)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
+			LEVEL_STATIC, TEXT("Layer_Inven_UI")))) 
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
+			LEVEL_STATIC, TEXT("Layer_Inven"))))
+			return E_FAIL;
 
 
-	if (FAILED(Ready_Layer_Weapon()))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Weapon()))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_Weapon_Icon()))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Weapon_Icon()))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_UI()))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+			return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
+		if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+			return E_FAIL;
 
-	
+		bIsLoading = true;
+
+	}
+
 	if (FAILED(Ready_Layer_Shop_UI()))
 		return E_FAIL;
 
@@ -75,7 +83,13 @@ HRESULT CLevel_Hub::Initialize()
 
 void CLevel_Hub::Update(_float fTimeDelta)
 {
-
+	if (GetAsyncKeyState('F') & 0x8000)
+	{
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+			return;
+		return;
+	}
 }
 
 HRESULT CLevel_Hub::Render()
@@ -100,7 +114,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Claymore_Desc.AttackSpeed = { 1.f };
 	//Weapon_Claymore_Desc.TextureKey = L"Prototype_Component_Texture_Claymore";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Claymore"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Claymore"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Claymore"),
 		&Weapon_Claymore_Desc)))
 		return E_FAIL;
 
@@ -111,7 +125,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Axe_Desc.AttackSpeed = { 1.f };
 	//Weapon_Axe_Desc.TextureKey = L"Prototype_Component_Texture_Axe";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Axe"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Axe"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Axe"),
 		&Weapon_Axe_Desc)))
 		return E_FAIL;
 
@@ -124,7 +138,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_ShotGun_Desc.Damage = { 1 };
 	Weapon_ShotGun_Desc.TextureKey =L"Prototype_Component_Texture_ShotGun";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_ShotGun"),
-		LEVEL_HUB, TEXT("Layer_Weapon_ShotGun"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_ShotGun"),
 		&Weapon_ShotGun_Desc)))
 		return E_FAIL;
 
@@ -135,7 +149,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Magnum_Desc.AttackSpeed = { 1.f };
 	//Weapon_Magnum_Desc.TextureKey = L"Prototype_Component_Texture_Magnum";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Magnum"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Magnum"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Magnum"),
 		&Weapon_Magnum_Desc)))
 		return E_FAIL;
 
@@ -146,7 +160,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Staff_Desc.Damage = { 100 };
 	Weapon_Staff_Desc.AttackSpeed = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_Staff"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Staff"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Staff"),
 		&Weapon_Staff_Desc)))
 		return E_FAIL;
 
@@ -157,7 +171,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Minigun_Desc.Damage = { 100 };
 	Weapon_Minigun_Desc.AttackSpeed = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Minigun"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Minigun"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Minigun"),
 		&Weapon_Minigun_Desc)))
 		return E_FAIL;
 
@@ -169,7 +183,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Harvester_Desc.Damage = { 100 };
 	Weapon_Harvester_Desc.AttackSpeed = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Harvester"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Harvester"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Harvester"),
 		&Weapon_Harvester_Desc)))
 		return E_FAIL;
 
@@ -180,7 +194,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 	Weapon_Sonic_Desc.Damage = { 100 };
 	Weapon_Sonic_Desc.AttackSpeed = { 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sonic"),
-		LEVEL_HUB, TEXT("Layer_Weapon_Sonic"),
+		LEVEL_STATIC, TEXT("Layer_Weapon_Sonic"),
 		&Weapon_Sonic_Desc)))
 		return E_FAIL;
 
@@ -197,7 +211,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	ClaymoreIcon_INFO.WeaponTag = L"Claymore";
 	ClaymoreIcon_INFO.TextureImageNum = CWeapon_Base::Claymore;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &ClaymoreIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &ClaymoreIcon_INFO)))
 		return E_FAIL;
 
 	CImage::Image_DESC AxeIcon_INFO = {};
@@ -208,7 +222,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	AxeIcon_INFO.WeaponTag = L"Axe";
 	AxeIcon_INFO.TextureImageNum = CWeapon_Base::Axe;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &AxeIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &AxeIcon_INFO)))
 		return E_FAIL;
 
 	CImage::Image_DESC ShotGunIcon_INFO = {};
@@ -219,7 +233,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	ShotGunIcon_INFO.WeaponTag = L"ShotGun";
 	ShotGunIcon_INFO.TextureImageNum = CWeapon_Base::ShotGun;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &ShotGunIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &ShotGunIcon_INFO)))
 		return E_FAIL;
 
 	CImage::Image_DESC MagnumIcon_INFO = {};
@@ -230,7 +244,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	MagnumIcon_INFO.WeaponTag = L"Magnum";
 	MagnumIcon_INFO.TextureImageNum = CWeapon_Base::Magnum;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &MagnumIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &MagnumIcon_INFO)))
 		return E_FAIL;
 
 	CImage::Image_DESC StaffIcon_INFO = {};
@@ -241,7 +255,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	StaffIcon_INFO.WeaponTag = L"Staff";
 	StaffIcon_INFO.TextureImageNum = CWeapon_Base::Staff;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &StaffIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &StaffIcon_INFO)))
 		return E_FAIL;
 
 	CImage::Image_DESC MinigunIcon_INFO = {};
@@ -252,7 +266,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	MinigunIcon_INFO.WeaponTag = L"Minigun";
 	MinigunIcon_INFO.TextureImageNum = CWeapon_Base::Minigun;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &MinigunIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &MinigunIcon_INFO)))
 		return E_FAIL;
 
 	CImage::Image_DESC HarvesterIcon_INFO = {};
@@ -263,7 +277,7 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon_Icon()
 	HarvesterIcon_INFO.WeaponTag = L"Harvester";
 	HarvesterIcon_INFO.TextureImageNum = CWeapon_Base::Harvester;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Image"),
-		LEVEL_HUB, TEXT("Layer_Image"), &HarvesterIcon_INFO)))
+		LEVEL_STATIC, TEXT("Layer_Image"), &HarvesterIcon_INFO)))
 		return E_FAIL;
 
 	return S_OK;
@@ -324,14 +338,16 @@ HRESULT CLevel_Hub::Ready_Layer_Shop_UI()
 HRESULT CLevel_Hub::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_FirstPerson"),
-		LEVEL_HUB, strLayerTag)))
+		LEVEL_STATIC, strLayerTag)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CLevel_Hub::Ready_Layer_Player(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
-		LEVEL_HUB, strLayerTag)))
+		LEVEL_STATIC, strLayerTag)))
  		return E_FAIL;
 
 
@@ -494,6 +510,4 @@ void CLevel_Hub::Free()
 	__super::Free();
 
 	Safe_Release(m_pPickingSys);
-	CPickingSys::Destroy_Instance();
-
 }

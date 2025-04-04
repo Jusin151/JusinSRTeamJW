@@ -28,21 +28,20 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState(VK_LBUTTON)&0x8000)
-	{
-		if (CUI_Manager::GetInstance()->GetUI(L"Start_Button")->Get_MouseClick())
-		{
 
-   		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+	if (GetAsyncKeyState(VK_LBUTTON)&0x8000  && (CUI_Manager::GetInstance()->GetUI(L"Start_Button")->Get_MouseClick()))
+	{
+	
+
+   		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;
-		}
 	}
 
 
 	if (GetAsyncKeyState('E') & 0x8000)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_EDITOR))))
 			return;
 	}
@@ -55,7 +54,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 	}
 	if (GetKeyState('Q') & 0x8000)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;
 	}
@@ -143,7 +142,6 @@ HRESULT CLevel_Logo::Ready_Layer_Menu()
 	StartButton_Desc.strTexture_Select_Tag = {L"Prototype_Component_Texture_Menu_StartButton_Select"};
 	StartButton_Desc.strUIName = { L"Start_Button" };
 	StartButton_Desc.bStartButton_Flag = true;
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_StartButton"),
 		LEVEL_LOGO, TEXT("Layer_Menu_StartButton"),&StartButton_Desc)))
 		return E_FAIL;

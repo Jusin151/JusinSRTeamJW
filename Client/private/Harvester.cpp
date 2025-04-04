@@ -45,19 +45,12 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 	CItem_Manager::GetInstance()->Add_Weapon(L"Harvester", this);
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
 
 	__super::Ready_Picking();
 
 	return S_OK;
 }
-HRESULT CHarvester::Ready_Icon()
-{
-	
 
-	return S_OK;
-}
 
 void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
 {

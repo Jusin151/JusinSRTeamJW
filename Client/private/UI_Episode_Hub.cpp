@@ -43,7 +43,7 @@ HRESULT CUI_Episode_Hub::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
-	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this);
+	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this, UI_TYPE::UI_DYNAMIC);
 
 	return S_OK;
 }
@@ -215,7 +215,7 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
 							{
 								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Portal"),
-									LEVEL_GAMEPLAY, TEXT("Layer_Portal"))))
+									LEVEL_HUB, TEXT("Layer_Portal"))))
 									return;
 
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;

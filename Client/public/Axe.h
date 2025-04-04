@@ -45,8 +45,6 @@ private:
 
 
 
-	// CMelee_Weapon을(를) 통해 상속됨
-	HRESULT Ready_Icon() override;
 
 };
 END
