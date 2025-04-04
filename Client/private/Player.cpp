@@ -30,10 +30,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 	
 	if (!pArg)
 	{
-		m_tObjDesc.iLevel = 3;
+		m_tObjDesc.iLevel = 0;
 		m_tObjDesc.stBufferTag = TEXT("Prototype_Component_VIBuffer_Cube");
 		m_tObjDesc.stProtTextureTag = TEXT("Prototype_Component_Texture_Player");
-		m_tObjDesc.iProtoLevel = 3;
+		m_tObjDesc.iProtoLevel = 0;
 	}
 	else
 	{
@@ -483,11 +483,11 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (!m_pPlayer_Inven)
 	{
  		m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-		(LEVEL_GAMEPLAY, TEXT("Layer_Inven")));
+		(LEVEL_STATIC, TEXT("Layer_Inven")));
 		if (!m_pPlayer_Inven)
 		{
 			m_pPlayer_Inven = static_cast<CInventory*>(m_pGameInstance->Find_Object
-			(LEVEL_HUB, TEXT("Layer_Inven")));
+			(LEVEL_STATIC, TEXT("Layer_Inven")));
 				if(!m_pPlayer_Inven)
 				{
 					return E_FAIL;
