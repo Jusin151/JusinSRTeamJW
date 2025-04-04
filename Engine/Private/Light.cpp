@@ -1,4 +1,5 @@
 ﻿#include "Light.h"
+#include "Shader.h"
 
 CLight::CLight(PDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent { pGraphic_Device }
@@ -74,6 +75,12 @@ HRESULT CLight::Bind_Resouce(_uint iIndex)
 	memcpy(&light.Phi,			&m_tInfo.fPhi,			sizeof(_float));
 
 	m_pGraphic_Device->SetLight(iIndex, &light);
+
+	return S_OK;
+}
+
+HRESULT CLight::Bind_Light(CShader* pShader)
+{
 
 	return S_OK;
 }

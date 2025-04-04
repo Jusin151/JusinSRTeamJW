@@ -5,7 +5,7 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture g_Texture;
 textureCUBE g_CubeTexture;
 
-#define MAX_LIGHTS 4 // 셰이더에서 처리할 최대 라이트 수 (필요에 따라 조절)
+#define MAX_LIGHTS 8 // 셰이더에서 처리할 최대 라이트 수 (필요에 따라 조절)
 
 struct Light
 {
@@ -18,17 +18,17 @@ struct Light
     float Attenuation1; // 감쇠 선형항 (Linear Attenuation)
     float Attenuation2; // 감쇠 제곱항 (Quadratic Attenuation)
     // --- 스포트라이트용 추가 정보 (필요시) ---
-    float SpotFalloff; // 스포트라이트 감쇠 지수 (Power)
+    // float SpotFalloff; // 스포트라이트 감쇠 지수 (Power)
     // float SpotCosInnerAngle; // 스포트라이트 내부 각 코사인값
     // float SpotCosOuterAngle; // 스포트라이트 외부 각 코사인값
 };
 
-Light g_Lights[MAX_LIGHTS]; // 라이트 정보 배열
+Light g_Lights[MAX_LIGHTS] : LIGHTS; // 라이트 정보 배열
 int g_NumActiveLights; // 현재 객체에 영향을 주는 활성 라이트 개수 (C++에서 설정)
 
 // 빛 관련 전역 변수 추가 (C++에서 설정 필요)
-float3 g_LightDirection = normalize(float3(1.f, -1.f, 1.f)); // 예시: 조명 방향 (카메라 기준?)
-float4 g_LightColor = float4(1.f, 1.f, 1.f, 1.f); // 예시: 조명 색상
+float3 g_LightDirection = normalize(float3(-1.f, -1.f, -1.f)); // 예시: 조명 방향 (카메라 기준?)
+float4 g_LightColor = float4(1.f, 0.f, 0.f, 1.f); // 예시: 조명 색상
 float4 g_AmbientLightColor = float4(0.2f, 0.2f, 0.2f, 1.f); // 예시: 주변광 색상
 
 // 카메라 위치 (Specular 계산에 필요, C++에서 설정)
@@ -211,8 +211,7 @@ technique DefaultTechnique
         PixelShader = compile ps_3_0 PS_MAIN(); // 빛 계산이 포함된 PS_MAIN 사용
     }
 
-    pass
-        asdouble
+    pass asdouble
     {
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_MAIN_RED();

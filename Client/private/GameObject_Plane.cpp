@@ -116,7 +116,8 @@ HRESULT CGameObject_Plane::Render()
     m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix());
     m_pShaderCom->Bind_Matrix("g_ViewMatrix", &viewMatrix);
     m_pShaderCom->Bind_Matrix("g_ProjMatrix", &projMatrix);
-    m_pShaderCom->Bind_Vector("g_CameraPosition", static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_TEST, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION));
+    _float3 CameraPos = static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_TEST, L"Layer_Camera")->Get_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+    m_pShaderCom->Bind_Vector("g_CameraPosition", &CameraPos);
     
     m_pShaderCom->Begin(1);
 

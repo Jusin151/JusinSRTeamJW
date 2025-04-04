@@ -82,3 +82,5 @@ do { \
         } \
     } \
 } while(0)
+
+#define MAX_LIGHT_APP = 8;

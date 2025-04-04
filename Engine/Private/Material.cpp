@@ -1,4 +1,5 @@
 ﻿#include "Material.h"
+#include "Shader.h"
 
 CMaterial::CMaterial(LPDIRECT3DDEVICE9 pGraphic_Device)
     :   CComponent { pGraphic_Device }
@@ -41,8 +42,24 @@ HRESULT CMaterial::Initialize(void* pArg)
 
 HRESULT CMaterial::Bind_Resource()
 {
-    if(FAILED(m_pGraphic_Device->SetMaterial(&m_tMaterial)))
+    D3DMATERIAL9 material = {};
+    memcpy(&material.Diffuse,   &m_tMaterial.Diffuse,   sizeof(_float4));
+    memcpy(&material.Ambient,   &m_tMaterial.Ambient,   sizeof(_float4));
+    memcpy(&material.Specular,  &m_tMaterial.Specular,  sizeof(_float4));
+    memcpy(&material.Emissive,  &m_tMaterial.Emissive,  sizeof(_float4));
+    memcpy(&material.Power,     &m_tMaterial.Power,     sizeof(_float));
+    if (FAILED(m_pGraphic_Device->SetMaterial(&material)))
         return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CMaterial::Bind_Material(CShader* pShader)
+{
+    pShader->Bind_Vector("g_MaterialDiffuse",       &m_tMaterial.Diffuse);
+    pShader->Bind_Vector("g_MaterialAmbient",       &m_tMaterial.Ambient);
+    pShader->Bind_Vector("g_MaterialSpecular",      &m_tMaterial.Specular);
+    pShader->Bind_Float("g_MaterialSpecularPower",  m_tMaterial.Power);
+    pShader->Bind_Vector("g_MaterialEmissive",      &m_tMaterial.Emissive);
     return S_OK;
 }
 

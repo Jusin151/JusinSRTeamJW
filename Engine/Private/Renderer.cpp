@@ -109,7 +109,18 @@ HRESULT CRenderer::Render_NonBlend()
 	for (auto& pGameObject : m_RenderObjects[RG_NONBLEND])
 	{
 		if (nullptr != pGameObject && pGameObject->IsActive())
+		{
+			//CShader* shader = dynamic_cast<CShader*>(pGameObject->Get_Component(L"Com_Shader"));
+			//if (shader)
+			//{
+			//	for (int i = 0; i < m_Lights.size(); ++i)
+			//	{
+			//		//shader.
+			//	}
+			//}
 			pGameObject->Render();
+		}
+			
 
 		Safe_Release(pGameObject);
 	}
@@ -253,6 +264,18 @@ HRESULT CRenderer::Render_UI()
 	m_RenderObjects[RG_UI].clear();
 
 	return S_OK;
+}
+
+HRESULT CRenderer::SetLights(CShader* pShader)
+{
+	_uint numLights = m_Lights.size();
+	CLight::SHADER_LIGHT sl = {};
+
+	for (_uint i = 0; i < numLights; ++i)
+	{
+
+	}
+	return E_NOTIMPL;
 }
 
 CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

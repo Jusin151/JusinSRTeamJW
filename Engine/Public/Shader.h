@@ -21,7 +21,12 @@ public:
 public:
 	HRESULT Bind_Texture(D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture);
 	HRESULT Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix);
-	HRESULT Bind_Vector(D3DXHANDLE hParameter, const _float3 pVector);
+	HRESULT Bind_Vector(D3DXHANDLE hParameter, const _float3* pVector);
+	HRESULT Bind_Vector(D3DXHANDLE hParameter, const _float4* pVector);
+	HRESULT Bind_Int(D3DXHANDLE hParameter, const _int pInt);
+	HRESULT Bind_Float(D3DXHANDLE hParameter, const _float pFloat);
+	HRESULT Bind_Light(class CLight* pLight);
+	HRESULT Bind_Material(class CMaterial* pMaterial);
 
 public:
 	void Begin(_uint iPassIndex);

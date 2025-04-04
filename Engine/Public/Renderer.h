@@ -51,6 +51,7 @@ private:
 
 	HRESULT Render_UI();
 
+	HRESULT SetLights(class CShader* pShader);
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

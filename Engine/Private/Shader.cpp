@@ -1,4 +1,6 @@
 ﻿#include "Shader.h"
+#include "Material.h"
+#include "Light.h"
 
 CShader::CShader(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CComponent { pGraphic_Device }
@@ -42,10 +44,38 @@ HRESULT CShader::Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix)
 	return m_pEffect->SetMatrix(hParameter, pMatrix);
 }
 
-HRESULT CShader::Bind_Vector(D3DXHANDLE hParameter, const _float3 pVector)
+HRESULT CShader::Bind_Vector(D3DXHANDLE hParameter, const _float3* pVector)
 {
-	D3DXVECTOR4 vec = { pVector, 1.0f };
+	D3DXVECTOR4 vec = { *pVector, 1.0f };
+	//m_pEffect.set
 	return m_pEffect->SetVector(hParameter, &vec);
+}
+
+HRESULT CShader::Bind_Vector(D3DXHANDLE hParameter, const _float4* pVector)
+{
+	return m_pEffect->SetVector(hParameter, pVector);
+}
+
+HRESULT CShader::Bind_Int(D3DXHANDLE hParameter, const _int pInt)
+{
+	return m_pEffect->SetInt(hParameter, pInt);
+}
+
+HRESULT CShader::Bind_Float(D3DXHANDLE hParameter, const _float pFloat)
+{
+	return m_pEffect->SetFloat(hParameter, pFloat);;
+}
+
+HRESULT CShader::Bind_Light(CLight* pLight)
+{
+	pLight->Bind_Light(this);
+	return S_OK;
+}
+
+HRESULT CShader::Bind_Material(CMaterial* pMaterial)
+{
+	pMaterial->Bind_Material(this);
+	return S_OK;
 }
 
 void CShader::Begin(_uint iPassIndex)

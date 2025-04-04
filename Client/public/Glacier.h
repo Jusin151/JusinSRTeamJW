@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Monster_Base.h"
 
@@ -16,7 +16,7 @@ public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
-	// ¸¶Áö¸·¿¡ ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¹Ù¶óº¸µµ·Ï ÇÔ
+	// ë§ˆì§€ë§‰ì— í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ë°”ë¼ë³´ë„ë¡ í•¨
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
@@ -25,24 +25,24 @@ public:
 
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
-	// ÀÏÁ¤ °Å¸® ±îÁö ÂÑ¾Æ°¡°Å³ª, ÀÏÁ¤ °Å¸® ÀÌ³»¸é Äİ¶óÀÌ´õ »ı¼ºÇØ¼­ °ø°İÇÏµµ·Ï
+	// ì¼ì • ê±°ë¦¬ ê¹Œì§€ ì«“ì•„ê°€ê±°ë‚˜, ì¼ì • ê±°ë¦¬ ì´ë‚´ë©´ ì½œë¼ì´ë” ìƒì„±í•´ì„œ ê³µê²©í•˜ë„ë¡
 	virtual void Select_Pattern(_float fTimeDelta) override;
 
-	// hp È®ÀÎÇÏ¸é¼­ HPSTATE º¯°æ
+	// hp í™•ì¸í•˜ë©´ì„œ HPSTATE ë³€ê²½
 	void Select_HpState();
-	// ¸ó½ºÅÍ ±âÁØÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ ¿ŞÂÊ¿¡ ÀÖ´ÂÁö ¿À¸¥ÂÊ¿¡ ÀÖ´ÂÁö È®ÀÎ. 0ÀÌ¸é look, 0 ÃÊ°úÇÏ¸é ¿À¸¥ÂÊ, 0 ¹Ì¸¸ÀÌ¸é ¿ŞÂÊ
+	// ëª¬ìŠ¤í„° ê¸°ì¤€ìœ¼ë¡œ í”Œë ˆì´ì–´ê°€ ì™¼ìª½ì— ìˆëŠ”ì§€ ì˜¤ë¥¸ìª½ì— ìˆëŠ”ì§€ í™•ì¸. 0ì´ë©´ look, 0 ì´ˆê³¼í•˜ë©´ ì˜¤ë¥¸ìª½, 0 ë¯¸ë§Œì´ë©´ ì™¼ìª½
 	_float Check_Direction();
 
 	void Shooting(_float fTimeDelta);
 
-	// °¢ »óÅÂ¿¡ ¸Â°Ô ÇÁ·¹ÀÓÀ» ¼³Á¤ÇÔ
+	// ê° ìƒíƒœì— ë§ê²Œ í”„ë ˆì„ì„ ì„¤ì •í•¨
 	void Select_Frame(_float fTimeDelta);
 
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 
-	// ÅØ½ºÃ³ Ãß°¡ 
+	// í…ìŠ¤ì²˜ ì¶”ê°€ 
 	HRESULT Ready_Components();
 
 

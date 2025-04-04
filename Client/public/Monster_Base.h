@@ -5,6 +5,7 @@
 #include "CollisionObject.h"
 
 BEGIN(Engine)
+class CShader;
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
@@ -45,10 +46,12 @@ public:
 	
 	CGameObject* Get_Target() { return m_pTarget; }
 protected:
-	CTexture* m_pTextureCom = { nullptr };
-	CTransform* m_pTransformCom = { nullptr };
+	CTexture*		m_pTextureCom = { nullptr };
+	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+protected:
 
 	// 일단 몬스터는 플레이어만 타겟으로 하도록. 다른 걸 타겟으로 하는 것은 나중에 하도록
 	CGameObject*	m_pTarget = { nullptr };

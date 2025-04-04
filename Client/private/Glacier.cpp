@@ -1,4 +1,4 @@
-#include "Glacier.h"
+ï»¿#include "Glacier.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -160,7 +160,7 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
     if (nullptr == other)
         return S_OK;
 
-    // ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+    // ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
     if (other->Get_Type() == CG_END)
         return S_OK;
 
@@ -177,7 +177,7 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
         break;
 
     case CG_WEAPON:
-        // Á×Àº »óÅÂ°í, ÇÁ·¹ÀÓ ³¡³ªÀÖÀ¸¸é Á×ÀÌ±â
+        // ì£½ì€ ìƒíƒœê³ , í”„ë ˆìž„ ëë‚˜ìžˆìœ¼ë©´ ì£½ì´ê¸°
         if(m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
             m_bIsActive = false;
        
@@ -279,7 +279,7 @@ void CGlacier::Shooting(_float fTimeDelta)
         pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
         pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-        // ¿ÀºêÁ§Æ® Ç®¸µÀ¸·Î º¯°æ ÇÊ¿ä
+        // ì˜¤ë¸Œì íŠ¸ í’€ë§ìœ¼ë¡œ ë³€ê²½ í•„ìš”
         m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GlacierBullet"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_GlacierBullet"), &pDesc);
 
         m_iCurrentFrame++;
@@ -299,7 +299,7 @@ void CGlacier::Select_Frame(_float fTimeDelta)
         m_iCurrentFrame = 0;
         break;
     case MS_WALK:
-        // ¿À¸¥ÂÊ
+        // ì˜¤ë¥¸ìª½
         if (m_bRight)
         {
             if (HP_MAX == m_eHpState)
@@ -339,7 +339,7 @@ void CGlacier::Select_Frame(_float fTimeDelta)
                 break;
             }
         }
-        // ¿ÞÂÊ
+        // ì™¼ìª½
         else
         {
 
@@ -423,8 +423,8 @@ HRESULT CGlacier::SetUp_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ±âÁØ°ª ¼³Á¤ (0~255)
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
     return S_OK;
 }
