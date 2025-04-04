@@ -13,6 +13,7 @@
 #include "Image.h"
 #include "Level_Loading.h"
 #include "Sound_Event.h"
+#include <Camera_FirstPerson.h>
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
  	: CLevel{ pGraphic_Device }
@@ -87,14 +88,10 @@ HRESULT CLevel_Hub::Initialize()
 		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-11.f, 0.f, 8.f));
 	}
 
-	CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera"));
-	if (pPlayer)
+	CCamera_FirstPerson * pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+	if (pCamera)
 	{
-		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
-		if (nullptr == pTransform)
-			return E_FAIL;
-
-		pTransform->Rotation(_float3(0.f, 1.f, 0.f), D3DXToRadian(90.f));
+		pCamera->Set_Yaw(D3DXToRadian(90.f));
 	}
 
 	return S_OK;
