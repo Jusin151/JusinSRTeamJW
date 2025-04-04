@@ -55,6 +55,13 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 		Safe_AddRef(pTarget);
 	}
 
+	if (!m_bCheck)
+	{
+		if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+			m_bCheck = true;
+	}
+	
+
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
 
@@ -67,17 +74,21 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 
 void CHarpoonguy::Update(_float fTimeDelta)
 {
-
-
 	if (nullptr == m_pTarget)
 		return;
 
-	_float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
-
-	if (vDist.LengthSq() > 400)
+	if (!m_bCheck)
 	{
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 		return;
 	}
+	
+
+
+
+
+	
+
 
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -96,6 +107,15 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
+	if (m_pTarget == nullptr)
+		return;
+	if (m_pTrigger != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+	{
+		//m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		return;
+	}
+
+
 	_float3 vScale = m_pTransformCom->Compute_Scaled();
 	_float3 extents = _float3(
 		0.5f * vScale.x,
@@ -108,9 +128,6 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 			return;
 	}
 	Select_Frame(fTimeDelta);
-	if (nullptr == m_pTarget)
-		return;
-
 	
 
 	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
@@ -268,7 +285,7 @@ void CHarpoonguy::Shooting(_float fTimeDelta)
 	{
 
 		CProjectile_Base::PROJ_DESC pDesc = {};
-		pDesc.fSpeed = 2.f;
+		pDesc.fSpeed = 8.f;
 		pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 

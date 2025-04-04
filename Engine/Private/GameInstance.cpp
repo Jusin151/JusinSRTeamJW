@@ -105,8 +105,8 @@ HRESULT CGameInstance::Draw()
 	m_pLevel_Manager->Render();
 
 	m_pGraphic_Device->Render_End();
-	
 	}
+
 	return S_OK;
 }
 
@@ -119,6 +119,7 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pCollider_Manager->Clear();
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
+	m_pCollider_Manager->Clear();
 }
 
 #pragma region LEVEL_MANAGER
@@ -132,11 +133,7 @@ HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 	if (m_eLevelState == LEVEL_STATE::CHANGING)
 		return E_FAIL; // 이미 레벨 변경 중인 경우 방지
-
-	// 모든 사운드 이벤트 정지
 	m_pSound_Manager->Stop_All_Event();
-
-	// 실제 레벨 변경 수행
 	return hr;
 }
 #pragma endregion
