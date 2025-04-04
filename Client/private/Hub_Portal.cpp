@@ -72,13 +72,7 @@ void CHub_Portal::Update(_float fTimeDelta)
     if (SUCCEEDED(On_Collision()))
     {
         
-   
-
-
     }
-
-
-
 }
 
 

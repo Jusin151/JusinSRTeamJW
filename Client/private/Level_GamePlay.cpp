@@ -27,6 +27,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Event(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
+		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -37,7 +42,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;
-
 	}
 }
 

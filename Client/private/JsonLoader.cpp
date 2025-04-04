@@ -167,7 +167,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 			// 객체 타입 확인
 			bool bIsItem = layerTag == L"Layer_Item";
 			bool bIsDoor = layerTag.find(L"Layer_Door")!=_wstring::npos;
-			bool bIsTrigger = layerTag == L"Layer_Trigger";
+			bool bIsTrigger = layerTag.find(L"Trigger") != _wstring::npos;
 
 			// FromPool 확인
 			bool bFromPool = false;

@@ -35,6 +35,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
    		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;
+		}
 	}
 
 

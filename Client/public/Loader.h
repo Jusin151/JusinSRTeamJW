@@ -53,7 +53,7 @@ public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID);
 	virtual void Free() override;
 
-////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 	HRESULT Add_To_Logo_Textures();
 	HRESULT Add_To_Logo_Prototype();
 
@@ -63,8 +63,6 @@ public:
 	HRESULT Add_To_GamePlay_Textures();
 	HRESULT Add_To_GamePlay_Buffer();
 	HRESULT Add_To_GamePlay_Prototype();
-
-
 		
 
 		

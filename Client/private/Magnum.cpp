@@ -41,7 +41,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 		return E_FAIL;
 
 	// 일단 Level_GamePlay에서도 비슷한값 넣는중
-	m_Weapon_INFO.WeaponID = WEAPON_ID::ShotGun;
+	m_Weapon_INFO.WeaponID = WEAPON_ID::Magnum;
 	m_Weapon_INFO.vPos = { 0.f,-170.f }; // 샷건 위치
 	m_Weapon_INFO.vSize = { 749,420.f };// 샷건 크기 위에 두개는 일단 밖에서 하는중
 	m_Weapon_INFO.Damage = 20;                // 데미지
