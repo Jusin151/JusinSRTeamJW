@@ -66,20 +66,13 @@ HRESULT CMagnum::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 50;    //샷건 최대 50발
 	m_fAnimationSpeed = 0.03f; // 애니메이션속도
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
+
 
 	__super::Ready_Picking();
 
 	return S_OK;
 }
 
-HRESULT CMagnum::Ready_Icon()
-{
-
-
-	return S_OK;
-}
 
 void CMagnum::Priority_Update(_float fTimeDelta)
 {

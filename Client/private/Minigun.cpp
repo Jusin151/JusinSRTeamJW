@@ -68,19 +68,11 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_TextureRanges["Attack"] = { 4, 7 };
 
     CItem_Manager::GetInstance()->Add_Weapon(L"Minigun", this);
-   if (FAILED(Ready_Icon()))
-        return E_FAIL;
+
+
     __super::Ready_Picking();
     return S_OK;
 }
-HRESULT CMinigun::Ready_Icon()
-{
-
-  
-
-    return S_OK;
-}
-
 
 void CMinigun::Priority_Update(_float fTimeDelta)
 {

@@ -141,7 +141,6 @@ HRESULT CLevel_Logo::Ready_Layer_Menu()
 	StartButton_Desc.strTexture_Select_Tag = {L"Prototype_Component_Texture_Menu_StartButton_Select"};
 	StartButton_Desc.strUIName = { L"Start_Button" };
 	StartButton_Desc.bStartButton_Flag = true;
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Menu_StartButton"),
 		LEVEL_LOGO, TEXT("Layer_Menu_StartButton"),&StartButton_Desc)))
 		return E_FAIL;

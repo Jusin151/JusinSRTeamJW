@@ -57,8 +57,6 @@ HRESULT CShotGun::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 90;
 	m_fAnimationSpeed = 0.03f;
 
-	if (FAILED(Ready_Icon()))
-		return E_FAIL;
 
 	__super::Ready_Picking();
 
@@ -66,12 +64,6 @@ HRESULT CShotGun::Initialize(void* pArg)
 }
 
 
-HRESULT CShotGun::Ready_Icon()
-{
-
-
-	return S_OK;
-}
 
 void CShotGun::Priority_Update(_float fTimeDelta)
 {

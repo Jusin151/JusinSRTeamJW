@@ -382,7 +382,7 @@ HRESULT CLoader::Add_To_Logo_Textures()
 {
 	//로고의 사람 // 3번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu-warlock_v02_winter.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu-warlock_v03.png"), 1))))
 		return E_FAIL;
 	//로고의 검은 몬스터 // 4번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_2"),
@@ -390,11 +390,11 @@ HRESULT CLoader::Add_To_Logo_Textures()
 		return E_FAIL;
 	// 로고의 맨뒤 배경 // 1번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_3"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu_blyskawica_v01_winter.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu_blyskawica_v01.png"), 1))))
 		return E_FAIL;
 	// 로고의 맨뒤에서 2번째 몬스터 // 2번째 렌더
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_4"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/SR_menu_potwory_v01_winter.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu_potwory_v01.png"), 1))))
 		return E_FAIL;
 
 	Add_To_Logo_Menu_Textures();
@@ -449,10 +449,10 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 		CCamera_FirstPerson::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Sky */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
-		CSky::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	///* For.Prototype_GameObject_Sky */
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+	//	CSky::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	

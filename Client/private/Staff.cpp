@@ -65,12 +65,7 @@ HRESULT CStaff::Initialize(void* pArg)
 
 	return S_OK;
 }
-HRESULT CStaff::Ready_Icon()
-{
- 
 
-    return S_OK;
-}
 
 void CStaff::Attack_WeaponSpecific(_float fTimeDelta)
 {
