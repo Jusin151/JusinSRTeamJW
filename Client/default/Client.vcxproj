@@ -164,6 +164,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Animation.h" />
+    <ClInclude Include="..\public\AnimationManager.h" />
     <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
@@ -179,6 +181,12 @@
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\HellBoss.h" />
+    <ClInclude Include="..\public\HellBoss_AttackState.h" />
+    <ClInclude Include="..\public\HellBoss_DeadState.h" />
+    <ClInclude Include="..\Public\HellBoss_IdleState.h" />
+    <ClInclude Include="..\public\HellBoss_MorphState.h" />
+    <ClInclude Include="..\Public\HellBoss_State.h" />
+    <ClInclude Include="..\public\HellBoss_WalkState.h" />
     <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
@@ -281,6 +289,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Animation.cpp" />
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
@@ -291,6 +300,12 @@
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
+    <ClCompile Include="..\private\HellBoss_AttackState.cpp" />
+    <ClCompile Include="..\private\HellBoss_DeadState.cpp" />
+    <ClCompile Include="..\Private\HellBoss_IdleState.cpp" />
+    <ClCompile Include="..\private\HellBoss_MorphState.cpp" />
+    <ClCompile Include="..\Private\HellBoss_State.cpp" />
+    <ClCompile Include="..\private\HellBoss_WalkState.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
     <ClCompile Include="..\private\GlacierBullet.cpp" />

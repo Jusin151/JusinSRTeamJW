@@ -7,174 +7,126 @@
 #include "GameInstance.h"
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CMonster_Base(pGraphic_Device)
-{
+	: CMonster_Base(pGraphic_Device) {
 }
 
 CHellBoss::CHellBoss(const CHellBoss& Prototype)
-	:CMonster_Base(Prototype)
-{
+	: CMonster_Base(Prototype) {
 }
 
-HRESULT CHellBoss::Initialize_Prototype()
-{
-
-
-	return S_OK;
-}
+HRESULT CHellBoss::Initialize_Prototype() { return S_OK; }
 
 HRESULT CHellBoss::Initialize(void* pArg)
 {
+	if (FAILED(Ready_Components())) return E_FAIL;
 
-
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-	
 	m_eType = CG_MONSTER;
-
 	m_iAp = 5;
-
 	m_iHp = 30;
-
 	m_fSpeed = 0.15f;
 
 	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.f, -10.f));
+	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(7.f, 3.f, -5.f));
+	m_AnimationManager.AddAnimation("1_Idle", 0, 0);
+	m_AnimationManager.AddAnimation("2_Walk", 1, 8);
+	m_AnimationManager.AddAnimation("3_EyeBlast", 9, 29);
+	m_AnimationManager.AddAnimation("4_Shoot", 30, 55);
+	m_AnimationManager.AddAnimation("5_Morph", 56, 86);
+	m_AnimationManager.AddAnimation("6_Phase2_Idle", 86, 86);
+	m_AnimationManager.AddAnimation("7_Phase2_Walk", 87, 94);
+	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99);
+	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);
+	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107);
+	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111);
+	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117);
+	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);
+	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124);
+	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);
+	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203);
+	m_AnimationManager.AddAnimation("G_Phase3_Idle", 203, 203);
+	m_AnimationManager.AddAnimation("H_Phase3_Walk", 204, 212);
+	m_AnimationManager.AddAnimation("J_Phase3_TripleEye", 213, 223);
+	m_AnimationManager.AddAnimation("K_Phase3_Nova", 224, 234);
+	m_AnimationManager.AddAnimation("L_Phase3_Spawn", 235, 246);
+	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289);
+	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 311);
+	m_AnimationManager.AddAnimation("M_Phase4_Death", 312, 337);
 
-	m_pTransformCom->Set_Scale(12.f, 14.f, 10.f);
+	m_AnimationManager.SetCurrentAnimation("1_Idle");
 
 
-	m_TextureRanges["1_Idle"] = { 0, 0 };
-	m_TextureRanges["2_Walk"] = { 1, 8 };
-	m_TextureRanges["3_EyeBlast"] = { 9, 29 };
-	m_TextureRanges["4_Shoot"] = { 30, 55 };
-	m_TextureRanges["5_Morph"] = { 56, 86 };
 
-	m_TextureRanges["6_Phase2_Idle"] = { 86, 86 };
-	m_TextureRanges["7_Phase2_Walk"] = { 87, 94 };
-	m_TextureRanges["8_Phase2_Charge"] = { 95, 99 };
-	m_TextureRanges["9_Phase2_Spin"] = { 100, 103 };
-	m_TextureRanges["0_Phase2_Shoot"] = { 104, 107 };
-	m_TextureRanges["T_Phase2_End"] = { 108, 111 };
-
-	m_TextureRanges["Y_ArmCut"] = { 112, 117 };
-	m_TextureRanges["U_ArmCut_Idle"] = { 117, 117 };
-	m_TextureRanges["I_ArmCut_Walk"] = { 118, 124 };
-	m_TextureRanges["P_ArmCut_Attack"] = { 125, 138 };
-
-	m_TextureRanges["G_Phase3_Idle"] = { 203, 203 };
-	m_TextureRanges["H_Phase3_Search"] = { 204, 212 };
-	m_TextureRanges["J_Phase3_TripleEye"] = { 213, 223 };
-	m_TextureRanges["K_Phase3_Nova"] = { 224, 234 };
-	m_TextureRanges["L_Phase3_Spawn"] = { 235, 246 };
-
-	m_TextureRanges["O_Phase4_Idle"] = { 290, 311 };
-	m_TextureRanges["M_Phase4_Death"] = { 312, 337 };
+     //0     Idle //대기모션
+     //1~8   Walk // 걷는모션
+     //9~29  EyeBlast // 눈깔빔
+     //30~55 Shoot // 발사
+     //56~86 Morph // 진화
+     //
+     //86 //   두번째 모습/ IDLE 대기모션
+     //87~94   두번째 모습 / 걷는모션
+     //95~99   두번째 모습 / 발사준비
+     //100~103 두번째 모습 / 스핀(예열)
+     //104~107 두번째 모습 / 발사
+     //108~111 두번째 모습 / 발사 끝
+     //
+     //112~117 두번째 모습 / 팔 절단
+     //
+     //117     두번째 모습 / 팔 절단 IDLE
+     //118~124 두번째 모습 / 팔 절단 걷는모션
+     //125~138 두번째 모습 / 팔 절단 공격모션
+     //
+     //139~203 // 진화
+     //
+     //203       // 세번째 모습 IDLE
+     //204~212   // 세번째 모습 걷는보션
+     //213~223   // 세번째 모습 삼눈깔빔
+     //224~234   // 세번째 모습 노바(주위폭발)
+     //234~246   // 세번째 모습 몬스터 소환 ( 또는 창작)
+     //
+     //247~289   // 진화
+     //
+     //290~311 // 네번째 모습 Idle 모션
+     //312~337 // 네번째 모습 드디어 죽는 모션
 
 
 	return S_OK;
 }
 
+
 void CHellBoss::Priority_Update(_float fTimeDelta)
 {
- 	if (nullptr == m_pTarget)
+	if (nullptr == m_pTarget)
 	{
 		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-		if (nullptr == pTarget)
-			return;
-
+		if (nullptr == pTarget) return;
 		SetTarget(pTarget);
 		Safe_AddRef(pTarget);
-		
 	}
-
-	//if (!m_bCheck)
-	//{
-	//	if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
-	//		m_bCheck = true;
-	//}
-
-	if (m_iHp <= 0)
-		m_eCurState = MS_DEATH;
-
-
-		m_bIsActive = true;
-
+	if (m_iHp <= 0) m_eCurState = MS_DEATH;
+	m_bIsActive = true;
 }
 
 void CHellBoss::Update(_float fTimeDelta)
 {
-	if (m_pTarget == nullptr)
+	if (!m_pTarget)
 		return;
-	/*if (!m_bCheck)
-	{
-		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
-		return;
-	}*/
 
-	
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	Select_Pattern(fTimeDelta);
+	// 패턴
+	if (m_pCurState)
+		m_pCurState->Update(this, fTimeDelta);
 
+	Process_Input(); 
 
+	m_AnimationManager.Update(fTimeDelta); 
+	 
 
 	__super::Update(fTimeDelta);
-
-
-
-	static float fTimeAcc = 0.f; 
-	fTimeAcc += fTimeDelta;
-
-	static pair<_int,_int> tCurRange = { 0, 0 }; 
-	auto SetAnim = [&](const string& key)
-		{
-			auto it = m_TextureRanges.find(key);
-			if (it != m_TextureRanges.end())
-			{
-				tCurRange = it->second;
-				m_iCurrentFrame = tCurRange.first;
-				fTimeAcc = 0.f; 
-			}
-		};
-
-
-	if (GetAsyncKeyState('1') & 0x8000) SetAnim("1_Idle");
-	else if (GetAsyncKeyState('2') & 0x8000) SetAnim("2_Walk");
-	else if (GetAsyncKeyState('3') & 0x8000) SetAnim("3_EyeBlast");
-	else if (GetAsyncKeyState('4') & 0x8000) SetAnim("4_Shoot");
-	else if (GetAsyncKeyState('5') & 0x8000) SetAnim("5_Morph");
-	else if (GetAsyncKeyState('6') & 0x8000) SetAnim("6_Phase2_Idle");
-	else if (GetAsyncKeyState('7') & 0x8000) SetAnim("7_Phase2_Walk");
-	else if (GetAsyncKeyState('8') & 0x8000) SetAnim("8_Phase2_Charge");
-	else if (GetAsyncKeyState('9') & 0x8000) SetAnim("9_Phase2_Spin");
-	else if (GetAsyncKeyState('0') & 0x8000) SetAnim("0_Phase2_Shoot");
-	else if (GetAsyncKeyState('T') & 0x8000) SetAnim("T_Phase2_End");
-	else if (GetAsyncKeyState('Y') & 0x8000) SetAnim("Y_ArmCut");
-	else if (GetAsyncKeyState('U') & 0x8000) SetAnim("U_ArmCut_Idle");
-	else if (GetAsyncKeyState('I') & 0x8000) SetAnim("I_ArmCut_Walk");
-	else if (GetAsyncKeyState('P') & 0x8000) SetAnim("P_ArmCut_Attack");
-	else if (GetAsyncKeyState('G') & 0x8000) SetAnim("G_Phase3_Idle");
-	else if (GetAsyncKeyState('H') & 0x8000) SetAnim("H_Phase3_Search");
-	else if (GetAsyncKeyState('J') & 0x8000) SetAnim("J_Phase3_TripleEye");
-	else if (GetAsyncKeyState('K') & 0x8000) SetAnim("K_Phase3_Nova");
-	else if (GetAsyncKeyState('L') & 0x8000) SetAnim("L_Phase3_Spawn");
-	else if (GetAsyncKeyState('O') & 0x8000) SetAnim("O_Phase4_Idle");
-	else if (GetAsyncKeyState('M') & 0x8000) SetAnim("M_Phase4_Death");
-
-
-	if (fTimeAcc >= 0.05f)  // 20FPS 기준 (0.05초에 한 프레임)
-	{
-		fTimeAcc = 0.f;
-		if (m_iCurrentFrame < tCurRange.second)
-			++m_iCurrentFrame;
-		else
-			m_iCurrentFrame = tCurRange.first; 
-	}
-
-
 }
+
 
 void CHellBoss::Late_Update(_float fTimeDelta)
 {
@@ -186,33 +138,53 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 			return;
 
 }
-
+void CHellBoss::Process_Input()
+{
+	if (GetAsyncKeyState('1') & 0x8000) m_AnimationManager.SetCurrentAnimation("1_Idle");
+	else if (GetAsyncKeyState('2') & 0x8000) m_AnimationManager.SetCurrentAnimation("2_Walk");
+	else if (GetAsyncKeyState('3') & 0x8000) m_AnimationManager.SetCurrentAnimation("3_EyeBlast");
+	else if (GetAsyncKeyState('4') & 0x8000) m_AnimationManager.SetCurrentAnimation("4_Shoot");
+	else if (GetAsyncKeyState('5') & 0x8000) m_AnimationManager.SetCurrentAnimation("5_Morph");
+	else if (GetAsyncKeyState('6') & 0x8000) m_AnimationManager.SetCurrentAnimation("6_Phase2_Idle");
+	else if (GetAsyncKeyState('7') & 0x8000) m_AnimationManager.SetCurrentAnimation("7_Phase2_Walk");
+	else if (GetAsyncKeyState('8') & 0x8000) m_AnimationManager.SetCurrentAnimation("8_Phase2_Charge");
+	else if (GetAsyncKeyState('9') & 0x8000) m_AnimationManager.SetCurrentAnimation("9_Phase2_Spin");
+	else if (GetAsyncKeyState('0') & 0x8000) m_AnimationManager.SetCurrentAnimation("0_Phase2_Shoot");
+	else if (GetAsyncKeyState('T') & 0x8000) m_AnimationManager.SetCurrentAnimation("T_Phase2_End");
+	else if (GetAsyncKeyState('Y') & 0x8000) m_AnimationManager.SetCurrentAnimation("Y_ArmCut");
+	else if (GetAsyncKeyState('U') & 0x8000) m_AnimationManager.SetCurrentAnimation("U_ArmCut_Idle");
+	else if (GetAsyncKeyState('I') & 0x8000) m_AnimationManager.SetCurrentAnimation("I_ArmCut_Walk");
+	else if (GetAsyncKeyState('O') & 0x8000) m_AnimationManager.SetCurrentAnimation("O_ArmCut_Attack");
+	else if (GetAsyncKeyState('P') & 0x8000) m_AnimationManager.SetCurrentAnimation("P_ArmCut_End");
+	else if (GetAsyncKeyState('G') & 0x8000) m_AnimationManager.SetCurrentAnimation("G_Phase3_Idle");
+	else if (GetAsyncKeyState('H') & 0x8000) m_AnimationManager.SetCurrentAnimation("H_Phase3_Walk");
+	else if (GetAsyncKeyState('J') & 0x8000) m_AnimationManager.SetCurrentAnimation("J_Phase3_TripleEye");
+	else if (GetAsyncKeyState('K') & 0x8000) m_AnimationManager.SetCurrentAnimation("K_Phase3_Nova");
+	else if (GetAsyncKeyState('B') & 0x8000) m_AnimationManager.SetCurrentAnimation("B_Phase3_End");
+	else if (GetAsyncKeyState('L') & 0x8000) m_AnimationManager.SetCurrentAnimation("N_Phase4_Idle");
+	else if (GetAsyncKeyState('M') & 0x8000) m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
+}
 HRESULT CHellBoss::Render()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
+	int iCurFrame = m_AnimationManager.GetCurrentFrame();
+	if (FAILED(m_pTextureCom->Bind_Resource(iCurFrame)))
 		return E_FAIL;
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
+	if (FAILED(m_pTransformCom->Bind_Resource())) 
 		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+	if (FAILED(m_pVIBufferCom->Bind_Buffers())) 
 		return E_FAIL;
 
 	SetUp_RenderState();
-
-	if (FAILED(m_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render())) 
 		return E_FAIL;
 
-	if (g_bDebugCollider)
-	{
-		m_pColliderCom->Render();
-	}
-		
-	Release_RenderState();
+	if (g_bDebugCollider) m_pColliderCom->Render();
 
+	Release_RenderState();
 
 	return S_OK;
 }
+
 
 
 HRESULT CHellBoss::On_Collision(CCollisionObject* other)
@@ -226,7 +198,6 @@ HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
-	
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vMtv = m_pColliderCom->Get_MTV();
 	_float3 vMove = { vMtv.x, 0.f, vMtv.z };
@@ -293,7 +264,7 @@ void CHellBoss::Select_Pattern(_float fTimeDelta)
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
 
-	switch (m_eCurState)
+	switch (m_eCurState) 
 	{
 	case 1:
 	   
@@ -418,6 +389,17 @@ void CHellBoss::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pTarget);
+}
+
+void CHellBoss::Change_State(CHellBoss_State* pNewState)
+{
+	if (m_pCurState)
+		m_pCurState->Exit(this);
+
+	m_pCurState = pNewState;
+
+	if (m_pCurState)
+		m_pCurState->Enter(this);
 }
 
 

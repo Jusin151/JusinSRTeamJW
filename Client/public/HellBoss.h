@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "Monster_Base.h"
+#include "AnimationManager.h" 
+#include "HellBoss_State.h"
 
 class CHellBoss : public CMonster_Base
 {
@@ -19,33 +21,30 @@ public:
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
+	void Process_Input();
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-
-
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
 	virtual void Select_Pattern(_float fTimeDelta) override;
-
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
-
-	// 텍스처 추가 
 	HRESULT Ready_Components();
-
-
-private:
-	CCollider_Cube* m_pAttackCollider = { nullptr };
-	map<string, pair<int, int>> m_TextureRanges{};
-	_uint m_iCurrentFrame = {};
-
 public:
 	static CHellBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-
+private: //콜라이더
+	CCollider_Cube* m_pAttackCollider = { nullptr };
+private: // 텍스쳐 관련
+	map<string, pair<int, int>> m_TextureRanges{};
+	CAnimationManager m_AnimationManager = {};
+private:
+	CHellBoss_State* m_pCurState = { nullptr };
+	CHellBoss_State* m_pNextState = {nullptr};
+	void Change_State(CHellBoss_State* pNewState);
 };
 
 //
