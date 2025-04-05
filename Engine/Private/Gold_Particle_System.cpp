@@ -47,7 +47,7 @@ void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 
     pAttribute->fSize = m_fSize;
     pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
-    pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 0.0f, 1.0f);
+    pAttribute->vCurrentColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 0.0f, 1.0f);
     //pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }
 

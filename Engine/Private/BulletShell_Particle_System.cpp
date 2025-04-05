@@ -46,7 +46,7 @@ void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
     pAttribute->fAge = 0;
     pAttribute->fLifetime = 2.0f;
 
-    pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+    pAttribute->vCurrentColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void CBulletShell_Particle_System::Update(float fTimeDelta)

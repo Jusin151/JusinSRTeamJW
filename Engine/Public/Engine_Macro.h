@@ -44,7 +44,7 @@ unsigned int ClassName::Destroy_Instance()				\
 	return iRefCnt;										\
 }
 
-#define GRAVITY -9.8f
+#define GRAVITY 9.8f
 
 
 #pragma region FMOD

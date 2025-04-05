@@ -113,7 +113,6 @@ HRESULT CParticle_System::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
-	//m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fSize));
 
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
 
@@ -167,7 +166,7 @@ HRESULT CParticle_System::Render()
 			{
 				//m_pTexture->Bind_Resource(i->iIndex);
 				v->vPosition = i->vPosition;
-				v->vColor = (D3DCOLOR)i->vColor;
+				v->vColor = (D3DCOLOR)i->vCurrentColor;
 				v->fSize = i->fSize;
 				v++;
 				numParticlesInBatch++;

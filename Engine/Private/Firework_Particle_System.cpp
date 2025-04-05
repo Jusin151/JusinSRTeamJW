@@ -27,6 +27,8 @@ HRESULT CFirework_Particle_System::Initialize(void* pArg)
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
+	m_fInitialUpSpeed = 2.0f;
+	m_fHorizontalSpread = 1.5f;
 
 	
 
@@ -44,23 +46,31 @@ HRESULT CFirework_Particle_System::Initialize(void* pArg)
 
 void CFirework_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
-	pAttribute->bIsAlive = true;
-	pAttribute->vPosition = m_vPos;
+    pAttribute->bIsAlive = true;
+    pAttribute->vPosition = m_vPos; // 시작 위치는 동일
 
-	GetRandomVector(&pAttribute->vVelocity, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);
+    // --- 속도 설정 변경 ---
+    // X와 Z 방향 속도는 약간의 무작위성 부여
+    float fVelX = GetRandomFloat(-m_fHorizontalSpread, m_fHorizontalSpread);
+    float fVelZ = GetRandomFloat(-m_fHorizontalSpread, m_fHorizontalSpread);
 
-	D3DXVec3Normalize(&pAttribute->vVelocity, &pAttribute->vVelocity);
+    // Y 방향 속도는 위쪽을 향하도록 설정 (약간의 무작위성 추가 가능)
+    // float fVelY = m_fInitialUpSpeed; // 고정된 상승 속도
+    float fVelY = GetRandomFloat(m_fInitialUpSpeed * 0.8f, m_fInitialUpSpeed * 1.2f); // 약간의 속도 변화 추가
 
-	pAttribute->vColor = D3DXCOLOR(
-		GetRandomFloat(0.0f, 1.0f),
-		GetRandomFloat(0.0f, 1.0f),
-		GetRandomFloat(0.0f, 1.0f),
-		1.0f);
+    pAttribute->vVelocity = D3DXVECTOR3(fVelX, fVelY, fVelZ);
 
-	pAttribute->fAge = 0.0f;
-	pAttribute->fLifetime = 2.0f; // lives for 2 seconds
-	pAttribute->fSize = m_fSize;
-	pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
+    // D3DXVec3Normalize(&pAttribute->vVelocity, &pAttribute->vVelocity); // <-- 이 줄을 제거하거나 주석 처리합니다.
+
+    // --- 나머지 설정은 기존과 동일 ---
+	pAttribute->vInitialColor = 0xFFFFE880;
+	pAttribute->vCurrentColor = pAttribute->vInitialColor;
+	pAttribute->vColorFade = 0x00F29538;
+
+    pAttribute->fAge = 0.0f;
+    pAttribute->fLifetime = 2.0f; // 필요하다면 조절
+    pAttribute->fSize = m_fSize;
+    pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
 }
 
 void CFirework_Particle_System::Update(float fTimeDelta)
@@ -69,10 +79,17 @@ void CFirework_Particle_System::Update(float fTimeDelta)
 	{
 		if (i.bIsAlive)
 		{
+			// --- 중력 적용(위치 업데이트 전에 속도 변경) -- -
+				// Y축 속도를 중력만큼 감소시킵니다.
+				i.vVelocity.y -= GRAVITY * fTimeDelta;
+
+			// --- 위치 업데이트 (변경된 속도 적용) ---
 			i.vPosition += i.vVelocity * fTimeDelta;
-			_float4 temp = DWORDToFloat4_Color(i.vColor);
-			temp.w *= 0.99f;
-			i.vColor = D3DCOLOR_COLORVALUE(temp.x, temp.y, temp.z, temp.w);
+			i.fSize *= 0.90f;
+			
+			// --- 색상 페이드 아웃 및 수명 관리 (기존과 동일) ---
+			float ratio = i.fAge / i.fLifetime;
+			i.vCurrentColor = ColorLerp(i.vInitialColor, i.vColorFade, ratio);
 			i.fAge += fTimeDelta;
 
 			if (i.fAge > i.fLifetime)
@@ -91,7 +108,6 @@ HRESULT CFirework_Particle_System::Pre_Render()
 	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
 	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 155); // 기준값 설정 (0~255)
-
 	// read, but don't write particles to z-buffer
 	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
 

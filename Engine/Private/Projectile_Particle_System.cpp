@@ -49,7 +49,7 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 	pAttribute->fLifetime = 2.0f;
 
 	pAttribute->fSize = m_fSize;
-	pAttribute->vColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+	pAttribute->vCurrentColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
 	pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 	pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
 }
@@ -90,10 +90,10 @@ HRESULT CProjectile_Particle_System::Render()
 	D3DXVec3Cross(&vNormal, &m_vDir, &up);
 	D3DXVec3Normalize(&vNormal, &vNormal);
 	v[0].vPosition = m_vPos - vNormal * m_fWidth / 2.f;
-	v[0].vColor = i.vColor;
+	v[0].vColor = i.vCurrentColor;
 	v[0].vTexCoord = { 0, 0 };
 	v[1].vPosition = m_vPos + vNormal * m_fWidth / 2.f;
-	v[1].vColor = i.vColor;
+	v[1].vColor = i.vCurrentColor;
 	v[1].vTexCoord = { 1, 0 };
 	v[2].vPosition = i.vPosition - vNormal * m_fWidth / 2.f;
 	v[2].vColor = i.vColorFade;
