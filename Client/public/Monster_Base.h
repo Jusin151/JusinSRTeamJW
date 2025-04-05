@@ -17,7 +17,7 @@ BEGIN(Client)
 class CMonster_Base abstract : public CCollisionObject
 {
 public:
-	enum MONSTERSTATE { MS_IDLE, MS_BACK, MS_HIT, MS_WALK,  MS_ATTACK, MS_DEATH, MS_END };
+	enum MONSTERSTATE { MS_IDLE, MS_BACK, MS_HIT, MS_WALK,  MS_ATTACK, MS_MORPH, MS_DEATH, MS_END };
 
 protected:
 	CMonster_Base(LPDIRECT3DDEVICE9 pGraphic_Device);

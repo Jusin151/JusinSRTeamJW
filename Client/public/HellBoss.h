@@ -1,6 +1,10 @@
 ﻿#pragma once
 
 #include "Monster_Base.h"
+#include "AnimationManager.h" 
+#include "HellBoss_State.h"
+#include "Pattern_Attack_Base.h"
+#include "Player.h"
 
 class CHellBoss : public CMonster_Base
 {
@@ -19,32 +23,60 @@ public:
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
+	void Process_Input();
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
-
 
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
 	virtual void Select_Pattern(_float fTimeDelta) override;
-
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
-
-	// 텍스처 추가 
 	HRESULT Ready_Components();
+public: 
+	// 플레이어 위치 반환
+	_float3 Get_PlayerPos() const {	return static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);}
 
+	// 현재 위치
+	_float3 Get_Pos() const {return m_pTransformCom->Get_State(CTransform::STATE_POSITION);}
 
-private:
-	CCollider_Cube* m_pAttackCollider = { nullptr };
-	map<string, pair<int, int>> m_TextureRanges{};
-	_uint m_iCurrentFrame = {};
-
+	bool HasTarget() const  {return m_pTarget != nullptr;}
+	void Change_State(CHellBoss_State* pNewState);
 public:
 	static CHellBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
+public: // 어택관련
+	void Set_AttackPattern(CPattern_Attack_Base* pPattern);
+	void Use_Attack(_float fDeltaTime);
+private: 
+	CPattern_Attack_Base* m_pCurAttackPattern = { nullptr };
+
+public://애니메이션관련
+	void Set_Animation(const string& strAnimKey) 
+	{
+		m_AnimationManager.SetCurrentAnimation(strAnimKey);
+	}
+
+ 
+private: //콜라이더
+	CCollider_Cube* m_pAttackCollider = { nullptr };
+private: // 텍스쳐 관련
+	map<string, pair<int, int>> m_TextureRanges{};
+	CAnimationManager m_AnimationManager = {};
+private:
+	CHellBoss_State* m_pCurState = { nullptr };
+	CHellBoss_State* m_pNextState = {nullptr};
+
+public:
+	CTransform* Get_Transform() const { return m_pTransformCom; }
+	_float Get_Speed() const { return m_fSpeed; }
+	void Set_CurPos(const _float3& vPos)
+	{
+		m_vCurPos = vPos;
+	}
 
 };
 
