@@ -1103,6 +1103,9 @@
     <ClCompile Include="..\private\Patter_Morph.cpp">
       <Filter>DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\HellBoss_State.cpp">
+      <Filter>DW_Boss\01.HellBoss_State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">

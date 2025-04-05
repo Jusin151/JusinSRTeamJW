@@ -154,9 +154,12 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
 {
 	if (m_pCurState)
+	{
 		m_pCurState->Exit(this);
+		delete m_pCurState; 
+	}
 
-	// 현재 상태가 뭔지 확인
+	// 상태 enum 
 	if (dynamic_cast<CHellBoss_IdleState*>(pNewState))
 		m_eCurState = MS_IDLE;
 	else if (dynamic_cast<CHellBoss_WalkState*>(pNewState))
@@ -173,6 +176,7 @@ void CHellBoss::Change_State(CHellBoss_State* pNewState)
 	if (m_pCurState)
 		m_pCurState->Enter(this);
 }
+
 
 
 
@@ -224,8 +228,15 @@ HRESULT CHellBoss::Render()
 }
 void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
 {
+	if (m_pCurAttackPattern)
+	{
+		delete m_pCurAttackPattern;
+		m_pCurAttackPattern = nullptr;
+	}
+
 	m_pCurAttackPattern = pPattern;
 }
+
 
 void CHellBoss::Use_Attack(_float fDeltaTime)
 {
@@ -437,5 +448,19 @@ void CHellBoss::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pTarget);
+
+	if (m_pCurState)
+	{
+		m_pCurState->Exit(this);
+		delete m_pCurState;
+		m_pCurState = nullptr;
+	}
+
+	if (m_pCurAttackPattern)
+	{
+		delete m_pCurAttackPattern;
+		m_pCurAttackPattern = nullptr;
+	}
 }
+
 

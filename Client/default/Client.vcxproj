@@ -307,6 +307,7 @@
     <ClCompile Include="..\private\HellBoss_DeadState.cpp" />
     <ClCompile Include="..\Private\HellBoss_IdleState.cpp" />
     <ClCompile Include="..\private\HellBoss_MorphState.cpp" />
+    <ClCompile Include="..\private\HellBoss_State.cpp" />
     <ClCompile Include="..\private\HellBoss_WalkState.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
