@@ -21,10 +21,11 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 	{
 	
 		int randIndex = rand() % 2;
-		if (randIndex == 0)
-			pBoss->Set_AttackPattern(new CPattern_EyeBlast());
-		else
-			pBoss->Set_AttackPattern(new CPattern_Shoot());
+		switch (randIndex)
+		{
+		case 0: pBoss->Set_AttackPattern(new CPattern_EyeBlast()); break;
+		case 1: pBoss->Set_AttackPattern(new CPattern_Shoot()); break;
+		}
 
 		pBoss->Change_State(new CHellBoss_AttackState());
 		return;

@@ -24,19 +24,19 @@ HRESULT CHellBoss::Initialize_Prototype() { return S_OK; }
 HRESULT CHellBoss::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components())) return E_FAIL;
-
+	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp = 30;
+	m_iHp = 3000;
 	m_fSpeed = 3.f;
 
-	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+	m_pColliderCom->Set_Scale(_float3(10.0f, 10.f, 10.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.f, -10.f));
 	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
 	m_AnimationManager.AddAnimation("1_Idle", 0, 0);
-	m_AnimationManager.AddAnimation("2_Walk", 1, 8);
-	m_AnimationManager.AddAnimation("3_EyeBlast", 9, 29);
+	m_AnimationManager.AddAnimation("2_Walk",1,8,0.1f);
+	m_AnimationManager.AddAnimation("3_EyeBlast", 10, 29);
 	m_AnimationManager.AddAnimation("4_Shoot", 30, 55);
 	m_AnimationManager.AddAnimation("5_Morph", 56, 86);
 
@@ -117,7 +117,9 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 		SetTarget(pTarget);
 		Safe_AddRef(pTarget);
 	}
-	if (m_iHp <= 0) m_eCurState = MS_DEATH;
+	if (m_iHp <= 0) 
+		m_eCurState = MS_DEATH;
+
 	m_bIsActive = true;
 }
 
@@ -135,6 +137,13 @@ void CHellBoss::Update(_float fTimeDelta)
 
 	Process_Input();
 	m_AnimationManager.Update(fTimeDelta);
+
+	if (m_eCurState != MS_DEATH)
+	{
+		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Transform")); 
+
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+	}
 
 	__super::Update(fTimeDelta);
 }
@@ -220,9 +229,14 @@ HRESULT CHellBoss::Render()
 	if (FAILED(m_pVIBufferCom->Render())) 
 		return E_FAIL;
 
-	if (g_bDebugCollider) m_pColliderCom->Render();
+	//if (g_bDebugCollider) 
+		
+		m_pColliderCom->Render();
 
 	Release_RenderState();
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 체력 :") + to_wstring(m_iHp),
+		_float2(-100.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	return S_OK;
 }
@@ -237,12 +251,23 @@ void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
 	m_pCurAttackPattern = pPattern;
 }
 
-
 void CHellBoss::Use_Attack(_float fDeltaTime)
 {
 	if (m_pCurAttackPattern)
+	{
 		m_pCurAttackPattern->Execute(this, fDeltaTime);
+
+		if (m_pCurAttackPattern->Is_Finished())
+		{
+			delete m_pCurAttackPattern;
+			m_pCurAttackPattern = nullptr;
+
+			Change_State(new CHellBoss_IdleState());
+		}
+	}
 }
+
+
 
 
 
@@ -268,7 +293,6 @@ HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		//m_pTransformCom->Go_Backward(fTimeDelta);
 	
-
 		if (m_eCurState != MS_ATTACK)
 		{
 			Take_Damage(other);
@@ -388,7 +412,7 @@ HRESULT CHellBoss::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.5f,0.5f,0.5f };
+	ColliderDesc.fScale = { 0.1f,0.5f,0.5f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 

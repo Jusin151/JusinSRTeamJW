@@ -29,37 +29,36 @@ public:
 
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
-	virtual void Select_Pattern(_float fTimeDelta) override;
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
-public: 
-	// 플레이어 위치 반환
-	_float3 Get_PlayerPos() const {	return static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);}
-
-	// 현재 위치
-	_float3 Get_Pos() const {return m_pTransformCom->Get_State(CTransform::STATE_POSITION);}
-
-	bool HasTarget() const  {return m_pTarget != nullptr;}
-	void Change_State(CHellBoss_State* pNewState);
 public:
 	static CHellBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-
+public:
+	virtual void Select_Pattern(_float fTimeDelta) override; 
+	_float3 Get_PlayerPos() const { return static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION); }
+	_float3 Get_Pos() const { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
+	CPattern_Attack_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
+	bool HasTarget() const { return m_pTarget != nullptr; }
+	void Change_State(CHellBoss_State* pNewState);
 public: // 어택관련
 	void Set_AttackPattern(CPattern_Attack_Base* pPattern);
 	void Use_Attack(_float fDeltaTime);
 private: 
 	CPattern_Attack_Base* m_pCurAttackPattern = { nullptr };
-
+	
 public://애니메이션관련
 	void Set_Animation(const string& strAnimKey) 
 	{
 		m_AnimationManager.SetCurrentAnimation(strAnimKey);
 	}
-
+	bool Get_AnimationFinished() const
+	{
+		return m_AnimationManager.IsFinished();
+	}
  
 private: //콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
@@ -113,6 +112,13 @@ public:
 //290~311 // 네번째 모습 Idle 모션
 //312~337 // 네번째 모습 드디어 죽는 모션
 
+//IdleState
+//└ 플레이어 근처에 있음 ? -> 랜덤 패턴 선택 -> Set_AttackPattern()
+//└ AttackState로 전환
+//
+//AttackState
+//└Use_Attack() 실행
+//└패턴이 끝나면 IdleState로 돌아감
 
 
 

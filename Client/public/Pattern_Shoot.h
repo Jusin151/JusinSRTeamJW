@@ -8,7 +8,8 @@ public:
 	CPattern_Shoot();
 
 	void Execute(CHellBoss* pBoss, float fDeltaTime)override;
-	
+	bool Is_Finished() const { return !m_bStarted; }
+
 private:
 	_bool m_bStarted = { false };
 	_float m_fAccTime = { 0.f };
