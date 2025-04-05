@@ -20,6 +20,11 @@ public:
 			m_fAccTime = 0.f;
 		}
 	}
+	bool IsFinished() const
+	{
+		// 현재 프레임이 끝 프레임인지
+		return m_iCurrentFrame >= m_iEndFrame;
+	}
 
 	int GetCurrentFrame() const { return m_iCurrentFrame; }
 	void Reset() { m_iCurrentFrame = m_iStartFrame; m_fAccTime = 0.f; }

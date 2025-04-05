@@ -24,7 +24,7 @@ HRESULT CHellBoss::Initialize_Prototype() { return S_OK; }
 HRESULT CHellBoss::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components())) return E_FAIL;
-
+	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
 	m_iHp = 30;
@@ -35,8 +35,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
 	m_AnimationManager.AddAnimation("1_Idle", 0, 0);
-	m_AnimationManager.AddAnimation("2_Walk", 1, 8);
-	m_AnimationManager.AddAnimation("3_EyeBlast", 9, 29);
+	m_AnimationManager.AddAnimation("2_Walk",1,8,0.1f);
+	m_AnimationManager.AddAnimation("3_EyeBlast", 10, 29);
 	m_AnimationManager.AddAnimation("4_Shoot", 30, 55);
 	m_AnimationManager.AddAnimation("5_Morph", 56, 86);
 
@@ -237,12 +237,23 @@ void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
 	m_pCurAttackPattern = pPattern;
 }
 
-
 void CHellBoss::Use_Attack(_float fDeltaTime)
 {
 	if (m_pCurAttackPattern)
+	{
 		m_pCurAttackPattern->Execute(this, fDeltaTime);
+
+		if (m_pCurAttackPattern->Is_Finished())
+		{
+			delete m_pCurAttackPattern;
+			m_pCurAttackPattern = nullptr;
+
+			Change_State(new CHellBoss_IdleState());
+		}
+	}
 }
+
+
 
 
 

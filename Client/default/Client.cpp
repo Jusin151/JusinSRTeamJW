@@ -163,7 +163,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
-   SetWindowPos(hWnd, NULL, 300, 250, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+   //SetWindowPos(hWnd, NULL, 300, 250, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+   SetWindowPos(hWnd, NULL, -200, 1000, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
    g_hWnd = hWnd;
 
    ShowWindow(hWnd, nCmdShow);

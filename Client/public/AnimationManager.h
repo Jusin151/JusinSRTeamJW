@@ -31,7 +31,11 @@ public:
 			}
 		}
 	}
-
+	bool IsFinished() const
+	{
+		// 현재 애니메이션이 없으면 false, 있으면 현재 애니메이션의 IsFinished를 호출
+		return m_pCurAnim ? m_pCurAnim->IsFinished() : false;
+	}
 	void Update(float fDeltaTime)
 	{
 		if (m_pCurAnim)
