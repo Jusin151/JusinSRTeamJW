@@ -210,21 +210,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-
-    //case WM_SYSCOMMAND:
-    //{
-    //    if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
-    //        return 0;
-    //    break;
-    //}
-	case WM_KEYDOWN:
-	{
-        if (VK_ESCAPE == wParam)
-        {
-            PostQuitMessage(0);
-        }
-        break;
-	}
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
