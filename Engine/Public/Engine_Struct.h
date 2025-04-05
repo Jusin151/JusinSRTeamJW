@@ -138,6 +138,7 @@ namespace Engine
 		static tagVector3 Back() { return tagVector3(0.0f, 0.0f, -1.0f); }
 
 	}VECTOR3;
+
 	typedef struct tagVertexCube
 	{
 		D3DXVECTOR3		vPosition;
@@ -167,8 +168,6 @@ namespace Engine
 		D3DCOLOR	vColor;
 	} VTXPOSCOL;
 
-	//const PARTICLE::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
-
 	typedef struct tagParticleAttribute
 	{
 		D3DXVECTOR3		vPosition;
@@ -177,7 +176,8 @@ namespace Engine
 		float			fSize;
 		float			fLifetime;
 		float			fAge;
-		D3DCOLOR		vColor;
+		D3DCOLOR		vCurrentColor;
+		D3DCOLOR		vInitialColor;
 		D3DCOLOR		vColorFade;
 		bool			bIsAlive;
 		unsigned int	iIndex;

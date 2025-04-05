@@ -160,6 +160,56 @@ namespace Engine
 			Lerp(a.z, b.z, t) // z축도 보간
 		};
 	}
+
+	inline D3DXVECTOR4 Vector4Lerp(const D3DXVECTOR4& a, const D3DXVECTOR4& b, float t)
+	{
+		return {
+			Lerp(a.x, b.x, t),
+			Lerp(a.y, b.y, t),
+			Lerp(a.z, b.z, t), // z축도 보간
+			Lerp(a.w, b.w, t) // z축도 보간
+		};
+	}
+
+	inline D3DCOLOR ColorLerp(const D3DCOLOR& a, const D3DCOLOR& b, float t)
+	{
+		// 1. 각 색상 요소(A, R, G, B)를 DWORD에서 분리 (언패킹)
+		//    float으로 변환하여 정밀도 확보
+		float startA = static_cast<float>((a >> 24) & 0xFF);
+		float startR = static_cast<float>((a >> 16) & 0xFF);
+		float startG = static_cast<float>((a >> 8) & 0xFF);
+		float startB = static_cast<float>((a >> 0) & 0xFF);
+
+		float endA = static_cast<float>((b >> 24) & 0xFF);
+		float endR = static_cast<float>((b >> 16) & 0xFF);
+		float endG = static_cast<float>((b >> 8) & 0xFF);
+		float endB = static_cast<float>((b >> 0) & 0xFF);
+
+		// 2. 각 요소를 개별적으로 선형 보간
+		float interpA = Lerp(startA, endA, t);
+		float interpR = Lerp(startR, endR, t);
+		float interpG = Lerp(startG, endG, t);
+		float interpB = Lerp(startB, endB, t);
+
+		// 3. 보간된 float 값을 다시 BYTE(0-255) 범위로 변환하고 DWORD로 합치기 (리패킹)
+		//    반올림 처리를 위해 + 0.5f 후 캐스팅 또는 std::round 사용
+		BYTE byteA = static_cast<BYTE>(interpA + 0.5f);
+		BYTE byteR = static_cast<BYTE>(interpR + 0.5f);
+		BYTE byteG = static_cast<BYTE>(interpG + 0.5f);
+		BYTE byteB = static_cast<BYTE>(interpB + 0.5f);
+
+		// BYTE 값들이 0-255 범위를 벗어나지 않도록 한 번 더 클램핑 (선택 사항이지만 안전함)
+		// byteA = std::min(std::max(byteA, (BYTE)0), (BYTE)255);
+		// ... (R, G, B에 대해서도 동일하게)
+
+		// 각 BYTE 요소를 비트 시프트하여 DWORD로 조합
+		DWORD resultColor = (static_cast<DWORD>(byteA) << 24) |
+			(static_cast<DWORD>(byteR) << 16) |
+			(static_cast<DWORD>(byteG) << 8) |
+			(static_cast<DWORD>(byteB) << 0);
+
+		return resultColor;
+	}
 }
 
 	

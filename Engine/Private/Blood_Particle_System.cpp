@@ -48,7 +48,7 @@ void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 	pAttribute->iIndex = rand() % m_pTexture->Get_NumTextures();
 
 	pAttribute->fSize = m_fSize / D3DXVec3Length(&pAttribute->vPosition);
-	pAttribute->vColor = 0xFF883932;
+	pAttribute->vCurrentColor = 0xFF883932;
 }
 
 void CBlood_Particle_System::Update(float fTimeDelta)
@@ -79,24 +79,6 @@ HRESULT CBlood_Particle_System::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
-
-	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);  // Multiply color arguments
-	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);   // Argument 1: Texture color
-	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);   // Argument 2: Vertex color (diffuse)
-
-	DWORD temp1;
-	DWORD temp2;
-	DWORD temp3;
-	DWORD temp4;
-	DWORD temp5;
-	DWORD temp6;
-
-	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLOROP, &temp1);
-	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG1, &temp2);
-	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_COLORARG2, &temp3);
-	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAOP, &temp4);
-	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG1, &temp5);
-	m_pGraphic_Device->GetTextureStageState(0, D3DTSS_ALPHAARG2, &temp6);
 
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // 정점 색상만 사용
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // 텍스쳐 색상 지정

@@ -25,7 +25,9 @@ public:
 	virtual HRESULT Post_Render() override;
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
 private:
-	BOUNDINGBOX						m_Bounding_Box = {};
+	BOUNDINGBOX		m_Bounding_Box		= {};
+	_float			m_fInitialUpSpeed	= {};		// 초기 상승 속도
+	_float			m_fHorizontalSpread = {};		// 수평 퍼짐 범위 (+/-)
 
 public:
 	static CFirework_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -71,11 +71,11 @@ HRESULT CHit_Effect::Ready_Components()
 		return E_FAIL;
 
 	CFirework_Particle_System::FIREWORKDESC     FireworkDesc{};
-	FireworkDesc.fSize = 0.2f;
+	FireworkDesc.fSize = 0.1f;
 	FireworkDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
 	FireworkDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
 	FireworkDesc.vOrigin = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	FireworkDesc.iNumParticles = 100;
+	FireworkDesc.iNumParticles = 10;
 	FireworkDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 	FireworkDesc.iNumTextures = 1;
 
