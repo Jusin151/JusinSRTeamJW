@@ -127,8 +127,8 @@ void CHellBoss::Update(_float fTimeDelta)
 	static float fTimeAcc = 0.f; 
 	fTimeAcc += fTimeDelta;
 
-	static pair<int, int> tCurRange = { 0, 0 }; 
-	auto SetAnim = [&](const std::string& key)
+	static pair<_int,_int> tCurRange = { 0, 0 }; 
+	auto SetAnim = [&](const string& key)
 		{
 			auto it = m_TextureRanges.find(key);
 			if (it != m_TextureRanges.end())
@@ -295,7 +295,11 @@ void CHellBoss::Select_Pattern(_float fTimeDelta)
 
 	switch (m_eCurState)
 	{
-
+	case 1:
+	   
+		break;
+	default:
+		break;
 	}
 
 

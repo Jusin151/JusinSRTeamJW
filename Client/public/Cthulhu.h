@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Monster_Base.h>
 #include <BehaviorTree.h>
 BEGIN(Client)
@@ -13,7 +13,7 @@ public:
     virtual HRESULT Initialize_Prototype()override;
     virtual HRESULT Initialize(void* pArg)override;
     virtual void Priority_Update(_float fTimeDelta)override;
-    // ¸¶Áö¸·¿¡ ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¹Ù¶óº¸µµ·Ï ÇÔ
+    // ë§ˆì§€ë§‰ì— í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ë°”ë¼ë³´ë„ë¡ í•¨
     virtual void Update(_float fTimeDelta)override;
     virtual void Late_Update(_float fTimeDelta)override;
     virtual HRESULT Render()override;

@@ -1,4 +1,4 @@
-#include "Cthulhu.h"
+ï»¿#include "Cthulhu.h"
 #include "Player.h"
 #include "Transform.h"
 CCthulhu::CCthulhu(LPDIRECT3DDEVICE9 pGraphic_Device):
@@ -21,7 +21,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	// Çàµ¿Æ®¸® ÀÎ½ºÅÏ½º »ı¼º
+	// í–‰ë™íŠ¸ë¦¬ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
 	if (!m_pBehaviorTree)
 	{
 		m_pBehaviorTree = new CBehaviorTree();
