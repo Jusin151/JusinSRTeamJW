@@ -20,8 +20,8 @@ void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 
 	pBoss->Set_CurPos(vNewPos);
 
-	// 도달하면 Idle 
-	if (fDist < 8.f)
+	
+	if (fDist < 8.f) // 플레이어랑 거리가 8보다 가까우면 Idle 
 	{
 		pBoss->Change_State(new CHellBoss_IdleState());
 		return;

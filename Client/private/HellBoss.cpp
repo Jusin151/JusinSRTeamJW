@@ -27,10 +27,10 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp = 30;
+	m_iHp = 3000;
 	m_fSpeed = 3.f;
 
-	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+	m_pColliderCom->Set_Scale(_float3(20.f, 30.f, 2.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.f, -10.f));
 	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
@@ -117,7 +117,9 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 		SetTarget(pTarget);
 		Safe_AddRef(pTarget);
 	}
-	if (m_iHp <= 0) m_eCurState = MS_DEATH;
+	if (m_iHp <= 0) 
+		m_eCurState = MS_DEATH;
+
 	m_bIsActive = true;
 }
 
@@ -135,6 +137,13 @@ void CHellBoss::Update(_float fTimeDelta)
 
 	Process_Input();
 	m_AnimationManager.Update(fTimeDelta);
+
+	if (m_eCurState != MS_DEATH)
+	{
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+	}
 
 	__super::Update(fTimeDelta);
 }
@@ -224,6 +233,9 @@ HRESULT CHellBoss::Render()
 
 	Release_RenderState();
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 체력 :") + to_wstring(m_iHp),
+		_float2(-100.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 	return S_OK;
 }
 void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
@@ -279,7 +291,6 @@ HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		//m_pTransformCom->Go_Backward(fTimeDelta);
 	
-
 		if (m_eCurState != MS_ATTACK)
 		{
 			Take_Damage(other);

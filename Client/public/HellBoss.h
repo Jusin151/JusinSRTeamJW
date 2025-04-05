@@ -112,6 +112,13 @@ public:
 //290~311 // 네번째 모습 Idle 모션
 //312~337 // 네번째 모습 드디어 죽는 모션
 
+//IdleState
+//└ 플레이어 근처에 있음 ? -> 랜덤 패턴 선택 -> Set_AttackPattern()
+//└ AttackState로 전환
+//
+//AttackState
+//└Use_Attack() 실행
+//└패턴이 끝나면 IdleState로 돌아감
 
 
 

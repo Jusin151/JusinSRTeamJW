@@ -4,8 +4,8 @@
 
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
-	// 보스가 애니메이션 안에 패턴명을 포함하고 있다면, 패턴 쪽에서 Set_Animation 할 수도 있음.
-	// 또는 여기서 기본 애니를 지정해줘도 됨.
+	// 보스가 애니메이션 안에 패턴명을 포함하고 있다면, 패턴 쪽에서 Set_Animation 할 수도 있음
+	// 또는 여기서 기본 애니를 지정해줘도 됨
 }
 
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
@@ -26,5 +26,5 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 
 void CHellBoss_AttackState::Exit(CHellBoss* pBoss)
 {
-	// 특별히 해제할 것은 없음 (패턴은 여기서가 아니라 Update에서 처리)
+	// 특별히 해제할건 없을듯??
 }
