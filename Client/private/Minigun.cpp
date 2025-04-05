@@ -82,7 +82,11 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 void CMinigun::Update(_float fTimeDelta)
 {
     if (GetAsyncKeyState('R') & 0x8000)
+    {
         Ranged_INFO.CurrentAmmo += 100;
+        Notify_Bullet(); 
+
+    }
     __super::Update(fTimeDelta);
   
 }
