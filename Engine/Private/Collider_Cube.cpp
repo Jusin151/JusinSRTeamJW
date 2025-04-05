@@ -228,6 +228,69 @@ HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag, _float3 fSc
 	return S_OK;
 
 }
+HRESULT CCollider_Cube::Update_Collider_Boss(const _wstring& strLayerTag)
+{
+	if (nullptr == m_pOwner)
+		return E_FAIL;
+
+	CTransform* pTransfrom = static_cast<CTransform*>(m_pOwner->Get_Component(strLayerTag));
+	if (!pTransfrom)
+		return E_FAIL;
+
+	_float3 fRight = pTransfrom->Get_State(CTransform::STATE_RIGHT).GetNormalized();
+	_float3 fUp = pTransfrom->Get_State(CTransform::STATE_UP).GetNormalized();
+	_float3 fLook = pTransfrom->Get_State(CTransform::STATE_LOOK).GetNormalized();
+	_float3 fObjectPos = pTransfrom->Get_State(CTransform::STATE_POSITION);
+
+	// 이니셜라이즈에서 설정한 m_fScale 제대로다가 적용 
+	Set_State(CTransform::STATE_RIGHT, fRight * m_fScale.x);
+	Set_State(CTransform::STATE_UP, fUp * m_fScale.y);
+	Set_State(CTransform::STATE_LOOK, fLook * m_fScale.z);
+	Set_State(CTransform::STATE_POSITION, fObjectPos);
+
+	D3DXVec3TransformCoord(&m_fPos, &m_fLocalPos, &m_WorldMatrix);
+	Set_State(CTransform::STATE_POSITION, m_fPos);
+
+	// Collider의 AABB 및 버텍스
+	m_tDesc.vecIndices.clear();
+	m_tDesc.fAxisX = Get_State(CTransform::STATE_RIGHT);
+	m_tDesc.fAxisY = Get_State(CTransform::STATE_UP);
+	m_tDesc.fAxisZ = Get_State(CTransform::STATE_LOOK);
+	m_tDesc.fPos = Get_State(CTransform::STATE_POSITION);
+
+	_float3 axis[3] = { m_tDesc.fAxisX, m_tDesc.fAxisY, m_tDesc.fAxisZ };
+	_float3 offset = {};
+
+	_float3 min = { FLT_MAX, FLT_MAX, FLT_MAX };
+	_float3 max = { FLT_MIN, FLT_MIN, FLT_MIN };
+
+	for (int i = 0; i < 8; ++i)
+	{
+		offset =
+			((i & 1) ? axis[0] : -axis[0]) * 0.5f +
+			((i & 2) ? axis[1] : -axis[1]) * 0.5f +
+			((i & 4) ? axis[2] : -axis[2]) * 0.5f;
+
+		_float3 vertex = m_tDesc.fPos + offset;
+		m_tDesc.vecIndices.push_back(vertex);
+
+		min.x = (i == 0) ? vertex.x : std::min(min.x, vertex.x);
+		min.y = (i == 0) ? vertex.y : std::min(min.y, vertex.y);
+		min.z = (i == 0) ? vertex.z : std::min(min.z, vertex.z);
+
+		max.x = (i == 0) ? vertex.x : std::max(max.x, vertex.x);
+		max.y = (i == 0) ? vertex.y : std::max(max.y, vertex.y);
+		max.z = (i == 0) ? vertex.z : std::max(max.z, vertex.z);
+	}
+
+	m_tDesc.fMin = min;
+	m_tDesc.fMax = max;
+
+	m_tDesc.fRadius = offset.Length();
+	m_fRadius = offset.Length();
+
+	return S_OK;
+}
 
 CCollider_Cube* CCollider_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

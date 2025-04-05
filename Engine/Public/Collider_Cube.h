@@ -39,6 +39,8 @@ public:
 
 	virtual HRESULT Update_Collider(const _wstring& strLayerTag, _float3 fScale) override;
 
+	HRESULT Update_Collider_Boss(const _wstring& strLayerTag);
+
 private:
 	COL_CUBE_DESC		m_tDesc;
 

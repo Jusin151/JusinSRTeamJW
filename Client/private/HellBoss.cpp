@@ -30,7 +30,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_iHp = 3000;
 	m_fSpeed = 3.f;
 
-	m_pColliderCom->Set_Scale(_float3(20.f, 30.f, 2.f));
+	m_pColliderCom->Set_Scale(_float3(10.0f, 10.f, 10.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.f, -10.f));
 	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
@@ -140,7 +140,7 @@ void CHellBoss::Update(_float fTimeDelta)
 
 	if (m_eCurState != MS_DEATH)
 	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Transform")); 
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
@@ -229,7 +229,9 @@ HRESULT CHellBoss::Render()
 	if (FAILED(m_pVIBufferCom->Render())) 
 		return E_FAIL;
 
-	if (g_bDebugCollider) m_pColliderCom->Render();
+	//if (g_bDebugCollider) 
+		
+		m_pColliderCom->Render();
 
 	Release_RenderState();
 
@@ -410,7 +412,7 @@ HRESULT CHellBoss::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.5f,0.5f,0.5f };
+	ColliderDesc.fScale = { 0.1f,0.5f,0.5f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
