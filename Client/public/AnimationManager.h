@@ -14,12 +14,12 @@ public:
 			delete pair.second;
 	}
 
-	void AddAnimation(const std::string& strKey, int iStartFrame, int iEndFrame, float fFrameTime = 0.05f)
+	void AddAnimation(const string& strKey, int iStartFrame, int iEndFrame, float fFrameTime = 0.05f)
 	{
 		m_mapAnimations[strKey] = new CAnimation(iStartFrame, iEndFrame, fFrameTime);
 	}
 
-	void SetCurrentAnimation(const std::string& strKey)
+	void SetCurrentAnimation(const string& strKey)
 	{
 		auto it = m_mapAnimations.find(strKey);
 		if (it != m_mapAnimations.end())

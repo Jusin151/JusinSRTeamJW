@@ -5,6 +5,11 @@
 #include "Transform.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "HellBoss_IdleState.h"
+#include "HellBoss_WalkState.h"
+#include "HellBoss_MorphState.h"
+#include "HellBoss_AttackState.h"
+#include "HellBoss_DeadState.h"
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
@@ -23,7 +28,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
 	m_iHp = 30;
-	m_fSpeed = 0.15f;
+	m_fSpeed = 3.f;
 
 	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 0.f, -10.f));
@@ -34,12 +39,16 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("3_EyeBlast", 9, 29);
 	m_AnimationManager.AddAnimation("4_Shoot", 30, 55);
 	m_AnimationManager.AddAnimation("5_Morph", 56, 86);
+
+
 	m_AnimationManager.AddAnimation("6_Phase2_Idle", 86, 86);
 	m_AnimationManager.AddAnimation("7_Phase2_Walk", 87, 94);
 	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99);
 	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);
 	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107);
 	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111);
+
+
 	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117);
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124);
@@ -91,6 +100,10 @@ HRESULT CHellBoss::Initialize(void* pArg)
      //312~337 // 네번째 모습 드디어 죽는 모션
 
 
+	m_pCurState = new CHellBoss_IdleState();
+	m_pCurState->Enter(this);
+
+
 	return S_OK;
 }
 
@@ -113,19 +126,19 @@ void CHellBoss::Update(_float fTimeDelta)
 	if (!m_pTarget)
 		return;
 
-	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// 패턴
+	if (m_eCurState != MS_WALK)
+		m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
 
-	Process_Input(); 
-
-	m_AnimationManager.Update(fTimeDelta); 
-	 
+	Process_Input();
+	m_AnimationManager.Update(fTimeDelta);
 
 	__super::Update(fTimeDelta);
 }
+
 
 
 void CHellBoss::Late_Update(_float fTimeDelta)
@@ -138,6 +151,31 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 			return;
 
 }
+void CHellBoss::Change_State(CHellBoss_State* pNewState)
+{
+	if (m_pCurState)
+		m_pCurState->Exit(this);
+
+	// 현재 상태가 뭔지 확인
+	if (dynamic_cast<CHellBoss_IdleState*>(pNewState))
+		m_eCurState = MS_IDLE;
+	else if (dynamic_cast<CHellBoss_WalkState*>(pNewState))
+		m_eCurState = MS_WALK;
+	else if (dynamic_cast<CHellBoss_AttackState*>(pNewState))
+		m_eCurState = MS_ATTACK;
+	else if (dynamic_cast<CHellBoss_DeadState*>(pNewState))
+		m_eCurState = MS_DEATH;
+	else if (dynamic_cast<CHellBoss_MorphState*>(pNewState))
+		m_eCurState = MS_MORPH;
+
+	m_pCurState = pNewState;
+
+	if (m_pCurState)
+		m_pCurState->Enter(this);
+}
+
+
+
 void CHellBoss::Process_Input()
 {
 	if (GetAsyncKeyState('1') & 0x8000) m_AnimationManager.SetCurrentAnimation("1_Idle");
@@ -183,6 +221,16 @@ HRESULT CHellBoss::Render()
 	Release_RenderState();
 
 	return S_OK;
+}
+void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
+{
+	m_pCurAttackPattern = pPattern;
+}
+
+void CHellBoss::Use_Attack(_float fDeltaTime)
+{
+	if (m_pCurAttackPattern)
+		m_pCurAttackPattern->Execute(this, fDeltaTime);
 }
 
 
@@ -390,16 +438,4 @@ void CHellBoss::Free()
 	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pTarget);
 }
-
-void CHellBoss::Change_State(CHellBoss_State* pNewState)
-{
-	if (m_pCurState)
-		m_pCurState->Exit(this);
-
-	m_pCurState = pNewState;
-
-	if (m_pCurState)
-		m_pCurState->Enter(this);
-}
-
 

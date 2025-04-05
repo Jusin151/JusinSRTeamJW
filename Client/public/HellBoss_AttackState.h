@@ -2,6 +2,7 @@
 
 #include "HellBoss_State.h"
 
+
 class CHellBoss_AttackState : public CHellBoss_State
 {
 public:

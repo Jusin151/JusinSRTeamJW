@@ -180,6 +180,7 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\Pattern_EyeBlast.h" />
     <ClInclude Include="..\public\HellBoss.h" />
     <ClInclude Include="..\public\HellBoss_AttackState.h" />
     <ClInclude Include="..\public\HellBoss_DeadState.h" />
@@ -187,10 +188,13 @@
     <ClInclude Include="..\public\HellBoss_MorphState.h" />
     <ClInclude Include="..\Public\HellBoss_State.h" />
     <ClInclude Include="..\public\HellBoss_WalkState.h" />
+    <ClInclude Include="..\public\Pattern_Attack_Base.h" />
     <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\Node.h" />
+    <ClInclude Include="..\public\Pattern_Shoot.h" />
+    <ClInclude Include="..\public\Patter_Morph.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
@@ -289,7 +293,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Private\Animation.cpp" />
     <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
@@ -304,7 +307,6 @@
     <ClCompile Include="..\private\HellBoss_DeadState.cpp" />
     <ClCompile Include="..\Private\HellBoss_IdleState.cpp" />
     <ClCompile Include="..\private\HellBoss_MorphState.cpp" />
-    <ClCompile Include="..\Private\HellBoss_State.cpp" />
     <ClCompile Include="..\private\HellBoss_WalkState.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
@@ -322,6 +324,9 @@
     <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
+    <ClCompile Include="..\private\Pattern_EyeBlast.cpp" />
+    <ClCompile Include="..\private\Pattern_Shoot.cpp" />
+    <ClCompile Include="..\private\Patter_Morph.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
