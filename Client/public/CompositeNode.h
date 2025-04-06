@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <Client_Defines.h>
 #include "Node.h"
-// Ãß»ó
-class CCompositeNode : public INode // Select , Sequence ¿¡ »ç¿ë
+// ì¶”ìƒ
+class CCompositeNode : public INode // Select , Sequence ì— ì‚¬ìš©
 {
 public:
     virtual ~CCompositeNode() { Release(); }
@@ -21,7 +21,7 @@ protected:
     vector<INode*> m_vecChild;
 };
 
-class CSequenceNode : public CCompositeNode // °è¼Ó ÁøÇàÇÏ´Â ÇÏ³ª¶óµµ FAILÀÌ¸é ÁøÇà ¾ÈÇÔ
+class CSequenceNode : public CCompositeNode // ê³„ì† ì§„í–‰í•˜ëŠ” í•˜ë‚˜ë¼ë„ FAILì´ë©´ ì§„í–‰ ì•ˆí•¨
 {
 public:
     NodeStatus Execute() override
@@ -29,20 +29,20 @@ public:
         for (auto& child : m_vecChild)
         {
             NodeStatus status = child->Execute();
-            if (status == NodeStatus::FAIL) // ÇÏ³ª¶óµµ ½ÇÆĞ¸é Áï½Ã Á¾·á
+            if (status == NodeStatus::FAIL) // í•˜ë‚˜ë¼ë„ ì‹¤íŒ¨ë©´ ì¦‰ì‹œ ì¢…ë£Œ
             {
                 return NodeStatus::FAIL;
             }
-            if (status == NodeStatus::RUNNING) // ½ÇÇà ÁßÀÎ ³ëµå°¡ ÀÖÀ¸¸é RUNNING ¹İÈ¯
+            if (status == NodeStatus::RUNNING) // ì‹¤í–‰ ì¤‘ì¸ ë…¸ë“œê°€ ìˆìœ¼ë©´ RUNNING ë°˜í™˜
             {
                 return NodeStatus::RUNNING;
             }
         }
-        return NodeStatus::SUCCESS; // ¸ğµç ³ëµå°¡ ¼º°øÇÏ¸é SUCCESS ¹İÈ¯
+        return NodeStatus::SUCCESS; // ëª¨ë“  ë…¸ë“œê°€ ì„±ê³µí•˜ë©´ SUCCESS ë°˜í™˜
     }
 };
 
-class CSelectorNode : public CCompositeNode  // ¼º°øÇÑ ³ëµå°¡ ÀÖÀ¸¸é ¹İÈ¯ÇØ¼­ ½ÇÇà ½ÃÅ´
+class CSelectorNode : public CCompositeNode  // ì„±ê³µí•œ ë…¸ë“œê°€ ìˆìœ¼ë©´ ë°˜í™˜í•´ì„œ ì‹¤í–‰ ì‹œí‚´
 {
 public:
     NodeStatus Execute() override
@@ -50,15 +50,15 @@ public:
         for (auto& child : m_vecChild)
         {
             NodeStatus status = child->Execute();
-            if (status == NodeStatus::SUCCESS) // ÇÏ³ª¶óµµ ¼º°øÇÏ¸é Áï½Ã ¼º°ø ¹İÈ¯
+            if (status == NodeStatus::SUCCESS) // í•˜ë‚˜ë¼ë„ ì„±ê³µí•˜ë©´ ì¦‰ì‹œ ì„±ê³µ ë°˜í™˜
             {
                 return NodeStatus::SUCCESS;
             }
-            if (status == NodeStatus::RUNNING) // ½ÇÇà ÁßÀÌ¸é RUNNING ¹İÈ¯
+            if (status == NodeStatus::RUNNING) // ì‹¤í–‰ ì¤‘ì´ë©´ RUNNING ë°˜í™˜
             {
                 return NodeStatus::RUNNING;
             }
         }
-        return NodeStatus::FAIL; // ¸ğµç ³ëµå°¡ ½ÇÆĞÇÏ¸é FAIL ¹İÈ¯
+        return NodeStatus::FAIL; // ëª¨ë“  ë…¸ë“œê°€ ì‹¤íŒ¨í•˜ë©´ FAIL ë°˜í™˜
     }
 };

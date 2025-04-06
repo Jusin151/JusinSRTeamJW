@@ -16,6 +16,8 @@
 #include <ctime>
 #include <unordered_map>
 #include <unordered_set>
+#include <map>
+#include <string>
 using namespace std;
 
 template<typename T>

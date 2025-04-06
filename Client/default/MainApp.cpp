@@ -105,6 +105,8 @@ HRESULT CMainApp::Initialize()
 
 void CMainApp::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+		PostQuitMessage(0);
 //	m_pMyImGui->Update(fTimeDelta);
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }

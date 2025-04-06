@@ -164,6 +164,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Animation.h" />
+    <ClInclude Include="..\public\AnimationManager.h" />
     <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
@@ -179,12 +181,23 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\HellBoss_Bullet.h" />
+    <ClInclude Include="..\public\Pattern_EyeBlast.h" />
     <ClInclude Include="..\public\HellBoss.h" />
     <ClInclude Include="..\public\Level_Boss.h" />
+    <ClInclude Include="..\public\HellBoss_AttackState.h" />
+    <ClInclude Include="..\public\HellBoss_DeadState.h" />
+    <ClInclude Include="..\Public\HellBoss_IdleState.h" />
+    <ClInclude Include="..\public\HellBoss_MorphState.h" />
+    <ClInclude Include="..\Public\HellBoss_State.h" />
+    <ClInclude Include="..\public\HellBoss_WalkState.h" />
+    <ClInclude Include="..\public\Pattern_Attack_Base.h" />
     <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\Node.h" />
+    <ClInclude Include="..\public\Pattern_Shoot.h" />
+    <ClInclude Include="..\public\Patter_Morph.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
@@ -294,6 +307,13 @@
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
+    <ClCompile Include="..\private\HellBoss_AttackState.cpp" />
+    <ClCompile Include="..\private\HellBoss_Bullet.cpp" />
+    <ClCompile Include="..\private\HellBoss_DeadState.cpp" />
+    <ClCompile Include="..\Private\HellBoss_IdleState.cpp" />
+    <ClCompile Include="..\private\HellBoss_MorphState.cpp" />
+    <ClCompile Include="..\private\HellBoss_State.cpp" />
+    <ClCompile Include="..\private\HellBoss_WalkState.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
     <ClCompile Include="..\private\GlacierBullet.cpp" />
@@ -311,6 +331,9 @@
     <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
+    <ClCompile Include="..\private\Pattern_EyeBlast.cpp" />
+    <ClCompile Include="..\private\Pattern_Shoot.cpp" />
+    <ClCompile Include="..\private\Patter_Morph.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
@@ -376,6 +399,7 @@
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\private\Yeti.cpp" />
+    <ClCompile Include="..\public\Pattern_Attack_Base.cpp" />
     <ClCompile Include="..\Public\Weapon_Effect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />

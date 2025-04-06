@@ -178,6 +178,12 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
         
             m_bMonster = true; 
         }
+        else if ((closestTag.find(L"Boss") != wstring::npos))
+        {
+            CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
+
+            m_bMonster = true;
+        }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
 
@@ -483,4 +489,49 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
         &hitDesc);            // 이펙트 초기화 데이터
 
 #pragma endregion
+}
+
+void CRanged_Weapon::CreateBossHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage)
+{
+    if (!pClosestCollider) return;
+
+    CGameObject* pOwner = pClosestCollider->Get_Owner();
+    if (!pOwner) return;
+
+    if (auto pTarget = dynamic_cast<CCollisionObject*>(pOwner))
+        pTarget->Set_Hp(pTarget->Get_Hp() - static_cast<_int>(Damage));
+
+    CTransform* pTargetTransform = static_cast<CTransform*>(pOwner->Get_Component(L"Com_Transform"));
+    if (!pTargetTransform) return;
+
+    _float3 vSurfaceNormal = pTargetTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
+
+    // 정확히 맞은 위치에 피 이펙트 배치
+    _float3 vCamPos = dynamic_cast<CTransform*>(
+        m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform"))
+        ->Get_State(CTransform::STATE_POSITION);
+
+    _float3 vHitToCamDir = (vCamPos - vWorldHitPos);
+    if (vHitToCamDir.LengthSq() > 1e-6f)
+        vHitToCamDir.Normalize();
+    else
+        vHitToCamDir = vSurfaceNormal * -1.f;
+
+    float fOffset = (vSurfaceNormal.Dot(vHitToCamDir) > 0.f) ? 0.01f : -0.01f;
+    _float3 vEffectPos = vWorldHitPos + vSurfaceNormal * fOffset;
+
+    CHit_Effect::HIT_DESC hitDesc;
+    hitDesc.vRight = pTargetTransform->Get_State(CTransform::STATE_RIGHT);
+    hitDesc.vUp = pTargetTransform->Get_State(CTransform::STATE_UP);
+    hitDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
+    hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
+    hitDesc.vPos = vEffectPos;
+    hitDesc.type = 0; // 단일 고정 피격 이미지
+
+    m_pGameInstance->Add_GameObject(
+        LEVEL_STATIC,
+        TEXT("Prototype_GameObject_Blood_Effect"),
+        LEVEL_STATIC,
+        TEXT("Layer_Blood_Effect"),
+        &hitDesc);
 }
