@@ -16,10 +16,12 @@ class CHellBoss_Bullet : public CBullet_Base
 public:
 	struct PowerBlastDesc
 	{
-		_bool bIsPowerBlast = { false }; // << 이거 추가
+		_bool bIsPowerBlast = { false };
 		wstring wBulletType;
-		_int     iIndex;
-		_int     iTotalCount;
+		_int iIndex;
+		_int iTotalCount;
+
+		_float3 vAxis = { 0.f, 1.f, 0.f }; // Y축 기준으로 기본 회전
 	};
 
 
@@ -88,7 +90,10 @@ private:
 private:
 	_float m_fFixedAngle = 0.f; 
 	PowerBlastDesc pDesc{};
-	_float m_fCurScale = 2.f; // Power_Blast 초기 스케일
+	_float m_fCurScale = 2.f; 
+	_bool m_bReadyToLaunch = false; 
+	_float m_fLaunchTimer = 0.f; 
 
+	_float3 m_vAxis{};
 };
 END

@@ -147,12 +147,27 @@ void CHellBoss::Update(_float fTimeDelta)
 	{
 		m_iPrevHpDiv100 = iCurHpDiv100;
 
+
+		static _float3 axisList[10] = {
+			_float3(1.f, 0.f, 0.f),     // X축
+			_float3(0.f, 1.f, 0.f),     // Y축
+			_float3(0.f, 0.f, 1.f),     // Z축
+			_float3(1.f, 1.f, 0.f),     // XY축
+			_float3(1.f, 0.f, 1.f),     // XZ축
+			_float3(0.f, 1.f, 1.f),     // YZ축
+			_float3(-1.f, 1.f, 0.f),    // 대각선
+			_float3(0.f, -1.f, 1.f),
+			_float3(1.f, 1.f, 1.f),     // 삼축 회전
+			_float3(-1.f, -1.f, -1.f)   // 반대 회전
+		};
+
 		// 총알 1개 생성
 		CHellBoss_Bullet::PowerBlastDesc pDesc{};
 		pDesc.wBulletType = L"Power_Blast";
 		pDesc.iIndex = m_iPowerBlastCount;       // 현재 몇 번째 총알인지
 		pDesc.iTotalCount = 10;                  // 총 10개
 		pDesc.bIsPowerBlast = true;              // 회전 총알 여부
+		pDesc.vAxis = axisList[m_iPowerBlastCount % 10]; // 축 설정
 
 		if (FAILED(m_pGameInstance->Add_GameObject(
 			LEVEL_HONG,
@@ -178,6 +193,7 @@ void CHellBoss::Update(_float fTimeDelta)
 			m_iPowerBlastCount = 0;
 		}
 	}
+
 
 
 

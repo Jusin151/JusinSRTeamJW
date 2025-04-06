@@ -60,6 +60,8 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_iMaxFrame = 10;
 	}
 
+	m_vAxis = pDesc.vAxis; 
+
 	m_fSpeed = 3.f;
 
 	if (FAILED(Ready_Components()))
@@ -199,22 +201,18 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 		{
 			m_fRotateAngle += fTimeDelta * 90.f;
 
+			D3DXMATRIX matRot;
+			D3DXMatrixRotationAxis(&matRot, &m_vAxis, D3DXToRadian(m_fRotateAngle + m_fFixedAngle));
 
-			_float rad = D3DXToRadian(m_fRotateAngle + m_fFixedAngle);
+			_float3 offset = { m_fRadius, 0.f, 0.f }; // 기본 방향 (X축 기준)
+			D3DXVec3TransformCoord(&offset, &offset, &matRot);
+
 			_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+			_float3 newPos = bossPos + offset;
 
-			_float x = cos(rad) * m_fRadius;
-			_float z = sin(rad) * m_fRadius;
-			_float y = 5.f; //  << 여기서 Y조절
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
 
-			_float3 offset = { x, y, z };
-
-
-			_float3 newPos = bossPos + offset; // << 이거 추가!!
-
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, bossPos + offset);
-
-			// --- 여기서부터 LookAt 플레이어
+			// LookAt 플레이어 처리
 			CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
 				m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -236,8 +234,9 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vToPlayer);
 			}
 
-			return;
+			return; // ROTATING일 땐 여기서 끝
 		}
+
 		else if (m_eBulletMode == LAUNCHING)
 		{
 			m_fRotateAngle += fTimeDelta * 1000.f;
