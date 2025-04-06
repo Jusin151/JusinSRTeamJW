@@ -56,6 +56,8 @@ public:
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 private:
+	_bool m_bJustSpawned = { true };
+	_bool m_bInitializedPos = {false}; 
 
 };
 END

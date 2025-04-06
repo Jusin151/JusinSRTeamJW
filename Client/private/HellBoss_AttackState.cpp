@@ -4,52 +4,51 @@
 #include "HellBoss_Bullet.h"
 #include "GameInstance.h" 
 
+
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
     // 공격 애니메이션 설정
-    pBoss->Set_Animation("4_Shoot");
-
-    // 플레이어 방향 벡터 계산
-    _float3 vDir = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
-    D3DXVec3Normalize(&vDir, &vDir);
-
-    // 총알 생성
-    //CHellBoss_Bullet* pBullet = CHellBoss_Bullet::Create(pBoss->Get_Graphic_Device());
-    //if (pBullet)
-    //{
-    //    // 초기화
-    //    pBullet->Initialize(nullptr);
-
-    //    // 위치 지정
-    //    pBullet->Get_Transform()->Set_State(CTransform::STATE_POSITION, pBoss->Get_Pos());
-
-    //    // 방향 지정
-    //    pBullet->Set_Direction(vDir);
-
-      
+    pBoss->Set_Animation("3_EyeBlast");
+   
         if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
             LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"))))
         {
             MSG_BOX("HellBoss_Bullet 생성 실패");
         }
 
-    //
 }
+
+#include "Pattern_EyeBlast.h"
+#include "HellBoss_Bullet.h" // 필요 시
+
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
+    // EyeBlast일 때만 총알 발사
+    if (dynamic_cast<CPattern_EyeBlast*>(pBoss->Get_AttackPattern()))
+    {
+        static bool bHasFired = false;
 
-	pBoss->Use_Attack(fDeltaTime);
+        if (!bHasFired && pBoss->Get_CurAnimationFrame() >= 15)
+        {
+            bHasFired = true;
 
-	auto pPattern = pBoss->Get_AttackPattern();
-	if (pPattern && pPattern->Is_Finished())
-	{
-	
-		delete pPattern;
-		pBoss->Set_AttackPattern(nullptr);
+            if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
+                LEVEL_HONG,
+                TEXT("Prototype_GameObject_HellBoss_Bullet"),
+                LEVEL_HONG,
+                TEXT("Layer_HellBoss_Bullet"))))
+            {
+                MSG_BOX("HellBoss_Bullet 생성 실패");
+            }
+        }
 
-		pBoss->Change_State(new CHellBoss_IdleState()); 
-	}
+        if (pBoss->Get_AnimationFinished())
+            bHasFired = false; // 애니메이션 종료 후 초기화
+    }
+
+    pBoss->Use_Attack(fDeltaTime);
 }
+
 
 void CHellBoss_AttackState::Exit(CHellBoss* pBoss)
 {

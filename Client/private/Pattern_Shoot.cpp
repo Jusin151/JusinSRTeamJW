@@ -32,3 +32,8 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
         pBoss->Change_State(new CHellBoss_IdleState());
     }
 }
+
+void CPattern_Shoot::Update(CHellBoss* pBoss, float fDeltaTime)
+{
+
+}

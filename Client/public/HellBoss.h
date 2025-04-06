@@ -47,6 +47,7 @@ public:
 public: // 어택관련
 	void Set_AttackPattern(CPattern_Attack_Base* pPattern);
 	void Use_Attack(_float fDeltaTime);
+	void Fire_Bullet();
 private: 
 	CPattern_Attack_Base* m_pCurAttackPattern = { nullptr };
 	
@@ -67,6 +68,10 @@ public://애니메이션관련
 	{
 		return m_pGameInstance;
 	}
+	_uint Get_CurAnimationFrame()
+	{
+		return m_AnimationManager.GetCurrentFrame();
+	}
  
 private: //콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
@@ -84,6 +89,7 @@ public:
 	{
 		m_vCurPos = vPos;
 	}
+	bool m_bInitializedCurPos = { false };
 
 };
 

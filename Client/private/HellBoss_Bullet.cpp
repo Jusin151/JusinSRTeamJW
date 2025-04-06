@@ -18,34 +18,42 @@ HRESULT CHellBoss_Bullet::Initialize_Prototype()
 	return S_OK;
 }
 
+
 HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
 	m_HellBoss_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_HONG, TEXT("Layer_HellBoss"), TEXT("Com_Transform")));
-	if (m_HellBoss_Transform == nullptr)
-		return E_FAIL; 
+	if (!m_HellBoss_Transform) return E_FAIL;
 
-	m_fHellBoss_RIght = m_HellBoss_Transform->Get_State(CTransform::STATE_RIGHT);
-	m_fHellBoss_Up = m_HellBoss_Transform->Get_State(CTransform::STATE_UP);
-	m_fHellBoss_Look = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+
 	m_fHellBoss_Pos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
 
 
 
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_fHellBoss_RIght);
-	m_pTransformCom->Set_State(CTransform::STATE_UP, m_fHellBoss_Up);
-	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_fHellBoss_Look);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
+
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	if (pPlayerTransform)
+	{
+		_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_fHellBoss_Pos;
+		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+		m_vDir = vToPlayer;
+	}
+	else
+	{
+		m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+	}
+
+
+  	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
 	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 
-
-	m_fSpeed = 0.1f;
-	m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+	m_fSpeed = 1.f;
 	return S_OK;
 }
+
+
 
 void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 {
@@ -61,6 +69,17 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 void CHellBoss_Bullet::Update(_float fTimeDelta)
 {
 	
+	if (!m_bInitializedPos)
+	{
+		m_fHellBoss_Pos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+		m_fHellBoss_Pos.y += 5.f; // 
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
+		m_bInitializedPos = true;
+	}
+
+
+	
+	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	_float3 a = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
@@ -114,13 +133,51 @@ HRESULT CHellBoss_Bullet::Render()
 
 	Release_RenderState();
 
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+		_float2(-100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+		_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 	return S_OK;
 }
 
 HRESULT CHellBoss_Bullet::On_Collision(CCollisionObject* other)
 {
-	__super::On_Collision(other);
+	if (nullptr == m_pColliderCom)
+		return E_FAIL;
 
+	if (nullptr == other)
+		return S_OK;
+
+	// 안바뀌면 충돌 안일어남
+	if (other->Get_Type() == CG_END)
+		return S_OK;
+
+	_float3 fMTV = m_pColliderCom->Get_MTV();
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 temp = { 1.f, 0.f, 1.f };
+
+	switch (other->Get_Type())
+	{
+	case CG_PLAYER:
+
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		//m_pTransformCom->Go_Backward(fTimeDelta);
+		break;
+
+	case CG_WEAPON:
+
+
+
+		break;
+	default:
+		break;
+	}
 	
 
 	return S_OK;
@@ -131,7 +188,7 @@ void CHellBoss_Bullet::Attack_Melee()
 {
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	m_pGameInstance->Add_Collider(CG_PLAYER_PROJECTILE_SPHERE, m_pAttackCollider);
 }
 
 void CHellBoss_Bullet::Reset()
@@ -141,23 +198,36 @@ void CHellBoss_Bullet::Reset()
 
 	if (!m_HellBoss_Transform) return;
 
+
 	m_fHellBoss_RIght = m_HellBoss_Transform->Get_State(CTransform::STATE_RIGHT);
 	m_fHellBoss_Up = m_HellBoss_Transform->Get_State(CTransform::STATE_UP);
 	m_fHellBoss_Look = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
 	m_fHellBoss_Pos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
 
 
-	/*Player_Pos += Player_Look * 0.8f;
-	Player_Pos += Player_RIght * 0.1f;
-	Player_Pos.y -= 0.5f;*/
+	m_fHellBoss_Pos.y += 5.f;
+
+
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+		m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	if (pPlayerTransform)
+	{
+		_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_fHellBoss_Pos;
+		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+		m_vDir = vToPlayer;
+	}
+	else
+	{
+		m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+	}
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_fHellBoss_RIght);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, m_fHellBoss_Up);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_fHellBoss_Look);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
 	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
-	m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
-
 }
 
 HRESULT CHellBoss_Bullet::SetUp_RenderState()
@@ -192,15 +262,13 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 		TEXT("Com_VIBufferm"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	_float3 fPos = { 10.f, 0.5f, 10.f };
-
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	ColliderDesc.fScale = { 0.1f, 0.1f, 0.1f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),

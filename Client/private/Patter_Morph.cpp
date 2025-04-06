@@ -37,3 +37,7 @@ void CPatter_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
         // pBoss->Change_State(new CHellBoss_IdleState());
     }
 }
+
+void CPatter_Morph::Update(CHellBoss* pBoss, _float fDeltaTime)
+{
+}

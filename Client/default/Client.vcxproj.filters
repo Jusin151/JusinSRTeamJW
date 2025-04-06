@@ -1115,6 +1115,7 @@
     <ClCompile Include="..\private\HellBoss_Bullet.cpp">
       <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="..\public\Pattern_Attack_Base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">

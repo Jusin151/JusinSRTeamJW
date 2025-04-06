@@ -31,7 +31,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_fSpeed = 3.f;
 
 	m_pColliderCom->Set_Scale(_float3(7.0f, 10.f, 10.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-4.f, 7.f, -10.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-40.f, 0.f, -10.f));
 	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
 	m_AnimationManager.AddAnimation("1_Idle", 0, 0);
@@ -128,9 +128,6 @@ void CHellBoss::Update(_float fTimeDelta)
 	if (!m_pTarget)
 		return;
 
-
-	if (m_eCurState != MS_WALK)
-		m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
@@ -355,12 +352,7 @@ void CHellBoss::Select_Pattern(_float fTimeDelta)
 	default:
 		break;
 	}
-
-
-	
 }
-
-
 
 HRESULT CHellBoss::SetUp_RenderState()
 {
