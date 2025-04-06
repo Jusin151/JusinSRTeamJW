@@ -1,4 +1,4 @@
-#include "Cthulhu.h"
+ï»¿#include "Cthulhu.h"
 #include <Player.h>
 #include <CthulhuMissile.h>
 
@@ -28,7 +28,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// ºñÇìÀÌºñ¾î Æ®¸® ÃÊ±âÈ­
+	// ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ ì´ˆê¸°í™”
 	m_pBehaviorTree = new CBehaviorTree();
 	if (!m_pBehaviorTree)
 		return E_FAIL;
@@ -43,7 +43,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 
 HRESULT CCthulhu::Ready_Components()
 {
-	// ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ ÄÚµå
+	// ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” ì½”ë“œ
 	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_Cthulhu"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -93,14 +93,14 @@ NodeStatus CCthulhu::Attack()
 	if (m_fAttackCoolTime < m_fAttackCoolDown)
 		return NodeStatus::FAIL;
 
-	// ÄğÅ¸ÀÓÀÌ ¿Ï·áµÇ¾úÀ¸¹Ç·Î Å¸ÀÌ¸Ó¸¦ ¸®¼Â
+	// ì¿¨íƒ€ì„ì´ ì™„ë£Œë˜ì—ˆìœ¼ë¯€ë¡œ íƒ€ì´ë¨¸ë¥¼ ë¦¬ì…‹
 	m_fAttackCoolTime = 0.f;
 
 	m_eState = STATE::ATTACK;
 	m_fFrame = 0.f;
 	m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
 
-	// ¹Ì»çÀÏ ¹ß»ç¸¦ À§ÇÑ À§Ä¡ º¸Á¤
+	// ë¯¸ì‚¬ì¼ ë°œì‚¬ë¥¼ ìœ„í•œ ìœ„ì¹˜ ë³´ì •
 	auto vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vPos.y -= 1.f;
 	CTransform* pTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
@@ -120,7 +120,7 @@ void CCthulhu::Create_BehaviorTree()
 
 	m_pBehaviorTree->Set_Root(pRoot);	
 
-	//// ºñÇìÀÌºñ¾î Æ®¸® »ı¼º ¹× ÃÊ±âÈ­
+	//// ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ ìƒì„± ë° ì´ˆê¸°í™”
 	//m_pBehaviorTree->Create_Sequence("CthulhuAttack");
 	//m_pBehaviorTree->Create_Selector("CthulhuIdle");
 	//m_pBehaviorTree->Create_Condition("CthulhuIdle", "CthulhuAttack", "IsPlayerInRange");
@@ -135,7 +135,7 @@ HRESULT CCthulhu::On_Collision(CCollisionObject* other)
 
 
 void CCthulhu::Select_Pattern(_float fTimeDelta)
-{// ºñÇìÀÌºñ¾î Æ®¸® ½ÇÇà
+{// ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ ì‹¤í–‰
 	if (m_pBehaviorTree)
  		m_pBehaviorTree->Run();
 
@@ -175,7 +175,7 @@ void CCthulhu::Deserialize(const json& j)
 void CCthulhu::Priority_Update(_float fTimeDelta)
 {
 	Billboarding(fTimeDelta);
-	// ºñÇìÀÌºñ¾î Æ®¸® ½ÇÇà
+	// ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ ì‹¤í–‰
 	if (m_pBehaviorTree)
 		m_pBehaviorTree->Run();
 }
@@ -306,7 +306,7 @@ CGameObject* CCthulhu::Clone(void* pArg)
 void CCthulhu::Free()
 {
 	__super::Free();
-	// ºñÇìÀÌºñ¾î Æ®¸® ÇØÁ¦
+	// ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ í•´ì œ
 	Safe_Release(m_pTextureCom);
 	Safe_Delete(m_pBehaviorTree);
 }

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Projectile_Base.h"
 
 BEGIN(Client)

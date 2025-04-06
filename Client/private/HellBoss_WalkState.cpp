@@ -1,4 +1,4 @@
-#include "HellBoss_WalkState.h"
+ï»¿#include "HellBoss_WalkState.h"
 #include "HellBoss.h"
 #include "HellBoss_IdleState.h"
 
@@ -19,7 +19,7 @@ void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 	pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, vNewPos);
 
 	
-	if (fDist < 20.f) // ÇÃ·¹ÀÌ¾î¶û °Å¸®°¡ 8º¸´Ù °¡±î¿ì¸é Idle 
+	if (fDist < 20.f) // í”Œë ˆì´ì–´ëž‘ ê±°ë¦¬ê°€ 8ë³´ë‹¤ ê°€ê¹Œìš°ë©´ Idle 
 	{
 		pBoss->Change_State(new CHellBoss_IdleState());
 		return;

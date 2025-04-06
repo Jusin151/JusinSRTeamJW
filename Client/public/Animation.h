@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 class CAnimation
@@ -22,7 +22,7 @@ public:
 	}
 	bool IsFinished() const
 	{
-		// ÇöÀç ÇÁ·¹ÀÓÀÌ ³¡ ÇÁ·¹ÀÓÀÎÁö
+		// í˜„ìž¬ í”„ë ˆìž„ì´ ë í”„ë ˆìž„ì¸ì§€
 		return m_iCurrentFrame >= m_iEndFrame;
 	}
 

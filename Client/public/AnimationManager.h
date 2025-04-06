@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Client_Defines.h"
 #include "Animation.h"
@@ -33,7 +33,7 @@ public:
 	}
 	bool IsFinished() const
 	{
-		// ÇöÀç ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¾øÀ¸¸é false, ÀÖÀ¸¸é ÇöÀç ¾Ö´Ï¸ÞÀÌ¼ÇÀÇ IsFinished¸¦ È£Ãâ
+		// í˜„ìž¬ ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ìœ¼ë©´ false, ìžˆìœ¼ë©´ í˜„ìž¬ ì• ë‹ˆë©”ì´ì…˜ì˜ IsFinishedë¥¼ í˜¸ì¶œ
 		return m_pCurAnim ? m_pCurAnim->IsFinished() : false;
 	}
 	void Update(float fDeltaTime)
