@@ -13,6 +13,8 @@ class CHellBoss_Bullet : public CBullet_Base
 {
 	enum BULLET_MODE { ROTATING, LAUNCHING };
 	BULLET_MODE m_eBulletMode = ROTATING; 
+	enum EXPAND_PHASE { EXPAND_SPREADING, EXPAND_LAUNCH };
+	EXPAND_PHASE m_eExpandPhase = EXPAND_SPREADING;
 public:
 	struct PowerBlastDesc
 	{
@@ -36,6 +38,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	// 마지막에 플레이어 방향으로 바라보도록 함
 	virtual void Update(_float fTimeDelta)override;
+	_float3 Lerp(const _float3& a, const _float3& b, _float t);
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
@@ -96,6 +99,8 @@ private:
 
 	_float3 m_vAxis{};
 	_bool m_bPlayedOnce = false;
+	_float3 m_vExpandedPos = {}; // 퍼진 후 위치
+	_float  m_fExpandTime = 0.f;
 
 };
 END

@@ -40,6 +40,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_fRotateAngle = m_fFixedAngle;
 		m_eBulletMode = ROTATING; //
 
+		m_iBulletIndex = pDesc.iIndex; 
 		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
 		m_fFrameDuration = 0.02f;
 		m_iFrameCount = 7;
@@ -163,7 +164,7 @@ void CHellBoss_Bullet::Reset()
 		else if (m_wBulletType == L"Power_Blast")
 		{
 			m_fBullet_Scale = { 2.f, 2.f, 2.f };
-			m_fSpeed = 1.5f;
+			m_fSpeed = 2.0f;
 		}
 
 	}
@@ -189,10 +190,22 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 
 	m_fLifeTime += fTimeDelta;
 
-	if (m_fLifeTime >= 2.f)
+	if (m_wBulletType != L"Power_Blast")
 	{
-		m_bIsActive = false;
-		m_fLifeTime = 0.f;
+		if (m_fLifeTime >= 2.f)
+		{
+			m_bIsActive = false;
+			m_fLifeTime = 0.f;
+		}
+	}
+	else
+	{
+		if (m_fLifeTime >= 5.f)
+		{
+			m_bIsActive = false;
+			m_fLifeTime = 0.f;
+		}
+
 	}
 }
 
@@ -241,22 +254,39 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 		else if (m_eBulletMode == LAUNCHING)
 		{
-			m_fRotateAngle += fTimeDelta * 1000.f;
-			_float rad = D3DXToRadian(m_fRotateAngle);
-			_float3 sideOffset = { cos(rad) * 0.5f, 0.f, sin(rad) * 0.5f };
+			if (m_eExpandPhase == EXPAND_SPREADING)
+			{
+				m_fExpandTime += fTimeDelta;
 
-			m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
-			m_pTransformCom->Set_State(
-				CTransform::STATE_POSITION,
-				m_pTransformCom->Get_State(CTransform::STATE_POSITION) + sideOffset);
+				_float lerpRatio = min(m_fExpandTime / 1.f, 1.f); // 1초간 퍼짐
 
-		
-			m_fCurScale += fTimeDelta * 1.5f; // 커지는 속도 조절 가능
-			if (m_fCurScale > 2.f) m_fCurScale = 2.f; // 최대 크기 
+				_float3 curPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 lerpPos = Lerp(curPos, m_vExpandedPos, lerpRatio);
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, lerpPos);
 
-			m_pTransformCom->Set_Scale(m_fCurScale, m_fCurScale, m_fCurScale);
+				if (lerpRatio >= 1.f)
+				{
+					m_eExpandPhase = EXPAND_LAUNCH;
 
+					// 플레이어 방향 재계산
+					CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+						m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+					if (pPlayerTransform)
+					{
+						_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - lerpPos;
+						D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+						m_vDir = vToPlayer;
+					}
+				}
+			}
+			else if (m_eExpandPhase == EXPAND_LAUNCH)
+			{
+				// 플레이어 향해 날아가기
+				m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+			}
 		}
+
 
 	}
 
@@ -321,6 +351,10 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 
 
+}
+_float3 CHellBoss_Bullet::Lerp(const _float3& a, const _float3& b, _float t)
+{
+	return a + (b - a) * t;
 }
 
 void CHellBoss_Bullet::Late_Update(_float fTimeDelta)
@@ -536,15 +570,33 @@ void CHellBoss_Bullet::Launch_Toward_Player()
 	if (!m_HellBoss_Transform)
 		return;
 
-	// 플레이어 방향 갱신
-	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
-		m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	m_eBulletMode = LAUNCHING;
+	m_eExpandPhase = EXPAND_SPREADING;
+	m_fExpandTime = 0.f;
 
-	if (pPlayerTransform)
-	{
-		_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
-		m_vDir = vToPlayer;
-		m_eBulletMode = LAUNCHING;
-	}
+
+	_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+	_float3 lookDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+	_float3 rightDir = m_HellBoss_Transform->Get_State(CTransform::STATE_RIGHT);
+	_float3 upDir = m_HellBoss_Transform->Get_State(CTransform::STATE_UP);
+
+	D3DXVec3Normalize(&lookDir, &lookDir);
+	D3DXVec3Normalize(&rightDir, &rightDir);
+	D3DXVec3Normalize(&upDir, &upDir);
+
+	//  보스 뒤로 약간 떨어진 위치하고싶엉
+	_float3 centerPos = bossPos - lookDir * 10.f;
+
+	// (5x2 형태로, X: 가로, Y: 세로)
+	const _int row = m_iBulletIndex / 5; // 0 또는 1
+	const _int col = m_iBulletIndex % 5; // 0 ~ 4
+
+	const _float spreadX = 10.f; // 좌우 퍼짐 
+	const _float spreadY = 4.f;  // 상하 퍼짐 
+
+	_float xOffset = (col - 2) * spreadX;      // -20 ~ +20
+	_float yOffset = (row - 0.5f) * spreadY;   // -2 ~ +2
+
+	// 중심 + 좌우 + 위아래
+	m_vExpandedPos = centerPos + rightDir * xOffset + upDir * yOffset;
 }
