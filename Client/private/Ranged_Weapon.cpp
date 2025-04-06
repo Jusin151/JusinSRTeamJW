@@ -184,6 +184,12 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 
             m_bMonster = true;
         }
+        if ((closestTag.find(L"Boss_Bullet") != wstring::npos))
+        {
+            CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
+
+            m_bMonster = true;
+        }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
 

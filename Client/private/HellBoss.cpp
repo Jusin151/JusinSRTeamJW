@@ -10,6 +10,7 @@
 #include "HellBoss_MorphState.h"
 #include "HellBoss_AttackState.h"
 #include "HellBoss_DeadState.h"
+#include "Patter_Morph.h"
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
@@ -141,6 +142,19 @@ void CHellBoss::Update(_float fTimeDelta)
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
+
+	if (m_iHp <= 2000 && !m_bDidPhase2Morph)
+	{
+		m_bDidPhase2Morph = true;
+		m_ePhase = PHASE2; // <<< 2페이즈 돌입!
+		Set_AttackPattern(new CPatter_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+
+
+
+
 
 	int iCurHpDiv100 = m_iHp / 100;
 	if (iCurHpDiv100 < m_iPrevHpDiv100)

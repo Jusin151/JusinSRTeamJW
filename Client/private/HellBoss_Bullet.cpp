@@ -211,6 +211,9 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 
 void CHellBoss_Bullet::Update(_float fTimeDelta)
 {
+
+
+
 	if (pDesc.wBulletType == L"Power_Blast")
 	{
 		if (m_eBulletMode == ROTATING)
@@ -351,6 +354,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 
 
+
 }
 _float3 CHellBoss_Bullet::Lerp(const _float3& a, const _float3& b, _float t)
 {
@@ -360,6 +364,10 @@ _float3 CHellBoss_Bullet::Lerp(const _float3& a, const _float3& b, _float t)
 void CHellBoss_Bullet::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	m_pAttackCollider->Update_Collider_Boss(TEXT("Com_Transform"));
+
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_SPHERE, m_pColliderCom);
 }
 
 
@@ -439,9 +447,7 @@ HRESULT CHellBoss_Bullet::On_Collision(CCollisionObject* other)
 
 void CHellBoss_Bullet::Attack_Melee()
 {
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
-	m_pGameInstance->Add_Collider(CG_PLAYER_PROJECTILE_SPHERE, m_pAttackCollider);
 }
 
 HRESULT CHellBoss_Bullet::SetUp_RenderState()
@@ -486,7 +492,7 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	AttackColliderDesc = {};
 	AttackColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	AttackColliderDesc.fScale = { 0.1f, 0.1f, 0.1f };
+	AttackColliderDesc.fScale = { 10.f, 10.f, 10.f };
 	// 오브젝트와 상대적인 거리 설정
 	AttackColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
@@ -514,7 +520,7 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.1f, 0.1f, 0.1f };
+	AttackColliderDesc.fScale = { 10.f, 10.f, 10.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
