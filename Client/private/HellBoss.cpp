@@ -28,7 +28,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
 	m_iHp = 3000;
-	m_fSpeed = 3.f;
+	m_fSpeed = 7.f;
 
 	m_pColliderCom->Set_Scale(_float3(7.0f, 10.f, 10.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-40.f, 0.f, -10.f));
@@ -127,12 +127,11 @@ void CHellBoss::Update(_float fTimeDelta)
 {
 	if (!m_pTarget)
 		return;
-
-
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
 
 	Process_Input();
+
 	m_AnimationManager.Update(fTimeDelta);
 
 	if (m_eCurState != MS_DEATH)

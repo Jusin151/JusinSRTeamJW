@@ -8,10 +8,7 @@
 
 class CHellBoss : public CMonster_Base
 {
-	enum HELLBOSS_STATE 
-	{ 
-		// 나중에 추거ㅏ
-	};
+	
 
 private:
 	CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -47,7 +44,6 @@ public:
 public: // 어택관련
 	void Set_AttackPattern(CPattern_Attack_Base* pPattern);
 	void Use_Attack(_float fDeltaTime);
-	void Fire_Bullet();
 private: 
 	CPattern_Attack_Base* m_pCurAttackPattern = { nullptr };
 	

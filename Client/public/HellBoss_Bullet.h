@@ -30,7 +30,6 @@ public:
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
 	void Attack_Melee();
-
 	virtual void Reset() override;
 private:
 	HRESULT SetUp_RenderState();
@@ -58,6 +57,14 @@ public:
 private:
 	_bool m_bJustSpawned = { true };
 	_bool m_bInitializedPos = {false}; 
+	wstring m_wBulletType = {};
+	wstring m_wBullet_Texture = {};
+	_float3 m_fBullet_Scale{};
+
+
+	_float m_fFrameDuration = {}; // 이미지 간 시간 간격
+	_int   m_iMaxFrame = {};          // 애니메이션 마지막 프레임 
+	_int   m_iFrameCount = {};        // 총 이미지 수
 
 };
 END
