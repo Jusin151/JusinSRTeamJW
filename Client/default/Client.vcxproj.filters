@@ -789,6 +789,9 @@
     <ClInclude Include="..\public\HellBoss_Bullet.h">
       <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Cthulhu_Tentacle.h">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1132,6 +1135,9 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_Bullet.cpp">
       <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cthulhu_Tentacle.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

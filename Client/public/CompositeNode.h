@@ -62,3 +62,22 @@ public:
         return NodeStatus::FAIL; // 모든 노드가 실패하면 FAIL 반환
     }
 };
+
+class CParallelNode : public CCompositeNode
+{
+public:
+
+    NodeStatus Execute() override
+    {
+        _bool bAnyRunning = false;
+        for (auto& child : m_vecChild)
+        {
+            NodeStatus status = child->Execute();
+            if (status == NodeStatus::RUNNING)
+            {
+                bAnyRunning = true;
+            }
+        }
+        return bAnyRunning ? NodeStatus::RUNNING : NodeStatus::SUCCESS;
+    }
+};

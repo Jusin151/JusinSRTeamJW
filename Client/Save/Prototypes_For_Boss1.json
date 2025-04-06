@@ -200,6 +200,12 @@
       "level": 8,
       "path": "../../Resources/Textures/Monster/Cthulhu/Missile/cthulhu_tentacle_missile%d.png",
       "tag": "Prototype_Component_Texture_CthulhuMissile"
+    },
+    {
+      "count": 35,
+      "level": 8,
+      "path": "../../Resources/Textures/Monster/Cthulhu/tentacle/cthulhu_tentacle%d.png",
+      "tag": "Prototype_Component_Texture_Cthulhu_Tentacle"
     }
   ]
 }
