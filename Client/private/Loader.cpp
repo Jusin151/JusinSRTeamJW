@@ -293,8 +293,6 @@ HRESULT CLoader::Loading_For_Hub()
 HRESULT CLoader::Loading_For_Hong()
 {
 
-
-
 	//헬보스 객체 등록
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
 		CHellBoss::Create(m_pGraphic_Device))))
@@ -306,16 +304,19 @@ HRESULT CLoader::Loading_For_Hong()
 		return E_FAIL;
 
 	//헬보스 총알 등록
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
 		CHellBoss_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	//헬보스 총알 텍스쳐
+	//헬보스 총알 텍스쳐 (눈)
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png"),7))))
 		return E_FAIL;
 
-	
+	//헬보스 총알 텍스쳐 (손)
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Hand_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/slow_orb000%d.png"),10))))
+		return E_FAIL;
 
  	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

@@ -4,8 +4,12 @@
 
 void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 {
-	pBoss->Set_Animation("2_Walk");
+	if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+		pBoss->Set_Animation("2_Walk");
+	else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+		pBoss->Set_Animation("7_Phase2_Walk");
 }
+
 
 void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 {

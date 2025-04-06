@@ -7,8 +7,12 @@
 
 void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
 {
-	pBoss->Set_Animation("1_Idle");
+    if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+        pBoss->Set_Animation("1_Idle");
+    else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+        pBoss->Set_Animation("6_Phase2_Idle");
 }
+
 
 void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 {

@@ -11,6 +11,20 @@ BEGIN(Client)
 
 class CHellBoss_Bullet : public CBullet_Base
 {
+	enum BULLET_MODE { ROTATING, LAUNCHING };
+	BULLET_MODE m_eBulletMode = ROTATING; 
+	enum EXPAND_PHASE { EXPAND_SPREADING, EXPAND_LAUNCH };
+	EXPAND_PHASE m_eExpandPhase = EXPAND_SPREADING;
+public:
+	struct PowerBlastDesc
+	{
+		_bool bIsPowerBlast = { false };
+		wstring wBulletType;
+		_int iIndex;
+		_int iTotalCount;
+
+		_float3 vAxis = { 0.f, 1.f, 0.f }; // Y축 기준으로 기본 회전
+	};
 
 
 private:
@@ -24,13 +38,13 @@ public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	// 마지막에 플레이어 방향으로 바라보도록 함
 	virtual void Update(_float fTimeDelta)override;
+	_float3 Lerp(const _float3& a, const _float3& b, _float t);
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
 	void Attack_Melee();
-
 	virtual void Reset() override;
 private:
 	HRESULT SetUp_RenderState();
@@ -55,9 +69,38 @@ public:
 	static CHellBoss_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+public:
+	const wstring& Get_BulletType() const { return m_wBulletType; }
+public:
+	void Launch_Toward_Player();
+	void Set_BulletIndex(_int iIndex) { m_iBulletIndex = iIndex; }
 private:
 	_bool m_bJustSpawned = { true };
 	_bool m_bInitializedPos = {false}; 
+	wstring m_wBulletType = {};
+	wstring m_wBullet_Texture = {};
+	_float3 m_fBullet_Scale{};
+
+
+	_float m_fFrameDuration = {}; // 이미지 간 시간 간격
+	_int   m_iMaxFrame = {};          // 애니메이션 마지막 프레임 
+	_int   m_iFrameCount = {};        // 총 이미지 수
+
+
+	_float m_fRotateAngle = 0.f;
+	_float m_fRadius = 3.0f;
+	_int m_iBulletIndex = 0;
+private:
+	_float m_fFixedAngle = 0.f; 
+	PowerBlastDesc pDesc{};
+	_float m_fCurScale = 2.f; 
+	_bool m_bReadyToLaunch = false; 
+	_float m_fLaunchTimer = 0.f; 
+
+	_float3 m_vAxis{};
+	_bool m_bPlayedOnce = false;
+	_float3 m_vExpandedPos = {}; // 퍼진 후 위치
+	_float  m_fExpandTime = 0.f;
 
 };
 END

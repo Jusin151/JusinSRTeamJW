@@ -10,6 +10,7 @@
 #include "HellBoss_MorphState.h"
 #include "HellBoss_AttackState.h"
 #include "HellBoss_DeadState.h"
+#include "Patter_Morph.h"
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
@@ -28,7 +29,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
 	m_iHp = 3000;
-	m_fSpeed = 3.f;
+	m_iPrevHpDiv100 = m_iHp / 100;
+	m_fSpeed = 7.f;
 
 	m_pColliderCom->Set_Scale(_float3(7.0f, 10.f, 10.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-40.f, 0.f, -10.f));
@@ -127,12 +129,11 @@ void CHellBoss::Update(_float fTimeDelta)
 {
 	if (!m_pTarget)
 		return;
-
-
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
 
 	Process_Input();
+
 	m_AnimationManager.Update(fTimeDelta);
 
 	if (m_eCurState != MS_DEATH)
@@ -142,8 +143,91 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
+	if (m_iHp <= 2000 && !m_bDidPhase2Morph)
+	{
+		m_bDidPhase2Morph = true;
+		m_ePhase = PHASE2; // <<< 2페이즈 돌입!
+		Set_AttackPattern(new CPatter_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+
+
+
+
+
+	int iCurHpDiv100 = m_iHp / 100;
+	if (iCurHpDiv100 < m_iPrevHpDiv100)
+	{
+		m_iPrevHpDiv100 = iCurHpDiv100;
+
+
+		static _float3 axisList[10] = {
+			_float3(1.f, 0.f, 0.f),     // X축
+			_float3(0.f, 1.f, 0.f),     // Y축
+			_float3(0.f, 0.f, 1.f),     // Z축
+			_float3(1.f, 1.f, 0.f),     // XY축
+			_float3(1.f, 0.f, 1.f),     // XZ축
+			_float3(0.f, 1.f, 1.f),     // YZ축
+			_float3(-1.f, 1.f, 0.f),    // 대각선
+			_float3(0.f, -1.f, 1.f),
+			_float3(1.f, 1.f, 1.f),     // 삼축 회전
+			_float3(-1.f, -1.f, -1.f)   // 반대 회전
+		};
+
+		// 총알 1개 생성
+		CHellBoss_Bullet::PowerBlastDesc pDesc{};
+		pDesc.wBulletType = L"Power_Blast";
+		pDesc.iIndex = m_iPowerBlastCount;       // 현재 몇 번째 총알인지
+		pDesc.iTotalCount = 10;                  // 총 10개
+		pDesc.bIsPowerBlast = true;              // 회전 총알 여부
+		pDesc.vAxis = axisList[m_iPowerBlastCount % 10]; // 축 설정
+
+		if (FAILED(m_pGameInstance->Add_GameObject(
+			LEVEL_HONG,
+			TEXT("Prototype_GameObject_HellBoss_Bullet"),
+			LEVEL_HONG,
+			TEXT("Layer_HellBoss_Bullet"),
+			&pDesc)))
+		{
+			MSG_BOX("Power_Blast 총알 생성 실패");
+			return;
+		}
+
+		CGameObject* pLastObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"));
+		CHellBoss_Bullet* pBullet = dynamic_cast<CHellBoss_Bullet*>(pLastObj);
+		if (pBullet)
+			m_vecPowerBlasts.push_back(pBullet);
+
+		m_iPowerBlastCount++;
+
+		if (m_iPowerBlastCount == 10)
+		{
+			Launch_PowerBlast_Bullets();  // 나선 발사
+			m_iPowerBlastCount = 0;
+		}
+	}
+
+
+
+
 	__super::Update(fTimeDelta);
 }
+
+void CHellBoss::Launch_PowerBlast_Bullets()
+{
+	for (auto& pBullet : m_vecPowerBlasts)
+	{
+		if (pBullet && pBullet->Get_BulletType() == L"Power_Blast")
+			pBullet->Launch_Toward_Player(); // 한번에 발사!
+	}
+
+	// 다 쐈으니 초기화
+	m_vecPowerBlasts.clear();
+	m_iPowerBlastCount = 0;
+}
+
+
 
 
 
