@@ -239,7 +239,7 @@ NodeStatus CCthulhu::Update_Appear()
 		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC,TEXT("Layer_Camera")));
 		if (pCamera)
 		{
-			pCamera->TriggerShake(0.2f, 3.0f);
+			pCamera->TriggerShake(0.2f, 4.f);
 			m_bCameraShaken = true;
 		}
 	}
