@@ -177,11 +177,14 @@ void CHellBoss_Bullet::Reset()
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_fHellBoss_Look);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
 	m_pTransformCom->Set_Scale(m_fBullet_Scale.x, m_fBullet_Scale.y, m_fBullet_Scale.z);
+
+	m_bPlayedOnce = false; // 애니메이션 1회 재생
 }
 
 void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 {
-	if (m_wBulletType == L"Power_Blast")
+	
+	if (m_wBulletType == L"Power_Blast" && m_eBulletMode != LAUNCHING)
 		return;
 
 	m_fLifeTime += fTimeDelta;
@@ -234,7 +237,6 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vToPlayer);
 			}
 
-			return; // ROTATING일 땐 여기서 끝
 		}
 
 		else if (m_eBulletMode == LAUNCHING)
@@ -250,11 +252,10 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 		
 			m_fCurScale += fTimeDelta * 1.5f; // 커지는 속도 조절 가능
-			if (m_fCurScale > 5.f) m_fCurScale = 5.f; // 최대 크기 
+			if (m_fCurScale > 2.f) m_fCurScale = 2.f; // 최대 크기 
 
 			m_pTransformCom->Set_Scale(m_fCurScale, m_fCurScale, m_fCurScale);
 
-			return;
 		}
 
 	}
@@ -266,23 +267,59 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 dir = b - a;
 	D3DXVec3Normalize(&dir, &dir);
-	dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
-	m_pParticleCom->Update(fTimeDelta);
+
+
+	if (m_wBulletType == L"Power_Blast" && m_eBulletMode == LAUNCHING)
+	{
+		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		m_pParticleCom->Update(fTimeDelta);
+	}
+	else if (m_wBulletType != L"Power_Blast")
+	{
+
+		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		m_pParticleCom->Update(fTimeDelta);
+	}
+
+
+
 	m_fElapsedTime += fTimeDelta;
 
 	if (m_fElapsedTime >= m_fFrameDuration)
 	{
 		m_fElapsedTime = 0.0f;
 
-		if (m_iCurrentFrame < m_iMaxFrame)
+		if (m_wBulletType == L"Power_Blast")
 		{
-			m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
+			if (m_eBulletMode == LAUNCHING)
+			{
+				if (!m_bPlayedOnce)
+				{
+					if (m_iCurrentFrame < m_iMaxFrame - 2)
+					{
+						++m_iCurrentFrame;
+					}
+					else
+					{
+						m_iCurrentFrame = m_iMaxFrame - 2;
+						m_bPlayedOnce = true;
+					}
+				}
+				// else { 멈춤 유지 }
+			}
+			else // ROTATING 상태
+			{
+				m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
+			}
 		}
 		else
 		{
-			m_iCurrentFrame = m_iMaxFrame;
+			// 다른 총알은 루프 애니메이션
+			m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
 		}
 	}
+
+
 
 }
 
@@ -307,10 +344,14 @@ HRESULT CHellBoss_Bullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	if (FAILED(m_pParticleTransformCom->Bind_Resource()))
-		return E_FAIL;
-	if (FAILED(m_pParticleCom->Render()))
-		return E_FAIL;
+	if (m_wBulletType != L"Power_Blast" || m_eBulletMode == LAUNCHING)
+	{
+		if (FAILED(m_pParticleTransformCom->Bind_Resource()))
+			return E_FAIL;
+		if (FAILED(m_pParticleCom->Render()))
+			return E_FAIL;
+	}
+
 
 	Release_RenderState();
 

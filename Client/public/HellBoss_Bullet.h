@@ -95,5 +95,7 @@ private:
 	_float m_fLaunchTimer = 0.f; 
 
 	_float3 m_vAxis{};
+	_bool m_bPlayedOnce = false;
+
 };
 END
