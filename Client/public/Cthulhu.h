@@ -9,6 +9,7 @@ public:
 	{
 		IDLE,
 		ATTACK,
+		MULTI_ATTACK,
 		DEAD
 	};
 private:
@@ -38,24 +39,47 @@ private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
 
-
-    // ≈ÿΩ∫√≥ √ﬂ∞° 
     HRESULT Ready_Components();
     void Init_Textures();
 	void Update_Animation(_float fTimeDelta);
 	void Set_State(STATE eState) { m_eState = eState; }
 	STATE Get_State() { return m_eState; }
     NodeStatus Attack();
+    NodeStatus UpdateAttack();
+    NodeStatus MultiMissileAttack();
+	NodeStatus Update_Appear();
+
 	void Create_BehaviorTree();
+    _bool RayCubeIntersection(const _float3& rayOrigin,  _float3& rayDir, CCollider_Cube* pCollider,_float fMaxDistance);
+    _bool IsPlayerVisible();
 
 private:
     CBehaviorTree* m_pBehaviorTree = nullptr;
     unordered_map<STATE, vector<_uint>> m_mapStateTextures;
     _float m_fFrame = 0.f;
 	_float m_fAnimationSpeed = 5.f;
-    _float m_fAttackCoolTime = 3.f;   // ¥©¿˚µ» ∞¯∞› ƒ≈∏¿” Ω√∞£
-    _float m_fAttackCoolDown = 3.f;   
-	STATE m_eState = STATE::ATTACK;
+	STATE  m_eState = STATE::IDLE;
+
+    // Í≥µÍ≤© Í¥ÄÎ†®
+    _float m_fAttackCoolTime = 4.f;  
+    _float m_fAttackCoolDown = 4.f;   
+    _bool  m_bIsAttacking{ false };
+    _int   m_iMissilesToFire{ 3 };
+    _float m_fMissileTimer{ 0.f };
+
+    _float m_fPhaseThreshold{ 1000*0.5f };  
+    _bool  m_bIsMultiAttack{ false };     
+    _float m_fMultiAttackCoolTime = 8.f;
+    _float m_fMultiAttackCoolDown = 8.f;
+    _int   m_iMultiMissilesToFire{ 7 };// Î©ÄÌã∞ Í≥µÍ≤© Ïãú Î∞úÏÇ¨Ìï† ÎØ∏ÏÇ¨Ïùº Ïàò
+    _float m_fMultiMissileTimer{ 0.f };  // Î©ÄÌã∞ Í≥µÍ≤© ÌÉÄÏù¥Î®∏
+	_bool  m_bUpdateAnimation{ true };
+
+    // IDLE Í¥ÄÎ†®
+	_bool m_bIsAppeared{ false };
+    _float m_fAppearTime{ 2.f };
+	_float m_fAppearAmount{ 0.f };
+    _float m_fDelta{ 0.f };
 public:
     static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);

@@ -30,8 +30,7 @@ private:
 private:
 	_uint m_iCurrentFrame = 0;
 	_uint m_iMaxFrame = 14;
-	_float m_fDistance = 0.f;
-	_float m_fMaxDistance = 0.f;
+	_float m_fLifeTime = 5.f;
 	_float m_fFrame = 0.f;
 	_float m_fAnimationSpeed = 5.f;
 	_bool m_bIsHit = false;

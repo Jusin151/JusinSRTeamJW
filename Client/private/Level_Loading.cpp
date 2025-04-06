@@ -47,7 +47,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		if (true == m_pLoader->isFinished())
 		{
 			CLevel* pLevel = { nullptr };
-
+			CStructureManager::Get_Instance()->Clear();
 			switch (m_eNextLevelID)
 			{
 			case LEVEL_LOGO:
@@ -78,14 +78,14 @@ void CLevel_Loading::Update(_float fTimeDelta)
 
 			//if (FAILED(m_pGameInstance->Change_Level(m_eNextLevelID, pLevel)))
 			//	return;
-
+		
 			if (FAILED(m_pGameInstance->Process_LevelChange(m_eNextLevelID, pLevel)))
 			{
 				return;
 			}
 
 			CUI_Manager::GetInstance()->Clear();
-			CStructureManager::Get_Instance()->Clear();
+
 		}
 	}	
 }
