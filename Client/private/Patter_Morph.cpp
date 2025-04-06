@@ -1,11 +1,11 @@
-#include "Patter_Morph.h"
+ï»¿#include "Patter_Morph.h"
 #include "HellBoss.h"
 
 CPatter_Morph::CPatter_Morph()
 {
     m_bStarted = false;
     m_fAccTime = 0.f;
-    m_fDuration = 1.5f; //  ´ë±â
+    m_fDuration = 1.5f; //  ëŒ€ê¸°
 }
 
 void CPatter_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
@@ -18,14 +18,14 @@ void CPatter_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
         
         pBoss->Set_Animation("5_Morph");
 
-        // »ç¿îµå Àç»ý 
-        //  pBoss->Play_Sound("ÁøÈ­ Àç»ý.wav °°Àº´À³¦");
+        // ì‚¬ìš´ë“œ ìž¬ìƒ 
+        //  pBoss->Play_Sound("ì§„í™” ìž¬ìƒ.wav ê°™ì€ëŠë‚Œ");
 
-        //  ÀÌÆåÆ® »ý¼º 
-        // pBoss->Fire_Morph(); °°Àº°Å 
+        //  ì´íŽ™íŠ¸ ìƒì„± 
+        // pBoss->Fire_Morph(); ê°™ì€ê±° 
     }
 
-    //  ½Ã°£
+    //  ì‹œê°„
     m_fAccTime += fDeltaTime;
 
     if (m_fAccTime >= m_fDuration)
@@ -33,7 +33,7 @@ void CPatter_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
         m_bStarted = false;
         m_fAccTime = 0.f;
 
-        // »ó(º¸½º°¡ Idle »óÅÂ·Î µ¹¾Æ°¡°Ô ÇÒ ¿¹Á¤)
+        // ìƒ(ë³´ìŠ¤ê°€ Idle ìƒíƒœë¡œ ëŒì•„ê°€ê²Œ í•  ì˜ˆì •)
         // pBoss->Change_State(new CHellBoss_IdleState());
     }
 }

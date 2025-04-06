@@ -1,4 +1,4 @@
-#include "Pattern_Shoot.h"
+ï»¿#include "Pattern_Shoot.h"
 #include "HellBoss.h"
 #include "HellBoss_IdleState.h" 
 
@@ -6,7 +6,7 @@ CPattern_Shoot::CPattern_Shoot()
 {
     m_bStarted = false;
     m_fAccTime = 0.f;
-    m_fDuration = 1.5f; //  ´ë±â
+    m_fDuration = 1.5f; //  ëŒ€ê¸°
 }
 
 void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
@@ -22,7 +22,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 
     m_fAccTime += fDeltaTime;
 
-    //  ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³µ´ÂÁö 
+    //  ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚¬ëŠ”ì§€ 
     if (pBoss->Get_AnimationFinished())
     {
         m_bStarted = false;

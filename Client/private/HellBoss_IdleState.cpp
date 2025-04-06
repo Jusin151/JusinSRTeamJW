@@ -1,9 +1,9 @@
-#include "HellBoss_IdleState.h"
+ï»¿#include "HellBoss_IdleState.h"
 #include "HellBoss.h"
 #include "Pattern_EyeBlast.h"
 #include "Pattern_Shoot.h"
 #include "HellBoss_AttackState.h"
-#include "HellBoss_WalkState.h" // Ãß°¡ ÇÊ¿ä
+#include "HellBoss_WalkState.h" // ì¶”ê°€ í•„ìš”
 
 void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
 {
@@ -17,9 +17,9 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 	_float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
 	float fDist = D3DXVec3Length(&vToPlayer);
 
-    if (fDist < 20.f) // °ø°Ý °Å¸®
+    if (fDist < 20.f) // ê³µê²© ê±°ë¦¬
     {
-        // °ø°Ý ÆÐÅÏ ½ÇÇà
+        // ê³µê²© íŒ¨í„´ ì‹¤í–‰
         int randIndex = rand() % 2;
         switch (randIndex)
         {
@@ -30,7 +30,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
         pBoss->Change_State(new CHellBoss_AttackState());
         return;
     }
-    else // °ø°Ý °Å¸®°¡ ¾Æ´Ï¸é ¹«Á¶°Ç Ãß³ë
+    else // ê³µê²© ê±°ë¦¬ê°€ ì•„ë‹ˆë©´ ë¬´ì¡°ê±´ ì¶”ë…¸
     {
         pBoss->Change_State(new CHellBoss_WalkState());
         return;

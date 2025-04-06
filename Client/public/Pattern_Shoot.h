@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Pattern_Attack_Base.h"
 #include "HellBoss.h"
 

@@ -1,4 +1,4 @@
-#include "Cthulhu.h"
+ï»¿#include "Cthulhu.h"
 #include <Player.h>
 #include <StructureManager.h>
 #include <CthulhuMissile.h>
@@ -28,7 +28,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// ºñÇìÀÌºñ¾î Æ®¸® ÃÊ±âÈ­
+	// ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ ì´ˆê¸°í™”
 	m_pBehaviorTree = new CBehaviorTree();
 	if (!m_pBehaviorTree)
 		return E_FAIL;
@@ -49,7 +49,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 
 HRESULT CCthulhu::Ready_Components()
 {
-	// ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ ÄÚµå
+	// ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” ì½”ë“œ
 	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_Cthulhu"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -116,16 +116,16 @@ NodeStatus CCthulhu::Attack()
 		return NodeStatus::FAIL;
 	}
 
-	// ÄðÅ¸ÀÓÀÌ ¿Ï·áµÇ¾úÀ¸¹Ç·Î Å¸ÀÌ¸Ó¸¦ ¸®¼Â
+	// ì¿¨íƒ€ìž„ì´ ì™„ë£Œë˜ì—ˆìœ¼ë¯€ë¡œ íƒ€ì´ë¨¸ë¥¼ ë¦¬ì…‹
 	m_fAttackCoolTime = 0.f;
 
 	m_eState = STATE::ATTACK;
 	m_fFrame = 0.f;
 	m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
 
-	m_iMissilesToFire = 3;   // ¹ß»çÇÒ ¹Ì»çÀÏ °³¼ö
-	m_fMissileTimer = 0.f;   // Å¸ÀÌ¸Ó ÃÊ±âÈ­
-	m_bIsAttacking = true;   // °ø°Ý ½ÃÄö½º ½ÃÀÛ
+	m_iMissilesToFire = 3;  
+	m_fMissileTimer = 0.f;  
+	m_bIsAttacking = true;  
 
 	return NodeStatus::SUCCESS;
 }
@@ -135,7 +135,6 @@ NodeStatus CCthulhu::UpdateAttack()
 	if (m_bIsAttacking)
 	{
 		m_eState = STATE::ATTACK;
-		// ¾ÆÁ÷ ¹ß»çÇÒ ¹Ì»çÀÏÀÌ ³²¾ÆÀÖ´Ù¸é
 
 
 		m_fMissileTimer += m_fDelta;
@@ -157,7 +156,7 @@ NodeStatus CCthulhu::UpdateAttack()
 			m_fMissileTimer = 0.f;
 		}
 
-		// ¸ðµç ¹Ì»çÀÏ ¹ß»ç°¡ ¿Ï·áµÇ¸é °ø°Ý ½ÃÄö½º Á¾·á
+
 		if (m_iMissilesToFire == 0)
 		{
 			m_eState = STATE::IDLE;
@@ -230,10 +229,9 @@ NodeStatus CCthulhu::Update_Appear()
 	if (m_bIsAppeared)
 		return NodeStatus::FAIL;
 
-	const float appearSpeed = 2.2f;   // ÀÌµ¿ ¼Óµµ
+	const float appearSpeed = 2.2f;   
 	const float targetY = 4.5f;      
 
-	// ÇöÀç À§Ä¡¸¦ °¡Á®¿Í ¾Æ·¡¿¡¼­ À§·Î ÀÌµ¿
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	pos.y += appearSpeed * m_fDelta;
 
@@ -267,7 +265,7 @@ void CCthulhu::Create_BehaviorTree()
 
 	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus { return this->Update_Appear(); }));
 	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {
-		// Ã¼·ÂÀÌ ³²¾ÆÀÖÀ¸¸é Á×À½ ³ëµå¸¦ ½ÇÇàÇÏÁö ¾ÊÀ½
+
 		if (m_iHp > 0)
 			return NodeStatus::FAIL;
 
@@ -299,7 +297,6 @@ _bool CCthulhu::RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, C
 	if (pCollider == nullptr)
 		return false;
 
-	// ¹Ú½ºÀÇ Ãà ±æÀÌ(½ºÄÉÀÏ)¿Í Á¤±ÔÈ­µÈ Ãà º¤ÅÍ¸¦ ±¸ÇÔ
 	_float fScaleX = pCollider->Get_Desc().fAxisX.Length();
 	_float fScaleY = pCollider->Get_Desc().fAxisY.Length();
 	_float fScaleZ = pCollider->Get_Desc().fAxisZ.Length();
@@ -308,14 +305,11 @@ _bool CCthulhu::RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, C
 	_float3 vDirY = pCollider->Get_Desc().fAxisY.GetNormalized();
 	_float3 vDirZ = pCollider->Get_Desc().fAxisZ.GetNormalized();
 
-	// ¹Ú½ºÀÇ ¹Ý Å©±â (Áß½É¿¡¼­ ¸é±îÁöÀÇ °Å¸®)
 	_float fHalfSize[3] = { fScaleX * 0.5f, fScaleY * 0.5f, fScaleZ * 0.5f };
 	_float3 vDir[3] = { vDirX, vDirY, vDirZ };
 
-	// ¹Ú½ºÀÇ Áß½ÉÀ» ±âÁØÀ¸·Î ·¹ÀÌÀÇ ¿øÁ¡À» ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
 	_float3 vLocalOrigin = rayOrigin - pCollider->Get_Desc().fPos;
 
-	// ·ÎÄÃ ÁÂÇ¥°è¿¡¼­ÀÇ ·¹ÀÌ ¹æÇâ°ú ¿øÁ¡ ÁÂÇ¥ °è»ê
 	_float3 vLocalDir, vLocalPos;
 	for (int i = 0; i < 3; i++)
 	{
@@ -326,22 +320,18 @@ _bool CCthulhu::RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, C
 	_float fMin = -FLT_MAX;
 	_float fMax = FLT_MAX;
 
-	// °¢ Ãà¿¡ ´ëÇØ ½½·¦(slab) ±³Â÷ °Ë»ç¸¦ ¼öÇà
 	for (int i = 0; i < 3; i++)
 	{
 		if (fabs(vLocalDir[i]) < FLT_EPSILON)
-		{
-			// ·¹ÀÌ°¡ ÇØ´ç Ãà°ú ÆòÇàÇÑ °æ¿ì, ¿øÁ¡ÀÌ ¹Ú½º ¹üÀ§ ³»¿¡ ÀÖ¾î¾ß ÇÔ
+    {
 			if (vLocalPos[i] < -fHalfSize[i] || vLocalPos[i] > fHalfSize[i])
 				return false;
 		}
 		else
 		{
-			// ·¹ÀÌ¿Í Æò¸éÀÇ ±³Â÷ t°ª °è»ê (ÁøÀÔ/ÀÌÅ»)
 			float t1 = (-fHalfSize[i] - vLocalPos[i]) / vLocalDir[i];
 			float t2 = (fHalfSize[i] - vLocalPos[i]) / vLocalDir[i];
 
-			// t1ÀÌ ´õ ÀÛÀº °ªÀÌ µÇµµ·Ï ±³È¯
 			if (t1 > t2)
 			{
 				float temp = t1;
@@ -363,26 +353,23 @@ _bool CCthulhu::IsPlayerVisible()
 {
 	_float3 monsterPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡ °è»ê
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
 	if (!pPlayerTransform)
 		return false;
 	_float3 playerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
 
-	// ·¹ÀÌÀÇ ¿øÁ¡°ú ¹æÇâ ¼³Á¤
 	_float3 rayOrigin = monsterPos;
 	_float3 rayDir = (playerPos - monsterPos);
 	rayDir.Normalize();
 	_float fDistance = _float3(playerPos - monsterPos).Length();
 	auto walls = CStructureManager::Get_Instance()->Get_Structures();
-	// ¿ùµåÀÇ º®(Àå¾Ö¹°) ÄÝ¶óÀÌ´õµéÀ» ¼øÈ¸ÇÏ¸ç ·¹ÀÌ¿ÍÀÇ ±³Â÷ °Ë»ç
+	
 	for (const auto& wall : walls)
 	{
 		if (wall == nullptr || wall->Get_Tag().find(L"Wall") == wstring::npos)
 			continue;
 		CCollider_Cube* pWallCollider = dynamic_cast<CCollider_Cube*>(wall->Get_Component(TEXT("Com_Collider_Cube")));
 
-		// ¸¸¾à ·¹ÀÌ°¡ º®°ú ±³Â÷ÇÏ¸é ÇÃ·¹ÀÌ¾î°¡ °¡·ÁÁø °ÍÀ¸·Î ÆÇ´Ü
 		if (RayCubeIntersection(rayOrigin, rayDir, pWallCollider, fDistance))
 		{
 			return false;
@@ -399,9 +386,9 @@ HRESULT CCthulhu::On_Collision(CCollisionObject* other)
 
 void CCthulhu::Select_Pattern(_float fTimeDelta)
 {
-
+  // ë¹„í—¤ì´ë¹„ì–´ íŠ¸ë¦¬ ì‹¤í–‰
 	if (m_pBehaviorTree)
-		m_pBehaviorTree->Run();
+ 		m_pBehaviorTree->Run();
 }
 
 json CCthulhu::Serialize()
@@ -509,7 +496,7 @@ HRESULT CCthulhu::Render()
 
 	Release_RenderState();
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÇöÀç HP :") + to_wstring(m_iHp),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ï¿½ï¿½ï¿½ï¿½ HP :") + to_wstring(m_iHp),
 		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	return S_OK;
@@ -570,6 +557,7 @@ CGameObject* CCthulhu::Clone(void* pArg)
 void CCthulhu::Free()
 {
 	__super::Free();
+
 	Safe_Release(m_pTextureCom);
 	Safe_Delete(m_pBehaviorTree);
 }

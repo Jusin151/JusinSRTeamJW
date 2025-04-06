@@ -1,4 +1,4 @@
-#include "HellBoss.h"
+Ôªø#include "HellBoss.h"
 #include "HellBoss_AttackState.h"
 #include "HellBoss_IdleState.h"
 #include "HellBoss_Bullet.h"
@@ -6,14 +6,14 @@
 
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
-    // ∞¯∞› æ÷¥œ∏ﬁ¿Ãº« º≥¡§
+    // Í≥µÍ≤© Ïï†ÎãàÎ©îÏù¥ÏÖò ÏÑ§Ï†ï
     pBoss->Set_Animation("3_EyeBlast");
 
      
         if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
             LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"))))
         {
-            MSG_BOX("HellBoss_Bullet ª˝º∫ Ω«∆–");
+            MSG_BOX("HellBoss_Bullet ÏÉùÏÑ± Ïã§Ìå®");
         }
 }
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
