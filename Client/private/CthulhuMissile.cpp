@@ -12,27 +12,24 @@ CCthulhuMissile::CCthulhuMissile(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CCthulhuMissile::CCthulhuMissile(const CCthulhuMissile& Prototype)
-	: CProjectile_Base(Prototype),
-	m_iMaxFrame(Prototype.m_iMaxFrame)
-
-{
-	m_pColliderCom  = (Prototype.m_pColliderCom);
-    m_pTextureCom = (Prototype.m_pTextureCom);
-    m_pTransformCom = (Prototype.m_pTransformCom);
+	: CProjectile_Base(Prototype)
+{  m_iAp = Prototype.m_iAp;
 	m_bIsColned = true;
+	m_pTransformCom = { nullptr };
 }
 
 
 HRESULT CCthulhuMissile::Initialize_Prototype()
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-	
+	m_iAp = 10;
 	return S_OK;
 }
 
 HRESULT CCthulhuMissile::Initialize(void* pArg)
 {
+
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 	m_pTarget = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player"));
 	Safe_AddRef(m_pTarget);
 	if (nullptr != pArg)
@@ -44,17 +41,25 @@ HRESULT CCthulhuMissile::Initialize(void* pArg)
 		m_fSpeed = pDesc->fSpeed;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	}
-	
 	m_eType = CG_MONSTER_PROJECTILE_CUBE;
 	return S_OK;
 }
 
 void CCthulhuMissile::Priority_Update(_float fTimeDelta)
 {
+	Move(fTimeDelta);
 }
 
 void CCthulhuMissile::Update(_float fTimeDelta)
 {
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÃÑ¾Ë À§Ä¡ X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÃÑ¾Ë À§Ä¡ Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+		_float2(-100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÃÑ¾Ë À§Ä¡ Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+		_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 	if (m_pColliderCom)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
@@ -63,13 +68,13 @@ void CCthulhuMissile::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pColliderCom);
 	}
 	Update_Animation(fTimeDelta);
-	Move(fTimeDelta);
 	Billboarding(fTimeDelta);
-
 }
 
 void CCthulhuMissile::Late_Update(_float fTimeDelta)
 {
+
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
@@ -96,13 +101,29 @@ HRESULT CCthulhuMissile::Render()
 
 HRESULT CCthulhuMissile::On_Collision(CCollisionObject* other)
 {
-	return E_NOTIMPL;
+	if (nullptr == other)
+		return E_FAIL;
+	switch (other->Get_Type())
+	{
+	case CG_PLAYER:
+		Take_Damage(other);
+		m_bIsActive = false;
+		break;
+	case CG_STRUCTURE_WALL:
+		m_bIsActive = false;
+		break;
+	case CG_DOOR:
+		m_bIsActive = false;
+		break;
+	default:
+		break;
+	}
+
+	return S_OK;
 }
 
 void CCthulhuMissile::Reset()
 {
-	m_fDistance = 0.f;
-	m_fMaxDistance = 0.f;
 	m_fFrame = 0.f;
 	m_iCurrentFrame = 0;
 	m_bIsHit = false;
@@ -127,17 +148,8 @@ HRESULT CCthulhuMissile::Release_RenderState()
 }
 HRESULT CCthulhuMissile::Ready_Components()
 {
-	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* For.Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
+	if (FAILED(__super::Ready_Components()))
+		return E_FAIL;	
 	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_CthulhuMissile"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -156,7 +168,7 @@ void CCthulhuMissile::Billboarding(_float fTimeDelta)
 {
 	if (!m_pTarget || !m_pTransformCom) return;
 
-	//m_pTransformCom->LookAt(m_pTarget->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->LookAt(m_pTarget->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
 }
 
 void CCthulhuMissile::Update_Animation(_float fTimeDelta)
@@ -175,7 +187,7 @@ void CCthulhuMissile::Move(_float fTimeDelta)
 
 	fPos += m_vDir * m_fSpeed * fTimeDelta;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+ 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 }
 
 CCthulhuMissile* CCthulhuMissile::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -210,8 +222,9 @@ void CCthulhuMissile::Free()
 	__super::Free();
 	if (!m_bIsColned)
 	{
-		Safe_Release(m_pTextureCom);
-		Safe_Release(m_pColliderCom);
+
 	}
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTarget);
 }

@@ -183,6 +183,7 @@ void CCamera_FirstPerson::UpdateRecoil(_float fTimeDelta)
 	}
 }
 
+
 void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 {
 	m_fShakeTime += fTimeDelta * 10.f;
