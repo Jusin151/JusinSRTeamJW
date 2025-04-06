@@ -37,6 +37,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saves", "Saves", "{C8D5274F
 		Client\Save\Prototypes_Static.json = Client\Save\Prototypes_Static.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materials", "Materials", "{7E07F00B-ADE9-4CC2-949B-3D19ADCCB2DF}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\Materials\BaseMaterial.json = Resources\Materials\BaseMaterial.json
+		Resources\Materials\GlowMaterial.json = Resources\Materials\GlowMaterial.json
+		Resources\Materials\TestMaterial.json = Resources\Materials\TestMaterial.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

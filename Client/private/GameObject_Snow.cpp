@@ -44,7 +44,6 @@ HRESULT CGameObject_Snow::Ready_Components()
     SnowDesc.Bounding_Box.m_vMax = { 10, 10, 10 };
     SnowDesc.iNumParticles = 512;
     SnowDesc.strShaderPath = L"VertexShader.hlsl";
-
     SnowDesc.strTexturePath = L"../../Resources/Textures/Particle/snow.png";
 
     /* For.Com_Particle */
@@ -78,8 +77,6 @@ void CGameObject_Snow::Late_Update(_float fTimeDelta)
 HRESULT CGameObject_Snow::Pre_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -92,7 +89,6 @@ HRESULT CGameObject_Snow::Render()
         return E_FAIL;
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
-
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 

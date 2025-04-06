@@ -684,7 +684,9 @@
     <ClInclude Include="..\public\Torch.h">
       <Filter>02.GameObjects\Prefabs\Torch</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\GameObject_Snow.h" />
+    <ClInclude Include="..\public\GameObject_Snow.h">
+      <Filter>02.GameObjects\ParticleSystemTest\GameObject_Snow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -984,7 +986,9 @@
     <ClCompile Include="..\private\Torch.cpp">
       <Filter>02.GameObjects\Prefabs\Torch</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\GameObject_Snow.cpp" />
+    <ClCompile Include="..\private\GameObject_Snow.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest\GameObject_Snow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
@@ -1006,6 +1010,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\VertexShader.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\StructureShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -49,8 +49,6 @@ void CGameObject_Particle_Test::Late_Update(_float fTimeDelta)
 HRESULT CGameObject_Particle_Test::Pre_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    //m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_POINT);
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);

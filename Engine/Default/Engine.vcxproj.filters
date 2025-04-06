@@ -412,6 +412,9 @@
     <Filter Include="04.Components\Particle\System\Gib">
       <UniqueIdentifier>{44029e43-1310-44fa-8ea0-d0c465121f2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Staff">
+      <UniqueIdentifier>{227b58f9-3709-4ef7-80e2-0edff643c9ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

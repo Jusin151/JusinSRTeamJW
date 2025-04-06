@@ -5,6 +5,7 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
+class CShader;
 class CTexture;
 class CTransform;
 class CVIBuffer;
@@ -43,11 +44,16 @@ public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
 
 private:
-	CTexture* m_pTextureCom = { nullptr };
-	CTransform* m_pTransformCom = { nullptr };
-	CVIBuffer* m_pVIBufferCom = { nullptr };
-	CCollider* m_pColliderCom = { nullptr };
-	CMaterial* m_pMaterialCom = { nullptr };
+	CTransform* m_pTransformCom	= { nullptr };
+	
+	CShader*	m_pShaderCom	= { nullptr };
+	CTexture*	m_pTextureCom	= { nullptr };
+	CMaterial*	m_pMaterialCom	= { nullptr };
+	CVIBuffer*	m_pVIBufferCom	= { nullptr };
+	
+	CCollider*	m_pColliderCom	= { nullptr };
+
+private:
 	_bool m_bIsCubeCollider = { false };
 	_wstring m_strVIBuffer;
 	_wstring m_strCollProtoTag;
