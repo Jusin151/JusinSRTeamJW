@@ -1,6 +1,7 @@
 ﻿#include "Pattern_Shoot.h"
 #include "HellBoss.h"
 #include "HellBoss_IdleState.h" 
+#include "HellBoss_Bullet.h"
 
 CPattern_Shoot::CPattern_Shoot()
 {
@@ -21,10 +22,13 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
     if (!m_bHasFired && pBoss->Get_CurAnimationFrame() >= 36)
     {
         m_bHasFired = true;
-        m_wBulletType = L"4_Shoot";
-        if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
+
+        CHellBoss_Bullet::PowerBlastDesc pDesc{};
+        pDesc.wBulletType = L"4_Shoot";
+
+        if (FAILED(pBoss->Get_GameInstance()->Add_GameObject( 
             LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
-            LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"),&m_wBulletType)))
+            LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"),&pDesc)))
         {
             MSG_BOX("HellBoss_Bullet 생성 실패");
         }

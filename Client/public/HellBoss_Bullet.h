@@ -11,6 +11,16 @@ BEGIN(Client)
 
 class CHellBoss_Bullet : public CBullet_Base
 {
+	enum BULLET_MODE { ROTATING, LAUNCHING };
+	BULLET_MODE m_eBulletMode = ROTATING; 
+public:
+	struct PowerBlastDesc
+	{
+		_bool bIsPowerBlast = { false }; // << 이거 추가
+		wstring wBulletType;
+		_int     iIndex;
+		_int     iTotalCount;
+	};
 
 
 private:
@@ -54,6 +64,11 @@ public:
 	static CHellBoss_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+public:
+	const wstring& Get_BulletType() const { return m_wBulletType; }
+public:
+	void Launch_Toward_Player();
+	void Set_BulletIndex(_int iIndex) { m_iBulletIndex = iIndex; }
 private:
 	_bool m_bJustSpawned = { true };
 	_bool m_bInitializedPos = {false}; 
@@ -65,6 +80,15 @@ private:
 	_float m_fFrameDuration = {}; // 이미지 간 시간 간격
 	_int   m_iMaxFrame = {};          // 애니메이션 마지막 프레임 
 	_int   m_iFrameCount = {};        // 총 이미지 수
+
+
+	_float m_fRotateAngle = 0.f;
+	_float m_fRadius = 3.0f;
+	_int m_iBulletIndex = 0;
+private:
+	_float m_fFixedAngle = 0.f; 
+	PowerBlastDesc pDesc{};
+	_float m_fCurScale = 2.f; // Power_Blast 초기 스케일
 
 };
 END

@@ -2,6 +2,7 @@
 #include "VIBuffer_Rect.h"
 #include "GameInstance.h"
 #include "Particles.h"
+#include "HellBoss.h"
 
 CHellBoss_Bullet::CHellBoss_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CBullet_Base(pGraphic_Device)
@@ -21,28 +22,45 @@ HRESULT CHellBoss_Bullet::Initialize_Prototype()
 
 HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 {
-	m_wBulletType = *reinterpret_cast<wstring*>(pArg);
+	if (nullptr == pArg)
+		return E_FAIL;
 
-	if (m_wBulletType == L"3_EyeBlast")
+
+	 pDesc = *reinterpret_cast<PowerBlastDesc*>(pArg);
+
+	 if (pDesc.wBulletType.empty())
+		 return E_FAIL;
+
+
+	 m_wBulletType = pDesc.wBulletType;
+	if (pDesc.wBulletType == L"Power_Blast")
 	{
-		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
+		m_wBulletType = pDesc.wBulletType;
+		m_fFixedAngle = (360.f / pDesc.iTotalCount) * pDesc.iIndex;
+		m_fRotateAngle = m_fFixedAngle;
+		m_eBulletMode = ROTATING; //
 
+		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
 		m_fFrameDuration = 0.02f;
 		m_iFrameCount = 7;
 		m_iMaxFrame = 7;
 	}
-	else if (m_wBulletType == L"4_Shoot")
+	else if (pDesc.wBulletType == L"3_EyeBlast")
+	{
+		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
+		m_fFrameDuration = 0.02f;
+		m_iFrameCount = 7;
+		m_iMaxFrame = 7;
+	}
+	else if (pDesc.wBulletType == L"4_Shoot")
 	{
 		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Hand_Bullet";
-
 		m_fFrameDuration = 0.03f;
 		m_iFrameCount = 10;
 		m_iMaxFrame = 10;
 	}
 
-
 	m_fSpeed = 3.f;
-
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -97,16 +115,25 @@ void CHellBoss_Bullet::Reset()
 		if (m_wBulletType == L"3_EyeBlast")
 		{
 			offsetPos += m_fHellBoss_Up * 4.2f;
-			//offsetPos += m_fHellBoss_Look * 0.3f;
 		}
 		else if (m_wBulletType == L"4_Shoot")
 		{
 			offsetPos += m_fHellBoss_Up * 2.7f;
-			//offsetPos += m_fHellBoss_Look * 1.5f;
+		}
+
+		else if (m_wBulletType == L"Power_Blast")
+		{
+			static int iBlastIndex = 0;
+			m_fRotateAngle = (360.f / 10.f) * iBlastIndex;
+			++iBlastIndex;
+			if (iBlastIndex >= 10)
+				iBlastIndex = 0;
+
 		}
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, offsetPos);
 		m_fHellBoss_Pos = offsetPos; // 이후 방향 계산에도 이 위치 써야함
+
 		m_bInitializedPos = true;
 	}
 
@@ -123,16 +150,20 @@ void CHellBoss_Bullet::Reset()
 		// 텍스처랑 스케일 설정
 		if (m_wBulletType == L"3_EyeBlast")
 		{
-			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
 			m_fBullet_Scale = { 0.6f, 0.6f, 0.6f };
 			m_fSpeed = 4.f;
 		}
 		else if (m_wBulletType == L"4_Shoot")
 		{
-			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Hand_Bullet";
 			m_fBullet_Scale = { 3.f, 3.f, 3.f };
 			m_fSpeed = 1.5f;
 		}
+		else if (m_wBulletType == L"Power_Blast")
+		{
+			m_fBullet_Scale = { 2.f, 2.f, 2.f };
+			m_fSpeed = 1.5f;
+		}
+
 	}
 	else
 	{
@@ -148,6 +179,9 @@ void CHellBoss_Bullet::Reset()
 
 void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 {
+	if (m_wBulletType == L"Power_Blast")
+		return;
+
 	m_fLifeTime += fTimeDelta;
 
 	if (m_fLifeTime >= 2.f)
@@ -159,7 +193,72 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 
 void CHellBoss_Bullet::Update(_float fTimeDelta)
 {
-	
+	if (pDesc.wBulletType == L"Power_Blast")
+	{
+		if (m_eBulletMode == ROTATING)
+		{
+			m_fRotateAngle += fTimeDelta * 90.f;
+
+
+			_float rad = D3DXToRadian(m_fRotateAngle + m_fFixedAngle);
+			_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+
+			_float x = cos(rad) * m_fRadius;
+			_float z = sin(rad) * m_fRadius;
+			_float y = 5.f; //  << 여기서 Y조절
+
+			_float3 offset = { x, y, z };
+
+
+			_float3 newPos = bossPos + offset; // << 이거 추가!!
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, bossPos + offset);
+
+			// --- 여기서부터 LookAt 플레이어
+			CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+				m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+			if (pPlayerTransform)
+			{
+				_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - newPos;
+				vToPlayer.y = 0.f;
+				vToPlayer.Normalize();
+
+				_float3 vUp = _float3(0.f, 1.f, 0.f);
+				_float3 vRight = vUp.Cross(vToPlayer);
+				vRight.Normalize();
+
+				_float3 vNewUp = vToPlayer.Cross(vRight);
+				vNewUp.Normalize();
+
+				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+				m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
+				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vToPlayer);
+			}
+
+			return;
+		}
+		else if (m_eBulletMode == LAUNCHING)
+		{
+			m_fRotateAngle += fTimeDelta * 1000.f;
+			_float rad = D3DXToRadian(m_fRotateAngle);
+			_float3 sideOffset = { cos(rad) * 0.5f, 0.f, sin(rad) * 0.5f };
+
+			m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+			m_pTransformCom->Set_State(
+				CTransform::STATE_POSITION,
+				m_pTransformCom->Get_State(CTransform::STATE_POSITION) + sideOffset);
+
+		
+			m_fCurScale += fTimeDelta * 1.5f; // 커지는 속도 조절 가능
+			if (m_fCurScale > 5.f) m_fCurScale = 5.f; // 최대 크기 
+
+			m_pTransformCom->Set_Scale(m_fCurScale, m_fCurScale, m_fCurScale);
+
+			return;
+		}
+
+	}
 
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
@@ -187,8 +286,6 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 	}
 
 }
-
-
 
 void CHellBoss_Bullet::Late_Update(_float fTimeDelta)
 {
@@ -297,13 +394,19 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 {
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"), 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBufferm"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_HONG, m_wBullet_Texture,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
 
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	AttackColliderDesc = {};
@@ -316,11 +419,6 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &AttackColliderDesc)))
-		return E_FAIL;
-
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_HONG,m_wBullet_Texture,
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	CProjectile_Particle_System::TRAILDESC     trailDesc{};
@@ -391,4 +489,22 @@ void CHellBoss_Bullet::Free()
 	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pParticleCom);
 	Safe_Release(m_pParticleTransformCom);
+}
+
+void CHellBoss_Bullet::Launch_Toward_Player()
+{
+	if (!m_HellBoss_Transform)
+		return;
+
+	// 플레이어 방향 갱신
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+		m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	if (pPlayerTransform)
+	{
+		_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+		m_vDir = vToPlayer;
+		m_eBulletMode = LAUNCHING;
+	}
 }

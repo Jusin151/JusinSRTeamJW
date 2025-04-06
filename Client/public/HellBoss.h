@@ -5,6 +5,7 @@
 #include "HellBoss_State.h"
 #include "Pattern_Attack_Base.h"
 #include "Player.h"
+#include "HellBoss_Bullet.h"
 
 class CHellBoss : public CMonster_Base
 {
@@ -68,7 +69,8 @@ public://애니메이션관련
 	{
 		return m_AnimationManager.GetCurrentFrame();
 	}
- 
+	void Launch_PowerBlast_Bullets();
+
 private: //콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
 private: // 텍스쳐 관련
@@ -86,6 +88,13 @@ public:
 		m_vCurPos = vPos;
 	}
 	bool m_bInitializedCurPos = { false };
+
+	list<CGameObject*> bullets = {};
+
+	_int m_iPrevHpDiv100 = {};
+	_int m_iPowerBlastCount = {};
+	list<CHellBoss_Bullet*> m_vecPowerBlasts;
+
 
 };
 
