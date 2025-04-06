@@ -80,6 +80,7 @@ private:
     _float m_fAppearTime{ 2.f };
 	_float m_fAppearAmount{ 0.f };
     _float m_fDelta{ 0.f };
+	_bool m_bCameraShaken{ false };
 public:
     static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);

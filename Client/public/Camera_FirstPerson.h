@@ -38,6 +38,8 @@ public:
 
 	void UpdateRecoil(_float fTimeDelta);
 
+	void TriggerShake(_float shakeAmount, _float duration);
+
 private:
 	void Shaking(_float fTimeDelta);
 
@@ -66,6 +68,10 @@ private:
 	_bool				m_tmpState = { false };
 	_float3				m_vScale = {};
 
+	_float m_fShakeAmount = 0.f;    // 쉐이크 강도 
+	_float m_fShakeDuration = 0.f;    // 쉐이크 지속 시간
+	_bool m_bTriggerShake = false; // 쉐이크 트리거 상태
+	_float3 m_vOriginalCameraPosition; // 원래 카메라 위치
 public:
 	static CCamera_FirstPerson* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
