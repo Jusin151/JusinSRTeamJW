@@ -52,14 +52,6 @@ void CCthulhuMissile::Priority_Update(_float fTimeDelta)
 
 void CCthulhuMissile::Update(_float fTimeDelta)
 {
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÃÑ¾Ë À§Ä¡ X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
-		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÃÑ¾Ë À§Ä¡ Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
-		_float2(-100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ÃÑ¾Ë À§Ä¡ Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
-		_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 	if (m_pColliderCom)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());

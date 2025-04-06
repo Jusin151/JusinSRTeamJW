@@ -229,9 +229,20 @@ NodeStatus CCthulhu::Update_Appear()
 	if (m_bIsAppeared)
 		return NodeStatus::FAIL;
 
+
+
 	const float appearSpeed = 2.2f;   
 	const float targetY = 4.5f;      
 
+	if (!m_bCameraShaken)  // 이미 쉐이크 효과가 발생하지 않았다면
+	{
+		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC,TEXT("Layer_Camera")));
+		if (pCamera)
+		{
+			pCamera->TriggerShake(0.2f, 3.0f);
+			m_bCameraShaken = true;
+		}
+	}
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	pos.y += appearSpeed * m_fDelta;
 
@@ -496,7 +507,7 @@ HRESULT CCthulhu::Render()
 
 	Release_RenderState();
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("���� HP :") + to_wstring(m_iHp),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 HP :") + to_wstring(m_iHp),
 		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	return S_OK;
