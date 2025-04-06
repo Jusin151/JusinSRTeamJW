@@ -1,30 +1,56 @@
-#include "HellBoss_AttackState.h"
 #include "HellBoss.h"
+#include "HellBoss_AttackState.h"
 #include "HellBoss_IdleState.h"
+#include "HellBoss_Bullet.h"
+#include "GameInstance.h" 
+
 
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
-	// 보스가 애니메이션 안에 패턴명을 포함하고 있다면, 패턴 쪽에서 Set_Animation 할 수도 있음
-	// 또는 여기서 기본 애니를 지정해줘도 됨
+    // 공격 애니메이션 설정
+    pBoss->Set_Animation("3_EyeBlast");
+   
+        if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
+            LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"))))
+        {
+            MSG_BOX("HellBoss_Bullet 생성 실패");
+        }
+
 }
+
+#include "Pattern_EyeBlast.h"
+#include "HellBoss_Bullet.h" // 필요 시
 
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
+    // EyeBlast일 때만 총알 발사
+    if (dynamic_cast<CPattern_EyeBlast*>(pBoss->Get_AttackPattern()))
+    {
+        static bool bHasFired = false;
 
-	pBoss->Use_Attack(fDeltaTime);
+        if (!bHasFired && pBoss->Get_CurAnimationFrame() >= 15)
+        {
+            bHasFired = true;
 
-	auto pPattern = pBoss->Get_AttackPattern();
-	if (pPattern && pPattern->Is_Finished())
-	{
-	
-		delete pPattern;
-		pBoss->Set_AttackPattern(nullptr);
+            if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
+                LEVEL_HONG,
+                TEXT("Prototype_GameObject_HellBoss_Bullet"),
+                LEVEL_HONG,
+                TEXT("Layer_HellBoss_Bullet"))))
+            {
+                MSG_BOX("HellBoss_Bullet 생성 실패");
+            }
+        }
 
-		pBoss->Change_State(new CHellBoss_IdleState()); 
-	}
+        if (pBoss->Get_AnimationFinished())
+            bHasFired = false; // 애니메이션 종료 후 초기화
+    }
+
+    pBoss->Use_Attack(fDeltaTime);
 }
+
 
 void CHellBoss_AttackState::Exit(CHellBoss* pBoss)
 {
-	// 특별히 해제할건 없을듯??
+	
 }

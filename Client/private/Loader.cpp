@@ -18,6 +18,7 @@
 #include "Inven_UI.h"
 #include "Level_Hub.h"
 #include "HellBoss.h"
+#include "HellBoss_Bullet.h"
 
 
 
@@ -300,6 +301,16 @@ HRESULT CLoader::Loading_For_Hong()
 	//헬보스 텍스쳐
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/HellBoss_%d.png"), 337))))
+		return E_FAIL;
+
+	//헬보스 총알 등록
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
+		CHellBoss_Bullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//헬보스 총알 텍스쳐
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png"),7))))
 		return E_FAIL;
 
 	

@@ -33,3 +33,7 @@ void CPattern_EyeBlast::Execute(CHellBoss* pBoss, float fDeltaTime)
     }
 }
 
+void CPattern_EyeBlast::Update(CHellBoss* pBoss, float fDeltaTime)
+{
+}
+
