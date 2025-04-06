@@ -19,7 +19,6 @@ public:
 	virtual HRESULT		Render() override;
 
 private:
-	CPickingSys*	m_pPickingSys = { nullptr };
 	class CMyImGui* m_pImgui = { nullptr };
 
 public:

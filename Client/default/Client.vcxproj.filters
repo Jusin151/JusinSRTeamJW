@@ -361,6 +361,9 @@
     <Filter Include="02.GameObjects\Prefabs\Long_Torch">
       <UniqueIdentifier>{23a6045c-871e-47ed-80f3-b9190ac4e8ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\ParticleSystemTest\GameObject_Snow">
+      <UniqueIdentifier>{1b7f68b1-bc56-48e5-9bcd-232af2117af5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -681,6 +684,7 @@
     <ClInclude Include="..\public\Torch.h">
       <Filter>02.GameObjects\Prefabs\Torch</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GameObject_Snow.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -980,6 +984,7 @@
     <ClCompile Include="..\private\Torch.cpp">
       <Filter>02.GameObjects\Prefabs\Torch</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\GameObject_Snow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">

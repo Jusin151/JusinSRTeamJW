@@ -121,10 +121,10 @@ HRESULT CGameObject_Plane::Render()
     m_pShaderCom->Bind_Material(m_pMaterialCom);
 
     
-    m_pShaderCom->Begin(1);
+    m_pShaderCom->Begin(0);
 
-    /*if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;*/
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
     if (FAILED(m_pBloodParticleCom->Render()))
         return E_FAIL;
     m_pShaderCom->End();

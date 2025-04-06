@@ -5,11 +5,8 @@
 #include "JsonLoader.h"
 
 CLevel_Test::CLevel_Test(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CLevel{pGraphic_Device},
-    m_pPickingSys{ CPickingSys::Get_Instance() }
+    : CLevel{pGraphic_Device}
 {
-    m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
-    Safe_AddRef(m_pPickingSys);
 }
 
 HRESULT CLevel_Test::Initialize()
@@ -47,7 +44,4 @@ CLevel_Test* CLevel_Test::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Test::Free()
 {
     __super::Free();
-
-    Safe_Release(m_pPickingSys);
-    CPickingSys::Destroy_Instance();
 }

@@ -51,6 +51,11 @@ float4 g_MaterialSpecular = float4(1.f, 1.f, 1.f, 1.f); // 재질의 정반사광 색상
 float  g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
 float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
+// --- 안개 효과 전역 변수 추가 (C++에서 설정) ---
+float3 g_FogColor = float3(1.0f, 1.0f, 1.0f); // 안개 색상 (회색)
+float g_FogStart = 10.0f; // 안개 시작 거리
+float g_FogEnd = 20.0f; // 안개 끝 거리
+
 sampler CubeSampler = sampler_state
 {
     texture = g_CubeTexture;
@@ -84,7 +89,8 @@ struct VS_OUT
     float4 vPosition : POSITION; // 클립 공간 위치
     float2 vTexcoord : TEXCOORD0; // 텍스처 좌표
     float4 vWorldPos : TEXCOORD1; // 월드 공간 위치 (필요시 사용)
-    float3 vNormal : TEXCOORD2; // 월드 공간 법선 벡터 추가!
+    float3 vNormal :    TEXCOORD2; // 월드 공간 법선 벡터 추가!
+    float3 vViewPos : TEXCOORD3; // 뷰 공간 위치 (안개 계산용) <-- 추가
 };
 
 
@@ -96,10 +102,13 @@ VS_OUT VS_MAIN(VS_IN In)
 
     // 월드 변환 (World Position 계산)
     Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    
+    // 뷰 공간 위치 계산 (World * View) <-- 추가
+    Out.vViewPos = mul(Out.vWorldPos, g_ViewMatrix).xyz;
 
     // 최종 클립 공간 위치 계산 (World * View * Projection)
-    Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
-    Out.vPosition = mul(Out.vPosition, g_ProjMatrix);
+    //Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
+    Out.vPosition = mul(float4(Out.vViewPos, 1.f), g_ProjMatrix);
 
     // 텍스처 좌표 전달
     Out.vTexcoord = In.vTexcoord;
@@ -118,11 +127,13 @@ VS_OUT VS_ORTHO(VS_IN In)
 
     // 월드 변환 (World Position 계산)
     Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    // 뷰 공간 위치 계산 (World * View) <-- 추가
+    Out.vViewPos = mul(Out.vWorldPos, g_ViewMatrix).xyz;
 
     // 최종 클립 공간 위치 계산 (World * View * Projection)
-    Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
-    Out.vPosition = mul(Out.vPosition, g_ProjMatrix);
-
+    //Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
+    //Out.vPosition = mul(Out.vPosition, g_ProjMatrix);
+    Out.vPosition = mul(float4(Out.vViewPos, 1.f), g_ProjMatrix); // vViewPos 사용하도록 수정
     // 텍스처 좌표 전달
     Out.vTexcoord = In.vTexcoord;
 
@@ -145,6 +156,7 @@ struct PS_IN
     float2 vTexcoord : TEXCOORD0; // 텍스처 좌표
     float4 vWorldPos : TEXCOORD1; // 월드 공간 위치 (필요시 사용)
     float3 vNormal : TEXCOORD2; // 월드 공간 법선 벡터 추가!
+    float3 vViewPos : TEXCOORD3; // 뷰 공간 위치 (안개 계산용) <-- 추가
 };
 
 struct PS_OUT
@@ -160,43 +172,40 @@ PS_OUT PS_MAIN(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
-    // 1. 법선 벡터 방향 보정 (VFACE 사용)
+    // --- 기존 조명 계산 시작 ---
     float3 normal = normalize(In.vNormal * sign(facing));
+    float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz); // World space view direction
+    float3 lightVec = -g_LightDirection; // Assuming g_LightDirection points FROM the light source
 
-    // 2. 시선 벡터 계산 (표면 -> 카메라)
-    float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz);
-
-    // 3. 라이트 벡터 계산 (표면 -> 광원)
-    float3 lightVec = -g_LightDirection; // g_LightDirection이 광원에서 나가는 방향일 경우
-
-    // 4. 주변광(Ambient) 계산
     float4 ambient = g_AmbientLightColor * g_Material.Ambient;
-
-    // 5. 확산광(Diffuse) 계산
     float NdotL = saturate(dot(normal, lightVec));
     float4 diffuse = NdotL * g_LightColor * g_Material.Diffuse;
-
-    // 6. 정반사광(Specular) 계산 (Blinn-Phong 모델 사용)
-    float3 halfwayDir = normalize(lightVec + viewDir); // 하프 벡터
+    float3 halfwayDir = normalize(lightVec + viewDir);
     float NdotH = saturate(dot(normal, halfwayDir));
-    float specPower = pow(NdotH, g_Material.Power); // 하이라이트 집중도
+    float specPower = pow(NdotH, g_Material.Power);
     float4 specular = specPower * g_LightColor * g_Material.Specular;
-
-    // 7. 텍스처 색상 가져오기
     float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
 
-    // 8. 최종 색상 조합
-    // 최종색상 = 자체발광 + 주변광 + (확산광 * 텍스처) + 정반사광
-    Out.vColor.rgb = g_Material.Emissive.rgb + ambient.rgb + (diffuse.rgb * baseColor.rgb) + specular.rgb;
+    float4 litColor; // 조명 계산 결과 임시 저장
+    litColor.rgb = g_Material.Emissive.rgb + ambient.rgb + (diffuse.rgb * baseColor.rgb) + specular.rgb;
+    litColor.a = baseColor.a * g_Material.Diffuse.a;
+    // --- 기존 조명 계산 끝 ---
 
-    // 9. 알파 값 처리 (텍스처 알파 * 재질 확산광 알파)
-    Out.vColor.a = baseColor.a * g_Material.Diffuse.a;
+    // --- 안개 효과 계산 시작 ---
+    // 1. 뷰 공간에서의 거리 계산 (카메라 원점(0,0,0)에서의 거리)
+    float distance = length(In.vViewPos); // 보간된 뷰 공간 위치 사용
 
-    // --- 필요하다면 이전 알파 처리 로직 유지 ---
+    // 2. 선형 안개 계수 계산
+    float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
+
+    // 3. 조명 계산된 색상과 안개 색상을 혼합
+    // lerp(원본색상, 안개색상, 안개계수)
+    Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
+    // --- 안개 효과 계산 끝 ---
+
+    // 알파 값에 따른 처리 (선택 사항)
     // if (Out.vColor.a < 0.1f)
-    //    discard;
-    // Out.vColor.a = 0.5f;
-    // ---
+    //     discard;
 
     return Out;
 }
@@ -210,18 +219,22 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
 
     // 2. (선택 사항) 재질의 Diffuse 색상을 곱하여 기본 색상 조절
-    // baseColor *= g_Material.Diffuse; // Material 구조체 사용
+    // baseColor *= g_Material.Diffuse; // Material 구조체 사용 시
 
-    // 3. 최종 색상으로 텍스처 색상(또는 조절된 색상) 바로 사용
-    Out.vColor = baseColor;
+    // --- 안개 효과 계산 시작 ---
+    float distance = length(In.vViewPos); // 보간된 뷰 공간 위치 사용
+    float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
 
-    // 4. 알파 값 처리 (기존 PS_MAIN과 유사하게 처리하거나 필요에 맞게 수정)
-    //    텍스처 알파와 재질 알파를 곱하는 방식 유지
-    Out.vColor.a = baseColor.a * g_Material.Diffuse.a;
+    // 3. 텍스처(또는 조절된) 색상과 안개 색상을 혼합
+    Out.vColor = lerp(baseColor, float4(g_FogColor, baseColor.a), fogFactor);
+    // --- 안개 효과 계산 끝 ---
 
-    // 5. (선택 사항) 알파 값에 따른 discard 로직 (필요 시)
+    // 4. 알파 값 처리 (텍스처 알파와 재질 알파 곱하기 등)
+    // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // 만약 Diffuse를 곱했다면
+
+    // 5. (선택 사항) 알파 값에 따른 discard 로직
     // if (Out.vColor.a < 0.1f)
-    //    discard;
+    //     discard;
 
     return Out;
 }
@@ -241,7 +254,7 @@ technique DefaultTechnique
 {
     pass DefaultPass
     {
-
+        CullMode = None;
         aLPHAbLENDeNABLE = True;
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
@@ -249,23 +262,6 @@ technique DefaultTechnique
 
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_UNLIT();
-    }
-
-    pass DoubleSidedPlane
-    {
-        // --- 렌더 상태 설정 ---
-        // 양면 렌더링을 위해 컬링 비활성화
-        CullMode = None;
-
-        // 알파 블렌딩 설정 (기존 코드 유지, 오타 수정)
-        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
-        SrcBlend = SrcAlpha;
-        DestBlend = InvSrcAlpha;
-        BlendOp = Add;
-
-        // --- 셰이더 설정 ---
-        VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_MAIN(); // 빛 계산이 포함된 PS_MAIN 사용
     }
 
     pass DoubleSidedPlane

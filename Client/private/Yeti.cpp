@@ -134,7 +134,7 @@ HRESULT CYeti::Render()
     if(FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
         return E_FAIL;
 
-    m_pShaderCom->Begin(1);
+    m_pShaderCom->Begin(0);
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
