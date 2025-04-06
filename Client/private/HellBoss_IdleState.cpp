@@ -13,7 +13,6 @@ void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
         pBoss->Set_Animation("6_Phase2_Idle");
 }
 
-
 void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
 	if (!pBoss->HasTarget()) return;
@@ -21,28 +20,41 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 	_float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
 	float fDist = D3DXVec3Length(&vToPlayer);
 
-    if (fDist < 20.f) // 공격 거리
-    {
-        // 공격 패턴 실행
-        int randIndex = rand() % 2;
-        switch (randIndex)
-        {
-        case 0: pBoss->Set_AttackPattern(new CPattern_EyeBlast()); break;
-        case 1: pBoss->Set_AttackPattern(new CPattern_Shoot()); break;
-        }
+	if (fDist < 20.f) // 공격 거리 안에 들었으면@@@#!#!@#
+	{
+		if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+		{
+			// 페이즈1은 둘 중 하나 랜덤
+			int randIndex = rand() % 2;
+			switch (randIndex)
+			{
+			case 0: pBoss->Set_AttackPattern(new CPattern_EyeBlast()); break;
+			case 1: pBoss->Set_AttackPattern(new CPattern_Shoot()); break;
+			}
+		}
+		else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+		{
+			// 페이즈2는 Shoot만 가능하니까
+			pBoss->Set_AttackPattern(new CPattern_Shoot());
+		}
+		else
+		{
+			// 이후 페이즈에서 다른 패턴 추가 시 여기에
+		}
 
-        pBoss->Change_State(new CHellBoss_AttackState());
-        return;
-    }
-    else // 공격 거리가 아니면 무조건 추노
-    {
-        pBoss->Change_State(new CHellBoss_WalkState());
-        return;
-    }
+		pBoss->Change_State(new CHellBoss_AttackState());
+		return;
+	}
+	else // 공격 거리 바깥이면 추노
+	{
+		pBoss->Change_State(new CHellBoss_WalkState());
+		return;
+	}
 
-
+	//  이건 사실상 도달하지 않을듯? 일단 
 	pBoss->Set_Animation("1_Idle");
 }
+
 
 void CHellBoss_IdleState::Exit(CHellBoss* pBoss)
 {

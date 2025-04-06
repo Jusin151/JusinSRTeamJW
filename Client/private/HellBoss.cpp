@@ -45,9 +45,15 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 	m_AnimationManager.AddAnimation("6_Phase2_Idle", 86, 86);
 	m_AnimationManager.AddAnimation("7_Phase2_Walk", 87, 94);
+
 	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99);
 	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);
-	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107);
+
+	//104부터 쏨
+	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 95, 107);
+
+
+
 	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111);
 
 
@@ -56,6 +62,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124);
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203);
+
+
 	m_AnimationManager.AddAnimation("G_Phase3_Idle", 203, 203);
 	m_AnimationManager.AddAnimation("H_Phase3_Walk", 204, 212);
 	m_AnimationManager.AddAnimation("J_Phase3_TripleEye", 213, 223);

@@ -60,6 +60,14 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_iFrameCount = 10;
 		m_iMaxFrame = 10;
 	}
+	else if (pDesc.wBulletType == L"0_Phase2_Shoot")
+	{
+		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Hand_Bullet";
+		m_fFrameDuration = 0.03f;
+		m_iFrameCount = 10;
+		m_iMaxFrame = 10;
+	}
+
 
 	m_vAxis = pDesc.vAxis; 
 
@@ -123,6 +131,10 @@ void CHellBoss_Bullet::Reset()
 		{
 			offsetPos += m_fHellBoss_Up * 2.7f;
 		}
+		else if (m_wBulletType == L"0_Phase2_Shoot")
+		{
+			offsetPos += m_fHellBoss_Up * 2.7f;
+		}
 
 		else if (m_wBulletType == L"Power_Blast")
 		{
@@ -157,6 +169,11 @@ void CHellBoss_Bullet::Reset()
 			m_fSpeed = 4.f;
 		}
 		else if (m_wBulletType == L"4_Shoot")
+		{
+			m_fBullet_Scale = { 3.f, 3.f, 3.f };
+			m_fSpeed = 1.5f;
+		}
+		else if (m_wBulletType == L"0_Phase2_Shoot")
 		{
 			m_fBullet_Scale = { 3.f, 3.f, 3.f };
 			m_fSpeed = 1.5f;

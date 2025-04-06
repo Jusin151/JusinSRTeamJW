@@ -15,5 +15,6 @@ private:
 	_float m_fAccTime = { 0.f };
 	_float m_fDuration = { 2.5f };
 	_bool m_bHasFired = { false };
+	_bool m_bFinished = { false };
 
 };
