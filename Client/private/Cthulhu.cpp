@@ -63,8 +63,8 @@ HRESULT CCthulhu::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
+	ColliderDesc.fScale = { 11.f, 8.f, 10.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f }; 
 	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
@@ -446,9 +446,9 @@ void CCthulhu::Update(_float fTimeDelta)
 {
 	if (m_bIsAppeared&&m_pColliderCom)
 	{
-		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
+		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat()); 
 
-		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
+		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Collider_Cube"));
 
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);

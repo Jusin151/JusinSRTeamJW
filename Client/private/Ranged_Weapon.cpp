@@ -172,13 +172,13 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
         }
-        else if ((closestTag.find(L"Monster") != wstring::npos)|| (closestTag == L"Layer_Cthulhu"))
+        else if ((closestTag.find(L"Monster") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
         
             m_bMonster = true; 
         }
-        else if ((closestTag.find(L"Boss") != wstring::npos))
+        else if ((closestTag.find(L"Boss") != wstring::npos) || (closestTag == L"Layer_Cthulhu"))
         {
             CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
 
