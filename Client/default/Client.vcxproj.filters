@@ -358,6 +358,12 @@
     <Filter Include="02.GameObjects\DW_Boss">
       <UniqueIdentifier>{b09e795c-4b32-49ac-a691-8cdd289e4a36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Boss">
+      <UniqueIdentifier>{a3e2d9e5-1068-4558-8f7d-ffced34f2efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster\Cthulhu">
+      <UniqueIdentifier>{e176926e-70a4-4db1-b97f-bf786ae2de26}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\00.HellBoss">
       <UniqueIdentifier>{3a2a7afc-61be-4048-9e1c-9fdcdef85543}</UniqueIdentifier>
     </Filter>
@@ -735,6 +741,12 @@
     <ClInclude Include="..\public\BehaviorTree.h">
       <Filter>02.GameObjects\JW_Boss\Node</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Boss.h">
+      <Filter>01.Levels\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CthulhuMissile.h">
+      <Filter>02.GameObjects\04. Projectile\Monster\Cthulhu</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\HellBoss.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss</Filter>
     </ClInclude>
@@ -1082,6 +1094,12 @@
     <ClCompile Include="..\private\Cthulhu.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Level_Boss.cpp">
+      <Filter>01.Levels\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CthulhuMissile.cpp">
+      <Filter>02.GameObjects\04. Projectile\Monster\Cthulhu</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\HellBoss.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss</Filter>
     </ClCompile>
@@ -1115,7 +1133,6 @@
     <ClCompile Include="..\private\HellBoss_Bullet.cpp">
       <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\Pattern_Attack_Base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TestPixelShader.hlsl">

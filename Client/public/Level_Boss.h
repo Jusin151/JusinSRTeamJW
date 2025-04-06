@@ -9,11 +9,11 @@ END
 
 BEGIN(Client)
 
-class CLevel_Editor final : public CLevel
+class CLevel_Boss final : public CLevel
 {
 private:
-	CLevel_Editor(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual ~CLevel_Editor() = default;
+	CLevel_Boss(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual ~CLevel_Boss() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -21,14 +21,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
-
+	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
-	class CMyImGui* m_pImgui = { nullptr };
+
 
 public:
-	static CLevel_Editor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLevel_Boss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 };
 

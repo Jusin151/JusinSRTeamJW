@@ -177,12 +177,14 @@
     <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Cthulhu.h" />
+    <ClInclude Include="..\public\CthulhuMissile.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\HellBoss_Bullet.h" />
     <ClInclude Include="..\public\Pattern_EyeBlast.h" />
     <ClInclude Include="..\public\HellBoss.h" />
+    <ClInclude Include="..\public\Level_Boss.h" />
     <ClInclude Include="..\public\HellBoss_AttackState.h" />
     <ClInclude Include="..\public\HellBoss_DeadState.h" />
     <ClInclude Include="..\Public\HellBoss_IdleState.h" />
@@ -302,6 +304,7 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
+    <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
     <ClCompile Include="..\private\HellBoss_AttackState.cpp" />
@@ -322,6 +325,7 @@
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
+    <ClCompile Include="..\private\Level_Boss.cpp" />
     <ClCompile Include="..\private\Level_Hong.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\private\MiniMap.cpp" />

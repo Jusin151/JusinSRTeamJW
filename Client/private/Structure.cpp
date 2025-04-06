@@ -164,8 +164,8 @@ HRESULT CStructure::SetUp_RenderState()
 	else if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
 	{
 		_float tileReduction = 0.10f; // 타일링을 1/10로 줄임
-		D3DXVECTOR2 vScaleFactor(scale.x * 0.3f, -scale.y * tileReduction);
-		D3DXVECTOR2 vOffsetFactor(0.5f, 0.5f); // Y축 반전을 위한 오프셋 조정
+		D3DXVECTOR2 vScaleFactor(scale.x * 0.3f, scale.y * tileReduction);
+		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); // Y축 반전을 위한 오프셋 조정
 
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);

@@ -81,6 +81,8 @@ HRESULT CLoader::Loading()
 		break;
 	case LEVEL_HONG:
 		hr = Loading_For_Hong();
+	case LEVEL_BOSS:
+ 		hr = Loading_For_Boss();
 		break;
 	}
  	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL); 
@@ -318,6 +320,19 @@ HRESULT CLoader::Loading_For_Hong()
  	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Boss()
+{
+	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
+	CJsonLoader jsonLoader;
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json")))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
 
 	return S_OK;
 }
