@@ -49,6 +49,9 @@ private:
 	_float3 m_fHellBoss_Look{};
 	_float3 m_fHellBoss_Pos{};
 public:
+	void Set_Direction(const _float3& vDir) { m_vDir = vDir; }
+	CTransform* Get_Transform() const { return m_pTransformCom; }
+public:
 	static CHellBoss_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();

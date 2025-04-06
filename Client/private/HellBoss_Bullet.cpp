@@ -24,7 +24,10 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_HellBoss_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	m_HellBoss_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_HONG, TEXT("Layer_HellBoss"), TEXT("Com_Transform")));
+	if (m_HellBoss_Transform == nullptr)
+		return E_FAIL; 
+
 	m_fHellBoss_RIght = m_HellBoss_Transform->Get_State(CTransform::STATE_RIGHT);
 	m_fHellBoss_Up = m_HellBoss_Transform->Get_State(CTransform::STATE_UP);
 	m_fHellBoss_Look = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
@@ -39,7 +42,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 
 
-	m_fSpeed = 5.f;
+	m_fSpeed = 0.1f;
 	m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
 	return S_OK;
 }
@@ -72,7 +75,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 		m_fElapsedTime = 0.0f;
 		if (m_iCurrentFrame < 6) 
 		{
-			m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; // 팀장님이 알려준
+			m_iCurrentFrame = (m_iCurrentFrame + 1) % 7; 
 		}
 		else
 		{

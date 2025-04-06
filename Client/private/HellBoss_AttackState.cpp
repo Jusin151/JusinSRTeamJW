@@ -1,13 +1,40 @@
-#include "HellBoss_AttackState.h"
 #include "HellBoss.h"
+#include "HellBoss_AttackState.h"
 #include "HellBoss_IdleState.h"
+#include "HellBoss_Bullet.h"
+#include "GameInstance.h" 
 
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
-	// 보스가 애니메이션 안에 패턴명을 포함하고 있다면, 패턴 쪽에서 Set_Animation 할 수도 있음
-	// 또는 여기서 기본 애니를 지정해줘도 됨
-}
+    // 공격 애니메이션 설정
+    pBoss->Set_Animation("4_Shoot");
 
+    // 플레이어 방향 벡터 계산
+    _float3 vDir = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
+    D3DXVec3Normalize(&vDir, &vDir);
+
+    // 총알 생성
+    //CHellBoss_Bullet* pBullet = CHellBoss_Bullet::Create(pBoss->Get_Graphic_Device());
+    //if (pBullet)
+    //{
+    //    // 초기화
+    //    pBullet->Initialize(nullptr);
+
+    //    // 위치 지정
+    //    pBullet->Get_Transform()->Set_State(CTransform::STATE_POSITION, pBoss->Get_Pos());
+
+    //    // 방향 지정
+    //    pBullet->Set_Direction(vDir);
+
+      
+        if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
+            LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"))))
+        {
+            MSG_BOX("HellBoss_Bullet 생성 실패");
+        }
+
+    //
+}
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
 

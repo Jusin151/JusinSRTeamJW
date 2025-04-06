@@ -59,6 +59,14 @@ public://애니메이션관련
 	{
 		return m_AnimationManager.IsFinished();
 	}
+	LPDIRECT3DDEVICE9 Get_Graphic_Device()
+	{
+		return m_pGraphic_Device;
+	}
+	CGameInstance* Get_GameInstance()
+	{
+		return m_pGameInstance;
+	}
  
 private: //콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
