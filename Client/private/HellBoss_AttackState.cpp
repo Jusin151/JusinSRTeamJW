@@ -26,5 +26,5 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 
 void CHellBoss_AttackState::Exit(CHellBoss* pBoss)
 {
-	// 특별히 해제할건 없을듯??
+	
 }

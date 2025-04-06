@@ -774,6 +774,9 @@
     <ClInclude Include="..\public\Pattern_Shoot.h">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_Shoot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\HellBoss_Bullet.h">
+      <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1108,6 +1111,9 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_State.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_Bullet.cpp">
+      <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
