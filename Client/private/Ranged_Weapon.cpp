@@ -120,8 +120,10 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     // 게임 인스턴스에서 모든 콜라이더 그룹 가져오기
     vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
 
-    for (auto& group : colliderGroups)
+    for (size_t i = 0;i<colliderGroups.size();i++)
     {
+        if (i == CG_ENVIRONMENT) continue;
+        auto group = colliderGroups[i];
         for (auto* collider : group)
         {
        
@@ -172,7 +174,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
         }
-        else if ((closestTag.find(L"Monster") != wstring::npos))
+        else if ((closestTag.find(L"Monster") != wstring::npos)|| (closestTag.find(L"Layer_Cthulhu_Tentacle") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
         

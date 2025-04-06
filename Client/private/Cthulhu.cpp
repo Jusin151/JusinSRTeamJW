@@ -3,21 +3,55 @@
 #include <StructureManager.h>
 #include <CthulhuMissile.h>
 #include <Camera_FirstPerson.h>
+#include "Cthulhu_Tentacle.h"
 
 CCthulhu::CCthulhu(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CMonster_Base(pGraphic_Device), m_pBehaviorTree(nullptr)
+	: CMonster_Base(pGraphic_Device), m_pBehaviorTree(nullptr),
+	m_bIsColned(false)
 {
 }
 
 CCthulhu::CCthulhu(const CCthulhu& Prototype)
-	: CMonster_Base(Prototype), m_pBehaviorTree(nullptr)
+	: CMonster_Base(Prototype), m_pBehaviorTree(nullptr),
+	m_bIsColned(true),
+	m_listTentacles(Prototype.m_listTentacles),
+	m_iCountTentacle(Prototype.m_iCountTentacle)
 {
 }
 
 HRESULT CCthulhu::Initialize_Prototype()
 {
-	m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), CCthulhuMissile::Create(m_pGraphic_Device));
-	//	m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"),TEXT("Layer_CthulhuMissile"), 10);
+	auto pTentacle = CCthulhu_Tentacle::Create(m_pGraphic_Device);
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Tentacle"), pTentacle)))
+	{
+		Safe_Release(pTentacle);
+		return E_FAIL;
+	}
+
+	auto pMissile = CCthulhuMissile::Create(m_pGraphic_Device);
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), pMissile)))
+	{
+		Safe_Release(pMissile);
+		return E_FAIL;
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Tentacle"), LEVEL_BOSS, TEXT("Layer_Cthulhu_Tentacle"))))
+			continue;
+		m_listTentacles.push_back(dynamic_cast<CCthulhu_Tentacle*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Cthulhu_Tentacle"))));
+		if (m_listTentacles.back())
+		{
+			Safe_AddRef(m_listTentacles.back());
+		}
+		else
+		{
+			m_listTentacles.pop_back();
+		}
+	}
+	m_iCountTentacle = (_int)m_listTentacles.size();
 	return S_OK;
 }
 
@@ -25,8 +59,8 @@ HRESULT CCthulhu::Initialize(void* pArg)
 {
 	INIT_PARENT(pArg)
 
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+		if (FAILED(Ready_Components()))
+			return E_FAIL;
 
 	// 비헤이비어 트리 초기화
 	m_pBehaviorTree = new CBehaviorTree();
@@ -43,7 +77,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	Create_BehaviorTree();
 
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,_float3(pos.x, -0.5f, pos.z));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(pos.x, -0.5f, pos.z));
 	return S_OK;
 }
 
@@ -63,8 +97,8 @@ HRESULT CCthulhu::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 11.f, 8.f, 10.f };
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f }; 
+	ColliderDesc.fScale = { 10.f, 8.5f, 3.f };
+	ColliderDesc.fLocalPos = { 0.f, -0.3f, 0.f };
 	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
@@ -78,14 +112,19 @@ void CCthulhu::Init_Textures()
 	for (_uint i = 0; i < m_pTextureCom->Get_NumTextures(); i++)
 	{
 		if (i < 7)
+		{
 			m_mapStateTextures[STATE::IDLE].push_back(i);
+			m_mapStateTextures[STATE::DPELOY_TENTACLES].push_back(i);
+		}
 		else if (i > 6 && i < 11)
 		{
 			m_mapStateTextures[STATE::ATTACK].push_back(i);
 			m_mapStateTextures[STATE::MULTI_ATTACK].push_back(i);
 		}
 		else if (i > 10)
+		{
 			m_mapStateTextures[STATE::DEAD].push_back(i);
+		}
 	}
 }
 
@@ -123,9 +162,9 @@ NodeStatus CCthulhu::Attack()
 	m_fFrame = 0.f;
 	m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
 
-	m_iMissilesToFire = 3;  
-	m_fMissileTimer = 0.f;  
-	m_bIsAttacking = true;  
+	m_iMissilesToFire = 3;
+	m_fMissileTimer = 0.f;
+	m_bIsAttacking = true;
 
 	return NodeStatus::SUCCESS;
 }
@@ -231,12 +270,12 @@ NodeStatus CCthulhu::Update_Appear()
 
 
 
-	const float appearSpeed = 2.2f;   
-	const float targetY = 4.5f;      
+	const float appearSpeed = 2.2f;
+	const float targetY = 4.5f;
 
 	if (!m_bCameraShaken)  // 이미 쉐이크 효과가 발생하지 않았다면
 	{
-		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC,TEXT("Layer_Camera")));
+		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
 		if (pCamera)
 		{
 			pCamera->TriggerShake(0.2f, 4.f);
@@ -249,34 +288,134 @@ NodeStatus CCthulhu::Update_Appear()
 	if (pos.y >= targetY)
 	{
 		pos.y = targetY;
-		m_bIsAppeared = true; 
+		m_bIsAppeared = true;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pos);
 
 		return NodeStatus::SUCCESS;
 	}
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pos);
-		return NodeStatus::RUNNING;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pos);
+	return NodeStatus::RUNNING;
+}
+
+NodeStatus CCthulhu::Deploy_Tentacles()
+{
+	if (m_listTentacles.empty())
+	{
+		if (!m_bCanHit) m_bCanHit = true;
+		return NodeStatus::FAIL;
+	}
+	if (m_bIsTentacleInstalled)
+	{
+		m_fTentacleTimer += m_fDelta; 
+
+		if (m_fTentacleTimer >= 5.0f)
+		{
+			for (auto& pTentacle : m_listTentacles)
+			{
+				if (pTentacle && pTentacle->Get_State() != CCthulhu_Tentacle::Tentacle_STATE::DEAD)
+				{
+					if (pTentacle->Get_State() != CCthulhu_Tentacle::Tentacle_STATE::DISAPPEAR)
+					{
+						pTentacle->Set_State(CCthulhu_Tentacle::Tentacle_STATE::DISAPPEAR);
+					}
+				}
+			}
+
+			_bool bAllFinished = true;
+			for (auto& pTentacle : m_listTentacles)
+			{
+				if (pTentacle && pTentacle->Get_State() == CCthulhu_Tentacle::Tentacle_STATE::DISAPPEAR)
+				{
+					if (!pTentacle->IsAnimationFinished())
+					{
+						bAllFinished = false;
+						break;
+					}
+				}
+			}
+			// 모든 촉수가 사라짐 애니메이션을 완료했다면
+			if (bAllFinished)
+			{
+				m_bIsTentacleInstalled = false;   // 촉수 활성화 플래그 해제
+				m_fTentacleTimer = 0.f;             // 활성화 타이머 초기화
+				return NodeStatus::SUCCESS;         // 사라짐 처리 완료
+			}
+			else
+			{
+				return NodeStatus::RUNNING;     
+			}
+		}
+		return NodeStatus::RUNNING;            
+	}
+
+	if (m_fTentacleCoolTime < 7.f)
+	{
+		return NodeStatus::FAIL;
+	}
+
+	m_fTentacleCoolTime = 0.f;       // 쿨다운 초기화
+	m_bIsTentacleInstalled = true;   // 촉수 활성화
+	m_fTentacleTimer = 0.f;          
+	m_eState = STATE::DPELOY_TENTACLES; 
+
+	for (auto it = m_listTentacles.begin(); it != m_listTentacles.end(); )
+	{
+		CCthulhu_Tentacle* pTentacle = *it;
+
+
+		if (pTentacle == nullptr
+			|| pTentacle->Get_State() == CCthulhu_Tentacle::Tentacle_STATE::DEAD)
+		{
+			Safe_Release(pTentacle);
+			it = m_listTentacles.erase(it);
+			m_iCountTentacle--;
+		}
+		else
+		{
+			pTentacle->SetActive(true);
+
+			// -25 ~ +25 범위 랜덤 X, Z
+			_float randomX = (static_cast<_float>(rand()) / RAND_MAX) * 50.f - 25.f;
+			_float randomZ = (static_cast<_float>(rand()) / RAND_MAX) * 50.f - 25.f;
+
+			_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 newPos = { currentPos.x + randomX,
+								currentPos.y,
+								currentPos.z + randomZ };
+			pTentacle->Set_Position(newPos);
+			pTentacle->Set_State(CCthulhu_Tentacle::Tentacle_STATE::APPEAR);
+
+			++it;
+		}
+	}
+	return NodeStatus::RUNNING;
 }
 
 void CCthulhu::Create_BehaviorTree()
 {
 	CCompositeNode* pStateSelector = new CSelectorNode();
-	CCompositeNode* pAttackSelector = new CSelectorNode();
+	CCompositeNode* pAttackParallel = new CParallelNode();
+
 	CCompositeNode* pAttackSeq = new CSequenceNode();
-
-	TaskNode* pMultiAttack = new TaskNode(L"MultiMissileAttack", [this]() -> NodeStatus { return this->MultiMissileAttack(); });
-
 	TaskNode* pAttack = new TaskNode(L"Attack", [this]() -> NodeStatus { return this->Attack(); });
-	TaskNode* pUpdateAttack = new TaskNode(L"UpdateAttack", [this]() -> NodeStatus {return this->UpdateAttack(); });
+	TaskNode* pUpdateAttack = new TaskNode(L"UpdateAttack", [this]() -> NodeStatus { return this->UpdateAttack(); });
 	pAttackSeq->AddChild(pAttack);
 	pAttackSeq->AddChild(pUpdateAttack);
 
-	pAttackSelector->AddChild(pMultiAttack);
-	pAttackSelector->AddChild(pAttackSeq);
+	TaskNode* pMultiAttack = new TaskNode(L"MultiMissileAttack", [this]() -> NodeStatus { return this->MultiMissileAttack(); });
+	TaskNode* pDeploy = new TaskNode(L"Deploy", [this]() -> NodeStatus { return this->Deploy_Tentacles(); });
 
-	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus { return this->Update_Appear(); }));
+	// 동시에 실행
+	pAttackParallel->AddChild(pMultiAttack);
+	pAttackParallel->AddChild(pDeploy);
+	pAttackParallel->AddChild(pAttackSeq);
+
+
+	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {
+		return this->Update_Appear();
+		}));
+
 	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {
-
 		if (m_iHp > 0)
 			return NodeStatus::FAIL;
 
@@ -292,13 +431,12 @@ void CCthulhu::Create_BehaviorTree()
 		else
 		{
 			if (m_bUpdateAnimation)
-			{
 				m_bUpdateAnimation = false;
-			}
 			return NodeStatus::SUCCESS;
 		}
 		}));
-	pStateSelector->AddChild(pAttackSelector);
+
+	pStateSelector->AddChild(pAttackParallel);
 
 	m_pBehaviorTree->Set_Root(pStateSelector);
 }
@@ -334,7 +472,7 @@ _bool CCthulhu::RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, C
 	for (int i = 0; i < 3; i++)
 	{
 		if (fabs(vLocalDir[i]) < FLT_EPSILON)
-    {
+		{
 			if (vLocalPos[i] < -fHalfSize[i] || vLocalPos[i] > fHalfSize[i])
 				return false;
 		}
@@ -374,7 +512,7 @@ _bool CCthulhu::IsPlayerVisible()
 	rayDir.Normalize();
 	_float fDistance = _float3(playerPos - monsterPos).Length();
 	auto walls = CStructureManager::Get_Instance()->Get_Structures();
-	
+
 	for (const auto& wall : walls)
 	{
 		if (wall == nullptr || wall->Get_Tag().find(L"Wall") == wstring::npos)
@@ -397,9 +535,9 @@ HRESULT CCthulhu::On_Collision(CCollisionObject* other)
 
 void CCthulhu::Select_Pattern(_float fTimeDelta)
 {
-  // 비헤이비어 트리 실행
+	// 비헤이비어 트리 실행
 	if (m_pBehaviorTree)
- 		m_pBehaviorTree->Run();
+		m_pBehaviorTree->Run();
 }
 
 json CCthulhu::Serialize()
@@ -438,19 +576,21 @@ void CCthulhu::Priority_Update(_float fTimeDelta)
 
 	m_fAttackCoolTime += fTimeDelta;
 	m_fMultiAttackCoolTime += fTimeDelta;
+	m_fTentacleCoolTime += fTimeDelta;
 
 	Select_Pattern(fTimeDelta);
 }
 
 void CCthulhu::Update(_float fTimeDelta)
 {
-	if (m_bIsAppeared&&m_pColliderCom)
+	if (m_bIsAppeared && m_pColliderCom)
 	{
-		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat()); 
+		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Collider_Cube"));
 
 
+		if(m_bCanHit)
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
@@ -510,6 +650,9 @@ HRESULT CCthulhu::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 HP :") + to_wstring(m_iHp),
 		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 남은 촉수 :") + to_wstring(m_iCountTentacle),
+		_float2(-200.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
 	return S_OK;
 }
 
@@ -563,12 +706,20 @@ CGameObject* CCthulhu::Clone(void* pArg)
 		Safe_Release(pClone);
 	}
 	return pClone;
-}
+} 
 
 void CCthulhu::Free()
 {
 	__super::Free();
 
+	if (m_bIsColned)
+	{
+		for (auto& pTentacle : m_listTentacles)
+		{
+			Safe_Release(pTentacle);
+		}
+		m_listTentacles.clear();
+	}
 	Safe_Release(m_pTextureCom);
 	Safe_Delete(m_pBehaviorTree);
 }
