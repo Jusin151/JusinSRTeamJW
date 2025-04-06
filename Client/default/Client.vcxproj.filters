@@ -397,6 +397,9 @@
     <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph">
       <UniqueIdentifier>{ff0a5622-470a-4d92-ba5c-8ee17d1eaa65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\03.HellBoss_Bullet">
+      <UniqueIdentifier>{87f6994b-a83a-4922-932c-d9c5dbaf87c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
