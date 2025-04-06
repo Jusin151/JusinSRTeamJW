@@ -172,7 +172,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
         }
-        else if ((closestTag.find(L"Monster") != wstring::npos))
+        else if ((closestTag.find(L"Monster") != wstring::npos)|| (closestTag.find(L"Cthulhu") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
         
@@ -419,6 +419,16 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
     float fOffset = (vSurfaceNormal.Dot(vHitToCamDir) > 0.f) ? 0.01f : -0.01f; // Z-fighting 방지 오프셋
     _float3 vBaseEffectPos = vWorldHitPos + vSurfaceNormal * fOffset; // 오프셋 적용된 기본 이펙트 위치
 
+  //auto pTexture =  dynamic_cast<CTexture*>(pOwner->Get_Component(L"Com_Texture")); 
+  //if (pTexture)
+  //{
+
+  //  D3DXCOLOR color;
+  //  pTexture->GetPixelColor(vWorldHitPos, pTargetTransform->Compute_Scaled(), &color); // 텍스처에서 픽셀 색상을 가져오는 가정된 함수
+
+  //  if (color.a <= 0.1f)
+  //      return; // 알파 값이 낮으면 이펙트 생성하지 않음
+  //}
 #pragma region Effect 생성 (최적화 적용)
 
     // 7. C++ <random> 라이브러리 사용 (rand() 대체)

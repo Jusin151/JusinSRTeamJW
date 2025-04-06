@@ -1,0 +1,3 @@
+IDLE 0 ~ 6 7장
+ATTACK 7~10 4장
+DEATH 11~18 8장

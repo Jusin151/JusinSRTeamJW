@@ -60,6 +60,8 @@ void CLevel_Logo::Update(_float fTimeDelta)
 	}
 
 
+
+
 }
 
 HRESULT CLevel_Logo::Render()

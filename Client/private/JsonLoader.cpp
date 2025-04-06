@@ -61,7 +61,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 			if (FAILED(pGameInstance->Add_Prototype(level, tag,
 				pTexture)))
 			{
-				Safe_Release(pTexture);
+ 				Safe_Release(pTexture);
 				continue;
 			}
 		}

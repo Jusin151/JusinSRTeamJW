@@ -122,6 +122,14 @@ void CLevel_Hub::Update(_float fTimeDelta)
 			return;
 		return;
 	}
+
+
+	if (GetKeyState('P') & 0x8000)
+	{
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_BOSS))))
+			return;
+	}
 }
 
 HRESULT CLevel_Hub::Render()

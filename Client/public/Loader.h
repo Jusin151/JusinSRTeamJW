@@ -47,6 +47,8 @@ public:
 	HRESULT Loading_For_Test();
 	HRESULT Loading_For_Hub();
 	HRESULT Loading_For_Hong();
+	HRESULT Loading_For_Boss();
+
 	
 
 

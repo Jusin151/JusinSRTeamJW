@@ -7,6 +7,7 @@
 #include "Level_Hub.h"
 #include "Level_Test.h"
 #include "Level_Hong.h"
+#include "Level_Boss.h"
 #include "Loader.h"
 #include "StructureManager.h"
 #include "GameInstance.h"
@@ -66,6 +67,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				break;
 			case LEVEL_HONG:
 				pLevel = CLevel_Hong::Create(m_pGraphic_Device);
+				break;
+			case LEVEL_BOSS:
+				pLevel = CLevel_Boss::Create(m_pGraphic_Device);
 				break;
 			}
 
