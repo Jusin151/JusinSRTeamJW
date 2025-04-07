@@ -132,6 +132,14 @@ HRESULT CShader::Bind_Handle(void* pArg, _uint bytes)
 	return S_OK;
 }
 
+HRESULT CShader::Set_Fog(_float3 rgb, _float start, _float end)
+{
+	HRESULT hr = Bind_Vector("g_FogColor", &rgb);
+	hr = Bind_Float("gFogStart", start);
+	hr = Bind_Float("gFogEnd", end);
+	return hr;
+}
+
 void CShader::Begin(_uint iPassIndex)
 {
 	m_pEffect->CommitChanges();

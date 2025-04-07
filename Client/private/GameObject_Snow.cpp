@@ -40,10 +40,9 @@ HRESULT CGameObject_Snow::Ready_Components()
         return E_FAIL;
 
     CSnow_Particle_System::SNOWDESC     SnowDesc{};
-    SnowDesc.Bounding_Box.m_vMin = { -100, -100, -100 };
-    SnowDesc.Bounding_Box.m_vMax = { 100, 100, 100 };
-    SnowDesc.iNumParticles = 512;
-    SnowDesc.strShaderPath = L"VertexShader.hlsl";
+    SnowDesc.Bounding_Box.m_vMin = { -50, -50, -50 };
+    SnowDesc.Bounding_Box.m_vMax = { 50, 50, 50 };
+    SnowDesc.iNumParticles = 1024;
     SnowDesc.strTexturePath = L"../../Resources/Textures/Particle/snow.png";
     SnowDesc.iNumTextures = 1;
 

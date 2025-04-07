@@ -126,7 +126,6 @@ void CStructure::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
 	}
 
-
 	// 벽 태그인 경우
 	else if (Get_Tag().find(L"Wall") != wstring::npos)
 	{
@@ -244,6 +243,18 @@ HRESULT CStructure::Render()
 		if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
 			return E_FAIL;
 	}
+
+	_uint level = m_pGameInstance->Get_CurrentLevel();
+
+	if (level == (_uint)LEVEL_HUB)
+	{
+		m_pShaderCom->Set_Fog(_float3(1.0f, 1.0f, 1.0f), 20.f, 40.f);
+	}
+	else
+	{
+		m_pShaderCom->Set_Fog(_float3(0.5f, 0.7f, 0.9f), 8.f, 20.f);
+	}
+		
 
 	if(FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
