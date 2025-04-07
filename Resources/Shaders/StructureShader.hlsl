@@ -73,11 +73,9 @@ float g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
 float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
 // --- 안개 효과 전역 변수 추가 (C++에서 설정) ---
-float3 g_FogColor = float3(0.9f, 0.9f, 0.9f); // 안개 색상 (하얀색)
-float g_FogStart = 10.0f; // 안개 시작 거리
-float g_FogEnd = 40.0f; // 안개 끝 거리
-
-
+float3 g_FogColor = float3(0.5f, 0.9f, 1.0f); // 안개 색상 (하얀색)
+float g_FogStart = 8.0f; // 안개 시작 거리
+float g_FogEnd = 20.0f; // 안개 끝 거리
 
 struct VS_IN
 {
@@ -471,7 +469,7 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
     return Out;
 }
 
-PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
+/*PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
@@ -604,7 +602,7 @@ PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
     // if (Out.vColor.a < 0.1f) discard; // 필요하다면 모든 패스에 적용
 
     return Out;
-}
+}*/
 
 PS_OUT PS_MAIN_BLACK(PS_IN In)
 {
@@ -669,4 +667,4 @@ technique DefaultTechnique
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_TEST_LIGHTING(); // 빛 계산이 포함된 PS_MAIN 사용
     }
-}
+}   
