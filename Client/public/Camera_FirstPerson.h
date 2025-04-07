@@ -42,6 +42,11 @@ public:
 
 private:
 	void Shaking(_float fTimeDelta);
+public:
+	void Camera_Lock()
+	{
+		m_bCameraLocked = !m_bCameraLocked;
+	}
 
 private:
 	POINT				m_ptOldMousePos = {};

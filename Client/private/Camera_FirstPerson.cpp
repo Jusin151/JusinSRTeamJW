@@ -87,11 +87,13 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
 	UpdateRecoil(fTimeDelta);
 	
-	Shaking(fTimeDelta);
 
-	
-	HandleMouseInput(fTimeDelta);
-	
+	if (!m_bCameraLocked)
+	{
+		Shaking(fTimeDelta);
+
+		HandleMouseInput(fTimeDelta);
+	}
 	__super::Update_VP_Matrices();
 	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT).GetNormalized() * fScale.x);
 	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP).GetNormalized() * fScale.y);
@@ -105,8 +107,7 @@ void CCamera_FirstPerson::Update(_float fTimeDelta)
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
-	if (m_bCameraLocked)
-		return;
+	
 
 	POINT pt;
 	GetCursorPos(&pt);
