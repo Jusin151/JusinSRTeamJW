@@ -71,6 +71,70 @@
         "texture_path": "",
         "texture_tag": "",
         "vibuffer": ""
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Monster_Glacier",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Glacier",
+          "ProtTextureTag": "Prototype_Component_Texture_Glacier",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          -20.0,
+          0.21,
+          -50.0
+        ],
+        "rotation": [
+          0.0,
+          -0.54,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Monster_Glacier",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Glacier",
+          "ProtTextureTag": "Prototype_Component_Texture_Glacier",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          -36.0,
+          0.21,
+          -40.0
+        ],
+        "rotation": [
+          0.0,
+          -0.54,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
       }
     ],
     "Layer_Monster_Yeti": [
@@ -88,9 +152,9 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          8.0,
+          -44.0,
           0.46,
-          -30.0
+          -27.0
         ],
         "rotation": [
           0.0,
@@ -120,7 +184,7 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          -20.0,
+          22.0,
           0.46,
           -27.0
         ],
@@ -250,7 +314,39 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          -20.0,
+          -45.0,
+          0.21,
+          -45
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.5,
+          1.5,
+          1.5
+        ],
+        "texture_path": "",
+        "texture_tag": "",
+        "vibuffer": ""
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Monster_Harpoonguy",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Harpoonguy",
+          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
+          "ProtoLevel": 3
+        },
+        "collider_tag": "",
+        "is_cube_collider": false,
+        "position": [
+          6.0,
           0.21,
           -25
         ],
@@ -282,9 +378,9 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          5.0,
+          -41.0,
           0.21,
-          -15
+          -44.0
         ],
         "rotation": [
           0.0,
@@ -314,105 +410,9 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          10.0,
+          -40.0,
           0.21,
-          -25
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.5,
-          1.5,
-          1.5
-        ],
-        "texture_path": "",
-        "texture_tag": "",
-        "vibuffer": ""
-      },
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Monster_Harpoonguy",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 3,
-          "ProtTag": "Prototype_GameObject_Harpoonguy",
-          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
-          "ProtoLevel": 3
-        },
-        "collider_tag": "",
-        "is_cube_collider": false,
-        "position": [
-          9.0,
-          0.21,
-          35.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.5,
-          1.5,
-          1.5
-        ],
-        "texture_path": "",
-        "texture_tag": "",
-        "vibuffer": ""
-      },
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Monster_Harpoonguy",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 3,
-          "ProtTag": "Prototype_GameObject_Harpoonguy",
-          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
-          "ProtoLevel": 3
-        },
-        "collider_tag": "",
-        "is_cube_collider": false,
-        "position": [
-          15.0,
-          0.21,
-          3.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.5,
-          1.5,
-          1.5
-        ],
-        "texture_path": "",
-        "texture_tag": "",
-        "vibuffer": ""
-      },
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_Monster_Harpoonguy",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 3,
-          "ProtTag": "Prototype_GameObject_Harpoonguy",
-          "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
-          "ProtoLevel": 3
-        },
-        "collider_tag": "",
-        "is_cube_collider": false,
-        "position": [
-          10.0,
-          0.21,
-          4.0
+          -36.0
         ],
         "rotation": [
           0.0,
@@ -478,7 +478,7 @@
         "position": [
           22.0,
           -0.04,
-          -26.0
+          -15
         ],
         "rotation": [
           0.0,
@@ -508,9 +508,9 @@
         "collider_tag": "",
         "is_cube_collider": false,
         "position": [
-          24.0,
+          9.0,
           -0.04,
-          -22.0
+          -35.0
         ],
         "rotation": [
           0.0,
