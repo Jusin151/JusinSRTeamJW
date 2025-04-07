@@ -30,6 +30,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
+#include "GameObject_Snow.h"
 
 
 CMainApp::CMainApp()
@@ -348,6 +349,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Particle_System_Firework"),
 		CGameObject_Particle_Firework::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Particle_System_Snow"),
+		CGameObject_Snow::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,

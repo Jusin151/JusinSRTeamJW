@@ -125,7 +125,7 @@ HRESULT CShader::Bind_Lights()
 HRESULT CShader::Bind_Handle(void* pArg, _uint bytes)
 {
 	
-	D3DXHANDLE temp = m_pEffect->GetParameterByName(NULL, "g_Lights[MAX_LIGHTS]");
+	D3DXHANDLE temp = m_pEffect->GetParameterByName(NULL, "g_Lights");
 
 	return m_pEffect->SetRawValue(temp, pArg, 0, bytes);
 	//m_pEffect->SetValue(temp, pArg, bytes);

@@ -269,7 +269,7 @@ HRESULT CStructure::Render()
 		return E_FAIL;
 
 	SetUp_RenderState();
-	m_pShaderCom->Begin(3);
+	m_pShaderCom->Begin(1);
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;

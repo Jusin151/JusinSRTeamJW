@@ -66,8 +66,8 @@ HRESULT CGameObject_Particle_Test::Render()
         return E_FAIL;
 
     Pre_Render();
-    /*if (FAILED(m_pParticleCom->Render()))
-        return E_FAIL;*/
+    if (FAILED(m_pParticleCom->Render()))
+        return E_FAIL;
     Post_Render();
 
     return S_OK;
@@ -93,9 +93,8 @@ HRESULT CGameObject_Particle_Test::Ready_Components()
     SnowDesc.Bounding_Box.m_vMin = { -10, -10, -10};
     SnowDesc.Bounding_Box.m_vMax = { 10, 10, 10};
     SnowDesc.iNumParticles = 512;
-    SnowDesc.strShaderPath = L"VertexShader.hlsl";
-
-    SnowDesc.strTexturePath = L"../../Resources/Textures/Particle/snowflake.dds";
+    SnowDesc.strTexturePath = L"../../Resources/Textures/Particle/snow.png";
+    SnowDesc.iNumTextures = 1;
 
     /* For.Com_Particle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Snow"),

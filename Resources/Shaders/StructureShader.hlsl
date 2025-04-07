@@ -319,7 +319,8 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     PS_OUT Out;
 
     // 1. 텍스처 색상 가져오기
-    float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
+    float2 tiledUV = In.vTexcoord * In.vScale;
+    float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
     // 2. (선택 사항) 재질의 Diffuse 색상을 곱하여 기본 색상 조절
     // baseColor *= g_Material.Diffuse; // Material 구조체 사용 시
