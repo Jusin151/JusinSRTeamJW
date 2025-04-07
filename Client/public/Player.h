@@ -144,7 +144,7 @@ public:
 
 	_bool TryUseMana(_int amount)
 	{
-		if (m_iPlayerMP.first	 < amount)
+		if (m_iPlayerMP.first < (_uint)amount)
 			return false;
 
 		m_iPlayerMP.first -= amount;
