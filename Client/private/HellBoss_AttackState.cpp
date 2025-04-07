@@ -25,14 +25,12 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         delete pPattern;
         pBoss->Set_AttackPattern(nullptr);
 
-        // 페이즈 2 돌아가지 않고 공격 계속하게 해야되는데..
         if (pBoss->Get_Phase() == CHellBoss::PHASE1)
         {
             pBoss->Change_State(new CHellBoss_IdleState());
         }
         else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
         {
-  
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);
             if (fDist < 20.f)
@@ -46,6 +44,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         }
     }
 }
+
 
 
 void CHellBoss_AttackState::Exit(CHellBoss* pBoss)

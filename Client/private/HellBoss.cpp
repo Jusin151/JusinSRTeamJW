@@ -49,8 +49,11 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99);
 	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);
 
+	m_AnimationManager.AddAnimation("8_Phase2_Charge", 99, 103);
+
+
 	//104부터 쏨
-	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 95, 107);
+	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107);
 
 
 
@@ -237,8 +240,6 @@ void CHellBoss::Launch_PowerBlast_Bullets()
 
 
 
-
-
 void CHellBoss::Late_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
@@ -249,6 +250,26 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 			return;
 
 }
+void CHellBoss::Use_Attack(_float fDeltaTime)
+{
+	if (m_pCurAttackPattern)
+	{
+		m_pCurAttackPattern->Execute(this, fDeltaTime);
+		if (m_pCurAttackPattern->Is_Finished())
+		{
+			// Morph 패턴인 경우 혹은 1페이즈라면 
+			if (dynamic_cast<CPatter_Morph*>(m_pCurAttackPattern) != nullptr || m_ePhase == PHASE1)
+			{
+				delete m_pCurAttackPattern;
+				m_pCurAttackPattern = nullptr;
+				Change_State(new CHellBoss_IdleState());
+			}
+		}
+	}
+}
+
+
+
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
 {
 	if (m_pCurState)
@@ -338,22 +359,6 @@ void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
 	}
 
 	m_pCurAttackPattern = pPattern;
-}
-
-void CHellBoss::Use_Attack(_float fDeltaTime)
-{
-	if (m_pCurAttackPattern)
-	{
-		m_pCurAttackPattern->Execute(this, fDeltaTime);
-
-		if (m_pCurAttackPattern->Is_Finished())
-		{
-			delete m_pCurAttackPattern;
-			m_pCurAttackPattern = nullptr;
-
-			Change_State(new CHellBoss_IdleState());
-		}
-	}
 }
 
 

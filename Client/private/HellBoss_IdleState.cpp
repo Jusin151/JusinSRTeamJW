@@ -10,7 +10,7 @@ void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
     if (pBoss->Get_Phase() == CHellBoss::PHASE1)
         pBoss->Set_Animation("1_Idle");
     else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
-        pBoss->Set_Animation("6_Phase2_Idle");
+        pBoss->Set_Animation("8_Phase2_Charge"); // 애매해서 일던 idle로 박았음 =
 }
 
 void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
