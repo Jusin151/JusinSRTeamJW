@@ -204,10 +204,10 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
         Light currentLight = g_Lights[i];
 
         // --- 타입 확인: 0번(LT_UNUSED)이면 계산 건너뛰기 ---
-        /*if (currentLight.Type == 0) // LT_UNUSED
+        if (currentLight.Type == 0) // LT_UNUSED
         {
             continue; // 다음 라이트로 넘어감
-        }*/
+        }
         
         
 
@@ -304,7 +304,7 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     // --- 안개 효과 계산 ---
     float distance = length(In.vViewPos);
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
-    Out.vColor = litColor; //lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
+    Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
 
     // --- 알파 테스트 ---
     // if (Out.vColor.a < 0.1f) discard;
