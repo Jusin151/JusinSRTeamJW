@@ -21,8 +21,6 @@ CLevel_Editor::CLevel_Editor(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_Editor::Initialize()
 {
-
-
 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	
 
@@ -32,11 +30,13 @@ HRESULT CLevel_Editor::Initialize()
 	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 	//	return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
 
 	CJsonLoader jsonLoader;
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1.json", LEVEL_EDITOR);
+ 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1.json", LEVEL_EDITOR);
+ 	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json");
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_EDITOR);
 
 	m_pImgui = CMyImGui::Create(LEVEL_END, m_pGraphic_Device);
 	if (nullptr == m_pImgui)
@@ -112,80 +112,14 @@ HRESULT CLevel_Editor::Render()
 	return S_OK;
 }
 
-HRESULT CLevel_Editor::Ready_Layer_BackGround(const _wstring& strLayerTag)
-{
-
-	//if (FAILED(m_pGameInstance->Add_GameObject
-	//(LEVEL_GAMEPLAY, 
-	//	TEXT("Prototype_GameObject_Terrain"),
-	//	LEVEL_GAMEPLAY, strLayerTag)))
-	//	return E_FAIL;
-	// 오브젝트 풀에 등록
-	if (!m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag, 1))
-		return E_FAIL;
-
-	// 오브젝트 풀링에서 가져와서 오브젝트 매니저에 추가
-	if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag))
-	return E_FAIL;
-	return S_OK;
-}
-
-
 HRESULT CLevel_Editor::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_EDITOR, TEXT("Prototype_GameObject_Camera_FirstPerson"),
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_Free"),
 		LEVEL_EDITOR, strLayerTag)))
 		return E_FAIL;
-
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_EDITOR, TEXT("Prototype_GameObject_Camera_Free"),
-	//	LEVEL_EDITOR, strLayerTag)))
-	//	return E_FAIL;
 	return S_OK;
 }
-
-HRESULT CLevel_Editor::Ready_Layer_Player(const _wstring& strLayerTag)
-{
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_EDITOR, TEXT("Prototype_GameObject_Player"),
-		LEVEL_EDITOR, strLayerTag)))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_EDITOR, TEXT("Prototype_GameObject_Player"), strLayerTag, 1)))
-		return E_FAIL;
-
-
-
-	CTransform::TRANSFORM_DESC randTransDesc{};
-
-
-
-
-	randTransDesc.fRotationPerSec = D3DXToRadian(90.f);
-	randTransDesc.fSpeedPerSec = 10.f;
-	randTransDesc.vPos = { _float(rand() % 50),5.f,_float(rand() % 50) };
-
-	if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_EDITOR, LEVEL_EDITOR, strLayerTag, &randTransDesc))
-
-		return E_FAIL;
-
-
-	return S_OK;
-}
-
-HRESULT CLevel_Editor::Ready_Layer_Monster(const _wstring& strLayerTag)
-{
-
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"), strLayerTag, 10)))
-		return E_FAIL;
-
-
-	if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_GAMEPLAY, LEVEL_GAMEPLAY, strLayerTag))
-
-		return E_FAIL;
-
-	return S_OK;
-}
-
 
 CLevel_Editor* CLevel_Editor::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

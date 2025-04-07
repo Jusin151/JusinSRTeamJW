@@ -1,6 +1,8 @@
 ﻿#include "Ranged_Weapon.h"
 #include "GameInstance.h"
 #include "PickingSys.h"
+#include "Collider_Cube.h"
+#include "Collider_Sphere.h"
 #include "Effects.h"
 #include "UI_Manager.h"
 #include "Collider_Manager.h"
@@ -36,7 +38,7 @@ void CRanged_Weapon::Update(_float fTimeDelta)
 void CRanged_Weapon::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
-
+   
     
 }
 
@@ -107,7 +109,6 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 {
 
-    // 매 프레임마다 마우스/레이 갱신
     if (m_pPickingSys)
         m_pPickingSys->Update();
 
@@ -119,8 +120,10 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     // 게임 인스턴스에서 모든 콜라이더 그룹 가져오기
     vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
 
-    for (auto& group : colliderGroups)
+    for (size_t i = 0;i<colliderGroups.size();i++)
     {
+        if (i == CG_ENVIRONMENT) continue;
+        auto group = colliderGroups[i];
         for (auto* collider : group)
         {
        
@@ -130,7 +133,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
      
             const wstring& tag = collider->Get_Owner()->Get_Tag();
             if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos||
-                tag.find(L"Trigger")!= wstring::npos)
+                tag.find(L"Trigger") != wstring::npos)
                 continue;
 
             _float3 vHitPos{};
@@ -141,6 +144,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             // 충돌 지점까지의 거리 계산
             _float3 vDiff = vHitPos - m_pPickingSys->Get_Ray().vOrigin;
             _float fDist = vDiff.Length();
+
 
             // 현재까지의 최소 거리보다 가까운 경우에만 정보 갱신
             if (fDist < fMinDist) // 현재 최소 거리보다 가까우면
@@ -169,16 +173,29 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
         {
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
-
         }
-        else if ((closestTag.find(L"Monster") != wstring::npos))
+        else if ((closestTag.find(L"Monster") != wstring::npos)|| (closestTag.find(L"Layer_Cthulhu_Tentacle") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
         
             m_bMonster = true; 
         }
+        else if ((closestTag.find(L"Boss") != wstring::npos) || (closestTag == L"Layer_Cthulhu"))
+        {
+            CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
+
+            m_bMonster = true;
+        }
+        if ((closestTag.find(L"Boss_Bullet") != wstring::npos))
+        {
+            CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
+
+            m_bMonster = true;
+        }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
+
+  
 
     return S_OK;
 }
@@ -309,7 +326,34 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         _float3 vTileToCam = vecTemp.GetNormalized();
         float fOffset = (vWallNormal.Dot(vTileToCam) > 0.f) ? 0.01f : -0.01f;
         _float3 vEffectPos = vPlaneHit + vWallNormal * fOffset;
+        float offsetRangeX = 0.f, offsetRangeY = 0.f;
+        if (auto pSphere = dynamic_cast<CCollider_Sphere*>(pCollider))
+        {
+            // 구 콜라이더: 반지름을 사용 (전체 지름을 기준으로 랜덤하게)
+            float radius = pSphere->Get_Radius();
+            offsetRangeX = radius;
+            offsetRangeY = radius;
+        }
+        else if (auto pCube = dynamic_cast<CCollider_Cube*>(pCollider))
+        {
+            // 큐브 콜라이더: 각 축의 길이의 절반을 사용
+            offsetRangeX = pCube->Get_Desc().fAxisX.Length() * 0.5f;
+            offsetRangeY = pCube->Get_Desc().fAxisY.Length() * 0.5f;
+        }
+        else
+        {
+            // 기본값 (보정 필요 시 수정)
+            offsetRangeX = 0.55f;
+            offsetRangeY = 0.55f;
+        }
 
+        // 랜덤 오프셋을 -offsetRange ~ +offsetRange 범위 내에서 결정
+        _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeX * 2.0f);
+        _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeY * 2.0f);
+        // -------------------------------------------------------------------
+
+        // 히트 이펙트 위치에 적용
+        _float3 vFinalEffectPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
 
 #pragma region Effect 생성
         CEffect_Base::EFFECT_DESC effectDesc;
@@ -325,11 +369,8 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
         hitDesc.type = rand() % 2;
 
-
-        _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-        _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
-        effectDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
-        hitDesc.vPos = vEffectPos + _float3(offsetX, offsetY, 0.f);
+        effectDesc.vPos = vFinalEffectPos;
+        hitDesc.vPos = vFinalEffectPos;
 
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
@@ -337,7 +378,6 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
             LEVEL_STATIC,
             TEXT("Layer_Blood_Effect"),
             &hitDesc);
-
 #pragma endregion
     }
 }
@@ -393,6 +433,16 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
     float fOffset = (vSurfaceNormal.Dot(vHitToCamDir) > 0.f) ? 0.01f : -0.01f; // Z-fighting 방지 오프셋
     _float3 vBaseEffectPos = vWorldHitPos + vSurfaceNormal * fOffset; // 오프셋 적용된 기본 이펙트 위치
 
+  //auto pTexture =  dynamic_cast<CTexture*>(pOwner->Get_Component(L"Com_Texture")); 
+  //if (pTexture)
+  //{
+
+  //  D3DXCOLOR color;
+  //  pTexture->GetPixelColor(vWorldHitPos, pTargetTransform->Compute_Scaled(), &color); // 텍스처에서 픽셀 색상을 가져오는 가정된 함수
+
+  //  if (color.a <= 0.1f)
+  //      return; // 알파 값이 낮으면 이펙트 생성하지 않음
+  //}
 #pragma region Effect 생성 (최적화 적용)
 
     // 7. C++ <random> 라이브러리 사용 (rand() 대체)
@@ -447,4 +497,49 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
         &hitDesc);            // 이펙트 초기화 데이터
 
 #pragma endregion
+}
+
+void CRanged_Weapon::CreateBossHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage)
+{
+    if (!pClosestCollider) return;
+
+    CGameObject* pOwner = pClosestCollider->Get_Owner();
+    if (!pOwner) return;
+
+    if (auto pTarget = dynamic_cast<CCollisionObject*>(pOwner))
+        pTarget->Set_Hp(pTarget->Get_Hp() - static_cast<_int>(Damage));
+
+    CTransform* pTargetTransform = static_cast<CTransform*>(pOwner->Get_Component(L"Com_Transform"));
+    if (!pTargetTransform) return;
+
+    _float3 vSurfaceNormal = pTargetTransform->Get_State(CTransform::STATE_LOOK).GetNormalized();
+
+    // 정확히 맞은 위치에 피 이펙트 배치
+    _float3 vCamPos = dynamic_cast<CTransform*>(
+        m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera")->Get_Component(L"Com_Transform"))
+        ->Get_State(CTransform::STATE_POSITION);
+
+    _float3 vHitToCamDir = (vCamPos - vWorldHitPos);
+    if (vHitToCamDir.LengthSq() > 1e-6f)
+        vHitToCamDir.Normalize();
+    else
+        vHitToCamDir = vSurfaceNormal * -1.f;
+
+    float fOffset = (vSurfaceNormal.Dot(vHitToCamDir) > 0.f) ? 0.01f : -0.01f;
+    _float3 vEffectPos = vWorldHitPos + vSurfaceNormal * fOffset;
+
+    CHit_Effect::HIT_DESC hitDesc;
+    hitDesc.vRight = pTargetTransform->Get_State(CTransform::STATE_RIGHT);
+    hitDesc.vUp = pTargetTransform->Get_State(CTransform::STATE_UP);
+    hitDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
+    hitDesc.vScale = { 0.5f, 0.5f, 0.5f };
+    hitDesc.vPos = vEffectPos;
+    hitDesc.type = 0; // 단일 고정 피격 이미지
+
+    m_pGameInstance->Add_GameObject(
+        LEVEL_STATIC,
+        TEXT("Prototype_GameObject_Blood_Effect"),
+        LEVEL_STATIC,
+        TEXT("Layer_Blood_Effect"),
+        &hitDesc);
 }

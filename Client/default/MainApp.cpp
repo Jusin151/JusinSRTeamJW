@@ -306,6 +306,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		TEXT("Prototype_GameObject_MiniMap"),
 		CMiniMap::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Camera_Free"),
+		CCamera_Free::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	return S_OK;
 }
 

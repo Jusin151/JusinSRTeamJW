@@ -57,6 +57,7 @@ public:
     void Wall_Picking(CCollider* pCollider, _uint EffectNum);
     void Monster_Hit(CCollider* pCollider, _uint Damage);
     void CreateHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage);
+    void CreateBossHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage);
 public:
     CGameObject* Clone(void* pArg) override;
     void Free();

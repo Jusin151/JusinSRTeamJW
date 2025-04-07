@@ -17,6 +17,8 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
+#include "HellBoss.h"
+#include "HellBoss_Bullet.h"
 
 
 
@@ -77,6 +79,11 @@ HRESULT CLoader::Loading()
 	case LEVEL_HUB:
 		hr = Loading_For_Hub();
 		break;
+	case LEVEL_HONG:
+		hr = Loading_For_Hong();
+	case LEVEL_BOSS:
+ 		hr = Loading_For_Boss();
+		break;
 	}
  	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL); 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -115,7 +122,6 @@ HRESULT CLoader::Loading_For_Logo()
 HRESULT CLoader::Loading_For_GamePlay()
 {
 	
-
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
@@ -270,8 +276,8 @@ HRESULT CLoader::Loading_For_Hub()
 
 
 
-	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"); // 건물관련
-
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"))) // 건물관련
+		return E_FAIL;
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json"))) // 명훈이형꺼 관련
 		return E_FAIL;
@@ -284,6 +290,54 @@ HRESULT CLoader::Loading_For_Hub()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_For_Hong()
+{
+
+	//헬보스 객체 등록
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
+		CHellBoss::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//헬보스 텍스쳐
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/HellBoss_%d.png"), 337))))
+		return E_FAIL;
+
+	//헬보스 총알 등록
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
+		CHellBoss_Bullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	//헬보스 총알 텍스쳐 (눈)
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png"),7))))
+		return E_FAIL;
+
+	//헬보스 총알 텍스쳐 (손)
+ 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Hand_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/slow_orb000%d.png"),10))))
+		return E_FAIL;
+
+ 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Boss()
+{
+	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
+	CJsonLoader jsonLoader;
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json")))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	return S_OK;
+}
+
 HRESULT CLoader::Loading_For_Editor()
 {
 	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
@@ -291,6 +345,14 @@ HRESULT CLoader::Loading_For_Editor()
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Editor.json")))
 		return E_FAIL;
+
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes.json")))
+		return E_FAIL;
+
+	// JSON 로더를 사용하여 모든 프로토타입 로드
+	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
+		return E_FAIL;
+
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
@@ -408,10 +470,7 @@ HRESULT CLoader::Add_To_Logo_Textures()
 HRESULT CLoader::Add_To_GamePlay_Prototype()
 {
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
 		TEXT("Prototype_GameObject_Camera_FirstPerson"),

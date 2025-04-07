@@ -9,6 +9,7 @@ CStructureManager::CStructureManager()
 void CStructureManager::Add_Structure(CStructure* pStrucutre)
 {
 	if (!pStrucutre) return;
+
 	m_StructureList.push_back(pStrucutre);
 }
 

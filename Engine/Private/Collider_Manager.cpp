@@ -60,7 +60,7 @@ void CCollider_Manager::Update_Collison()
 
 	Update_Collision_Floor();
 
-	Clear();
+	//Clear();
 }
 
 void CCollider_Manager::Update_Collision_Structure()

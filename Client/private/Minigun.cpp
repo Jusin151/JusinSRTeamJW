@@ -3,6 +3,7 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
+#include <Camera_FirstPerson.h>
 
 CMinigun::CMinigun(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CRanged_Weapon(pGraphic_Device)
@@ -52,7 +53,7 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
     //m_Weapon_INFO.vPos = {};
     //m_Weapon_INFO.vSize = {};
-    m_Weapon_INFO.Damage = 5;
+    m_Weapon_INFO.Damage = 10;
     m_Weapon_INFO.AttackSpeed = 1.2f;
    
     Ranged_INFO.CurrentAmmo = 170; //현총알
@@ -81,7 +82,11 @@ void CMinigun::Priority_Update(_float fTimeDelta)
 void CMinigun::Update(_float fTimeDelta)
 {
     if (GetAsyncKeyState('R') & 0x8000)
+    {
         Ranged_INFO.CurrentAmmo += 100;
+        Notify_Bullet(); 
+
+    }
     __super::Update(fTimeDelta);
   
 }
@@ -156,6 +161,12 @@ void CMinigun::Late_Update(_float fTimeDelta)
                     Ranged_INFO.CurrentAmmo--;
                     Notify_Bullet();
                     m_bHasFired = true;
+
+                    CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+                    if (pCamera)
+                    {
+                        pCamera->ApplyRecoil(0.01f);
+                    }
                 }
             }
 

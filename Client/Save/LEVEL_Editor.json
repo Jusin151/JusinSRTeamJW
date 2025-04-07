@@ -1,19 +1,5 @@
 {
   "layers": {
-    "Layer_Camera": [
-      {
-        "IsActive": true,
-        "FromPool": false,
-        "LayerTag": "Layer_Camera",
-        "OBJECT_DESC": {
-          "ProtTag": "Prototype_GameObject_Camera_Free",
-          "ProtTextureTag": "",
-          "BufferTag": "",
-          "Level": 4,
-          "ProtoLevel": 4
-        }
-      }
-    ],
     "Layer_Player": [
       {
         "IsActive": true,

@@ -38,7 +38,12 @@ public:
 
 	 HRESULT Ready_Components();
 
-
+	 virtual void Reset() override
+	 {
+		 m_eState = State::Idle;
+		 m_iCurrentFrame = 0;
+		 m_fElapsedTime = 0.0f;
+	 }
 
 private:
 	State m_eState = State::Idle;

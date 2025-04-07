@@ -20,6 +20,7 @@
 #include "GlacierBullet.h"
 #include "Door.h"
 #include "Effects.h"
+#include "Cthulhu.h"
 
 
 
@@ -60,7 +61,7 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 			if (FAILED(pGameInstance->Add_Prototype(level, tag,
 				pTexture)))
 			{
-				Safe_Release(pTexture);
+ 				Safe_Release(pTexture);
 				continue;
 			}
 		}
@@ -386,6 +387,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 	return CHarpoon::Create(pGraphic_Device);
 	else if (className == "CGlacierBullet")
 		return CGlacierBullet::Create(pGraphic_Device);
+	else if(className =="CCthulhu")
+		return CCthulhu::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")

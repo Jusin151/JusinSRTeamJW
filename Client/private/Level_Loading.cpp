@@ -6,6 +6,8 @@
 #include "Level_Editor.h"
 #include "Level_Hub.h"
 #include "Level_Test.h"
+#include "Level_Hong.h"
+#include "Level_Boss.h"
 #include "Loader.h"
 #include "StructureManager.h"
 #include "GameInstance.h"
@@ -45,7 +47,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		if (true == m_pLoader->isFinished())
 		{
 			CLevel* pLevel = { nullptr };
-
+			CStructureManager::Get_Instance()->Clear();
 			switch (m_eNextLevelID)
 			{
 			case LEVEL_LOGO:
@@ -63,6 +65,12 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			case LEVEL_HUB:
 				pLevel = CLevel_Hub::Create(m_pGraphic_Device);
 				break;
+			case LEVEL_HONG:
+				pLevel = CLevel_Hong::Create(m_pGraphic_Device);
+				break;
+			case LEVEL_BOSS:
+				pLevel = CLevel_Boss::Create(m_pGraphic_Device);
+				break;
 			}
 
 			if (nullptr == pLevel)
@@ -70,14 +78,14 @@ void CLevel_Loading::Update(_float fTimeDelta)
 
 			//if (FAILED(m_pGameInstance->Change_Level(m_eNextLevelID, pLevel)))
 			//	return;
-
+		
 			if (FAILED(m_pGameInstance->Process_LevelChange(m_eNextLevelID, pLevel)))
 			{
 				return;
 			}
 
 			CUI_Manager::GetInstance()->Clear();
-			CStructureManager::Get_Instance()->Clear();
+
 		}
 	}	
 }

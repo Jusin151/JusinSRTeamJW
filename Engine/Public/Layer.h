@@ -34,6 +34,10 @@ private:
 public:
 	static CLayer* Create(_uint iPrototypeLevelIndex);
 	virtual void Free();
+
+	const list<CGameObject*>& Get_GameObjects() const { return m_GameObjects; }
+
+
 };
 
 END

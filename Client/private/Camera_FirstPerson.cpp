@@ -62,9 +62,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 				{
 					return E_FAIL;
 				}
-
 			}
-			
 		}
 	}
 		
@@ -87,7 +85,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	vPos.y += 0.2f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
-
+	UpdateRecoil(fTimeDelta);
 	
 	Shaking(fTimeDelta);
 
@@ -172,8 +170,57 @@ HRESULT CCamera_FirstPerson::Render()
     return S_OK;
 }
 
+void CCamera_FirstPerson::UpdateRecoil(_float fTimeDelta)
+{
+	if (m_fRecoil > 0.f)
+	{
+		m_fYaw += m_fRecoil;
+		m_fPitch -= m_fRecoil;
+
+		m_fRecoil -= fTimeDelta * m_fRecoilDecay;
+		if (m_fRecoil < 0.f)
+			m_fRecoil = 0.f;
+	}
+}
+
+void CCamera_FirstPerson::TriggerShake(_float shakeAmount, _float duration)
+{
+	m_fShakeAmount = shakeAmount;
+	m_fShakeDuration = duration;
+	m_fShakeTime = 0.f; // 초기화하여 새 효과 적용
+	m_bTriggerShake = true; // 트리거 활성화
+	m_vOriginalCameraPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION); // 원래 카메라 위치 저장
+	m_vOriginalCameraPosition.y += 0.5f; // 카메라 위치 조정
+}
+
+
 void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 {
+	if (m_bTriggerShake && m_fShakeDuration > 0.f)
+	{
+		m_fShakeTime += fTimeDelta;
+		// 쉐이크 시간이 지속 시간을 초과하면 효과 종료
+		if (m_fShakeTime >= m_fShakeDuration)
+		{
+			m_fShakeDuration = 0.f;
+			m_fShakeAmount = 0.f;
+			m_fShakeTime = 0.f;
+			m_bTriggerShake = false; // 트리거 비활성화
+			// 효과 종료 시 원래 위치로 복귀
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition);
+			return;
+		}
+
+		// 매 프레임마다 랜덤 오프셋 생성 (범위: [-1,1] * 쉐이크 강도)
+		float randomX = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+		float randomY = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+		_float3 randomOffset = { randomX * m_fShakeAmount, randomY * m_fShakeAmount, 0.f };
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition + randomOffset);
+	}
+	else
+	{
+
 	m_fShakeTime += fTimeDelta * 10.f;
 
 	float shakeAmount = 0.42f; // 흔들림 강도
@@ -227,6 +274,7 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 	//     // 여기에 원래 위치(흔들림 없는)로 돌아가는 Lerp 로직 추가 필요
 	// }
 
+	}
 }
 
 HRESULT CCamera_FirstPerson::Ready_Components()

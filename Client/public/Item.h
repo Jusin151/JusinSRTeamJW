@@ -24,6 +24,7 @@ public:
 		EXP,
 		STAT,
 		KEY,
+		WEAPON,
 		MAX
 	};
 

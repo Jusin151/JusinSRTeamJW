@@ -163,7 +163,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
-   SetWindowPos(hWnd, NULL, 300, 250, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+  SetWindowPos(hWnd, NULL, 300, 250, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+   //SetWindowPos(hWnd, NULL, -200, 1000, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
    g_hWnd = hWnd;
 
    ShowWindow(hWnd, nCmdShow);
@@ -210,21 +211,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-
-    //case WM_SYSCOMMAND:
-    //{
-    //    if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
-    //        return 0;
-    //    break;
-    //}
-	/*case WM_KEYDOWN:
-	{
-        if (VK_ESCAPE == wParam)
-        {
-            PostQuitMessage(0);
-        }
-        break;
-	}*/
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

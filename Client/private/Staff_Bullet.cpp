@@ -137,6 +137,7 @@ void CStaff_Bullet::Reset()
 	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 	m_vDir = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
 
+
 }
 
 HRESULT CStaff_Bullet::SetUp_RenderState()

@@ -31,6 +31,15 @@ public:
 	_float Get_Yaw() const { return m_fYaw; }
 	void Set_Yaw(_float fYaw) { m_fYaw = fYaw; }
 
+	void ApplyRecoil(float fAmount)
+	{
+		m_fRecoil += fAmount;  // 반동에 누적
+	}
+
+	void UpdateRecoil(_float fTimeDelta);
+
+	void TriggerShake(_float shakeAmount, _float duration);
+
 private:
 	void Shaking(_float fTimeDelta);
 
@@ -39,6 +48,11 @@ private:
 	_float				m_fMouseSensor = {};
 	// 플레이어 위치와 동기화하기 위해..
 	CGameObject*		m_pPlayer = { nullptr };
+
+private:
+	_float m_fRecoil = 0.f;       // 반동 강도
+	_float m_fRecoilDecay = 10.f;  // 반동 감쇠 속도
+
 private:
 	HRESULT Ready_Components();
 private:
@@ -54,6 +68,10 @@ private:
 	_bool				m_tmpState = { false };
 	_float3				m_vScale = {};
 
+	_float m_fShakeAmount = 0.f;    // 쉐이크 강도 
+	_float m_fShakeDuration = 0.f;    // 쉐이크 지속 시간
+	_bool m_bTriggerShake = false; // 쉐이크 트리거 상태
+	_float3 m_vOriginalCameraPosition; // 원래 카메라 위치
 public:
 	static CCamera_FirstPerson* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

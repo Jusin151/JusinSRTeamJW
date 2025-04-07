@@ -16,7 +16,8 @@ public:
 	void Add_Structure(CStructure* pStrucutre);
 	void Add_Door(CDoor* pDoor);
 
-	const auto& Get_Structures() const { return m_StructureList; }
+	const auto& Get_Structures() const { 
+		return m_StructureList; }
 	const auto& Get_Doors() const { return m_DoorList; }
 	void Clear();
 
