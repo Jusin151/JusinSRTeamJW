@@ -39,11 +39,13 @@ private:
 public:
 	void Set_MP(_int type)
 	{
-			m_iMp -= type;
-			if (m_iMp < 0 || m_iMp > 100)
-				m_iMp = 0; 
-
+			m_iMp = type;
 			Update_Mp_Bar();
+	}
+	void Set_MPMax(_int type)
+	{
+		m_iMaxMP = type;
+		Update_Mp_Bar();
 	}
 public:
 	static CUI_MP_Bar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -51,13 +53,16 @@ public:
 	virtual void Free();
 
 private:
-	_uint m_iMp{};  
+	_uint m_iMp{}; 
+	_uint m_iMaxMP={50};
 
 	virtual void OnNotify(void* pArg, const wstring& type) override
 	{
 		{
 			if (type == L"MP")
 				Set_MP(*reinterpret_cast<_uint*>(pArg));
+			if (type == L"MP_Max")
+				Set_MPMax(*reinterpret_cast<_uint*>(pArg));
 		}
 	}
 };

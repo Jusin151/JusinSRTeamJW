@@ -56,7 +56,7 @@ public:
         if (it == m_MapItem.end() || it->second == nullptr)
             return;
 
-      
+
         if (auto pRanged = dynamic_cast<CRanged_Weapon*>(it->second))
         {
             pRanged->Ranged_INFO.MaxAmmo += capacity; 

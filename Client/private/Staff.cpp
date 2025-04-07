@@ -3,7 +3,7 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
-
+#include "Player.h"
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
 {
@@ -69,9 +69,6 @@ HRESULT CStaff::Initialize(void* pArg)
 }
 
 
-void CStaff::Attack_WeaponSpecific(_float fTimeDelta)
-{
-}
 
 void CStaff::Priority_Update(_float fTimeDelta)
 {
@@ -89,99 +86,140 @@ void CStaff::Priority_Update(_float fTimeDelta)
 
 void CStaff::Update(_float fTimeDelta)
 {
-   
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		t += speed;  
-	}
-	else if (GetAsyncKeyState('A') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('D') & 0x8000)
-	{
-		t += speed;
-	}
-	else if (GetAsyncKeyState('S') & 0x8000)
-	{
-		t += speed;
-	}
+    if (GetAsyncKeyState('W') & 0x8000 ||
+        GetAsyncKeyState('A') & 0x8000 ||
+        GetAsyncKeyState('S') & 0x8000 ||
+        GetAsyncKeyState('D') & 0x8000)
+    {
+        t += speed;
+    }
 
-	float v = 20.0f;  // 폭을 설정 하는변수
-	_float3 vNewPos;
-	vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
+    float v = 20.0f;
+    _float3 vNewPos;
+    vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
+    vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 
-	Attack(fTimeDelta);
 
-	return;
 }
+
 void CStaff::Attack(_float fTimeDelta)
 {
-    if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+    if (m_bFireLock)
+        return;
+
+        m_bAttackInput = true;
+
+    __super::Attack(fTimeDelta);
+}
+
+void CStaff::Attack_WeaponSpecific(_float fTimeDelta)
+{
+
+}
+
+void CStaff::Late_Update(_float fTimeDelta)
+{
+    __super::Late_Update(fTimeDelta);
+
+    // 마나가 충전되었는지 확인하고 FireLock 해제
+    if (m_bFireLock)
     {
-        if (m_eState == State::Idle || m_eState == State::Firing)
-        {
-            m_eState = State::Charging;
-            m_iCurrentFrame = m_TextureRanges["Charging"].first;
-            m_fElapsedTime = 0.0f;
-            m_bHasFired = false; 
-        }
+        CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+        if (pPlayer && pPlayer->TryUseMana(0)) // 마나가 1 이상이면
+            m_bFireLock = false;
     }
-    else
-    {
-        if (m_eState == State::Charging || m_eState == State::Charged)
-        {
-            m_eState = State::Firing;
-            m_iCurrentFrame = m_TextureRanges["Attack"].first;
-            m_fElapsedTime = 0.0f;
-        }
-    }
+
 
     m_fElapsedTime += fTimeDelta;
 
     switch (m_eState)
     {
-    case State::Charging: 
-        if (m_fElapsedTime >= 0.02f)
+    case State::Idle:
+        if (m_bAttackInput)
         {
+            m_eState = State::Charging;
+            m_iCurrentFrame = m_TextureRanges["Charging"].first;
             m_fElapsedTime = 0.0f;
-            if (m_iCurrentFrame < m_TextureRanges["Charging"].second)
+            m_bHasFired = false;
+        }
+        else
+        {
+            m_iCurrentFrame = m_TextureRanges["Idle"].first;
+        }
+        break;
+
+    case State::Charging:
+        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+        {
+            if (m_fElapsedTime >= 0.02f)
             {
-                m_iCurrentFrame++;
+                m_fElapsedTime = 0.0f;
+                if (m_iCurrentFrame < m_TextureRanges["Charging"].second)
+                    ++m_iCurrentFrame;
+                else
+                {
+                    m_eState = State::Charged;
+                    m_iCurrentFrame = m_TextureRanges["Loop"].first;
+                }
             }
-            else
-            {
-                m_eState = State::Charged;
-                m_iCurrentFrame = m_TextureRanges["Loop"].first;
-            }
+        }
+        else
+        {
+            m_eState = State::Firing;
+            m_iCurrentFrame = m_TextureRanges["Attack"].first;
+            m_fElapsedTime = 0.0f;
         }
         break;
 
     case State::Charged:
-        if (m_fElapsedTime >= 0.02f)
+        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
         {
+            if (m_fElapsedTime >= 0.02f)
+            {
+                m_fElapsedTime = 0.0f;
+                m_iCurrentFrame = (m_iCurrentFrame + 1) % (m_TextureRanges["Loop"].second - m_TextureRanges["Loop"].first + 1) + m_TextureRanges["Loop"].first;
+            }
+        }
+        else
+        {
+            m_eState = State::Firing;
+            m_iCurrentFrame = m_TextureRanges["Attack"].first;
             m_fElapsedTime = 0.0f;
-            m_iCurrentFrame = (m_iCurrentFrame + 1) % (m_TextureRanges["Loop"].second - m_TextureRanges["Loop"].first + 1) + m_TextureRanges["Loop"].first;
         }
         break;
 
-    case State::Firing: //발사
+    case State::Firing:
         if (m_fElapsedTime >= 0.02f)
         {
             m_fElapsedTime = 0.0f;
             if (m_iCurrentFrame < m_TextureRanges["Attack"].second)
             {
-                m_iCurrentFrame++;
-                if (!m_bHasFired) // 발사 상태가 false일 때만 발사
+                ++m_iCurrentFrame;
+
+                if (!m_bHasFired)
                 {
-                    if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_STATIC,
-                        LEVEL_STATIC, TEXT("Layer_Staff_Bullet")))
+                    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+                    if (!pPlayer || !pPlayer->TryUseMana(10))  
+                    {
+                        m_bFireLock = true;
+                        if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+                        {
+                            pUI_Event->ShowEventText(0, L"Mp_End");
+                        }
                         return;
+                    }
+
+                    if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_STATIC, LEVEL_STATIC, TEXT("Layer_Staff_Bullet")))
+                    {
+                        MSG_BOX("스태프총알 생성안됨");
+                    }
+
                     m_bHasFired = true;
                 }
+
+
             }
             else
             {
@@ -190,21 +228,11 @@ void CStaff::Attack(_float fTimeDelta)
             }
         }
         break;
-
-    case State::Idle: // 입력 없을때 0 
-        m_iCurrentFrame = m_TextureRanges["Idle"].first;
-        break;
     }
+
+    m_bAttackInput = false;
 }
 
-
-
-void CStaff::Late_Update(_float fTimeDelta)
-{
-    __super::Late_Update(fTimeDelta);
-
-
-}
 
 HRESULT CStaff::Render()
 {

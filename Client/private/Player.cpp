@@ -371,13 +371,19 @@ void CPlayer::Set_Hp(_int iHp)
 	{
 		// 체력이 달면
 		m_iHp = max(0, iHp);
+		Notify(m_iHp, L"HP");
 	}
 	else
 	{
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(iHp, L"Hp");
+		}
+
 		// 체력 늘면
-		m_iHp = min(iHp, (_int)m_iPlayerHP.second);
+		m_iHp += iHp;
 	}
-	Notify(m_iHp, L"HP");
+	
 }
 
 void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)

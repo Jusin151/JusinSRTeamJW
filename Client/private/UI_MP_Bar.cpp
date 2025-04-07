@@ -40,6 +40,7 @@ HRESULT CUI_MP_Bar::Initialize(void* pArg)
 
 
 	m_iMp = 50;
+	m_iMaxMP = 50;
 	m_pTransformCom->Set_Scale(m_MP_INFO.vSize.x, m_MP_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_MP_INFO.vPos.x, m_MP_INFO.vPos.y, 0.f));
@@ -62,23 +63,26 @@ void CUI_MP_Bar::Late_Update(_float fTimeDelta)
 }
 void CUI_MP_Bar::Update_Mp_Bar()
 {
-	_float fHP_Ratio = m_iMp / 50.f;
+	_float fMP_Ratio = static_cast<_float>(m_iMp) / static_cast<_float>(m_iMaxMP);
 
-	if (fHP_Ratio < 0.f)
-		fHP_Ratio = 0.f;
-	if (fHP_Ratio > 1.f)
-		fHP_Ratio = 1.f;
+
+	m_iMaxMP;
+
+	if (fMP_Ratio < 0.f)
+		fMP_Ratio = 0.f;
+	if (fMP_Ratio > 1.f)
+		fMP_Ratio = 1.f;
 
 
 	VTXNORTEX* pVertices = nullptr;
 	m_pVIBufferCom->Get_VertexBuffer()->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
 	//  (오른쪽부터 점점 안 보이게)
-	pVertices[1].vTexcoord.x = fHP_Ratio; // 우측 상단
-	pVertices[2].vTexcoord.x = fHP_Ratio; // 우측 하단
+	pVertices[1].vTexcoord.x = fMP_Ratio; // 우측 상단
+	pVertices[2].vTexcoord.x = fMP_Ratio; // 우측 하단
 
 	//  정점 위치  (오른쪽부터 점점 줄어들게) 
-	float fNewWidth = m_MP_INFO.vSize.x * fHP_Ratio;
+	float fNewWidth = m_MP_INFO.vSize.x * fMP_Ratio;
 	pVertices[1].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
 	pVertices[2].vPosition.x = -0.5f + fNewWidth / m_MP_INFO.vSize.x;
 
