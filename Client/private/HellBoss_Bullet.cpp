@@ -60,6 +60,14 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_iFrameCount = 10;
 		m_iMaxFrame = 10;
 	}
+	else if (pDesc.wBulletType == L"0_Phase2_Shoot")
+	{
+		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet";
+		m_fFrameDuration = 0.03f;
+		m_iFrameCount = 3;
+		m_iMaxFrame = 3;
+	}
+
 
 	m_vAxis = pDesc.vAxis; 
 
@@ -123,6 +131,11 @@ void CHellBoss_Bullet::Reset()
 		{
 			offsetPos += m_fHellBoss_Up * 2.7f;
 		}
+		else if (m_wBulletType == L"0_Phase2_Shoot")
+		{
+			offsetPos += m_fHellBoss_Up * 5.5f;
+			offsetPos += m_fHellBoss_RIght * -0.14f; 
+		}
 
 		else if (m_wBulletType == L"Power_Blast")
 		{
@@ -161,6 +174,11 @@ void CHellBoss_Bullet::Reset()
 			m_fBullet_Scale = { 3.f, 3.f, 3.f };
 			m_fSpeed = 1.5f;
 		}
+		else if (m_wBulletType == L"0_Phase2_Shoot")
+		{
+			m_fBullet_Scale = { 3.f, 3.f, 3.f };
+			m_fSpeed = 1.5f;
+		}
 		else if (m_wBulletType == L"Power_Blast")
 		{
 			m_fBullet_Scale = { 2.f, 2.f, 2.f };
@@ -180,6 +198,20 @@ void CHellBoss_Bullet::Reset()
 	m_pTransformCom->Set_Scale(m_fBullet_Scale.x, m_fBullet_Scale.y, m_fBullet_Scale.z);
 
 	m_bPlayedOnce = false; // 애니메이션 1회 재생
+
+	if (m_wBulletType == L"0_Phase2_Shoot")
+{
+    _float3 right = m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 지금 이걸로 좌우 반전 
+    m_pTransformCom->Rotation_Axis(right, D3DXToRadian(180.f));
+
+	_float3 Look = m_pTransformCom->Get_State(CTransform::STATE_LOOK); // 여기에서 시계방향으로 90도 회전
+	m_pTransformCom->Rotation_Axis(Look, D3DXToRadian(90.f));
+
+	_float3 Up = m_pTransformCom->Get_State(CTransform::STATE_UP); // 여기에서 시계방향으로 90도 회전
+	m_pTransformCom->Rotation_Axis(Up, D3DXToRadian(70.f));
+}
+
+
 }
 
 void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
@@ -211,8 +243,6 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 
 void CHellBoss_Bullet::Update(_float fTimeDelta)
 {
-
-
 
 	if (pDesc.wBulletType == L"Power_Blast")
 	{
