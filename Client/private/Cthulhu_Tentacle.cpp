@@ -203,8 +203,8 @@ HRESULT CCthulhu_Tentacle::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 10.f, 8.5f, 3.f };
-	ColliderDesc.fLocalPos = { 0.f, -0.3f, 0.f };
+	ColliderDesc.fScale = { 1.f, 1.f, 3.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))

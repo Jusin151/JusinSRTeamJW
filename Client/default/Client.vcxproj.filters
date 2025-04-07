@@ -840,6 +840,9 @@
     <ClInclude Include="..\public\Prefabs.h">
       <Filter>02.GameObjects\Prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Cthulhu_Big_Tentacle.h">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1207,6 +1210,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Goblet.cpp">
       <Filter>02.GameObjects\Prefabs\Goblet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
