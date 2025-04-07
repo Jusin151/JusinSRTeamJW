@@ -389,6 +389,42 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
       "tag": "Prototype_Component_Texture_Door_Red"
+    },
+    {
+      "count": 1,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Objects\\Hub_Light\\TEXTURE_HUB_light_1.png",
+      "tag": "Prototype_Component_Texture_Hub_Light"
+    },
+    {
+      "count": 2,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Objects\\Candles\\candles000%d.png",
+      "tag": "Prototype_Component_Texture_Candles"
+    },
+    {
+      "count": 8,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Objects\\Torch\\texture_misc_Torch_000%d.png",
+      "tag": "Prototype_Component_Texture_Torch"
+    },
+    {
+      "count": 5,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Objects\\Long_Torch\\longtorch000%d.png",
+      "tag": "Prototype_Component_Texture_Long_Torch"
+    },
+    {
+      "count": 3,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Objects\\Lamp\\castle_lamp000%d.png",
+      "tag": "Prototype_Component_Texture_Lamp"
+    },
+    {
+      "count": 8,
+      "level": 3,
+      "path": "../../Resources\\Textures\\Objects\\Goblet\\egypt_goblet_small000%d.png",
+      "tag": "Prototype_Component_Texture_Goblet"
     }
   ],
   "gameObjects": [
@@ -722,6 +758,31 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Red"
+    },
+    {
+      "class": "CCandles",
+      "level": 3,
+      "tag": "Prototype_GameObject_Light_Candles"
+    },
+    {
+      "class": "CHub_Light",
+      "level": 3,
+      "tag": "Prototype_GameObject_Light_Hub_Light"
+    },
+    {
+      "class": "CLong_Torch",
+      "level": 3,
+      "tag": "Prototype_GameObject_Light_Long_Torch"
+    },
+    {
+      "class": "CGoblet",
+      "level": 3,
+      "tag": "Prototype_GameObject_Light_Goblet"
+    },
+    {
+      "class": "CTorch",
+      "level": 3,
+      "tag": "Prototype_GameObject_Light_Torch"
     }
   ],
   "buffers": [

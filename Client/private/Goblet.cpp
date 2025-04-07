@@ -1,22 +1,22 @@
 #include "GameInstance.h"
-#include "Hub_Lamp.h"
+#include "Goblet.h"
 
-CHub_Lamp::CHub_Lamp(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGoblet::CGoblet(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CGameObject{ pGraphic_Device }
 {
 }
 
-CHub_Lamp::CHub_Lamp(const CHub_Lamp& Prototype)
+CGoblet::CGoblet(const CGoblet& Prototype)
     : CGameObject{ Prototype }
 {
 }
 
-HRESULT CHub_Lamp::Initialize_Prototype()
+HRESULT CGoblet::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CHub_Lamp::Initialize(void* pArg)
+HRESULT CGoblet::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -26,7 +26,7 @@ HRESULT CHub_Lamp::Initialize(void* pArg)
     return S_OK;
 }
 
-HRESULT CHub_Lamp::Ready_Components()
+HRESULT CGoblet::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -66,61 +66,61 @@ HRESULT CHub_Lamp::Ready_Components()
 }
 
 
-void CHub_Lamp::Priority_Update(_float fTimeDelta)
+void CGoblet::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CHub_Lamp::Update(_float fTimeDelta)
+void CGoblet::Update(_float fTimeDelta)
 {
 }
 
-void CHub_Lamp::Late_Update(_float fTimeDelta)
+void CGoblet::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CHub_Lamp::Pre_Render()
+HRESULT CGoblet::Pre_Render()
 {
     return S_OK;
 }
 
-HRESULT CHub_Lamp::Render()
+HRESULT CGoblet::Render()
 {
     return S_OK;
 }
 
-HRESULT CHub_Lamp::Post_Render()
+HRESULT CGoblet::Post_Render()
 {
     return S_OK;
 }
 
 
-CHub_Lamp* CHub_Lamp::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGoblet* CGoblet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CHub_Lamp* pInstance = new CHub_Lamp(pGraphic_Device);
+    CGoblet* pInstance = new CGoblet(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Cloned : CHub_Lamp");
+        MSG_BOX("Failed to Cloned : CGoblet");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CHub_Lamp* CHub_Lamp::Clone(void* pArg)
+CGoblet* CGoblet::Clone(void* pArg)
 {
-    CHub_Lamp* pInstance = new CHub_Lamp(*this);
+    CGoblet* pInstance = new CGoblet(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CHub_Lamp");
+        MSG_BOX("Failed to Cloned : CGoblet");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CHub_Lamp::Free()
+void CGoblet::Free()
 {
     __super::Free();
     Safe_Release(m_pLightCom);
@@ -131,12 +131,12 @@ void CHub_Lamp::Free()
     Safe_Release(m_pTransformCom);
 }
 
-json CHub_Lamp::Serialize()
+json CGoblet::Serialize()
 {
     return json();
 }
 
-void CHub_Lamp::Deserialize(const json& j)
+void CGoblet::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }

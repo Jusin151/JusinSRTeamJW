@@ -424,6 +424,12 @@
     <Filter Include="02.GameObjects\DW_Boss\03.HellBoss_Bullet">
       <UniqueIdentifier>{87f6994b-a83a-4922-932c-d9c5dbaf87c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Lamp">
+      <UniqueIdentifier>{57857015-cab8-4693-ad22-3510ed76c19e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Goblet">
+      <UniqueIdentifier>{eade0a33-f95d-4e75-9879-689378e891f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -819,11 +825,17 @@
     <ClInclude Include="..\public\Long_Torch.h">
       <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Hub_Lamp.h">
+    <ClInclude Include="..\public\Hub_Light.h">
       <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Candles.h">
       <Filter>02.GameObjects\Prefabs\Candles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Lamp.h">
+      <Filter>02.GameObjects\Prefabs\Lamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Goblet.h">
+      <Filter>02.GameObjects\Prefabs\Goblet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1181,11 +1193,17 @@
     <ClCompile Include="..\private\Long_Torch.cpp">
       <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Hub_Lamp.cpp">
+    <ClCompile Include="..\private\Hub_Light.cpp">
       <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Candles.cpp">
       <Filter>02.GameObjects\Prefabs\Candles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Lamp.cpp">
+      <Filter>02.GameObjects\Prefabs\Lamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Goblet.cpp">
+      <Filter>02.GameObjects\Prefabs\Goblet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

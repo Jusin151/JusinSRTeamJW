@@ -12,12 +12,12 @@ class CVIBuffer_Rect;
 END
 
 BEGIN(Client)
-class CHub_Lamp final : public CGameObject
+class CHub_Light final : public CGameObject
 {
 private:
-	CHub_Lamp(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CHub_Lamp(const CHub_Lamp& Prototype);
-	virtual ~CHub_Lamp() = default;
+	CHub_Light(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CHub_Light(const CHub_Light& Prototype);
+	virtual ~CHub_Light() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -44,8 +44,8 @@ private:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
 public:
-	static CHub_Lamp* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CHub_Lamp* Clone(void* pArg) override;
+	static CHub_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CHub_Light* Clone(void* pArg) override;
 	virtual void Free() override;
 public:
 	virtual json Serialize() override;
