@@ -4,6 +4,8 @@
 #include "VIBuffer_Sphere.h"
 #include "VIBuffer_Cube.h"
 #include "VIBuffer_Rect.h"
+#include "Sound_Source.h"
+#include "Sound_Listener.h"
 #include "Particle_System.h"
 #include "Transform.h"
 #include "Material.h"

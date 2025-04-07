@@ -33,14 +33,14 @@ void CSound_Source::Update(_float fTimeDelta)
     auto iter = m_Events2D.begin();
     while (iter != m_Events2D.end())
     {
-        iter->IsValid() ? iter = m_Events2D.erase(iter) : iter;
+        (*iter)->IsValid() ? iter = m_Events2D.erase(iter) : iter;
     }
 
     // 유효하지 않는 3D event 삭제
     iter = m_Events3D.begin();
     while (iter != m_Events3D.end())
     {
-        iter->IsValid() ? iter = m_Events3D.erase(iter) : iter;
+        (*iter)->IsValid() ? iter = m_Events3D.erase(iter) : iter;
     }
 }
 
@@ -48,10 +48,10 @@ void CSound_Source::Late_Update(_float fTimeDelta)
 {
 }
 
-CSound_Event CSound_Source::Play_Event(_wstring strEvent)
+CSound_Event* CSound_Source::Play_Event(_wstring strEvent)
 {
-    CSound_Event e = m_pSound_Manager->Play_Event(strEvent);
-    if (e.Is3D())
+    CSound_Event* e = m_pSound_Manager->Play_Event(strEvent);
+    if (e->Is3D())
     {
         m_Events3D.emplace_back(e);
         //e.Set3DAttributes();
@@ -67,11 +67,11 @@ void CSound_Source::Stop_All_Event()
 {
     for (auto& e : m_Events2D)
     {
-        e.Stop();
+        e->Stop();
     }
     for (auto& e : m_Events3D)
     {
-        e.Stop();
+        e->Stop();
     }
 
     // 모든 이벤트를 컨테이너에서 삭제한다.
@@ -108,5 +108,13 @@ CSound_Source* CSound_Source::Clone(void* pArg)
 void CSound_Source::Free()
 {
     __super::Free();
+    for (auto& iter : m_Events2D)
+    {
+        Safe_Release(iter);
+    }
+    for (auto& iter : m_Events3D)
+    {
+        Safe_Release(iter);
+    }
     Safe_Release(m_pSound_Manager);
 }

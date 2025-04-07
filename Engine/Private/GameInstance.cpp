@@ -133,7 +133,6 @@ HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 	if (m_eLevelState == LEVEL_STATE::CHANGING)
 		return E_FAIL; // 이미 레벨 변경 중인 경우 방지
-	m_pSound_Manager->Stop_All_Event();
 	return hr;
 }
 _uint CGameInstance::Get_CurrentLevel() const
@@ -267,7 +266,7 @@ void CGameInstance::Stop_All_Event()
 	m_pSound_Manager->Stop_All_Event();
 }
 
-CSound_Event CGameInstance::Play_Event(const _wstring& strEventName, void* pArg)
+CSound_Event* CGameInstance::Play_Event(const _wstring& strEventName, void* pArg)
 {
 	return m_pSound_Manager->Play_Event(strEventName, pArg);
 }

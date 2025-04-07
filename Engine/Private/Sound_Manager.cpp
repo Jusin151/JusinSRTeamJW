@@ -231,7 +231,7 @@ void CSound_Manager::Late_Update(_float fTimeDelta)
 		return;
 }
 
-CSound_Event CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg)
+CSound_Event* CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg)
 {
     unsigned int retID = 0;
     // 이벤트가 존재하는지 확인
@@ -255,7 +255,8 @@ CSound_Event CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg
             event->release();
         }
     }
-    return CSound_Event(this, retID);
+    CSound_Event* e = new CSound_Event(this, retID);
+    return e;
 }
 
 Studio::EventInstance* CSound_Manager::Get_EventInstance(_uint iID)
