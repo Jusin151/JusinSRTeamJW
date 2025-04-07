@@ -31,12 +31,8 @@ public: //상점관련
     virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) override;
     virtual void Refresh_Shop_Items() override;
     virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
-    void Buy_Stat(int index)
-    {
-        // 포인트 차감 등 처리
+    void  Buy_Stat(_int index);
 
-        Notify(&index, L"StatBuy"); // UI에 전달
-    }
 
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
@@ -61,8 +57,9 @@ public:
     }
     virtual void Notify(void* pArg, const wstring& type)
     {
+   
         for (auto& obs : m_pObservers)
-            obs->OnNotify(&pArg, type);
+            obs->OnNotify(pArg, type);
     }
 
 

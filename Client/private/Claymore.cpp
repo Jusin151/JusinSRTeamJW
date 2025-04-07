@@ -63,7 +63,6 @@ HRESULT CClaymore::Initialize(void* pArg)
 
 
 	m_eType = CG_WEAPON;
-	m_iAp = 15;
 
 	return S_OK;
 }
@@ -74,6 +73,7 @@ HRESULT CClaymore::Initialize(void* pArg)
 
 void CClaymore::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CClaymore::Update(_float fTimeDelta)
@@ -97,7 +97,13 @@ void CClaymore::Late_Update(_float fTimeDelta)
 HRESULT CClaymore::Render()
 {
 	
-	return __super::Render();
+	__super::Render();
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("클레이모어 공격력:") + to_wstring(m_iAp),
+		_float2(350.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	return S_OK;
+
 }
 
 HRESULT CClaymore::On_Collision(CCollisionObject* other)

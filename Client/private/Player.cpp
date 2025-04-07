@@ -57,8 +57,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 0.7f;
-
+	m_fSpeed = 0.5f;
+	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 
 	return S_OK;
@@ -199,19 +199,19 @@ HRESULT CPlayer::Render()
 		_float2(100.f, -237.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT(" 체력:") + to_wstring(m_iHp),
-		_float2(-600.f, -250.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("마나:") + to_wstring(m_iPlayerMP.second),
-		_float2(-600.f, -230.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, 20.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근력:") + to_wstring(m_iStr),
-		_float2(-600.f, -210.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, 40.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("정신력:") + to_wstring(m_iSprit),
-		_float2(-600.f, -190.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, 60.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("용량:") + to_wstring(m_iCapacity),
-		_float2(-600.f, -170.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-600.f, 80.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스킬포인트:") + to_wstring(m_iSkillpoint),
 		_float2(400.f, -50.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
@@ -351,9 +351,13 @@ void CPlayer::Set_Hp(_int iHp)
 	Notify(m_iHp, L"HP");
 }
 
-void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
+void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 {
-	
+	_int iFinalAmmo = iAmmo;
+
+	if (m_bDoubleAmmoGain)
+		iFinalAmmo *= 2;
+
 	_wstring weaponName = stWeaponName.substr(0, stWeaponName.find(L"_"));
 
 	if (m_pPlayer_Inven)
@@ -362,29 +366,19 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName,_int iAmmo)
 		{
 			auto pWeapon = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Inven->Get_Weapon(weaponName));
 
-			if (pWeapon) 
+			if (pWeapon)
 			{
-				pWeapon->Add_Ammo(iAmmo);
+				pWeapon->Add_Ammo(iFinalAmmo);
 			}
 		}
 	}
 
-
-	// 이벤트 텍스트 출력
 	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 	{
-		pUI_Event->ShowEventText(iAmmo, L"Ammo");
+		pUI_Event->ShowEventText(iFinalAmmo, L"Ammo");
 	}
-
-
-	//if (!m_pPlayer_Weapon)
-	//	return;
-
-	//if (auto pRanged = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Weapon))
-	//{
-	//	pRanged->Add_Ammo(iAmmo);
-	//}
 }
+
 
 void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
 {

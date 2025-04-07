@@ -67,7 +67,12 @@ public:
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
 	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
-	void Add_Strength(_int Str) { m_iStr += Str; }
+	void Add_Strength(_int Str)  // 근접무기 전용 데미지 증가
+	{ 
+		m_iStr += Str; 
+
+		CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
+	}
 	void Add_MaxHP(_int Hp)
 	{
 		m_iHp += Hp;
@@ -83,7 +88,14 @@ public:
 	{
 		m_iSkillpoint += SkillPoint;
 	}
-	inline void Add_Capacity(_int type) { m_iCapacity += type; }
+	inline void Add_Capacity(_int type) 
+	{
+
+		m_iCapacity += type;
+
+
+		CItem_Manager::GetInstance()->SetUp_RangedWeapon_to_Capacity(type);
+	}
 	void Add_Exp(_int Exp)
 	{
 		m_iPlayerEXP.first += Exp; //경험치 들어오면
@@ -118,9 +130,17 @@ public:
 	void Add_Weapon(const _wstring& stWeaponTag);
 
 
-
+public:
+	void Set_DoubleAmmoGain(_bool bEnable) { m_bDoubleAmmoGain = bEnable; }
+	void Set_DoubleSpeedGain() 
+	{ 
+	     m_fSpeed = 1.f; 
+	}
 	 _bool Has_Item(const _wstring& stItemTag);
 	 HRESULT Add_Item(const _wstring& stItemTag);
+private:
+			bool m_bDoubleAmmoGain = false; // 탄약 획득량 2배 여부
+			bool m_bDoubleSpeedGain = false; // 탄약 획득량 2배 여부
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();

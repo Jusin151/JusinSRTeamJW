@@ -90,10 +90,14 @@ public:
 
 			switch (statType)
 			{
-			case 0: ++m_iStr; break;
-			case 1: ++m_iMaxHP; break;
-			case 2: ++m_iSprit; break;
-			case 3: ++m_iCapacity; break;
+			case 0: ++m_iStr; 
+				break;
+			case 1: ++m_iMaxHP; 
+				break;
+			case 2: ++m_iSprit; 
+				break;
+			case 3: ++m_iCapacity;
+				break;
 			}
 		}
 		if (tag == L"Open")

@@ -61,9 +61,8 @@ public:
 public:
     CGameObject* Clone(void* pArg) override;
     void Free();
-    
-    
-protected: 
+      
+public: 
     Ranged_DESC Ranged_INFO = {};
     _bool m_bAttackInput = { false };
 public: //옵저버 관련
@@ -83,6 +82,16 @@ public: //옵저버 관련
        if(m_bIsActive)
            Notify_Bullet(); // UI 갱신
    }
+  void Set_MaxBullet(_int capacity)
+  {
+      Ranged_INFO.MaxAmmo = capacity;
+
+      // 현재 탄약이 더 크면 줄여야 함
+      if (Ranged_INFO.CurrentAmmo > Ranged_INFO.MaxAmmo)
+          Ranged_INFO.CurrentAmmo = Ranged_INFO.MaxAmmo;
+
+      Notify_Bullet();
+  }
 
   
 

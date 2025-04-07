@@ -60,9 +60,7 @@ HRESULT CAxe::Initialize(void* pArg)
 	CItem_Manager::GetInstance()->Add_Weapon(L"Axe", this); // 도끼를 아이템 매니저에 등록
 ;
 
-
 	m_eType = CG_WEAPON;
-	m_iAp = 30;
 
 	return S_OK;
 }
@@ -85,7 +83,12 @@ void CAxe::Late_Update(_float fTimeDelta)
 HRESULT CAxe::Render()
 {
 	
-	return __super::Render();
+	 __super::Render();
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("도끼 공격력:") + to_wstring(m_iAp),
+		_float2(350.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	return S_OK;
 }
 HRESULT CAxe::On_Collision(CCollisionObject* other)
 {

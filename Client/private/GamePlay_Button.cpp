@@ -63,10 +63,10 @@ void CGamePlay_Button::Update(_float fTimeDelta)
     }
     else 
     { 
-        if(!m_bVisible_Click)
-        m_strMouseOnText.clear();
+     /*   if(!m_bVisible_Click)
+        m_strMouseOnText.clear();*/
      
-
+        m_strMouseOnText.clear();
         m_bVisible = false;
     }
 
