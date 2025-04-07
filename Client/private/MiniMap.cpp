@@ -96,7 +96,7 @@ void CMiniMap::Update(_float fTimeDelta)
 
 void CMiniMap::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI_BACKGROUND, this);
 }
 
 HRESULT CMiniMap::Render()

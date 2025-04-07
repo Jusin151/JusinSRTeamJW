@@ -36,8 +36,7 @@ HRESULT CShop::Initialize(void* pArg) // 자식에서 무조건 __Super:: 로 �
         return E_FAIL;
   
 
-    
-
+ 
     // 상점 기본 설정
     m_bIsOpen = false;
 
@@ -66,7 +65,7 @@ void CShop::Update(_float fTimeDelta)
                 m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen);
                 m_bSpacePressed = true; 
                 static_cast<CPlayer*>(m_pPlayer)->StopAction();
-               // m_pFirstPersonCamera->SetActive(false);
+                m_pFirstPersonCamera->Camera_Lock();
             }
         }
         else
