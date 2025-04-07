@@ -146,10 +146,16 @@ HRESULT CShader::Set_Fog(_float3 rgb, _float start, _float end)
 	return hr;
 }
 
-HRESULT CShader::Set_UVFactor(const _float2* pUV)
+HRESULT CShader::Set_UVScaleFactor(const _float2* pScale)
 {
-	return Bind_Vector("g_ScaleFactor", pUV);
+	return Bind_Vector("g_ScaleFactor", pScale);
 }
+
+HRESULT CShader::Set_UVOffsetFactor(const _float2* pOffset)
+{
+	return Bind_Vector("g_OffsetFactor", pOffset);
+}
+
 
 void CShader::Begin(_uint iPassIndex)
 {

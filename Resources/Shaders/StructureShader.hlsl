@@ -74,7 +74,8 @@ float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
 
 // 타일링 전역변수 추가
-float2 g_ScaleFactor = float2(1.0f, 1.0f);
+float2 g_ScaleFactor    = float2(1.0f, 1.0f);
+float2 g_OffsetFactor   = float2(0.0f, 0.0f);
 
 // --- 안개 효과 전역 변수 추가 (C++에서 설정) ---
 float3 g_FogColor = float3(0.5f, 0.9f, 0.9f); // 안개 색상 (하얀색)
@@ -189,7 +190,7 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     //float3 lightVec = -g_LightDirection; // 라이트 방향
 
     // --- 텍스처 샘플링 ---
-    float2 tiledUV = In.vTexcoord * g_ScaleFactor;
+    float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
     // --- 조명 요소 계산 ---
