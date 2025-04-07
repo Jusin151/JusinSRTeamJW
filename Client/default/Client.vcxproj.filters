@@ -816,6 +816,15 @@
     <ClInclude Include="..\public\Cthulhu_Tentacle.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Long_Torch.h">
+      <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hub_Lamp.h">
+      <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Candles.h">
+      <Filter>02.GameObjects\Prefabs\Candles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1168,6 +1177,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Cthulhu_Tentacle.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Long_Torch.cpp">
+      <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hub_Lamp.cpp">
+      <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Candles.cpp">
+      <Filter>02.GameObjects\Prefabs\Candles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

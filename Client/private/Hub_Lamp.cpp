@@ -1,22 +1,22 @@
-﻿#include "GameInstance.h"
-#include "Torch.h"
+#include "GameInstance.h"
+#include "Hub_Lamp.h"
 
-CTorch::CTorch(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CGameObject { pGraphic_Device }
+CHub_Lamp::CHub_Lamp(LPDIRECT3DDEVICE9 pGraphic_Device)
+    : CGameObject{ pGraphic_Device }
 {
 }
 
-CTorch::CTorch(const CTorch& Prototype)
-    : CGameObject { Prototype }
+CHub_Lamp::CHub_Lamp(const CHub_Lamp& Prototype)
+    : CGameObject{ Prototype }
 {
 }
 
-HRESULT CTorch::Initialize_Prototype()
+HRESULT CHub_Lamp::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Initialize(void* pArg)
+HRESULT CHub_Lamp::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -26,7 +26,7 @@ HRESULT CTorch::Initialize(void* pArg)
     return S_OK;
 }
 
-HRESULT CTorch::Ready_Components()
+HRESULT CHub_Lamp::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -66,61 +66,61 @@ HRESULT CTorch::Ready_Components()
 }
 
 
-void CTorch::Priority_Update(_float fTimeDelta)
+void CHub_Lamp::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CTorch::Update(_float fTimeDelta)
+void CHub_Lamp::Update(_float fTimeDelta)
 {
 }
 
-void CTorch::Late_Update(_float fTimeDelta)
+void CHub_Lamp::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CTorch::Pre_Render()
+HRESULT CHub_Lamp::Pre_Render()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Render()
+HRESULT CHub_Lamp::Render()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Post_Render()
+HRESULT CHub_Lamp::Post_Render()
 {
     return S_OK;
 }
 
 
-CTorch* CTorch::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHub_Lamp* CHub_Lamp::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CTorch* pInstance = new CTorch(pGraphic_Device);
+    CHub_Lamp* pInstance = new CHub_Lamp(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Cloned : CTorch");
+        MSG_BOX("Failed to Cloned : CHub_Lamp");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CTorch* CTorch::Clone(void* pArg)
+CHub_Lamp* CHub_Lamp::Clone(void* pArg)
 {
-    CTorch* pInstance = new CTorch(*this);
+    CHub_Lamp* pInstance = new CHub_Lamp(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CTorch");
+        MSG_BOX("Failed to Cloned : CHub_Lamp");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CTorch::Free()
+void CHub_Lamp::Free()
 {
     __super::Free();
     Safe_Release(m_pLightCom);
@@ -131,12 +131,12 @@ void CTorch::Free()
     Safe_Release(m_pTransformCom);
 }
 
-json CTorch::Serialize()
+json CHub_Lamp::Serialize()
 {
     return json();
 }
 
-void CTorch::Deserialize(const json& j)
+void CHub_Lamp::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }

@@ -73,7 +73,7 @@ float g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
 float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
 // --- 안개 효과 전역 변수 추가 (C++에서 설정) ---
-float3 g_FogColor = float3(0.5f, 0.9f, 1.0f); // 안개 색상 (하얀색)
+float3 g_FogColor = float3(0.5f, 0.9f, 0.9f); // 안개 색상 (하얀색)
 float g_FogStart = 8.0f; // 안개 시작 거리
 float g_FogEnd = 20.0f; // 안개 끝 거리
 
