@@ -24,7 +24,7 @@ private:
 	CMaterial(const CMaterial& Prototype);
 	virtual ~CMaterial() = default;
 public:
-	virtual HRESULT Initialize_Prototype(const _tchar * pMaterialFilePath);
+	virtual HRESULT Initialize_Prototype(const _tchar* pMaterialFilePath);
 	virtual HRESULT Initialize(void* pArg) override;
 public:
 	HRESULT Bind_Resource();
@@ -32,7 +32,7 @@ public:
 private:
 	MATERIAL						m_tMaterial;
 public:
-	static	CMaterial* Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar * pMaterialFilePath);
+	static	CMaterial* Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pMaterialFilePath);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 

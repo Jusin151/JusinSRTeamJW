@@ -51,6 +51,13 @@ HRESULT CWeapon_Effect::Initialize(void* pArg)
 void CWeapon_Effect::Priority_Update(_float fTimeDelta)
 {
 
+	m_fLifeTime -= fTimeDelta;
+
+	if (m_fLifeTime <= 0.f)
+	{
+		SetActive(false);
+		m_fLifeTime = 0.f;
+	}
 
 }
 

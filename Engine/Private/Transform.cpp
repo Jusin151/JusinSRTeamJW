@@ -238,6 +238,30 @@ void CTransform::Rotate_EulerAngles(const _float3& vEulerAngles)
 	Set_State(STATE_LOOK, vLook);
 }
 
+void CTransform::Rotation_Axis(const _float3& vAxis, float fAngle)
+{
+	D3DXMATRIX matRot;
+	D3DXMatrixRotationAxis(&matRot, &vAxis, fAngle);
+
+	// Right/Up/Look 벡터에 회전 행렬 적용
+	_float3 vRight = Get_State(STATE_RIGHT);
+	_float3 vUp = Get_State(STATE_UP);
+	_float3 vLook = Get_State(STATE_LOOK);
+
+	D3DXVec3TransformCoord(&vRight, &vRight, &matRot);
+	D3DXVec3TransformCoord(&vUp, &vUp, &matRot);
+	D3DXVec3TransformCoord(&vLook, &vLook, &matRot);
+
+
+	D3DXVec3Normalize(&vRight, &vRight);
+	D3DXVec3Normalize(&vUp, &vUp);
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	Set_State(STATE_RIGHT, vRight);
+	Set_State(STATE_UP, vUp);
+	Set_State(STATE_LOOK, vLook);
+}
+
 
 CTransform* CTransform::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

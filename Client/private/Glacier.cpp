@@ -281,7 +281,7 @@ void CGlacier::Shooting(_float fTimeDelta)
     {
 
         CProjectile_Base::PROJ_DESC pDesc = {};
-        pDesc.fSpeed = 2.f;
+        pDesc.fSpeed = 5.f;
         pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
         pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 

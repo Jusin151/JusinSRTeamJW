@@ -34,5 +34,8 @@ public:
     void Free()override;
 
     CGameObject* m_pTarget{nullptr};
+
+private:
+    _float m_fLifeTime = { 3.f };
 };
 END

@@ -63,6 +63,8 @@ public:
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Rotate_EulerAngles(const _float3& vEulerAngles);
 
+	void Rotation_Axis(const _float3& vAxis, float fAngle);
+
 public:
 
 	const _float4x4* Get_WorldMatrix_Inverse() {
