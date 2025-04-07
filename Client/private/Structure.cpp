@@ -254,18 +254,16 @@ HRESULT CStructure::Render()
 			return E_FAIL;
 	}
 
-	if (FAILED(m_pTransformCom->Bind_Resource()))
+	if(FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+	if(FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 	if(FAILED(m_pShaderCom->Bind_Transform()))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Transform()))
+	if(FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Lights()))
+	if(FAILED(m_pShaderCom->Bind_Lights()))
 		return E_FAIL;
 
 	SetUp_RenderState();

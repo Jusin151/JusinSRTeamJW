@@ -11,7 +11,6 @@ CTexture::CTexture(const CTexture& Prototype)
 	, m_eType { Prototype.m_eType }
 	, m_iNumTextures { Prototype.m_iNumTextures }
 	, m_Textures { Prototype.m_Textures }
-	, m_eType { Prototype.m_eType }
 {
 	for (auto& pTexture : m_Textures)	
 		Safe_AddRef(pTexture);	

@@ -377,8 +377,8 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             // [디버깅 2] 라이트 색상(Color/fDiffuse) 확인하기
             // 라이트의 Color 값을 그대로 출력 (Alpha는 1로 고정)
             
-            Out.vColor = float4(currentLight.Color.rgb, 1.0f);
-            return Out;
+            /*Out.vColor = float4(currentLight.Color.rgb, 1.0f);
+            return Out; */
 
             // [디버깅 3] 라이트 위치(Position) 확인하기 (x,y,z -> R,G,B)
             // 위치 값은 범위가 크므로 적절히 스케일링하여 [0,1] 범위로 만들어 시각화
@@ -411,9 +411,9 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             // Attenuation1 값을 특정 최대값으로 나누어 [0,1] 범위로 만들어 시각화
             // 예: 최대 Attenuation1 1.0으로 가정
             
-            /*float atten1Color = saturate(currentLight.Attenuation1 / 1.0f);
+            /* float atten1Color = saturate(currentLight.Attenuation1 / 1.0f);
             Out.vColor = float4(0.f, atten1Color, 0.f, 1.f);
-            return Out;*/
+            return Out; */
     
 
             // [디버깅 7] 실제 계산된 감쇠값(attenuation) 확인하기 (회색조)
@@ -437,7 +437,7 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             // [디버깅 8] 실제 계산된 NdotL 값 확인하기 (회색조)
             // 이 디버깅 코드를 사용하려면 아래의 실제 계산 로직 일부가 필요함
             
-            /*float3 lightVec = float3(0,0,0);
+            float3 lightVec = float3(0,0,0);
             // ... (타입에 따라 lightVec 계산 로직 필요) ...
             if (currentLight.Type == 3) lightVec = normalize(-currentLight.Direction);
             else if (currentLight.Type == 1 || currentLight.Type == 2) {
@@ -447,7 +447,7 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             }
             float NdotL = saturate(dot(normal, lightVec));
             Out.vColor = float4(NdotL, NdotL, NdotL, 1.0f);
-            return Out;*/
+            return Out;
 
             // --- 디버깅 코드 끝 ---
         // ==============================================================

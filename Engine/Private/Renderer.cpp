@@ -332,8 +332,8 @@ HRESULT CRenderer::Set_Lights(CShader* pShader)
 
 	/*pShader->Bind_Vector("g_LightPosition", &sl[0].fPosition);
 	pShader->Bind_Vector("g_LightColor", &sl[0].fDiffuse);*/
-	pShader->Bind_Handle(sl, sizeof(CLight::SHADER_LIGHT) * numLights);
-	//pShader->Bind_Value("g_Lights", sl, sizeof(CLight::SHADER_LIGHT) * numLights);
+	//pShader->Bind_Handle(sl, sizeof(CLight::SHADER_LIGHT) * MAX_SHADER_LIGHT);
+	pShader->Bind_Value("g_Lights", sl, sizeof(CLight::SHADER_LIGHT) * MAX_SHADER_LIGHT);
 	pShader->Bind_Int("g_NumActiveLights", numLights);
  	return S_OK;
 }
