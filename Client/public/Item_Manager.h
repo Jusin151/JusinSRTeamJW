@@ -3,7 +3,8 @@
 #include "Client_Defines.h"
 #include "Weapon_Base.h"
 #include "Item.h"
-
+#include "Melee_Weapon.h"
+#include "Ranged_Weapon.h"
 
 BEGIN(Client)
 class CItem_Manager 
@@ -34,6 +35,37 @@ public:
         }
         m_MapItem[tag] = pUI;
     }
+    void SetUp_MeleeWeapon_to_Strength(_int str)
+    {
+        if (m_MapItem[L"Axe"] == nullptr || m_MapItem[L"Claymore"] == nullptr)
+            return;
+        m_MapItem[L"Axe"]->Set_Ap(str);
+        m_MapItem[L"Claymore"]->Set_Ap(str);
+    }
+    void SetUp_RangedWeapon_to_Capacity(_int Capacity)
+    {
+        Set_MaxBullet_if_Ranged(L"Magnum", Capacity);
+        Set_MaxBullet_if_Ranged(L"ShotGun", Capacity);
+        Set_MaxBullet_if_Ranged(L"Minigun", Capacity);
+        Set_MaxBullet_if_Ranged(L"Harvester", Capacity);
+    }
+
+    void Set_MaxBullet_if_Ranged(const wstring& weaponTag, _int capacity)
+    {
+        auto it = m_MapItem.find(weaponTag);
+        if (it == m_MapItem.end() || it->second == nullptr)
+            return;
+
+      
+        if (auto pRanged = dynamic_cast<CRanged_Weapon*>(it->second))
+        {
+            pRanged->Ranged_INFO.MaxAmmo += capacity; 
+            pRanged->Ranged_INFO.CurrentAmmo += capacity;
+            pRanged->Notify_Bullet(); // UI 갱신 
+        }
+    }
+
+
 
     CWeapon_Base* Get_Weapon(const wstring& tag)
     {
