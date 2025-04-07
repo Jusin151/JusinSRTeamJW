@@ -154,7 +154,7 @@ private:
 	CGameObject* m_pCamera = nullptr;
 	CCollider_Cube* m_pColliderCom = { nullptr };
 public:
-	void Taimu_S_to_pu() { m_bTimeControl = !m_bTimeControl; }
+	void StopAction() { m_bTimeControl = !m_bTimeControl; }
 
 private:
 	_float			m_fShakeTime = {};

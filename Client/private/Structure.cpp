@@ -4,8 +4,6 @@
 #include "Collider_Cube.h"
 #include <StructureManager.h>
 
-
-
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
 {
@@ -38,183 +36,6 @@ HRESULT CStructure::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CStructure::Priority_Update(_float fTimeDelta)
-{
-
-}
-
-void CStructure::Update(_float fTimeDelta)
-{
-	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
-
-	if (m_bIsCubeCollider)
-	{
-		if (!m_bInit)
-		{
-			(m_pColliderCom)->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
-			m_bInit = true;
-		}
-			
-	}
-
-	// 바닥
-	if (Get_Tag().find(L"Floor") != wstring::npos)
-	{
-		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
-	}
-
-
-	// 벽 태그인 경우
-	else if (Get_Tag().find(L"Wall") != wstring::npos)
-	{
-		m_pGameInstance->Add_Collider(CG_STRUCTURE_WALL, m_pColliderCom);
-	}
-	else
-	{
-		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
-	}
-
-	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
-	{
-		m_fFrame += 90.f * fTimeDelta;
-		if (m_fFrame >= 90.f)
-			m_fFrame = 0.f;
-
-		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f);
-	}
-}
-
-void CStructure::Late_Update(_float fTimeDelta)
-{
-	m_fWaveTime += fTimeDelta;
-
-	if (m_fWaveTime > 1000.0f)
-		m_fWaveTime = 0.f;
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-}
-
-HRESULT CStructure::Render()
-{
-	if (FAILED(m_pMaterialCom->Bind_Resource()))
-		return E_FAIL;
-	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
-	{
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
-			return E_FAIL;
-	}
-	else
-	{
-		if (FAILED(m_pTextureCom->Bind_Resource(0)))
-			return E_FAIL;
-	}
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
-	SetUp_RenderState();
-
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-	if (g_bDebugCollider)
-	{
-		m_pColliderCom->Render();
-	}
-	Release_RenderState();
-
-	return S_OK;
-}
-
-HRESULT CStructure::On_Collision(CCollisionObject* ohter)
-{
-
-	return S_OK;
-}
-HRESULT CStructure::SetUp_RenderState()
-{
-
-	// 현재 샘플러 상태 값을 저장하여 렌더링 후 복원할 수 있도록 함
-	m_pGraphic_Device->GetSamplerState(0, D3DSAMP_ADDRESSU, &originalAddressU);
-	m_pGraphic_Device->GetSamplerState(0, D3DSAMP_ADDRESSV, &originalAddressV);
-	_float4x4 matTexture;
-	// 텍스처 좌표가 0-1 범위를 벗어날 때 반복되도록 샘플러 상태 설정
-	// D3DTADDRESS_WRAP: UV 좌표가 1을 초과하면 다시 0부터 시작 (텍스처 반복)
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	_float3 scale = m_pTransformCom->Compute_Scaled();
-
-	// 보스 맵 물결 효과 
-	if (m_eStructureType == STRUCTURE_TYPE::OCEAN)
-	{
-		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.5f;
-		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.5f;
-
-		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
-		D3DXVECTOR2 vOffsetFactor(fOffsetU, fOffsetV);
-
-		// 텍스처 변환 행렬 생성
-		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
-			&vScaleFactor, // 스케일
-			NULL, 0.0f,
-			&vOffsetFactor); // 오프셋
-	}
-	else if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
-	{
-		_float tileReduction = 0.10f; // 타일링을 1/10로 줄임
-		D3DXVECTOR2 vScaleFactor(scale.x * 0.3f, scale.y * tileReduction);
-		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); // Y축 반전을 위한 오프셋 조정
-
-		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
-			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
-	}
-	else
-	{
-#pragma region 텍스쳐 스케일에 따라 반복
-		//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
-		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
-		D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
-
-		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
-			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
-#pragma endregion
-	}
-
-	// 스케일 값으로 텍스처 변환 행렬 생성
-		// scale.x > 1: X축으로 텍스처가 여러 번 반복됨
-		// scale.y > 1: Y축으로 텍스처가 여러 번 반복됨
-		// scale.x 또는 y < 1: 텍스처의 일부만 표시됨
-
-
-	m_pGraphic_Device->SetTransform(D3DTS_TEXTURE0, &matTexture);
-	// 텍스처 변환을 활성화 (2D 텍스처 좌표에 대해)
-// D3DTTFF_COUNT2: u, v 두 좌표에 대해 변환 적용 (2D)
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	return S_OK;
-}
-
-HRESULT CStructure::Release_RenderState()
-{
-	// 기본 컬링 모드로 복원 (반시계 방향 면만 렌더링 - 일반적인 앞면)
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	// 알파 테스트 비활성화
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
-	// 텍스처 변환 비활성화 - 다른 객체 렌더링에 영향을 주지 않도록 함
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
-	// 원래 샘플러 상태로 복원
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, originalAddressU);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, originalAddressV);
-	return S_OK;
-}
-
 HRESULT CStructure::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -226,18 +47,12 @@ HRESULT CStructure::Ready_Components()
 		m_eStructureType = STRUCTURE_TYPE::OCEAN;
 	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
-	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos|| m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos)
+	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos || m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::MAGMA;
 	else
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
-
-	///* For.Com_VIBuffer */
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
-	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-	//	return E_FAIL;	
-	//
-	if (FAILED(__super::Add_Component(LEVEL_STATIC,L"Prototype_Component_VIBuffer_TexturedCube",
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_TexturedCube",
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
@@ -269,13 +84,249 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
+	CMaterial::MATERIAL_DESC materialDesc = { L"../../Resources/Materials/TestMaterial.json" };
+
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom), &materialDesc)))
+		return E_FAIL;	
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StructureShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	return S_OK;
 }
+
+
+#pragma region Update
+void CStructure::Priority_Update(_float fTimeDelta)
+{
+
+}
+
+void CStructure::Update(_float fTimeDelta)
+{
+	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
+
+	if (m_bIsCubeCollider)
+	{
+		if (!m_bInit)
+		{
+			(m_pColliderCom)->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
+			m_bInit = true;
+		}
+
+	}
+
+	// 바닥
+	if (Get_Tag().find(L"Floor") != wstring::npos)
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
+	}
+
+	// 벽 태그인 경우
+	else if (Get_Tag().find(L"Wall") != wstring::npos)
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_WALL, m_pColliderCom);
+	}
+	else
+	{
+		m_pGameInstance->Add_Collider(CG_STRUCTURE_FLOOR, m_pColliderCom);
+	}
+
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		m_fFrame += 90.f * fTimeDelta;
+		if (m_fFrame >= 90.f)
+			m_fFrame = 0.f;
+
+		m_iCurrentTexture = (_uint)(m_fFrame / 22.5f);
+	}
+}
+
+void CStructure::Late_Update(_float fTimeDelta)
+{
+	m_fWaveTime += fTimeDelta;
+
+	if (m_fWaveTime > 1000.0f)
+		m_fWaveTime = 0.f;
+
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+}
+#pragma endregion
+
+
+#pragma region Render
+HRESULT CStructure::SetUp_RenderState()
+{
+
+	// 현재 샘플러 상태 값을 저장하여 렌더링 후 복원할 수 있도록 함
+	m_pGraphic_Device->GetSamplerState(0, D3DSAMP_ADDRESSU, &originalAddressU);
+	m_pGraphic_Device->GetSamplerState(0, D3DSAMP_ADDRESSV, &originalAddressV);
+	_float4x4 matTexture;
+	// 텍스처 좌표가 0-1 범위를 벗어날 때 반복되도록 샘플러 상태 설정
+	// D3DTADDRESS_WRAP: UV 좌표가 1을 초과하면 다시 0부터 시작 (텍스처 반복)
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+	_float3 scale = m_pTransformCom->Compute_Scaled();
+
+	// 보스 맵 물결 효과 
+	if (m_eStructureType == STRUCTURE_TYPE::OCEAN)
+	{
+		_float fOffsetU = sin(m_fWaveTime * m_fWaveSpeed) * 0.5f;
+		_float fOffsetV = cos(m_fWaveTime * m_fWaveSpeed) * 0.5f;
+
+		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
+		D3DXVECTOR2 vOffsetFactor(fOffsetU, fOffsetV);
+
+		m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+		m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
+
+		// 텍스처 변환 행렬 생성
+		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
+			&vScaleFactor, // 스케일
+			NULL, 0.0f,
+			&vOffsetFactor); // 오프셋
+	}
+	else if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
+	{
+		_float tileReduction = 0.10f; // 타일링을 1/10로 줄임
+		D3DXVECTOR2 vScaleFactor(scale.x * 0.3f, scale.y * tileReduction);
+		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); // Y축 반전을 위한 오프셋 조정
+		m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+		m_pShaderCom->Set_UVOffsetFactor(&vScaleFactor);
+
+		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
+			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
+	}
+	else
+	{
+#pragma region 텍스쳐 스케일에 따라 반복
+		//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
+		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
+		D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
+		m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+		m_pShaderCom->Set_UVOffsetFactor(&vScaleFactor);
+		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
+			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
+#pragma endregion
+	}
+
+	// 스케일 값으로 텍스처 변환 행렬 생성
+		// scale.x > 1: X축으로 텍스처가 여러 번 반복됨
+		// scale.y > 1: Y축으로 텍스처가 여러 번 반복됨
+		// scale.x 또는 y < 1: 텍스처의 일부만 표시됨
+
+
+	m_pGraphic_Device->SetTransform(D3DTS_TEXTURE0, &matTexture);
+	// 텍스처 변환을 활성화 (2D 텍스처 좌표에 대해)
+// D3DTTFF_COUNT2: u, v 두 좌표에 대해 변환 적용 (2D)
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	return S_OK;
+}
+HRESULT CStructure::Render()
+{
+	if (FAILED(m_pMaterialCom->Bind_Resource()))
+		return E_FAIL;
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, static_cast<_uint>(m_iCurrentTexture))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+			return E_FAIL;
+	}
+
+	_uint level = m_pGameInstance->Get_CurrentLevel();
+
+	if (level == (_uint)LEVEL_HUB)
+	{
+		m_pShaderCom->Set_Fog(_float3(1.0f, 1.0f, 1.0f), 20.f, 40.f);
+	}
+	else
+	{
+		m_pShaderCom->Set_Fog(_float3(0.5f, 0.7f, 0.9f), 8.f, 20.f);
+	}
+
+	
+		
+
+	if(FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if(FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if(FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if(FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if(FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
+
+	SetUp_RenderState();
+	m_pShaderCom->Begin(1);
+	/*if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
+	{
+		m_pShaderCom->Begin(2);
+	}
+	else
+	{
+		
+	}*/
+	
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	if (g_bDebugCollider)
+	{
+		m_pColliderCom->Render();
+	}
+	m_pShaderCom->End();
+	Release_RenderState();
+
+	return S_OK;
+}
+HRESULT CStructure::Release_RenderState()
+{
+	// 기본 컬링 모드로 복원 (반시계 방향 면만 렌더링 - 일반적인 앞면)
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	// 알파 테스트 비활성화
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	// 텍스처 변환 비활성화 - 다른 객체 렌더링에 영향을 주지 않도록 함
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
+	// 원래 샘플러 상태로 복원
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, originalAddressU);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, originalAddressV);
+	return S_OK;
+}
+#pragma endregion
+
+
+
+
+HRESULT CStructure::On_Collision(CCollisionObject* ohter)
+{
+
+	return S_OK;
+}
+
+
+
 
 CStructure* CStructure::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -308,10 +359,14 @@ void CStructure::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
+
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pVIBufferCom);
+	
+	
+	Safe_Release(m_pColliderCom);
 }
 
 json CStructure::Serialize()
@@ -351,25 +406,11 @@ json CStructure::Serialize()
 
 void CStructure::Deserialize(const json& j)
 {
-
 	SET_TRANSFORM(j, m_pTransformCom);
-	//if (j.contains("position")) 
-	//{
-	//	auto pos = j["position"];
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-	//		_float3(pos[0], pos[1], pos[2]));
-	//}
-
-	//if (j.contains("rotation"))
-	//{
-	//	auto angle = j["rotation"];
-	//	m_pTransformCom->Rotate_EulerAngles(
-	//		_float3(angle[0], angle[1], angle[2]));
-	//}
-
-	//if (j.contains("scale"))
-	//{
-	//	auto scale = j["scale"];
-	//	m_pTransformCom->Set_Scale(scale[0], scale[1], scale[2]);
-	//}
+	if (j.contains("material"))
+	{
+		_wstring t = Utf8ToWide(j["material"]);
+		CMaterial::MATERIAL_DESC mDesc = { t };
+		m_pMaterialCom->Initialize(&mDesc);
+	}
 }

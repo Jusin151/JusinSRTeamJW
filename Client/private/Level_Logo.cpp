@@ -31,8 +31,6 @@ void CLevel_Logo::Update(_float fTimeDelta)
 
 	if (GetAsyncKeyState(VK_LBUTTON)&0x8000  && (CUI_Manager::GetInstance()->GetUI(L"Start_Button")->Get_MouseClick()))
 	{
-	
-
    		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;

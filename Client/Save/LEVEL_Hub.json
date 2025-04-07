@@ -36,12 +36,12 @@
         "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Rect",
           "Level": 5,
-          "ProtTag": "Prototype_GameObject_Light",
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
           "ProtoLevel": 0
         },
         "position": [
           1.0,
-          0.0,
+          1.0,
           1.0
         ],
         "rotation": [
@@ -1081,7 +1081,8 @@
           3.799999952316284,
           8.399999618530273,
           0.5
-        ]
+        ],
+        "material": "../../Resources/Materials/GlowMaterial.json"
       }
     ],
     "Layer_Wall": [

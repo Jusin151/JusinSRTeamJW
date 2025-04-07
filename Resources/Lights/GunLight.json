@@ -28,11 +28,11 @@
 		"y": 0.0,
 		"z": 0.0
 	},
-	"Attenuation0": 1.0,
+	"Attenuation0": 0.5,
 	"Attenuation1": 0.0,
 	"Attenuation2": 0.02,
 	"Falloff": 1.0,
-	"Range": 50.0,
+	"Range": 10.0,
 	"Theta": 4.0,
 	"Phi": 2.0
 }

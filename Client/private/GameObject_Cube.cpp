@@ -91,6 +91,11 @@ HRESULT CGameObject_Cube::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
+    //m_pGraphic_Device->GetMaterial()
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -148,6 +153,7 @@ CGameObject_Cube* CGameObject_Cube::Clone(void* pArg)
 void CGameObject_Cube::Free()
 {
     __super::Free();
+    Safe_Release(m_pMaterialCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);

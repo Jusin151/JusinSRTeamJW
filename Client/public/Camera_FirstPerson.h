@@ -42,6 +42,11 @@ public:
 
 private:
 	void Shaking(_float fTimeDelta);
+public:
+	void Camera_Lock()
+	{
+		m_bCameraLocked = !m_bCameraLocked;
+	}
 
 private:
 	POINT				m_ptOldMousePos = {};
@@ -65,7 +70,7 @@ private:
 	_float				m_fPitch = 0.0f;
 	_float				m_fSensitivity = 0.001f;
 	_float				m_fShakeTime = 0.f;
-	_bool				m_tmpState = { false };
+	_bool				m_bCameraLocked = { false };
 	_float3				m_vScale = {};
 
 	_float m_fShakeAmount = 0.f;    // 쉐이크 강도 

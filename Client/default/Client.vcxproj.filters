@@ -349,6 +349,24 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\GlacierBullet">
       <UniqueIdentifier>{6c7faba0-4663-4fe7-b403-71c22cf0e524}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Prefabs">
+      <UniqueIdentifier>{1656e8b7-2cf7-472a-985a-9ae77722a495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Torch">
+      <UniqueIdentifier>{9ae03cb0-b5f4-4e40-9de2-d073b8557fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Hub_Lamp">
+      <UniqueIdentifier>{78d09b1c-0e6d-4365-b4e5-6aa88ced3b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Candles">
+      <UniqueIdentifier>{24f26e6a-53b1-48c4-9c36-b2ce99d6eda8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Long_Torch">
+      <UniqueIdentifier>{23a6045c-871e-47ed-80f3-b9190ac4e8ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\ParticleSystemTest\GameObject_Snow">
+      <UniqueIdentifier>{1b7f68b1-bc56-48e5-9bcd-232af2117af5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01.Levels\Hong">
       <UniqueIdentifier>{b4c2fce2-a84b-4ad4-968e-747857cf3ed0}</UniqueIdentifier>
     </Filter>
@@ -405,6 +423,12 @@
     </Filter>
     <Filter Include="02.GameObjects\DW_Boss\03.HellBoss_Bullet">
       <UniqueIdentifier>{87f6994b-a83a-4922-932c-d9c5dbaf87c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Lamp">
+      <UniqueIdentifier>{57857015-cab8-4693-ad22-3510ed76c19e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Goblet">
+      <UniqueIdentifier>{eade0a33-f95d-4e75-9879-689378e891f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -723,6 +747,12 @@
     <ClInclude Include="..\public\GlacierBullet.h">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Torch.h">
+      <Filter>02.GameObjects\Prefabs\Torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameObject_Snow.h">
+      <Filter>02.GameObjects\ParticleSystemTest\GameObject_Snow</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Level_Hong.h">
       <Filter>01.Levels\Hong</Filter>
     </ClInclude>
@@ -791,6 +821,24 @@
     </ClInclude>
     <ClInclude Include="..\public\Cthulhu_Tentacle.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Long_Torch.h">
+      <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hub_Light.h">
+      <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Candles.h">
+      <Filter>02.GameObjects\Prefabs\Candles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Lamp.h">
+      <Filter>02.GameObjects\Prefabs\Lamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Goblet.h">
+      <Filter>02.GameObjects\Prefabs\Goblet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Prefabs.h">
+      <Filter>02.GameObjects\Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1088,6 +1136,12 @@
     <ClCompile Include="..\private\GlacierBullet.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\GlacierBullet</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Torch.cpp">
+      <Filter>02.GameObjects\Prefabs\Torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameObject_Snow.cpp">
+      <Filter>02.GameObjects\ParticleSystemTest\GameObject_Snow</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Level_Hong.cpp">
       <Filter>01.Levels\Hong</Filter>
     </ClCompile>
@@ -1139,17 +1193,23 @@
     <ClCompile Include="..\private\Cthulhu_Tentacle.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Long_Torch.cpp">
+      <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hub_Light.cpp">
+      <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Candles.cpp">
+      <Filter>02.GameObjects\Prefabs\Candles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Lamp.cpp">
+      <Filter>02.GameObjects\Prefabs\Lamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Goblet.cpp">
+      <Filter>02.GameObjects\Prefabs\Goblet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="TestPixelShader.hlsl">
-      <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>02.GameObjects\97. UI\01.Logo_UI\BackGround</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Shader\VertexShader.hlsl">
-      <Filter>02.GameObjects\ParticleSystemTest</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
@@ -1160,6 +1220,18 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\DoubleSideRect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\PixelShader.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\TestPixelShader.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\VertexShader.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\StructureShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

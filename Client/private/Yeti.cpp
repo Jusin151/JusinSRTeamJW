@@ -156,8 +156,17 @@ HRESULT CYeti::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
-    SetUp_RenderState();
+    
 
+    SetUp_RenderState();
+    if (FAILED(m_pShaderCom->Bind_Transform()))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+        return E_FAIL;
+    if(FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+        return E_FAIL;
+
+    m_pShaderCom->Begin(0);
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
@@ -165,6 +174,7 @@ HRESULT CYeti::Render()
     {
         m_pColliderCom->Render();
     }
+    m_pShaderCom->End();
 
     Release_RenderState();
 
@@ -435,7 +445,6 @@ HRESULT CYeti::Ready_Components()
     if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
-  
 
     return S_OK;
 }

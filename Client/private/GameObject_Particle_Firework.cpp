@@ -97,6 +97,7 @@ HRESULT CGameObject_Particle_Firework::Ready_Components()
     FireworkDesc.vOrigin = { 5.0f, 5.0f, 0.0f }; //m_pTransformCom->Get_State(CTransform::STATE_POSITION);
     FireworkDesc.iNumParticles = 512;
     FireworkDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    FireworkDesc.iNumTextures = { 1 };
 
     /* For.Com_Particle */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),

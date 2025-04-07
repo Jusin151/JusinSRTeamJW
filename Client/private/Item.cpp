@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Particles.h"
 
 namespace Item
 {
@@ -21,7 +22,6 @@ CItem::CItem(const CItem& Prototype)
 	:CCollisionObject( Prototype ),
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
 	,m_pPlayer{Prototype.m_pPlayer}
-
 {
 }
 
@@ -85,7 +85,8 @@ void CItem::Priority_Update(_float fTimeDelta)
 void CItem::Update(_float fTimeDelta)
 {
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
-
+	if(nullptr != m_pParticleCom) 
+		m_pParticleCom->Update(fTimeDelta);
 	if (m_bIsCubeCollider)
 	{
 		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
@@ -99,6 +100,8 @@ void CItem::Late_Update(_float fTimeDelta)
 {
 	Billboarding(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	if(nullptr != m_pLightCom)
+		m_pGameInstance->Add_Light(m_pLightCom);
 
 	if (m_bIsNeedAnim)
 	{
@@ -109,7 +112,6 @@ void CItem::Late_Update(_float fTimeDelta)
 HRESULT CItem::Render()
 {
 	if (FAILED(m_pTextureCom->Bind_Resource(m_mapTextureTag[m_eItemType][m_strItemName])))
-
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -121,6 +123,11 @@ HRESULT CItem::Render()
 	SetUp_RenderState();
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+	if(nullptr != m_pParticleCom)
+	{
+		if (FAILED(m_pParticleCom->Render()))
+			return E_FAIL;
+	}
 
 	Release_RenderState();
 	return S_OK;
@@ -335,6 +342,26 @@ HRESULT CItem::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
+	if (m_eItemType == ITEM_TYPE::EXP)
+	{
+		CGold_Particle_System::GOLDDESC goldDesc = {};
+		goldDesc.Bounding_Box.m_vMin = { -1, -1, 0 };
+		goldDesc.Bounding_Box.m_vMax = { 1, 1, 0 };
+		goldDesc.iNumParticles = { 10 };
+		goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
+		goldDesc.iNumTextures = { 1 };
+
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &goldDesc)))
+			return E_FAIL;
+
+		CLight::LIGHT_INIT lightDesc = { L"../../Resources/Lights/Gold.json" };
+
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light"),
+			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &lightDesc)))
+			return E_FAIL;
+	}
 	m_eType = CG_ITEM;
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),

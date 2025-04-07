@@ -44,7 +44,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	// Antarctic1_Test pos
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-10.f, 0.7f, 8.3f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(2.f, 0.7f, -35.f));
 
 	// Gameplay start pos
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
@@ -85,16 +85,16 @@ void CPlayer::Update(_float fTimeDelta)
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"),m_pTransformCom->Compute_Scaled());
 	m_pGameInstance->Add_Collider(CG_PLAYER, m_pColliderCom);
 
-	/////////트리거용 
 
+	/////////트리거용 
 	if (GetAsyncKeyState('0') & 0x8000)
 	{
 		Add_Ammo(L"Magnum_Ammo",10);
 
 	}
-	static _bool m_asdasdasd = { true };
+	static _bool m_WeaponTrigger = { true }; //임시
  
-	if (m_asdasdasd)
+	if (m_WeaponTrigger) 
 	{
 		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
@@ -105,10 +105,10 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
 		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 		
-		m_asdasdasd = false;
+		m_WeaponTrigger = false; 
 	}
 
-	if (GetAsyncKeyState('Q') & 0x8000)
+	if (GetAsyncKeyState('Q') & 0x8000)//임시
 	{	
 		Add_Exp(1);
 	}
@@ -358,8 +358,9 @@ void CPlayer::Attack(_float fTimeDelta)
 
 void CPlayer::Input_Key(_float fTimeDelta)
 {
-	Equip(fTimeDelta); //인벤
-
+	if (m_bTimeControl)
+		return;
+	Equip(fTimeDelta); //인
 	
 	Move(fTimeDelta); // 플레이어 이동
 }

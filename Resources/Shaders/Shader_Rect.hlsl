@@ -85,9 +85,6 @@ PS_OUT PS_MAIN(PS_IN In)
     PS_OUT Out;    
     
     Out.vColor = tex2D(DefaultSampler, In.vTexcoord);
-    //texCUBE(CubeSampler, In.vTexcoord);
-    
-    
     
     Out.vColor.gb = Out.vColor.r;
     

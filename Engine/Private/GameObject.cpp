@@ -117,6 +117,7 @@ void CGameObject::Deserialize(const json& j)
 			if (objectDesc.contains("Level")) m_tObjDesc.iLevel = objectDesc["Level"];
 			if (objectDesc.contains("ProtoLevel")) m_tObjDesc.iProtoLevel = objectDesc["ProtoLevel"];
 		}
+		
 }
 
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
@@ -134,7 +135,7 @@ HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& s
 		return E_FAIL;
 
 	CComponent*		pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, iPrototypeLevelIndex, strPrototypeTag, pArg));
-	if (nullptr == pComponent)
+ 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_Components.emplace(strComponentTag, pComponent);

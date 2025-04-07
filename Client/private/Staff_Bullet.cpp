@@ -46,10 +46,6 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 	
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-	_float3 a = m_Player_Transform->Get_State(CTransform::STATE_POSITION);
-	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 dir = b - a;
-	D3DXVec3Normalize(&dir, &dir);
 	dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 	m_pParticleCom->Update(fTimeDelta);
 	m_fElapsedTime += fTimeDelta;
@@ -173,7 +169,7 @@ HRESULT CStaff_Bullet::Ready_Components()
 
 	CProjectile_Particle_System::TRAILDESC     trailDesc{};
 	trailDesc.fDistance = 30.f;
-	trailDesc.fWidth = 1.f;
+	trailDesc.fWidth = 0.5f;
 	trailDesc.iNumParticles = 1;
 	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 	trailDesc.iNumTextures = 1;

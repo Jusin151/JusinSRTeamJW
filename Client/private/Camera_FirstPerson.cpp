@@ -87,12 +87,13 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
 	UpdateRecoil(fTimeDelta);
 	
-	Shaking(fTimeDelta);
 
-	
-	
+	if (!m_bCameraLocked)
+	{
+		Shaking(fTimeDelta);
+
 		HandleMouseInput(fTimeDelta);
-
+	}
 	__super::Update_VP_Matrices();
 	fPlayerTrans->Set_State(CTransform::STATE_RIGHT, m_pTransformCom->Get_State(CTransform::STATE_RIGHT).GetNormalized() * fScale.x);
 	fPlayerTrans->Set_State(CTransform::STATE_UP, m_pTransformCom->Get_State(CTransform::STATE_UP).GetNormalized() * fScale.y);
@@ -102,13 +103,15 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+	if (GetAsyncKeyState(VK_TAB) & 0xf8000)
 	{
-		m_tmpState = !m_tmpState;
+		Camera_Lock();
 	}
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
+	
+
 	POINT pt;
 	GetCursorPos(&pt);
 
@@ -150,7 +153,6 @@ void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 	_float3 vUp = { 0.0f, 1.0f, 0.0f };
 	D3DXVec3TransformNormal(&vUp, &vUp, &matRotation);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
-
 	// 마우스 커서를 화면 중앙으로 이동
 	SetCursorPos(screenCenter.x, screenCenter.y);
 

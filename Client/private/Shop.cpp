@@ -25,16 +25,18 @@ HRESULT CShop::Initialize(void* pArg) // 자식에서 무조건 __Super:: 로 �
         return E_FAIL;
 
     m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-
+ 
     m_pPlayer = static_cast<CPlayer*>(m_pPlayer);
     if (m_pPlayer == nullptr)
         return E_FAIL;
     else
         Safe_AddRef(m_pPlayer);
 
+    if (!(m_pFirstPersonCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")))))
+        return E_FAIL;
+  
 
-    
-
+ 
     // 상점 기본 설정
     m_bIsOpen = false;
 
@@ -62,7 +64,8 @@ void CShop::Update(_float fTimeDelta)
                 m_bIsOpen = !m_bIsOpen;
                 m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen);
                 m_bSpacePressed = true; 
-                static_cast<CPlayer*>(m_pPlayer)->Taimu_S_to_pu();
+                static_cast<CPlayer*>(m_pPlayer)->StopAction();
+                m_pFirstPersonCamera->Camera_Lock();
             }
         }
         else

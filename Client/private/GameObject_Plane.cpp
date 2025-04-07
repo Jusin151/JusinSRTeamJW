@@ -31,6 +31,56 @@ HRESULT CGameObject_Plane::Initialize(void* pArg)
     return S_OK;
 }
 
+HRESULT CGameObject_Plane::Ready_Components()
+{
+    /* For.Com_Transform */
+    CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+        return E_FAIL;
+
+    /* For.Com_VIBuffer */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    /* For.Com_Texture */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Base"),
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+
+    CBlood_Particle_System::BLOODDESC bloodDesc = {};
+    bloodDesc.iNumParticles = { 100u };
+    bloodDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
+    bloodDesc.Bound.m_fRadius = 0.1f;
+    bloodDesc.iNumParticles = { 100 };
+    bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    bloodDesc.iNumTextures = { 1 };
+
+    /* For.Com_BloodParticle */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+        TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
+        return E_FAIL;
+
+    CShader::SHADER_DESC shaderDesc = {};
+    shaderDesc.filePath = L"../../Resources/Shaders/DoubleSideRect.hlsl";
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), &shaderDesc)))
+        return E_FAIL;
+
+    CMaterial::MATERIAL_DESC mateiralDesc = {};
+
+    /* For.Com_Material */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 void CGameObject_Plane::Priority_Update(_float fTimeDelta)
 {
 }
@@ -62,12 +112,22 @@ HRESULT CGameObject_Plane::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
+    
     Pre_Render();
+    if (FAILED(m_pShaderCom->Bind_Transform()))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+        return E_FAIL;
+    m_pShaderCom->Bind_Material(m_pMaterialCom);
+
+    
+    m_pShaderCom->Begin(0);
 
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
     if (FAILED(m_pBloodParticleCom->Render()))
         return E_FAIL;
+    m_pShaderCom->End();
 
     Post_Render();
 
@@ -79,39 +139,7 @@ HRESULT CGameObject_Plane::Post_Render()
     return S_OK;
 }
 
-HRESULT CGameObject_Plane::Ready_Components()
-{
-    /* For.Com_Transform */
-    CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-        return E_FAIL;
-
-    /* For.Com_VIBuffer */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-        return E_FAIL;
-
-    /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Base"),
-        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;
-
-    CBlood_Particle_System::BLOODDESC bloodDesc = {};
-    bloodDesc.iNumParticles = { 100u };
-    bloodDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
-    bloodDesc.Bound.m_fRadius = 0.1f;
-    bloodDesc.iNumParticles = { 100 };
-    bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
-
-    /* For.Com_BloodParticle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
-        TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
-        return E_FAIL;
-
-    return S_OK;
-}
 
 
 CGameObject_Plane* CGameObject_Plane::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -143,7 +171,9 @@ CGameObject_Plane* CGameObject_Plane::Clone(void* pArg)
 void CGameObject_Plane::Free()
 {
     __super::Free();
+    Safe_Release(m_pShaderCom);
     Safe_Release(m_pTextureCom);
+    Safe_Release(m_pMaterialCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pBloodParticleCom);

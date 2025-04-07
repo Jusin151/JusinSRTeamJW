@@ -132,6 +132,21 @@ HRESULT CMonster_Base::Ready_Components()
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
+	CShader::SHADER_DESC shaderDesc = {};
+	shaderDesc.filePath = L"../../Resources/Shaders/DoubleSideRect.hlsl";
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), &shaderDesc)))
+		return E_FAIL;
+
+	CMaterial::MATERIAL_DESC mateiralDesc = {};
+
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -142,4 +157,6 @@ void CMonster_Base::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pShaderCom);
 }

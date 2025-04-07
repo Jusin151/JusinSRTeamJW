@@ -21,15 +21,13 @@ HRESULT CSnow_Particle_System::Initialize(void* pArg)
 {
 	SNOWDESC desc = *reinterpret_cast<SNOWDESC*>(pArg);
 	m_Bounding_Box = desc.Bounding_Box;
-	m_fSize = 0.8f;
+	m_fSize = 0.5f;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
 
-	PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
-
-	if (FAILED(__super::Initialize(&pDesc)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	
 	for (_uint i = 0; i < desc.iNumParticles; ++i)
@@ -53,7 +51,7 @@ void CSnow_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 		0.0f
 	};
 	pAttribute->fSize = m_fSize;
-	 pAttribute->vCurrentColor = D3DCOLOR_XRGB(255, 255, 255);//D3DCOLOR_COLORVALUE(0.0f, 1.0f, 0.0f, 1.0f);
+	pAttribute->vCurrentColor = D3DCOLOR_XRGB(255, 255, 255);//D3DCOLOR_COLORVALUE(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
 void CSnow_Particle_System::Update(float fTimeDelta)

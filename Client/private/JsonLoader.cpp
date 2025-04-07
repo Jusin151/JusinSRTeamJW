@@ -21,8 +21,8 @@
 #include "Door.h"
 #include "Effects.h"
 #include "Cthulhu.h"
-
-
+#include "GameObject_Snow.h"
+#include "Prefabs.h"
 
 #include "UI_Headers.h" // UI 헤더들 
 #include "Hub_Headers.h" // 허브 헤더들
@@ -38,11 +38,10 @@
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath)
 {
-	// JSON íŒŒì¼ ë¡œë“œ
+
 	ifstream file(filePath);
 	if (!file.is_open())
 	{
-		MSG_BOX("í”„ë¡œí† íƒ€ìž… JSON íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		return E_FAIL;
 	}
 
@@ -407,6 +406,26 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CWeapon_Effect::Create(pGraphic_Device);
 #pragma endregion
 
+#pragma region Particle
+	else if (className == "CGameObject_Snow")
+		return CGameObject_Snow::Create(pGraphic_Device);
+#pragma endregion
+
+#pragma region LightPrefabs
+	else if (className == "CCandles")
+		return CCandles::Create(pGraphic_Device);
+	else if (className == "CGoblet")
+		return CGoblet::Create(pGraphic_Device);
+	else if (className == "CHub_Light")
+		return CHub_Light::Create(pGraphic_Device);
+	else if (className == "CLamp")
+		return CLamp::Create(pGraphic_Device);
+	else if (className == "CLong_Torch")
+		return CLong_Torch::Create(pGraphic_Device);
+	else if (className == "CTorch")
+		return CTorch::Create(pGraphic_Device);
+#pragma endregion
+
 
 	return nullptr;
 }
@@ -458,6 +477,113 @@ HRESULT CJsonLoader::LoadClassNamesFromJson(const string & filePath, vector<stri
 		MSG_BOX("예외가 발생했습니다.");
 		return E_FAIL;
 	}
+}
+
+_int CJsonLoader::CountPrototypes(const _wstring& filePath) const
+{
+	ifstream ifs(filePath);
+	if (!ifs.is_open()) return 0;
+
+	nlohmann::json j;
+	try { ifs >> j; }
+	catch (...) { return 0; }
+
+	int count = 0;
+	if (j.contains("textures") && j["textures"].is_array())
+		count += static_cast<int>(j["textures"].size());
+	if (j.contains("gameObjects") && j["gameObjects"].is_array())
+		count += static_cast<int>(j["gameObjects"].size());
+	if (j.contains("buffers") && j["buffers"].is_array())
+		count += static_cast<int>(j["buffers"].size());
+
+	return count;
+}
+
+HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath, function<void()> onEntryLoaded)
+{
+	ifstream file(filePath);
+	if (!file.is_open())
+	{
+		return E_FAIL;
+	}
+
+	json j;
+	file >> j;
+
+	if (j.contains("textures"))
+	{
+		for (const auto& texture : j["textures"])
+		{
+			onEntryLoaded();
+			_wstring tag = ISerializable::Utf8ToWide(texture["tag"]);
+			_wstring path = ISerializable::Utf8ToWide(texture["path"]);
+			LEVEL level = static_cast<LEVEL>(texture["level"].get<_uint>());
+			_uint count = texture["count"];
+			auto pTexture = CTexture::Create(pGraphic_Device, CTexture::TYPE_2D, path.c_str(), count);
+			if (FAILED(pGameInstance->Add_Prototype(level, tag,
+				pTexture)))
+			{
+				Safe_Release(pTexture);
+				continue;
+			}
+		
+		}
+	}
+
+
+	if (j.contains("gameObjects"))
+	{
+		for (const auto& obj : j["gameObjects"])
+		{
+			onEntryLoaded();
+			_wstring tag = ISerializable::Utf8ToWide(obj["tag"]);
+			LEVEL level = static_cast<LEVEL>(obj["level"].get<_uint>());
+			string className = obj["class"];
+			CBase* pGameObject = Create_Object_ByClassName(className, pGraphic_Device);
+			if (!pGameObject)
+				continue;
+
+			if (FAILED(pGameInstance->Add_Prototype(level, tag, pGameObject)))
+			{
+				Safe_Release(pGameObject);
+				continue;
+			}
+		
+		}
+	}
+
+	if (j.contains("buffers"))
+	{
+		for (const auto& buffer : j["buffers"])
+		{
+			onEntryLoaded();
+			_wstring tag = ISerializable::Utf8ToWide(buffer["tag"]);
+			LEVEL level = static_cast<LEVEL>(buffer["level"].get<_uint>());
+			string className = buffer["class"];
+
+			CBase* pBuffer = nullptr;
+
+			if (className == "CVIBuffer_Terrain")
+			{
+				_uint width = buffer["width"].get<_uint>();
+				_uint height = buffer["height"].get<_uint>();
+				pBuffer = CVIBuffer_Terrain::Create(pGraphic_Device, width, height);
+			}
+
+
+			if (!pBuffer)
+				continue;
+
+			if (FAILED(pGameInstance->Add_Prototype(level, tag, pBuffer)))
+			{
+				Safe_Release(pBuffer);
+				continue;
+			}
+		
+		}
+	}
+
+	return S_OK;
 }
 
 _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring & layerName)

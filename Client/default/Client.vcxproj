@@ -173,6 +173,7 @@
     <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
+    <ClInclude Include="..\public\Candles.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
@@ -182,7 +183,12 @@
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
+    <ClInclude Include="..\public\GameObject_Snow.h" />
+    <ClInclude Include="..\public\Goblet.h" />
     <ClInclude Include="..\public\HellBoss_Bullet.h" />
+    <ClInclude Include="..\public\Hub_Light.h" />
+    <ClInclude Include="..\public\Lamp.h" />
+    <ClInclude Include="..\public\Long_Torch.h" />
     <ClInclude Include="..\public\Pattern_EyeBlast.h" />
     <ClInclude Include="..\public\HellBoss.h" />
     <ClInclude Include="..\public\Level_Boss.h" />
@@ -199,9 +205,11 @@
     <ClInclude Include="..\public\Node.h" />
     <ClInclude Include="..\public\Pattern_Shoot.h" />
     <ClInclude Include="..\public\Patter_Morph.h" />
+    <ClInclude Include="..\public\Prefabs.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
+    <ClInclude Include="..\public\Torch.h" />
     <ClInclude Include="..\public\TaskNode.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
@@ -304,10 +312,13 @@
     <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
+    <ClCompile Include="..\private\Candles.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Cthulhu_Tentacle.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
+    <ClCompile Include="..\private\GameObject_Snow.cpp" />
+    <ClCompile Include="..\private\Goblet.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
     <ClCompile Include="..\private\HellBoss_AttackState.cpp" />
     <ClCompile Include="..\private\HellBoss_Bullet.cpp" />
@@ -320,6 +331,7 @@
     <ClCompile Include="..\private\Glacier.cpp" />
     <ClCompile Include="..\private\GlacierBullet.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
+    <ClCompile Include="..\private\Hub_Light.cpp" />
     <ClCompile Include="..\private\Hub_PointShop.cpp" />
     <ClCompile Include="..\private\Hub_Portal.cpp" />
     <ClCompile Include="..\private\Hub_SpellShop.cpp" />
@@ -327,9 +339,11 @@
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
+    <ClCompile Include="..\private\Lamp.cpp" />
     <ClCompile Include="..\private\Level_Boss.cpp" />
     <ClCompile Include="..\private\Level_Hong.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
+    <ClCompile Include="..\private\Long_Torch.cpp" />
     <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
@@ -339,6 +353,7 @@
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
+    <ClCompile Include="..\private\Torch.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
@@ -414,15 +429,15 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\DoubleSideRect.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\FogShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -431,7 +446,17 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\PixelShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\Shader_Rect.hlsl" />
+    <FxCompile Include="..\..\Resources\Shaders\StructureShader.hlsl" />
+    <FxCompile Include="..\..\Resources\Shaders\TestPixelShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\VertexShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -439,27 +464,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">3.0</ShaderModel>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\..\Shader\VertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="TestPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <DeploymentContent>false</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </DeploymentContent>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

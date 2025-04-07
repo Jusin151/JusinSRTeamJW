@@ -30,6 +30,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
+#include "GameObject_Snow.h"
 
 
 CMainApp::CMainApp()
@@ -234,6 +235,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
 		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/Shader_Rect.hlsl"))))
 		return E_FAIL;
+	/*For.Prototype_Component_StructureShader*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_StructureShader"),
+		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/StructureShader.hlsl"))))
+		return E_FAIL;
 #pragma endregion
 	
 #pragma region Particle
@@ -289,7 +294,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma region Material
 	/* For.Prototype_Component_Material */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		CMaterial::Create(m_pGraphic_Device, L"../../Resources/Materials/TestMaterial.json"))))
+		CMaterial::Create(m_pGraphic_Device, L"../../Resources/Materials/BaseMaterial.json"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -348,6 +353,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Particle_System_Firework"),
 		CGameObject_Particle_Firework::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Particle_System_Snow"),
+		CGameObject_Snow::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,

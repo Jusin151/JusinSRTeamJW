@@ -111,7 +111,18 @@ HRESULT CRenderer::Render_NonBlend()
 	for (auto& pGameObject : m_RenderObjects[RG_NONBLEND])
 	{
 		if (nullptr != pGameObject && pGameObject->IsActive())
+		{
+			//CShader* shader = dynamic_cast<CShader*>(pGameObject->Get_Component(L"Com_Shader"));
+			//if (shader)
+			//{
+			//	for (int i = 0; i < m_Lights.size(); ++i)
+			//	{
+			//		//shader.
+			//	}
+			//}
 			pGameObject->Render();
+		}
+			
 
 		Safe_Release(pGameObject);
 	}
@@ -269,6 +280,62 @@ HRESULT CRenderer::Render_UI()
 	m_RenderObjects[RG_UI].clear();
 
 	return S_OK;
+}
+
+HRESULT CRenderer::Set_Lights(CShader* pShader)
+{
+	//카메라와의 거리 기준으로 정렬
+	if (CGameInstance::Get_Instance()->Find_Object(3, L"Layer_Camera"))
+	{
+		CTransform* cameraTransform = dynamic_cast<CTransform*>(CGameInstance::Get_Instance()->Find_Object(3, L"Layer_Camera")->Get_Component(L"Com_Transform"));
+		if (cameraTransform)
+		{
+			m_Lights.sort([cameraTransform](CLight* a, CLight* b) -> bool {
+				// 입력 유효성 검사 (선택 사항이지만 권장)
+				if (!a || !b) return false; // 혹은 다른 규칙 적용 (예: nullptr을 뒤로 보내기)
+				_float3 lightAPos = a->Get_Position(); 
+				_float3 lightBPos = b->Get_Position();
+				_float3 posC = cameraTransform->Get_State(CTransform::STATE_POSITION);
+
+				// 카메라로부터 각 오브젝트까지의 거리 '제곱' 계산
+				// 제곱 거리를 사용하는 이유: sqrt() 함수 호출보다 훨씬 빠르며, 크기 비교 목적으론 충분함
+				// YourVectorType은 D3DXVECTOR3 또는 사용하는 벡터 라이브러리에 맞춰 변경
+
+				_float3 CtoA = posC - lightAPos;
+				_float3 CtoB = posC - lightBPos;
+
+				_float distSqA = D3DXVec3LengthSq(&CtoA); // 아래 Helper 함수 참조
+				_float distSqB = D3DXVec3LengthSq(&CtoB); // 아래 Helper 함수 참조
+
+				// back-to-front 정렬: 거리 제곱이 큰 쪽(더 먼 쪽)이 먼저 오도록 함
+				return distSqA < distSqB;
+				// front-to-back 정렬 (가까운 순서)을 원하면: return distSqA < distSqB;
+				});
+		}
+	}
+	
+	//pShader->Bind_Vector("g_AmbientLightColor", &test.);
+	//pShader->Bind_Vector("g_Lights", sl, sizeof(CLight::SHADER_LIGHT) * numLights);
+
+	_int numLights = static_cast<_int>(m_Lights.size());
+	CLight::SHADER_LIGHT sl[MAX_SHADER_LIGHT] = {};
+
+	int i = 0;
+	for (auto& l : m_Lights)
+	{
+		if (i >= 8) break;
+		sl[i] = l->Get_Shader_Light();
+		i++;
+	}
+
+	pShader->Bind_Value("g_LightTest", &sl[0], sizeof(CLight::SHADER_LIGHT));
+
+	/*pShader->Bind_Vector("g_LightPosition", &sl[0].fPosition);
+	pShader->Bind_Vector("g_LightColor", &sl[0].fDiffuse);*/
+	//pShader->Bind_Handle(sl, sizeof(CLight::SHADER_LIGHT) * MAX_SHADER_LIGHT);
+	pShader->Bind_Value("g_Lights", sl, sizeof(CLight::SHADER_LIGHT) * MAX_SHADER_LIGHT);
+	pShader->Bind_Int("g_NumActiveLights", numLights);
+ 	return S_OK;
 }
 
 CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
