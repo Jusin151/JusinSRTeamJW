@@ -321,7 +321,9 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
 
     // --- 텍스처 샘플링 ---
     //float2 tiledUV = In.vTexcoord * float2(In.vScale.x, In.vTexcoord.y);
-    float2 tiledUV = float2(In.vTexcoord.x * In.vScale.x, In.vTexcoord.y);
+    float tileReduction = 0.10f; // 타일링을 1/10로 줄임
+    float2 vScaleFactor = float2(In.vScale.x * 0.3f, In.vScale.y * tileReduction);
+    float2 tiledUV = In.vTexcoord * vScaleFactor;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
     // --- 조명 요소 계산 ---
