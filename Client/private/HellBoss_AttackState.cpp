@@ -22,9 +22,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
     auto pPattern = pBoss->Get_AttackPattern();
     if (pPattern && pPattern->Is_Finished())
     {
-        delete pPattern;
-        pBoss->Set_AttackPattern(nullptr);
-
+     
         if (pBoss->Get_Phase() == CHellBoss::PHASE1)
         {
             pBoss->Change_State(new CHellBoss_IdleState());

@@ -318,6 +318,12 @@ HRESULT CLoader::Loading_For_Hong()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/slow_orb000%d.png"),10))))
 		return E_FAIL;
 
+	//헬보스 두번째 페이즈 총알 텍스쳐 (손)
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/Bullet2.png"), 1))))
+		return E_FAIL;
+
+
  	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 

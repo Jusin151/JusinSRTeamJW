@@ -76,6 +76,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 311);
 	m_AnimationManager.AddAnimation("M_Phase4_Death", 312, 337);
 
+	m_AnimationManager.AddAnimation("Start", 0, 337,0.02f);
+
 	m_AnimationManager.SetCurrentAnimation("1_Idle");
 
 
@@ -301,8 +303,8 @@ void CHellBoss::Change_State(CHellBoss_State* pNewState)
 
 void CHellBoss::Process_Input()
 {
-	if (GetAsyncKeyState('1') & 0x8000) m_AnimationManager.SetCurrentAnimation("1_Idle");
-	else if (GetAsyncKeyState('2') & 0x8000) m_AnimationManager.SetCurrentAnimation("2_Walk");
+	if (GetAsyncKeyState('0') & 0x8000) m_AnimationManager.SetCurrentAnimation("Start");
+	/*else if (GetAsyncKeyState('2') & 0x8000) m_AnimationManager.SetCurrentAnimation("2_Walk");
 	else if (GetAsyncKeyState('3') & 0x8000) m_AnimationManager.SetCurrentAnimation("3_EyeBlast");
 	else if (GetAsyncKeyState('4') & 0x8000) m_AnimationManager.SetCurrentAnimation("4_Shoot");
 	else if (GetAsyncKeyState('5') & 0x8000) m_AnimationManager.SetCurrentAnimation("5_Morph");
@@ -323,7 +325,7 @@ void CHellBoss::Process_Input()
 	else if (GetAsyncKeyState('K') & 0x8000) m_AnimationManager.SetCurrentAnimation("K_Phase3_Nova");
 	else if (GetAsyncKeyState('B') & 0x8000) m_AnimationManager.SetCurrentAnimation("B_Phase3_End");
 	else if (GetAsyncKeyState('L') & 0x8000) m_AnimationManager.SetCurrentAnimation("N_Phase4_Idle");
-	else if (GetAsyncKeyState('M') & 0x8000) m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
+	else if (GetAsyncKeyState('M') & 0x8000) m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");*/
 }
 HRESULT CHellBoss::Render()
 {
@@ -574,6 +576,7 @@ void CHellBoss::Free()
 		delete m_pCurAttackPattern;
 		m_pCurAttackPattern = nullptr;
 	}
+	m_AnimationManager.ClearAnimations(); 
 }
 
 

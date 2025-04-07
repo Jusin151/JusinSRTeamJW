@@ -53,7 +53,7 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
     //m_Weapon_INFO.vPos = {};
     //m_Weapon_INFO.vSize = {};
-    m_Weapon_INFO.Damage = 100;
+    m_Weapon_INFO.Damage = 50;
     m_Weapon_INFO.AttackSpeed = 1.2f;
    
     Ranged_INFO.CurrentAmmo = 170; //현총알
