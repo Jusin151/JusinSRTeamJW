@@ -48,6 +48,28 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 	InitializeCriticalSection(&m_CriticalSection);
 
+	if (FAILED(D3DXCreateFontW(
+		m_pGraphic_Device,
+		24, 0, FW_BOLD, 1, FALSE,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+		ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+		L"맑은 고딕", &m_pFont)))
+		return E_FAIL;
+
+	// 레벨별 전체 작업 수 설정
+	switch (m_eNextLevelID) {
+	case LEVEL_LOGO:      m_iTotalTaskCount = 6;  break; // 텍스쳐, 모델, 셰이더, 사운드, 원형객체, 최종
+	case LEVEL_GAMEPLAY:  m_iTotalTaskCount = 3;  break; // JSON1, JSON2, 최종
+	case LEVEL_EDITOR:    m_iTotalTaskCount = 4;  break; // JSON1, JSON2, JSON3, 최종
+	case LEVEL_TEST:      m_iTotalTaskCount = 2;  break; // JSON, 최종
+	case LEVEL_HUB:       m_iTotalTaskCount = 25; break; // 각 Prototype+Texture(23), JSON1, JSON2
+	case LEVEL_HONG:      m_iTotalTaskCount = 7;  break; // 6 등록+텍스쳐, 최종
+	case LEVEL_BOSS:      m_iTotalTaskCount = 2;  break; // JSON, 최종
+	default:              m_iTotalTaskCount = 1;  break;
+	}
+	m_iCompletedTaskCount = 0;
+	m_fProgress = 0.f;
+
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -100,22 +122,22 @@ HRESULT CLoader::Loading_For_Logo()
  	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
 	Add_To_Logo_Textures();
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("셰이더을(를) 로딩중입니다."));
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-
+	CompleteOneTask(); // 1/6
  	//m_pGameInstance->Load_Bank(L"Background");
 
  	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
 	Add_To_Logo_Prototype();
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
-
+	CompleteOneTask(); // 1/6
 	m_isFinished = true;
 	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL);
 	return S_OK;
@@ -148,34 +170,34 @@ HRESULT CLoader::Loading_For_Hub()
 		TEXT("Prototype_GameObject_GamePlayer_Button"),
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, // 포인트샵 월드객체 
 		TEXT("Prototype_GameObject_Point_Shop"),
 		CHub_PointShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	CompleteOneTask();
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, // 포인트샵 UI객체 
 		TEXT("Prototype_GameObject_UI_Point_Shop"),
 		CUI_Point_Shop::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	
 
 	//// 포인트샵UI객체  사진
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, TEXT("Prototype_Component_Texture_UI_Point_Shop"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png"), 1))))
 		return E_FAIL;
 
-
 	// 웨폰샵 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB,
 		TEXT("Prototype_GameObject_Weapon_Shop"),
 		CHub_WeaponShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
 	//// 웨폰상점  월드 객체 사진
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, TEXT("Prototype_Component_Texture_Weapon_Shop"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/Gunsmith_station.png"), 1))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, // 웨폰샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
 		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
@@ -345,6 +367,46 @@ HRESULT CLoader::Loading_For_Boss()
 	return S_OK;
 }
 
+void CLoader::DrawLoadingBar(IDirect3DDevice9* device, float progress, const RECT& rc)
+{
+	int fullW = rc.right - rc.left;
+	int fillW = static_cast<int>(fullW * progress);
+	const DWORD kRed = 0xFFFF0000;
+	// 2) 채워진 부분을 삼각형 두 개로 그리기 위한 버텍스 6개 설정
+	CUSTOMVERTEX v[6] = {
+	{ (FLOAT)rc.left,        (FLOAT)rc.top,    0.0f, kRed },
+	{ (FLOAT)(rc.left + fillW),(FLOAT)rc.top,    0.0f, kRed },
+	{ (FLOAT)rc.left,        (FLOAT)rc.bottom, 0.0f, kRed },
+	{ (FLOAT)(rc.left + fillW),(FLOAT)rc.top,    0.0f, kRed },
+	{ (FLOAT)(rc.left + fillW),(FLOAT)rc.bottom, 0.0f, kRed },
+	{ (FLOAT)rc.left,        (FLOAT)rc.bottom, 0.0f, kRed },
+	};
+
+	device->SetRenderState(D3DRS_ZENABLE, FALSE);
+
+	// (2) 블렌딩 끄기 → 완전 불투명
+	device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	// 4) FVF 설정 후 바로 그리기
+	device->SetFVF(D3DFVF_CUSTOMVERTEX);
+	device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, v, sizeof(CUSTOMVERTEX));
+
+	ID3DXLine* pLine = nullptr;
+	if (SUCCEEDED(D3DXCreateLine(device, &pLine))) {
+		D3DXVECTOR2 pts[5] = {
+			{ (FLOAT)rc.left,       (FLOAT)rc.top },
+			{ (FLOAT)rc.right,      (FLOAT)rc.top },
+			{ (FLOAT)rc.right,      (FLOAT)rc.bottom },
+			{ (FLOAT)rc.left,       (FLOAT)rc.bottom },
+			{ (FLOAT)rc.left,       (FLOAT)rc.top }
+		};
+		pLine->Begin();
+		pLine->Draw(pts, 5, 0xFFFFFFFF);  // 흰색 테두리
+		pLine->End();
+		pLine->Release();
+	}
+}
+
 HRESULT CLoader::Loading_For_Editor()
 {
 	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
@@ -496,6 +558,13 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 	return S_OK;
 }
 
+void CLoader::CompleteOneTask()
+{
+	m_iCompletedTaskCount++;
+	m_fProgress = float(m_iCompletedTaskCount) / m_iTotalTaskCount;
+	swprintf_s(m_szLoadingText, L"로딩 중... %d%%", int(m_fProgress * 100));
+}
+
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 {
@@ -520,7 +589,7 @@ void CLoader::Free()
 	DeleteObject(m_hThread);
 
 	CloseHandle(m_hThread);
-
+	Safe_Release(m_pFont);
 	Safe_Release(m_pGameInstance);
 
 	Safe_Release(m_pGraphic_Device);
