@@ -83,6 +83,8 @@ public:
 	{
 		m_iSprit += Sprit;
 		m_iPlayerMP.first += Sprit * 5;
+
+		Notify(m_iPlayerMP.first, L"MP"); 
 	}
 	void Add_SkillPoint(_int SkillPoint)
 	{
