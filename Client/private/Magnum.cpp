@@ -136,7 +136,8 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 		__super::Picking_Object(1, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo--; 
 		Notify_Bullet();
-		m_pGameInstance->Play_Event(L"event:/magnum_shot").SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/magnum_shot")->SetVolume(0.5f);
+		//m_pGameInstance->Play_Event(L"event:/magnum_shot")->SetVolume(0.5f);
 	}
 }
 
@@ -145,15 +146,16 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 
 void CMagnum::Late_Update(_float fTimeDelta) //요거는 나중에 LEVEL_GAMLPLAY 자리에 겟커렌트 레벨 만들면 댈듯
 {
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-	if (nullptr == pPlayer)
-		return;
-	CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
-	if (nullptr == pTransform)
-		return;
+	
 	__super::Late_Update(fTimeDelta);
 	if (State::Firing == m_eState)
 	{
+		CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+		if (nullptr == pPlayer)
+			return;
+		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		if (nullptr == pTransform)
+			return;
 		m_pGameInstance->Add_Light(m_pLightCom);
 		m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
 		m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
@@ -217,10 +219,9 @@ HRESULT CMagnum::Ready_Components()
 		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
 		return E_FAIL;
 
-	//CSound_Source::LIGHT_DESC lDesc = {};
-	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
 		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	return S_OK;
 }

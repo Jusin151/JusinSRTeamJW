@@ -209,6 +209,18 @@
     <ClInclude Include="..\Public\VIBuffer_TexturedCube.h">
       <Filter>04.Components\VIBuffer\TexturedCube</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Components.h">
+      <Filter>04.Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Colliders.h">
+      <Filter>04.Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particles.h">
+      <Filter>04.Components\Particle\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffers.h">
+      <Filter>04.Components\VIBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">

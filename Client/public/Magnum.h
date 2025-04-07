@@ -5,12 +5,12 @@
 #include "Ranged_Weapon.h"
 
 BEGIN(Engine)
+class CLight;
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI는 사각형으로
 class CSound_Source;
+class CVIBuffer_Rect;  // UI는 사각형으로
 class CParticle_System;
-class CLight;
 END
 
 BEGIN(Client)

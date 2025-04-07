@@ -24,6 +24,7 @@ public: // Getters
 private:
     friend class CSound_Manager;
     friend class CGameInstance;
+    friend class CSound_Source;
 	CSound_Event(class CSound_Manager* pSound_Manager, _uint iID);
 private:
 	class CSound_Manager* m_pSound_Manager;

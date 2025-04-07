@@ -7,9 +7,12 @@
 
 
 BEGIN(Engine)
+class CLight;
 class CTexture;
 class CTransform;
+class CSound_Source;
 class CVIBuffer_Rect;  // UI는 사각형으로
+class CParticle_System;
 END
 
 BEGIN(Client)
@@ -30,36 +33,33 @@ private:
 public:
 	 HRESULT Initialize_Prototype();
 	 HRESULT Initialize(void* pArg);
+private:
+	HRESULT Ready_Components();
+public:
 	 void Priority_Update(_float fTimeDelta);
 	 void Update(_float fTimeDelta);
 	 void Attack(_float fTimeDelta);
+	 void Attack_WeaponSpecific(_float fTimeDelta) override;
 	 void Late_Update(_float fTimeDelta);
+public:
 	 HRESULT Render();
-	 Weapon_DESC m_Staff_INFO{};
-
+public:
 	 HRESULT On_Collision();
-
-	 HRESULT Ready_Components();
-
-
-
+	 
+private:
+	CSound_Source*	m_pSoundCom = { nullptr };
+	CLight*			m_pLightCom = { nullptr };
 private:
 	State m_eState = State::Idle;
+	Weapon_DESC m_Staff_INFO{};
 private: 
 	_float m_fSpinSpeed = {};
 	const _float m_fSpinDecreaseRate = { 0.2f }; // 초당 몇초 감소하게 할껀지
-
+	_float m_fHoldTime = {};
 public:
 	static CMinigun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-	_float m_fHoldTime = {};
-
-
-
-
-	// CRanged_Weapon을(를) 통해 상속됨
-	void Attack_WeaponSpecific(_float fTimeDelta) override;
-
+	
 };
 END

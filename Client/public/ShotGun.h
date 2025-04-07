@@ -6,9 +6,12 @@
 
 
 BEGIN(Engine)
+class CLight;
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI는 사각형으로
+class CSound_Source;
+class CVIBuffer_Rect;  
+class CParticle_System;
 END
 
 BEGIN(Client)
@@ -30,26 +33,27 @@ private:
 public:
 	 HRESULT Initialize_Prototype();
 	 HRESULT Initialize(void* pArg);
+private:
+	HRESULT Ready_Components();
+public:
 	 void Priority_Update(_float fTimeDelta);
 	 void Update(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
+public:
 	 HRESULT Render();
 public: //공격 관련
 	void Attack_WeaponSpecific(_float fTimeDelta);
 	void Attack(_float fTimeDelta);
-	 HRESULT On_Collision();
+	HRESULT On_Collision();
 
 private:
-	HRESULT Ready_Components();
+	State m_eState = State::Idle;
+	CSound_Source* m_pSoundCom = { nullptr };
+	CLight* m_pLightCom = { nullptr };
 
 public:
 	static CShotGun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) ;
+	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
-private:
-	State m_eState = State::Idle;
-private:
-
-
 };
 END

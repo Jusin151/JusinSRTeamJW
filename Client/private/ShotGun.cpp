@@ -124,6 +124,19 @@ void CShotGun::Late_Update(_float fTimeDelta)
 		m_iCurrentFrame = m_TextureRanges["Idle"].first;
 		break;
 	}
+
+	if (State::Firing == m_eState)
+	{
+		CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+		if (nullptr == pPlayer)
+			return;
+		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		if (nullptr == pTransform)
+			return;
+		m_pGameInstance->Add_Light(m_pLightCom);
+		m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
+		m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
+	}
 }
 void CShotGun::Attack_WeaponSpecific(_float fTimeDelta)
 {
@@ -222,6 +235,16 @@ HRESULT CShotGun::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
 
+	CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
+		return E_FAIL;
+
+	//CSound_Source::LIGHT_DESC lDesc = {};
+	/*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;*/
+
 	return S_OK;
 }
 
@@ -263,6 +286,8 @@ void CShotGun::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pLightCom);
+	Safe_Release(m_pSoundCom);
 }
 
 

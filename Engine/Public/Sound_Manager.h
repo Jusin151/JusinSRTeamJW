@@ -21,7 +21,8 @@ public:
 	void					Unload_AllBank();
 
 public:
-	class CSound_Event		Play_Event(const _wstring& strEventPath, void* pArg = nullptr);
+	class CSound_Event		Play_Background(const _wstring& strEventPath, void* pArg = nullptr);
+	class CSound_Event*		Play_Event(const _wstring& strEventPath, void* pArg = nullptr);
 
 public:
 	void					Stop_All_Event();

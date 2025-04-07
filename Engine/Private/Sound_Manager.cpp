@@ -231,7 +231,7 @@ void CSound_Manager::Late_Update(_float fTimeDelta)
 		return;
 }
 
-CSound_Event CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg)
+CSound_Event CSound_Manager::Play_Background(const _wstring& strEventPath, void* pArg)
 {
     unsigned int retID = 0;
     // 이벤트가 존재하는지 확인
@@ -256,6 +256,34 @@ CSound_Event CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg
         }
     }
     return CSound_Event(this, retID);
+}
+
+CSound_Event* CSound_Manager::Play_Event(const _wstring& strEventPath, void* pArg)
+{
+    unsigned int retID = 0;
+    // 이벤트가 존재하는지 확인
+    auto iter = mEvents.find(strEventPath);
+    if (iter != mEvents.end())
+    {
+        // 이벤트의 인스턴스를 생성한다.
+        FMOD::Studio::EventInstance* event = nullptr;
+        iter->second->createInstance(&event);
+        if (event)
+        {
+            // 이벤트 인스턴스를 시작한다.
+            event->start();
+            // 새 아이디를 얻어 맵에 추가한다.
+            sNextID++;
+            retID = sNextID;
+            mEventInstances.emplace(retID, event);
+
+            //// release는 이벤트 인스턴스가 정지할 때 이벤트 소멸자 실행을 예약한다.
+            //// 반복하지 않는 이벤트는 자동으로 정지한다.
+            event->release();
+        }
+    }
+    CSound_Event* e = new CSound_Event(this, retID); 
+    return e;
 }
 
 Studio::EventInstance* CSound_Manager::Get_EventInstance(_uint iID)

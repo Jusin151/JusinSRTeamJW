@@ -3,16 +3,9 @@
 #include "Level_Logo.h"
 #include "Level_Loading.h"
 #include "Loading_UI.h"
-#include "VIBuffer_Cube.h"
 #include "Structure.h"
-#include "Collider_Sphere.h"
-#include "Collider_Cube.h"
-#include "Material.h"
 #include "GameObjects_Base.h"
-#include "VIBuffer_TexturedCube.h"
-#include "Light.h"
 #include "PickingSys.h"
-#include "Particles.h"
 #include "Sky.h"
 #include "MiniMap.h"
 #include "StructureManager.h"
@@ -56,7 +49,7 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 
-	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
+	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device, &m_pSound_Manager)))
 		return E_FAIL;	
 #pragma endregion
 
@@ -81,25 +74,15 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Prototype_Inven()))
 		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Camera_FirstPerson"),
-		CCamera_FirstPerson::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 #pragma endregion
 	m_pPickingSys->Initialize(g_hWnd, m_pGraphic_Device, m_pGameInstance);
 	CJsonLoader jsonLoader;
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_Static.json")))
 		return E_FAIL;
 
-
-
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
-
-  
 
 	return S_OK;
 }
@@ -298,6 +281,14 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Sound
+	/* For.Prototype_Component_Sound_Source */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		CSound_Source::Create(m_pGraphic_Device, m_pSound_Manager))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma region Font
 	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
 		return E_FAIL;
@@ -307,15 +298,6 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma endregion
 	
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, 
-		TEXT("Prototype_GameObject_MiniMap"),
-		CMiniMap::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if(FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
-		TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pGraphic_Device))))
-		return E_FAIL;
 	return S_OK;
 }
 
@@ -329,6 +311,24 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
+#pragma region Camera
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Camera_Free"),
+		CCamera_Free::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, // 카메라 원형객체
+		TEXT("Prototype_GameObject_Camera_FirstPerson"),
+		CCamera_FirstPerson::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region MiniMap
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_MiniMap"),
+		CMiniMap::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region BaseGameObjects
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Plane"),

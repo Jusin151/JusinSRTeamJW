@@ -25,6 +25,7 @@ HRESULT CLevel_Hub::Initialize()
 
 {
 	CJsonLoader jsonLoader;
+	
 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hub.json", LEVEL_HUB);
 	static _bool bIsLoading = false;
@@ -102,6 +103,9 @@ HRESULT CLevel_Hub::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
 		LEVEL_STATIC, TEXT("Layer_SkyBox"))))
 		return E_FAIL;
+
+	m_pGameInstance->Stop_All_Event();
+	m_pGameInstance->Play_Background(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
 
 	return S_OK;
 }

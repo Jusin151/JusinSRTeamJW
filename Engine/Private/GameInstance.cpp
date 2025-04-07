@@ -21,7 +21,7 @@ CGameInstance::CGameInstance()
 {
 }
 
-HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut)
+HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut, CSound_Manager** ppOut2)
 {
 	g_bDebugCollider = false;
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.isWindowed, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppOut);
@@ -49,6 +49,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 		return E_FAIL;
 
 	m_pSound_Manager = CSound_Manager::Create(512, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL);
+	*ppOut2 = m_pSound_Manager;
 	if (nullptr == m_pSound_Manager)
 		return E_FAIL;
 
@@ -85,7 +86,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 		m_pLevel_Manager->Update(fTimeDelta);
 		m_pObject_Manager->Priority_Update(fTimeDelta);
-		////m_pSound_Manager->Update(fTimeDelta);
+		m_pSound_Manager->Update(fTimeDelta);
 		m_pObject_Manager->Update(fTimeDelta);
 	    m_pCollider_Manager->Update_Collison();
 		//m_pFrustumCull->Update();
@@ -133,7 +134,6 @@ HRESULT CGameInstance::Process_LevelChange(_uint iLevelIndex, CLevel* pNewLevel)
 	HRESULT hr = m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 	if (m_eLevelState == LEVEL_STATE::CHANGING)
 		return E_FAIL; // 이미 레벨 변경 중인 경우 방지
-	m_pSound_Manager->Stop_All_Event();
 	return hr;
 }
 _uint CGameInstance::Get_CurrentLevel() const
@@ -267,7 +267,12 @@ void CGameInstance::Stop_All_Event()
 	m_pSound_Manager->Stop_All_Event();
 }
 
-CSound_Event CGameInstance::Play_Event(const _wstring& strEventName, void* pArg)
+CSound_Event CGameInstance::Play_Background(const _wstring& strEventName, void* pArg)
+{
+	return m_pSound_Manager->Play_Background(strEventName, pArg);
+}
+
+CSound_Event* CGameInstance::Play_Event(const _wstring& strEventName, void* pArg)
 {
 	return m_pSound_Manager->Play_Event(strEventName, pArg);
 }
