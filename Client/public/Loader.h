@@ -8,7 +8,12 @@ class CGameInstance;
 END
 
 BEGIN(Client)
-
+struct CUSTOMVERTEX {
+	// 화면 좌표에 직접 그리기
+	_float x, y, z, rhw;  // rhw: reciprocal of homogeneous w
+	DWORD color;
+};
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
 class CLoader final : public CBase
 {
 private:
@@ -24,9 +29,7 @@ public:
 	HRESULT Initialize(LEVEL eNextLevelID);
 	HRESULT Loading();
 
-	void Output_LoadingText() {
-		SetWindowText(g_hWnd, m_szLoadingText);
-	}
+	void Output_LoadingText();
 
 
 private:
@@ -64,9 +67,17 @@ public:
 	HRESULT Add_To_Logo_Menu_Prototype();
 ////////////////////////////////////////////////////////////
 	HRESULT Add_To_GamePlay_Prototype();
-		
+private:
+	void DrawLoadingBar(IDirect3DDevice9* device, _float progress, const RECT& rc);
+	void  CompleteOneTask();
 
-		
+private:
+
+	_int     m_iTotalTaskCount = 0;    // 전체 작업 수
+	_int     m_iCompletedTaskCount = 0;    // 완료된 작업 수
+	_float   m_fProgress = 0.f;  // 0.0f ~ 1.0f
+	ID3DXFont* m_pFont = nullptr;
+
 };
 
 END

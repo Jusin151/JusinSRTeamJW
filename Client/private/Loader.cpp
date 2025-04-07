@@ -48,6 +48,24 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 	InitializeCriticalSection(&m_CriticalSection);
 
+	if (FAILED(D3DXCreateFontW(
+		m_pGraphic_Device,
+		24, 0, FW_BOLD, 1, FALSE,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+		ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+		L"맑은 고딕", &m_pFont)))
+		return E_FAIL;
+
+	m_iTotalTaskCount = 0;
+	// 레벨별 전체 작업 수 설정
+	switch (m_eNextLevelID) {
+	case LEVEL_LOGO:      m_iTotalTaskCount = 5;  break; // 텍스쳐, 모델, 셰이더, 사운드, 원형객체, 최종
+	case LEVEL_EDITOR:    m_iTotalTaskCount = 4;  break; // JSON1, JSON2, JSON3, 최종
+	case LEVEL_HONG:      m_iTotalTaskCount = 7;  break; // 6 등록+텍스쳐, 최종
+	}
+	m_iCompletedTaskCount = 0;
+	m_fProgress = 0.f;
+
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -95,28 +113,44 @@ HRESULT CLoader::Loading()
 	
 	return S_OK;
 }
+void CLoader::Output_LoadingText()
+{	// 윈도우 타이틀에도 진행률 표시
+	SetWindowText(g_hWnd, m_szLoadingText);
+
+	RECT barRect = { 80, 640, 1200, 690 };
+	DrawLoadingBar(m_pGraphic_Device, m_fProgress, barRect);
+
+	RECT textRect = { 80, 600, 1200, 630 };
+	m_pFont->DrawTextW(
+		nullptr,
+		m_szLoadingText,
+		-1,
+		&textRect,
+		DT_LEFT | DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255)
+	);
+}
 HRESULT CLoader::Loading_For_Logo()
 {
  	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
 	Add_To_Logo_Textures();
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("셰이더을(를) 로딩중입니다."));
-
+	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-
+	CompleteOneTask(); // 1/6
  	//m_pGameInstance->Load_Bank(L"Background");
 
  	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
 	Add_To_Logo_Prototype();
-
-	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
-
+	CompleteOneTask(); // 1/6
 	m_isFinished = true;
+ 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL);
 	return S_OK;
 }
@@ -124,15 +158,29 @@ HRESULT CLoader::Loading_For_GamePlay()
 {
 	
    	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
-
-	// JSON 로더를 사용하여 모든 프로토타입 로드
 	CJsonLoader jsonLoader;
- 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
-	return E_FAIL;
 
-	// JSON 로더를 사용하여 모든 프로토타입 로드
-	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
-		return E_FAIL;
+
+	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes.json");
+	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Test.json");
+
+ //	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
+	//return E_FAIL;
+
+	//// JSON 로더를 사용하여 모든 프로토타입 로드
+	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
+	//	return E_FAIL;
+
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json",
+		[this]() { CompleteOneTask(); }
+	);
+
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes.json",
+		[this]() { CompleteOneTask(); }
+	);
+
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
@@ -141,7 +189,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 }
 
 HRESULT CLoader::Loading_For_Hub()
-{
+{	// JSON 로더를 사용하여 모든 프로토타입 로드
+	CJsonLoader jsonLoader;
+
+
+	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Hub.json");
+	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Test.json");
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, // 게임플레이버튼 UI 
@@ -164,18 +218,15 @@ HRESULT CLoader::Loading_For_Hub()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Point_Shop/Point_Shop_UI_0.png"), 1))))
 		return E_FAIL;
 
-
 	// 웨폰샵 월드객체 삭제 X
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB,
 		TEXT("Prototype_GameObject_Weapon_Shop"),
 		CHub_WeaponShop::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
 	//// 웨폰상점  월드 객체 사진
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, TEXT("Prototype_Component_Texture_Weapon_Shop"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Hub/Gunsmith_station.png"), 1))))
 		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HUB, // 웨폰샵 UI 삭제 X
 		TEXT("Prototype_GameObject_UI_Weapon_Shop"),
 		CUI_WeaponShop_UI::Create(m_pGraphic_Device))))
@@ -272,16 +323,21 @@ HRESULT CLoader::Loading_For_Hub()
 
 	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
-	// JSON 로더를 사용하여 모든 프로토타입 로드
-	CJsonLoader jsonLoader;
 
+	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"))) // 건물관련
+	//	return E_FAIL;
+	//// JSON 로더를 사용하여 모든 프로토타입 로드
+	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json"))) // 명훈이형꺼 관련
+	//	return E_FAIL;
 
-
-	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"))) // 건물관련
-		return E_FAIL;
-	// JSON 로더를 사용하여 모든 프로토타입 로드
-	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json"))) // 명훈이형꺼 관련
-		return E_FAIL;
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json",
+		[this]() { CompleteOneTask(); }
+	);
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json",
+		[this]() { CompleteOneTask(); }
+	);
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
@@ -334,15 +390,64 @@ HRESULT CLoader::Loading_For_Hong()
 
 HRESULT CLoader::Loading_For_Boss()
 {
-	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 	CJsonLoader jsonLoader;
-	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json")))
-		return E_FAIL;
+
+
+	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Boss1.json");
+
+	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json",
+		[this]() { CompleteOneTask(); }
+	);
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 
 	return S_OK;
+}
+
+void CLoader::DrawLoadingBar(IDirect3DDevice9* device, _float progress, const RECT& rc)
+{
+	device->SetTexture(0, nullptr);  // 0번 텍스처 해제
+	device->SetRenderState(D3DRS_ZENABLE, FALSE);
+	device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	_float fullW = _float(rc.right - rc.left);
+	_float fillW = fullW * progress;
+	const DWORD kRed = 0xFFFF0000; 
+
+	CUSTOMVERTEX v[6] = {
+		{ float(rc.left),        float(rc.top),    0.0f, 1.0f, kRed },
+		{ float(rc.left + fillW),  float(rc.top),    0.0f, 1.0f, kRed },
+		{ float(rc.left),        float(rc.bottom), 0.0f, 1.0f, kRed },
+		{ float(rc.left + fillW),  float(rc.top),    0.0f, 1.0f, kRed },
+		{ float(rc.left + fillW),  float(rc.bottom), 0.0f, 1.0f, kRed },
+		{ float(rc.left),        float(rc.bottom), 0.0f, 1.0f, kRed },
+	};
+
+
+	device->SetFVF(D3DFVF_CUSTOMVERTEX);
+	device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, v, sizeof(CUSTOMVERTEX));
+
+	// 테두리
+	ID3DXLine* pLine = nullptr;
+	if (SUCCEEDED(D3DXCreateLine(device, &pLine))) {
+		D3DXVECTOR2 pts[5] = {
+			{ float(rc.left),  float(rc.top) },
+			{ float(rc.right), float(rc.top) },
+			{ float(rc.right), float(rc.bottom) },
+			{ float(rc.left),  float(rc.bottom) },
+			{ float(rc.left),  float(rc.top) }
+		};
+		pLine->Begin();
+		pLine->Draw(pts, 5, 0xFFFFFFFF);
+		pLine->End();
+		pLine->Release();
+	}
+	
+	device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 }
 
 HRESULT CLoader::Loading_For_Editor()
@@ -496,6 +601,19 @@ HRESULT CLoader::Add_To_GamePlay_Prototype()
 	return S_OK;
 }
 
+void CLoader::CompleteOneTask()
+{
+	m_iCompletedTaskCount++;
+
+	m_fProgress = float(m_iCompletedTaskCount) / m_iTotalTaskCount;
+
+
+	int percent = static_cast<int>(ceil(m_fProgress * 100.0f));
+	if (percent > 100) percent = 100;
+
+	swprintf_s(m_szLoadingText, L"로딩 중... %d%%", percent);
+}
+
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID)
 {
@@ -520,7 +638,7 @@ void CLoader::Free()
 	DeleteObject(m_hThread);
 
 	CloseHandle(m_hThread);
-
+	Safe_Release(m_pFont);
 	Safe_Release(m_pGameInstance);
 
 	Safe_Release(m_pGraphic_Device);
