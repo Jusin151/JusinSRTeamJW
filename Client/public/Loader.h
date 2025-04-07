@@ -9,10 +9,10 @@ END
 
 BEGIN(Client)
 struct CUSTOMVERTEX {
-	FLOAT x, y, z;    // 화면 좌표 (z는 0으로)
-	DWORD color;      // ARGB 컬러
+	float x, y, z, rhw;  // rhw: reciprocal of homogeneous w
+	DWORD color;
 };
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_DIFFUSE)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
 class CLoader final : public CBase
 {
 private:
@@ -46,6 +46,7 @@ public:
 		);
 	}
 
+	void  CompleteOneTask();
 
 
 private:
@@ -91,7 +92,7 @@ private:
 	int     m_iCompletedTaskCount = 0;    // 완료된 작업 수
 	float   m_fProgress = 0.f;  // 0.0f ~ 1.0f
 	ID3DXFont* m_pFont = nullptr;
-	void    CompleteOneTask();
+
 };
 
 END
