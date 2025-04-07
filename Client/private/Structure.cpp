@@ -52,12 +52,6 @@ HRESULT CStructure::Ready_Components()
 	else
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
-
-	///* For.Com_VIBuffer */
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
-	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-	//	return E_FAIL;	
-	//
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_TexturedCube",
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
@@ -95,14 +89,11 @@ HRESULT CStructure::Ready_Components()
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom), &materialDesc)))
-		return E_FAIL;
-
-
-	CShader::SHADER_DESC shaderDesc = { L"../../Resources/Shaders/StructureShader.hlsl" };
+		return E_FAIL;	
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), &shaderDesc)))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StructureShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	return S_OK;

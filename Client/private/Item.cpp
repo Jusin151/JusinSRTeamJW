@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Particles.h"
 
 namespace Item
 {
@@ -85,7 +86,8 @@ void CItem::Priority_Update(_float fTimeDelta)
 void CItem::Update(_float fTimeDelta)
 {
 	m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
-
+	if(nullptr != m_pParticleCom) 
+		m_pParticleCom->Update(fTimeDelta);
 	if (m_bIsCubeCollider)
 	{
 		(m_pColliderCom)->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
@@ -335,6 +337,20 @@ HRESULT CItem::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
+
+	if (m_eItemType == ITEM_TYPE::EXP)
+	{
+		CGold_Particle_System::GOLDDESC goldDesc = {};
+		goldDesc.Bounding_Box.m_vMin = { -1, -1, 0 };
+		goldDesc.Bounding_Box.m_vMax = { 1, 1, 0 };
+		goldDesc.iNumParticles = { 10 };
+		goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
+		goldDesc.iNumTextures = { 1 };
+
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &goldDesc)))
+			return E_FAIL;
+	}
 	m_eType = CG_ITEM;
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),

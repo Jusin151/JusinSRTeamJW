@@ -5,11 +5,14 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
-class CTexture;
 class CTransform;
+class CLight;
+class CShader;
+class CTexture;
+class CParticle_System;
+class CMaterial;
 class CVIBuffer;
 class CCollider;
-class CMaterial;
 END
 
 BEGIN(Client)
@@ -63,10 +66,13 @@ private:
 private:
 
 	// 컴포넌트
+	CLight* m_pLightCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CParticle_System* m_pParticleCom = { nullptr };
 	CMaterial* m_pMaterialCom = { nullptr };
 	_bool m_bIsCubeCollider = { false };
 	
