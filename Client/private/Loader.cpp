@@ -81,6 +81,7 @@ HRESULT CLoader::Loading()
 		break;
 	case LEVEL_HONG:
 		hr = Loading_For_Hong();
+		break;
 	case LEVEL_BOSS:
  		hr = Loading_For_Boss();
 		break;

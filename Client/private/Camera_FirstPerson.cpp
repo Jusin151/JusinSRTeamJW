@@ -102,13 +102,13 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
-	{
-		m_tmpState = !m_tmpState;
-	}
+	
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {
+	if (m_tmpState)
+		return;
+
 	POINT pt;
 	GetCursorPos(&pt);
 
@@ -150,7 +150,6 @@ void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 	_float3 vUp = { 0.0f, 1.0f, 0.0f };
 	D3DXVec3TransformNormal(&vUp, &vUp, &matRotation);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
-
 	// 마우스 커서를 화면 중앙으로 이동
 	SetCursorPos(screenCenter.x, screenCenter.y);
 
