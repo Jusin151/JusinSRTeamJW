@@ -40,9 +40,9 @@
           "ProtoLevel": 0
         },
         "position": [
-          1.0,
+          50.0,
           0.0,
-          1.0
+          0.0
         ],
         "rotation": [
           0.0,
@@ -1081,7 +1081,8 @@
           3.799999952316284,
           8.399999618530273,
           0.5
-        ]
+        ],
+        "material": "../../Resources/Materials/GlowMaterial.json"
       }
     ],
     "Layer_Wall": [

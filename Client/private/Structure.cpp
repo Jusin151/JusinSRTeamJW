@@ -38,6 +38,77 @@ HRESULT CStructure::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CStructure::Ready_Components()
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	if (m_tObjDesc.stProtTextureTag.find(L"AntFloor") != wstring::npos)
+		m_eStructureType = STRUCTURE_TYPE::OCEAN;
+	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
+		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
+	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos || m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos)
+		m_eStructureType = STRUCTURE_TYPE::MAGMA;
+	else
+		m_eStructureType = STRUCTURE_TYPE::NORMAL;
+
+
+	///* For.Com_VIBuffer */
+	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
+	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+	//	return E_FAIL;	
+	//
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_TexturedCube",
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	// 바닥
+	if (m_tObjDesc.stProtTextureTag.find(L"Floor") != wstring::npos)
+	{
+		m_eType = CG_STRUCTURE_FLOOR;
+	}
+	// 벽 태그인 경우
+	else if (m_tObjDesc.stProtTextureTag.find(L"Wall") != wstring::npos)
+	{
+		m_eType = CG_STRUCTURE_WALL;
+	}
+
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
+	CShader::SHADER_DESC shaderDesc = { L"../../Resources/Shaders/StructureShader.hlsl" };
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), &shaderDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
+#pragma region Update
 void CStructure::Priority_Update(_float fTimeDelta)
 {
 
@@ -199,7 +270,53 @@ HRESULT CStructure::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	return S_OK;
 }
+HRESULT CStructure::Render()
+{
+	if (FAILED(m_pMaterialCom->Bind_Resource()))
+		return E_FAIL;
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, static_cast<_uint>(m_iCurrentTexture))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+			return E_FAIL;
+	}
 
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if(FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+
+	m_pShaderCom->Begin(0);
+
+	SetUp_RenderState();
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	if (g_bDebugCollider)
+	{
+		m_pColliderCom->Render();
+	}
+	m_pShaderCom->End();
+	Release_RenderState();
+
+	return S_OK;
+}
 HRESULT CStructure::Release_RenderState()
 {
 	// 기본 컬링 모드로 복원 (반시계 방향 면만 렌더링 - 일반적인 앞면)
@@ -212,68 +329,6 @@ HRESULT CStructure::Release_RenderState()
 	// 원래 샘플러 상태로 복원
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, originalAddressU);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, originalAddressV);
-	return S_OK;
-}
-
-HRESULT CStructure::Ready_Components()
-{
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(m_tObjDesc.iProtoLevel, m_tObjDesc.stProtTextureTag,
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (m_tObjDesc.stProtTextureTag.find(L"AntFloor") != wstring::npos)
-		m_eStructureType = STRUCTURE_TYPE::OCEAN;
-	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
-		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
-	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos|| m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos)
-		m_eStructureType = STRUCTURE_TYPE::MAGMA;
-	else
-		m_eStructureType = STRUCTURE_TYPE::NORMAL;
-
-
-	///* For.Com_VIBuffer */
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
-	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-	//	return E_FAIL;	
-	//
-	if (FAILED(__super::Add_Component(LEVEL_STATIC,L"Prototype_Component_VIBuffer_TexturedCube",
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* For.Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	// 바닥
-	if (m_tObjDesc.stProtTextureTag.find(L"Floor") != wstring::npos)
-	{
-		m_eType = CG_STRUCTURE_FLOOR;
-	}
-	// 벽 태그인 경우
-	else if (m_tObjDesc.stProtTextureTag.find(L"Wall") != wstring::npos)
-	{
-		m_eType = CG_STRUCTURE_WALL;
-	}
-
-	ColliderDesc.pOwner = this;
-	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
-	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-		return E_FAIL;
-
-	/* For.Com_Material */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
-		return E_FAIL;
-
 	return S_OK;
 }
 

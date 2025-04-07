@@ -218,6 +218,12 @@ HRESULT CGameInstance::Add_Light(CLight* pLight)
 	return m_pRenderer->Add_Light(pLight);
 }
 
+HRESULT CGameInstance::Set_Lights(CShader* pShader)
+{
+	m_pRenderer->Set_Lights(pShader);
+	return S_OK;
+}
+
 #pragma endregion
 
 #pragma region TIMER_MANAGER
