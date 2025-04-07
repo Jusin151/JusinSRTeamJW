@@ -45,25 +45,7 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 
 void CHarpoonguy::Priority_Update(_float fTimeDelta)
 {
-	if (nullptr == m_pTarget)
-	{
-		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-		if (nullptr == pTarget)
-			return;
-
-		SetTarget(pTarget);
-		Safe_AddRef(pTarget);
-	}
-
-	if (!m_bCheck)
-	{
-		if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
-			m_bCheck = true;
-	}
-	
-
-	if (m_iHp <= 0)
-		m_eCurState = MS_DEATH;
+	__super::Priority_Update(fTimeDelta);
 
 	if (m_iCurrentFrame >= 26)
 	{
@@ -79,13 +61,11 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 	if (!m_bCheck)
 	{
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 		return;
 	}
 
-
-
-	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	Select_Pattern(fTimeDelta);
 
@@ -107,6 +87,37 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 
 	if (!m_bCheck)
 		return;
+
+	for (auto& wallMTV : m_vWallMtvs)
+	{
+		auto wallNormal = wallMTV.GetNormalized();
+		_float penetration = wallNormal.Dot(m_vObjectMtvSum);
+		if (penetration < 0.f)
+		{
+			// 벽 방향으로 침범 중 → 해당 방향 성분 제거
+			m_vObjectMtvSum -= wallNormal * penetration;
+		}
+	}
+
+	// MTV 크기 클램프 (너무 밀리지 않도록)
+	const _float maxMtvLength = 1.5f;
+	_float mtvLength = m_vObjectMtvSum.Length();
+	if (mtvLength > maxMtvLength)
+		m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
+
+	if (m_vWallMtvs.empty())
+	{
+		// 벽 충돌 
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+	}
+	else
+	{
+		if (mtvLength > 0.001f)
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		else
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+	}
+
 
 
 	_float3 vScale = m_pTransformCom->Compute_Scaled();
@@ -184,7 +195,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 
 		
 		Take_Damage(other);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vObjectMtvSum += vMove;
 		break;
 
 	case CG_WEAPON:
@@ -192,16 +203,13 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		m_vNextPos += vMove * 0.2f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		m_vObjectMtvSum += vMove * 0.5f;
 
 		break;
 	case CG_STRUCTURE_WALL:
-		m_vNextPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
 		break;
 	case CG_DOOR:
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
 		break;
 	default:
@@ -230,20 +238,17 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		{
 			
 			m_eCurState = MS_WALK;
-			Chasing(fTimeDelta);
+			
 		}
 		else
 		{
-			Shooting(fTimeDelta);
-			m_vNextPos = m_vCurPos;
+			m_eCurState = MS_ATTACK;
 		}
 		break;
 	case MS_WALK:
 		Chasing(fTimeDelta);
 		break;
 	case MS_HIT:
-		m_vNextPos = m_vCurPos;
-		// 맞고 바로 안바뀌도록
 		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_IDLE;
 		else
@@ -252,7 +257,6 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_ATTACK:
 		Shooting(fTimeDelta);
-		m_vNextPos = m_vCurPos;
 		break;
 
 	default:
@@ -351,7 +355,7 @@ void CHarpoonguy::Select_Frame(_float fTimeDelta)
 		if (m_iCurrentFrame < 18)
 			m_iCurrentFrame = 18;
 
-		if (m_fElapsedTime >= 0.2f)
+		if (m_fElapsedTime >= 0.15f)
 		{
 			m_fElapsedTime = 0.0f;
 

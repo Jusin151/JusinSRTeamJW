@@ -75,81 +75,68 @@ void CCollider_Manager::Update_Collision_Structure()
 		{
 			for (auto& srcEntry : m_pColliders[i])
 			{
-				srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+				srcEntry->Set_MTV({ 0.f, 0.f, 0.f });
 				srcEntry->Set_Depth(0.f);
-				// 특정 속도 이상이면 여러번 체크하도록 count를 정하기
-				_int iCount = 0;
 
-				_bool bCollision = false;
-				
-				// c
-				iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
-				
+				 // 현재 위치와 다음 위치 가져옴
+				 CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+				_float3 vCurPos = pTrans->Get_State(CTransform::STATE_POSITION);
+				_float3 vDir = srcEntry->Get_Owner()->Get_Dir();
+				_float fLength = srcEntry->Get_Owner()->Get_Length();
 
-				_float3 originalPos = srcEntry->Get_State(CTransform::STATE_POSITION);
+				_float3 vNextPos = vCurPos + vDir * fLength;
+				_float3 vDelta = vNextPos - vCurPos;
+
+				_int iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
+
 
 				for (_int step = 0; step <= iCount; ++step)
 				{
+					_float ratio = float(step) / iCount;
+					_float3 testPos = vCurPos + vDelta * ratio;
+					pTrans->Set_State(CTransform::STATE_POSITION, testPos);
+					srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+					_bool bCollision = false;
 
-					_float3 testPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length() * (float(step) / iCount);
-					srcEntry->Set_State(CTransform::STATE_POSITION, testPos);
-
-					for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
-					{
-						dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
-						dstEntry->Set_Depth(0.f);
-
-						
-
-						// AABB 충돌 검사
-						if (!Calc_AABB(srcEntry, dstEntry))
-							continue;
-
-						// 실제 충돌 검사
-						if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+					auto checkCollisionWithGroup = [&](COLLIDERGROUP group)
 						{
-							
-								srcEntry->Get_Owner()->Set_NextPos(testPos);
+							for (auto& dstEntry : m_pColliders[group])
+							{
+								dstEntry->Set_MTV({ 0.f, 0.f, 0.f });
+								dstEntry->Set_Depth(0.f);
 
-								// 충돌 처리
-								srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
-								dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+								if (!Calc_AABB(srcEntry, dstEntry))
+									continue;
 
-								// Collider 업데이트 (트랜스폼 적용)
-								srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+								if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+								{
+									_float3 mtv = srcEntry->Get_MTV();
 
-								bCollision = true;
-								break;
-							
-						}
-					}
+									// 즉시 위치 보정
+									_float3 newPos = srcEntry->Get_State(CTransform::STATE_POSITION) + mtv;
+								
+									pTrans->Set_State(CTransform::STATE_POSITION, newPos);
+									// collider도 위치 갱신
+									srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+
+									// MTV 저장
+									srcEntry->Get_Owner()->Add_WallMtv(mtv);
+
+									// 콜백 호출
+									srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+									dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+
+									bCollision = true;
+								}
+							}
+						};
+
+					checkCollisionWithGroup(CG_STRUCTURE_WALL);
+					checkCollisionWithGroup(CG_DOOR);
+
 					if (bCollision)
-					{
-						_float3 vMtv = srcEntry->Get_MTV().GetNormalized();
-						_float3 vDir = srcEntry->Get_Owner()->Get_Dir();
-
-						if (vMtv.Dot(vDir) > 0)
-						{
-							srcEntry->Set_MTV(-srcEntry->Get_MTV());
-						}
-
-						srcEntry->Get_Owner()->Set_NextPos(testPos);
 						break;
-					}
 				}
-
-				// 만약 충돌이 없었다면, 이동한 다음 위치로 업데이트
-				if (!bCollision)
-				{
-					srcEntry->Set_MTV(_float3(0.f, 0.f, 0.f));
-					_float3 nextPos = originalPos + srcEntry->Get_Owner()->Get_Dir() * srcEntry->Get_Owner()->Get_Length();
-					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
-					pTrans->Set_State(CTransform::STATE_POSITION, nextPos);
-		
-				}
-
-
-				
 			}
 		}
 
@@ -217,9 +204,9 @@ void CCollider_Manager::Update_Collision_Floor()
 
 					_float3 vPos = pTrans->Get_State(CTransform::STATE_POSITION);
 
-					vPos.y = fY + pTrans->Compute_Scaled().y * 0.5f;
+				
 
-					pTrans->Set_State(CTransform::STATE_POSITION, vPos);
+					srcEntry->Get_Owner()->Set_Offset(fY + pTrans->Compute_Scaled().y * 0.5f);
 
 				}
 			}

@@ -36,6 +36,28 @@ HRESULT CMonster_Base::Initialize(void* pArg)
 
 void CMonster_Base::Priority_Update(_float fTimeDelta)
 {
+	if (nullptr == m_pTarget)
+	{
+		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+		if (nullptr == pTarget)
+			return;
+
+		SetTarget(pTarget);
+		Safe_AddRef(pTarget);
+
+	}
+
+	if (!m_bCheck)
+	{
+		if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+			m_bCheck = true;
+	}
+
+	if (m_iHp <= 0)
+		m_eCurState = MS_DEATH;
+
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_vNextPos = m_vCurPos;
 }
 
 void CMonster_Base::Update(_float fTimeDelta)
@@ -73,9 +95,6 @@ void CMonster_Base::Chasing(_float fTimeDelta)
 	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * m_fSpeed);
 
 	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-
 	
 }
 

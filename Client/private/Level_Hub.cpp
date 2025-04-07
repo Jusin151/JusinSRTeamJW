@@ -86,7 +86,7 @@ HRESULT CLevel_Hub::Initialize()
 		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
 		if (nullptr == pTransform)
 			return E_FAIL;
-		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-11.f, 0.f, 8.f));
+		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-11.f, 1.f, 8.f));
 	}
 
 	CCamera_FirstPerson * pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));

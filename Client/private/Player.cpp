@@ -67,19 +67,15 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	
-
+	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_vNextPos = m_vCurPos;
 }
 
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
 
 	Input_Key(fTimeDelta);
-
-	//m_vNextPos =  m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 
 	m_vDir = m_vNextPos - m_vCurPos;
@@ -121,9 +117,51 @@ void CPlayer::Update(_float fTimeDelta)
 }
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	Attack(fTimeDelta);//좌클
+
+	for (auto& wallMTV : m_vWallMtvs)
+	{
+		auto wallNormal = wallMTV.GetNormalized();
+		_float penetration  = wallNormal.Dot(m_vObjectMtvSum);
+		if (penetration < 0.f)
+		{
+			// 벽 방향으로 침범 중 → 해당 방향 성분 제거
+			m_vObjectMtvSum -= wallNormal * penetration;
+		}
+	}
+
+	// MTV 크기 클램프 (너무 밀리지 않도록)
+	const _float maxMtvLength = 1.0f;
+	_float mtvLength = m_vObjectMtvSum.Length();
+	if (mtvLength > maxMtvLength)
+		m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
+
+	if (m_vWallMtvs.empty())
+	{
+		// 벽 충돌 
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+	}
+	else
+	{
+		if(mtvLength > 0.001f)
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		else
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+	}
+
+	
+
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	fPos.y = m_fOffset;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+
+	m_vWallMtvs.clear();
+	m_vObjectMtvSum = { 0.f,0.f,0.f };
+
+
 }
 
 
@@ -240,22 +278,17 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_MONSTER:
-		m_vNextPos += vMove * 0.3f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		m_vObjectMtvSum += vMove;
 		break;
 
 	case CG_MONSTER_PROJECTILE_CUBE:
 		break;
 
 	case CG_STRUCTURE_WALL:
-		m_vNextPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
-
+		
 		break;
 	case CG_DOOR:
-		m_vNextPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
-
+		
 		break;
 	default:
 		break;
@@ -269,8 +302,6 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 
 void CPlayer::Move(_float fTimeDelta)
 {
-
-	_float moveSpeed = 0.51f;
 
 	_float3 moveDir = { 0.f, 0.f, 0.f }; // 이동 방향 초기화
 
@@ -296,11 +327,9 @@ void CPlayer::Move(_float fTimeDelta)
 	if (moveDir.LengthSq() > 0) 
 	{
 		moveDir.Normalize(); // 방향 정규화
-		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		moveDir.y = 0.f;
-		fPos += moveDir * fTimeDelta * m_fSpeed * 10;
-		m_vNextPos = fPos;	
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_vNextPos += moveDir * fTimeDelta * m_fSpeed * 10;
 	}
 	else
 	{

@@ -37,9 +37,10 @@ public:
 	void Set_Trigger(CGameObject* pTrigger) { m_pTrigger = pTrigger; }
 
 	
-
-
+	void Add_WallMtv(_float3 mtv) { m_vWallMtvs.push_back(mtv); }
+	
 	void Set_NextPos(_float3 fPos) { m_vNextPos = fPos; }
+	void Set_Offset(_float offset) { m_fOffset = offset; }
 
 protected:
 
@@ -64,6 +65,11 @@ protected:
 	_float m_fSpeed = { 0.f };
 
 	CGameObject* m_pTrigger = { nullptr };
+
+	_float3 m_vObjectMtvSum = { 0.f, 0.f, 0.f };
+	vector<_float3> m_vWallMtvs;
+
+	_float m_fOffset = { 0.f };
 
 
 public:

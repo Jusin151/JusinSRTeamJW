@@ -45,25 +45,7 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 void CCrocman::Priority_Update(_float fTimeDelta)
 {
-	if (nullptr == m_pTarget)
-	{
-		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-		if (nullptr == pTarget)
-			return;
-
-		SetTarget(pTarget);
-		Safe_AddRef(pTarget);
-		
-	}
-
-	//if (!m_bCheck)
-	//{
-	//	if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
-	//		m_bCheck = true;
-	//}
-
-	if (m_iHp <= 0)
-		m_eCurState = MS_DEATH;
+	__super::Priority_Update(fTimeDelta);
 
 	if (m_iCurrentFrame > 26)
 	{
@@ -76,14 +58,12 @@ void CCrocman::Update(_float fTimeDelta)
 {
 	if (m_pTarget == nullptr)
 		return;
-	/*if (!m_bCheck)
+	if (!m_bCheck)
 	{
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 		return;
-	}*/
+	}
 
-	
-	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	Select_Pattern(fTimeDelta);
 
@@ -184,7 +164,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 			m_iAp /= 3;
 		}
 		
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		m_vObjectMtvSum += vMove;
 		break;
 
 	case CG_WEAPON:
@@ -196,16 +176,13 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		m_vNextPos += vMove * 0.2f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		m_vObjectMtvSum += vMove * 0.5f;
 
 		break;
 	case CG_STRUCTURE_WALL:
-		m_vNextPos += vMove;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+	
 		break;
 	case CG_DOOR:
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
 		break;
 	default:

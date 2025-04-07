@@ -57,11 +57,11 @@ void CGlacier::Priority_Update(_float fTimeDelta)
         Safe_AddRef(pTarget);
     }
 
-    //if (!m_bCheck)
-    //{
-    //    if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
-    //        m_bCheck = true;
-    //}
+    if (!m_bCheck)
+    {
+        if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger() && nullptr != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+            m_bCheck = true;
+    }
 
     if (m_iHp <= 0)
         m_eCurState = MS_DEATH;
@@ -111,6 +111,37 @@ void CGlacier::Late_Update(_float fTimeDelta)
         m_bRight = true;
     else
         m_bRight = false;
+
+    for (auto& wallMTV : m_vWallMtvs)
+    {
+        auto wallNormal = wallMTV.GetNormalized();
+        _float penetration = wallNormal.Dot(m_vObjectMtvSum);
+        if (penetration < 0.f)
+        {
+            // 벽 방향으로 침범 중 → 해당 방향 성분 제거
+            m_vObjectMtvSum -= wallNormal * penetration;
+        }
+    }
+
+    // MTV 크기 클램프 (너무 밀리지 않도록)
+    const _float maxMtvLength = 1.0f;
+    _float mtvLength = m_vObjectMtvSum.Length();
+    if (mtvLength > maxMtvLength)
+        m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
+
+    if (m_vWallMtvs.empty())
+    {
+        // 벽 충돌 x
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+    }
+    else
+    {
+        if (mtvLength > 0.001f)
+            m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+        else
+            m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+    }
+
 
     _float3 vScale = m_pTransformCom->Compute_Scaled();
     _float3 extents = _float3(
@@ -179,7 +210,7 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
 
 
         Take_Damage(other);
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+        m_vObjectMtvSum += vMove;
         break;
 
     case CG_WEAPON:
@@ -190,16 +221,13 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
         break;
 
     case CG_MONSTER:
-        m_vNextPos += vMove * 0.2f;
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+        m_vObjectMtvSum += vMove * 0.5f;
 
         break;
     case CG_STRUCTURE_WALL:
-        m_vNextPos += vMove;
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
         break;
     case CG_DOOR:
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
         break;
     default:
