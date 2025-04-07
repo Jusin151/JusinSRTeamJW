@@ -181,6 +181,8 @@ HRESULT CStructure::SetUp_RenderState()
 		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
 		D3DXVECTOR2 vOffsetFactor(fOffsetU, fOffsetV);
 
+		m_pShaderCom->Set_UVFactor(&vScaleFactor);
+
 		// 텍스처 변환 행렬 생성
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, // 스케일
@@ -192,6 +194,7 @@ HRESULT CStructure::SetUp_RenderState()
 		_float tileReduction = 0.10f; // 타일링을 1/10로 줄임
 		D3DXVECTOR2 vScaleFactor(scale.x * 0.3f, scale.y * tileReduction);
 		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); // Y축 반전을 위한 오프셋 조정
+		m_pShaderCom->Set_UVFactor(&vScaleFactor);
 
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
@@ -202,7 +205,7 @@ HRESULT CStructure::SetUp_RenderState()
 		//	D3DXMatrixScaling(&matTexture, scale.x, scale.y, 1.0f);
 		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
 		D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
-
+		m_pShaderCom->Set_UVFactor(&vScaleFactor);
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
 #pragma endregion
@@ -271,14 +274,15 @@ HRESULT CStructure::Render()
 		return E_FAIL;
 
 	SetUp_RenderState();
-	if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
+	m_pShaderCom->Begin(1);
+	/*if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
 	{
 		m_pShaderCom->Begin(2);
 	}
 	else
 	{
-		m_pShaderCom->Begin(1);
-	}
+		
+	}*/
 	
 
 	if (FAILED(m_pVIBufferCom->Render()))

@@ -77,6 +77,12 @@ HRESULT CShader::Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix)
 	return m_pEffect->SetMatrix(hParameter, pMatrix);
 }
 
+HRESULT CShader::Bind_Vector(D3DXHANDLE hParameter, const _float2* pVector)
+{
+	D3DXVECTOR4 vec = { pVector->x, pVector->y, 1.0f, 1.0f };
+	return m_pEffect->SetVector(hParameter, &vec);
+}
+
 HRESULT CShader::Bind_Vector(D3DXHANDLE hParameter, const _float3* pVector)
 {
 	D3DXVECTOR4 vec = { *pVector, 1.0f };
@@ -138,6 +144,11 @@ HRESULT CShader::Set_Fog(_float3 rgb, _float start, _float end)
 	hr = Bind_Float("gFogStart", start);
 	hr = Bind_Float("gFogEnd", end);
 	return hr;
+}
+
+HRESULT CShader::Set_UVFactor(const _float2* pUV)
+{
+	return Bind_Vector("g_ScaleFactor", pUV);
 }
 
 void CShader::Begin(_uint iPassIndex)

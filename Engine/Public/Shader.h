@@ -26,6 +26,7 @@ public:
 	HRESULT Bind_Texture(class CTexture*, _uint iIndex);
 	//HRESULT Bind_TiledUV(_float U, _float V);
 	HRESULT Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix);
+	HRESULT Bind_Vector(D3DXHANDLE hParameter, const _float2* pVector);
 	HRESULT Bind_Vector(D3DXHANDLE hParameter, const _float3* pVector);
 	HRESULT Bind_Vector(D3DXHANDLE hParameter, const _float4* pVector);
 	HRESULT Bind_Int(D3DXHANDLE hParameter, const _int pInt);
@@ -38,6 +39,7 @@ public:
 
 public:
 	HRESULT Set_Fog(_float3 rgb, _float start, _float end);
+	HRESULT Set_UVFactor(const _float2* pUV);
 
 public:
 	void Begin(_uint iPassIndex);

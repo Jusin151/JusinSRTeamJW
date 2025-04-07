@@ -22,7 +22,6 @@ CItem::CItem(const CItem& Prototype)
 	:CCollisionObject( Prototype ),
 	m_mapTextureTag{ Prototype.m_mapTextureTag }
 	,m_pPlayer{Prototype.m_pPlayer}
-
 {
 }
 
@@ -101,6 +100,8 @@ void CItem::Late_Update(_float fTimeDelta)
 {
 	Billboarding(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	if(nullptr != m_pLightCom)
+		m_pGameInstance->Add_Light(m_pLightCom);
 
 	if (m_bIsNeedAnim)
 	{
@@ -111,7 +112,6 @@ void CItem::Late_Update(_float fTimeDelta)
 HRESULT CItem::Render()
 {
 	if (FAILED(m_pTextureCom->Bind_Resource(m_mapTextureTag[m_eItemType][m_strItemName])))
-
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -123,6 +123,11 @@ HRESULT CItem::Render()
 	SetUp_RenderState();
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+	if(nullptr != m_pParticleCom)
+	{
+		if (FAILED(m_pParticleCom->Render()))
+			return E_FAIL;
+	}
 
 	Release_RenderState();
 	return S_OK;
@@ -349,6 +354,12 @@ HRESULT CItem::Ready_Components()
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
 			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &goldDesc)))
+			return E_FAIL;
+
+		CLight::LIGHT_INIT lightDesc = { L"../../Resources/Lights/Gold.json" };
+
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light"),
+			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &lightDesc)))
 			return E_FAIL;
 	}
 	m_eType = CG_ITEM;
