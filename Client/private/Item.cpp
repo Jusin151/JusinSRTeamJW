@@ -179,7 +179,7 @@ void CItem::Use_Item()
 	switch (m_eItemType)
 	{
 	case Client::CItem::ITEM_TYPE::HP:
-		m_pPlayer->Set_Hp(m_pPlayer->Get_Hp() + 10);
+		m_pPlayer->Set_Hp(+10);
 		break;
 	case Client::CItem::ITEM_TYPE::MP:
 		break;

@@ -123,6 +123,15 @@ void CStaff::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
 
+    // 마나가 충전되었는지 확인하고 FireLock 해제
+    if (m_bFireLock)
+    {
+        CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+        if (pPlayer && pPlayer->TryUseMana(0)) // 마나가 1 이상이면
+            m_bFireLock = false;
+    }
+
+
     m_fElapsedTime += fTimeDelta;
 
     switch (m_eState)
@@ -192,9 +201,13 @@ void CStaff::Late_Update(_float fTimeDelta)
                 if (!m_bHasFired)
                 {
                     CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                    if (!pPlayer || !pPlayer->TryUseMana(50))  
+                    if (!pPlayer || !pPlayer->TryUseMana(10))  
                     {
                         m_bFireLock = true;
+                        if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+                        {
+                            pUI_Event->ShowEventText(0, L"Mp_End");
+                        }
                         return;
                     }
 
