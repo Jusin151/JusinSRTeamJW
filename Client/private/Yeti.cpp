@@ -128,7 +128,7 @@ void CYeti::Late_Update(_float fTimeDelta)
     if (m_vWallMtvs.empty())
     {
         // 벽 충돌 
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos + m_vObjectMtvSum);
     }
     else
     {
