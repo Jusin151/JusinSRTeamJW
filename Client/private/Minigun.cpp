@@ -75,6 +75,34 @@ HRESULT CMinigun::Initialize(void* pArg)
     return S_OK;
 }
 
+HRESULT CMinigun::Ready_Components()
+{
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Minigun"),
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+        return E_FAIL;
+
+    CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
+        return E_FAIL;
+
+    //CSound_Source::LIGHT_DESC lDesc = {};
+    /*if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+        TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+        return E_FAIL;*/
+
+    return S_OK;
+}
+
 void CMinigun::Priority_Update(_float fTimeDelta)
 {
 }
@@ -198,6 +226,19 @@ void CMinigun::Late_Update(_float fTimeDelta)
         break;
     }
 
+    if (State::Firing == m_eState)
+    {
+        CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+        if (nullptr == pPlayer)
+            return;
+        CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+        if (nullptr == pTransform)
+            return;
+        m_pGameInstance->Add_Light(m_pLightCom);
+        m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
+        m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
+    }
+
     m_bAttackInput = false;
 
 }
@@ -276,23 +317,7 @@ HRESULT CMinigun::On_Collision()
     return S_OK;
 }
 
-HRESULT CMinigun::Ready_Components()
-{
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Minigun"),
-        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-        return E_FAIL;
 
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-        return E_FAIL;
-
-    CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
-        return E_FAIL;
-
-    return S_OK;
-}
 
 CMinigun* CMinigun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -332,5 +357,7 @@ void CMinigun::Free()
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pLightCom);
+    Safe_Release(m_pSoundCom);
 }
 

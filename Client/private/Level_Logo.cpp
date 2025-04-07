@@ -22,7 +22,8 @@ HRESULT CLevel_Logo::Initialize()
 	if (FAILED(Ready_Layer_Menu()))
 		return E_FAIL;
 
-	m_pGameInstance->Play_Event(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
+	m_pGameInstance->Stop_All_Event();
+	m_pGameInstance->Play_Background(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
 	return S_OK;
 }
 

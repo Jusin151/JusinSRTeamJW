@@ -8,6 +8,7 @@ ENGINE_DLL bool g_bDebugCollider;
 BEGIN(Engine)
 class CGameInstance;
 class CPickingSys;
+class CSound_Manager;
 END
 
 BEGIN(Client)
@@ -24,6 +25,7 @@ public:
 
 private:
 	CGameInstance*			m_pGameInstance = { nullptr };
+	CSound_Manager*			m_pSound_Manager = { nullptr };
 	LPDIRECT3DDEVICE9		m_pGraphic_Device = { nullptr };
 	CPickingSys*			m_pPickingSys = { nullptr };
 private:

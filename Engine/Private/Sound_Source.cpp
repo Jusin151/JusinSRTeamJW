@@ -3,6 +3,7 @@
 
 CSound_Source::CSound_Source(LPDIRECT3DDEVICE9 pGraphic_Device, CSound_Manager* pSound_Manager)
     : CComponent{ pGraphic_Device }
+    , m_pSound_Manager { pSound_Manager }
 {
     Safe_AddRef(pSound_Manager);
 }

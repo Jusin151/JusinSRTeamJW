@@ -201,11 +201,13 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\BulletShell_Particle_System.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\Public\Collider.h" />
+    <ClInclude Include="..\public\Colliders.h" />
     <ClInclude Include="..\Public\Collider_Cube.h" />
     <ClInclude Include="..\Public\Collider_Manager.h" />
     <ClInclude Include="..\public\CollisionObject.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Collider_Sphere.h" />
+    <ClInclude Include="..\public\Components.h" />
     <ClInclude Include="..\Public\CustomFont.h" />
     <ClInclude Include="..\public\Editor.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -228,6 +230,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\Light.h" />
     <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
+    <ClInclude Include="..\public\Particles.h" />
     <ClInclude Include="..\public\Particle_System.h" />
     <ClInclude Include="..\public\PickingSys.h" />
     <ClInclude Include="..\public\PoolManager.h" />
@@ -248,6 +251,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\public\UIObject.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
+    <ClInclude Include="..\public\VIBuffers.h" />
     <ClInclude Include="..\Public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Sphere.h" />

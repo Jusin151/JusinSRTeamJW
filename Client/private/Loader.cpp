@@ -76,7 +76,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 HRESULT CLoader::Loading()
 {
 	EnterCriticalSection(&m_CriticalSection);
-      	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::CHANGING);
+    m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::CHANGING);
 	HRESULT		hr = {};
 	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::CHANGING);
 	switch (m_eNextLevelID)
@@ -84,7 +84,6 @@ HRESULT CLoader::Loading()
 	case LEVEL_LOGO:
 		hr = Loading_For_Logo();
 		break;
-
 	case LEVEL_GAMEPLAY:
 		hr = Loading_For_GamePlay();
 		break;
@@ -143,7 +142,7 @@ HRESULT CLoader::Loading_For_Logo()
 	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 	CompleteOneTask(); // 1/6
- 	//m_pGameInstance->Load_Bank(L"Background");
+ 	m_pGameInstance->Load_Bank(L"Background");
 
  	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 

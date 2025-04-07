@@ -1,17 +1,5 @@
 ﻿#pragma once
-#include "VIBuffer_TexturedCube.h"
-#include "VIBuffer_Terrain.h"
-#include "VIBuffer_Sphere.h"
-#include "VIBuffer_Cube.h"
-#include "VIBuffer_Rect.h"
-#include "Sound_Source.h"
-#include "Sound_Listener.h"
-#include "Particle_System.h"
-#include "Transform.h"
-#include "Material.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "Light.h"
+#include "Components.h"
 
 /* 1. 원형객체를 보관한다. */
 /* 1_1. 원형객체의 타입( CGameObject, CComponent )에 크게 영향을 받지 않는다. */

@@ -24,7 +24,7 @@ private:
 	virtual ~CGameInstance() = default;
 
 public:
-	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, _Out_ LPDIRECT3DDEVICE9* ppOut);
+	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, _Out_ LPDIRECT3DDEVICE9* ppOut, CSound_Manager** ppOut2 = nullptr);
 	void Update_Engine(_float fTimeDelta);
 	HRESULT Draw();	
 	void Clear(_uint iLevelIndex);
@@ -74,7 +74,8 @@ public:
 	void				Unload_Bank(const _wstring& strBankPath);
 	void				Unload_AllBank();
 	void				Stop_All_Event();
-	class CSound_Event*	Play_Event(const _wstring& strEventName, void* pArg = nullptr);
+	CSound_Event		Play_Background(const _wstring& strEventName, void* pArg = nullptr);
+	CSound_Event*		Play_Event(const _wstring& strEventName, void* pArg = nullptr);
 	void				Set_Listner(const class CTransform& worldTrans);
 	_float				GetBusVolume(const _wstring& name) const;
 	_bool				GetBusPaused(const _wstring& name) const;

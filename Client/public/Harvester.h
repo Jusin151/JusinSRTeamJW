@@ -5,9 +5,12 @@
 #include "Ranged_Weapon.h"
 
 BEGIN(Engine)
+class CLight;
 class CTexture;
 class CTransform;
+class CSound_Source;
 class CVIBuffer_Rect;  // UI는 사각형으로
+class CParticle_System;
 END
 
 BEGIN(Client)
@@ -23,20 +26,20 @@ private:
 	CHarvester(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CHarvester(const CHarvester& Prototype);
 	virtual ~CHarvester() = default;
-
+	
 public:
 	 HRESULT Initialize_Prototype();
 	 HRESULT Initialize(void* pArg);
+private:
+	HRESULT Ready_Components();
+public:
 	 void Priority_Update(_float fTimeDelta);
 	 void Update(_float fTimeDelta);
 	 void Attack(_float fTimeDelta);
 	 void Late_Update(_float fTimeDelta);
+public:
 	 HRESULT Render();
-	 Weapon_DESC m_Staff_INFO{};
-
 	 HRESULT On_Collision();
-
-	 HRESULT Ready_Components();
 
 	 virtual void Reset() override
 	 {
@@ -46,16 +49,20 @@ public:
 	 }
 
 private:
+	Weapon_DESC m_Staff_INFO{};
 	State m_eState = State::Idle;
-
+	_float t = {}; //
+	_float speed = { 0.1f }; //
+	_float2 m_vInitialPos = {};
+	CSound_Source*	m_pSoundCom = { nullptr };
+	CLight*			m_pLightCom = { nullptr };
 public:
 	static CHarvester* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 
-	_float t = {}; //
-	_float speed = { 0.1f }; //
-	_float2 m_vInitialPos = {};
+private:
+	
 
 
 
