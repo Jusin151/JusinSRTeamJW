@@ -222,13 +222,13 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
         // 라이트 타입별 계산 (타입 번호 변경됨!)
         if (currentLight.Type == 3) // Directional Light (LT_DIR = 3)
         {
-            lightVec = normalize(-currentLight.Direction);
+            lightVec = normalize(-currentLight.Direction).xyz;
             NdotL = saturate(dot(normal, lightVec));
             attenuation = 1.0f; // 방향성은 감쇠 없음
         }
         else if (currentLight.Type == 1) // Point Light (LT_POINT = 1)
         {
-            float3 dirToLight = currentLight.Position - In.vWorldPos.xyz;
+            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz;
             float distSq = dot(dirToLight, dirToLight);
             float dist = sqrt(distSq);
 
@@ -249,7 +249,7 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
         else if (currentLight.Type == 2) // Spot Light (LT_SPOT = 2)
         {
             // 스포트라이트 계산 (현재는 포인트 라이트와 동일하게 처리, 추후 확장 가능)
-            float3 dirToLight = currentLight.Position - In.vWorldPos.xyz;
+            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz;
             float distSq = dot(dirToLight, dirToLight);
             float dist = sqrt(distSq);
 
@@ -440,9 +440,9 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             
             float3 lightVec = float3(0,0,0);
             // ... (타입에 따라 lightVec 계산 로직 필요) ...
-            if (currentLight.Type == 3) lightVec = normalize(-currentLight.Direction);
+            if (currentLight.Type == 3) lightVec = normalize(-currentLight.Direction).xyz;
             else if (currentLight.Type == 1 || currentLight.Type == 2) {
-                float3 dirToLight = currentLight.Position - In.vWorldPos.xyz;
+                float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz;
                 float dist = length(dirToLight);
                 if(dist > 0.001f) lightVec = dirToLight / dist; // Normalize
             }
