@@ -55,7 +55,7 @@ void CLevel_Hong::Update(_float fTimeDelta)
 	if (GetAsyncKeyState('F') & 0x8000)
 	{
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_LOGO))))
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;
 	}
 }

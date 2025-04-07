@@ -118,6 +118,12 @@ public:
         if (m_pObserver)
             m_pObserver->OnNotify(&Ranged_INFO, L"BULLET");
     }
+    void Notify_Mp()
+    {
+
+        if (m_pObserver)
+            m_pObserver->OnNotify(&Ranged_INFO, L"Mp");
+    }
 };
 
 END

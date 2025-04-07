@@ -65,7 +65,19 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-	void Set_Mp(_int iMp) { m_iPlayerMP.first = iMp; }
+	_bool Set_Mp(_int iMp) 
+	{ 
+		_int pTemp = iMp;
+
+		if ((m_iPlayerHP.first+= pTemp) <= 0)
+			return false;
+
+		m_iPlayerMP.first += pTemp;
+
+		Notify(m_iPlayerMP.first, L"MP");
+		
+		return true;
+	}
 	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
 	void Add_Strength(_int Str)  // 근접무기 전용 데미지 증가
 	{ 
@@ -83,8 +95,9 @@ public:
 	{
 		m_iSprit += Sprit;
 		m_iPlayerMP.first += Sprit * 5;
-
+		m_iPlayerMP.second += Sprit * 5;
 		Notify(m_iPlayerMP.first, L"MP"); 
+		Notify(m_iPlayerMP.second, L"MP_Max");
 	}
 	void Add_SkillPoint(_int SkillPoint)
 	{
@@ -128,6 +141,17 @@ public:
 
 
 	}
+
+	_bool TryUseMana(_int amount)
+	{
+		if (m_iPlayerMP.first	 < amount)
+			return false;
+
+		m_iPlayerMP.first -= amount;
+		Notify(m_iPlayerMP.first, L"MP");
+		return true;
+	}
+
 
 	void Add_Weapon(const _wstring& stWeaponTag);
 
