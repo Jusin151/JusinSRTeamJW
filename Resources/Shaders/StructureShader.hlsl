@@ -471,7 +471,7 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
     return Out;
 }
 
-PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
+/*PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
@@ -604,7 +604,7 @@ PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
     // if (Out.vColor.a < 0.1f) discard; // 필요하다면 모든 패스에 적용
 
     return Out;
-}
+}*/
 
 PS_OUT PS_MAIN_BLACK(PS_IN In)
 {
