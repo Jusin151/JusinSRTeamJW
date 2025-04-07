@@ -44,13 +44,15 @@ private:
 	void Update_Animation(_float fTimeDelta);
 	void Set_State(STATE eState) { m_eState = eState; }
 	STATE Get_State() { return m_eState; }
+
+	void Create_BehaviorTree();
     NodeStatus Attack();
     NodeStatus UpdateAttack();
     NodeStatus MultiMissileAttack();
 	NodeStatus Update_Appear();
     NodeStatus Deploy_Tentacles();
+    NodeStatus Deploy_BigTentacles();
 
-	void Create_BehaviorTree();
   
     _bool IsPlayerVisible();
 
@@ -92,6 +94,12 @@ private:
 	_float m_fTentacleTimer{ 0.f };
 	list<class CCthulhu_Tentacle*> m_listTentacles;
     _int m_iCountTentacle{ 0 };
+
+    _float m_fBigTentacleCoolTime{ 0.f };
+    _float m_fBigTentacleCoolDown{ 5.f };
+    _bool  m_bIsBigTentacleInstalled{ false };
+    _float m_fBigTentacleTimer{ 5.f };
+	vector<class CCthulhu_Big_Tentacle*> m_vecBigTentacles;
 public:
     static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);

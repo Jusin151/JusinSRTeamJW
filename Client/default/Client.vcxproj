@@ -179,6 +179,7 @@
     <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Cthulhu.h" />
     <ClInclude Include="..\public\CthulhuMissile.h" />
+    <ClInclude Include="..\public\Cthulhu_Big_Tentacle.h" />
     <ClInclude Include="..\public\Cthulhu_Tentacle.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="..\private\Candles.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
+    <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp" />
     <ClCompile Include="..\private\Cthulhu_Tentacle.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\GameObject_Snow.cpp" />

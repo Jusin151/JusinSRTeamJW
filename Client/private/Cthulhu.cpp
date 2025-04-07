@@ -4,18 +4,21 @@
 #include <CthulhuMissile.h>
 #include <Camera_FirstPerson.h>
 #include "Cthulhu_Tentacle.h"
+#include "Cthulhu_Big_Tentacle.h"
 
 CCthulhu::CCthulhu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device), m_pBehaviorTree(nullptr),
 	m_bIsColned(false)
 {
+	m_vecBigTentacles.reserve(4);
 }
 
 CCthulhu::CCthulhu(const CCthulhu& Prototype)
 	: CMonster_Base(Prototype), m_pBehaviorTree(nullptr),
 	m_bIsColned(true),
 	m_listTentacles(Prototype.m_listTentacles),
-	m_iCountTentacle(Prototype.m_iCountTentacle)
+	m_iCountTentacle(Prototype.m_iCountTentacle),
+	m_vecBigTentacles(Prototype.m_vecBigTentacles)
 {
 }
 
@@ -29,14 +32,6 @@ HRESULT CCthulhu::Initialize_Prototype()
 		return E_FAIL;
 	}
 
-	auto pMissile = CCthulhuMissile::Create(m_pGraphic_Device);
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), pMissile)))
-	{
-		Safe_Release(pMissile);
-		return E_FAIL;
-	}
-
 	for (int i = 0; i < 8; i++)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Tentacle"), LEVEL_BOSS, TEXT("Layer_Cthulhu_Tentacle"))))
@@ -45,12 +40,48 @@ HRESULT CCthulhu::Initialize_Prototype()
 		if (m_listTentacles.back())
 		{
 			Safe_AddRef(m_listTentacles.back());
+			m_listTentacles.back()->SetActive(false);
 		}
 		else
 		{
 			m_listTentacles.pop_back();
 		}
 	}
+
+	auto pBigTentacle = CCthulhu_Big_Tentacle::Create(m_pGraphic_Device);
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_BigTentacle"), pBigTentacle)))
+	{
+		Safe_Release(pTentacle);
+		return E_FAIL;
+	}
+
+	for (size_t i = 0; i <m_vecBigTentacles.capacity(); i++)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_BigTentacle"), LEVEL_BOSS, TEXT("Layer_Cthulhu_BigTentacle"))))
+			continue;
+		m_vecBigTentacles.push_back((dynamic_cast<CCthulhu_Big_Tentacle*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Cthulhu_BigTentacle")))));
+		if (m_vecBigTentacles.back())
+		{
+			Safe_AddRef(m_vecBigTentacles.back());
+			m_vecBigTentacles.back()->SetActive(false);
+			m_vecBigTentacles.back()->Set_Texture((i+1)%2==0);
+		}
+		else
+		{
+			m_vecBigTentacles.pop_back();
+		}
+	}
+
+	auto pMissile = CCthulhuMissile::Create(m_pGraphic_Device);
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), pMissile)))
+	{
+		Safe_Release(pMissile);
+		return E_FAIL;
+	}
+
+
 	m_iCountTentacle = (_int)m_listTentacles.size();
 	return S_OK;
 }
@@ -391,6 +422,54 @@ NodeStatus CCthulhu::Deploy_Tentacles()
 	return NodeStatus::RUNNING;
 }
 
+NodeStatus CCthulhu::Deploy_BigTentacles()
+{
+
+	if (m_eState == STATE::DEAD)
+		return NodeStatus::FAIL;
+
+	m_fBigTentacleTimer += m_fDelta;
+	const float interval = 7.0f;
+	if (m_fBigTentacleTimer >= interval)
+	{
+		_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		const _float offsetX = 6.5f;
+		const _float offsetZ = 15.0f;
+
+		const _float2 offsets[4] = {
+			{ -offsetX, -offsetZ },  // 왼쪽 아래
+			{ -offsetX, +offsetZ },  // 왼쪽 위
+			{ +offsetX, -offsetZ },  // 오른쪽 아래
+			{ +offsetX, +offsetZ }   // 오른쪽 위
+		};
+		_int order[4] = { 0, 3, 1, 2 };
+		random_shuffle(begin(order), end(order));
+		for (int i = 0; i < 4; ++i)
+		{
+			int idx = order[i];
+
+			auto pTentacle = m_vecBigTentacles[idx];
+			if (!pTentacle)
+				continue;
+
+			_float3 newPos = {
+				basePos.x + offsets[i].x,
+				basePos.y,
+				basePos.z + offsets[i].y
+			};
+
+			if (!pTentacle->IsActive())
+				pTentacle->SetActive(true);
+			pTentacle->Set_Position(newPos);
+		}
+
+		m_fBigTentacleTimer = 0.0f;
+	}
+
+	return NodeStatus::RUNNING;
+}
+
 void CCthulhu::Create_BehaviorTree()
 {
 	CCompositeNode* pStateSelector = new CSelectorNode();
@@ -404,10 +483,12 @@ void CCthulhu::Create_BehaviorTree()
 
 	TaskNode* pMultiAttack = new TaskNode(L"MultiMissileAttack", [this]() -> NodeStatus { return this->MultiMissileAttack(); });
 	TaskNode* pDeploy = new TaskNode(L"Deploy", [this]() -> NodeStatus { return this->Deploy_Tentacles(); });
+	TaskNode* pBigDeploy = new TaskNode(L"Big_Deploy", [this]() -> NodeStatus { return this->Deploy_BigTentacles(); });
 
 	// 동시에 실행
 	pAttackParallel->AddChild(pMultiAttack);
 	pAttackParallel->AddChild(pDeploy);
+	pAttackParallel->AddChild(pBigDeploy);
 	pAttackParallel->AddChild(pAttackSeq);
 
 
@@ -577,6 +658,7 @@ void CCthulhu::Priority_Update(_float fTimeDelta)
 	m_fAttackCoolTime += fTimeDelta;
 	m_fMultiAttackCoolTime += fTimeDelta;
 	m_fTentacleCoolTime += fTimeDelta;
+	m_fBigTentacleCoolTime += fTimeDelta;
 
 	Select_Pattern(fTimeDelta);
 }
@@ -719,6 +801,12 @@ void CCthulhu::Free()
 			Safe_Release(pTentacle);
 		}
 		m_listTentacles.clear();
+
+		for (auto& pTentacle : m_vecBigTentacles)
+		{
+			Safe_Release(pTentacle);
+		}
+		m_vecBigTentacles.clear();
 	}
 	Safe_Release(m_pTextureCom);
 	Safe_Delete(m_pBehaviorTree);
