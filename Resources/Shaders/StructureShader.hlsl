@@ -320,7 +320,9 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     //float3 lightVec = -g_LightDirection; // 라이트 방향
 
     // --- 텍스처 샘플링 ---
-    float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
+    //float2 tiledUV = In.vTexcoord * float2(In.vScale.x, In.vTexcoord.y);
+    float2 tiledUV = float2(In.vTexcoord.x * In.vScale.x, In.vTexcoord.y);
+    float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
     // --- 조명 요소 계산 ---
 
