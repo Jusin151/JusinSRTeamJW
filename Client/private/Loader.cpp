@@ -113,6 +113,23 @@ HRESULT CLoader::Loading()
 	
 	return S_OK;
 }
+void CLoader::Output_LoadingText()
+{	// 윈도우 타이틀에도 진행률 표시
+	SetWindowText(g_hWnd, m_szLoadingText);
+
+	RECT barRect = { 80, 640, 1200, 690 };
+	DrawLoadingBar(m_pGraphic_Device, m_fProgress, barRect);
+
+	RECT textRect = { 80, 600, 1200, 630 };
+	m_pFont->DrawTextW(
+		nullptr,
+		m_szLoadingText,
+		-1,
+		&textRect,
+		DT_LEFT | DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255)
+	);
+}
 HRESULT CLoader::Loading_For_Logo()
 {
  	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
@@ -390,16 +407,9 @@ HRESULT CLoader::Loading_For_Boss()
 	return S_OK;
 }
 
-void CLoader::DrawLoadingBar(IDirect3DDevice9* device, float progress, const RECT& rc)
+void CLoader::DrawLoadingBar(IDirect3DDevice9* device, _float progress, const RECT& rc)
 {
-	device->SetRenderState(D3DRS_LIGHTING, FALSE);
-	device->SetRenderState(D3DRS_FOGENABLE, FALSE);
 	device->SetTexture(0, nullptr);  // 0번 텍스처 해제
-	// 텍스처 스테이지도 컬러 오퍼레이터 끔
-	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_DISABLE);
-	device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-
-	// 2) Z 테스트·블렌딩 끄기
 	device->SetRenderState(D3DRS_ZENABLE, FALSE);
 	device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
@@ -416,11 +426,11 @@ void CLoader::DrawLoadingBar(IDirect3DDevice9* device, float progress, const REC
 		{ float(rc.left),        float(rc.bottom), 0.0f, 1.0f, kRed },
 	};
 
-	// 4) 그리기
+
 	device->SetFVF(D3DFVF_CUSTOMVERTEX);
 	device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, v, sizeof(CUSTOMVERTEX));
 
-	// 5) 테두리
+	// 테두리
 	ID3DXLine* pLine = nullptr;
 	if (SUCCEEDED(D3DXCreateLine(device, &pLine))) {
 		D3DXVECTOR2 pts[5] = {
@@ -435,13 +445,9 @@ void CLoader::DrawLoadingBar(IDirect3DDevice9* device, float progress, const REC
 		pLine->End();
 		pLine->Release();
 	}
-
-	// 6) 상태 복원 (필요한 것만)
+	
 	device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	device->SetRenderState(D3DRS_LIGHTING, TRUE);
-	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-	device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 }
 
 HRESULT CLoader::Loading_For_Editor()

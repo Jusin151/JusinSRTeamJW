@@ -9,7 +9,8 @@ END
 
 BEGIN(Client)
 struct CUSTOMVERTEX {
-	float x, y, z, rhw;  // rhw: reciprocal of homogeneous w
+	// 화면 좌표에 직접 그리기
+	_float x, y, z, rhw;  // rhw: reciprocal of homogeneous w
 	DWORD color;
 };
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
@@ -28,25 +29,7 @@ public:
 	HRESULT Initialize(LEVEL eNextLevelID);
 	HRESULT Loading();
 
-	void Output_LoadingText() {
-		// 윈도우 타이틀에도 진행률 표시
-		SetWindowText(g_hWnd, m_szLoadingText);
-
-		RECT barRect = { 80, 640, 1200, 690 };
-		DrawLoadingBar(m_pGraphic_Device, m_fProgress, barRect);
-
-		RECT textRect = { 80, 600, 1200, 630 };
-		m_pFont->DrawTextW(
-			nullptr,
-			m_szLoadingText,
-			-1,
-			&textRect,
-			DT_LEFT | DT_NOCLIP,
-			D3DCOLOR_ARGB(255, 255, 255, 255)
-		);
-	}
-
-	void  CompleteOneTask();
+	void Output_LoadingText();
 
 
 private:
@@ -69,7 +52,7 @@ public:
 	HRESULT Loading_For_Hong();
 	HRESULT Loading_For_Boss();
 
-	void DrawLoadingBar(IDirect3DDevice9* device, float progress, const RECT& rc);
+	
 
 
 public:
@@ -84,13 +67,15 @@ public:
 	HRESULT Add_To_Logo_Menu_Prototype();
 ////////////////////////////////////////////////////////////
 	HRESULT Add_To_GamePlay_Prototype();
-		
+private:
+	void DrawLoadingBar(IDirect3DDevice9* device, _float progress, const RECT& rc);
+	void  CompleteOneTask();
 
 private:
 
-	int     m_iTotalTaskCount = 0;    // 전체 작업 수
-	int     m_iCompletedTaskCount = 0;    // 완료된 작업 수
-	float   m_fProgress = 0.f;  // 0.0f ~ 1.0f
+	_int     m_iTotalTaskCount = 0;    // 전체 작업 수
+	_int     m_iCompletedTaskCount = 0;    // 완료된 작업 수
+	_float   m_fProgress = 0.f;  // 0.0f ~ 1.0f
 	ID3DXFont* m_pFont = nullptr;
 
 };
