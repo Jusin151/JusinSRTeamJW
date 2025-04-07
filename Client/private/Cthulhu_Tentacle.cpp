@@ -1,4 +1,4 @@
-#include "Cthulhu_Tentacle.h"
+ï»¿#include "Cthulhu_Tentacle.h"
 #include "GameInstance.h"
 #include "Collider_Cube.h"
 #include "StructureManager.h"
@@ -189,7 +189,7 @@ HRESULT CCthulhu_Tentacle::Release_RenderState()
 
 HRESULT CCthulhu_Tentacle::Ready_Components()
 {
-	// ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ ÄÚµå
+	// ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” ì½”ë“œ
 	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_Cthulhu_Tentacle"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;

@@ -19,6 +19,7 @@ public:
 	HRESULT Bind_Resource(_uint iIndex);
 	HRESULT Bind_Resource(class CShader* pShader, D3DXHANDLE hParameters, _uint iIndex);
 public:
+	TYPE	Get_Type() { return m_eType; }
 	_uint Get_NumTextures() { return m_iNumTextures; }
 	IDirect3DBaseTexture9* Get_Texture(_uint iIndex) {
 		if (m_iNumTextures <= iIndex && iIndex < 0) return nullptr; return m_Textures[iIndex];}
@@ -26,6 +27,7 @@ public:
 	HRESULT GetPixelColor(const _float3& vWorldPos, const _float3& vObjectScale, D3DXCOLOR* pColor);
 
 private:
+	TYPE								m_eType = { TYPE_END };
 	_uint								m_iNumTextures = { };
 	vector<IDirect3DBaseTexture9*>		m_Textures;
 	_uint 								m_iCurrentTexture = {0 };

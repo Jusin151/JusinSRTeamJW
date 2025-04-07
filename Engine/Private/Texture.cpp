@@ -10,6 +10,7 @@ CTexture::CTexture(const CTexture& Prototype)
     : CComponent( Prototype )
 	, m_iNumTextures { Prototype.m_iNumTextures }
 	, m_Textures { Prototype.m_Textures }
+	, m_eType { Prototype.m_eType }
 {
 	for (auto& pTexture : m_Textures)	
 		Safe_AddRef(pTexture);	
@@ -17,6 +18,7 @@ CTexture::CTexture(const CTexture& Prototype)
 
 HRESULT CTexture::Initialize_Prototype(TYPE eType, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
+	m_eType = eType;
 	m_iNumTextures = iNumTextures;
 
 	for (size_t i = 0; i < m_iNumTextures; i++)

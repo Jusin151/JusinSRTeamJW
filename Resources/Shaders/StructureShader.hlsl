@@ -304,7 +304,7 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     // --- 안개 효과 계산 ---
     float distance = length(In.vViewPos);
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
-    Out.vColor = litColor; //lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
+    Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
 
     // --- 알파 테스트 ---
     // if (Out.vColor.a < 0.1f) discard;
@@ -367,7 +367,7 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             // [디버깅 1] 라이트 타입(Type) 확인하기
             // Type 값에 따라 다른 색상 출력 (0:검정, 1:빨강, 2:초록, 3:파랑)
             
-            /*if (currentLight.Type == 1) { Out.vColor = float4(1.f, 0.f, 0.f, 1.f); return Out; } // Point = Red
+            if (currentLight.Type == 1) { Out.vColor = float4(1.f, 0.f, 0.f, 1.f); return Out; } // Point = Red
             else if (currentLight.Type == 2) { Out.vColor = float4(0.f, 1.f, 0.f, 1.f); return Out; } // Spot = Green
             else if (currentLight.Type == 3) { Out.vColor = float4(0.f, 0.f, 1.f, 1.f); return Out; } // Dir = Blue
             else { Out.vColor = float4(0.f, 0.f, 0.f, 1.f); return Out; } // Unused(0) or Unknown = Black*/
@@ -376,8 +376,8 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             // [디버깅 2] 라이트 색상(Color/fDiffuse) 확인하기
             // 라이트의 Color 값을 그대로 출력 (Alpha는 1로 고정)
             
-            Out.vColor = float4(currentLight.Color.rgb, 1.0f);
-            return Out;
+            /*Out.vColor = float4(currentLight.Color.rgb, 1.0f);
+            return Out;*/
 
             // [디버깅 3] 라이트 위치(Position) 확인하기 (x,y,z -> R,G,B)
             // 위치 값은 범위가 크므로 적절히 스케일링하여 [0,1] 범위로 만들어 시각화
@@ -430,7 +430,7 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
                  attenuation = 1.0f;
             }
             Out.vColor = float4(attenuation, attenuation, attenuation, 1.0f);
-            return Out;*/
+            return Out;
             
 
             // [디버깅 8] 실제 계산된 NdotL 값 확인하기 (회색조)

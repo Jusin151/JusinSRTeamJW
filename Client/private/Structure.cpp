@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Shader.h"
 #include <StructureManager.h>
 
 
@@ -163,41 +164,7 @@ void CStructure::Late_Update(_float fTimeDelta)
 		m_fWaveTime = 0.f;
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-}
-
-HRESULT CStructure::Render()
-{
-	if (FAILED(m_pMaterialCom->Bind_Resource()))
-		return E_FAIL;
-	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
-	{
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
-			return E_FAIL;
-	}
-	else
-	{
-		if (FAILED(m_pTextureCom->Bind_Resource(0)))
-			return E_FAIL;
-	}
-
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
-	SetUp_RenderState();
-
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-	if (g_bDebugCollider)
-	{
-		m_pColliderCom->Render();
-	}
-	Release_RenderState();
-
-	return S_OK;
-}
+} 
 
 HRESULT CStructure::On_Collision(CCollisionObject* ohter)
 {
@@ -296,12 +263,11 @@ HRESULT CStructure::Render()
 		return E_FAIL;
 	if(FAILED(m_pShaderCom->Bind_Transform()))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Transform()))
-		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
 		return E_FAIL;
+	m_pShaderCom->Bind_Lights();
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(3);
 
 	SetUp_RenderState();
 
@@ -367,6 +333,7 @@ void CStructure::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pShaderCom);
 }
 
 json CStructure::Serialize()
