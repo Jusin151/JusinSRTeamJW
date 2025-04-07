@@ -175,7 +175,7 @@ struct PS_OUT
 /* 픽셀의 색을 결정한다. */
 // vector PS_MAIN(PS_IN In) : COLOR0
 
-PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
+PS_OUT PS_TILELIT(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
@@ -310,6 +310,139 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     return Out;
 }
 
+PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
+{
+    PS_OUT Out;
+
+    // --- 조명 계산에 필요한 벡터들 계산 ---
+    float3 normal = normalize(In.vNormal * sign(facing));
+    float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz);
+    //float3 lightVec = -g_LightDirection; // 라이트 방향
+
+    // --- 텍스처 샘플링 ---
+    float4 baseColor = tex2D(DefaultSampler, In.vTexcoord);
+
+    // --- 조명 요소 계산 ---
+
+    // --- 최종 색상 계산을 위한 변수 초기화 ---
+    // 1. 기본 색상 계산 (Ambient + Emissive)
+    float3 accumulatedColor = (baseColor.rgb * g_Material.Ambient.rgb * g_Material.Diffuse.rgb) + g_Material.Emissive.rgb;
+
+    // 2. 각 라이트 슬롯에 대한 기여도 계산 및 누적
+    for (int i = 0; i < g_NumActiveLights; ++i)
+    {
+        
+        // 현재 처리할 라이트 정보 가져오기
+        Light currentLight = g_Lights[i];
+
+        // --- 타입 확인: 0번(LT_UNUSED)이면 계산 건너뛰기 ---
+        if (currentLight.Type == 0) // LT_UNUSED
+        {
+            continue; // 다음 라이트로 넘어감
+        }
+        
+        
+
+        // 현재 라이트 계산에 필요한 변수 초기화
+        float3 lightVec = float3(0.0f, 0.0f, 0.0f); // 픽셀에서 라이트로 향하는 정규화된 벡터
+        float attenuation = 0.0f; // 라이트 감쇠 값 (0.0 ~ 1.0)
+        float NdotL = 0.0f; // 법선과 라이트 벡터 내적 값
+
+        // 라이트 타입별 계산 (타입 번호 변경됨!)
+        if (currentLight.Type == 3) // Directional Light (LT_DIR = 3)
+        {
+            lightVec = normalize(-currentLight.Direction);
+            NdotL = saturate(dot(normal, lightVec));
+            attenuation = 1.0f; // 방향성은 감쇠 없음
+        }
+        else if (currentLight.Type == 1) // Point Light (LT_POINT = 1)
+        {
+            float3 dirToLight = currentLight.Position - In.vWorldPos.xyz;
+            float distSq = dot(dirToLight, dirToLight);
+            float dist = sqrt(distSq);
+
+            if (dist < currentLight.Range)
+            {
+                lightVec = dirToLight / dist;
+                NdotL = saturate(dot(normal, lightVec));
+                attenuation = saturate(1.0f / (currentLight.Attenuation0 +
+                                                currentLight.Attenuation1 * dist +
+                                                currentLight.Attenuation2 * distSq));
+            }
+            else
+            {
+                NdotL = 0.0f;
+                attenuation = 0.0f;
+            }
+        }
+        else if (currentLight.Type == 2) // Spot Light (LT_SPOT = 2)
+        {
+            // 스포트라이트 계산 (현재는 포인트 라이트와 동일하게 처리, 추후 확장 가능)
+            float3 dirToLight = currentLight.Position - In.vWorldPos.xyz;
+            float distSq = dot(dirToLight, dirToLight);
+            float dist = sqrt(distSq);
+
+            if (dist < currentLight.Range)
+            {
+                lightVec = dirToLight / dist;
+                NdotL = saturate(dot(normal, lightVec));
+                attenuation = saturate(1.0f / (currentLight.Attenuation0 +
+                                                currentLight.Attenuation1 * dist +
+                                                currentLight.Attenuation2 * distSq));
+
+                // TODO: 여기에 스포트라이트 원뿔각/감쇠 계산 추가
+                // float spotFactor = ... 계산 ...
+                // attenuation *= spotFactor;
+            }
+            else
+            {
+                NdotL = 0.0f;
+                attenuation = 0.0f;
+            }
+        } // End of light type branching
+        
+        
+
+        // 현재 라이트의 기여도가 유효하다면 (NdotL > 0, attenuation > 0)
+        // (Type 0은 위에서 continue로 걸러졌으므로 여기서는 1, 2, 3 타입만 고려됨)
+        
+        if (NdotL > 0.0f && attenuation > 0.0f)
+        {
+            
+            // 디퓨즈(Diffuse) 계산
+            float3 diffuse = baseColor.rgb * g_Material.Diffuse.rgb * NdotL * currentLight.Color.rgb;
+
+            // 스페큘러(Specular) 계산
+            float3 halfwayDir = normalize(lightVec + viewDir);
+            float NdotH = saturate(dot(normal, halfwayDir));
+            float specPower = pow(NdotH, g_Material.Power);
+            float3 specular = g_Material.Specular.rgb * specPower * currentLight.Color.rgb;
+
+            // 현재 라이트의 최종 기여도 = (디퓨즈 + 스페큘러) * 감쇠
+            float3 currentLightContribution = (diffuse + specular) * attenuation;
+
+            // 최종 색상에 현재 라이트 기여도 누적
+            accumulatedColor += currentLightContribution;
+        }
+
+    } // End of for loop*/
+
+
+    // --- 최종 색상 조합 및 후처리 ---
+    float4 litColor;
+    litColor.rgb = saturate(accumulatedColor);
+    litColor.a = baseColor.a * g_Material.Diffuse.a; // 알파 값
+
+    // --- 안개 효과 계산 ---
+    float distance = length(In.vViewPos);
+    float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
+    Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
+
+    // --- 알파 테스트 ---
+    // if (Out.vColor.a < 0.1f) discard;
+
+    return Out;
+}
 
 // 새로운 'Unlit' 픽셀 셰이더
 PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할 수 있음
@@ -629,6 +762,23 @@ technique DefaultTechnique
     }
 
     pass DoubleSidedPlane
+    {
+        // --- 렌더 상태 설정 ---
+        // 양면 렌더링을 위해 컬링 비활성화
+        CullMode = None;
+
+        // 알파 블렌딩 설정 (기존 코드 유지, 오타 수정)
+        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
+        SrcBlend = SrcAlpha;
+        DestBlend = InvSrcAlpha;
+        BlendOp = Add;
+
+        // --- 셰이더 설정 ---
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_TILELIT(); // 빛 계산이 포함된 PS_MAIN 사용
+    }
+
+    pass PlanePass
     {
         // --- 렌더 상태 설정 ---
         // 양면 렌더링을 위해 컬링 비활성화

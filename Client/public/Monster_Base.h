@@ -49,12 +49,13 @@ public:
 	
 	CGameObject* Get_Target() { return m_pTarget; }
 protected:
+	CShader*		m_pShaderCom = { nullptr };
 	CTexture*		m_pTextureCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
 	CMaterial*		m_pMaterialCom = { nullptr };
-	CShader*		m_pShaderCom = { nullptr };
+	
 protected:
 
 	// 일단 몬스터는 플레이어만 타겟으로 하도록. 다른 걸 타겟으로 하는 것은 나중에 하도록

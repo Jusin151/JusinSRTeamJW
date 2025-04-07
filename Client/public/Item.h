@@ -66,8 +66,8 @@ private:
 private:
 
 	// 컴포넌트
-	CLight* m_pLightCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
+	CLight*		m_pLightCom = { nullptr };
+	CShader*	m_pShaderCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };

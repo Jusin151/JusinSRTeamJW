@@ -22,8 +22,7 @@
 #include "Effects.h"
 #include "Cthulhu.h"
 #include "GameObject_Snow.h"
-
-
+#include "Prefabs.h"
 
 #include "UI_Headers.h" // UI 헤더들 
 #include "Hub_Headers.h" // 허브 헤더들
@@ -410,6 +409,21 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 #pragma region Particle
 	else if (className == "CGameObject_Snow")
 		return CGameObject_Snow::Create(pGraphic_Device);
+#pragma endregion
+
+#pragma region LightPrefabs
+	else if (className == "CCandles")
+		return CCandles::Create(pGraphic_Device);
+	else if (className == "CGoblet")
+		return CGoblet::Create(pGraphic_Device);
+	else if (className == "CHub_Light")
+		return CHub_Light::Create(pGraphic_Device);
+	else if (className == "CLamp")
+		return CLamp::Create(pGraphic_Device);
+	else if (className == "CLong_Torch")
+		return CLong_Torch::Create(pGraphic_Device);
+	else if (className == "CTorch")
+		return CTorch::Create(pGraphic_Device);
 #pragma endregion
 
 

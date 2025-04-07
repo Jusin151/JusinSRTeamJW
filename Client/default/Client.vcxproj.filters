@@ -837,6 +837,9 @@
     <ClInclude Include="..\public\Goblet.h">
       <Filter>02.GameObjects\Prefabs\Goblet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Prefabs.h">
+      <Filter>02.GameObjects\Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

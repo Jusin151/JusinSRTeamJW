@@ -205,6 +205,7 @@
     <ClInclude Include="..\public\Node.h" />
     <ClInclude Include="..\public\Pattern_Shoot.h" />
     <ClInclude Include="..\public\Patter_Morph.h" />
+    <ClInclude Include="..\public\Prefabs.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />

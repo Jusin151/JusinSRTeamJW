@@ -254,6 +254,8 @@ HRESULT CStructure::Render()
 	{
 		m_pShaderCom->Set_Fog(_float3(0.5f, 0.7f, 0.9f), 8.f, 20.f);
 	}
+
+	
 		
 
 	if(FAILED(m_pTransformCom->Bind_Resource()))
@@ -269,7 +271,15 @@ HRESULT CStructure::Render()
 		return E_FAIL;
 
 	SetUp_RenderState();
-	m_pShaderCom->Begin(1);
+	if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
+	{
+		m_pShaderCom->Begin(2);
+	}
+	else
+	{
+		m_pShaderCom->Begin(1);
+	}
+	
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
