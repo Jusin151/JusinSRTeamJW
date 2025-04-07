@@ -83,4 +83,4 @@ do { \
     } \
 } while(0)
 
-#define MAX_LIGHT_APP = 8;
+#define MAX_SHADER_LIGHT 8

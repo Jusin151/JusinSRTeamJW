@@ -285,7 +285,7 @@ technique DefaultTechnique
         CullMode = None;
 
         // 알파 블렌딩 설정 (기존 코드 유지, 오타 수정)
-        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
+        AlphaBlendEnable = True;
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
         BlendOp = Add;

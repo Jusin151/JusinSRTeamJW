@@ -1,4 +1,5 @@
 ﻿#include "Shader.h"
+#include "GameInstance.h"
 #include "Texture.h"
 #include "Material.h"
 #include "Light.h"
@@ -49,6 +50,7 @@ HRESULT CShader::Bind_Transform()
 	Bind_Matrix("g_WorldMatrix",	&world);
 	Bind_Matrix("g_ViewMatrix",		&view);
 	Bind_Matrix("g_ProjMatrix",		&proj);
+
 	Bind_Vector("g_CameraPosition", &cameraPos);
 	return S_OK;
 }
@@ -111,12 +113,28 @@ HRESULT CShader::Bind_Material(CMaterial* pMaterial)
 
 HRESULT CShader::Bind_Value(D3DXHANDLE hParameter, void* pArg, _uint bytes)
 {
-	m_pEffect->SetValue(hParameter, pArg, bytes);
-	return E_NOTIMPL;
+	return m_pEffect->SetValue(hParameter, pArg, bytes);
+}
+
+HRESULT CShader::Bind_Lights()
+{
+	m_pGameInstance->Set_Lights(this);
+	return S_OK;
+}
+
+HRESULT CShader::Bind_Handle(void* pArg, _uint bytes)
+{
+	
+	D3DXHANDLE temp = m_pEffect->GetParameterByName(NULL, "g_Lights[MAX_LIGHTS]");
+
+	return m_pEffect->SetRawValue(temp, pArg, 0, bytes);
+	//m_pEffect->SetValue(temp, pArg, bytes);
+	return S_OK;
 }
 
 void CShader::Begin(_uint iPassIndex)
 {
+	m_pEffect->CommitChanges();
 	m_pEffect->Begin(nullptr, 0);
 	m_pEffect->BeginPass(iPassIndex);
 }

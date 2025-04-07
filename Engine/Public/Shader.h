@@ -32,6 +32,8 @@ public:
 	HRESULT Bind_Light(class CLight* pLight);
 	HRESULT Bind_Material(class CMaterial* pMaterial);
 	HRESULT Bind_Value(D3DXHANDLE hParameter, void* pArg, _uint bytes);
+	HRESULT Bind_Lights();
+	HRESULT Bind_Handle(void* pArg, _uint bytes);
 
 public:
 	void Begin(_uint iPassIndex);

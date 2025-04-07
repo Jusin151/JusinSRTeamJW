@@ -85,6 +85,20 @@ HRESULT CLight::Bind_Light(CShader* pShader)
 	return S_OK;
 }
 
+CLight::SHADER_LIGHT CLight::Get_Shader_Light()
+{
+	SHADER_LIGHT out = {};
+	out.eType			= static_cast<_int>(m_tInfo.eType);
+	out.fDiffuse		= m_tInfo.fDiffuse;
+	out.fDirection		= _float4(m_tInfo.fDirection, 1.0f);
+	out.fPosition		= _float4(m_tInfo.fPosition, 1.0f);
+	out.fRange			= m_tInfo.fRange;
+	out.fAttenuation0	= m_tInfo.fAttenuation0;
+	out.fAttenuation1	= m_tInfo.fAttenuation1;
+	out.fAttenuation2	= m_tInfo.fAttenuation2;
+	return out;
+}
+
 void CLight::DecreaseIntensity(_uint iFrame)
 {
 	//0123

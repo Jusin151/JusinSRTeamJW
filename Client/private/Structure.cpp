@@ -90,9 +90,11 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
+	CMaterial::MATERIAL_DESC materialDesc = { L"../../Resources/Materials/TestMaterial.json" };
+
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom), &materialDesc)))
 		return E_FAIL;
 
 
@@ -263,10 +265,11 @@ HRESULT CStructure::Render()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
 		return E_FAIL;
-
-	m_pShaderCom->Begin(0);
+	if (FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
 
 	SetUp_RenderState();
+	m_pShaderCom->Begin(3);
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;

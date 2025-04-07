@@ -44,6 +44,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materials", "Materials", "{
 		Resources\Materials\TestMaterial.json = Resources\Materials\TestMaterial.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lights", "Lights", "{06C169D5-BCF5-47E6-A2BD-599C7EAD040F}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\Lights\GunLight.json = Resources\Lights\GunLight.json
+		Resources\Lights\LampLight.json = Resources\Lights\LampLight.json
+		Resources\Lights\TestLight.json = Resources\Lights\TestLight.json
+		Resources\Lights\TestLight2.json = Resources\Lights\TestLight2.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

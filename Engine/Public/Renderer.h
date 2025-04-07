@@ -29,6 +29,7 @@ private:
 
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
+	HRESULT Set_Lights(class CShader* pShader);
 	HRESULT Add_Light(class CLight* pLight);
 	HRESULT Draw();
 
@@ -45,16 +46,12 @@ private:
 	HRESULT Render_Priority();
 	HRESULT Render_NonBlend();
 	HRESULT Render_Blend();
-
 	HRESULT Render_ViewModel();
-
 	HRESULT Render_UI_Background(); 
-
 	HRESULT Render_UI_Button();
-
 	HRESULT Render_UI();
 
-	HRESULT SetLights(class CShader* pShader);
+	
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
