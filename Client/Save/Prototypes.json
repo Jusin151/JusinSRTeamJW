@@ -393,6 +393,11 @@
   ],
   "gameObjects": [
     {
+      "tag": "Prototype_GameObject_Particle_System_Snow",
+      "level": 3,
+      "class": "CGameObject_Snow"
+    },
+    {
       "tag": "Prototype_GameObject_Item",
       "level": 3,
       "class": "CItem"

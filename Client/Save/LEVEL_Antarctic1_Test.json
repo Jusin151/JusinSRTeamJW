@@ -7,6 +7,34 @@
         "LayerTag": "Layer_Player"
       }
     ],
+    "Layer_Snow": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Snow",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Particle_System_Snow",
+          "ProtoLevel": 0
+        },
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+      }
+    ],
     "Layer_Monster_Glacier": [
       {
         "FromPool": false,

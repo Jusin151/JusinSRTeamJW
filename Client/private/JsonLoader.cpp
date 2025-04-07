@@ -21,6 +21,7 @@
 #include "Door.h"
 #include "Effects.h"
 #include "Cthulhu.h"
+#include "GameObject_Snow.h"
 
 
 
@@ -405,6 +406,11 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CBlood_Effect::Create(pGraphic_Device);
 	else if (className == "CWeapon_Effect")
 		return CWeapon_Effect::Create(pGraphic_Device);
+#pragma endregion
+
+#pragma region Particle
+	else if (className == "CGameObject_Snow")
+		return CGameObject_Snow::Create(pGraphic_Device);
 #pragma endregion
 
 
