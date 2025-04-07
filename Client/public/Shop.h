@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Camera_FirstPerson.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -56,6 +57,7 @@ protected:
 	virtual HRESULT Ready_ShopItems() = 0;
 
 	CGameObject* m_pPlayer = { nullptr }; // 상점이 늘 플레이어를 쳐다보게 하기 위해서 선언
+	CCamera_FirstPerson* m_pFirstPersonCamera = { nullptr }; // 카메라 움직임제어용
 	_bool bPlayer_Check = {};
 public:
 	////static CShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device); 자식에서 구현
