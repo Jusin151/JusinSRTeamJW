@@ -399,7 +399,7 @@
     {
       "count": 2,
       "level": 3,
-      "path": "../../Resources\\Textures\\Objects\\Candles\\candles000%d.png",
+      "path": "../../Resources\\Textures\\Objects\\Candles\\candles%d.png",
       "tag": "Prototype_Component_Texture_Candles"
     },
     {
