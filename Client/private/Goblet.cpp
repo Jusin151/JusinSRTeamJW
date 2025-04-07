@@ -1,22 +1,22 @@
-﻿#include "GameInstance.h"
-#include "Torch.h"
+#include "GameInstance.h"
+#include "Goblet.h"
 
-CTorch::CTorch(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CGameObject { pGraphic_Device }
+CGoblet::CGoblet(LPDIRECT3DDEVICE9 pGraphic_Device)
+    : CGameObject{ pGraphic_Device }
 {
 }
 
-CTorch::CTorch(const CTorch& Prototype)
-    : CGameObject { Prototype }
+CGoblet::CGoblet(const CGoblet& Prototype)
+    : CGameObject{ Prototype }
 {
 }
 
-HRESULT CTorch::Initialize_Prototype()
+HRESULT CGoblet::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Initialize(void* pArg)
+HRESULT CGoblet::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -26,7 +26,7 @@ HRESULT CTorch::Initialize(void* pArg)
     return S_OK;
 }
 
-HRESULT CTorch::Ready_Components()
+HRESULT CGoblet::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -66,61 +66,61 @@ HRESULT CTorch::Ready_Components()
 }
 
 
-void CTorch::Priority_Update(_float fTimeDelta)
+void CGoblet::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CTorch::Update(_float fTimeDelta)
+void CGoblet::Update(_float fTimeDelta)
 {
 }
 
-void CTorch::Late_Update(_float fTimeDelta)
+void CGoblet::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CTorch::Pre_Render()
+HRESULT CGoblet::Pre_Render()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Render()
+HRESULT CGoblet::Render()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Post_Render()
+HRESULT CGoblet::Post_Render()
 {
     return S_OK;
 }
 
 
-CTorch* CTorch::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGoblet* CGoblet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CTorch* pInstance = new CTorch(pGraphic_Device);
+    CGoblet* pInstance = new CGoblet(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Cloned : CTorch");
+        MSG_BOX("Failed to Cloned : CGoblet");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CTorch* CTorch::Clone(void* pArg)
+CGoblet* CGoblet::Clone(void* pArg)
 {
-    CTorch* pInstance = new CTorch(*this);
+    CGoblet* pInstance = new CGoblet(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CTorch");
+        MSG_BOX("Failed to Cloned : CGoblet");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CTorch::Free()
+void CGoblet::Free()
 {
     __super::Free();
     Safe_Release(m_pLightCom);
@@ -131,12 +131,12 @@ void CTorch::Free()
     Safe_Release(m_pTransformCom);
 }
 
-json CTorch::Serialize()
+json CGoblet::Serialize()
 {
     return json();
 }
 
-void CTorch::Deserialize(const json& j)
+void CGoblet::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }

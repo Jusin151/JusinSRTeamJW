@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
 
@@ -12,12 +12,12 @@ class CVIBuffer_Rect;
 END
 
 BEGIN(Client)
-class CTorch final : public CGameObject
+class CHub_Light final : public CGameObject
 {
 private:
-	CTorch(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CTorch(const CTorch& Prototype);
-	virtual ~CTorch() = default;
+	CHub_Light(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CHub_Light(const CHub_Light& Prototype);
+	virtual ~CHub_Light() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -33,19 +33,19 @@ public:
 	virtual HRESULT Render() override;
 	virtual HRESULT Post_Render();
 public:
-	virtual void Reset() {}; // ì°¨í›„ì— ì˜¤ë¸Œì íŠ¸ í’€ë§ë•Œ SetActiveê°€ trueê°€ ë  ë•Œ ê¸°ë³¸ì •ë³´ ë‹¤ì‹œ ì…‹íŒ…ì„ ìœ„í•œ í•¨ìˆ˜
+	virtual void Reset() {}; // Â÷ÈÄ¿¡ ¿ÀºêÁ§Æ® Ç®¸µ¶§ SetActive°¡ true°¡ µÉ ¶§ ±âº»Á¤º¸ ´Ù½Ã ¼ÂÆÃÀ» À§ÇÑ ÇÔ¼ö
 
 private:
-	CLight*				m_pLightCom		= { nullptr };
-	CShader*			m_pShaderCom	= { nullptr };
-	CTexture*			m_pTextureCom	= { nullptr };
-	CMaterial*			m_pMaterialCom	= { nullptr };
-	CTransform*			m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*		m_pVIBufferCom	= { nullptr };
+	CLight* m_pLightCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CMaterial* m_pMaterialCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
 public:
-	static CTorch* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CTorch* Clone(void* pArg) override;
+	static CHub_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CHub_Light* Clone(void* pArg) override;
 	virtual void Free() override;
 public:
 	virtual json Serialize() override;

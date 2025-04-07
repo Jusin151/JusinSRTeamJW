@@ -36,6 +36,9 @@ public:
 	HRESULT Bind_Handle(void* pArg, _uint bytes);
 
 public:
+	HRESULT Set_Fog(_float3 rgb, _float start, _float end);
+
+public:
 	void Begin(_uint iPassIndex);
 	void End();
 

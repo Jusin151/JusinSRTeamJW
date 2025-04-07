@@ -173,6 +173,7 @@
     <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
+    <ClInclude Include="..\public\Candles.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
@@ -183,7 +184,11 @@
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
     <ClInclude Include="..\public\GameObject_Snow.h" />
+    <ClInclude Include="..\public\Goblet.h" />
     <ClInclude Include="..\public\HellBoss_Bullet.h" />
+    <ClInclude Include="..\public\Hub_Light.h" />
+    <ClInclude Include="..\public\Lamp.h" />
+    <ClInclude Include="..\public\Long_Torch.h" />
     <ClInclude Include="..\public\Pattern_EyeBlast.h" />
     <ClInclude Include="..\public\HellBoss.h" />
     <ClInclude Include="..\public\Level_Boss.h" />
@@ -306,11 +311,13 @@
     <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
+    <ClCompile Include="..\private\Candles.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Cthulhu_Tentacle.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\GameObject_Snow.cpp" />
+    <ClCompile Include="..\private\Goblet.cpp" />
     <ClCompile Include="..\private\HellBoss.cpp" />
     <ClCompile Include="..\private\HellBoss_AttackState.cpp" />
     <ClCompile Include="..\private\HellBoss_Bullet.cpp" />
@@ -323,6 +330,7 @@
     <ClCompile Include="..\private\Glacier.cpp" />
     <ClCompile Include="..\private\GlacierBullet.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
+    <ClCompile Include="..\private\Hub_Light.cpp" />
     <ClCompile Include="..\private\Hub_PointShop.cpp" />
     <ClCompile Include="..\private\Hub_Portal.cpp" />
     <ClCompile Include="..\private\Hub_SpellShop.cpp" />
@@ -330,9 +338,11 @@
     <ClCompile Include="..\Private\Inven_UI.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Image.cpp" />
+    <ClCompile Include="..\private\Lamp.cpp" />
     <ClCompile Include="..\private\Level_Boss.cpp" />
     <ClCompile Include="..\private\Level_Hong.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
+    <ClCompile Include="..\private\Long_Torch.cpp" />
     <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />

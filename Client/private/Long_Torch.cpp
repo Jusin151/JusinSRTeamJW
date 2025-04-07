@@ -1,22 +1,22 @@
-﻿#include "GameInstance.h"
-#include "Torch.h"
+#include "GameInstance.h"
+#include "Long_Torch.h"
 
-CTorch::CTorch(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CGameObject { pGraphic_Device }
+CLong_Torch::CLong_Torch(LPDIRECT3DDEVICE9 pGraphic_Device)
+    : CGameObject{ pGraphic_Device }
 {
 }
 
-CTorch::CTorch(const CTorch& Prototype)
-    : CGameObject { Prototype }
+CLong_Torch::CLong_Torch(const CLong_Torch& Prototype)
+    : CGameObject{ Prototype }
 {
 }
 
-HRESULT CTorch::Initialize_Prototype()
+HRESULT CLong_Torch::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Initialize(void* pArg)
+HRESULT CLong_Torch::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -26,7 +26,7 @@ HRESULT CTorch::Initialize(void* pArg)
     return S_OK;
 }
 
-HRESULT CTorch::Ready_Components()
+HRESULT CLong_Torch::Ready_Components()
 {
     /* For.Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
@@ -66,61 +66,61 @@ HRESULT CTorch::Ready_Components()
 }
 
 
-void CTorch::Priority_Update(_float fTimeDelta)
+void CLong_Torch::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CTorch::Update(_float fTimeDelta)
+void CLong_Torch::Update(_float fTimeDelta)
 {
 }
 
-void CTorch::Late_Update(_float fTimeDelta)
+void CLong_Torch::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CTorch::Pre_Render()
+HRESULT CLong_Torch::Pre_Render()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Render()
+HRESULT CLong_Torch::Render()
 {
     return S_OK;
 }
 
-HRESULT CTorch::Post_Render()
+HRESULT CLong_Torch::Post_Render()
 {
     return S_OK;
 }
 
 
-CTorch* CTorch::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLong_Torch* CLong_Torch::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CTorch* pInstance = new CTorch(pGraphic_Device);
+    CLong_Torch* pInstance = new CLong_Torch(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Cloned : CTorch");
+        MSG_BOX("Failed to Cloned : CLong_Torch");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CTorch* CTorch::Clone(void* pArg)
+CLong_Torch* CLong_Torch::Clone(void* pArg)
 {
-    CTorch* pInstance = new CTorch(*this);
+    CLong_Torch* pInstance = new CLong_Torch(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CTorch");
+        MSG_BOX("Failed to Cloned : CLong_Torch");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CTorch::Free()
+void CLong_Torch::Free()
 {
     __super::Free();
     Safe_Release(m_pLightCom);
@@ -131,12 +131,12 @@ void CTorch::Free()
     Safe_Release(m_pTransformCom);
 }
 
-json CTorch::Serialize()
+json CLong_Torch::Serialize()
 {
     return json();
 }
 
-void CTorch::Deserialize(const json& j)
+void CLong_Torch::Deserialize(const json& j)
 {
     SET_TRANSFORM(j, m_pTransformCom);
 }

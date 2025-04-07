@@ -73,11 +73,9 @@ float g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
 float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
 // --- 안개 효과 전역 변수 추가 (C++에서 설정) ---
-float3 g_FogColor = float3(0.9f, 0.9f, 0.9f); // 안개 색상 (하얀색)
-float g_FogStart = 10.0f; // 안개 시작 거리
-float g_FogEnd = 40.0f; // 안개 끝 거리
-
-
+float3 g_FogColor = float3(0.5f, 0.9f, 0.9f); // 안개 색상 (하얀색)
+float g_FogStart = 8.0f; // 안개 시작 거리
+float g_FogEnd = 20.0f; // 안개 끝 거리
 
 struct VS_IN
 {
@@ -471,6 +469,141 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
     return Out;
 }
 
+/*PS_OUT PS_LIT_MULTIPASS(PS_IN In, float facing : VFACE)
+{
+    PS_OUT Out;
+
+    // --- 기본 벡터 계산 ---
+    float3 normal = normalize(In.vNormal * sign(facing));
+    float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz);
+
+    // --- 텍스처 샘플링 ---
+    float2 tiledUV = In.vTexcoord * In.vScale; // 스케일 고려
+    float4 baseColor = tex2D(DefaultSampler, tiledUV);
+
+    // --- 최종 색상 계산을 위한 변수 초기화 ---
+    float3 accumulatedColor = float3(0.0f, 0.0f, 0.0f); // 추가 패스를 위해 0으로 초기화
+
+    // 첫 번째 패스(Base Pass)인 경우에만 Ambient와 Emissive를 계산
+    if (g_CurrentPassIndex == 0)
+    {
+        // 참고: Ambient 계산 방식 확인 필요 (g_Material.Ambient와 g_Material.Diffuse 둘 다 곱하는 것이 일반적이지 않을 수 있음)
+        // 일반적인 Ambient: baseColor.rgb * g_Material.Ambient.rgb * g_AmbientLightColor.rgb
+        // 또는: baseColor.rgb * g_Material.Ambient.rgb (텍스처와 재질 주변광만 고려)
+        // 현재 코드 유지:
+        accumulatedColor = (baseColor.rgb * g_Material.Ambient.rgb * g_Material.Diffuse.rgb) + g_Material.Emissive.rgb;
+    }
+
+    // 이번 패스에서 처리할 라이트들에 대한 계산 및 누적
+    // for 루프의 시작과 끝을 C++에서 전달된 인덱스와 개수로 조정
+    int loopEnd = g_LightStartIndex + g_NumLightsInPass;
+    for (int i = g_LightStartIndex; i < loopEnd; ++i)
+    {
+        // g_Lights 배열 범위 확인 (선택적이지만 안전함)
+        if (i >= MAX_LIGHTS) // 또는 실제 C++에서 관리하는 전체 라이트 수
+            break;
+
+        Light currentLight = g_Lights[i];
+
+        if (currentLight.Type == 0)
+            continue; // LT_UNUSED
+
+        // --- 라이트 타입별 계산 (기존 코드와 거의 동일) ---
+        float3 lightVec = float3(0.0f, 0.0f, 0.0f);
+        float attenuation = 0.0f;
+        float NdotL = 0.0f;
+
+        if (currentLight.Type == 3) // Directional
+        {
+            lightVec = normalize(-currentLight.Direction.xyz); // Direction은 xyz 사용
+            NdotL = saturate(dot(normal, lightVec));
+            attenuation = 1.0f;
+        }
+        else if (currentLight.Type == 1) // Point
+        {
+            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz; // Position은 xyz 사용
+            float distSq = dot(dirToLight, dirToLight);
+            float dist = sqrt(distSq);
+
+            if (dist < currentLight.Range)
+            {
+                lightVec = dirToLight / dist;
+                NdotL = saturate(dot(normal, lightVec));
+                attenuation = saturate(1.0f / (currentLight.Attenuation0 +
+                                              currentLight.Attenuation1 * dist +
+                                              currentLight.Attenuation2 * distSq));
+            }
+            // else: NdotL=0, attenuation=0 (초기값 유지)
+        }
+        else if (currentLight.Type == 2) // Spot
+        {
+            // 스포트라이트 계산 (현재는 포인트 라이트와 유사하게 처리됨, 필요시 확장)
+            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz; // Position은 xyz 사용
+            float distSq = dot(dirToLight, dirToLight);
+            float dist = sqrt(distSq);
+
+            if (dist < currentLight.Range)
+            {
+                lightVec = dirToLight / dist;
+                NdotL = saturate(dot(normal, lightVec));
+                attenuation = saturate(1.0f / (currentLight.Attenuation0 +
+                                              currentLight.Attenuation1 * dist +
+                                              currentLight.Attenuation2 * distSq));
+
+                // TODO: 여기에 스포트라이트 원뿔각/감쇠 계산 추가
+                // float spotFactor = ... 계산 ...
+                // attenuation *= spotFactor;
+            }
+             // else: NdotL=0, attenuation=0 (초기값 유지)
+        }
+
+        // 현재 라이트의 기여도가 유효하다면 누적
+        if (NdotL > 0.0f && attenuation > 0.0f)
+        {
+            // 디퓨즈(Diffuse) 계산
+            float3 diffuse = baseColor.rgb * g_Material.Diffuse.rgb * NdotL * currentLight.Color.rgb;
+
+            // 스페큘러(Specular) 계산
+            float3 halfwayDir = normalize(lightVec + viewDir);
+            float NdotH = saturate(dot(normal, halfwayDir));
+            float specPower = pow(NdotH, g_Material.Power);
+            float3 specular = g_Material.Specular.rgb * specPower * currentLight.Color.rgb;
+
+            // 현재 라이트의 최종 기여도 = (디퓨즈 + 스페큘러) * 감쇠
+            float3 currentLightContribution = (diffuse + specular) * attenuation;
+
+            // 최종 색상에 현재 라이트 기여도 누적
+            accumulatedColor += currentLightContribution;
+        }
+    } // End of for loop
+
+    // --- 최종 색상 조합 및 후처리 ---
+
+    // 첫 번째 패스에서만 안개를 적용하거나, 모든 패스가 끝난 후 후처리로 안개를 적용하는 것이 좋음.
+    // 여기서는 첫 번째 패스에서만 안개를 적용하는 예시
+    float4 finalColor;
+    finalColor.rgb = saturate(accumulatedColor);
+    finalColor.a = baseColor.a * g_Material.Diffuse.a; // 알파 값
+
+    if (g_CurrentPassIndex == 0)
+    {
+        // --- 안개 효과 계산 (첫 패스에만 적용) ---
+        float distance = length(In.vViewPos);
+        float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
+        Out.vColor = lerp(finalColor, float4(g_FogColor, finalColor.a), fogFactor);
+    }
+    else
+    {
+        // 추가 패스에서는 계산된 조명 기여도만 출력 (안개 없음)
+        Out.vColor = finalColor;
+    }
+
+    // --- 알파 테스트 ---
+    // if (Out.vColor.a < 0.1f) discard; // 필요하다면 모든 패스에 적용
+
+    return Out;
+}*/
+
 PS_OUT PS_MAIN_BLACK(PS_IN In)
 {
     PS_OUT Out;
@@ -482,6 +615,7 @@ PS_OUT PS_MAIN_BLACK(PS_IN In)
 
 technique DefaultTechnique
 {
+    
     pass DefaultPass
     {
         CullMode = None;
@@ -533,4 +667,4 @@ technique DefaultTechnique
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_TEST_LIGHTING(); // 빛 계산이 포함된 PS_MAIN 사용
     }
-}
+}   
