@@ -31,6 +31,7 @@ public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 	HRESULT Set_Lights(class CShader* pShader);
 	HRESULT Add_Light(class CLight* pLight);
+	_uint	Get_NumOfLights() { return (_uint)m_Lights.size(); }
 	HRESULT Draw();
 
 private:
@@ -50,8 +51,6 @@ private:
 	HRESULT Render_UI_Background(); 
 	HRESULT Render_UI_Button();
 	HRESULT Render_UI();
-
-	
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

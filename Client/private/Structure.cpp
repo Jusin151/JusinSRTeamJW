@@ -52,12 +52,6 @@ HRESULT CStructure::Ready_Components()
 	else
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;
 
-
-	///* For.Com_VIBuffer */
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
-	//	TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-	//	return E_FAIL;	
-	//
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_TexturedCube",
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;

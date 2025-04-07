@@ -47,8 +47,10 @@ void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 
     pAttribute->fSize = m_fSize;
     pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
-    pAttribute->vCurrentColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 0.0f, 1.0f);
-    //pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
+    
+    pAttribute->vInitialColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+    pAttribute->vCurrentColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+    pAttribute->vColorFade = D3DCOLOR_COLORVALUE(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void CGold_Particle_System::Update(float fTimeDelta)
@@ -57,6 +59,10 @@ void CGold_Particle_System::Update(float fTimeDelta)
     {
         i.vPosition += i.vVelocity * fTimeDelta;
         i.fAge += fTimeDelta;
+        
+        // --- 색상 페이드 아웃 및 수명 관리 (기존과 동일) ---
+        float ratio = i.fAge / i.fLifetime;
+        i.vCurrentColor = ColorLerp(i.vInitialColor, i.vColorFade, ratio);
         if (!m_Bounding_Box.Is_Point_Inside(i.vPosition))
         {
             Reset_Particle(&i);
@@ -65,6 +71,27 @@ void CGold_Particle_System::Update(float fTimeDelta)
         /*if (i.fAge > i.fLifetime)
             i.bIsAlive = false;*/
     }
+}
+
+HRESULT CGold_Particle_System::Pre_Render()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+    m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+    m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
+
+    m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
+    m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
+    m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
+
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // 정점 색상만 사용
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // 텍스쳐 색상 지정
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    return S_OK;
 }
 
 CGold_Particle_System* CGold_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
