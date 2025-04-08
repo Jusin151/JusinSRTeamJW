@@ -18,14 +18,26 @@ void CPattern_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
         m_bStarted = true;
         m_fAccTime = 0.f;
   
-        if(pBoss->Get_Phase()==PHASE2)  
+        if (pBoss->Get_Phase() == PHASE2)
+        {
             pBoss->Set_Animation("5_Morph"); //2번째 페이즈 진입 , 통통이에서 날씬이로
-        else if(pBoss->Get_Phase() == PHASE3)
+            m_fDuration = 1.5f; //  대기
+        }
+        else if (pBoss->Get_Phase() == PHASE3)
+        {
             pBoss->Set_Animation("Y_ArmCut"); // 3번째 페이즈 진입, 날씬이에서 한팔잘린상태
+            m_fDuration = 0.3f; //  대기
+        }
         else if (pBoss->Get_Phase() == PHASE4)
+        {
             pBoss->Set_Animation("P_ArmCut_End");// 4번째 페이즈 진입, 한팔잘린상태에서 뚱뚱이로
+            m_fDuration = 4.3f; //  대기
+        }
         else if (pBoss->Get_Phase() == PHASE5)
+        {
             pBoss->Set_Animation("B_Phase3_End");// 5번째 페이즈 진입, 뚱뚱이에서 -> 괴물처럼
+            m_fDuration = 4.3f; //  대기
+        }
 
         // 사운드 재생 
         //  pBoss->Play_Sound("진화 재생.wav 같은느낌");

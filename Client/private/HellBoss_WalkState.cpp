@@ -8,6 +8,12 @@ void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 		pBoss->Set_Animation("2_Walk");
 	else if (pBoss->Get_Phase() == PHASE2)
 		pBoss->Set_Animation("7_Phase2_Walk");
+	else if (pBoss->Get_Phase() == PHASE3)
+		pBoss->Set_Animation("I_ArmCut_Walk");
+	else if (pBoss->Get_Phase() == PHASE4)
+		pBoss->Set_Animation("H_Phase3_Walk");
+	else if (pBoss->Get_Phase() == PHASE5)
+		pBoss->Set_Animation("N_Phase4_Idle");
 }
 
 
