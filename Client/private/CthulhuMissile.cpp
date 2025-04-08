@@ -66,8 +66,10 @@ void CCthulhuMissile::Update(_float fTimeDelta)
 void CCthulhuMissile::Late_Update(_float fTimeDelta)
 {
 
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+	{
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	}
 }
 
 HRESULT CCthulhuMissile::Render()

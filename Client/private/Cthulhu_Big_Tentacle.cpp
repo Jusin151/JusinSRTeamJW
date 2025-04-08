@@ -38,11 +38,11 @@ void CCthulhu_Big_Tentacle::Priority_Update(_float fTimeDelta)
 
 void CCthulhu_Big_Tentacle::Update(_float fTimeDelta)
 {
-	if(m_pColliderCom )
+	if (m_pColliderCom)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
-		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"),m_pTransformCom->Compute_Scaled());
+		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
 		m_pGameInstance->Add_Collider(CG_ENVIRONMENT, m_pColliderCom);
 	}
 
@@ -55,7 +55,10 @@ void CCthulhu_Big_Tentacle::Late_Update(_float fTimeDelta)
 	fPos.y = m_fOffset;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+	{
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	}
 }
 
 HRESULT CCthulhu_Big_Tentacle::Render()
@@ -79,7 +82,7 @@ HRESULT CCthulhu_Big_Tentacle::Render()
 
 HRESULT CCthulhu_Big_Tentacle::On_Collision(CCollisionObject* other)
 {
-    return E_NOTIMPL;
+	return E_NOTIMPL;
 }
 
 void CCthulhu_Big_Tentacle::Billboarding(_float fTimeDelta)
