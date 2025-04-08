@@ -33,6 +33,10 @@ private:
 private:
     _float2 m_vMousePos = { 0.f, 0.f };
     _bool m_bMousePressed{ false };
+    _float4x4 m_MatOldView;
+    _float4x4 m_MatOldProj;
+    _float4x4 m_MatView;
+    _float4x4 m_MatProj;
 
 public:
     static CCursor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

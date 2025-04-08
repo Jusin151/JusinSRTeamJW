@@ -43,10 +43,18 @@ public:
 private:
 	void Shaking(_float fTimeDelta);
 public:
-	void Camera_Lock()
+	void Camera_Lock(_bool bIsLock)
 	{
-		m_bCameraLocked = !m_bCameraLocked;
-	}
+		m_bCameraLocked = bIsLock;
+		if (!bIsLock) 
+		{
+			while (ShowCursor(FALSE) >= 0) {}
+		}
+		else
+		{
+			while (ShowCursor(TRUE) < 0) {}
+		}
+ 	}
 
 private:
 	POINT				m_ptOldMousePos = {};

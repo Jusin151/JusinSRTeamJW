@@ -262,7 +262,7 @@ HRESULT CStructure::Render()
 	}
 	else if (level == (_uint)LEVEL_BOSS)
 	{
-		m_pShaderCom->Set_Fog(_float3(0.5f, 0.8f, 0.5f), 1.f, 40.f);
+		m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 10.f, 20.f);
 	}
 	else
 	{
