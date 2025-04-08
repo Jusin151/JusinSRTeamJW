@@ -21,6 +21,13 @@ HRESULT CCursor::Initialize(void* pArg)
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	CUI_Manager::GetInstance()->AddUI(L"Cursor", this);
+	m_Viewport.X = 0;
+	m_Viewport.Y = 0;
+	m_Viewport.Width = g_iWinSizeX;   // 전역 변수 혹은 별도 관리되는 윈도우 너비
+	m_Viewport.Height = g_iWinSizeY;  // 윈도우 높이
+	m_Viewport.MinZ = 0.0f;
+	m_Viewport.MaxZ = 1.0f;
+
 	D3DXMatrixIdentity(&m_MatView);
 	D3DXMatrixOrthoLH(&m_MatProj, g_iWinSizeX, g_iWinSizeY, 0.0f, 3.f);
 	return S_OK;
@@ -56,27 +63,13 @@ void CCursor::Late_Update(_float fTimeDelta)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);  // 클라이언트 영역 기준 (0,0이 좌측 상단)
 
-	// 2. 뷰포트 정보 설정 (실제 윈도우 크기에 맞게)
-	D3DVIEWPORT9 viewport;
-	viewport.X = 0;
-	viewport.Y = 0;
-	viewport.Width = g_iWinSizeX;   // 전역 변수 혹은 별도 관리되는 윈도우 너비
-	viewport.Height = g_iWinSizeY;  // 윈도우 높이
-	viewport.MinZ = 0.0f;
-	viewport.MaxZ = 1.0f;
-
-	// 3. 스크린 좌표를 D3DXVECTOR3로 구성
-	// Z 값은 원하는 깊이를 선택합니다. UI의 경우 보통 0.0f (Near plane)로 설정.
 	D3DXVECTOR3 vScreenCoord(static_cast<float>(pt.x), static_cast<float>(pt.y), 0.0f);
-
-	m_MatProj._22 *= -1.f;
-	m_MatProj._42 = 1.f;
 
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);  // UI 요소이므로 월드 행렬은 Identity
 
 	D3DXVECTOR3 vWorld;
-	if (!D3DXVec3Unproject(&vWorld, &vScreenCoord, &viewport, &m_MatProj, &m_MatView, &matWorld))
+	if (!D3DXVec3Unproject(&vWorld, &vScreenCoord, &m_Viewport, &m_MatProj, &m_MatView, &matWorld))
 	{
 		// 변환 실패 시 기본값 사용
 		vWorld = D3DXVECTOR3(0.f, 0.f, 0.f);
@@ -85,7 +78,7 @@ void CCursor::Late_Update(_float fTimeDelta)
 	// 6. 변환된 월드 좌표를 커서 트랜스폼에 적용
 	if (m_pTransformCom)
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(vWorld.x, vWorld.y,1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(vWorld.x, vWorld.y,0.1f));
 		m_pTransformCom->Set_Scale(30.f, 30.f, 1.f);
 	}
 }
@@ -122,6 +115,7 @@ HRESULT CCursor::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 //	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
 
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
@@ -130,6 +124,7 @@ HRESULT CCursor::SetUp_RenderState()
 
 HRESULT CCursor::Release_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_MatOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_MatOldProj);
 	return S_OK;

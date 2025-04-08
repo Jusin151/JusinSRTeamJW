@@ -37,7 +37,7 @@ private:
     _float4x4 m_MatOldProj;
     _float4x4 m_MatView;
     _float4x4 m_MatProj;
-
+    D3DVIEWPORT9 m_Viewport;
 public:
     static CCursor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
