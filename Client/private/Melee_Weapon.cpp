@@ -32,7 +32,7 @@ HRESULT CMelee_Weapon::Initialize(void* pArg)
 
 void CMelee_Weapon::Priority_Update(_float fTimeDelta)
 {
-
+	__super::Priority_Update(fTimeDelta); 
 }
 
 void CMelee_Weapon::Update(_float fTimeDelta)

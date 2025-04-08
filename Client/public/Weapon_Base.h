@@ -51,7 +51,7 @@ protected:
 public:
     virtual HRESULT Initialize_Prototype()PURE;
     virtual HRESULT Initialize(void* pArg)PURE;
-    virtual void Priority_Update(_float fTimeDelta)PURE;
+    virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
     virtual HRESULT Render()PURE;
@@ -59,7 +59,7 @@ public:
     virtual  void Free();
     virtual void Attack(_float fTimeDelta)PURE;
     virtual void Move_Hand(_float fTimeDelta);
-    virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
+    virtual HRESULT On_Collision(CCollisionObject* other);
     virtual void Attack_WeaponSpecific(_float fTimeDelta) PURE;
 
 

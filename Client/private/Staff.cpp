@@ -63,6 +63,7 @@ HRESULT CStaff::Initialize(void* pArg)
     //if (FAILED(Ready_Icon()))
     //    return E_FAIL;
 
+    // staff는 투사체로 처리할꺼니까 type 없어도 됨
 
  
 	return S_OK;
@@ -72,6 +73,8 @@ HRESULT CStaff::Initialize(void* pArg)
 
 void CStaff::Priority_Update(_float fTimeDelta)
 {
+    __super::Priority_Update(fTimeDelta);
+
 	static _bool bInit = { false };
 
     if (!bInit)

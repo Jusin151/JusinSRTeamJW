@@ -19,6 +19,14 @@ CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
 
 void CWeapon_Base::Priority_Update(_float fTimeDelta)
 {
+	static _bool bInit = { false };
+
+	if (!bInit)
+	{
+		m_bIsActive = false;
+
+		bInit = true;
+	}
 }
 
 void CWeapon_Base::Late_Update(_float fTimeDelta)
@@ -49,6 +57,25 @@ void CWeapon_Base::Move_Hand(_float fTimeDelta)
 	vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
+}
+
+HRESULT CWeapon_Base::On_Collision(CCollisionObject* other)
+{
+	switch (other->Get_Type()) //여기서 디버깅 잡히나?
+	{
+	case CG_MONSTER:
+
+		// 나중에 공격력 만들어서 추가하는 식으로
+		Take_Damage(other);
+		
+		break;
+
+	default:
+		break;
+	
+	}
+
+	return S_OK;
 }
 
 

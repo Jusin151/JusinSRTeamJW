@@ -7,9 +7,9 @@
 
 void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
 {
-    if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+    if (pBoss->Get_Phase() == PHASE1)
         pBoss->Set_Animation("1_Idle");
-    else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+    else if (pBoss->Get_Phase() == PHASE2)
         pBoss->Set_Animation("8_Phase2_Charge"); // 애매해서 일던 idle로 박았음 =
 }
 
@@ -22,7 +22,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 
 	if (fDist < 20.f) // 공격 거리 안에 들었으면@@@#!#!@#
 	{
-		if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+		if (pBoss->Get_Phase() == PHASE1)
 		{
 			// 페이즈1은 둘 중 하나 랜덤
 			int randIndex = rand() % 2;
@@ -32,7 +32,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 			case 1: pBoss->Set_AttackPattern(new CPattern_Shoot()); break;
 			}
 		}
-		else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+		else if (pBoss->Get_Phase() == PHASE2)
 		{
 			// 페이즈2는 Shoot만 가능하니까
 			pBoss->Set_AttackPattern(new CPattern_Shoot());

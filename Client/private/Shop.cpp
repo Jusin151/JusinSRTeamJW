@@ -109,7 +109,7 @@ HRESULT CShop::Render()
         if (FAILED(m_pShaderCom->Bind_Lights()))
             return E_FAIL;
 
-        m_pShaderCom->Begin(2);
+        m_pShaderCom->Begin(1);
 
         if (FAILED(m_pVIBufferCom->Render()))
             return E_FAIL;

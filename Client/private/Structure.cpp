@@ -3,6 +3,7 @@
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
 #include <StructureManager.h>
+#include "Level_Loading.h"
 
 CStructure::CStructure(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject{ pGraphic_Device }
@@ -24,14 +25,10 @@ HRESULT CStructure::Initialize_Prototype()
 HRESULT CStructure::Initialize(void* pArg)
 {
 	INIT_PARENT(pArg)
-
-		if (FAILED(Ready_Components()))
-			return E_FAIL;
-
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 
 	m_bIsCubeCollider = (dynamic_cast<CCollider_Cube*>(m_pColliderCom) != nullptr);
-
-
 	CStructureManager::Get_Instance()->Add_Structure(this);
 	return S_OK;
 }
@@ -56,6 +53,8 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	
+	
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 
@@ -84,8 +83,24 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
-	CMaterial::MATERIAL_DESC materialDesc = { L"../../Resources/Materials/TestMaterial.json" };
+	LEVEL nextLevel = static_cast<CLevel_Loading*>(m_pGameInstance->Get_Level())->Get_NextLevel();
+	wstring materialPath = L"../../Resources/Materials/HubStructureMaterial.json";
+	switch (nextLevel)
+	{
+	case Client::LEVEL_GAMEPLAY:
+		materialPath = L"../../Resources/Materials/StructureMaterial.json";
+		break;
+	case Client::LEVEL_HUB:
+		break;
+	case Client::LEVEL_HONG:
+		break;
+	case Client::LEVEL_BOSS:
+		break;
+	default:
+		break;
+	}
 
+	CMaterial::MATERIAL_DESC materialDesc = { materialPath };
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom), &materialDesc)))
@@ -266,7 +281,7 @@ HRESULT CStructure::Render()
 	}
 	else
 	{
-		m_pShaderCom->Set_Fog(_float3(0.5f, 0.7f, 0.9f), 8.f, 20.f);
+		m_pShaderCom->Set_Fog(_float3(0.427f, 0.853f, 0.875f), 0.0f, 30.f);
 	}
 
 	if(FAILED(m_pTransformCom->Bind_Resource()))

@@ -41,6 +41,8 @@ HRESULT CHarvester::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 30;
 	m_fAnimationSpeed = 0.03f;
 
+	m_iAp = 50;
+	m_eType = CG_WEAPON;
 
 	m_pTransformCom->Set_Scale(m_Staff_INFO.vSize.x, m_Staff_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -65,6 +67,7 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 void CHarvester::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CHarvester::Update(_float fTimeDelta)

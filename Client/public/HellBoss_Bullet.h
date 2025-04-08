@@ -22,7 +22,7 @@ public:
 		wstring wBulletType;
 		_int iIndex;
 		_int iTotalCount;
-
+		_bool isLeft{}; //왼손에서 쏠건지 오른손에서 쏠건지
 		_float3 vAxis = { 0.f, 1.f, 0.f }; // Y축 기준으로 기본 회전
 	};
 
@@ -74,6 +74,10 @@ public:
 public:
 	void Launch_Toward_Player();
 	void Set_BulletIndex(_int iIndex) { m_iBulletIndex = iIndex; }
+	void Rotated_BulletPos()
+	{
+		m_bRotated_Bullet = !m_bRotated_Bullet;
+	}
 private:
 	_bool m_bJustSpawned = { true };
 	_bool m_bInitializedPos = {false}; 
@@ -85,10 +89,8 @@ private:
 	_float m_fFrameDuration = {}; // 이미지 간 시간 간격
 	_int   m_iMaxFrame = {};          // 애니메이션 마지막 프레임 
 	_int   m_iFrameCount = {};        // 총 이미지 수
-
-
 	_float m_fRotateAngle = 0.f;
-	_float m_fRadius = 3.0f;
+	_float m_fRadius = { 3.0f };
 	_int m_iBulletIndex = 0;
 private:
 	_float m_fFixedAngle = 0.f; 
@@ -96,11 +98,11 @@ private:
 	_float m_fCurScale = 2.f; 
 	_bool m_bReadyToLaunch = false; 
 	_float m_fLaunchTimer = 0.f; 
-
 	_float3 m_vAxis{};
 	_bool m_bPlayedOnce = false;
 	_float3 m_vExpandedPos = {}; // 퍼진 후 위치
 	_float  m_fExpandTime = 0.f;
+	_bool m_bRotated_Bullet{}; //왼쪽 오른쪽 번걸아가면서 쏘는거
 
 };
 END

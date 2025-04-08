@@ -44,7 +44,7 @@ public:
 public: //공격 관련
 	void Attack_WeaponSpecific(_float fTimeDelta);
 	void Attack(_float fTimeDelta);
-	HRESULT On_Collision();
+
 
 private:
 	State m_eState = State::Idle;
