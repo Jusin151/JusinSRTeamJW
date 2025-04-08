@@ -47,7 +47,7 @@ void CCursor::Update(_float fTimeDelta)
 
 void CCursor::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_CURSOR, this)))
 		return;
 
 	POINT pt;

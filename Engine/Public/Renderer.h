@@ -19,6 +19,7 @@ public:
 		RG_UI_BACKGROUND,  //  UI 배경
 		RG_UI_BUTTON,      //  UI 버튼
 		RG_UI,             // 원래 UI
+		RG_CURSOR,
 		RG_IMGUI,
 		RG_END
 	};
@@ -52,6 +53,7 @@ private:
 	HRESULT Render_UI_Background(); 
 	HRESULT Render_UI_Button();
 	HRESULT Render_UI();
+	HRESULT Render_Cusor_UI();
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
