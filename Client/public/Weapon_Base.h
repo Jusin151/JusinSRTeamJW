@@ -59,7 +59,7 @@ public:
     virtual  void Free();
     virtual void Attack(_float fTimeDelta)PURE;
     virtual void Move_Hand(_float fTimeDelta);
-    virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
+    virtual HRESULT On_Collision(CCollisionObject* other);
     virtual void Attack_WeaponSpecific(_float fTimeDelta) PURE;
 
 

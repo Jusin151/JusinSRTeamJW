@@ -389,15 +389,17 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
 
     if (!pClosestCollider) return;
 
-    CGameObject* pOwner = pClosestCollider->Get_Owner();
+    CCollisionObject* pOwner = pClosestCollider->Get_Owner();
     if (!pOwner) return;
 
-    if (auto pTarget = dynamic_cast<CCollisionObject*>(pOwner)) 
+    if (auto pTarget = (pOwner)) 
     {
-        pTarget->Set_Hp(pTarget->Get_Hp() - static_cast<_int>(Damage));
+        pOwner->On_Collision(this);
+        this->On_Collision(pOwner);
+
     }
     // else if (auto pWall = dynamic_cast<CWall*>(pOwner)) 
-    // { 
+    // { ㅈ
     // 
     //  벽 관련 처리 
     // 

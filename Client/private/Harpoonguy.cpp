@@ -93,7 +93,7 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 
 	if (!m_bCheck)
 		return;
-
+	  
 	Calc_Position();
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);

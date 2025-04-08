@@ -47,7 +47,8 @@ HRESULT CMagnum::Initialize(void* pArg)
 	m_Weapon_INFO.Damage = 20;                // 데미지
 	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
-
+	m_iAp = 20;
+	m_eType = CG_WEAPON;
 
 	m_pTransformCom->Set_Scale(m_Weapon_INFO.vSize.x, m_Weapon_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,

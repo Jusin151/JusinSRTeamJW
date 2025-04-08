@@ -44,10 +44,12 @@ public:
 
 	void Calc_Position();
 
+	// 다른 오브젝트에 데미지를 준다
+	void Take_Damage(CCollisionObject* other);
+
 protected:
 
-	// 다른 오브젝트에 데미지를 준다
-	 void Take_Damage(CCollisionObject* other);
+	
 	
 
 protected:

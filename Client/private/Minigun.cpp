@@ -55,6 +55,9 @@ HRESULT CMinigun::Initialize(void* pArg)
     //m_Weapon_INFO.vSize = {};
     m_Weapon_INFO.Damage = 50;
     m_Weapon_INFO.AttackSpeed = 1.2f;
+
+    m_iAp = 50;
+    m_eType = CG_WEAPON;
    
     Ranged_INFO.CurrentAmmo = 170; //현총알
     Ranged_INFO.MaxAmmo = 170;    // 최대 50발

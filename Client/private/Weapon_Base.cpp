@@ -51,6 +51,25 @@ void CWeapon_Base::Move_Hand(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
 }
 
+HRESULT CWeapon_Base::On_Collision(CCollisionObject* other)
+{
+	switch (other->Get_Type()) //여기서 디버깅 잡히나?
+	{
+	case CG_MONSTER:
+
+		// 나중에 공격력 만들어서 추가하는 식으로
+		Take_Damage(other);
+		
+		break;
+
+	default:
+		break;
+	
+	}
+
+	return S_OK;
+}
+
 
 HRESULT CWeapon_Base::Ready_Components()
 {

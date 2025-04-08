@@ -37,7 +37,8 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_Weapon_INFO.Damage = 50;                // 데미지
 	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
-
+	m_iAp = 50;
+	m_eType = CG_WEAPON;
 
 	m_pTransformCom->Set_Scale(m_Weapon_INFO.vSize.x, m_Weapon_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
@@ -226,11 +227,7 @@ HRESULT CShotGun::Render()
 	return S_OK;
 }
 
-HRESULT CShotGun::On_Collision()
-{
-	
-	return S_OK;
-}
+
 
 HRESULT CShotGun::Ready_Components()
 {
