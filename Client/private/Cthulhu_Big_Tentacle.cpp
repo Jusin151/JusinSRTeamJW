@@ -51,6 +51,10 @@ void CCthulhu_Big_Tentacle::Update(_float fTimeDelta)
 
 void CCthulhu_Big_Tentacle::Late_Update(_float fTimeDelta)
 {
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	fPos.y = m_fOffset;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 

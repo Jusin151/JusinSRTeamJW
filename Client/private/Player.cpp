@@ -344,9 +344,9 @@ void CPlayer::Set_Hp(_int iHp)
 	else
 	{		
 		m_iHp += iHp;
-		Notify(m_iHp, L"HP");
+	
 	}
-
+	Notify(m_iHp, L"HP");
 }
 
 _bool CPlayer::Set_Mp(_int iMp)
