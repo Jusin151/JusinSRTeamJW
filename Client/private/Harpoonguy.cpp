@@ -88,37 +88,9 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 	if (!m_bCheck)
 		return;
 
-	for (auto& wallMTV : m_vWallMtvs)
-	{
-		auto wallNormal = wallMTV.GetNormalized();
-		_float penetration = wallNormal.Dot(m_vObjectMtvSum);
-		if (penetration < 0.f)
-		{
-			// 벽 방향으로 침범 중 → 해당 방향 성분 제거
-			m_vObjectMtvSum -= wallNormal * penetration;
-		}
-	}
+	Calc_Position();
 
-	// MTV 크기 클램프 (너무 밀리지 않도록)
-	const _float maxMtvLength = 1.5f;
-	_float mtvLength = m_vObjectMtvSum.Length();
-	if (mtvLength > maxMtvLength)
-		m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
-
-	if (m_vWallMtvs.empty())
-	{
-		// 벽 충돌 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos + m_vObjectMtvSum);
-	}
-	else
-	{
-		if (mtvLength > 0.001f)
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-		else
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
-	}
-
-
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 	_float3 vScale = m_pTransformCom->Compute_Scaled();
 	_float3 extents = _float3(
@@ -195,7 +167,6 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 
 		
 		Take_Damage(other);
-		m_vObjectMtvSum += vMove;
 		break;
 
 	case CG_WEAPON:

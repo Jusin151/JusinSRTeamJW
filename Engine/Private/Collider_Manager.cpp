@@ -126,6 +126,8 @@ void CCollider_Manager::Update_Collision_Structure()
 									srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 									dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
 
+									srcEntry->Get_Owner()->Set_NextPos(newPos);
+
 									bCollision = true;
 								}
 							}

@@ -210,12 +210,11 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		{
 			if (m_eCurState != MS_WALK)
 				m_eCurState = MS_WALK;
-			Chasing(fTimeDelta);
+		
 		}
 		else
 		{
-			Attack_Melee(fTimeDelta);
-			m_vNextPos = m_vCurPos;
+			m_eCurState = MS_ATTACK;
 		}
 		break;
 	case MS_WALK:
@@ -223,7 +222,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_HIT:
 		// 맞고 바로 안바뀌도록
-		m_vNextPos = m_vCurPos;
+
 		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_IDLE;
 		else
@@ -232,7 +231,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_ATTACK:
 		Attack_Melee(fTimeDelta);
-		m_vNextPos = m_vCurPos;
+
 		break;
 
 	default:

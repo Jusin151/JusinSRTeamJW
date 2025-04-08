@@ -46,27 +46,7 @@ HRESULT CYeti::Initialize(void* pArg)
 
 void CYeti::Priority_Update(_float fTimeDelta)
 {
-    if (nullptr == m_pTarget)
-    {
-        CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-        if (nullptr == pTarget)
-            return;
-
-        SetTarget(pTarget);
-        Safe_AddRef(pTarget);
-
-        
-    }
-
-    if (!m_bCheck)
-    {
-
-        if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger() && nullptr != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
-            m_bCheck = true;
-    }
-
-    if (m_iHp <= 0)
-        m_eCurState = MS_DEATH;
+    __super::Priority_Update(fTimeDelta);
 
     if (m_iCurrentFrame > 40)
     {
@@ -85,9 +65,6 @@ void CYeti::Update(_float fTimeDelta)
         m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
         return;
     }
-
-
-     m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
     Select_Pattern(fTimeDelta);
 
@@ -108,36 +85,10 @@ void CYeti::Late_Update(_float fTimeDelta)
 {
     if (nullptr == m_pTarget)
         return;
-    for (auto& wallMTV : m_vWallMtvs)
-    {
-        auto wallNormal = wallMTV.GetNormalized();
-        _float penetration = wallNormal.Dot(m_vObjectMtvSum);
-        if (penetration < 0.f)
-        {
-            // 벽 방향으로 침범 중 → 해당 방향 성분 제거
-            m_vObjectMtvSum -= wallNormal * penetration;
-        }
-    }
 
-    // MTV 크기 클램프 (너무 밀리지 않도록)
-    const _float maxMtvLength = 1.0f;
-    _float mtvLength = m_vObjectMtvSum.Length();
-    if (mtvLength > maxMtvLength)
-        m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
+    Calc_Position();
 
-    if (m_vWallMtvs.empty())
-    {
-        // 벽 충돌 
-        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos + m_vObjectMtvSum);
-    }
-    else
-    {
-        if (mtvLength > 0.001f)
-            m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-        else
-            m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
-    }
-
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
     Select_Frame(fTimeDelta);
 
@@ -222,7 +173,6 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
             m_iAp /= 3;
             
         }
-        m_vObjectMtvSum += vMove;
         break;
 
     case CG_WEAPON:
@@ -285,6 +235,8 @@ void CYeti::Select_Pattern(_float fTimeDelta)
         
         m_fBackTime -= fTimeDelta;
         m_pTransformCom->Chase(m_vAnchorPoint, fTimeDelta * m_fSpeed * 2.f, 5.f);
+        m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 
         if (m_fBackTime <= 0)
         {

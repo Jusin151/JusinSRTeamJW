@@ -49,7 +49,7 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 
 	if (!m_bCheck)
 	{
-		if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
+		if (m_pTrigger == static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger() && nullptr != static_cast<CCollisionObject*>(m_pTarget)->Get_Trigger())
 			m_bCheck = true;
 	}
 
@@ -95,6 +95,8 @@ void CMonster_Base::Chasing(_float fTimeDelta)
 	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * m_fSpeed);
 
 	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
 	
 }
 
