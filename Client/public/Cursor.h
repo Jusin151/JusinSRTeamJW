@@ -1,6 +1,12 @@
 #pragma once
 
 #include "UI_Base.h"
+BEGIN(Engine)
+class CShader;
+class CTexture;
+class CMaterial;
+class CTransform;
+END
 
 BEGIN(Client)
 
@@ -18,14 +24,20 @@ public:
     virtual void Update(_float fTimeDelta) override;
     virtual void Late_Update(_float fTimeDelta) override;
     virtual HRESULT Render() override;
+
+private:
+    HRESULT SetUp_RenderState();
+    HRESULT Release_RenderState();
     virtual HRESULT Ready_Components() override;
 
 private:
     _float2 m_vMousePos = { 0.f, 0.f };
+    _bool m_bMousePressed{ false };
 
 public:
     static CCursor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
+    virtual void Free();
 };
 
 END

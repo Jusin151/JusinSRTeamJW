@@ -27,6 +27,10 @@
     "CShotGun",
     "CTrigger",
     "CDoor",
-    "CCthulhu"
+    "CCthulhu",
+    "CSnowspider",
+    "CGlacier",
+    "CHarpoonguy",
+    "CYeti"
   ]
 }

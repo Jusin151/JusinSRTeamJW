@@ -56,8 +56,7 @@ void CYeti::Priority_Update(_float fTimeDelta)
 
 void CYeti::Update(_float fTimeDelta)
 {
-    if (m_pTarget == nullptr)
-        return;
+   
     if (!m_bCheck)
     {
         m_vAnchorPoint = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -65,7 +64,8 @@ void CYeti::Update(_float fTimeDelta)
         m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
         return;
     }
-
+    if (m_pTarget == nullptr)
+        return;
     Select_Pattern(fTimeDelta);
 
 
@@ -83,17 +83,18 @@ void CYeti::Update(_float fTimeDelta)
 
 void CYeti::Late_Update(_float fTimeDelta)
 {
-    if (nullptr == m_pTarget)
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
 
+    if (nullptr == m_pTarget)
+        return;
     Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
     Select_Frame(fTimeDelta);
 
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-        return;
+
 }
 
 HRESULT CYeti::Render()

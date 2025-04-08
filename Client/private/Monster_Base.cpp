@@ -26,9 +26,6 @@ HRESULT CMonster_Base::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
-	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
-
 	m_eType = CG_MONSTER;
 
 	return S_OK;
@@ -144,6 +141,33 @@ void CMonster_Base::Chasing(_float fTimeDelta)
 void CMonster_Base::Set_Trigger()
 {
 
+}
+
+json CMonster_Base::Serialize()
+{
+
+		json j = __super::Serialize();
+
+		auto pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		auto scale = m_pTransformCom->Compute_Scaled();
+		auto angle = m_pTransformCom->Get_EulerAngles();
+		j["position"] = {
+		RoundToDecimalPlaces(pos.x, 2),
+		RoundToDecimalPlaces(pos.y, 2),
+		RoundToDecimalPlaces(pos.z, 2)
+		};
+		j["rotation"] = {
+			RoundToDecimalPlaces(angle.x, 2),
+			RoundToDecimalPlaces(angle.y, 2),
+			RoundToDecimalPlaces(angle.z, 2)
+		};
+		j["scale"] = {
+			RoundToDecimalPlaces(scale.x, 2),
+			RoundToDecimalPlaces(scale.y, 2),
+			RoundToDecimalPlaces(scale.z, 2)
+		};
+
+		return j;
 }
 
 void CMonster_Base::Free()

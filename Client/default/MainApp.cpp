@@ -23,6 +23,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
+#include "Cursor.h"
 #include "GameObject_Snow.h"
 #include "Sound_Manager.h"
 
@@ -69,8 +70,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_Player()))
 		return E_FAIL;
-	if (FAILED(Ready_Prototype_UI()))
-		return E_FAIL;
+
 	if (FAILED(Ready_Prototype_Weapon()))
 		return E_FAIL;
 	if (FAILED(Ready_Prototype_Inven()))
@@ -80,7 +80,8 @@ HRESULT CMainApp::Initialize()
 	CJsonLoader jsonLoader;
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_Static.json")))
 		return E_FAIL;
-
+	if (FAILED(Ready_Prototype_UI()))
+		return E_FAIL;
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
@@ -385,8 +386,14 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 HRESULT CMainApp::Ready_Prototype_UI()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_UI_Cursor"),
+		CCursor::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_UI_Cursor"),LEVEL_STATIC,TEXT("Layer_Cursor"))))
+		return E_FAIL;
 
 	return S_OK;
 }
