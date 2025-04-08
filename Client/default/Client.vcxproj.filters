@@ -1237,7 +1237,7 @@
     <FxCompile Include="..\..\Resources\Shaders\VertexShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\StructureShader.hlsl">
+    <FxCompile Include="..\..\Resources\Shaders\BaseShader.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

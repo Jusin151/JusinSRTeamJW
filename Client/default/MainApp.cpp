@@ -218,9 +218,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
 		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/Shader_Rect.hlsl"))))
 		return E_FAIL;
-	/*For.Prototype_Component_StructureShader*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_StructureShader"),
-		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/StructureShader.hlsl"))))
+	/*For.Prototype_Component_BaseShader*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		CShader::Create(m_pGraphic_Device, L"../../Resources/Shaders/BaseShader.hlsl"))))
 		return E_FAIL;
 #pragma endregion
 	

@@ -452,7 +452,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\Shader_Rect.hlsl" />
-    <FxCompile Include="..\..\Resources\Shaders\StructureShader.hlsl" />
+    <FxCompile Include="..\..\Resources\Shaders\BaseShader.hlsl" />
     <FxCompile Include="..\..\Resources\Shaders\TestPixelShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>

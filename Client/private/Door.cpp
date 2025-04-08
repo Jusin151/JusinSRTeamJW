@@ -108,11 +108,22 @@ HRESULT CDoor::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	SetUp_RenderState();
 
+
+	SetUp_RenderState();
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
+	
+	m_pShaderCom->Begin(1);
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+	m_pShaderCom->End();
 	Release_RenderState();
 
 	return S_OK;
@@ -125,7 +136,8 @@ HRESULT CDoor::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0);
-
+	_float2 ScaleFactor = { 1.0f, 1.0f };
+	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
 	return S_OK;
 }
 
@@ -254,6 +266,11 @@ HRESULT CDoor::Ready_Components()
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
 		return E_FAIL;
 
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	/* For.Com_Texture */
 	if (!m_tObjDesc.stProtTextureTag.empty())
 	{
@@ -295,6 +312,7 @@ void CDoor::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTextureCom);

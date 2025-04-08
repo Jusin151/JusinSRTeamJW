@@ -54,7 +54,6 @@ private:
 	_float t = {}; //
 	_float speed = { 0.1f }; //
 	_float2 m_vInitialPos = {};
-	CSound_Source*	m_pSoundCom = { nullptr };
 	CLight*			m_pLightCom = { nullptr };
 public:
 	static CHarvester* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

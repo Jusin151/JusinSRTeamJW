@@ -112,6 +112,16 @@ HRESULT CSnowspider::Render()
         return E_FAIL;
 
     SetUp_RenderState();
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Transform()))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+        return E_FAIL;
+
+    m_pShaderCom->Begin(1); 
 
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
@@ -120,6 +130,7 @@ HRESULT CSnowspider::Render()
     {
         m_pColliderCom->Render();
     }
+    m_pShaderCom->End();
 
     Release_RenderState();
 
@@ -370,7 +381,9 @@ HRESULT CSnowspider::SetUp_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
-
+    _float3 scale = m_pTransformCom->Compute_Scaled();
+    _float2 ScaleFactor = { 1.0f, 1.0f };
+    m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
     return S_OK;
 }
 

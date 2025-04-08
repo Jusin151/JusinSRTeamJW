@@ -122,16 +122,24 @@ HRESULT CHarpoonguy::Render()
 		return E_FAIL;
 
 	SetUp_RenderState();
-
-	if (FAILED(m_pVIBufferCom->Render()))
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
 		return E_FAIL;
 
-	Release_RenderState();
-
+	m_pShaderCom->Begin(1);
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
 	if (g_bDebugCollider)
 	{
- 		m_pColliderCom->Render();
+		m_pColliderCom->Render();
 	}
+	m_pShaderCom->End();
+	Release_RenderState();
+
+	
 
 
 	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("활잽이 체력:") + to_wstring(m_iHp),
@@ -347,7 +355,10 @@ HRESULT CHarpoonguy::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // 기준값 설정 (0~255)
-
+	_float2 ScaleFactor = { 1.0f, 1.0f };
+	_float2 Offset = { 0.f, 0.f };
+	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&Offset);
 	return S_OK;
 }
 

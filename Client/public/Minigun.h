@@ -47,7 +47,6 @@ public:
 	 HRESULT On_Collision();
 	 
 private:
-	CSound_Source*	m_pSoundCom = { nullptr };
 	CLight*			m_pLightCom = { nullptr };
 private:
 	State m_eState = State::Idle;
