@@ -47,7 +47,7 @@ private:
 protected:
 	CLight* m_pLightCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
-	CMaterial* m_pMaterial = { nullptr };
+	CMaterial* m_pMaterialCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };

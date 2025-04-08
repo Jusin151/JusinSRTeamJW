@@ -80,25 +80,7 @@ void CHub_Episode::Late_Update(_float fTimeDelta)
 
 HRESULT CHub_Episode::Render()
 {
-
-
-    if (FAILED(m_pTextureCom->Bind_Resource(0)))
-        return E_FAIL;
-
-    if (FAILED(m_pTransformCom->Bind_Resource()))
-        return E_FAIL;
-
-    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-        return E_FAIL;
-
-    SetUp_RenderState();
-
-    if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
-
-    Release_RenderState();
-
-
+    __super::Render();
     return S_OK;
 }
 
