@@ -26,7 +26,6 @@ HRESULT CUI_Player_Icon::Initialize_Prototype()
 HRESULT CUI_Player_Icon::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
-
 		return E_FAIL;
 
 	if (pArg != nullptr)

@@ -57,8 +57,7 @@ void CSnowspider::Priority_Update(_float fTimeDelta)
 
 void CSnowspider::Update(_float fTimeDelta)
 {
-    if (m_pTarget == nullptr)
-        return;
+   
     if (!m_bCheck)
     {
         m_vAnchorPoint = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -66,7 +65,8 @@ void CSnowspider::Update(_float fTimeDelta)
         m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
         return;
     }
-
+    if (m_pTarget == nullptr)
+        return;
     Select_Pattern(fTimeDelta);
 
 
@@ -84,6 +84,8 @@ void CSnowspider::Update(_float fTimeDelta)
 
 void CSnowspider::Late_Update(_float fTimeDelta)
 {
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+        return;
     if (nullptr == m_pTarget)
         return;
 
@@ -96,8 +98,6 @@ void CSnowspider::Late_Update(_float fTimeDelta)
 
     Select_Frame(fTimeDelta);
 
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-        return;
 }
 
 HRESULT CSnowspider::Render()

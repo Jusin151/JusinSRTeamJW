@@ -341,12 +341,61 @@
       "tag": "Prototype_GameObject_Item_Staff"
     },
     {
-      "class": "CCthulhu",
+      "tag": "Prototype_GameObject_Harpoonguy",
       "level": 3,
-      "tag": "Prototype_GameObject_Cthulhu"
+      "class": "CHarpoonguy"
+    },
+    {
+      "tag": "Prototype_GameObject_Harpoon",
+      "level": 3,
+      "class": "CHarpoon"
+    },
+    {
+      "tag": "Prototype_GameObject_Yeti",
+      "level": 3,
+      "class": "CYeti"
+    },
+    {
+      "tag": "Prototype_GameObject_Glacier",
+      "level": 3,
+      "class": "CGlacier"
+    },
+    {
+      "tag": "Prototype_GameObject_GlacierBullet",
+      "level": 3,
+      "class": "CGlacierBullet"
+    },
+    {
+      "tag": "Prototype_GameObject_Snowspider",
+      "level": 3,
+      "class": "CSnowspider"
     }
   ],
   "textures": [
+    {
+      "tag": "Prototype_Component_Texture_Glacier",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Glacier/glacier_%d.png",
+      "count": 53
+    },
+    {
+      "tag": "Prototype_Component_Texture_Harpoonguy",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoonguy_%d.png",
+      "count": 27
+    },
+    {
+      "tag": "Prototype_Component_Texture_Yeti",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Yeti/Yeti_%d.png",
+      "count": 41
+    },
+    {
+      "tag": "Prototype_Component_Texture_Snowspider",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Snowspider/Snowspider_%d.png",
+      "count": 28
+    },
     {
       "count": 1,
       "level": 4,
@@ -598,12 +647,6 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
       "tag": "Prototype_Component_Texture_Door_Red"
-    },
-    {
-      "count": 1,
-      "level": 3,
-      "path": "../../Resources\\Textures\\Monster\\Cthulhu\\cthulhu.png",
-      "tag": "Prototype_Component_Texture_Cthulhu"
     }
   ]
 }

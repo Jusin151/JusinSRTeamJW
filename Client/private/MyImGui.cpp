@@ -751,6 +751,31 @@ HRESULT CMyImGui::CreateObjectInstance(
 		{
 			return E_FAIL;
 		}
+		CGameObject* pItemObject = m_pGameInstance->Find_Last_Object(3, stLayerTag);
+		if (pItemObject)
+		{
+			CTransform* pTransform = (CTransform*)pItemObject->Get_Component(TEXT("Com_Transform"));
+			if (pTransform)
+			{
+				// 카메라 정보 (뷰 행렬) 가져오기
+				_float4x4 vViewMatrix;
+				m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vViewMatrix);
+
+				// 뷰 행렬의 역행렬 계산 (카메라의 월드 변환 행렬)
+				D3DXMATRIX vInvViewMatrix;
+				D3DXMatrixInverse(&vInvViewMatrix, nullptr, &vViewMatrix);
+
+				// 카메라 위치와 방향 
+				_float3 vCameraPos = { vInvViewMatrix._41, vInvViewMatrix._42, vInvViewMatrix._43 };
+				_float3 vCameraLook = { vInvViewMatrix._31, vInvViewMatrix._32, vInvViewMatrix._33 };
+				vCameraLook.Normalize();
+
+				_float3 vItemPos = vCameraPos + vCameraLook * 2.0f;
+
+				// 아이템 위치 설정
+				pTransform->Set_State(CTransform::STATE_POSITION, vItemPos);
+			}
+		}
 
 		tHistoryItem item;
 		item.iLevel = iLevel;

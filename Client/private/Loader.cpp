@@ -479,8 +479,6 @@ HRESULT CLoader::Loading_For_Editor()
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Editor.json")))
 		return E_FAIL;
 
-	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes.json")))
-		return E_FAIL;
 
 	// JSON 로더를 사용하여 모든 프로토타입 로드
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
