@@ -101,6 +101,10 @@ void CMiniMap::Late_Update(_float fTimeDelta)
 
 HRESULT CMiniMap::Render()
 {
+	if (m_pGameInstance->GetLevelState() == CGameInstance::LEVEL_STATE::CHANGING)
+	{
+		return E_FAIL;
+	}
 
 	// 1. 원래 렌더 타겟 저장
 	LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
@@ -116,6 +120,7 @@ HRESULT CMiniMap::Render()
 	for (const auto& structure : m_StructureList)
 	{
 		if (!structure) continue;
+
 		if (structure->Get_Tag().find(L"Floor") != wstring::npos ||
 			structure->Get_Tag().find(L"Ceil") != wstring::npos ||
 			structure->Get_Tag().find(L"Magma") != wstring::npos)

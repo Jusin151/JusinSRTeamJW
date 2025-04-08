@@ -33,6 +33,7 @@ public:
 	HRESULT Add_Light(class CLight* pLight);
 	_uint	Get_NumOfLights() { return (_uint)m_Lights.size(); }
 	HRESULT Draw();
+	void Clear();
 
 private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };

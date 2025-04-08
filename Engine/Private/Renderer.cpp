@@ -59,6 +59,18 @@ HRESULT CRenderer::Draw()
 	return S_OK;
 }
 
+void CRenderer::Clear()
+{
+	for (auto& render : m_RenderObjects)
+	{
+		for (auto& obj : render)
+		{
+			Safe_Release(obj);
+		}
+		render.clear();
+	}
+}
+
 HRESULT CRenderer::Enable_Lights()
 {
 

@@ -121,6 +121,7 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pPool_Manager->Clear(iLevelIndex);
 	m_pObject_Manager->Clear(iLevelIndex);
 	m_pCollider_Manager->Clear();
+	m_pRenderer->Clear();
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
 }
