@@ -19,6 +19,14 @@ CWeapon_Base::CWeapon_Base(const CWeapon_Base& Prototype)
 
 void CWeapon_Base::Priority_Update(_float fTimeDelta)
 {
+	static _bool bInit = { false };
+
+	if (!bInit)
+	{
+		m_bIsActive = false;
+
+		bInit = true;
+	}
 }
 
 void CWeapon_Base::Late_Update(_float fTimeDelta)

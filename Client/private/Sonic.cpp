@@ -85,7 +85,7 @@ void CSonic::Attack_WeaponSpecific(_float fTimeDelta)
 
 void CSonic::Priority_Update(_float fTimeDelta)
 {
-    //__super::Priority_Update(fTimeDelta);
+    __super::Priority_Update(fTimeDelta);
 }
 
 void CSonic::Update(_float fTimeDelta)

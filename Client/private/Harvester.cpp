@@ -65,6 +65,7 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 void CHarvester::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CHarvester::Update(_float fTimeDelta)
