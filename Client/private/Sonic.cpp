@@ -172,8 +172,7 @@ void CSonic::Attack(_float fTimeDelta)
 
 void CSonic::Late_Update(_float fTimeDelta)
 {
-	
-    __super::Late_Update(fTimeDelta);;
+    __super::Late_Update(fTimeDelta);
 }
 
 HRESULT CSonic::Render()

@@ -134,7 +134,9 @@ void CShotGun::Late_Update(_float fTimeDelta)
 		if (nullptr == pTransform)
 			return;
 		m_pGameInstance->Add_Light(m_pLightCom);
-		m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
+		_float3 pos = pTransform->Get_State(CTransform::STATE_POSITION);
+		pos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
+		m_pLightCom->Set_Position(pos);
 		m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
 	}
 }
