@@ -21,7 +21,7 @@ HRESULT CSnow_Particle_System::Initialize(void* pArg)
 {
 	SNOWDESC desc = *reinterpret_cast<SNOWDESC*>(pArg);
 	m_Bounding_Box = desc.Bounding_Box;
-	m_fSize = 0.5f;
+	m_fSize = 0.2f;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;

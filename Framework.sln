@@ -47,12 +47,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materials", "Materials", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lights", "Lights", "{06C169D5-BCF5-47E6-A2BD-599C7EAD040F}"
 	ProjectSection(SolutionItems) = preProject
+		Resources\Lights\CandlesLight.json = Resources\Lights\CandlesLight.json
 		Resources\Lights\Gold.json = Resources\Lights\Gold.json
 		Resources\Lights\GunLight.json = Resources\Lights\GunLight.json
+		Resources\Lights\HubLight.json = Resources\Lights\HubLight.json
 		Resources\Lights\LampLight.json = Resources\Lights\LampLight.json
+		Resources\Lights\Magic.json = Resources\Lights\Magic.json
 		Resources\Lights\Shop.json = Resources\Lights\Shop.json
 		Resources\Lights\TestLight.json = Resources\Lights\TestLight.json
 		Resources\Lights\TestLight2.json = Resources\Lights\TestLight2.json
+		Resources\Lights\Torch.json = Resources\Lights\Torch.json
 	EndProjectSection
 EndProject
 Global

@@ -107,6 +107,12 @@
       "level": 6,
       "path": "../../Resources/Textures/Hub/Point_Shop%d.png",
       "tag": "Prototype_Component_Texture_Point_Shop"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources\\Textures\\Objects\\Hub_Light\\TEXTURE_HUB_light_1.png",
+      "tag": "Prototype_Component_Texture_Hub_Light"
     }
   ],
   "gameObjects": [
@@ -169,6 +175,11 @@
       "class": "CStructure",
       "level": 6,
       "tag": "Prototype_GameObject_Magma"
+    },
+    {
+      "class": "CHub_Light",
+      "level": 6,
+      "tag": "Prototype_GameObject_Light_Hub_Light"
     }
   ]
 }

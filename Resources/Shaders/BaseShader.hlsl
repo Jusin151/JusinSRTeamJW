@@ -330,7 +330,8 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     // 1. 안개 기여도 계산 (안개 색상 * 안개 인자)
     float3 fogContribution = g_FogColor * fogFactor;
     // 2. 원래 조명 색상에 안개 기여도를 더함 (saturate로 0~1 범위 유지)
-    Out.vColor.rgb = saturate(litColor.rgb + fogContribution);
+    Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
+    //Out.vColor.rgb = saturate(litColor.rgb + fogContribution);
     // 3. 알파 값은 원래 알파 값 유지
     Out.vColor.a = litColor.a;
 
