@@ -114,6 +114,7 @@ HRESULT CMinigun::Ready_Components()
 
 void CMinigun::Priority_Update(_float fTimeDelta)
 {
+    __super::Priority_Update(fTimeDelta);
 }
 
 void CMinigun::Update(_float fTimeDelta)
