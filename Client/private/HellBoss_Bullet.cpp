@@ -142,6 +142,7 @@ void CHellBoss_Bullet::Reset()
 		else if (m_wBulletType == L"0_Phase2_Shoot")//2페이즈			
 		{
 			offsetPos += m_fHellBoss_Up * 5.7f;
+
 			offsetPos += m_fHellBoss_RIght * -0.14f;
 		}
 
@@ -354,30 +355,34 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 		{
 			if (m_eBulletMode == LAUNCHING)
 			{
-				if (!m_bPlayedOnce)
+				if (m_eExpandPhase == EXPAND_SPREADING)
 				{
-					if (m_iCurrentFrame < m_iMaxFrame - 2)
+					// 퍼지는 동안에는 계속 루프 애니메이션 재생
+					m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
+				}
+				else if (m_eExpandPhase == EXPAND_LAUNCH)
+				{
+					// 발사 직전 1회 재생만
+					if (!m_bPlayedOnce)
 					{
-						++m_iCurrentFrame;
-					}
-					else
-					{
-						m_iCurrentFrame = m_iMaxFrame - 2;
-						m_bPlayedOnce = true;
+						if (m_iCurrentFrame < m_iMaxFrame - 2)
+						{
+							++m_iCurrentFrame;
+						}
+						else
+						{
+							m_iCurrentFrame = m_iMaxFrame - 2;
+							m_bPlayedOnce = true;
+						}
 					}
 				}
-				// else { 멈춤 유지 }
 			}
 			else // ROTATING 상태
 			{
 				m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
 			}
 		}
-		else
-		{
-			// 다른 총알은 루프 애니메이션
-			m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
-		}
+
 	}
 
 
@@ -414,7 +419,7 @@ HRESULT CHellBoss_Bullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	if (m_wBulletType != L"Power_Blast" || m_eBulletMode == LAUNCHING)
+	if (m_wBulletType != L"Power_Blast" && m_eBulletMode == EXPAND_LAUNCH)
 	{
 		if (FAILED(m_pParticleTransformCom->Bind_Resource()))
 			return E_FAIL;
@@ -628,9 +633,19 @@ void CHellBoss_Bullet::Launch_Toward_Player()
 	const _float spreadX = 10.f; // 좌우 퍼짐 
 	const _float spreadY = 4.f;  // 상하 퍼짐 
 
+	//xOffset& yOffset 계산식	퍼짐 배열 구조(5x2 구조 고정 시)	바로 아래 계산식
+
 	_float xOffset = (col - 2) * spreadX;      // -20 ~ +20
 	_float yOffset = (row - 0.5f) * spreadY;   // -2 ~ +2
+
+	centerPos.y += 4.f;
 
 	// 중심 + 좌우 + 위아래
 	m_vExpandedPos = centerPos + rightDir * xOffset + upDir * yOffset;
 }
+
+
+//조절 요소	설명	수정 위치
+//lookDir * 10.f	보스에서 뒤로 떨어지는 거리	centerPos 
+//spreadX	좌우 총알 사이의 간격	const _float spreadX = 10.f;
+//spreadY	상하 총알 사이의 간격	const _float spreadY = 4.f;
