@@ -1,4 +1,4 @@
-#include "GameInstance.h"
+﻿#include "GameInstance.h"
 #include "Candles.h"
 
 CCandles::CCandles(LPDIRECT3DDEVICE9 pGraphic_Device)

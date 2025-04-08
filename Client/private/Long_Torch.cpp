@@ -1,4 +1,4 @@
-#include "GameInstance.h"
+﻿#include "GameInstance.h"
 #include "Long_Torch.h"
 
 CLong_Torch::CLong_Torch(LPDIRECT3DDEVICE9 pGraphic_Device)
