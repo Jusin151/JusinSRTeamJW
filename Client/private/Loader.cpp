@@ -349,6 +349,10 @@ HRESULT CLoader::Loading_For_Hub()
 
 HRESULT CLoader::Loading_For_Hong()
 {
+	CJsonLoader jsonLoader;
+
+
+	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Hong.json");
 
 	//헬보스 객체 등록
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
@@ -379,7 +383,10 @@ HRESULT CLoader::Loading_For_Hong()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/Bullet2.png"), 1))))
 		return E_FAIL;
-
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hong.json",
+		[this]() { CompleteOneTask(); }
+	);
 
  	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
