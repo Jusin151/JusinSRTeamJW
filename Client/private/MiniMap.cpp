@@ -116,9 +116,9 @@ HRESULT CMiniMap::Render()
 	for (const auto& structure : m_StructureList)
 	{
 		if (!structure) continue;
-		if (structure->Get_Tag().find(L"Floor") != std::wstring::npos ||
-			structure->Get_Tag().find(L"Ceil") != std::wstring::npos ||
-			structure->Get_Tag().find(L"Magma") != std::wstring::npos)
+		if (structure->Get_Tag().find(L"Floor") != wstring::npos ||
+			structure->Get_Tag().find(L"Ceil") != wstring::npos ||
+			structure->Get_Tag().find(L"Magma") != wstring::npos)
 			continue;
 
 		structure->Render();
