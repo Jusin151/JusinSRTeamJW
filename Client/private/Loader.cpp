@@ -61,7 +61,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	switch (m_eNextLevelID) {
 	case LEVEL_LOGO:      m_iTotalTaskCount = 5;  break; // 텍스쳐, 모델, 셰이더, 사운드, 원형객체, 최종
 	case LEVEL_EDITOR:    m_iTotalTaskCount = 4;  break; // JSON1, JSON2, JSON3, 최종
-	case LEVEL_HONG:      m_iTotalTaskCount = 7;  break; // 6 등록+텍스쳐, 최종
+	case LEVEL_HONG:      m_iTotalTaskCount = 6;  break; // 6 등록+텍스쳐
 	}
 	m_iCompletedTaskCount = 0;
 	m_fProgress = 0.f;
@@ -358,31 +358,32 @@ HRESULT CLoader::Loading_For_Hong()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
 		CHellBoss::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	//헬보스 텍스쳐
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/HellBoss_%d.png"), 337))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	//헬보스 총알 등록
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
 		CHellBoss_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	//헬보스 총알 텍스쳐 (눈)
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png"),7))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	//헬보스 총알 텍스쳐 (손)
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Hand_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/slow_orb000%d.png"),10))))
 		return E_FAIL;
-
+	CompleteOneTask();
 	//헬보스 두번째 페이즈 총알 텍스쳐 (손)
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/Bullet2.png"), 1))))
 		return E_FAIL;
+	CompleteOneTask();
 	jsonLoader.Load_Prototypes(
 		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hong.json",
 		[this]() { CompleteOneTask(); }
