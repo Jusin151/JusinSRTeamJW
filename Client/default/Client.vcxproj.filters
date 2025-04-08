@@ -813,7 +813,7 @@
     <ClInclude Include="..\public\Pattern_EyeBlast.h">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_EyeBlast</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Patter_Morph.h">
+    <ClInclude Include="..\public\Pattern_Morph.h">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pattern_Shoot.h">
@@ -1190,7 +1190,7 @@
     <ClCompile Include="..\private\Pattern_EyeBlast.cpp">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_EyeBlast</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Patter_Morph.cpp">
+    <ClCompile Include="..\private\Pattern_Morph.cpp">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_State.cpp">

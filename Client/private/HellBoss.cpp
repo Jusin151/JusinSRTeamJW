@@ -10,7 +10,7 @@
 #include "HellBoss_MorphState.h"
 #include "HellBoss_AttackState.h"
 #include "HellBoss_DeadState.h"
-#include "Patter_Morph.h"
+#include "Pattern_Morph.h"
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
@@ -28,7 +28,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp = 10000;
+	m_iHp = 25000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -40,29 +40,32 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("2_Walk",1,8,0.1f);
 	m_AnimationManager.AddAnimation("3_EyeBlast", 10, 29);
 	m_AnimationManager.AddAnimation("4_Shoot", 30, 55);
-	m_AnimationManager.AddAnimation("5_Morph", 56, 86);
+
+
+
+
+	m_AnimationManager.AddAnimation("5_Morph", 56, 86);  //////////////////////////////2페이즈 진입
 
 
 	m_AnimationManager.AddAnimation("6_Phase2_Idle", 86, 86);
 	m_AnimationManager.AddAnimation("7_Phase2_Walk", 87, 94,0.1f);
-
 	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99); //사실상 안씀
 	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);//사실상 안씀
-
-	m_AnimationManager.AddAnimation("8_Phase2_Charge", 99, 103,0.04f);
-	//104부터 쏨
-	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107,0.04f);
-
+	m_AnimationManager.AddAnimation("8_Phase2_Charge", 99, 103,0.04f); // 2페이즈_차징
+	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107,0.04f); // 2페이즈_발사 	//104부터 쏨
+	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111); // 2페이즈_발사마무리 
 
 
-	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111);
+	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117);        //////////////////////////////3페이즈 진입, 한팔 잘리는 모션
 
 
-	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117);
-	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);
-	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124);
-	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);
-	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203);
+
+	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태
+
+
+	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203);   //////////////////////////// 4페이즈 진입
 
 
 	m_AnimationManager.AddAnimation("G_Phase3_Idle", 203, 203);
@@ -70,7 +73,10 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("J_Phase3_TripleEye", 213, 223);
 	m_AnimationManager.AddAnimation("K_Phase3_Nova", 224, 234);
 	m_AnimationManager.AddAnimation("L_Phase3_Spawn", 235, 246);
-	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289);
+
+	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289); //////////////////////////// 5페이즈 진입
+
+
 	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 311);
 	m_AnimationManager.AddAnimation("M_Phase4_Death", 312, 337);
 
@@ -154,12 +160,36 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
-	if (m_iHp <= 2000 && !m_bDidPhase2Morph)
+	if (m_iHp <= 20000 && !m_bDidPhase2Morph)
 	{
 		m_bDidPhase2Morph = true;
 		m_ePhase = PHASE2; // <<< 2페이즈 돌입!
-		Set_AttackPattern(new CPatter_Morph());
+		Set_AttackPattern(new CPattern_Morph());
 		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+	if (m_iHp <= 15000 && !m_bDidPhase3Morph)
+	{
+		m_bDidPhase3Morph = true;
+		m_ePhase = PHASE3; // <<< 3페이즈 돌입!
+		Set_AttackPattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+	if (m_iHp <= 10000 && !m_bDidPhase4Morph)
+	{
+		m_bDidPhase4Morph = true;
+		m_ePhase = PHASE4; // <<< 4페이즈 돌입! 
+		Set_AttackPattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+	if (m_iHp <= 5000 && !m_bDidPhase5Morph)
+	{
+		m_bDidPhase5Morph = true;
+		m_ePhase = PHASE5; // <<< 5페이즈 돌입! 
+		Set_AttackPattern(new CPattern_Morph()); 
+		Change_State(new CHellBoss_MorphState()); 
 		return;
 	}
 
@@ -266,7 +296,7 @@ void CHellBoss::Use_Attack(_float fDeltaTime)
 		if (m_pCurAttackPattern->Is_Finished())
 		{
 			// Morph 패턴인 경우 혹은 1페이즈라면 
-			if (dynamic_cast<CPatter_Morph*>(m_pCurAttackPattern) != nullptr || m_ePhase == PHASE1)
+			if (dynamic_cast<CPattern_Morph*>(m_pCurAttackPattern) != nullptr || m_ePhase == PHASE1)
 			{
 				delete m_pCurAttackPattern;
 				m_pCurAttackPattern = nullptr;
@@ -358,7 +388,7 @@ HRESULT CHellBoss::Render()
 
 	return S_OK;
 }
-void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
+void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern) 
 {
 	if (m_pCurAttackPattern)
 	{

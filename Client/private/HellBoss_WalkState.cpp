@@ -4,9 +4,9 @@
 
 void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 {
-	if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+	if (pBoss->Get_Phase() == PHASE1)
 		pBoss->Set_Animation("2_Walk");
-	else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+	else if (pBoss->Get_Phase() == PHASE2)
 		pBoss->Set_Animation("7_Phase2_Walk");
 }
 

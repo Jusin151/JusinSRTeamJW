@@ -342,9 +342,6 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\Private\VIBuffer_TexturedCube.cpp" />
     <ClCompile Include="ImGuizmo.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Resources\Materials\TestMaterial.json" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -42,7 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materials", "Materials", "{
 	ProjectSection(SolutionItems) = preProject
 		Resources\Materials\BaseMaterial.json = Resources\Materials\BaseMaterial.json
 		Resources\Materials\GlowMaterial.json = Resources\Materials\GlowMaterial.json
-		Resources\Materials\TestMaterial.json = Resources\Materials\TestMaterial.json
+		Resources\Materials\HubStructureMaterial.json = Resources\Materials\HubStructureMaterial.json
+		Resources\Materials\StructureMaterial.json = Resources\Materials\StructureMaterial.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lights", "Lights", "{06C169D5-BCF5-47E6-A2BD-599C7EAD040F}"

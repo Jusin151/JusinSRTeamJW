@@ -17,18 +17,18 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
     {
         switch (pBoss->Get_Phase())
         {
-        case CHellBoss::PHASE1:
+        case PHASE1:
             pBoss->Set_Animation("4_Shoot");
             break;
-        case CHellBoss::PHASE2:
+        case PHASE2:
             pBoss->Set_Animation("0_Phase2_Shoot");
             m_iFiredCount = 0;
             m_fNextFireTime = 0.f;
             break;
-        case CHellBoss::PHASE3:
+        case PHASE3:
             pBoss->Set_Animation("K_Phase3_Nova");
             break;
-        case CHellBoss::PHASE4:
+        case PHASE4:
             pBoss->Set_Animation("M_Phase4_Death");
             break;
         }
@@ -39,13 +39,14 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 
     m_fAccTime += fDeltaTime;
 
-    if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+    if (pBoss->Get_Phase() == PHASE2)
     {
 
         if (m_fAccTime >= m_fNextFireTime && m_iFiredCount < 100)
         {
             CHellBoss_Bullet::PowerBlastDesc pDesc{};
             pDesc.wBulletType = L"0_Phase2_Shoot";
+            pDesc.isLeft = (m_iFiredCount % 2 == 0);
             if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
                 LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
                 LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"), &pDesc)))
@@ -65,7 +66,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             bool bShouldFire = false;
             switch (pBoss->Get_Phase())
             {
-            case CHellBoss::PHASE1:
+            case PHASE1:
                 bShouldFire = (iCurFrame >= 36);
                 break;
             }
@@ -75,7 +76,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 CHellBoss_Bullet::PowerBlastDesc pDesc{};
                 switch (pBoss->Get_Phase())
                 {
-                case CHellBoss::PHASE1:
+                case PHASE1:
                     pDesc.wBulletType = L"4_Shoot";
                     break;
                 }
@@ -91,7 +92,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 
     switch (pBoss->Get_Phase())
     {
-    case CHellBoss::PHASE1:
+    case PHASE1:
         if (pBoss->Get_AnimationFinished())
         {
             m_bStarted = false;
@@ -99,7 +100,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             pBoss->Change_State(new CHellBoss_IdleState());
         }
         break;
-    case CHellBoss::PHASE2:
+    case PHASE2:
         if (pBoss->Get_AnimationFinished())
         {
             // 애니메이션이 끝나고 최소 4초가 경과하면 다음 상태로 전환
@@ -111,11 +112,11 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             }
         }
         break;
-    case CHellBoss::PHASE3:
-        // 추가 로직 필요 시 처리
+    case PHASE3:
+    
         break;
-    case CHellBoss::PHASE4:
-        // 추가 로직 필요 시 처리
+    case PHASE4:
+  
         break;
     }
 }

@@ -73,6 +73,8 @@ HRESULT CStaff::Initialize(void* pArg)
 
 void CStaff::Priority_Update(_float fTimeDelta)
 {
+    __super::Priority_Update(fTimeDelta);
+
 	static _bool bInit = { false };
 
     if (!bInit)

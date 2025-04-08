@@ -17,14 +17,7 @@ CRanged_Weapon::CRanged_Weapon(const CRanged_Weapon& Prototype)
 }
 void CRanged_Weapon::Priority_Update(_float fTimeDelta)
 {
-  /*  static _bool m_bOffItem = { false };
-
-    if (!m_bOffItem)
-    {
-        m_bIsActive = false;
-
-        m_bOffItem = true;
-    }*/
+    __super::Priority_Update(fTimeDelta);
 }
 
 void CRanged_Weapon::Update(_float fTimeDelta)

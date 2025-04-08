@@ -60,7 +60,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 
 	__super::Ready_Picking();
-
+	//m_bIsActive = false;
 	return S_OK;
 }
 
@@ -68,10 +68,14 @@ HRESULT CShotGun::Initialize(void* pArg)
 
 void CShotGun::Priority_Update(_float fTimeDelta)
 {
+	//m_bIsActive = false;
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CShotGun::Update(_float fTimeDelta)
 {
+
+	//m_bIsActive = false;
 	__super::Update(fTimeDelta);
 
 }

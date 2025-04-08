@@ -51,7 +51,7 @@ protected:
 public:
     virtual HRESULT Initialize_Prototype()PURE;
     virtual HRESULT Initialize(void* pArg)PURE;
-    virtual void Priority_Update(_float fTimeDelta)PURE;
+    virtual void Priority_Update(_float fTimeDelta);
     virtual void Update(_float fTimeDelta)PURE;
     virtual void Late_Update(_float fTimeDelta)PURE;
     virtual HRESULT Render()PURE;

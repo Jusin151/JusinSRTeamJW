@@ -599,9 +599,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Resources\Materials\TestMaterial.json">
-      <Filter>04.Components\Material</Filter>
-    </None>
     <ClCompile Include="..\private\LandObject.cpp">
       <Filter>02.GameObject\LandObject</Filter>
     </ClCompile>

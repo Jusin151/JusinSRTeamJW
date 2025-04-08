@@ -69,6 +69,7 @@ HRESULT CAxe::Initialize(void* pArg)
 
 void CAxe::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CAxe::Update(_float fTimeDelta)

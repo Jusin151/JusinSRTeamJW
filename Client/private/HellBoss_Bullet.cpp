@@ -66,6 +66,8 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_fFrameDuration = 0.03f;
 		m_iFrameCount = 6;
 		m_iMaxFrame = 6;
+
+		m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
 	}
 
 
@@ -143,7 +145,10 @@ void CHellBoss_Bullet::Reset()
 		{
 			offsetPos += m_fHellBoss_Up * 5.7f;
 
-			offsetPos += m_fHellBoss_RIght * -0.14f;
+			if(m_bRotated_Bullet)
+				offsetPos += m_fHellBoss_RIght * -0.14f;
+			else
+				offsetPos += m_fHellBoss_RIght * 0.14f;
 		}
 
 
@@ -290,7 +295,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			{
 				m_fExpandTime += fTimeDelta;
 
-				_float lerpRatio = min(m_fExpandTime / 2.f, 1.f); // 1초간 퍼짐
+				_float lerpRatio = min(m_fExpandTime / 1.f, 1.f); // 1초간 퍼짐
 
 				_float3 curPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 				_float3 lerpPos = Lerp(curPos, m_vExpandedPos, lerpRatio);
@@ -300,7 +305,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 				{
 					m_eExpandPhase = EXPAND_LAUNCH;
 
-					// 플레이어 방향 재계산해야댐
+					// 플레이어 방향 재계산
 					CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
 						m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -355,34 +360,30 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 		{
 			if (m_eBulletMode == LAUNCHING)
 			{
-				if (m_eExpandPhase == EXPAND_SPREADING)
+				if (!m_bPlayedOnce)
 				{
-					// 퍼지는 동안에는 계속 루프 애니메이션 재생
-					m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
-				}
-				else if (m_eExpandPhase == EXPAND_LAUNCH)
-				{
-					// 발사 직전 1회 재생만
-					if (!m_bPlayedOnce)
+					if (m_iCurrentFrame < m_iMaxFrame - 2)
 					{
-						if (m_iCurrentFrame < m_iMaxFrame - 2)
-						{
-							++m_iCurrentFrame;
-						}
-						else
-						{
-							m_iCurrentFrame = m_iMaxFrame - 2;
-							m_bPlayedOnce = true;
-						}
+						++m_iCurrentFrame;
+					}
+					else
+					{
+						m_iCurrentFrame = m_iMaxFrame - 2;
+						m_bPlayedOnce = true;
 					}
 				}
+				// else { 멈춤 유지 }
 			}
 			else // ROTATING 상태
 			{
 				m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
 			}
 		}
-
+		else
+		{
+			// 다른 총알은 루프 애니메이션
+			m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
+		}
 	}
 
 
@@ -419,7 +420,7 @@ HRESULT CHellBoss_Bullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	if (m_wBulletType != L"Power_Blast" && m_eBulletMode == EXPAND_LAUNCH)
+	if (m_wBulletType != L"Power_Blast" || m_eBulletMode == LAUNCHING)
 	{
 		if (FAILED(m_pParticleTransformCom->Bind_Resource()))
 			return E_FAIL;

@@ -61,9 +61,9 @@ Material g_Material : MATERIAL;
 
 // 빛 관련 전역 변수 추가 (C++에서 설정 필요)
 float3 g_LightPosition = float3(0.8f, 1.0f, 8.f);
-float3 g_LightDirection = normalize(float3(-1.f, -1.f, -1.f)); // 예시: 조명 방향 (카메라 기준?)
-float4 g_LightColor = float4(1.f, 1.f, 0.f, 1.f); // 예시: 조명 색상
-float4 g_AmbientLightColor = float4(0.2f, 0.2f, 0.2f, 1.f); // 예시: 주변광 색상
+float3 g_LightDirection = normalize(float3(0.f, -1.f, 0.f)); // 예시: 조명 방향 (카메라 기준?)
+float4 g_LightColor = float4(0.3f, 0.3f, 0.3f, 1.f); // 예시: 조명 색상
+float4 g_AmbientLightColor = float4(0.5f, 0.5f, 0.5f, 1.f); // 예시: 주변광 색상
 
 // <<< 재질 속성 전역 변수 추가 (C++에서 설정) >>>
 float4 g_MaterialAmbient = float4(0.2f, 0.2f, 0.2f, 1.f); // 재질의 주변광 반사율
@@ -196,6 +196,26 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     // --- 최종 색상 계산을 위한 변수 초기화 ---
     // 1. 기본 색상 계산 (Ambient + Emissive)
     float3 accumulatedColor = (baseColor.rgb * g_Material.Ambient.rgb * g_Material.Diffuse.rgb) + g_Material.Emissive.rgb;
+    
+    // --- 전역(Global) 방향성 라이트 계산 추가 ---
+    /*float3 globalLightVec = normalize(-g_LightDirection); // 라이트를 향하는 벡터
+    float NdotL_global = saturate(dot(normal, globalLightVec)); // 법선과 라이트 벡터 내적
+
+    if (NdotL_global > 0.0f) // 라이트를 받는 부분만 계산
+    {
+        // 전역 라이트 Diffuse 계산
+        float3 globalDiffuse = baseColor.rgb * g_Material.Diffuse.rgb * NdotL_global * g_LightColor.rgb;
+
+        // 전역 라이트 Specular 계산
+        float3 halfwayDir_global = normalize(globalLightVec + viewDir);
+        float NdotH_global = saturate(dot(normal, halfwayDir_global));
+        float specPower_global = pow(NdotH_global, g_Material.Power); // 재질의 Power 사용
+        float3 globalSpecular = g_Material.Specular.rgb * specPower_global * g_LightColor.rgb;
+
+        // 전역 라이트 기여도 누적 (방향성 라이트는 감쇠 없음)
+        accumulatedColor += (globalDiffuse + globalSpecular);
+    }*/
+    // --- 전역 라이트 계산 끝 ---
 
     // 2. 각 라이트 슬롯에 대한 기여도 계산 및 누적
     for (int i = 0; i < g_NumActiveLights; ++i)
@@ -305,7 +325,14 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     // --- 안개 효과 계산 ---
     float distance = length(In.vViewPos);
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
-    Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
+    
+    // === 새로운 Additive 방식 ===
+    // 1. 안개 기여도 계산 (안개 색상 * 안개 인자)
+    float3 fogContribution = g_FogColor * fogFactor;
+    // 2. 원래 조명 색상에 안개 기여도를 더함 (saturate로 0~1 범위 유지)
+    Out.vColor.rgb = saturate(litColor.rgb + fogContribution);
+    // 3. 알파 값은 원래 알파 값 유지
+    Out.vColor.a = litColor.a;
 
     // --- 알파 테스트 ---
     if (Out.vColor.a < 0.8f) discard;
@@ -353,7 +380,14 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
 
     // 3. 텍스처(또는 조절된) 색상과 안개 색상을 혼합
-    Out.vColor = lerp(baseColor, float4(g_FogColor, baseColor.a), fogFactor);
+    // === 새로운 Additive 방식 ===
+    // 1. 안개 기여도 계산 (안개 색상 * 안개 인자)
+    float3 fogContribution = g_FogColor * fogFactor;
+    // 2. 원래 조명 색상에 안개 기여도를 더함 (saturate로 0~1 범위 유지)
+    Out.vColor.rgb = saturate(baseColor.rgb + fogContribution);
+    // 3. 알파 값은 원래 알파 값 유지
+    Out.vColor.a = baseColor.a;
+//    Out.vColor = lerp(baseColor, float4(g_FogColor, baseColor.a), fogFactor);
     // --- 안개 효과 계산 끝 ---
 
     // 4. 알파 값 처리 (텍스처 알파와 재질 알파 곱하기 등)
