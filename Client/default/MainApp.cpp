@@ -86,6 +86,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
+	ShowCursor(false);
 	return S_OK;
 }
 

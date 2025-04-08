@@ -46,14 +46,6 @@ public:
 	void Camera_Lock(_bool bIsLock)
 	{
 		m_bCameraLocked = bIsLock;
-		if (!bIsLock) 
-		{
-			while (ShowCursor(FALSE) >= 0) {}
-		}
-		else
-		{
-			while (ShowCursor(TRUE) < 0) {}
-		}
  	}
 
 private:
