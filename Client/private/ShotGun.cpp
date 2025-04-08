@@ -309,6 +309,8 @@ void CShotGun::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pLightCom);
 	Safe_Release(m_pSoundCom);
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pMaterialCom);
 }
 
 
