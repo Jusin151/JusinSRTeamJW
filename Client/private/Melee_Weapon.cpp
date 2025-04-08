@@ -217,8 +217,8 @@ void CMelee_Weapon::Free()
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pColTransformCom);
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pSoundCom);
 }
 
 CGameObject* CMelee_Weapon::Clone(void* pArg)
