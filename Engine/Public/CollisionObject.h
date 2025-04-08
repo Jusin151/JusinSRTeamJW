@@ -42,6 +42,8 @@ public:
 	void Set_NextPos(_float3 fPos) { m_vNextPos = fPos; }
 	void Set_Offset(_float offset) { m_fOffset = offset; }
 
+	void Calc_Position();
+
 protected:
 
 	// 다른 오브젝트에 데미지를 준다

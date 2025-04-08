@@ -50,7 +50,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
 	m_pTransformCom->Set_Scale(1.f, 1.8f, 1.f);
 	//m_pColliderCom->Set_Radius(5.f);
-	//m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
+	m_pColliderCom->Set_Scale(_float3(1.f, 1.8f, 1.f));
 
 
 	if (FAILED(Ready_Player_SetUP()))
@@ -120,46 +120,11 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	Attack(fTimeDelta);//좌클
 
-	for (auto& wallMTV : m_vWallMtvs)
-	{
-		auto wallNormal = wallMTV.GetNormalized();
-		_float penetration  = wallNormal.Dot(m_vObjectMtvSum);
-		if (penetration < 0.f)
-		{
-			// 벽 방향으로 침범 중 → 해당 방향 성분 제거
-			m_vObjectMtvSum -= wallNormal * penetration;
-		}
-	}
-
-	// MTV 크기 클램프 (너무 밀리지 않도록)
-	const _float maxMtvLength = 1.0f;
-	_float mtvLength = m_vObjectMtvSum.Length();
-	if (mtvLength > maxMtvLength)
-		m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
-
-	if (m_vWallMtvs.empty())
-	{
-		// 벽 충돌 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
-	}
-	else
-	{
-		if(mtvLength > 0.001f)
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-		else
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vObjectMtvSum);
-	}
+	Calc_Position();
+	
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 	
-
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	fPos.y = m_fOffset;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-
-	m_vWallMtvs.clear();
-	m_vObjectMtvSum = { 0.f,0.f,0.f };
 
 
 }
