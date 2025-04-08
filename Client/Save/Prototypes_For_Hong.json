@@ -1,0 +1,17 @@
+{
+  "textures": [
+    {
+      "count": 1,
+      "level": 7,
+      "path": "../../Resources\\Textures\\Map\\texture_hell_bossflesh_03.png",
+      "tag": "Prototype_Component_Texture_Hell_Floor"
+    }
+  ],
+  "gameObjects": [
+    {
+      "class": "CStructure",
+      "level": 7,
+      "tag": "Prototype_GameObject_Hell_Floor"
+    }
+  ]
+}

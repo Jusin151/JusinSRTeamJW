@@ -22,7 +22,10 @@ CLevel_Hong::CLevel_Hong(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_Hong::Initialize()
 {
+	CJsonLoader jsonLoader;
 
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hong.json", LEVEL_HONG);
+	static _bool bIsLoading = false;
 
 	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (pPlayer)
