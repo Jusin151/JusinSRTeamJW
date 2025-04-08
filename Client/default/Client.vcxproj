@@ -181,6 +181,7 @@
     <ClInclude Include="..\public\CthulhuMissile.h" />
     <ClInclude Include="..\public\Cthulhu_Big_Tentacle.h" />
     <ClInclude Include="..\public\Cthulhu_Tentacle.h" />
+    <ClInclude Include="..\public\Cursor.h" />
     <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Effects.h" />
     <ClInclude Include="..\Public\Effect_Base.h" />
@@ -318,6 +319,7 @@
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp" />
     <ClCompile Include="..\private\Cthulhu_Tentacle.cpp" />
+    <ClCompile Include="..\private\Cursor.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\GameObject_Snow.cpp" />
     <ClCompile Include="..\private\Goblet.cpp" />
