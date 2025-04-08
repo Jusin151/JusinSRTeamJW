@@ -4,6 +4,8 @@
 #include "Particles.h"
 #include "HellBoss.h"
 
+static _uint BulletCount = 0;
+
 CHellBoss_Bullet::CHellBoss_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CBullet_Base(pGraphic_Device)
 {
@@ -23,87 +25,94 @@ HRESULT CHellBoss_Bullet::Initialize_Prototype()
 HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
-
-
-	 pDesc = *reinterpret_cast<PowerBlastDesc*>(pArg);
-
-	 if (pDesc.wBulletType.empty())
-		 return E_FAIL;
-
-
-	 m_wBulletType = pDesc.wBulletType;
-	if (pDesc.wBulletType == L"Power_Blast")
 	{
-		m_wBulletType = pDesc.wBulletType;
-		m_fFixedAngle = (360.f / pDesc.iTotalCount) * pDesc.iIndex;
-		m_fRotateAngle = m_fFixedAngle;
-		m_eBulletMode = ROTATING; //
 
-		m_iBulletIndex = pDesc.iIndex; 
-		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Blast";
-		m_fFrameDuration = 0.02f;
-		m_iFrameCount = 7;
-		m_iMaxFrame = 7;
-	}
-	else if (pDesc.wBulletType == L"3_EyeBlast")
-	{
-		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
-		m_fFrameDuration = 0.02f;
-		m_iFrameCount = 7;
-		m_iMaxFrame = 7;
-	}
-	else if (pDesc.wBulletType == L"4_Shoot")
-	{
-		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Hand_Bullet";
-		m_fFrameDuration = 0.03f;
-		m_iFrameCount = 10;
-		m_iMaxFrame = 10;
-	}
-	else if (pDesc.wBulletType == L"0_Phase2_Shoot")
-	{
-		m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet";
-		m_fFrameDuration = 0.03f;
-		m_iFrameCount = 6;
-		m_iMaxFrame = 6;
-
-		m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
-	}
-
-
-	m_vAxis = pDesc.vAxis; 
-
-	m_fSpeed = 3.f;
-
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-
-	m_HellBoss_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_HONG, TEXT("Layer_HellBoss"), TEXT("Com_Transform")));
-	if (!m_HellBoss_Transform)
-		return E_FAIL;
-
-
-	m_fHellBoss_Pos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
-
-
-
-
-	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
-	if (pPlayerTransform)
-	{
-		_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_fHellBoss_Pos;
-		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
-		m_vDir = vToPlayer;
 	}
 	else
 	{
-		m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+		pDesc = *reinterpret_cast<PowerBlastDesc*>(pArg);
+
+		if (pDesc.wBulletType.empty())
+			return E_FAIL;
+
+
+		m_wBulletType = pDesc.wBulletType;
+		if (pDesc.wBulletType == L"Power_Blast")
+		{
+			m_wBulletType = pDesc.wBulletType;
+			m_fFixedAngle = (360.f / pDesc.iTotalCount) * pDesc.iIndex;
+			m_fRotateAngle = m_fFixedAngle;
+			m_eBulletMode = ROTATING; //
+
+			m_iBulletIndex = pDesc.iIndex;
+			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Blast";
+			m_fFrameDuration = 0.02f;
+			m_iFrameCount = 7;
+			m_iMaxFrame = 7;
+		}
+		else if (pDesc.wBulletType == L"3_EyeBlast")
+		{
+			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
+			m_fFrameDuration = 0.02f;
+			m_iFrameCount = 7;
+			m_iMaxFrame = 7;
+		}
+		else if (pDesc.wBulletType == L"4_Shoot")
+		{
+			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Hand_Bullet";
+			m_fFrameDuration = 0.03f;
+			m_iFrameCount = 10;
+			m_iMaxFrame = 10;
+		}
+		else if (pDesc.wBulletType == L"0_Phase2_Shoot")
+		{
+			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet";
+			m_fFrameDuration = 0.03f;
+			m_iFrameCount = 6;
+			m_iMaxFrame = 6;
+
+			m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
+		}
+
+
+		m_vAxis = pDesc.vAxis;
+		m_fSpeed = 3.f;
+
+		if (FAILED(Ready_Components()))
+			return E_FAIL;
+
+
+		m_HellBoss_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_HONG, TEXT("Layer_HellBoss"), TEXT("Com_Transform")));
+		if (!m_HellBoss_Transform)
+			return E_FAIL;
+
+
+		m_fHellBoss_Pos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+
+
+
+
+		CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+		if (pPlayerTransform)
+		{
+			_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_fHellBoss_Pos;
+			D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+			m_vDir = vToPlayer;
+		}
+		else
+		{
+			m_vDir = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+		}
+
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
+		m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
+
+		
 	}
 
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
-	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
+	
 
 	return S_OK;
 }
@@ -202,19 +211,6 @@ void CHellBoss_Bullet::Reset()
 	m_pTransformCom->Set_Scale(m_fBullet_Scale.x, m_fBullet_Scale.y, m_fBullet_Scale.z);
 
 	m_bPlayedOnce = false; // 애니메이션 1회 재생
-//
-//	if (m_wBulletType == L"0_Phase2_Shoot")
-//{
-//    _float3 right = m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 지금 이걸로 좌우 반전 
-//    m_pTransformCom->Rotation_Axis(right, D3DXToRadian(180.f));
-//
-//	_float3 Look = m_pTransformCom->Get_State(CTransform::STATE_LOOK); // 여기에서 시계방향으로 90도 회전
-//	m_pTransformCom->Rotation_Axis(Look, D3DXToRadian(90.f));
-//
-//	_float3 Up = m_pTransformCom->Get_State(CTransform::STATE_UP); // 여기에서 시계방향으로 90도 회전
-//	m_pTransformCom->Rotation_Axis(Up, D3DXToRadian(70.f));
-//}
-
 
 }
 
@@ -231,6 +227,7 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 		if (m_fLifeTime >= 2.f)
 		{
 			m_bIsActive = false;
+			m_bInitializedPos = false;
 			m_fLifeTime = 0.f;
 		}
 	}
@@ -239,6 +236,7 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 		if (m_fLifeTime >= 5.f)
 		{
 			m_bIsActive = false;
+			m_bInitializedPos = false;
 			m_fLifeTime = 0.f;
 		}
 
@@ -441,6 +439,14 @@ HRESULT CHellBoss_Bullet::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+
+
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 갯수:") + to_wstring(BulletCount),
+		_float2(100.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+
+
 	return S_OK;
 }
 
@@ -588,7 +594,7 @@ CGameObject* CHellBoss_Bullet::Clone(void* pArg)
 		MSG_BOX("Failed to Created : CHellBoss_Bullet");
 		Safe_Release(pInstance);
 	}
-
+	BulletCount++;
 	return pInstance;
 }
 
