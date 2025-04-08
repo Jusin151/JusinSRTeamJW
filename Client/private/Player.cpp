@@ -440,7 +440,10 @@ void CPlayer::Add_MaxHP(_int Hp)
 
 void CPlayer::Add_HP(_int Hp)
 {
+
 	m_iHp += Hp;
+	if (m_iHp > m_iPlayerHP.second)
+		m_iHp = m_iPlayerHP.second;
 	Notify(m_iHp, L"HP");
 	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 	{

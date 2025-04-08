@@ -21,7 +21,7 @@ void CUI_Event::Priority_Update(_float fTimeDelta){}
 
 void CUI_Event::Update(_float fTimeDelta)
 {
-	// 무지개 시간 흐름 누적
+	// 무지개 시간 
 	m_fRainbowTimer += fTimeDelta;
 
 	for (auto& it : m_vecEventTexts)

@@ -147,9 +147,9 @@ private:
 	LONG			m_lMiddlePointX = { g_iWinSizeX / 2 };
 
 private: // 플레이어 관련
-	pair<_uint, _uint> m_iPlayerHP{};    // 플레이어 현재/최대체력
-	pair<_uint, _uint> m_iPlayerMP{};    // ``  현재/최대마나
-	pair<_uint, _uint> m_iPlayerEXP{};   //`` 현재/최대경험치
+	pair<_int, _int> m_iPlayerHP{};    // 플레이어 현재/최대체력
+	pair<_int, _int> m_iPlayerMP{};    // ``  현재/최대마나
+	pair<_int, _int> m_iPlayerEXP{};   //`` 현재/최대경험치
 	_uint m_iStr{}; // 근력
 	_uint m_iLife{};//생명력
 	_uint m_iSprit{};//정신력
