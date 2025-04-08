@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
 
@@ -33,7 +33,7 @@ public:
 	virtual HRESULT Render() override;
 	virtual HRESULT Post_Render();
 public:
-	virtual void Reset() {}; // Â÷ÈÄ¿¡ ¿ÀºêÁ§Æ® Ç®¸µ¶§ SetActive°¡ true°¡ µÉ ¶§ ±âº»Á¤º¸ ´Ù½Ã ¼ÂÆÃÀ» À§ÇÑ ÇÔ¼ö
+	virtual void Reset() {}; // ì°¨í›„ì— ì˜¤ë¸Œì íŠ¸ í’€ë§ë•Œ SetActiveê°€ trueê°€ ë  ë•Œ ê¸°ë³¸ì •ë³´ ë‹¤ì‹œ ì…‹íŒ…ì„ ìœ„í•œ í•¨ìˆ˜
 
 private:
 	CLight* m_pLightCom = { nullptr };

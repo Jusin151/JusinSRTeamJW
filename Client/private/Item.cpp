@@ -179,12 +179,16 @@ void CItem::Use_Item()
 	switch (m_eItemType)
 	{
 	case Client::CItem::ITEM_TYPE::HP:
-		m_pPlayer->Set_Hp(+10);
+		m_pPlayer->Add_HP(+10);
 		break;
 	case Client::CItem::ITEM_TYPE::MP:
 		break;
 	case Client::CItem::ITEM_TYPE::AMMO:
 		m_pPlayer->Add_Ammo(m_strItemName, 10);
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event"))) 
+		{
+			pUI_Event->ShowEventText(10,m_strItemName);
+		}
 		break;
 	case Client::CItem::ITEM_TYPE::EXP:
 		break;

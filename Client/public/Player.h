@@ -65,84 +65,22 @@ public:
 	}
 	void Set_Hp(_int iHp);
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
-	_bool Set_Mp(_int iMp) 
-	{ 
-		_int pTemp = iMp;
-
-		if ((m_iPlayerHP.first+= pTemp) <= 0)
-			return false;
-
-		m_iPlayerMP.first += pTemp;
-
-		Notify(m_iPlayerMP.first, L"MP");
-		
-		return true;
-	}
-	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
-	void Add_Strength(_int Str)  // 근접무기 전용 데미지 증가
-	{ 
-		m_iStr += Str; 
-
-		CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
-	}
-	void Add_MaxHP(_int Hp)
-	{
-		m_iHp += Hp;
-		m_iPlayerHP.second += Hp;
-		Notify(m_iHp, L"HP");
-	}
-	void Add_Sprit(_int Sprit)
-	{
-		m_iSprit += Sprit;
-		m_iPlayerMP.first += Sprit * 5;
-		m_iPlayerMP.second += Sprit * 5;
-		Notify(m_iPlayerMP.first, L"MP"); 
-		Notify(m_iPlayerMP.second, L"MP_Max");
-	}
-	void Add_SkillPoint(_int SkillPoint)
-	{
-		m_iSkillpoint += SkillPoint;
-	}
-	inline void Add_Capacity(_int type) 
-	{
-
-		m_iCapacity += type;
-
-
-		CItem_Manager::GetInstance()->SetUp_RangedWeapon_to_Capacity(type);
-	}
-	void Add_Exp(_int Exp)
-	{
-		m_iPlayerEXP.first += Exp; //경험치 들어오면
-
+	_bool Set_Mp(_int iMp);
 	
-		while (m_iPlayerEXP.first >= m_iPlayerEXP.second)
-		{
-			m_iPlayerEXP.first -= m_iPlayerEXP.second;  
-			++m_iLevel;  //레벨업
-			++m_iSkillpoint;
-			++m_iStatpoint; 
-			m_iPlayerEXP.second += 10; 
+	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
+	void Add_Strength(_int Str);  // 근접무기 전용 데미지 증가
 
-			
-			if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
-			{
-				pUI_Event->ShowEventText(0, L"LevelUp"); 
-			}
-		}
+	void Add_MaxHP(_int Hp); // 최대체력 증가
+	void Add_HP(_int Hp); // 현재체력 증가
+	void Add_Sprit(_int Sprit); // 정신력 증가
+	
+	void Add_SkillPoint(_int SkillPoint); // 스킬포인트 증가
+	
+	void Add_Capacity(_int type); //원거리무기군 최대탄약증가
 
-		Notify(m_iPlayerEXP.first, L"Exp");
+	void Add_Exp(_int Exp); // 경험치 증가
 
-		
-		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
-		{
-			pUI_Event->ShowEventText(Exp, L"Exp");
-		}
-
-
-	}
-
-	_bool TryUseMana(_int amount)
+	_bool TryUseMana(_int amount) // 스태프 마나 고갈 체크
 	{
 		if (m_iPlayerMP.first < (_uint)amount)
 			return false;
