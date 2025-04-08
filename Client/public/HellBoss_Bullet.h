@@ -56,7 +56,7 @@ private:
 	CTransform*			m_pParticleTransformCom = { nullptr };
 	CLight*				m_pLightCom = { nullptr };
 	_float				m_fLifeTime = 0.f;
-private:
+private: // 헬보스 관련 정보
 	CTransform* m_HellBoss_Transform = { nullptr };
 	_float3 m_fHellBoss_RIght{};
 	_float3 m_fHellBoss_Up{};

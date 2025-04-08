@@ -115,10 +115,19 @@ HRESULT CHub_Portal::Render()
         return E_FAIL;
 
     SetUp_RenderState();
-
-    if (FAILED(m_pVIBufferCom->Render()))
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Transform()))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Lights()))
         return E_FAIL;
 
+    m_pShaderCom->Begin(2);
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+    m_pShaderCom->End();
     Release_RenderState();
 
     return S_OK;
@@ -230,6 +239,21 @@ HRESULT CHub_Portal::Ready_Components()
     /* For.Com_Collider_Sphere */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+        return E_FAIL;
+
+    CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
+        return E_FAIL;
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+        return E_FAIL;
+
+    /* For.Com_Material */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
 

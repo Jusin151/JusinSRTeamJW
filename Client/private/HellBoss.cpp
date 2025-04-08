@@ -28,7 +28,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp = 3000;
+	m_iHp = 10000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -165,15 +165,13 @@ void CHellBoss::Update(_float fTimeDelta)
 
 
 
-
-
 	int iCurHpDiv100 = m_iHp / 100;
 	if (iCurHpDiv100 < m_iPrevHpDiv100)
 	{
 		m_iPrevHpDiv100 = iCurHpDiv100;
 
 
-		static _float3 axisList[10] = {
+		static _float3 axisList[15] = {
 			_float3(1.f, 0.f, 0.f),     // X축
 			_float3(0.f, 1.f, 0.f),     // Y축
 			_float3(0.f, 0.f, 1.f),     // Z축
@@ -183,14 +181,19 @@ void CHellBoss::Update(_float fTimeDelta)
 			_float3(-1.f, 1.f, 0.f),    // 대각선
 			_float3(0.f, -1.f, 1.f),
 			_float3(1.f, 1.f, 1.f),     // 삼축 회전
-			_float3(-1.f, -1.f, -1.f)   // 반대 회전
+			_float3(-1.f, -1.f, -1.f),  // 반대 회전
+		    _float3(1.f, 0.f, 0.f),     // X축
+			_float3(0.f, 1.f, 0.f),     // Y축
+			_float3(0.f, 0.f, 1.f),     // Z축
+			_float3(1.f, 1.f, 0.f),     // XY축
+			_float3(1.f, 0.f, 1.f),     // XZ축
 		};
 
 		// 총알 1개 생성
 		CHellBoss_Bullet::PowerBlastDesc pDesc{};
 		pDesc.wBulletType = L"Power_Blast";
 		pDesc.iIndex = m_iPowerBlastCount;       // 현재 몇 번째 총알인지
-		pDesc.iTotalCount = 10;                  // 총 10개
+		pDesc.iTotalCount = 15;                  // 총 10개
 		pDesc.bIsPowerBlast = true;              // 회전 총알 여부
 		pDesc.vAxis = axisList[m_iPowerBlastCount % 10]; // 축 설정
 
@@ -212,7 +215,7 @@ void CHellBoss::Update(_float fTimeDelta)
 
 		m_iPowerBlastCount++;
 
-		if (m_iPowerBlastCount == 10)
+		if (m_iPowerBlastCount == 15)
 		{
 			Launch_PowerBlast_Bullets();  // 나선 발사
 			m_iPowerBlastCount = 0;

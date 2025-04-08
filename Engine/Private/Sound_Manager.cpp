@@ -35,10 +35,6 @@ HRESULT CSound_Manager::Initialize(_int iNumChannels, FMOD_STUDIO_INITFLAGS stud
 
     Load_Bank(L"Master");
 
-    //Load_Bank(L"Background");
-
-    //Play_Event(L"event:/001 Jerry and Luke's Final Theme").SetVolume(0.5f);
-
 	return S_OK;
 }
 
@@ -378,9 +374,10 @@ CSound_Manager* CSound_Manager::Create(_int iNumChannels, FMOD_STUDIO_INITFLAGS 
 void CSound_Manager::Free()
 {
 	__super::Free();
-
+    //if (m_iRefCnt)
     Unload_AllBank();
 	//대소문자 구별로 인한 매크로 함수 호출 불가능
+    
 	if (nullptr != m_pStudioSystem)
 	{
 		m_pStudioSystem->release();

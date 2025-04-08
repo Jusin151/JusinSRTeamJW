@@ -245,7 +245,7 @@ HRESULT CMagnum::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
-	/* For.Com_Shader */
+	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
 		return E_FAIL;

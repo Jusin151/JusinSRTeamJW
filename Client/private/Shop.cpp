@@ -87,20 +87,35 @@ void CShop::Late_Update(_float fTimeDelta)
 HRESULT CShop::Render()
 {
     // 상점이 열려있을 때만 렌더링
-    if (m_bIsOpen)
+    if (m_pTextureCom && m_pVIBufferCom)
     {
-        if (m_pTextureCom && m_pVIBufferCom)
-        {
-            if (FAILED(m_pTextureCom->Bind_Resource(0)))
-                return E_FAIL;
+        if (FAILED(m_pTransformCom->Bind_Resource()))
+            return E_FAIL;
+        if (FAILED(m_pTextureCom->Bind_Resource(0)))
+            return E_FAIL;
+        if (FAILED(m_pMaterialCom->Bind_Resource()))
+            return E_FAIL;
+        if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+            return E_FAIL;
 
-            if (FAILED(SetUp_RenderState()))
-                return E_FAIL;
-            if (FAILED(m_pVIBufferCom->Render()))
-                return E_FAIL;
-            if (FAILED(Release_RenderState()))
-                return E_FAIL;
-        }
+        if (FAILED(SetUp_RenderState()))
+            return E_FAIL;
+        if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+            return E_FAIL;
+        if (FAILED(m_pShaderCom->Bind_Transform()))
+            return E_FAIL;
+        if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+            return E_FAIL;
+        if (FAILED(m_pShaderCom->Bind_Lights()))
+            return E_FAIL;
+
+        m_pShaderCom->Begin(2);
+
+        if (FAILED(m_pVIBufferCom->Render()))
+            return E_FAIL;
+        m_pShaderCom->End();
+        if (FAILED(Release_RenderState()))
+            return E_FAIL;
     }
     return S_OK;
 }
@@ -195,7 +210,10 @@ HRESULT CShop::SetUp_RenderState()
     // Z 버퍼 설정
     m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
+    _float2 ScaleFactor = { 1.0f, 1.0f };
+    _float2 Offset = { 0.f, 0.f };
+    m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+    m_pShaderCom->Set_UVOffsetFactor(&Offset);
     return S_OK;
 }
 
@@ -239,6 +257,21 @@ HRESULT CShop::Ready_Components()
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
+
+    CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
+        return E_FAIL;
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+        return E_FAIL;
+
+    /* For.Com_Material */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -249,6 +282,9 @@ void CShop::Free()
     // 상점 아이템 해제
 
     // 컴포넌트 해제
+    Safe_Release(m_pLightCom);
+    Safe_Release(m_pShaderCom);
+    Safe_Release(m_pMaterialCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);

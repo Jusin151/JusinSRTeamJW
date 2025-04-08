@@ -12,6 +12,7 @@ CSound_Source::CSound_Source(const CSound_Source& Prototype)
     : CComponent{ Prototype }
     , m_pSound_Manager { Prototype.m_pSound_Manager }
 {
+    Safe_AddRef(m_pSound_Manager);
 }
 
 HRESULT CSound_Source::Initialize_Prototype()

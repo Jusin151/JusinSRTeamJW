@@ -25,13 +25,14 @@
 #include "Level_Hub.h"
 #include "Cursor.h"
 #include "GameObject_Snow.h"
+#include "Sound_Manager.h"
 
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() },
 	m_pPickingSys{ CPickingSys::Get_Instance() }
 { 
-	
+	Safe_AddRef(m_pSound_Manager);
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pPickingSys);
 }
@@ -464,6 +465,7 @@ void CMainApp::Free()
 	m_pGameInstance->Release_Engine();
 
 
+	Safe_Release(m_pSound_Manager);
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
 	

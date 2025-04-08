@@ -250,6 +250,8 @@ void CMinigun::Late_Update(_float fTimeDelta)
 
     m_bAttackInput = false;
 
+
+    
 }
 
 
@@ -306,6 +308,10 @@ HRESULT CMinigun::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
+    _float2 ScaleFactor = { 1.0f, 1.0f };
+    _float2 Offset = { 0.f, 0.f };
+    m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+    m_pShaderCom->Set_UVOffsetFactor(&Offset);
 
     if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
         return E_FAIL;
