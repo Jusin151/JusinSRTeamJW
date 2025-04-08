@@ -35,8 +35,9 @@ HRESULT CLevel_Editor::Initialize()
 
 	CJsonLoader jsonLoader;
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1.json", LEVEL_EDITOR);
- 	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json");
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_EDITOR);
+// 	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json");
+ 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_EDITOR);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GamePlay_Test.json", LEVEL_EDITOR);
 
 	m_pImgui = CMyImGui::Create(LEVEL_END, m_pGraphic_Device);
 	if (nullptr == m_pImgui)
@@ -48,59 +49,59 @@ HRESULT CLevel_Editor::Initialize()
 void CLevel_Editor::Update(_float fTimeDelta)
 {
 
-
 	if (m_pPickingSys)
 	{
 
-	m_pPickingSys->Update();
-	static CGameObject* dragObject = nullptr;
+		m_pPickingSys->Update();
+		static CGameObject* dragObject = nullptr;
 
-	auto colliderVec = m_pGameInstance->Get_Colliders();
-	for (auto& colliderList : colliderVec)
-	{
-		colliderList.sort([&] (CCollider* a, CCollider* b){
-
-			_float3 aPos = a->Get_State(CTransform::STATE_POSITION);
-			_float3 bPos = b->Get_State(CTransform::STATE_POSITION);
-
-			_float vDis1 = _float3::Distance(aPos, m_pPickingSys->Get_Ray().vOrigin);
-			_float vDis2 = _float3::Distance(bPos, m_pPickingSys->Get_Ray().vOrigin);
-
-			return vDis1 < vDis2;
-			});
-	}
-
-	if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
-	{
-		dragObject = nullptr;
-	}
-	else
-	{
-		if (m_pImgui->IsMouseOverImGui()) return;
-		// 드래그 객체가 없으면 객체 선택
-		if (!dragObject)
+		auto colliderVec = m_pGameInstance->Get_Colliders();
+		for (auto& colliderList : colliderVec)
 		{
-			for (auto& colliderList : colliderVec)
+			colliderList.sort([&](CCollider* a, CCollider* b) {
+
+				_float3 aPos = a->Get_State(CTransform::STATE_POSITION);
+				_float3 bPos = b->Get_State(CTransform::STATE_POSITION);
+
+				_float vDis1 = _float3::Distance(aPos, m_pPickingSys->Get_Ray().vOrigin);
+				_float vDis2 = _float3::Distance(bPos, m_pPickingSys->Get_Ray().vOrigin);
+
+				return vDis1 < vDis2;
+				});
+		}
+
+		if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+		{
+			dragObject = nullptr;
+		}
+		else
+		{
+			if (m_pImgui->IsMouseOverImGui()) return;
+			// 드래그 객체가 없으면 객체 선택
+			if (!dragObject)
 			{
-				for (auto& collider : colliderList)
+				for (auto& colliderList : colliderVec)
 				{
-					if (m_pPickingSys->Ray_Intersection(collider))
+					for (auto& collider : colliderList)
 					{
-						//if (collider->Get_Owner()->Get_Tag() == L"Layer_Player") continue;
-						dragObject = collider->Get_Owner();
-						break;
+						if (m_pPickingSys->Ray_Intersection(collider))
+						{
+							//if (collider->Get_Owner()->Get_Tag() == L"Layer_Player") continue;
+							dragObject = collider->Get_Owner();
+							break;
+						}
 					}
+					if (dragObject) break;
 				}
-				if (dragObject) break;
+			}
+
+			if (dragObject)
+			{
+				m_pImgui->Set_Object(dragObject);
 			}
 		}
+	}
 
-		if (dragObject)
-		{
-			m_pImgui->Set_Object(dragObject);
-		}
-	}
-	}
 }
 
 HRESULT CLevel_Editor::Render()
@@ -109,6 +110,8 @@ HRESULT CLevel_Editor::Render()
 	m_pImgui->Render();
 	SetWindowText(g_hWnd, TEXT("에디터 레벨입니다."));
 	
+
+
 	return S_OK;
 }
 

@@ -53,15 +53,15 @@ void CGlacier::Priority_Update(_float fTimeDelta)
 
 void CGlacier::Update(_float fTimeDelta)
 {
-    if (m_pTarget == nullptr)
-        return;
+    
     if (!m_bCheck)
     {
         m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
         return;
     }
 
-
+    if (m_pTarget == nullptr)
+        return;
     m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
     Select_HpState();
@@ -86,9 +86,11 @@ void CGlacier::Update(_float fTimeDelta)
 
 void CGlacier::Late_Update(_float fTimeDelta)
 {
-    if (nullptr == m_pTarget)
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
 
+    if (nullptr == m_pTarget)
+        return;
     if (0.f <= Check_Direction())
         m_bRight = true;
     else
@@ -105,9 +107,7 @@ void CGlacier::Late_Update(_float fTimeDelta)
         0.5f * vScale.z
     );
    
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-            return;
-   
+ 
     Select_Frame(fTimeDelta);
 }
 
