@@ -178,8 +178,6 @@ struct PS_OUT
 };
 
 /* 픽셀의 색을 결정한다. */
-// vector PS_MAIN(PS_IN In) : COLOR0
-
 PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
@@ -310,7 +308,30 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
     Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
 
     // --- 알파 테스트 ---
-    // if (Out.vColor.a < 0.1f) discard;
+    if (Out.vColor.a < 0.8f) discard;
+
+    return Out;
+}
+
+// 새로운 'Unlit' 픽셀 셰이더
+PS_OUT PS_WEAPON(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할 수 있음
+{
+    PS_OUT Out;
+
+    // 1. 텍스처 색상 가져오기
+    float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
+    float4 baseColor = tex2D(DefaultSampler, tiledUV);
+
+    // 2. (선택 사항) 재질의 Diffuse 색상을 곱하여 기본 색상 조절
+    baseColor *= g_Material.Diffuse; // Material 구조체 사용 시
+    Out.vColor = baseColor;
+
+    // 4. 알파 값 처리 (텍스처 알파와 재질 알파 곱하기 등)
+    // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // 만약 Diffuse를 곱했다면
+
+    // 5. (선택 사항) 알파 값에 따른 discard 로직
+    if (Out.vColor.a < 0.2f)
+        discard;
 
     return Out;
 }
@@ -321,10 +342,11 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     PS_OUT Out;
 
     // 1. 텍스처 색상 가져오기
-    float4 baseColor = tex2D(DefaultSampler, g_ScaleFactor);
+    float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
+    float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
     // 2. (선택 사항) 재질의 Diffuse 색상을 곱하여 기본 색상 조절
-    // baseColor *= g_Material.Diffuse; // Material 구조체 사용 시
+    baseColor *= g_Material.Diffuse; // Material 구조체 사용 시
 
     // --- 안개 효과 계산 시작 ---
     float distance = length(In.vViewPos); // 보간된 뷰 공간 위치 사용
@@ -338,8 +360,8 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // 만약 Diffuse를 곱했다면
 
     // 5. (선택 사항) 알파 값에 따른 discard 로직
-    // if (Out.vColor.a < 0.1f)
-    //     discard;
+    if (Out.vColor.a < 0.8f)
+         discard;
 
     return Out;
 }
@@ -646,6 +668,23 @@ technique DefaultTechnique
         // --- 셰이더 설정 ---
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_LIT(); // 빛 계산이 포함된 PS_MAIN 사용
+    }
+
+    pass Weapon
+    {
+        // --- 렌더 상태 설정 ---
+        // 양면 렌더링을 위해 컬링 비활성화
+        CullMode = None;
+
+        // 알파 블렌딩 설정 (기존 코드 유지, 오타 수정)
+        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
+        SrcBlend = SrcAlpha;
+        DestBlend = InvSrcAlpha;
+        BlendOp = Add;
+
+        // --- 셰이더 설정 ---
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_WEAPON(); // 빛 계산이 포함된 PS_MAIN 사용
     }
 
     pass BLACK

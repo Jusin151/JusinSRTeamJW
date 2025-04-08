@@ -29,20 +29,26 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
+private:
+	// texturecom는 각 monster에서 추가
+	HRESULT Ready_Components();
+
+public:
 	virtual void Priority_Update(_float fTimeDelta)override;
-	// 마지막에 플레이어 방향으로 바라보도록 함
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
+public:
+public:
 	virtual HRESULT Render()override;
 	virtual HRESULT On_Collision(CCollisionObject* other) { return S_OK; }
+public:
 	virtual void Select_Pattern(_float fTimeDelta) PURE;
 	void Look_Player();
 	void Chasing(_float fTimeDelta);
 
 	void Set_Trigger();
 
-	// texturecom는 각 monster에서 추가
-	HRESULT Ready_Components();
+	
 
 	// 트리거가 없어지거나 트리거 설정을 안하면 이제 플레이어로 타겟을 바꾸도록 유도... 플레이어가 없으면 동작 x.
 	void SetTarget(CGameObject* pTarget) { if (nullptr == m_pTarget) m_pTarget = pTarget; }

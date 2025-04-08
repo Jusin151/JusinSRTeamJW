@@ -276,8 +276,25 @@ HRESULT CStaff::Render()
 
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
+    _float2 ScaleFactor = { 1.0f, 1.0f };
+    _float2 Offset = { 0.f, 0.f };
+    m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+    m_pShaderCom->Set_UVOffsetFactor(&Offset);
+
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Transform()))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Lights()))
+        return E_FAIL;
+
+    m_pShaderCom->Begin(2);
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
+
+    m_pShaderCom->End();
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
@@ -307,6 +324,21 @@ HRESULT CStaff::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+        TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+        return E_FAIL;
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+        return E_FAIL;
+
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+        return E_FAIL;
+
 
 	return S_OK;
 }
@@ -349,5 +381,8 @@ void CStaff::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pSoundCom);
+    Safe_Release(m_pShaderCom);
+    Safe_Release(m_pMaterialCom);
 }
 

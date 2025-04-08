@@ -42,7 +42,6 @@ private:
 	HRESULT Ready_Components();
 private:
 	State m_eState = State::Idle;private:
-	CSound_Source*	m_pSoundCom = { nullptr };
 	CLight*			m_pLightCom = { nullptr };
 
 public:
@@ -53,8 +52,6 @@ public:
 
 	 bool m_bHasFired = false;
 
-
-	
 	 // CRanged_Weapon을(를) 통해 상속됨
 	 void Attack_WeaponSpecific(_float fTimeDelta) override;
 

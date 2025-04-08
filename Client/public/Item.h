@@ -49,9 +49,15 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
+private:
+	HRESULT Ready_Components();
+public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
+public:
+	HRESULT SetUp_RenderState();
+	HRESULT Release_RenderState();
 	virtual HRESULT Render()override;
 
 private:
@@ -74,8 +80,8 @@ private:
 	CCollider* m_pColliderCom = { nullptr };
 	CParticle_System* m_pParticleCom = { nullptr };
 	CMaterial* m_pMaterialCom = { nullptr };
+private:
 	_bool m_bIsCubeCollider = { false };
-	
 	map<ITEM_TYPE, map<_wstring, _uint>> m_mapTextureTag;
 	_wstring m_strItemName;
 	ITEM_TYPE m_eItemType{ ITEM_TYPE::MAX };
@@ -87,11 +93,6 @@ private:
 	_float m_fFrame = { 0.f };
 	_uint m_iCurrentTexture = { 0 };
 	_bool m_bIsUp = { true };
-
-private:
-	HRESULT SetUp_RenderState();
-	HRESULT Release_RenderState();
-	HRESULT Ready_Components();
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

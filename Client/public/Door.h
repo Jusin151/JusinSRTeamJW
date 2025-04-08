@@ -3,6 +3,7 @@
 #include "CollisionObject.h"
 
 BEGIN(Engine)
+class CShader;
 class CTransform;
 class CCollider;
 class CTexture;
@@ -54,11 +55,15 @@ private:
 public:
     virtual HRESULT Initialize_Prototype() override;
     virtual HRESULT Initialize(void* pArg) override;
+private:
+    HRESULT Ready_Components();
+public:
     virtual void Update(_float fTimeDelta) override;
     virtual void Late_Update(_float fTimeDelta) override;
+public:
     virtual HRESULT Render() override;
     virtual HRESULT On_Collision(CCollisionObject* other) override;
-
+public:
     // 문 열기/닫기 함수
     void Open_Door();
     void Close_Door();
@@ -75,15 +80,16 @@ public:
 private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
-    HRESULT Ready_Components();
     void UpdateDoorTransform();
 
 private:
     CTransform* m_pTransformCom = { nullptr };
-    CCollider* m_pColliderCom = { nullptr };
-    CTexture* m_pTextureCom = { nullptr };
-    CVIBuffer* m_pVIBufferCom = { nullptr };
-    CMaterial* m_pMaterialCom = { nullptr };
+    CCollider*  m_pColliderCom = { nullptr };
+    CTexture*   m_pTextureCom = { nullptr };
+    CVIBuffer*  m_pVIBufferCom = { nullptr };
+    CMaterial*  m_pMaterialCom = { nullptr };
+    CShader*    m_pShaderCom = { nullptr };
+private:
 
     DOOR_STATE m_eDoorState = DOOR_STATE::CLOSED;
     DOOR_TYPE m_eDoorType = DOOR_TYPE::NORMAL;

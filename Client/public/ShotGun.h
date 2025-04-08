@@ -48,7 +48,6 @@ public: //공격 관련
 
 private:
 	State m_eState = State::Idle;
-	CSound_Source* m_pSoundCom = { nullptr };
 	CLight* m_pLightCom = { nullptr };
 
 public:
