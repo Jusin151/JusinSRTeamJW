@@ -16,6 +16,9 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	LEVEL Get_NextLevel() { return m_eNextLevelID; }
+
 private:
 	LEVEL				m_eNextLevelID = { LEVEL_END };
 	class CLoader*		m_pLoader = { nullptr };

@@ -38,6 +38,7 @@ public:
 	LEVEL_STATE GetLevelState() const { return m_eLevelState; }
 	void Set_LevelState(LEVEL_STATE eLevelState) const { eLevelState = m_eLevelState; }
 	_uint Get_CurrentLevel() const;
+	CLevel* Get_Level();
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER

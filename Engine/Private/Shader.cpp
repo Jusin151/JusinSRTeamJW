@@ -141,8 +141,8 @@ HRESULT CShader::Bind_Handle(void* pArg, _uint bytes)
 HRESULT CShader::Set_Fog(_float3 rgb, _float start, _float end)
 {
 	HRESULT hr = Bind_Vector("g_FogColor", &rgb);
-	hr = Bind_Float("gFogStart", start);
-	hr = Bind_Float("gFogEnd", end);
+	hr = Bind_Float("g_FogStart", start);
+	hr = Bind_Float("g_FogEnd", end);
 	return hr;
 }
 
