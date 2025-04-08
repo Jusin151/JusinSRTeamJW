@@ -8,9 +8,9 @@
 
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
-	if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+	if (pBoss->Get_Phase() == PHASE1)
 		pBoss->Set_Animation("4_Shoot");
-	else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+	else if (pBoss->Get_Phase() == PHASE2)
 		pBoss->Set_Animation("0_Phase2_Shoot");
 
 }
@@ -23,11 +23,11 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
     if (pPattern && pPattern->Is_Finished())
     {
      
-        if (pBoss->Get_Phase() == CHellBoss::PHASE1)
+        if (pBoss->Get_Phase() == PHASE1)
         {
             pBoss->Change_State(new CHellBoss_IdleState());
         }
-        else if (pBoss->Get_Phase() == CHellBoss::PHASE2)
+        else if (pBoss->Get_Phase() == PHASE2)
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);

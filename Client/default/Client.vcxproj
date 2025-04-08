@@ -206,7 +206,7 @@
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\Node.h" />
     <ClInclude Include="..\public\Pattern_Shoot.h" />
-    <ClInclude Include="..\public\Patter_Morph.h" />
+    <ClInclude Include="..\public\Pattern_Morph.h" />
     <ClInclude Include="..\public\Prefabs.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
@@ -353,7 +353,7 @@
     <ClCompile Include="..\private\GameObject_Projectile_Test.cpp" />
     <ClCompile Include="..\private\Pattern_EyeBlast.cpp" />
     <ClCompile Include="..\private\Pattern_Shoot.cpp" />
-    <ClCompile Include="..\private\Patter_Morph.cpp" />
+    <ClCompile Include="..\private\Pattern_Morph.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />

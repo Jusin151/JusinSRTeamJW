@@ -7,11 +7,13 @@
 #include "Player.h"
 #include "HellBoss_Bullet.h"
 
+enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4, PHASE5};
+
+
 class CHellBoss : public CMonster_Base
 {
 public:
-	enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4 };
-	PHASE_STATE m_ePhase = PHASE1; // 초기엔 1페이즈
+	PHASE_STATE m_ePhase = PHASE1; // 초기엔 1페이즈 
 
 
 private:
@@ -78,7 +80,10 @@ public:
 	_int m_iPrevHpDiv100 = {};
 	_int m_iPowerBlastCount = {};
 	list<CHellBoss_Bullet*> m_vecPowerBlasts;
-	_bool m_bDidPhase2Morph = { false };
+	_bool m_bDidPhase2Morph = { false };  //2번째 페이즈 진입 , 통통이에서 날씬이로
+	_bool m_bDidPhase3Morph = { false }; // 3번째 페이즈 진입, 날씬이에서 한팔잘린상태
+	_bool m_bDidPhase4Morph = { false }; // 4번째 페이즈 진입, 한팔잘린상태에서 뚱뚱이로
+	_bool m_bDidPhase5Morph = { false }; // 5번째 페이즈 진입, 뚱뚱이에서 -> 괴물처럼
 	_float m_fOffset = {}; // 지면고정
 };
 
