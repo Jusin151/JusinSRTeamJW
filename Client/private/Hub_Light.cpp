@@ -93,13 +93,10 @@ void CHub_Light::Late_Update(_float fTimeDelta)
 HRESULT CHub_Light::Pre_Render()
 {
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
-    // Z 버퍼 설정
-    m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
     _float2 ScaleFactor = { 1.0f, 1.0f };
     _float2 Offset = { 0.f, 0.f };
     m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
@@ -112,13 +109,13 @@ HRESULT CHub_Light::Render()
     Pre_Render();
     if (FAILED(m_pTransformCom->Bind_Resource()))
         return E_FAIL;
-    if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
+    if (FAILED(m_pTextureCom->Bind_Resource(0)))
         return E_FAIL;
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
 
-    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+    if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Transform()))
         return E_FAIL;
@@ -136,7 +133,6 @@ HRESULT CHub_Light::Render()
 
 HRESULT CHub_Light::Post_Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
     return S_OK;
