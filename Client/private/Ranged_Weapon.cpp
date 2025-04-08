@@ -136,6 +136,9 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
                 tag.find(L"Trigger") != wstring::npos)
                 continue;
 
+            if (tag.find(L"Projectile")!= wstring::npos )
+                continue;
+
             _float3 vHitPos{};
             // 레이와 콜라이더의 교차 검사
             if (!m_pPickingSys->Ray_Intersection(collider, &vHitPos))
