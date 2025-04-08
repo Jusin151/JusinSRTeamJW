@@ -42,7 +42,6 @@ private:
 	HRESULT Ready_Components();
 private:
 	State m_eState = State::Idle;private:
-	CSound_Source*	m_pSoundCom = { nullptr };
 	CLight*			m_pLightCom = { nullptr };
 
 public:

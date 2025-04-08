@@ -92,7 +92,7 @@ HRESULT CStructure::Ready_Components()
 		return E_FAIL;	
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_StructureShader"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
@@ -266,7 +266,6 @@ HRESULT CStructure::Render()
 
 	if(FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-
 	if(FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 	if(FAILED(m_pShaderCom->Bind_Transform()))
@@ -278,15 +277,6 @@ HRESULT CStructure::Render()
 
 	SetUp_RenderState();
 	m_pShaderCom->Begin(1);
-	/*if (m_eStructureType == STRUCTURE_TYPE::BOSS_WALL)
-	{
-		m_pShaderCom->Begin(2);
-	}
-	else
-	{
-		
-	}*/
-	
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;

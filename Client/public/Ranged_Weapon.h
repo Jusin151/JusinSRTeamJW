@@ -93,9 +93,6 @@ public: //옵저버 관련
       Notify_Bullet();
   }
 
-  
-
-
 protected:
     _float m_fElapsedTime = { 0.f };
     _int m_iCurrentFrame = { 0 };

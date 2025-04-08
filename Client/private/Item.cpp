@@ -121,6 +121,17 @@ HRESULT CItem::Render()
 		return E_FAIL;
 
 	SetUp_RenderState();
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_mapTextureTag[m_eItemType][m_strItemName])))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
+
+	SetUp_RenderState();
+	m_pShaderCom->Begin(1);
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 	if(nullptr != m_pParticleCom)
@@ -128,7 +139,7 @@ HRESULT CItem::Render()
 		if (FAILED(m_pParticleCom->Render()))
 			return E_FAIL;
 	}
-
+	m_pShaderCom->End();
 	Release_RenderState();
 	return S_OK;
 }
@@ -310,6 +321,10 @@ HRESULT CItem::SetUp_RenderState()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	_float2 ScaleFactor = { 1.0f, 1.0f };
+	_float2 Offset = { 0.f, 0.f };
+	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&Offset);
 	return S_OK;
 }
 
@@ -370,6 +385,10 @@ HRESULT CItem::Ready_Components()
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	return S_OK;
@@ -460,6 +479,8 @@ void CItem::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pParticleCom);
 }
 
 

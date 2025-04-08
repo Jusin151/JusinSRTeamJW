@@ -7,7 +7,11 @@
 #include "Observer.h"
 
 BEGIN(Engine)
+
+class CShader;
 class CTexture;
+class CMaterial;
+class CSound_Source;
 class CVIBuffer_Rect;  // UI는 사각형으로 할듯
 END
 
@@ -60,9 +64,13 @@ public:
 
 
 protected:
+    CShader* m_pShaderCom = {};
     CTexture* m_pTextureCom = {};
-    CVIBuffer_Rect* m_pVIBufferCom = {};
+    CMaterial* m_pMaterialCom = {};
     CTransform* m_pTransformCom = {};
+    CSound_Source* m_pSoundCom = {};
+    CVIBuffer_Rect* m_pVIBufferCom = {};
+    
 public:
     _bool  Get_MouseClick() const { return m_bIsMouseClick; }
     void   Set_MouseClick(_bool type) { m_bIsMouseClick = type; }

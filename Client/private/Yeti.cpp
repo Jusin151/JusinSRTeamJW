@@ -159,14 +159,14 @@ HRESULT CYeti::Render()
     
 
     SetUp_RenderState();
-    if (FAILED(m_pShaderCom->Bind_Transform()))
-        return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Transform()))
         return E_FAIL;
     if(FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
         return E_FAIL;
 
-    m_pShaderCom->Begin(0);
+    m_pShaderCom->Begin(1);
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
@@ -428,7 +428,10 @@ HRESULT CYeti::SetUp_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
-
+    _float2 ScaleFactor = { 1.0f, 1.0f };
+    _float2 Offset = { 0.f, 0.f };
+    m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+    m_pShaderCom->Set_UVOffsetFactor(&Offset);
     return S_OK;
 }
 
