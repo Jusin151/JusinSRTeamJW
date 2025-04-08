@@ -21,14 +21,14 @@ void CUI_Event::Priority_Update(_float fTimeDelta){}
 
 void CUI_Event::Update(_float fTimeDelta)
 {
+	// 무지개 시간 흐름 누적
+	m_fRainbowTimer += fTimeDelta;
+
 	for (auto& it : m_vecEventTexts)
 		it.ftime -= fTimeDelta;
 
-
-	m_vecEventTexts.erase(remove_if(m_vecEventTexts.begin(), m_vecEventTexts.end(),[](const EventText& e) 
-			{ 
-			return e.ftime <= 0.f;
-		}),
+	m_vecEventTexts.erase(remove_if(m_vecEventTexts.begin(), m_vecEventTexts.end(),
+		[](const EventText& e) { return e.ftime <= 0.f; }),
 		m_vecEventTexts.end());
 }
 
@@ -48,12 +48,15 @@ HRESULT CUI_Event::Render()
 
 		if (evt.wstr == L"레벨업!")
 		{
-			_float2 centerPos = _float2(-100.f, 0.f); 
+			_float2 centerPos = _float2(-100.f, -300.f);
 			_float2 centerSize = _float2(20.f, 40.f);
-			_float3 levelColor = _float3(1.f, 0.5f, 0.f); 
+
+			float hue = fmodf(m_fRainbowTimer * 1000.f, 360.f);
+			_float3 levelColor = HSVtoRGB(hue, 1.f, 1.f);
 
 			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
 		}
+
 		else if (evt.wstr == L"마나가 부족합니다..!")
 		{
 			_float2 centerPos = _float2(-130.f, 0.f);
@@ -75,6 +78,23 @@ HRESULT CUI_Event::Render()
 	return S_OK;
 }
 
+_float3 CUI_Event::HSVtoRGB(float h, float s, float v)
+{
+	float c = v * s;
+	float x = c * (1 - fabsf(fmodf(h / 60.0f, 2) - 1));
+	float m = v - c;
+
+	float r = 0, g = 0, b = 0;
+
+	if (h < 60) { r = c; g = x; b = 0; }
+	else if (h < 120) { r = x; g = c; b = 0; }
+	else if (h < 180) { r = 0; g = c; b = x; }
+	else if (h < 240) { r = 0; g = x; b = c; }
+	else if (h < 300) { r = x; g = 0; b = c; }
+	else { r = c; g = 0; b = x; }
+
+	return _float3(r + m, g + m, b + m);
+}
 
 
 

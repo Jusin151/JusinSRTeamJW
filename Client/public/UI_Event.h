@@ -40,6 +40,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
+	_float3 HSVtoRGB(float h, float s, float v);
+private:
+	float m_fRainbowTimer = { 0.f };
+
 public:
 	static CUI_Event* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

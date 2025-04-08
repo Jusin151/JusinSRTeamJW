@@ -110,7 +110,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (GetAsyncKeyState('Q') & 0x8000)//임시
 	{	
-		Add_Exp(1);
+		Add_Exp(10);
 	}
 
 
