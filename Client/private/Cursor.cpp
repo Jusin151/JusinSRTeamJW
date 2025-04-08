@@ -35,23 +35,14 @@ HRESULT CCursor::Initialize(void* pArg)
 
 void CCursor::Priority_Update(_float fTimeDelta)
 {
-	//POINT pt;
-	//GetCursorPos(&pt);
-	//ScreenToClient(g_hWnd, &pt);
-
-	//_float3 vMousePos{ _float(pt.x),-_float(pt.y),0.f };
-
-	//if (m_pTransformCom)
-	//{
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vMousePos);
-	//	m_pTransformCom->Set_Scale(100.f,100.f,0.f);
-	//}
 
 	
 }
 
 void CCursor::Update(_float fTimeDelta)
 {
+	m_bMousePressed = (GetAsyncKeyState(VK_LBUTTON) & 0x8000);
+
 }
 
 void CCursor::Late_Update(_float fTimeDelta)
@@ -79,7 +70,7 @@ void CCursor::Late_Update(_float fTimeDelta)
 	if (m_pTransformCom)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(vWorld.x, vWorld.y,0.1f));
-		m_pTransformCom->Set_Scale(30.f, 30.f, 1.f);
+		m_pTransformCom->Set_Scale(40.f, 40.f, 1.f);
 	}
 }
 
