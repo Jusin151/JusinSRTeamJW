@@ -371,19 +371,29 @@ void CPlayer::Set_Hp(_int iHp)
 	{
 		// 체력이 달면
 		m_iHp = max(0, iHp);
-		Notify(m_iHp, L"HP");
+		
 	}
 	else
 	{
-		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
-		{
-			pUI_Event->ShowEventText(iHp, L"Hp");
-		}
+		
 
-		// 체력 늘면
 		m_iHp += iHp;
 	}
-	
+	Notify(m_iHp, L"HP");
+}
+
+_bool CPlayer::Set_Mp(_int iMp)
+{
+	_int pTemp = iMp;
+
+	if ((m_iPlayerHP.first += pTemp) <= 0)
+		return false;
+
+	m_iPlayerMP.first += pTemp;
+
+	Notify(m_iPlayerMP.first, L"MP");
+
+	return true;
 }
 
 void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
@@ -408,12 +418,88 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 		}
 	}
 
+	//if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	//{
+	//	pUI_Event->ShowEventText(iFinalAmmo, L"Ammo");
+	//}
+}
+
+void CPlayer::Add_Strength(_int Str)
+{
+	m_iStr += Str;
+
+	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
+}
+
+void CPlayer::Add_MaxHP(_int Hp)
+{
+	m_iHp += Hp;
+	m_iPlayerHP.second += Hp;
+	Notify(m_iHp, L"HP");
+}
+
+void CPlayer::Add_HP(_int Hp)
+{
+	m_iHp += Hp;
+	Notify(m_iHp, L"HP");
 	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 	{
-		pUI_Event->ShowEventText(iFinalAmmo, L"Ammo");
+		pUI_Event->ShowEventText(Hp, L"Hp");
 	}
 }
 
+void CPlayer::Add_Sprit(_int Sprit)
+{
+	m_iSprit += Sprit;
+	m_iPlayerMP.first += Sprit * 5;
+	m_iPlayerMP.second += Sprit * 5;
+	Notify(m_iPlayerMP.first, L"MP");
+	Notify(m_iPlayerMP.second, L"MP_Max");
+}
+
+void CPlayer::Add_SkillPoint(_int SkillPoint)
+{
+	m_iSkillpoint += SkillPoint;
+}
+
+void CPlayer::Add_Capacity(_int type)
+{
+
+	m_iCapacity += type;
+
+	CItem_Manager::GetInstance()->SetUp_RangedWeapon_to_Capacity(type);
+}
+
+void CPlayer::Add_Exp(_int Exp)
+{
+	m_iPlayerEXP.first += Exp; //경험치 들어오면
+
+
+	while (m_iPlayerEXP.first >= m_iPlayerEXP.second)
+	{
+		m_iPlayerEXP.first -= m_iPlayerEXP.second;
+		++m_iLevel;  //레벨업
+		++m_iSkillpoint;
+		++m_iStatpoint;
+		m_iPlayerEXP.second += 10;
+
+
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(0, L"LevelUp");
+		}
+	}
+
+	Notify(m_iPlayerEXP.first, L"Exp");
+
+
+	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	{
+		pUI_Event->ShowEventText(Exp, L"Exp");
+	}
+
+
+}
 
 void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
 {
