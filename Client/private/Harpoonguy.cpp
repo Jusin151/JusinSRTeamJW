@@ -258,7 +258,7 @@ void CHarpoonguy::Shooting(_float fTimeDelta)
 		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		// 오브젝트 풀링으로 변경 필요
-		m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_Harpoon"), &pDesc);
+		m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), LEVEL_GAMEPLAY, TEXT("Layer_Projectile_Harpoon "), &pDesc);
 
 		m_iCurrentFrame++;
 	}

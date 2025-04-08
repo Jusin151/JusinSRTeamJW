@@ -289,7 +289,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			{
 				m_fExpandTime += fTimeDelta;
 
-				_float lerpRatio = min(m_fExpandTime / 1.f, 1.f); // 1초간 퍼짐
+				_float lerpRatio = min(m_fExpandTime / 2.f, 1.f); // 1초간 퍼짐
 
 				_float3 curPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 				_float3 lerpPos = Lerp(curPos, m_vExpandedPos, lerpRatio);
@@ -299,7 +299,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 				{
 					m_eExpandPhase = EXPAND_LAUNCH;
 
-					// 플레이어 방향 재계산
+					// 플레이어 방향 재계산해야댐
 					CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
 						m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
