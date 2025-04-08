@@ -140,6 +140,10 @@ _uint CGameInstance::Get_CurrentLevel() const
 {
 	return m_pLevel_Manager->Get_CurrentLevel();
 }
+CLevel* CGameInstance::Get_Level()
+{
+	return m_pLevel_Manager->Get_Level();
+}
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
