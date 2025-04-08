@@ -430,6 +430,9 @@
     <Filter Include="02.GameObjects\Prefabs\Goblet">
       <UniqueIdentifier>{eade0a33-f95d-4e75-9879-689378e891f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\97. UI\04. Cursor">
+      <UniqueIdentifier>{d88d4f68-09f0-45c5-87c7-4c0300b651ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -843,6 +846,9 @@
     <ClInclude Include="..\public\Cthulhu_Big_Tentacle.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Cursor.h">
+      <Filter>02.GameObjects\97. UI\04. Cursor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1213,6 +1219,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cursor.cpp">
+      <Filter>02.GameObjects\97. UI\04. Cursor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
