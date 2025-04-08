@@ -31,9 +31,9 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_iHp = 3000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
-
+	m_fOffset = 3.6f;
 	m_pColliderCom->Set_Scale(_float3(7.0f, 10.f, 10.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-40.f, 0.f, -10.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-40.f, m_fOffset, -10.f));
 	m_pTransformCom->Set_Scale(20.f, 30.f, 10.f);
 
 	m_AnimationManager.AddAnimation("1_Idle", 0, 0);
@@ -44,16 +44,14 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 
 	m_AnimationManager.AddAnimation("6_Phase2_Idle", 86, 86);
-	m_AnimationManager.AddAnimation("7_Phase2_Walk", 87, 94);
+	m_AnimationManager.AddAnimation("7_Phase2_Walk", 87, 94,0.1f);
 
-	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99);
-	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);
+	m_AnimationManager.AddAnimation("8_Phase2_Charge", 95, 99); //사실상 안씀
+	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);//사실상 안씀
 
-	m_AnimationManager.AddAnimation("8_Phase2_Charge", 99, 103);
-
-
+	m_AnimationManager.AddAnimation("8_Phase2_Charge", 99, 103,0.04f);
 	//104부터 쏨
-	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107);
+	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107,0.04f);
 
 
 
@@ -235,6 +233,7 @@ void CHellBoss::Launch_PowerBlast_Bullets()
 			pBullet->Launch_Toward_Player(); // 한번에 발사!
 	}
 
+
 	// 다 쐈으니 초기화
 	m_vecPowerBlasts.clear();
 	m_iPowerBlastCount = 0;
@@ -250,6 +249,10 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 			return;
+
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	fPos.y = m_fOffset; // 고정하고 싶은 높이
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 
 }
 void CHellBoss::Use_Attack(_float fDeltaTime)
@@ -362,8 +365,6 @@ void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern)
 
 	m_pCurAttackPattern = pPattern;
 }
-
-
 
 
 

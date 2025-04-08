@@ -22,7 +22,6 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             break;
         case CHellBoss::PHASE2:
             pBoss->Set_Animation("0_Phase2_Shoot");
-            // PHASE2일 경우 총알 카운터와 다음 발사 시간을 초기화
             m_iFiredCount = 0;
             m_fNextFireTime = 0.f;
             break;
@@ -43,7 +42,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
     if (pBoss->Get_Phase() == CHellBoss::PHASE2)
     {
 
-        if (m_fAccTime >= m_fNextFireTime && m_iFiredCount < 10)
+        if (m_fAccTime >= m_fNextFireTime && m_iFiredCount < 100)
         {
             CHellBoss_Bullet::PowerBlastDesc pDesc{};
             pDesc.wBulletType = L"0_Phase2_Shoot";

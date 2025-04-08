@@ -358,31 +358,45 @@ HRESULT CLoader::Loading_For_Hong()
 		CHellBoss::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	CompleteOneTask();
+
 	//헬보스 텍스쳐
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/HellBoss_%d.png"), 337))))
 		return E_FAIL;
 	CompleteOneTask();
-	//헬보스 총알 등록
+
+	//헬보스 총알객체 생성!!
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
 		CHellBoss_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	CompleteOneTask();
+
 	//헬보스 총알 텍스쳐 (눈)
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png"),7))))
 		return E_FAIL;
 	CompleteOneTask();
+
 	//헬보스 총알 텍스쳐 (손)
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Hand_Bullet"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/slow_orb000%d.png"),10))))
 		return E_FAIL;
 	CompleteOneTask();
-	//헬보스 두번째 페이즈 총알 텍스쳐 (손)
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/Bullet2.png"), 1))))
+
+	//헬보스 총알 텍스쳐 (파워블라스트)
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Blast"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/Flame/DemonFlame%d.png"), 28))))
 		return E_FAIL;
 	CompleteOneTask();
+
+	//헬보스 두번째 페이즈 총알 텍스쳐 (손)
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/2Phase_Hand/Bullet%d.png"),6))))
+		return E_FAIL;
+	CompleteOneTask();
+
+
+
 	jsonLoader.Load_Prototypes(
 		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hong.json",
 		[this]() { CompleteOneTask(); }

@@ -52,31 +52,14 @@ private:
 	CPattern_Attack_Base* m_pCurAttackPattern = { nullptr };
 
 public://애니메이션관련
-	void Set_Animation(const string& strAnimKey)
-	{
-		m_AnimationManager.SetCurrentAnimation(strAnimKey);
-	}
-	bool Get_AnimationFinished() const
-	{
-		return m_AnimationManager.IsFinished();
-	}
-	LPDIRECT3DDEVICE9 Get_Graphic_Device()
-	{
-		return m_pGraphic_Device;
-	}
-	CGameInstance* Get_GameInstance()
-	{
-		return m_pGameInstance;
-	}
-	_uint Get_CurAnimationFrame()
-	{
-		return m_AnimationManager.GetCurrentFrame();
-	}
+	void Set_Animation(const string& strAnimKey) { m_AnimationManager.SetCurrentAnimation(strAnimKey); }
+	bool Get_AnimationFinished() const { return m_AnimationManager.IsFinished(); }
+	LPDIRECT3DDEVICE9 Get_Graphic_Device() { return m_pGraphic_Device; }
+	CGameInstance* Get_GameInstance() { return m_pGameInstance; }
+	_uint Get_CurAnimationFrame() { return m_AnimationManager.GetCurrentFrame(); }
 	PHASE_STATE Get_Phase() const { return m_ePhase; }
 	CAnimationManager* Get_AnimationManager() { return &m_AnimationManager; }
-
 	void Launch_PowerBlast_Bullets();
-
 private: //콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
 private: // 텍스쳐 관련
@@ -89,21 +72,14 @@ private:
 public:
 	CTransform* Get_Transform() const { return m_pTransformCom; }
 	_float Get_Speed() const { return m_fSpeed; }
-	void Set_CurPos(const _float3& vPos)
-	{
-		m_vCurPos = vPos;
-	}
-	bool m_bInitializedCurPos = { false };
-
+	void Set_CurPos(const _float3& vPos) { m_vCurPos = vPos; }
+	_bool m_bInitializedCurPos = { false };
 	list<CGameObject*> bullets = {};
-
 	_int m_iPrevHpDiv100 = {};
 	_int m_iPowerBlastCount = {};
 	list<CHellBoss_Bullet*> m_vecPowerBlasts;
-	bool m_bDidPhase2Morph = {false};
-
-
-
+	_bool m_bDidPhase2Morph = { false };
+	_float m_fOffset = {}; // 지면고정
 };
 
 //

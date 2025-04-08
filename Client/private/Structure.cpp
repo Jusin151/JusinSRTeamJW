@@ -256,6 +256,10 @@ HRESULT CStructure::Render()
 	{
 		m_pShaderCom->Set_Fog(_float3(1.0f, 1.0f, 1.0f), 20.f, 40.f);
 	}
+	else if (level == (_uint)LEVEL_HONG)
+	{
+		m_pShaderCom->Set_Fog(_float3(1.0f, 1.0f, 1.0f), 20.f, 40.f);
+	}
 	else
 	{
 		m_pShaderCom->Set_Fog(_float3(0.5f, 0.7f, 0.9f), 8.f, 20.f);

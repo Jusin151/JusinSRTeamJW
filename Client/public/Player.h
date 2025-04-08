@@ -82,7 +82,7 @@ public:
 
 	_bool TryUseMana(_int amount) // 스태프 마나 고갈 체크
 	{
-		if (m_iPlayerMP.first < (_uint)amount)
+		if (m_iPlayerMP.first < amount)
 			return false;
 
 		m_iPlayerMP.first -= amount;

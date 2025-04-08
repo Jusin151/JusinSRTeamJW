@@ -11,7 +11,12 @@ BEGIN(Client)
 
 class CStaff_Bullet : public CBullet_Base
 {
+public:
+	typedef struct Bullet_INFO
+	{
+		_float3 fScale{};
 
+	}Bullet_DESC;
 
 private:
 	CStaff_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -36,13 +41,18 @@ private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
+public:
+	void Set_Bullet_Scale(_float3 type)
+	{
+		Staff_Scale =  type;
+	}
 private:
 	_float3				m_vDir = {};
 	CParticle_System*	m_pParticleCom = { nullptr };
 	CTransform*			m_pParticleTransformCom = { nullptr };
 	CLight*				m_pLightCom = { nullptr };
 	_float				m_fLifeTime = 0.f;
-
+	_float3 Staff_Scale{};
 public:
 	static CStaff_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
