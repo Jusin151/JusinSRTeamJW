@@ -63,6 +63,10 @@ void CCthulhu_Tentacle::Update(_float fTimeDelta)
 
 void CCthulhu_Tentacle::Late_Update(_float fTimeDelta)
 {
+	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	fPos.y = m_fOffset;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
@@ -283,6 +287,7 @@ void CCthulhu_Tentacle::Update_Animation(_float fTimeDelta)
 _bool CCthulhu_Tentacle::IsPlayerVisible()
 {
 	_float3 monsterPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	monsterPos.y += 5.f;
 
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
 	if (!pPlayerTransform)
@@ -312,7 +317,7 @@ _bool CCthulhu_Tentacle::IsPlayerVisible()
 void CCthulhu_Tentacle::Attack()
 {
 	auto vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos.y -= 1.2f;
+	vPos.y += 1.f;
 
 	CTransform* pTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
 	_float3 vDir = pTransform->Get_State(CTransform::STATE_POSITION) - vPos;
