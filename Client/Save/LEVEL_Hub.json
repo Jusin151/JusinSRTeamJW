@@ -62,6 +62,34 @@
         "IsActive": true,
         "LayerTag": "Layer_Hub_Ceil1",
         "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 6,
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
+          "ProtTextureTag": "Prototype_Component_Texture_Hub_Light",
+          "ProtoLevel": 6
+        },
+        "is_cube_collider": true,
+        "position": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0 
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Hub_Ceil1",
+        "OBJECT_DESC": {
           "BufferTag": "Prototype_Component_VIBuffer_Cube",
           "Level": 6,
           "ProtTag": "Prototype_GameObject_Hub_Ceil1",
