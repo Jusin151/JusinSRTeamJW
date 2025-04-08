@@ -25,7 +25,7 @@ HRESULT CCthulhu_Tentacle::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_iHp = 60;
+	m_iHp = 100;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
 	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
 	m_fFrame = 0.f;
@@ -143,21 +143,23 @@ void CCthulhu_Tentacle::Select_Pattern(_float fTimeDelta)
 	{
 	case Client::CCthulhu_Tentacle::Tentacle_STATE::IDLE:
 		m_bCanHit = true;
-		if (IsPlayerVisible())
-		{
-			m_bUpdateAnimation = true;
-			m_eState = Tentacle_STATE::ATTACK;
-			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
-		}
+		//if (IsPlayerVisible())
+		//{
+		//	m_bUpdateAnimation = true;
+		//	m_eState = Tentacle_STATE::ATTACK;
+		//	m_fFrame = 0.f;
+		//	m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
+		//}
+		m_eState = Tentacle_STATE::ATTACK;
+
 		break;
 	case Tentacle_STATE::APPEAR:
 	case Tentacle_STATE::DISAPPEAR:
 		m_bCanHit = false;
 		break;
 	case Client::CCthulhu_Tentacle::Tentacle_STATE::ATTACK:
-		Attack();
 		break;
+	
 	case Client::CCthulhu_Tentacle::Tentacle_STATE::DEAD:
 		break;
 	default:
@@ -248,7 +250,7 @@ void CCthulhu_Tentacle::Init_Textures()
 
 void CCthulhu_Tentacle::Update_Animation(_float fTimeDelta)
 {
-	m_fFrame += m_fAnimationSpeed * fTimeDelta;
+	/*m_fFrame += m_fAnimationSpeed * fTimeDelta;
 	size_t numFrames = m_mapStateTextures[m_eState].size();
 
 	if (m_fFrame >= numFrames)
@@ -283,13 +285,59 @@ void CCthulhu_Tentacle::Update_Animation(_float fTimeDelta)
 	{
 		m_bAnimFinished = false;
 		m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
+	}*/
+
+	m_fFrame += m_fAnimationSpeed * fTimeDelta;
+	size_t numFrames = m_mapStateTextures[m_eState].size();
+
+	if (m_fFrame >= numFrames)
+	{
+		m_bAnimFinished = true;
+		if (m_eState == Tentacle_STATE::APPEAR)
+		{
+			// APPEAR 애니메이션이 끝나면 공격 상태로 전환
+			m_eState = Tentacle_STATE::ATTACK;
+			m_fFrame = 0.f;
+			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+		}
+		else if (m_eState == Tentacle_STATE::DISAPPEAR)
+		{
+			m_eState = Tentacle_STATE::IDLE;
+			m_fFrame = 0.f;
+			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+			SetActive(false);
+		}
+		else if (m_eState == Tentacle_STATE::DEAD)
+		{
+			SetActive(false);
+		}
+		else
+		{
+			m_fFrame = 0.f;
+			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+		}
+	}
+	else
+	{
+		m_bAnimFinished = false;
+		m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
+
+		// 만약 현재 상태가 ATTACK 상태이고 프레임 번호가 31이면 미사일 발사
+		if (m_eState == Tentacle_STATE::ATTACK && m_iCurrentFrame == 31)
+		{
+			if (IsPlayerVisible())
+			{
+				m_bUpdateAnimation = true;
+				Attack();
+			}
+		}
 	}
 }
 
 _bool CCthulhu_Tentacle::IsPlayerVisible()
 {
 	_float3 monsterPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	monsterPos.y += 5.f;
+	monsterPos.y += 5.f+m_fOffset;
 
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
 	if (!pPlayerTransform)
@@ -319,19 +367,30 @@ _bool CCthulhu_Tentacle::IsPlayerVisible()
 void CCthulhu_Tentacle::Attack()
 {
 	auto vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	vPos.y += 1.f;
+	vPos.y += 0.8f;
 
 	CTransform* pTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
 	_float3 vDir = pTransform->Get_State(CTransform::STATE_POSITION) - vPos;
 	vDir.Normalize();
 
 	CCthulhuMissile::PROJ_DESC prjDesc{ vPos, vDir, 20.f };
-	m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
+	if(FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc)))
+		return;
+
+	CCthulhuMissile* pMissile = static_cast<CCthulhuMissile*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_CthulhuMissile")));
+	if (pMissile)
+	{
+	auto pTransform = static_cast<CTransform*>(pMissile->Get_Component(TEXT("Com_Transform")));
+	if (pTransform)
+	{
+		pTransform->Set_Scale(0.7f, 0.7f, 1.f);
+	}
+	}
+
 	m_eState = Tentacle_STATE::IDLE;
 	m_fFrame = 0.f;
 	m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
 }
-
 
 CCthulhu_Tentacle* CCthulhu_Tentacle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

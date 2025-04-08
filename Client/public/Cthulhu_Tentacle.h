@@ -54,17 +54,17 @@ private:
     _bool IsPlayerVisible();
 
     void Attack();
-
 private:
     unordered_map<Tentacle_STATE, vector<_uint>> m_mapStateTextures;
     _float m_fFrame = 0.f;
-    _float m_fAnimationSpeed = 5.f;
+    _float m_fAnimationSpeed = 6.f;
     Tentacle_STATE  m_eState = Tentacle_STATE::IDLE;
 
     _bool  m_bUpdateAnimation{ true };
 	_bool m_bCanHit{ false };
 	_bool m_bCanAttack{ false };
     _bool m_bAnimFinished { false };
+
 public:
     static CCthulhu_Tentacle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);
