@@ -1,9 +1,9 @@
 {
 	"Type" :  "Point",
 	"Diffuse": {
-		"x": 1.0,
-		"y": 1.0,
-		"z": 0.0,
+		"x": 0.7,
+		"y": 0.7,
+		"z": 1.0,
 		"w": 1.0
 	},
 	"Ambient": {
@@ -13,9 +13,9 @@
 		"w": 1.0
 	},
 	"Specular": {
-		"x": 1.0,
-		"y": 1.0,
-		"z": 1.0,
+		"x": 0.0,
+		"y": 0.0,
+		"z": 0.0,
 		"w": 1.0
 	},
 	"Position": {
@@ -28,11 +28,11 @@
 		"y": 0.0,
 		"z": 0.0
 	},
-	"Attenuation0": 0.0,
-	"Attenuation1": 0.1,
-	"Attenuation2": 0.3,
+	"Attenuation0": 1.0,
+	"Attenuation1": 2.0,
+	"Attenuation2": 0.5,
 	"Falloff": 1.0,
-	"Range": 5.0,
+	"Range": 10.0,
 	"Theta": 4.0,
 	"Phi": 2.0
 }

@@ -38,34 +38,28 @@ HRESULT CCollisionObject::Render()
 
 void CCollisionObject::Calc_Position()
 {
-	if (!m_vWallMtvs.empty())
+	if (m_vObjectMtvSum.LengthSq() > 1e-8f)
 	{
-		for (auto& wallMTV : m_vWallMtvs)
+		if (!m_vWallMtvs.empty())
 		{
-			auto wallNormal = wallMTV.GetNormalized();
-			_float penetration = wallNormal.Dot(m_vObjectMtvSum);
-			if (penetration < 0.f)
+			for (auto& wallMTV : m_vWallMtvs)
 			{
-				// 벽 방향으로 침범 중 → 해당 방향 성분 제거
-				m_vObjectMtvSum -= wallNormal * penetration;
+				auto wallNormal = wallMTV.GetNormalized();
+				_float penetration = wallNormal.Dot(m_vObjectMtvSum);
+				if (penetration < 0.f)
+				{
+					// 벽 방향으로 침범 중 → 해당 방향 성분 제거
+					m_vObjectMtvSum -= wallNormal * penetration;
+				}
 			}
+		
 		}
+		m_vNextPos += m_vObjectMtvSum;
+		
 	}
-	
-
-	// MTV 크기 클램프 (너무 밀리지 않도록)
-	const _float maxMtvLength = 1.0f;
-	_float mtvLength = m_vObjectMtvSum.Length();
-	if (mtvLength > maxMtvLength)
-		m_vObjectMtvSum = m_vObjectMtvSum.GetNormalized() * maxMtvLength;
-
-	m_vNextPos += m_vObjectMtvSum;
-
-	
-	m_vWallMtvs.clear();
-	m_vObjectMtvSum = { 0.f, 0.f,0.f };
-
+	m_vCurPos.y = m_fOffset;
 	m_vNextPos.y = m_fOffset;
+
 }
 
 void CCollisionObject::Take_Damage(CCollisionObject* other) //other

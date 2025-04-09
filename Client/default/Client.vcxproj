@@ -76,11 +76,13 @@
     <OutDir>..\bin\</OutDir>
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\</OutDir>
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -158,6 +160,7 @@
     </FxCompile>
     <FxCompile>
       <ShaderModel>2.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
     </FxCompile>
     <PreBuildEvent>
       <Command>python $(SolutionDir)convert_encoding.py</Command>
@@ -211,6 +214,7 @@
     <ClInclude Include="..\public\Pattern_Morph.h" />
     <ClInclude Include="..\public\Pattern_Warp.h" />
     <ClInclude Include="..\public\Prefabs.h" />
+    <ClInclude Include="..\public\Spike.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
@@ -259,6 +263,7 @@
     <ClInclude Include="..\public\Snowspider.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
+    <ClInclude Include="..\public\UI_Hit_Blood.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
@@ -360,6 +365,7 @@
     <ClCompile Include="..\private\Pattern_Shoot.cpp" />
     <ClCompile Include="..\private\Pattern_Morph.cpp" />
     <ClCompile Include="..\private\Pattern_Warp.cpp" />
+    <ClCompile Include="..\private\Spike.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
@@ -398,6 +404,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\private\UI_Hit_Blood.cpp" />
     <ClCompile Include="..\private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
@@ -447,7 +454,8 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\FogShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -455,17 +463,21 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\PixelShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\Shader_Rect.hlsl" />
     <FxCompile Include="..\..\Resources\Shaders\BaseShader.hlsl" />
     <FxCompile Include="..\..\Resources\Shaders\TestPixelShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\VertexShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -474,6 +486,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">3.0</ShaderModel>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

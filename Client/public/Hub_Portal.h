@@ -30,6 +30,7 @@ protected:
     CTransform* m_pTransformCom = { nullptr };
     CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
     CCollider_Sphere* m_pColliderCom = { nullptr };
+    CParticle_System* m_pParticleCom = { nullptr };
 private:
     HRESULT Ready_Components();
 

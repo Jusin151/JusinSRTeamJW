@@ -42,7 +42,7 @@ public:
 	HRESULT Update_Collider_Boss(const _wstring& strLayerTag);
 
 private:
-	COL_CUBE_DESC		m_tDesc;
+	COL_CUBE_DESC		m_tDesc = {};
 
 public:
 

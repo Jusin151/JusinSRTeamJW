@@ -172,7 +172,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 			m_iAp /= 3;
 		}
 		
-		m_vObjectMtvSum += vMove;
+		
 		break;
 
 	case CG_WEAPON:
@@ -226,7 +226,7 @@ void CCrocman::Select_Pattern(_float fTimeDelta)
 		}
 		break;
 	case MS_WALK:
-		Chasing(fTimeDelta);
+		Chasing(fTimeDelta, m_pColliderCom->Get_Scale().Length());
 		break;
 	case MS_HIT:
 		// 맞고 바로 안바뀌도록

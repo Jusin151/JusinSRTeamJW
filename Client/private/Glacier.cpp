@@ -86,8 +86,13 @@ void CGlacier::Update(_float fTimeDelta)
 
 void CGlacier::Late_Update(_float fTimeDelta)
 {
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+    if (!m_bCheck)
         return;
+    if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+    {
+        if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+            return;
+    }
 
     if (nullptr == m_pTarget)
         return;
@@ -99,6 +104,10 @@ void CGlacier::Late_Update(_float fTimeDelta)
     Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+    m_vObjectMtvSum = { 0.f, 0.f, 0.f };
+    m_vWallMtvs.clear();
+
 
     _float3 vScale = m_pTransformCom->Compute_Scaled();
     _float3 extents = _float3(
@@ -170,7 +179,6 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
     {
     case CG_PLAYER:
 
-
         Take_Damage(other);
         break;
 
@@ -210,11 +218,11 @@ void CGlacier::Select_Pattern(_float fTimeDelta)
     {
     case HP_MAX:
         m_eCurState = MS_WALK;
-        Chasing(fTimeDelta);
+        Chasing(fTimeDelta, 5.f);
         break;
     case HP_HURT:
         if (vDist.LengthSq() > 25)
-            Chasing(fTimeDelta);
+            Chasing(fTimeDelta,5.f);
         else
         {
             m_eCurState = MS_IDLE;
@@ -223,6 +231,7 @@ void CGlacier::Select_Pattern(_float fTimeDelta)
     case HP_VERYHURT:
 
         Shooting(fTimeDelta);
+        Chasing(fTimeDelta, 20.f);
         break;
     default:
         break;

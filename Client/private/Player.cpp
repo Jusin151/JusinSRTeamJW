@@ -123,13 +123,21 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	Attack(fTimeDelta);//좌클
 
+
+
 	Calc_Position();
-	
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
-	
+	if (m_vObjectMtvSum.LengthSq() > 1e-8f && m_vWallMtvs.empty())
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+	}
+	else
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+	}
 
-
+	m_vWallMtvs.clear();
+	m_vObjectMtvSum = { 0.f, 0.f,0.f };
 }
 
 
@@ -174,7 +182,7 @@ void CPlayer::Equip(_float fTimeDelta)
 HRESULT CPlayer::Render()
 {
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+	/*m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 		_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
@@ -223,7 +231,7 @@ HRESULT CPlayer::Render()
 		_float2(400.f, -50.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스탯포인트:") + to_wstring(m_iStatpoint),
-		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));*/
 
 
 	return S_OK;

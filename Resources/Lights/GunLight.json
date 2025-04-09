@@ -3,7 +3,7 @@
 	"Diffuse": {
 		"x": 0.9922,
 		"y": 0.7451,
-		"z": 0.0 ,
+		"z": 0.5 ,
 		"w": 1.0
 	},
 	"Ambient": {
@@ -28,7 +28,7 @@
 		"y": 0.0,
 		"z": 0.0
 	},
-	"Attenuation0": 0.5,
+	"Attenuation0": 0.3,
 	"Attenuation1": 0.0,
 	"Attenuation2": 0.02,
 	"Falloff": 1.0,

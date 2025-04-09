@@ -1083,7 +1083,7 @@
                 "is_cube_collider": true,
                 "position": [
                     -39.11,
-                    2.5,
+                    2.32,
                     -48.99
                 ],
                 "rotation": [
@@ -2752,8 +2752,8 @@
                 ],
                 "scale": [
                     1.0,
-                    2.55,
-                    2.55
+                    2.5,
+                    2.5
                 ],
                 "slide_distance": 3.5
             }
@@ -2850,7 +2850,6 @@
                 ]
             }
         ],
-
         "Layer_Item": [
             {
                 "FromPool": false,
@@ -2867,7 +2866,7 @@
                 "Type": 6,
                 "position": [
                     15.5,
-                    1.00,
+                    0.5,
                     -12.42
                 ],
                 "rotation": [
@@ -2896,7 +2895,7 @@
                 "Type": 0,
                 "position": [
                     -17.35,
-                    1.00,
+                    0.5,
                     -16.18
                 ],
                 "rotation": [
@@ -2925,7 +2924,7 @@
                 "Type": 0,
                 "position": [
                     -16.79,
-                    1.00,
+                    0.5,
                     -28.12
                 ],
                 "rotation": [
@@ -2954,7 +2953,7 @@
                 "Type": 0,
                 "position": [
                     3.18,
-                    1.00,
+                    0.5,
                     -19.29
                 ],
                 "rotation": [
@@ -2983,7 +2982,7 @@
                 "Type": 0,
                 "position": [
                     5.78,
-                    1.00,
+                    0.5,
                     -29.75
                 ],
                 "rotation": [
@@ -3012,7 +3011,7 @@
                 "Type": 0,
                 "position": [
                     -13.14,
-                    1.00,
+                    0.5,
                     -35.47
                 ],
                 "rotation": [
@@ -3041,7 +3040,7 @@
                 "Type": 2,
                 "position": [
                     -4.86,
-                    1.00,
+                    0.5,
                     -19.20
                 ],
                 "rotation": [
@@ -3070,7 +3069,7 @@
                 "Type": 2,
                 "position": [
                     -1.25,
-                    1.00,
+                    0.5,
                     -17.25
                 ],
                 "rotation": [
@@ -3099,7 +3098,7 @@
                 "Type": 2,
                 "position": [
                     5.96,
-                    1.00,
+                    0.5,
                     -28.44
                 ],
                 "rotation": [
@@ -3128,7 +3127,7 @@
                 "Type": 2,
                 "position": [
                     -1.12,
-                    1.00,
+                    0.5,
                     -36.74
                 ],
                 "rotation": [
@@ -3157,7 +3156,7 @@
                 "Type": 1,
                 "position": [
                     -9.35,
-                    1.00,
+                    0.5,
                     -32.79
                 ],
                 "rotation": [
@@ -3186,7 +3185,7 @@
                 "Type": 1,
                 "position": [
                     -18.70,
-                    1.00,
+                    0.5,
                     -31.87
                 ],
                 "rotation": [
@@ -3215,7 +3214,7 @@
                 "Type": 1,
                 "position": [
                     -21.60,
-                    1.00,
+                    0.5,
                     -26.11
                 ],
                 "rotation": [
@@ -3244,7 +3243,7 @@
                 "Type": 1,
                 "position": [
                     -21.12,
-                    1.00,
+                    0.5,
                     -20.54
                 ],
                 "rotation": [
@@ -3273,7 +3272,7 @@
                 "Type": 1,
                 "position": [
                     -17.45,
-                    1.00,
+                    0.5,
                     -17.54
                 ],
                 "rotation": [
@@ -3302,7 +3301,7 @@
                 "Type": 0,
                 "position": [
                     -10.39,
-                    1.00,
+                    0.5,
                     -18.12
                 ],
                 "rotation": [
@@ -3331,7 +3330,7 @@
                 "Type": 0,
                 "position": [
                     -11.14,
-                    1.00,
+                    0.5,
                     -25.29
                 ],
                 "rotation": [
@@ -3360,7 +3359,7 @@
                 "Type": 0,
                 "position": [
                     -11.71,
-                    1.00,
+                    0.5,
                     -30.95
                 ],
                 "rotation": [
@@ -3389,7 +3388,7 @@
                 "Type": 2,
                 "position": [
                     22.29,
-                    1.00,
+                    0.5,
                     -23.12
                 ],
                 "rotation": [
@@ -3418,7 +3417,7 @@
                 "Type": 2,
                 "position": [
                     21.87,
-                    1.00,
+                    0.5,
                     -18.20
                 ],
                 "rotation": [
@@ -3447,7 +3446,7 @@
                 "Type": 2,
                 "position": [
                     25.42,
-                    1.00,
+                    0.5,
                     -13.60
                 ],
                 "rotation": [
@@ -3476,7 +3475,7 @@
                 "Type": 2,
                 "position": [
                     20.43,
-                    1.00,
+                    0.5,
                     -2.24
                 ],
                 "rotation": [
@@ -3505,7 +3504,7 @@
                 "Type": 2,
                 "position": [
                     12.5,
-                    1.00,
+                    0.5,
                     3.98
                 ],
                 "rotation": [
@@ -3534,7 +3533,7 @@
                 "Type": 2,
                 "position": [
                     7.13,
-                    1.00,
+                    0.5,
                     2.25
                 ],
                 "rotation": [
@@ -3563,7 +3562,7 @@
                 "Type": 2,
                 "position": [
                     5.36,
-                    1.00,
+                    0.5,
                     6.15
                 ],
                 "rotation": [
@@ -3592,7 +3591,7 @@
                 "Type": 2,
                 "position": [
                     21.29,
-                    1.00,
+                    0.5,
                     3.75
                 ],
                 "rotation": [
@@ -3621,7 +3620,7 @@
                 "Type": 2,
                 "position": [
                     17.45,
-                    1.00,
+                    0.5,
                     3.0
                 ],
                 "rotation": [
@@ -3650,7 +3649,7 @@
                 "Type": 2,
                 "position": [
                     22.52,
-                    1.00,
+                    0.5,
                     -0.30
                 ],
                 "rotation": [
@@ -3679,7 +3678,7 @@
                 "Type": 0,
                 "position": [
                     21.29,
-                    1.00,
+                    0.5,
                     -16.27
                 ],
                 "rotation": [
@@ -3708,7 +3707,7 @@
                 "Type": 0,
                 "position": [
                     21.17,
-                    1.00,
+                    0.5,
                     -9.18
                 ],
                 "rotation": [
@@ -3737,7 +3736,7 @@
                 "Type": 0,
                 "position": [
                     16.67,
-                    1.00,
+                    0.5,
                     -2.75
                 ],
                 "rotation": [
@@ -3766,7 +3765,7 @@
                 "Type": 1,
                 "position": [
                     17.04,
-                    1.00,
+                    0.5,
                     5.32
                 ],
                 "rotation": [
@@ -3795,7 +3794,7 @@
                 "Type": 0,
                 "position": [
                     -37.34,
-                    1.00,
+                    0.5,
                     -44.34
                 ],
                 "rotation": [
@@ -3824,7 +3823,7 @@
                 "Type": 0,
                 "position": [
                     -42.61,
-                    1.00,
+                    0.5,
                     -39.34
                 ],
                 "rotation": [
@@ -3853,7 +3852,7 @@
                 "Type": 0,
                 "position": [
                     -42.22,
-                    1.00,
+                    0.5,
                     -32.04
                 ],
                 "rotation": [
@@ -3882,7 +3881,7 @@
                 "Type": 0,
                 "position": [
                     -43.61,
-                    1.00,
+                    0.5,
                     -30.10
                 ],
                 "rotation": [
@@ -3911,7 +3910,7 @@
                 "Type": 0,
                 "position": [
                     -41.63,
-                    1.00,
+                    0.5,
                     -46.34
                 ],
                 "rotation": [
@@ -3940,7 +3939,7 @@
                 "Type": 2,
                 "position": [
                     -41.56,
-                    1.00,
+                    0.5,
                     -43.84
                 ],
                 "rotation": [
@@ -3969,7 +3968,7 @@
                 "Type": 2,
                 "position": [
                     -41.33,
-                    1.00,
+                    0.5,
                     -31.92
                 ],
                 "rotation": [
@@ -3998,7 +3997,7 @@
                 "Type": 2,
                 "position": [
                     -41.27,
-                    1.00,
+                    0.5,
                     -29.45
                 ],
                 "rotation": [
@@ -4027,7 +4026,7 @@
                 "Type": 0,
                 "position": [
                     -20.76,
-                    1.00,
+                    0.5,
                     -49.74
                 ],
                 "rotation": [
@@ -4056,7 +4055,7 @@
                 "Type": 0,
                 "position": [
                     -16.20,
-                    1.00,
+                    0.5,
                     -56.47
                 ],
                 "rotation": [
@@ -4085,7 +4084,7 @@
                 "Type": 2,
                 "position": [
                     -21.04,
-                    1.00,
+                    0.5,
                     -59.70
                 ],
                 "rotation": [
@@ -4114,7 +4113,7 @@
                 "Type": 2,
                 "position": [
                     -24.29,
-                    1.00,
+                    0.5,
                     -54.72
                 ],
                 "rotation": [
@@ -4143,7 +4142,7 @@
                 "Type": 2,
                 "position": [
                     -37.49,
-                    1.00,
+                    0.5,
                     -28.87
                 ],
                 "rotation": [
@@ -4172,7 +4171,7 @@
                 "Type": 2,
                 "position": [
                     -35.63,
-                    1.00,
+                    0.5,
                     -31.04
                 ],
                 "rotation": [
@@ -4201,7 +4200,7 @@
                 "Type": 0,
                 "position": [
                     -3.40,
-                    1.00,
+                    0.5,
                     -34.25
                 ],
                 "rotation": [
@@ -4230,7 +4229,7 @@
                 "Type": 5,
                 "position": [
                     6.88,
-                    0.91,
+                    0.37,
                     4.92
                 ],
                 "rotation": [
@@ -4285,9 +4284,63 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    15.02,
-                    0.20,
-                    -10.0
+                    9.18,
+                    1.5,
+                    -28.20
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Glacier",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Glacier",
+                    "ProtTextureTag": "Prototype_Component_Texture_Glacier",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    5.34,
+                    1.5,
+                    -34.68
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Glacier",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Glacier",
+                    "ProtTextureTag": "Prototype_Component_Texture_Glacier",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    15.47,
+                    0.36,
+                    -12.06
                 ],
                 "rotation": [
                     0.0,
@@ -4312,9 +4365,9 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    -20.0,
-                    0.20,
-                    -50.0
+                    -24.71,
+                    2.44,
+                    -60.11
                 ],
                 "rotation": [
                     0.0,
@@ -4346,6 +4399,33 @@
                 "rotation": [
                     0.0,
                     -0.54,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Glacier",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Glacier",
+                    "ProtTextureTag": "Prototype_Component_Texture_Glacier",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    20.20,
+                    1.37,
+                    -12.60
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
                     0.0
                 ],
                 "scale": [
@@ -4395,9 +4475,9 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    -45.0,
+                    -35.75,
                     0.20,
-                    -45.0
+                    -28.77
                 ],
                 "rotation": [
                     0.0,
@@ -4449,36 +4529,9 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    -41.0,
+                    -34.97,
                     0.20,
-                    -44.0
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.5,
-                    1.5,
-                    1.5
-                ]
-            },
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_Monster_Harpoonguy",
-                "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_Harpoonguy",
-                    "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
-                    "ProtoLevel": 3
-                },
-                "position": [
-                    -40.0,
-                    -1.25,
-                    -36.0
+                    -31.75
                 ],
                 "rotation": [
                     0.0,
@@ -4517,24 +4570,22 @@
                     1.5,
                     1.5
                 ]
-            }
-        ],
-        "Layer_Monster_Snowspider": [
+            },
             {
                 "FromPool": false,
                 "IsActive": true,
-                "LayerTag": "Layer_Monster_Snowspider",
+                "LayerTag": "Layer_Monster_Harpoonguy",
                 "OBJECT_DESC": {
                     "BufferTag": "Prototype_Component_VIBuffer_Rect",
                     "Level": 3,
-                    "ProtTag": "Prototype_GameObject_Snowspider",
-                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtTag": "Prototype_GameObject_Harpoonguy",
+                    "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
                     "ProtoLevel": 3
                 },
                 "position": [
-                    25.30,
-                    -1.25,
-                    -35.0
+                    23.67,
+                    2.75,
+                    -11.75
                 ],
                 "rotation": [
                     0.0,
@@ -4550,6 +4601,35 @@
             {
                 "FromPool": false,
                 "IsActive": true,
+                "LayerTag": "Layer_Monster_Harpoonguy",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Harpoonguy",
+                    "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    18.79,
+                    2.93,
+                    -12.64
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            }
+        ],
+        "Layer_Monster_Snowspider": [
+            {
+                "FromPool": false,
+                "IsActive": true,
                 "LayerTag": "Layer_Monster_Snowspider",
                 "OBJECT_DESC": {
                     "BufferTag": "Prototype_Component_VIBuffer_Rect",
@@ -4559,9 +4639,9 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    22.0,
-                    -0.00,
-                    -15.0
+                    21.87,
+                    1.5,
+                    -19.62
                 ],
                 "rotation": [
                     0.0,
@@ -4587,8 +4667,8 @@
                 },
                 "position": [
                     22.04,
-                    0.64,
-                    -35.02
+                    1.51,
+                    -31.18
                 ],
                 "rotation": [
                     0.0,
@@ -4614,7 +4694,7 @@
                 },
                 "position": [
                     22.0,
-                    -0.00,
+                    0.0,
                     -15.0
                 ],
                 "rotation": [
@@ -4640,9 +4720,441 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    20.21,
-                    1.99,
-                    -29.20
+                    19.89,
+                    1.26,
+                    -29.67
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    23.34,
+                    0.75,
+                    -12.34
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    18.70,
+                    0.75,
+                    -12.05
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    21.67,
+                    0.54,
+                    -22.79
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    26.44,
+                    0.54,
+                    -24.44
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    25.60,
+                    0.99,
+                    -21.93
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    15.10,
+                    1.25,
+                    -9.77
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    15.64,
+                    1.35,
+                    2.73
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    16.37,
+                    1.35,
+                    5.84
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -19.37,
+                    0.75,
+                    -42.13
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -21.29,
+                    0.75,
+                    -41.93
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -19.67,
+                    1.25,
+                    -43.72
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -33.22,
+                    0.56,
+                    -46.40
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -32.0,
+                    0.37,
+                    -43.84
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -36.34,
+                    1.0,
+                    -46.09
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -37.70,
+                    0.56,
+                    -30.29
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
+                ]
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Snowspider",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Snowspider",
+                    "ProtTextureTag": "Prototype_Component_Texture_Snowspider",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -37.70,
+                    0.75,
+                    -32.68
                 ],
                 "rotation": [
                     0.0,
@@ -4657,60 +5169,60 @@
             }
         ],
         "Layer_Monster_Yeti": [
-          {
-            "FromPool": false,
-            "IsActive": true,
-            "LayerTag": "Layer_Monster_Yeti",
-            "OBJECT_DESC": {
-              "BufferTag": "Prototype_Component_VIBuffer_Rect",
-              "Level": 3,
-              "ProtTag": "Prototype_GameObject_Yeti",
-              "ProtTextureTag": "Prototype_Component_Texture_Yeti",
-              "ProtoLevel": 3
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Yeti",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Yeti",
+                    "ProtTextureTag": "Prototype_Component_Texture_Yeti",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -44.0,
+                    0.46,
+                    -39.52
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
             },
-            "position": [
-              -44.0,
-              0.46,
-              -27.37
-            ],
-            "rotation": [
-              0.0,
-              0.0,
-              0.0
-            ],
-            "scale": [
-              2.0,
-              2.0,
-              2.0
-            ]
-          },
-          {
-            "FromPool": false,
-            "IsActive": true,
-            "LayerTag": "Layer_Monster_Yeti",
-            "OBJECT_DESC": {
-              "BufferTag": "Prototype_Component_VIBuffer_Rect",
-              "Level": 3,
-              "ProtTag": "Prototype_GameObject_Yeti",
-              "ProtTextureTag": "Prototype_Component_Texture_Yeti",
-              "ProtoLevel": 3
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_Yeti",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Yeti",
+                    "ProtTextureTag": "Prototype_Component_Texture_Yeti",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -4.53,
+                    0.37,
+                    -17.94
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
             },
-            "position": [
-              -4.53,
-              0.37,
-              -17.94
-            ],
-            "rotation": [
-              0.0,
-              0.0,
-              0.0
-            ],
-            "scale": [
-              2.0,
-              2.0,
-              2.0
-            ]
-          },
             {
                 "FromPool": false,
                 "IsActive": true,
@@ -4804,38 +5316,9 @@
                     "ProtoLevel": 3
                 },
                 "position": [
-                    -17.89,
+                    -17.87,
                     2.0,
                     -22.69
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        ],
-        "Layer_Monster_wGlacier": [
-            {
-                "FromPool": false,
-                "IsActive": true,
-                "LayerTag": "Layer_Monster_wGlacier",
-                "OBJECT_DESC": {
-                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
-                    "Level": 3,
-                    "ProtTag": "Prototype_GameObject_Glacier",
-                    "ProtTextureTag": "Prototype_Component_Texture_Glacier",
-                    "ProtoLevel": 3
-                },
-                "position": [
-                    9.18,
-                    1.50,
-                    -28.20
                 ],
                 "rotation": [
                     0.0,
@@ -4851,18 +5334,18 @@
             {
                 "FromPool": false,
                 "IsActive": true,
-                "LayerTag": "Layer_Monster_wGlacier",
+                "LayerTag": "Layer_Monster_Yeti",
                 "OBJECT_DESC": {
                     "BufferTag": "Prototype_Component_VIBuffer_Rect",
                     "Level": 3,
-                    "ProtTag": "Prototype_GameObject_Glacier",
-                    "ProtTextureTag": "Prototype_Component_Texture_Glacier",
+                    "ProtTag": "Prototype_GameObject_Yeti",
+                    "ProtTextureTag": "Prototype_Component_Texture_Yeti",
                     "ProtoLevel": 3
                 },
                 "position": [
-                    5.34,
-                    1.50,
-                    -34.68
+                    24.11,
+                    1.12,
+                    -16.84
                 ],
                 "rotation": [
                     0.0,
@@ -4873,6 +5356,64 @@
                     2.0,
                     2.0,
                     2.0
+                ]
+            }
+        ],
+        "Layer_Monster_wwYeti": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monster_wwYeti",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Yeti",
+                    "ProtTextureTag": "Prototype_Component_Texture_Yeti",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -42.86,
+                    1.25,
+                    -37.29
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        ],
+        "Layer_Monsterw_Harpoonguy": [
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Monsterw_Harpoonguy",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Rect",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Harpoonguy",
+                    "ProtTextureTag": "Prototype_Component_Texture_Harpoonguy",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    16.62,
+                    0.56,
+                    -3.93
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.5,
+                    1.5
                 ]
             }
         ],
@@ -5126,13 +5667,13 @@
                 ],
                 "rotation": [
                     0.0,
-                    88.0,
+                    90.0,
                     0.0
                 ],
                 "scale": [
                     30.0,
                     5.0,
-                    10.0
+                    15.0
                 ],
                 "target_tags": "",
                 "trigger_type": 1
@@ -5159,9 +5700,38 @@
                     0.0
                 ],
                 "scale": [
-                    19.0,
+                    20.0,
                     5.0,
-                    27.0
+                    30.0
+                ],
+                "target_tags": "",
+                "trigger_type": 1
+            },
+            {
+                "FromPool": false,
+                "IsActive": true,
+                "LayerTag": "Layer_Trigger",
+                "OBJECT_DESC": {
+                    "BufferTag": "Prototype_Component_VIBuffer_Cube",
+                    "Level": 3,
+                    "ProtTag": "Prototype_GameObject_Trigger_Button",
+                    "ProtTextureTag": "Prototype_Component_Texture_Trigger",
+                    "ProtoLevel": 3
+                },
+                "position": [
+                    -20.68,
+                    0.0,
+                    -55.25
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    10.0,
+                    5.0,
+                    10.0
                 ],
                 "target_tags": "",
                 "trigger_type": 1
@@ -5188,9 +5758,9 @@
                     0.0
                 ],
                 "scale": [
-                    13.0,
+                    15.0,
                     5.0,
-                    9.0
+                    15.0
                 ],
                 "target_tags": "",
                 "trigger_type": 1

@@ -84,17 +84,28 @@ void CSnowspider::Update(_float fTimeDelta)
 
 void CSnowspider::Late_Update(_float fTimeDelta)
 {
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-        return;
+
     if (nullptr == m_pTarget)
         return;
 
     if (!m_bCheck)
         return;
 
+
+    if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+    {
+        if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+            return;
+    }
+    
+
+
     Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+    m_vObjectMtvSum = { 0.f, 0.f, 0.f };
+    m_vWallMtvs.clear();
 
     Select_Frame(fTimeDelta);
 
@@ -168,7 +179,6 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
 
         if (m_eCurState != MS_ATTACK)
         {
-            Take_Damage(other);
             
         }
         else
@@ -178,7 +188,7 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
             m_iAp /= 3;
         }
 
-
+        
         break;
 
     case CG_WEAPON:
@@ -222,11 +232,11 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
             if (vDist.LengthSq() > 10)
             {
                 m_eCurState = MS_WALK;
-                Chasing(fTimeDelta);
+                
             }
             else
             {
-                Attack_Melee(fTimeDelta);
+                m_eCurState = MS_ATTACK;
             }
         }
         else
@@ -249,7 +259,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
 
         break;
     case MS_WALK:
-        Chasing(fTimeDelta);
+        Chasing(fTimeDelta, 3.f);
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록

@@ -256,6 +256,11 @@ HRESULT CHub_Portal::Ready_Components()
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
+    /* For.Com_Particle*/
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom))))
+        return E_FAIL;
+
 
     return S_OK;
 }
@@ -296,5 +301,8 @@ void CHub_Portal::Free()
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pColliderCom);
     Safe_Release(m_pPlayer);
-
+    Safe_Release(m_pMaterialCom);
+    Safe_Release(m_pShaderCom);
+    Safe_Release(m_pLightCom);
+    Safe_Release(m_pParticleCom);
 }

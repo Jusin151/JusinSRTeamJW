@@ -13,7 +13,6 @@
 #include "Image.h"
 #include "Level_Loading.h"
 #include "Sound_Event.h"
-
 #include <Camera_FirstPerson.h>
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)

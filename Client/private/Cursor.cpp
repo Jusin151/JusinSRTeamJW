@@ -1,4 +1,4 @@
-#include "Cursor.h"
+ï»¿#include "Cursor.h"
 #include "UI_Manager.h"
 #include "GameInstance.h"
 CCursor::CCursor(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -23,8 +23,8 @@ HRESULT CCursor::Initialize(void* pArg)
 	CUI_Manager::GetInstance()->AddUI(L"Cursor", this);
 	m_Viewport.X = 0;
 	m_Viewport.Y = 0;
-	m_Viewport.Width = g_iWinSizeX;   // Àü¿ª º¯¼ö È¤Àº º°µµ °ü¸®µÇ´Â À©µµ¿ì ³Êºñ
-	m_Viewport.Height = g_iWinSizeY;  // À©µµ¿ì ³ôÀÌ
+	m_Viewport.Width = g_iWinSizeX;   // ì „ì—­ ë³€ìˆ˜ í˜¹ì€ ë³„ë„ ê´€ë¦¬ë˜ëŠ” ìœˆë„ìš° ë„ˆë¹„
+	m_Viewport.Height = g_iWinSizeY;  // ìœˆë„ìš° ë†’ì´
 	m_Viewport.MinZ = 0.0f;
 	m_Viewport.MaxZ = 1.0f;
 
@@ -52,21 +52,21 @@ void CCursor::Late_Update(_float fTimeDelta)
 
 	POINT pt;
 	GetCursorPos(&pt);
-	ScreenToClient(g_hWnd, &pt);  // Å¬¶óÀÌ¾ğÆ® ¿µ¿ª ±âÁØ (0,0ÀÌ ÁÂÃø »ó´Ü)
+	ScreenToClient(g_hWnd, &pt);  // í´ë¼ì´ì–¸íŠ¸ ì˜ì—­ ê¸°ì¤€ (0,0ì´ ì¢Œì¸¡ ìƒë‹¨)
 
 	D3DXVECTOR3 vScreenCoord(static_cast<float>(pt.x), static_cast<float>(pt.y), 0.0f);
 
 	D3DXMATRIX matWorld;
-	D3DXMatrixIdentity(&matWorld);  // UI ¿ä¼ÒÀÌ¹Ç·Î ¿ùµå Çà·ÄÀº Identity
+	D3DXMatrixIdentity(&matWorld);  // UI ìš”ì†Œì´ë¯€ë¡œ ì›”ë“œ í–‰ë ¬ì€ Identity
 
 	D3DXVECTOR3 vWorld;
 	if (!D3DXVec3Unproject(&vWorld, &vScreenCoord, &m_Viewport, &m_MatProj, &m_MatView, &matWorld))
 	{
-		// º¯È¯ ½ÇÆĞ ½Ã ±âº»°ª »ç¿ë
+		// ë³€í™˜ ì‹¤íŒ¨ ì‹œ ê¸°ë³¸ê°’ ì‚¬ìš©
 		vWorld = D3DXVECTOR3(0.f, 0.f, 0.f);
 	}
 
-	// 6. º¯È¯µÈ ¿ùµå ÁÂÇ¥¸¦ Ä¿¼­ Æ®·£½ºÆû¿¡ Àû¿ë
+	// 6. ë³€í™˜ëœ ì›”ë“œ ì¢Œí‘œë¥¼ ì»¤ì„œ íŠ¸ëœìŠ¤í¼ì— ì ìš©
 	if (m_pTransformCom)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(vWorld.x, vWorld.y,0.1f));

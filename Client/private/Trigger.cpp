@@ -87,7 +87,7 @@ HRESULT CTrigger::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	m_pColliderCom->Render();
+	//m_pColliderCom->Render();
 	Release_RenderState();
 
 	return S_OK;
