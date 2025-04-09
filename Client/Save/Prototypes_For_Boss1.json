@@ -212,6 +212,12 @@
       "level": 8,
       "path": "../../Resources/Textures/Monster/Cthulhu/cthulhu_Big_Tentacle%d.png",
       "tag": "Prototype_Component_Texture_Cthulhu_Big_Tentacle"
+    },
+    {
+      "count": 10,
+      "level": 8,
+      "path": "../../Resources/Textures/Monster/Cthulhu/Spike/hellboss_final_spike_01_%d.png",
+      "tag": "Prototype_Component_Texture_Spike"
     }
   ]
 }
