@@ -358,7 +358,7 @@ PS_OUT PS_WEAPON(PS_IN In, float facing : VFACE) // VFACE´Â ¾ç¸é ·»´õ¸µ ½Ã ÇÊ¿äÇ
     // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ¸¸¾à Diffuse¸¦ °öÇß´Ù¸é
 
     // 5. (¼±ÅÃ »çÇ×) ¾ËÆÄ °ª¿¡ µû¸¥ discard ·ÎÁ÷
-    if (Out.vColor.a < 0.2f)
+    if (Out.vColor.a < 0.8f)
         discard;
 
     return Out;
