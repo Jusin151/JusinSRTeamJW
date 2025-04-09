@@ -203,6 +203,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	/* For.Prototype_Component_Texture_Cube_Base*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Skybox_Tundra"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
+			TEXT("../../Resources/Textures/SkyBox/SkyBox_Tundra.dds"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Cube_Base*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Player_Hit"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/Effect/bloodscreen_2.png"), 1))))

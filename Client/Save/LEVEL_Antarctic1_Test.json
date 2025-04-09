@@ -1,5 +1,33 @@
 {
   "layers": {
+    "Layer_Sky": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Sky",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Cube",
+          "Level": 3,
+          "ProtTag": "Prototype_GameObject_Sky",
+          "ProtoLevel": 0
+        },
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ],
     "Layer_Player": [
       {
         "FromPool": true,

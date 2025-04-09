@@ -82,6 +82,10 @@ void CWeapon_Effect::Late_Update(_float fTimeDelta)
 }
 HRESULT CWeapon_Effect::SetUp_RenderState()
 {
+	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
+	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	// 일단 추가해보기
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -108,11 +112,21 @@ HRESULT CWeapon_Effect::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
+
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, 0)))
+		return E_FAIL;
+
 	SetUp_RenderState();
+	m_pShaderCom->Begin(1);
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+	m_pShaderCom->End();
 	Release_RenderState();
 
 	/*if (FAILED(m_pParticleCom->Render()))
@@ -150,6 +164,16 @@ HRESULT CWeapon_Effect::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &FireworkDesc)))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
 		return E_FAIL;
 
 	return S_OK;

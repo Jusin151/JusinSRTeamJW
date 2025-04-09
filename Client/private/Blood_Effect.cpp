@@ -71,6 +71,17 @@ HRESULT CBlood_Effect::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &bloodDesc)))
 		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -109,6 +120,10 @@ void CBlood_Effect::Late_Update(_float fTimeDelta)
 
 HRESULT CBlood_Effect::Pre_Render()
 {
+	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
+	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -126,15 +141,21 @@ HRESULT CBlood_Effect::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	Pre_Render();
 
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+		return E_FAIL;
+	Pre_Render();
+	m_pShaderCom->Begin(1);
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+	m_pShaderCom->End();
 	Post_Render();
 
 	if (FAILED(m_pParticleCom->Render()))

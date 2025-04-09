@@ -76,9 +76,11 @@ HRESULT CEffect_Base::Ready_Components()
 void CEffect_Base::Free()
 {
 	__super::Free();
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pMaterialCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pParticleCom);
+	Safe_Release(m_pTransformCom);
 }
 

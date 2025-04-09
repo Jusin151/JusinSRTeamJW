@@ -1,5 +1,5 @@
 ﻿#include "sky.h"
-
+#include "Level_Loading.h"
 #include "GameInstance.h"
 
 CSky::CSky(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -50,9 +50,6 @@ void CSky::Late_Update(_float fTimeDelta)
 
 HRESULT CSky::Render()
 {
-
-	
-
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
@@ -97,8 +94,24 @@ HRESULT CSky::Release_RenderState()
 
 HRESULT CSky::Ready_Components()
 {
+	LEVEL nextLevel = static_cast<CLevel_Loading*>(m_pGameInstance->Get_Level())->Get_NextLevel();
+	wstring textureKey = L"Prototype_Component_Texture_Cube_Base";
+	switch (nextLevel)
+	{
+	case Client::LEVEL_GAMEPLAY:
+		textureKey = L"Prototype_Component_Texture_Skybox_Tundra";
+		break;
+	case Client::LEVEL_HUB:
+		textureKey = L"Prototype_Component_Texture_Skybox_Tundra";
+		break;
+	case Client::LEVEL_HONG:
+		//textureKey = 
+		break;
+	case Client::LEVEL_BOSS:
+		break;
+	}
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Cube_Base"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, textureKey,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

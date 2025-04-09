@@ -85,7 +85,6 @@ HRESULT CUI_Hit_Blood::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	DWORD alphaFactorDWORD = (DWORD)(m_fAlpha * 255.0f);
-	// D3DCOLOR_ARGB(alpha, red, green, blue). RGB는 알파 연산에만 사용할 경우 보통 무시됨.
 	DWORD textureFactorColor = D3DCOLOR_ARGB(alphaFactorDWORD, 255, 255, 255);
 	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, textureFactorColor);
 

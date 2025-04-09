@@ -103,7 +103,7 @@ HRESULT CLevel_Hub::Initialize()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
-		LEVEL_STATIC, TEXT("Layer_SkyBox"))))
+		LEVEL_HUB, TEXT("Layer_SkyBox"))))
 		return E_FAIL;
 
 	m_pGameInstance->Stop_All_Event();

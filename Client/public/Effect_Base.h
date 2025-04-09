@@ -9,7 +9,9 @@
 #include "Particle_System.h"
 
 BEGIN(Engine)
+class CShader;
 class CTexture;
+class CMaterial;
 class CParticle_System;
 class CVIBuffer_Rect;  // UI는 사각형으로 할듯
 END
@@ -58,9 +60,11 @@ public:
     virtual  void Free();
 
 protected:
+    CShader*            m_pShaderCom            = {};
     CTexture*           m_pTextureCom           = {};
-    CVIBuffer_Rect*     m_pVIBufferCom          = {};
+    CMaterial*          m_pMaterialCom          = {};
     CTransform*         m_pTransformCom         = {};
+    CVIBuffer_Rect*     m_pVIBufferCom          = {};
     CParticle_System*   m_pParticleCom          = {};
     EFFECT_DESC         m_Weapon_Effect_INFO    = {};
 

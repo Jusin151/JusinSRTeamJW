@@ -4,6 +4,7 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
+class CShader;
 class CTexture;
 class CTransform;
 class CVIBuffer;
@@ -52,6 +53,7 @@ private:
     void Find_Target();
 
 private:
+    CShader* m_pShaderCom = { nullptr };
     CTexture* m_pTextureCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
     CVIBuffer* m_pVIBufferCom = { nullptr };
