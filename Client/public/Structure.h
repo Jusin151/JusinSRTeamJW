@@ -5,6 +5,7 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
+class CLight;
 class CShader;
 class CTexture;
 class CTransform;
@@ -46,6 +47,7 @@ public:
 private:
 	CTransform* m_pTransformCom	= { nullptr };
 	
+	CLight*		m_pLightCom		= { nullptr };
 	CShader*	m_pShaderCom	= { nullptr };
 	CTexture*	m_pTextureCom	= { nullptr };
 	CMaterial*	m_pMaterialCom	= { nullptr };

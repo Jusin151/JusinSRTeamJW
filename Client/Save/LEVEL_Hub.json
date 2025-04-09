@@ -28,32 +28,6 @@
           10.0,
           0.10000000149011612
         ]
-      },
-      {
-        "FromPool": false,
-        "IsActive": true,
-        "LayerTag": "Layer_GameObject",
-        "OBJECT_DESC": {
-          "BufferTag": "Prototype_Component_VIBuffer_Rect",
-          "Level": 5,
-          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
-          "ProtoLevel": 0
-        },
-        "position": [
-          1.0,
-          1.0,
-          1.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
       }
     ],
     "Layer_Hub_Ceil1": [
@@ -71,13 +45,153 @@
         "is_cube_collider": true,
         "position": [
           1.0,
-          1.0,
+          1.5,
           1.0
         ],
         "rotation": [
           0.0,
           0.0,
-          0.0 
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Hub_Ceil1",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 6,
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
+          "ProtTextureTag": "Prototype_Component_Texture_Hub_Light",
+          "ProtoLevel": 6
+        },
+        "is_cube_collider": true,
+        "position": [
+          -10.0,
+          1.5,
+          8.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Hub_Ceil1",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 6,
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
+          "ProtTextureTag": "Prototype_Component_Texture_Hub_Light",
+          "ProtoLevel": 6
+        },
+        "is_cube_collider": true,
+        "position": [
+          -5.0,
+          1.5,
+          8.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Hub_Ceil1",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 6,
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
+          "ProtTextureTag": "Prototype_Component_Texture_Hub_Light",
+          "ProtoLevel": 6
+        },
+        "is_cube_collider": true,
+        "position": [
+          -1.0,
+          1.5,
+          8.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Hub_Ceil1",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 6,
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
+          "ProtTextureTag": "Prototype_Component_Texture_Hub_Light",
+          "ProtoLevel": 6
+        },
+        "is_cube_collider": true,
+        "position": [
+          -6.5,
+          1.5,
+          3.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Hub_Ceil1",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 6,
+          "ProtTag": "Prototype_GameObject_Light_Hub_Light",
+          "ProtTextureTag": "Prototype_Component_Texture_Hub_Light",
+          "ProtoLevel": 6
+        },
+        "is_cube_collider": true,
+        "position": [
+          -6.5,
+          1.5,
+          -2.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
           1.0,

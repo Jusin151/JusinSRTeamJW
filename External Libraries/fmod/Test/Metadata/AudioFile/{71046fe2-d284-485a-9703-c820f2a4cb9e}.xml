@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{71046fe2-d284-485a-9703-c820f2a4cb9e}">
 		<property name="assetPath">
-			<value>magnum_shot.wav</value>
+			<value>Weapons/magnum_shot.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

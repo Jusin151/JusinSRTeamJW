@@ -256,6 +256,7 @@
     <ClInclude Include="..\public\Snowspider.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
+    <ClInclude Include="..\public\UI_Hit_Blood.h" />
     <ClInclude Include="..\Public\UI_Point_Shop.h" />
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
@@ -392,6 +393,7 @@
     <ClCompile Include="..\private\Projectile_Base.cpp" />
     <ClCompile Include="..\private\Ranged_Weapon.cpp" />
     <ClCompile Include="..\private\Shop.cpp" />
+    <ClCompile Include="..\private\UI_Hit_Blood.cpp" />
     <ClCompile Include="..\private\UI_Point_Shop.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
