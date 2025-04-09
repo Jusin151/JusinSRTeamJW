@@ -55,7 +55,7 @@ private:
 private:
     unordered_map<SPIKE_STATE, vector<_uint>> m_mapStateTextures;
     _float m_fFrame = 0.f;
-    _float m_fAnimationSpeed = 6.f;
+    _float m_fAnimationSpeed = 8.f;
     SPIKE_STATE  m_eState = SPIKE_STATE::ATTACK;
     SPIKE_TYPE  m_eSpikeType = SPIKE_TYPE::SIDE;
 

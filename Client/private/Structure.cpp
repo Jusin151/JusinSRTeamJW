@@ -281,7 +281,7 @@ HRESULT CStructure::Render()
 	}
 	else
 	{
-		m_pShaderCom->Set_Fog(_float3(0.427f, 0.853f, 0.875f), 0.0f, 30.f);
+		m_pShaderCom->Set_Fog(_float3(0.427f, 0.853f, 0.875f), 0.0f, 15.f);
 	}
 
 	if(FAILED(m_pTransformCom->Bind_Resource()))
