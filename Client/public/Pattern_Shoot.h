@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "Pattern_Attack_Base.h"
+#include "Pattern_Base.h"
 #include "HellBoss.h"
 
-class CPattern_Shoot : public CPattern_Attack_Base
+class CPattern_Shoot : public CPattern_Base
 {
 public:
 	CPattern_Shoot();

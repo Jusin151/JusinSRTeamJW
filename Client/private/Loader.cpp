@@ -365,6 +365,12 @@ HRESULT CLoader::Loading_For_Hong()
 		return E_FAIL;
 	CompleteOneTask();
 
+	//헬보스 스킬 등록
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill"),
+		CHellBoss::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	CompleteOneTask();
+
 	//헬보스 총알객체 생성!!
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
 		CHellBoss_Bullet::Create(m_pGraphic_Device))))

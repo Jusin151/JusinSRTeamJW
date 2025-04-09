@@ -3,7 +3,7 @@
 #include "Monster_Base.h"
 #include "AnimationManager.h" 
 #include "HellBoss_State.h"
-#include "Pattern_Attack_Base.h"
+#include "Pattern_Base.h"
 #include "Player.h"
 #include "HellBoss_Bullet.h"
 
@@ -44,14 +44,14 @@ public:
 	virtual void Select_Pattern(_float fTimeDelta) override;
 	_float3 Get_PlayerPos() const { return static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION); }
 	_float3 Get_Pos() const { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
-	CPattern_Attack_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
+	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
 	bool HasTarget() const { return m_pTarget != nullptr; }
 	void Change_State(CHellBoss_State* pNewState);
 public: // 어택관련
-	void Set_AttackPattern(CPattern_Attack_Base* pPattern);
+	void Set_AttackPattern(CPattern_Base* pPattern);
 	void Use_Attack(_float fDeltaTime);
 private:
-	CPattern_Attack_Base* m_pCurAttackPattern = { nullptr };
+	CPattern_Base* m_pCurAttackPattern = { nullptr };
 
 public://애니메이션관련
 	void Set_Animation(const string& strAnimKey) { m_AnimationManager.SetCurrentAnimation(strAnimKey); }
@@ -70,7 +70,8 @@ private: // 텍스쳐 관련
 private:
 	CHellBoss_State* m_pCurState = { nullptr };
 	CHellBoss_State* m_pNextState = { nullptr };
-
+private: //주요패턴
+	void Power_Blast_Patter();
 public:
 	CTransform* Get_Transform() const { return m_pTransformCom; }
 	_float Get_Speed() const { return m_fSpeed; }

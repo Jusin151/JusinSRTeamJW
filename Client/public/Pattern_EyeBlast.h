@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "Client_Defines.h"
-#include "Pattern_Attack_Base.h"
+#include "Pattern_Base.h"
 #include "HellBoss.h"
 
-class CPattern_EyeBlast : public CPattern_Attack_Base
+class CPattern_EyeBlast : public CPattern_Base
 {
 public:
 	CPattern_EyeBlast();

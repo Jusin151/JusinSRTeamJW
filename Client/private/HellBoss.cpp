@@ -11,6 +11,7 @@
 #include "HellBoss_AttackState.h"
 #include "HellBoss_DeadState.h"
 #include "Pattern_Morph.h"
+#include "Pattern_Warp.h"
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
@@ -53,7 +54,9 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("9_Phase2_Spin", 100, 103);//사실상 안씀
 	m_AnimationManager.AddAnimation("8_Phase2_Charge", 99, 103,0.04f); // 2페이즈_차징
 	m_AnimationManager.AddAnimation("0_Phase2_Shoot", 104, 107,0.04f); // 2페이즈_발사 	//104부터 쏨
-	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111); // 2페이즈_발사마무리 
+
+
+	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111,0.15f); // 워프 모션
 
 
 	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117);        //////////////////////////////3페이즈 진입, 한팔 잘리는 모션
@@ -182,42 +185,83 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
-	if (m_iHp <= 20000 && !m_bDidPhase2Morph)
+	if (m_iHp <= 20000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
 	{
 		m_bDidPhase2Morph = true;
-		m_ePhase = PHASE2; // <<< 2페이즈 돌입!
+		m_ePhase = PHASE2;
 		Set_AttackPattern(new CPattern_Morph());
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 15000 && !m_bDidPhase3Morph)
+	if (m_iHp <= 15000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
 	{
 		m_bDidPhase3Morph = true;
-		m_ePhase = PHASE3; // <<< 3페이즈 돌입!
+		m_ePhase = PHASE3;
 		Set_AttackPattern(new CPattern_Morph());
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 10000 && !m_bDidPhase4Morph)
+	if (m_iHp <= 10000 && !m_bDidPhase4Morph)// <<< 4페이즈 돌입! 
 	{
 		m_bDidPhase4Morph = true;
-		m_ePhase = PHASE4; // <<< 4페이즈 돌입! 
+		m_ePhase = PHASE4; 
 		Set_AttackPattern(new CPattern_Morph());
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 5000 && !m_bDidPhase5Morph)
+	if (m_iHp <= 5000 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
 	{
 		m_bDidPhase5Morph = true;
-		m_ePhase = PHASE5; // <<< 5페이즈 돌입! 
+		m_ePhase = PHASE5;
 		Set_AttackPattern(new CPattern_Morph());  
 		Change_State(new CHellBoss_MorphState()); 
 		return;
 	}
 
 
+	int a{};
+	switch (m_ePhase) // 피 깎이는 로직의 대해서만 여기서 패턴상태로 관리
+	{
+	case PHASE1: 
+		a = 5;
+		break;
+	case PHASE2:
+			Set_AttackPattern(new CPattern_Warp);
+		break;
+	case PHASE3:
+		a = 5;
+		break;
+	case PHASE4:
+		a = 5;
+		break;
+	case PHASE5:
+		a = 5;
+		break;
+	default:
+		break;
+	}
+	Power_Blast_Patter(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 공용
 
-	int iCurHpDiv100 = m_iHp / 100;
+	__super::Update(fTimeDelta);
+}
+
+void CHellBoss::Launch_PowerBlast_Bullets()
+{
+	for (auto& pBullet : m_vecPowerBlasts)
+	{
+		if (pBullet && pBullet->Get_BulletType() == L"Power_Blast")
+			pBullet->Launch_Toward_Player(); // 한번에 발사!
+	}
+
+
+	// 다 쐈으니 초기화
+	m_vecPowerBlasts.clear();
+	m_iPowerBlastCount = 0;
+}
+
+void CHellBoss::Power_Blast_Patter()
+{
+	_int iCurHpDiv100 = m_iHp / 100;
 	if (iCurHpDiv100 < m_iPrevHpDiv100)
 	{
 		m_iPrevHpDiv100 = iCurHpDiv100;
@@ -234,7 +278,7 @@ void CHellBoss::Update(_float fTimeDelta)
 			_float3(0.f, -1.f, 1.f),
 			_float3(1.f, 1.f, 1.f),     // 삼축 회전
 			_float3(-1.f, -1.f, -1.f),  // 반대 회전
-		    _float3(1.f, 0.f, 0.f),     // X축
+			_float3(1.f, 0.f, 0.f),     // X축
 			_float3(0.f, 1.f, 0.f),     // Y축
 			_float3(0.f, 0.f, 1.f),     // Z축
 			_float3(1.f, 1.f, 0.f),     // XY축
@@ -267,26 +311,18 @@ void CHellBoss::Update(_float fTimeDelta)
 			m_iPowerBlastCount = 0;
 		}
 	}
-
-
-
-
-	__super::Update(fTimeDelta);
 }
-
-void CHellBoss::Launch_PowerBlast_Bullets()
+void CHellBoss::Set_AttackPattern(CPattern_Base* pPattern)
 {
-	for (auto& pBullet : m_vecPowerBlasts)
+	if (m_pCurAttackPattern)
 	{
-		if (pBullet && pBullet->Get_BulletType() == L"Power_Blast")
-			pBullet->Launch_Toward_Player(); // 한번에 발사!
+		delete m_pCurAttackPattern;
+		m_pCurAttackPattern = nullptr;
 	}
 
-
-	// 다 쐈으니 초기화
-	m_vecPowerBlasts.clear();
-	m_iPowerBlastCount = 0;
+	m_pCurAttackPattern = pPattern;
 }
+
 
 
 
@@ -404,19 +440,6 @@ HRESULT CHellBoss::Render()
 
 	return S_OK;
 }
-void CHellBoss::Set_AttackPattern(CPattern_Attack_Base* pPattern) 
-{
-	if (m_pCurAttackPattern)
-	{
-		delete m_pCurAttackPattern;
-		m_pCurAttackPattern = nullptr;
-	}
-
-	m_pCurAttackPattern = pPattern;
-}
-
-
-
 HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)

@@ -174,6 +174,8 @@
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
+    <ClInclude Include="..\Public\CHellBoss_SkillBase.h" />
+    <ClInclude Include="..\public\CHellBoss_Skill_Warp.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
@@ -200,13 +202,14 @@
     <ClInclude Include="..\public\HellBoss_MorphState.h" />
     <ClInclude Include="..\Public\HellBoss_State.h" />
     <ClInclude Include="..\public\HellBoss_WalkState.h" />
-    <ClInclude Include="..\public\Pattern_Attack_Base.h" />
+    <ClInclude Include="..\public\Pattern_Base.h" />
     <ClInclude Include="..\public\Level_Hong.h" />
     <ClInclude Include="..\public\Inven_UI.h" />
     <ClInclude Include="..\public\MiniMap.h" />
     <ClInclude Include="..\public\Node.h" />
     <ClInclude Include="..\public\Pattern_Shoot.h" />
     <ClInclude Include="..\public\Pattern_Morph.h" />
+    <ClInclude Include="..\public\Pattern_Warp.h" />
     <ClInclude Include="..\public\Prefabs.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
@@ -315,6 +318,8 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
+    <ClCompile Include="..\Private\CHellBoss_SkillBase.cpp" />
+    <ClCompile Include="..\private\CHellBoss_Skill_Warp.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp" />
@@ -354,6 +359,7 @@
     <ClCompile Include="..\private\Pattern_EyeBlast.cpp" />
     <ClCompile Include="..\private\Pattern_Shoot.cpp" />
     <ClCompile Include="..\private\Pattern_Morph.cpp" />
+    <ClCompile Include="..\private\Pattern_Warp.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
