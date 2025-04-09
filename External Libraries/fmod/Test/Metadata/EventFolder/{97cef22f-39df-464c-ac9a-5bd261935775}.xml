@@ -5,7 +5,7 @@
 			<value>Magnum</value>
 		</property>
 		<relationship name="folder">
-			<destination>{e1243d3f-c748-42e2-a760-620503a83b0c}</destination>
+			<destination>{ee9c03f5-a854-482b-be78-5bebf89df412}</destination>
 		</relationship>
 	</object>
 </objects>

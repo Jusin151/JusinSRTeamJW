@@ -256,10 +256,10 @@ HRESULT CHub_Portal::Ready_Components()
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
-    /* For.Com_Particle*/
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
-        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom))))
-        return E_FAIL;
+    ///* For.Com_Particle*/
+    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+    //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom))))
+    //    return E_FAIL;
 
 
     return S_OK;
