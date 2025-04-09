@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{52fcf3fb-754c-42fb-83b3-bb6b2859f1bf}">
 		<property name="assetPath">
-			<value>Spider_Detect_02.wav</value>
+			<value>Spider/Spider_Detect_02.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

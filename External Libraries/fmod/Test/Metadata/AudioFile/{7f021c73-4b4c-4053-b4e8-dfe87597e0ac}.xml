@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{7f021c73-4b4c-4053-b4e8-dfe87597e0ac}">
+		<property name="assetPath">
+			<value>Weapons/axe/axe_metal_swing_1.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.4919047619047619</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{2ddcdace-7cfd-4e7c-b1ba-42ed6d4b3509}</destination>
+		</relationship>
+	</object>
+</objects>

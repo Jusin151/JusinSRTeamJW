@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{3e8eb380-5ba7-4607-8582-d73c3251f679}">
 		<property name="assetPath">
-			<value>Anubis_Death_02.wav</value>
+			<value>Anubis/Anubis_Death_02.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

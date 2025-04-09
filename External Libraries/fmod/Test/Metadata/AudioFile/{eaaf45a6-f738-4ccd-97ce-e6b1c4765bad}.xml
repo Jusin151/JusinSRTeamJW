@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{eaaf45a6-f738-4ccd-97ce-e6b1c4765bad}">
 		<property name="assetPath">
-			<value>Croccman_death_03.wav</value>
+			<value>Croccman/Croccman_death_03.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

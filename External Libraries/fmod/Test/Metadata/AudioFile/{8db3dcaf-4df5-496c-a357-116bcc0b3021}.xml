@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{8db3dcaf-4df5-496c-a357-116bcc0b3021}">
+		<property name="assetPath">
+			<value>Monsters/Spider/Spider_detect_01 #302663.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.72784580498866214</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{2ddcdace-7cfd-4e7c-b1ba-42ed6d4b3509}</destination>
+		</relationship>
+	</object>
+</objects>

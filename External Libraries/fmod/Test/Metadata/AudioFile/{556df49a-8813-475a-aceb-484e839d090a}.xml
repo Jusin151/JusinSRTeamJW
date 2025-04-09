@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{556df49a-8813-475a-aceb-484e839d090a}">
 		<property name="assetPath">
-			<value>Cthulhu_detect_01.wav</value>
+			<value>Cthulhu/Cthulhu_detect_01.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
