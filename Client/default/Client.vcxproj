@@ -174,8 +174,8 @@
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
-    <ClInclude Include="..\Public\CHellBoss_SkillBase.h" />
-    <ClInclude Include="..\public\CHellBoss_Skill_Warp.h" />
+    <ClInclude Include="..\Public\HellBoss_SkillBase.h" />
+    <ClInclude Include="..\public\HellBoss_Skill_Warp.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
@@ -318,8 +318,8 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
-    <ClCompile Include="..\Private\CHellBoss_SkillBase.cpp" />
-    <ClCompile Include="..\private\CHellBoss_Skill_Warp.cpp" />
+    <ClCompile Include="..\Private\HellBoss_SkillBase.cpp" />
+    <ClCompile Include="..\private\HellBoss_Skill_Warp.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp" />

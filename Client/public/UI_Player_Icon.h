@@ -63,7 +63,7 @@ private:
 
 virtual	void OnNotify(void* pArg, const wstring& type) 
 	{
-		if (type == L"HP")
+		if (type == L"HP_Hited")
 		{
 			Set_Hp_Event();
 		}

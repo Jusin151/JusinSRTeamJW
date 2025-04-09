@@ -31,6 +31,12 @@ public:
 	virtual void Set_Hp(_int iHp) { m_iHp = iHp; }
 	virtual void Set_Ap(_int iAp) { m_iAp = iAp; }
 
+	virtual void Take_Damage(_uint Damage) { m_iHp -= Damage; }
+
+	// 다른 오브젝트에 데미지를 준다
+	void Take_Damage(CCollisionObject* other);
+
+
 	void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }
 	
 	CGameObject* Get_Trigger() { return m_pTrigger; }
@@ -44,8 +50,8 @@ public:
 
 	void Calc_Position();
 
-	// 다른 오브젝트에 데미지를 준다
-	void Take_Damage(CCollisionObject* other);
+
+
 
 protected:
 

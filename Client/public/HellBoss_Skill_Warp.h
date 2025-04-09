@@ -1,19 +1,9 @@
 #pragma once
 
-#include "Monster_Base.h"
-#include "AnimationManager.h" 
-#include "HellBoss_State.h"
-#include "Pattern_Base.h"
-#include "Player.h"
-#include "HellBoss_Bullet.h"
-#include "Effect_Base.h"
+#include "HellBoss_SkillBase.h"
 
-
-class CHellBoss_Skill_Warp : public CEffect_Base
+class CHellBoss_Skill_Warp : public CHellBoss_SkillBase
 {
-public:
-
-
 private:
 	CHellBoss_Skill_Warp(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CHellBoss_Skill_Warp(const CHellBoss_Skill_Warp& Prototype);

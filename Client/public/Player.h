@@ -64,13 +64,17 @@ public:
 			obs->OnNotify(&value, type);
 	}
 	void Set_Hp(_int iHp);
+	void Take_Damage(_uint Damage);
+
 	void Set_Ap(_int iAp)override { m_iAp = iAp; }
 	_bool Set_Mp(_int iMp);
 	
 	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
 	void Add_Strength(_int Str);  // 근접무기 전용 데미지 증가
 
-	void Add_MaxHP(_int Hp); // 최대체력 증가
+	void Add_MaxHP(_int Hp);
+
+	// 최대체력 증가
 	void Add_HP(_int Hp); // 현재체력 증가
 	void Add_Sprit(_int Sprit); // 정신력 증가
 	

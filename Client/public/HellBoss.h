@@ -9,6 +9,14 @@
 
 enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4, PHASE5};
 
+typedef struct BossINFO
+{
+	_float3 vRight{};
+	_float3 vUp{};
+	_float3 vLook{};
+	_float3 vPos{};
+
+}BossDESC;
 
 class CHellBoss : public CMonster_Base
 {
@@ -41,37 +49,37 @@ public:
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 public:
-	virtual void Select_Pattern(_float fTimeDelta) override;
 	_float3 Get_PlayerPos() const { return static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION); }
 	_float3 Get_Pos() const { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
-	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
 	bool HasTarget() const { return m_pTarget != nullptr; }
 	void Change_State(CHellBoss_State* pNewState);
-public: // 어택관련
+public: // 패턴관련
 	void Set_AttackPattern(CPattern_Base* pPattern);
 	void Use_Attack(_float fDeltaTime);
+	void Power_Blast_Patter();
+	void Launch_PowerBlast_Bullets();
+	virtual void Select_Pattern(_float fTimeDelta) override;
+	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
 private:
 	CPattern_Base* m_pCurAttackPattern = { nullptr };
 
 public://애니메이션관련
 	void Set_Animation(const string& strAnimKey) { m_AnimationManager.SetCurrentAnimation(strAnimKey); }
 	bool Get_AnimationFinished() const { return m_AnimationManager.IsFinished(); }
+	_uint Get_CurAnimationFrame() { return m_AnimationManager.GetCurrentFrame(); }
 	LPDIRECT3DDEVICE9 Get_Graphic_Device() { return m_pGraphic_Device; }
 	CGameInstance* Get_GameInstance() { return m_pGameInstance; }
-	_uint Get_CurAnimationFrame() { return m_AnimationManager.GetCurrentFrame(); }
-	PHASE_STATE Get_Phase() const { return m_ePhase; }
 	CAnimationManager* Get_AnimationManager() { return &m_AnimationManager; }
-	void Launch_PowerBlast_Bullets();
+	CAnimationManager m_AnimationManager = {};
+public:
+	PHASE_STATE Get_Phase() const { return m_ePhase; }
 private: //콜라이더
 	CCollider_Cube* m_pAttackCollider = { nullptr };
 private: // 텍스쳐 관련
 	map<string, pair<int, int>> m_TextureRanges{};
-	CAnimationManager m_AnimationManager = {};
 private:
 	CHellBoss_State* m_pCurState = { nullptr };
 	CHellBoss_State* m_pNextState = { nullptr };
-private: //주요패턴
-	void Power_Blast_Patter();
 public:
 	CTransform* Get_Transform() const { return m_pTransformCom; }
 	_float Get_Speed() const { return m_fSpeed; }
@@ -86,6 +94,8 @@ public:
 	_bool m_bDidPhase4Morph = { false }; // 4번째 페이즈 진입, 한팔잘린상태에서 뚱뚱이로
 	_bool m_bDidPhase5Morph = { false }; // 5번째 페이즈 진입, 뚱뚱이에서 -> 괴물처럼
 	_float m_fOffset = {}; // 지면고정
+
+	BossDESC m_BossInfo{};
 };
 
 //

@@ -870,10 +870,10 @@
     <ClInclude Include="..\public\Pattern_Warp.h">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CHellBoss_SkillBase.h">
+    <ClInclude Include="..\Public\HellBoss_SkillBase.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CHellBoss_Skill_Warp.h">
+    <ClInclude Include="..\public\HellBoss_Skill_Warp.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1253,10 +1253,10 @@
     <ClCompile Include="..\private\Pattern_Warp.cpp">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CHellBoss_SkillBase.cpp">
+    <ClCompile Include="..\Private\HellBoss_SkillBase.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CHellBoss_Skill_Warp.cpp">
+    <ClCompile Include="..\private\HellBoss_Skill_Warp.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp</Filter>
     </ClCompile>
   </ItemGroup>

@@ -64,6 +64,10 @@ public:
 		{
 			Set_HP(*reinterpret_cast<_uint*>(pArg));
 		}
+		if (type == L"HP_Hited")
+		{
+			Set_HP(*reinterpret_cast<_uint*>(pArg));
+		}
 	}
 
 private:

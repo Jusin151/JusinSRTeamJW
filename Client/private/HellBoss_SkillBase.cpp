@@ -1,12 +1,12 @@
-#include "CHellBoss_SkillBase.h"
+#include "HellBoss_SkillBase.h"
 
 CHellBoss_SkillBase::CHellBoss_SkillBase(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CGameObject{pGraphic_Device}
+	:CEffect_Base{pGraphic_Device}
 {
 }
 
 CHellBoss_SkillBase::CHellBoss_SkillBase(const CHellBoss_SkillBase& Prototype)
-	:CGameObject(Prototype)
+	:CEffect_Base(Prototype)
 {
 }
 
@@ -34,10 +34,14 @@ void CHellBoss_SkillBase::Process_Input()
 
 void CHellBoss_SkillBase::Late_Update(_float fTimeDelta)
 {
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+		return;
 }
 
 HRESULT CHellBoss_SkillBase::Render()
 {
+	if (FAILED(__super::Render()))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -55,10 +59,6 @@ HRESULT CHellBoss_SkillBase::Ready_Components()
 {
 
 
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
 
 
 	/* For.Com_VIBuffer */
