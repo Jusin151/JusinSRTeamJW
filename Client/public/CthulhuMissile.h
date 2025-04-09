@@ -1,5 +1,9 @@
 ﻿#pragma once
 #include "Projectile_Base.h"
+BEGIN(Engine)
+class CShader;
+class CMaterial;
+END
 
 BEGIN(Client)
 class CCthulhuMissile final : public CProjectile_Base
@@ -37,6 +41,8 @@ private:
 	_bool m_bIsDead = false;
 	_bool m_bIsColned = false;
 	class CPlayer* m_pTarget = nullptr;
+	CMaterial* m_pMaterialCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 public:
 	static CCthulhuMissile* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;

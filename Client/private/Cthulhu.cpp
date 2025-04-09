@@ -146,6 +146,16 @@ HRESULT CCthulhu::Ready_Components()
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
 
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -531,17 +541,18 @@ NodeStatus CCthulhu::Attack_Spike()
 	CSpike* pSpike = static_cast<CSpike*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike")));
 	if (pSpike)
 	{
-		_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		if (CTransform* pTransform = static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform"))))
 		{
 			_float3 vTargetPos = pTransform->Get_State(CTransform::STATE_POSITION);
-			_float fDistance = _float3::Distance(vTargetPos, currentPos);
-			_float3 vScale = pTransform->Compute_Scaled();
-			_float3 vDir = _float3{ (vTargetPos - currentPos) };
+			_float fDistance = _float3::Distance(vTargetPos, basePos); // 플레이어와의 거리
+			CTransform* pSpikeTransform = static_cast<CTransform*>(pSpike->Get_Component(TEXT("Com_Transform")));
+			_float3 vScale = pSpikeTransform->Compute_Scaled(); // 스케일 
+			_float3 vDir = _float3{ (vTargetPos - basePos) };
 			vDir.Normalize();
 			_uint iSpikeCount = max(1u, static_cast<_uint>(fDistance / (vScale.z+0.3f)));
-			_float3 initPos = currentPos + vDir * (vScale.z + 0.3f);
+			_float3 initPos = basePos + vDir * (vScale.z + 0.3f);
 			pSpike->Set_Position(initPos);
 			m_listSpikes.push_back(pSpike);
 			_float3 vPrevPos = initPos;
@@ -792,6 +803,11 @@ void CCthulhu::Late_Update(_float fTimeDelta)
 
 HRESULT CCthulhu::SetUp_RenderState()
 {
+	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
+	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
@@ -809,25 +825,32 @@ HRESULT CCthulhu::Release_RenderState()
 
 HRESULT CCthulhu::Render()
 {
+
 	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
 		return E_FAIL;
+
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
+	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 60.f);
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
 
 	SetUp_RenderState();
-
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+		return E_FAIL;
+	m_pShaderCom->Begin(1);
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	if (g_bDebugCollider)
-	{
-		m_pColliderCom->Render();
-	}
-
+	m_pShaderCom->End();
 	Release_RenderState();
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 HP :") + to_wstring(m_iHp),
@@ -910,6 +933,8 @@ void CCthulhu::Free()
 		m_vecBigTentacles.clear();
 	}
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pShaderCom);
 	Safe_Delete(m_pBehaviorTree);
 }
 
