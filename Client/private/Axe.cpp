@@ -46,8 +46,6 @@ HRESULT CAxe::Initialize(void* pArg)
 	m_pColliderCom->Set_Scale(_float3(3.f, 0.5f, 3.f));
 
 	m_pColTransformCom->Set_Scale(1.f, 1.f, 1.f);
-	m_pColTransformCom->Set_State(CTransform::STATE_POSITION,
-		_float3(0.f, 0.f, 0.5f));
 
 
 	m_pTransformCom->Set_Scale(m_Axe_INFO.vSize.x, m_Axe_INFO.vSize.y, 1.f);

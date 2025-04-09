@@ -73,73 +73,109 @@ void CCollider_Manager::Update_Collision_Structure()
 		}
 		else
 		{
-			for (auto& srcEntry : m_pColliders[i])
+			if (i == CG_WEAPON)
 			{
-				srcEntry->Set_MTV({ 0.f, 0.f, 0.f });
-				srcEntry->Set_Depth(0.f);
-
-				 // 현재 위치와 다음 위치 가져옴
-				 CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
-				_float3 vCurPos = pTrans->Get_State(CTransform::STATE_POSITION);
-				_float3 vDir = srcEntry->Get_Owner()->Get_Dir();
-				_float fLength = srcEntry->Get_Owner()->Get_Length();
-
-				_float3 vNextPos = vCurPos + vDir * fLength;
-				_float3 vDelta = vNextPos - vCurPos;
-
-				_int iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
-
-
-				for (_int step = 0; step <= iCount; ++step)
+				for (auto& srcEntry : m_pColliders[i])
 				{
-					_float ratio = float(step) / iCount;
-					_float3 testPos = vCurPos + vDelta * ratio;
-					pTrans->Set_State(CTransform::STATE_POSITION, testPos);
-					srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
-					_bool bCollision = false;
+					srcEntry->Set_MTV({ 0.f, 0.f, 0.f });
+					srcEntry->Set_Depth(0.f);
 
-					auto checkCollisionWithGroup = [&](COLLIDERGROUP group)
+					for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
+					{
+						if (!Calc_AABB(srcEntry, dstEntry))
+							continue;
+
+						if (Calc_Cube_To_Cube(srcEntry, dstEntry))
 						{
-							for (auto& dstEntry : m_pColliders[group])
-							{
-								dstEntry->Set_MTV({ 0.f, 0.f, 0.f });
-								dstEntry->Set_Depth(0.f);
+							srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+							dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+						}
+					}
 
-								if (!Calc_AABB(srcEntry, dstEntry))
-									continue;
+					for (auto& dstEntry : m_pColliders[CG_STRUCTURE_FLOOR])
+					{
+						if (!Calc_AABB(srcEntry, dstEntry))
+							continue;
 
-								if (Calc_Cube_To_Cube(srcEntry, dstEntry))
-								{
-									_float3 mtv = srcEntry->Get_MTV();
-
-									// 즉시 위치 보정
-									_float3 newPos = srcEntry->Get_State(CTransform::STATE_POSITION) + mtv;
-								
-									pTrans->Set_State(CTransform::STATE_POSITION, newPos);
-									// collider도 위치 갱신
-									srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
-
-									// MTV 저장
-									srcEntry->Get_Owner()->Add_WallMtv(mtv);
-
-									// 콜백 호출
-									srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
-									dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-
-									srcEntry->Get_Owner()->Set_NextPos(newPos);
-
-									bCollision = true;
-								}
-							}
-						};
-
-					checkCollisionWithGroup(CG_STRUCTURE_WALL);
-					checkCollisionWithGroup(CG_DOOR);
-
-					if (bCollision)
-						break;
+						if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+						{
+							srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+							dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+						}
+					}
 				}
 			}
+			else
+			{
+				for (auto& srcEntry : m_pColliders[i])
+				{
+					srcEntry->Set_MTV({ 0.f, 0.f, 0.f });
+					srcEntry->Set_Depth(0.f);
+
+					// 현재 위치와 다음 위치 가져옴
+					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+					_float3 vCurPos = pTrans->Get_State(CTransform::STATE_POSITION);
+					_float3 vDir = srcEntry->Get_Owner()->Get_Dir();
+					_float fLength = srcEntry->Get_Owner()->Get_Length();
+
+					_float3 vNextPos = vCurPos + vDir * fLength;
+					_float3 vDelta = vNextPos - vCurPos;
+
+					_int iCount = max(1, int(ceil(srcEntry->Get_Owner()->Get_Speed() / 0.2f)));
+
+
+					for (_int step = 0; step <= iCount; ++step)
+					{
+						_float ratio = float(step) / iCount;
+						_float3 testPos = vCurPos + vDelta * ratio;
+						pTrans->Set_State(CTransform::STATE_POSITION, testPos);
+						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+						_bool bCollision = false;
+
+						auto checkCollisionWithGroup = [&](COLLIDERGROUP group)
+							{
+								for (auto& dstEntry : m_pColliders[group])
+								{
+									dstEntry->Set_MTV({ 0.f, 0.f, 0.f });
+									dstEntry->Set_Depth(0.f);
+
+									if (!Calc_AABB(srcEntry, dstEntry))
+										continue;
+
+									if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+									{
+										_float3 mtv = srcEntry->Get_MTV();
+
+										// 즉시 위치 보정
+										_float3 newPos = srcEntry->Get_State(CTransform::STATE_POSITION) + mtv;
+
+										pTrans->Set_State(CTransform::STATE_POSITION, newPos);
+										// collider도 위치 갱신
+										srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+
+										// MTV 저장
+										srcEntry->Get_Owner()->Add_WallMtv(mtv);
+
+										// 콜백 호출
+										srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+										dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+
+										srcEntry->Get_Owner()->Set_NextPos(newPos);
+
+										bCollision = true;
+									}
+								}
+							};
+
+						checkCollisionWithGroup(CG_STRUCTURE_WALL);
+						checkCollisionWithGroup(CG_DOOR);
+
+						if (bCollision)
+							break;
+					}
+				}
+			}
+			
 		}
 
 	}
