@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Observer.h"
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "UI_Base.h"
@@ -12,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CUI_Hit_Blood final : public CUI_Base
+class CUI_Hit_Blood final : public CUI_Base, public CObserver
 {
 private:
 	CUI_Hit_Blood(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -32,16 +33,23 @@ public:
 	virtual HRESULT Pre_Render();
 	virtual HRESULT Render();
 	virtual HRESULT Post_Render();
-
+public:
+	void StartEffect();
+	virtual void OnNotify(void* pArg, const wstring& type) override
+	{
+		if (type == L"HP")
+		{
+			if(*reinterpret_cast<_uint*>(pArg) < 0)
+				StartEffect();
+		}
+	}
 private:
-	CTexture*		m_pTextureCom	= { nullptr };
-	CTransform*		m_pTransformCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom	= { nullptr };  // UI는 사각형이므로 Rect 버퍼 사용
-	UI_Parent_Desc m_UI_INFO{};
+	_bool			m_bStart = { false };
+	UI_Parent_Desc	m_UI_INFO{};
 	_float			m_fElpasedTime = { 0.f };
-	_float			m_fAnimationTime = { 2.0f };
+	_float			m_fAnimationTime = { 1.0f };
 	_float			m_fAlphaTestValue = { 0.0f };
-protected:
+private:
 	bool m_bIsUI{};
 
 public:

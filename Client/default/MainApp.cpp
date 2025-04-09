@@ -26,6 +26,7 @@
 #include "Cursor.h"
 #include "GameObject_Snow.h"
 #include "Sound_Manager.h"
+#include "UI_Hit_Blood.h"
 
 
 CMainApp::CMainApp()
@@ -382,7 +383,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		CSky::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Hit_Blood"),
+		CUI_Hit_Blood::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	
 
 #pragma endregion
