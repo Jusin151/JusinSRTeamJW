@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{d3b67b0f-d3ec-4b96-afda-95f82e0e0b7e}">
+		<property name="assetPath">
+			<value>Backgrounds/066 Hell - Flight From Deimos.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>182.90938775510205</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{2ddcdace-7cfd-4e7c-b1ba-42ed6d4b3509}</destination>
+		</relationship>
+	</object>
+</objects>

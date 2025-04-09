@@ -355,9 +355,6 @@
     <Filter Include="02.GameObjects\Prefabs\Torch">
       <UniqueIdentifier>{9ae03cb0-b5f4-4e40-9de2-d073b8557fcf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Prefabs\Hub_Lamp">
-      <UniqueIdentifier>{78d09b1c-0e6d-4365-b4e5-6aa88ced3b5f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Prefabs\Candles">
       <UniqueIdentifier>{24f26e6a-53b1-48c4-9c36-b2ce99d6eda8}</UniqueIdentifier>
     </Filter>
@@ -432,6 +429,12 @@
     </Filter>
     <Filter Include="02.GameObjects\97. UI\04. Cursor">
       <UniqueIdentifier>{d88d4f68-09f0-45c5-87c7-4c0300b651ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Prefabs\Hub_Light">
+      <UniqueIdentifier>{78d09b1c-0e6d-4365-b4e5-6aa88ced3b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI">
+      <UniqueIdentifier>{4e089300-224f-4de9-8196-16511e409ae8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -829,7 +832,7 @@
       <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hub_Light.h">
-      <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
+      <Filter>02.GameObjects\Prefabs\Hub_Light</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Candles.h">
       <Filter>02.GameObjects\Prefabs\Candles</Filter>
@@ -848,6 +851,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Cursor.h">
       <Filter>02.GameObjects\97. UI\04. Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Hit_Blood.h">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1206,7 +1212,7 @@
       <Filter>02.GameObjects\Prefabs\Long_Torch</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hub_Light.cpp">
-      <Filter>02.GameObjects\Prefabs\Hub_Lamp</Filter>
+      <Filter>02.GameObjects\Prefabs\Hub_Light</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Candles.cpp">
       <Filter>02.GameObjects\Prefabs\Candles</Filter>
@@ -1222,6 +1228,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Cursor.cpp">
       <Filter>02.GameObjects\97. UI\04. Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Hit_Blood.cpp">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
