@@ -177,8 +177,10 @@
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
+    <ClInclude Include="..\public\HellBoss_DarkBullet.h" />
+    <ClInclude Include="..\public\HellBoss_Headers.h" />
     <ClInclude Include="..\Public\HellBoss_SkillBase.h" />
-    <ClInclude Include="..\public\HellBoss_Skill_Warp.h" />
+    <ClInclude Include="..\public\HellBoss_Skill_DarkHole.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\CompositeNode.h" />
     <ClInclude Include="..\public\Crocman.h" />
@@ -193,6 +195,7 @@
     <ClInclude Include="..\public\GameObject_Snow.h" />
     <ClInclude Include="..\public\Goblet.h" />
     <ClInclude Include="..\public\HellBoss_Bullet.h" />
+    <ClInclude Include="..\public\HellBoss_Skill_Landing.h" />
     <ClInclude Include="..\public\Hub_Light.h" />
     <ClInclude Include="..\public\Lamp.h" />
     <ClInclude Include="..\public\Long_Torch.h" />
@@ -323,8 +326,9 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
+    <ClCompile Include="..\private\HellBoss_DarkBullet.cpp" />
     <ClCompile Include="..\Private\HellBoss_SkillBase.cpp" />
-    <ClCompile Include="..\private\HellBoss_Skill_Warp.cpp" />
+    <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
     <ClCompile Include="..\private\CthulhuMissile.cpp" />
     <ClCompile Include="..\private\Cthulhu_Big_Tentacle.cpp" />
@@ -339,6 +343,7 @@
     <ClCompile Include="..\private\HellBoss_DeadState.cpp" />
     <ClCompile Include="..\Private\HellBoss_IdleState.cpp" />
     <ClCompile Include="..\private\HellBoss_MorphState.cpp" />
+    <ClCompile Include="..\private\HellBoss_Skill_Landing.cpp" />
     <ClCompile Include="..\private\HellBoss_State.cpp" />
     <ClCompile Include="..\private\HellBoss_WalkState.cpp" />
     <ClCompile Include="..\private\Hit_Effect.cpp" />

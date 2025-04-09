@@ -24,7 +24,7 @@ public:
         m_mapAnimations[strKey] = new CAnimation(iStartFrame, iEndFrame, fFrameTime);
     }
 
-    void SetCurrentAnimation(const string& strKey)
+    void SetCurrentAnimation(string strKey)
     {
         auto it = m_mapAnimations.find(strKey);
         if (it != m_mapAnimations.end())

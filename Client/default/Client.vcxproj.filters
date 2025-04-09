@@ -445,14 +445,20 @@
     <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill">
       <UniqueIdentifier>{545ec58e-31dc-438b-8973-82a0160eafef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp">
-      <UniqueIdentifier>{e6f2760e-4d45-4a75-9d4b-def2a80bae6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Prefabs\Hub_Light">
       <UniqueIdentifier>{78d09b1c-0e6d-4365-b4e5-6aa88ced3b5f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI">
       <UniqueIdentifier>{4e089300-224f-4de9-8196-16511e409ae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole">
+      <UniqueIdentifier>{e6f2760e-4d45-4a75-9d4b-def2a80bae6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_Landing">
+      <UniqueIdentifier>{f410d14c-5980-4028-869f-f3247f77b879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_ManHae">
+      <UniqueIdentifier>{ab04500d-ddb6-497f-b36f-ffc7c5d652be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -876,14 +882,23 @@
     <ClInclude Include="..\Public\HellBoss_SkillBase.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\HellBoss_Skill_Warp.h">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp</Filter>
+    <ClInclude Include="..\public\HellBoss_Skill_DarkHole.h">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Hit_Blood.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Spike.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss_Skill_Landing.h">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_Landing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss_Headers.h">
+      <Filter>97. Hong_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss_DarkBullet.h">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1265,14 +1280,20 @@
     <ClCompile Include="..\Private\HellBoss_SkillBase.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\HellBoss_Skill_Warp.cpp">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp</Filter>
-     </ClCompile>
+    <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\UI_Hit_Blood.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Spike.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_Skill_Landing.cpp">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_Landing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_DarkBullet.cpp">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

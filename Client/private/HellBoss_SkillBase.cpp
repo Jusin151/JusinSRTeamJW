@@ -34,7 +34,7 @@ void CHellBoss_SkillBase::Process_Input()
 
 void CHellBoss_SkillBase::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
