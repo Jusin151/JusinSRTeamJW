@@ -64,7 +64,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124,0.04f);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.1f);  // 한팔 Walk상태
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태
 
 
@@ -72,7 +72,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 
 	m_AnimationManager.AddAnimation("G_Phase3_Idle", 203, 203);
-	m_AnimationManager.AddAnimation("H_Phase3_Walk", 204, 212,0.4f);
+	m_AnimationManager.AddAnimation("H_Phase3_Walk", 204, 212, 0.04f);
 	m_AnimationManager.AddAnimation("J_Phase3_TripleEye", 213, 223,0.07f);  // 삼눈깔빔
 	m_AnimationManager.AddAnimation("K_Phase3_Nova", 224, 234);
 	m_AnimationManager.AddAnimation("L_Phase3_Spawn", 235, 246);
@@ -166,6 +166,31 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 	m_bIsActive = true;
 }
 
+void CHellBoss::Process_Input()
+{
+	//if (GetAsyncKeyState('0') & 0x8000)		
+	//	m_AnimationManager.SetCurrentAnimation("Start");
+
+	if (GetAsyncKeyState('Z') & 0x8000)
+	{
+		m_bPressed = false;
+
+		if (!m_bPressed)
+		{
+			m_bPressed = true;
+			m_bDarkHole_EffectActive = !m_bDarkHole_EffectActive;
+
+			if (m_bDarkHole_EffectActive)
+			{
+				Generate_Warp_Positions();
+				m_fDarkHole_SpawnTimer = 0.f;
+			}
+		}
+	}
+	else
+		m_bPressed = false;
+
+}
 void CHellBoss::Update(_float fTimeDelta)
 {
 	if (!m_pTarget)
@@ -174,6 +199,91 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_pCurState->Update(this, fTimeDelta);
 
 	Process_Input();
+
+	if (m_bDarkHole_EffectActive)
+		Spawn_Warp_Effect(fTimeDelta);
+
+	if (GetAsyncKeyState('C') & 0x8000 && !m_bJumping && !m_bFalling)
+	{
+		m_bJumping = true;
+		m_fJumpTime = 0.f;
+		m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vPos = m_vJumpStartPos;
+		vPos.y += 80.f; 
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+		BossDESC desc{};
+		desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+		desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		desc.vPos = m_vJumpStartPos;
+		desc.strState = "Up";
+
+		m_pGameInstance->Add_GameObject(LEVEL_HONG,
+			TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+			LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+		if (m_pTarget)
+		{
+			_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+			_float3 vCurrentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			_float angleRad = ((rand() % 360)) * D3DX_PI / 180.f;
+
+			_float distance = 40.f; 
+
+			_float3 vOffset;
+			vOffset.x = cosf(angleRad) * distance;
+			vOffset.z = sinf(angleRad) * distance;
+			vOffset.y = 0.f;
+
+			_float3 vTargetPos = vPlayerPos + vOffset;
+			m_vTargetDir = (vTargetPos - vCurrentPos);
+			m_vTargetDir.Normalize();
+			m_bFalling = true;
+			m_bJumping = false;
+		}
+
+
+
+	}
+
+	if (m_bFalling)
+	{
+		_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelta;
+		vCurPos.y -= m_fFallSpeed * fTimeDelta;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
+		if (vCurPos.y <= m_fOffset + 0.5f)
+		{
+			m_bFalling = false;
+			_float3 landedPos = vCurPos;
+			landedPos.y = m_fOffset;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, landedPos);
+
+			// Down 애니메이션 생성
+			BossDESC desc{};
+			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			desc.vPos = landedPos;
+			desc.strState = "Down";
+
+			m_pGameInstance->Add_GameObject(LEVEL_HONG,
+				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+		}
+	}
+
+
+
+
+
+
+
 
 	m_AnimationManager.Update(fTimeDelta);
 
@@ -218,6 +328,7 @@ void CHellBoss::Update(_float fTimeDelta)
 	}
 
 
+
 	int a{};
 	switch (m_ePhase) // 피 깎이는 로직의 대해서만 여기서 패턴상태로 관리
 	{
@@ -225,7 +336,6 @@ void CHellBoss::Update(_float fTimeDelta)
 		a = 5;
 		break;
 	case PHASE2:
-			Set_AttackPattern(new CPattern_Warp);
 		break;
 	case PHASE3:
 		a = 5;
@@ -311,6 +421,144 @@ void CHellBoss::Power_Blast_Patter()
 		}
 	}
 }
+void CHellBoss::Generate_Warp_Positions()
+{
+	m_vecWarpGrid.clear();
+
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	_float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+
+	vLook.Normalize();
+	vRight.Normalize();
+	vUp.Normalize();
+
+    // 멤버변수로 빼도 되기는 하는데 , 여기서 설정하는게 더 편하지 않을까??
+	_float distanceFromBoss = 10.f;
+	_float width = 20.f;
+	_float height = 10.f;
+	_int cols = 5;
+	_int rows = 3;
+
+	_float3 planeCenter = vPos + vLook * distanceFromBoss;
+
+	for (int row = 0; row < rows; ++row)
+	{
+		for (int col = 0; col < cols; ++col)
+		{
+			if (row == rows / 2 && col == cols / 2)
+				continue; // 중앙 칸 제외
+
+			_float xOffset = (col - (cols - 1) / 2.0f) * (width / cols);
+			_float yOffset = (row - (rows - 1) / 2.0f) * (height / rows);
+
+			_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
+			m_vecWarpGrid.push_back(finalPos);
+		}
+	}
+
+	random_shuffle(m_vecWarpGrid.begin(), m_vecWarpGrid.end()); // 랜덤화
+}
+void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
+{
+	m_fDarkHole_SpawnTimer += fDeltaTime;
+
+	if (m_fDarkHole_SpawnTimer >= 1.f)
+	{
+		m_fDarkHole_SpawnTimer = 0.f;
+
+		//  매번 방향 새로 가져오기
+		_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		_float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+
+		vLook.Normalize();
+		vRight.Normalize();
+		vUp.Normalize();
+
+		_float distanceFromBoss = 10.f;
+		_float width = 20.f;
+		_float height = 10.f;
+		_int cols = 5;
+		_int rows = 3;
+
+		_float3 planeCenter = vPos + vLook * distanceFromBoss;
+
+		//  제외하고 랜덤 위치 생성
+		std::vector<_float3> newGrid;
+
+		for (int row = 0; row < rows; ++row)
+		{
+			for (int col = 0; col < cols; ++col)
+			{
+				if (row == rows / 2 && col == cols / 2)
+					continue;
+
+				_float xOffset = (col - (cols - 1) / 2.0f) * (width / cols);
+				_float yOffset = (row - (rows - 1) / 2.0f) * (height / rows);
+
+				_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
+				newGrid.push_back(finalPos);
+			}
+		}
+
+		random_shuffle(newGrid.begin(), newGrid.end());
+
+		// 하나 꺼내서  이펙트 생성
+		if (!newGrid.empty())
+		{
+			_float3 warpPos = newGrid.back();
+
+			BossDESC desc{};
+			desc.vRight = vRight;
+			desc.vUp = vUp;
+			desc.vLook = vLook;
+			desc.vPos = warpPos;
+
+			m_pGameInstance->Add_GameObject(LEVEL_HONG,
+				TEXT("Prototype_GameObject_HellBoss_Skill_DarkHole"),
+				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_DarkHole"), &desc);
+		}
+	}
+}
+
+
+
+_float3 CHellBoss::Get_RandomWarpPos_InFront()
+{
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	_float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+
+	vLook.Normalize();
+	vRight.Normalize();
+	vUp.Normalize();
+
+	_float distanceFromBoss = 10.f;
+	_float width = 20.f;    // X축 방향 총 길이
+	_float height = 10.f;   // Y축 방향 총 길이
+	_int cols = 5;
+	_int rows = 3;
+
+	// 앞 평면의 중심
+	_float3 planeCenter = vPos + vLook * distanceFromBoss;
+
+	// 랜덤 그리드 인덱스 선택
+	_int colIndex = rand() % cols;
+	_int rowIndex = rand() % rows;
+
+	// 좌상단 기준 offset 계산
+	_float xOffset = (colIndex - (cols - 1) / 2.0f) * (width / cols);
+	_float yOffset = (rowIndex - (rows - 1) / 2.0f) * (height / rows);
+
+	// 최종 위치 계산
+	_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
+
+	return finalPos;
+}
 void CHellBoss::Set_AttackPattern(CPattern_Base* pPattern)
 {
 	if (m_pCurAttackPattern)
@@ -334,9 +582,17 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 			return;
 
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	fPos.y = m_fOffset; // 고정하고 싶은 높이
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+	if (!m_bJumping && !m_bFalling)
+	{
+		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		fPos.y = m_fOffset;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+	}
+
+
+	if (m_fParryTextTimer > 0.f)
+		m_fParryTextTimer -= fTimeDelta;
+
 
 }
 void CHellBoss::Use_Attack(_float fDeltaTime)
@@ -356,7 +612,6 @@ void CHellBoss::Use_Attack(_float fDeltaTime)
 		}
 	}
 }
-
 
 
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
@@ -385,49 +640,6 @@ void CHellBoss::Change_State(CHellBoss_State* pNewState)
 		m_pCurState->Enter(this);
 }
 
-
-
-
-void CHellBoss::Process_Input()
-{
-	if (GetAsyncKeyState('0') & 0x8000) m_AnimationManager.SetCurrentAnimation("Start");
-
-	if (GetAsyncKeyState('Z') & 0x8000)
-	{
-		m_BossInfo.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-		m_BossInfo.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP); 
-		m_BossInfo.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK); 
-		m_BossInfo.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION); 
-
-		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill_Warp"),
-			LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Warp"),&m_BossInfo)))
-		{
-			MSG_BOX("워프이미지 생성 실패");
-		}
-	}
-	/*else if (GetAsyncKeyState('2') & 0x8000) m_AnimationManager.SetCurrentAnimation("2_Walk");
-	else if (GetAsyncKeyState('3') & 0x8000) m_AnimationManager.SetCurrentAnimation("3_EyeBlast");
-	else if (GetAsyncKeyState('4') & 0x8000) m_AnimationManager.SetCurrentAnimation("4_Shoot");
-	else if (GetAsyncKeyState('5') & 0x8000) m_AnimationManager.SetCurrentAnimation("5_Morph");
-	else if (GetAsyncKeyState('6') & 0x8000) m_AnimationManager.SetCurrentAnimation("6_Phase2_Idle");
-	else if (GetAsyncKeyState('7') & 0x8000) m_AnimationManager.SetCurrentAnimation("7_Phase2_Walk");
-	else if (GetAsyncKeyState('8') & 0x8000) m_AnimationManager.SetCurrentAnimation("8_Phase2_Charge");
-	else if (GetAsyncKeyState('9') & 0x8000) m_AnimationManager.SetCurrentAnimation("9_Phase2_Spin");
-	else if (GetAsyncKeyState('0') & 0x8000) m_AnimationManager.SetCurrentAnimation("0_Phase2_Shoot");
-	else if (GetAsyncKeyState('T') & 0x8000) m_AnimationManager.SetCurrentAnimation("T_Phase2_End");
-	else if (GetAsyncKeyState('Y') & 0x8000) m_AnimationManager.SetCurrentAnimation("Y_ArmCut");
-	else if (GetAsyncKeyState('U') & 0x8000) m_AnimationManager.SetCurrentAnimation("U_ArmCut_Idle");
-	else if (GetAsyncKeyState('I') & 0x8000) m_AnimationManager.SetCurrentAnimation("I_ArmCut_Walk");
-	else if (GetAsyncKeyState('O') & 0x8000) m_AnimationManager.SetCurrentAnimation("O_ArmCut_Attack");
-	else if (GetAsyncKeyState('P') & 0x8000) m_AnimationManager.SetCurrentAnimation("P_ArmCut_End");
-	else if (GetAsyncKeyState('G') & 0x8000) m_AnimationManager.SetCurrentAnimation("G_Phase3_Idle");
-	else if (GetAsyncKeyState('H') & 0x8000) m_AnimationManager.SetCurrentAnimation("H_Phase3_Walk");
-	else if (GetAsyncKeyState('J') & 0x8000) m_AnimationManager.SetCurrentAnimation("J_Phase3_TripleEye");
-	else if (GetAsyncKeyState('K') & 0x8000) m_AnimationManager.SetCurrentAnimation("K_Phase3_Nova");
-	else if (GetAsyncKeyState('B') & 0x8000) m_AnimationManager.SetCurrentAnimation("B_Phase3_End");
-	else if (GetAsyncKeyState('L') & 0x8000) m_AnimationManager.SetCurrentAnimation("N_Phase4_Idle");
-	else if (GetAsyncKeyState('M') & 0x8000) m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");*/
-}
 HRESULT CHellBoss::Render()
 {
 	_int iCurFrame = m_AnimationManager.GetCurrentFrame();
@@ -450,6 +662,32 @@ HRESULT CHellBoss::Render()
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 체력 :") + to_wstring(m_iHp),
 		_float2(-100.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+	_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+	_float2(-100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+	_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+if (m_fParryTextTimer > 0.f)
+{
+	if (m_bParrySuccess)
+	{
+		m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("패링 성공"),
+			_float2(-100.f, -100.f), _float2(8.f, 0.f), _float3(0.f, 1.f, 0.f));
+	}
+	else
+	{
+		m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("패링 실패"),
+			_float2(-100.f, -100.f), _float2(8.f, 0.f), _float3(1.f, 0.f, 0.f));
+	}
+}
+
+
+
 
 	return S_OK;
 }

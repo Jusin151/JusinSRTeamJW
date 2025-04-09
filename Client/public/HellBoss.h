@@ -15,6 +15,7 @@ typedef struct BossINFO
 	_float3 vUp{};
 	_float3 vLook{};
 	_float3 vPos{};
+	 string strState{};
 
 }BossDESC;
 
@@ -54,14 +55,37 @@ public:
 	bool HasTarget() const { return m_pTarget != nullptr; }
 	void Change_State(CHellBoss_State* pNewState);
 public: // 패턴관련
-	void Set_AttackPattern(CPattern_Base* pPattern);
-	void Use_Attack(_float fDeltaTime);
-	void Power_Blast_Patter();
-	void Launch_PowerBlast_Bullets();
+	void Set_AttackPattern(CPattern_Base* pPattern); // 공격패턴 설정
+	void Use_Attack(_float fDeltaTime); // 패턴 사용
+public:
+	void Power_Blast_Patter(); // 주변 회전하는 구들
+	void Launch_PowerBlast_Bullets(); // 10개 쌓이면 발사
 	virtual void Select_Pattern(_float fTimeDelta) override;
 	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
 private:
 	CPattern_Base* m_pCurAttackPattern = { nullptr };
+private: // 2페이즈 관련 , 양손 멀쩡
+	void Generate_Warp_Positions(); // 보스 뒤에 평면으로 정렬하는거
+	void Spawn_Warp_Effect(_float fDeltaTime); //  정렬한 평면으로 보스 롸업룩 넣는거
+	_float3 Get_RandomWarpPos_InFront(); // 하나씩 발사하는거
+	_bool m_bDarkHole_EffectActive = { false };  // 2페이즈  생성 ON/OFF 상태
+	_float m_fDarkHole_SpawnTimer = 0.f; ; // 2페이즈 
+	vector<_float3> m_vecWarpGrid{}; // 2페이즈 보스 쉐도우의 위치 목록
+	_bool m_bPressed = { false }; ; // 2페이즈 
+	_bool m_bZKeyPressed = { false }; ; // 2페이즈 
+private:
+	_bool m_bJumping = false;
+	_float m_fJumpTime = 0.f;
+	_float3 m_vJumpStartPos = {};
+	_float3 m_vJumpTargetPos = {};
+	_bool m_bParryWindow = false; 
+	_bool m_bParrySuccess = false;
+	_float m_fParryTextTimer = 0.f;
+	_bool m_bFalling = false;
+	_float3 m_vLandingTargetPos = {};
+	_float m_fFallSpeed = { 100.f };
+	_float3 m_vTargetDir = {};
+
 
 public://애니메이션관련
 	void Set_Animation(const string& strAnimKey) { m_AnimationManager.SetCurrentAnimation(strAnimKey); }
@@ -96,6 +120,8 @@ public:
 	_float m_fOffset = {}; // 지면고정
 
 	BossDESC m_BossInfo{};
+
+
 };
 
 //

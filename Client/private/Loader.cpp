@@ -17,9 +17,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
-#include "HellBoss.h"
-#include "HellBoss_Bullet.h"
-#include "HellBoss_Skill_Warp.h"
+#include "HellBoss_Headers.h" // 헬보스 관련 생성에 필요한 헤더 
 
 
 
@@ -366,17 +364,37 @@ HRESULT CLoader::Loading_For_Hong()
 		return E_FAIL;
 	CompleteOneTask();
 
-	//헬보스 워프
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill_Warp"),
-		CHellBoss_Skill_Warp::Create(m_pGraphic_Device))))
+	//헬보스 스킬 다크홀
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill_DarkHole"),
+		CHellBoss_Skill_DarkHole::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	CompleteOneTask();
 
-	//헬보스 텍스쳐
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Skill_Warp"),
+	//헬보스 스킬 다크홀 텍스쳐
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Skill_DarkHole"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Skill/Warp/Warp%d.png"), 16))))
 		return E_FAIL;
 	CompleteOneTask();
+
+	//헬보스 스킬 다크홀의 총알
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_DarkBullet"),
+		CHellBoss_DarkBullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	CompleteOneTask();
+
+
+	//헬보스 스킬 랜딩
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+		CHellBoss_Skill_Landing::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	CompleteOneTask();
+
+	//헬보스 스킬 랜딩 텍스쳐
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Skill_Landing"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Skill/Landing/Landing%d.png"),19))))
+		return E_FAIL;
+	CompleteOneTask();
+
 
 	//헬보스 총알객체 생성!!
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
@@ -408,6 +426,18 @@ HRESULT CLoader::Loading_For_Hong()
 		return E_FAIL;
 	CompleteOneTask();
 
+
+	////패링용 왼손 생성
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_B"),
+	//	CHellBoss_Bullet::Create(m_pGraphic_Device))))
+	//	return E_FAIL;
+	//CompleteOneTask();
+
+	////패링용 왼손 텍스쳐
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Bullet"),
+	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Weapon/Staff/Bullet/wand_projectile_%d.png"), 7))))
+	//	return E_FAIL;
+	//CompleteOneTask();
 
 
 	jsonLoader.Load_Prototypes(

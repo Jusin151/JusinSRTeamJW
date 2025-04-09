@@ -2,12 +2,12 @@
 
 #include "HellBoss_SkillBase.h"
 
-class CHellBoss_Skill_Warp : public CHellBoss_SkillBase
+class CHellBoss_Skill_DarkHole : public CHellBoss_SkillBase
 {
 private:
-	CHellBoss_Skill_Warp(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CHellBoss_Skill_Warp(const CHellBoss_Skill_Warp& Prototype);
-	virtual ~CHellBoss_Skill_Warp() = default;
+	CHellBoss_Skill_DarkHole(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CHellBoss_Skill_DarkHole(const CHellBoss_Skill_DarkHole& Prototype);
+	virtual ~CHellBoss_Skill_DarkHole() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()override;
@@ -22,7 +22,7 @@ private:
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
 public:
-	static CHellBoss_Skill_Warp* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CHellBoss_Skill_DarkHole* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
