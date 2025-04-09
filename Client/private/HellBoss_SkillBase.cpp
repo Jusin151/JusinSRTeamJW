@@ -1,4 +1,4 @@
-#include "HellBoss_SkillBase.h"
+﻿#include "HellBoss_SkillBase.h"
 
 CHellBoss_SkillBase::CHellBoss_SkillBase(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CEffect_Base{pGraphic_Device}
