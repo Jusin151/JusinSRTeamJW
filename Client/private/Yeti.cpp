@@ -83,14 +83,22 @@ void CYeti::Update(_float fTimeDelta)
 
 void CYeti::Late_Update(_float fTimeDelta)
 {
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-        return;
+   
 
     if (nullptr == m_pTarget)
+        return;
+
+    if (!m_bCheck)
+        return;
+
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
     Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+    m_vObjectMtvSum = { 0.f, 0.f, 0.f };
+    m_vWallMtvs.clear();
 
     Select_Frame(fTimeDelta);
 
@@ -164,7 +172,7 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
    
         if (m_eCurState != MS_ATTACK)
         {
-            Take_Damage(other);
+         
            
         }
         else
@@ -175,7 +183,7 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
             
         }
         break;
-
+     
     case CG_WEAPON:
 
         m_eCurState = MS_HIT;
@@ -247,7 +255,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
      
         break;
     case MS_WALK:
-        Chasing(fTimeDelta);
+        Chasing(fTimeDelta, m_pColliderCom->Get_Scale().Length());
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록

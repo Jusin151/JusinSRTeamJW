@@ -123,13 +123,21 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	Attack(fTimeDelta);//좌클
 
+
+
 	Calc_Position();
-	
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
-	
+	if (m_vObjectMtvSum.LengthSq() > 1e-8f && m_vWallMtvs.empty())
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+	}
+	else
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+	}
 
-
+	m_vWallMtvs.clear();
+	m_vObjectMtvSum = { 0.f, 0.f,0.f };
 }
 
 

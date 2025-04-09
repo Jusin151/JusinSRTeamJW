@@ -127,10 +127,10 @@ void CMonster_Base::Look_Player()
 	m_pTransformCom->LookAt(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
 }
 
-void CMonster_Base::Chasing(_float fTimeDelta)
+void CMonster_Base::Chasing(_float fTimeDelta, _float fDist)
 {
 
-	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * m_fSpeed);
+	m_pTransformCom->Chase(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION), fTimeDelta * m_fSpeed, fDist);
 
 	m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 

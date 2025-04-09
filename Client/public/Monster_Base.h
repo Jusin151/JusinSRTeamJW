@@ -44,7 +44,7 @@ public:
 public:
 	virtual void Select_Pattern(_float fTimeDelta) PURE;
 	void Look_Player();
-	void Chasing(_float fTimeDelta);
+	void Chasing(_float fTimeDelta, _float fDist);
 
 	void Set_Trigger();
 

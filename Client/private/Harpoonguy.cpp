@@ -82,21 +82,28 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
-	{
-		if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-			return;
-	}
+
+
 
 	if (m_pTarget == nullptr)
 		return;
 
 	if (!m_bCheck)
 		return;
+
+	if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
+	{
+		if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+			return;
+	}
+	
 	  
 	Calc_Position();
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+
+	m_vObjectMtvSum = { 0.f, 0.f, 0.f };
+	m_vWallMtvs.clear();
 
 	_float3 vScale = m_pTransformCom->Compute_Scaled();
 	_float3 extents = _float3(
@@ -175,7 +182,6 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 	{
 	case CG_PLAYER:
 
-		
 		Take_Damage(other);
 		break;
 
@@ -227,7 +233,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		}
 		break;
 	case MS_WALK:
-		Chasing(fTimeDelta);
+		Chasing(fTimeDelta, 90.f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)
