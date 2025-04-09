@@ -137,7 +137,7 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 		__super::Picking_Object(1, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo--; 
 		Notify_Bullet();
-		m_pSoundCom->Play_Event(L"event:/magnum_shot")->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Weapons/magnum_shot")->SetVolume(0.5f);
 		//m_pGameInstance->Play_Event(L"event:/magnum_shot")->SetVolume(0.5f);
 	}
 }
