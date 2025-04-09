@@ -46,12 +46,15 @@ private:
 	STATE Get_State() { return m_eState; }
 
 	void Create_BehaviorTree();
-    NodeStatus Attack();
-    NodeStatus UpdateAttack();
-    NodeStatus MultiMissileAttack();
-	NodeStatus Update_Appear();
-    NodeStatus Deploy_Tentacles();
-    NodeStatus Deploy_BigTentacles();
+	NodeStatus Update_Appear(); // 처음 등장
+    NodeStatus Attack(); // 공격 트리거
+    NodeStatus UpdateAttack(); // 공격 진행
+    NodeStatus MultiMissileAttack(); // 두번째 패턴
+
+    NodeStatus Deploy_Tentacles(); // 공격용 촉수 설치
+    NodeStatus Deploy_BigTentacles(); // 데코
+
+    NodeStatus Attack_Spike(); // 스파이크 공격
 
   
     _bool IsPlayerVisible();
@@ -100,6 +103,16 @@ private:
     _bool  m_bIsBigTentacleInstalled{ false };
     _float m_fBigTentacleTimer{ 5.f };
 	vector<class CCthulhu_Big_Tentacle*> m_vecBigTentacles;
+
+
+    // 스파이크
+    _float m_fSpikeCoolTime{ 0.f };
+    _float m_fSpikeCoolDown{ 2.f };
+    _float m_fSpikeTimer{ 0.f };
+    _float m_fPhaseThreshold2{ 0.f };
+    _bool  m_bSpikeAppeared{ false };
+    list<class CSpike*> m_listSpikes;
+
 public:
     static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);

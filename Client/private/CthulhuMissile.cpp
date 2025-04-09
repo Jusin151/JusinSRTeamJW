@@ -82,12 +82,20 @@ HRESULT CCthulhuMissile::Render()
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-
+	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 60.f);
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
 	SetUp_RenderState();
-
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+	m_pShaderCom->End();
 	Release_RenderState();
 
 	return S_OK;
@@ -126,6 +134,10 @@ void CCthulhuMissile::Reset()
 
 HRESULT CCthulhuMissile::SetUp_RenderState()
 {
+	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
+	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
@@ -154,6 +166,17 @@ HRESULT CCthulhuMissile::Ready_Components()
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
+		return E_FAIL;
+
+
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 	return S_OK;
 }
@@ -218,6 +241,9 @@ void CCthulhuMissile::Free()
 	{
 
 	}
+
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pMaterialCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTarget);

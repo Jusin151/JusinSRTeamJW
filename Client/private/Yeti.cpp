@@ -83,16 +83,19 @@ void CYeti::Update(_float fTimeDelta)
 
 void CYeti::Late_Update(_float fTimeDelta)
 {
-   
-
     if (nullptr == m_pTarget)
         return;
 
     if (!m_bCheck)
         return;
 
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-        return;
+    if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+    {
+        if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+            return;
+    }
+
+
     Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
