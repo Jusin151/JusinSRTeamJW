@@ -91,6 +91,11 @@ HRESULT CCthulhu::Initialize_Prototype()
 	}
 
 
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Spike"), TEXT("Layer_Cthulhu_Spike"), 15)))
+	{
+		return E_FAIL;
+	}
+
 
 	m_iCountTentacle = (_int)m_listTentacles.size();
 	return S_OK;
@@ -110,7 +115,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 
 	m_iHp = 1000;
 	m_fPhaseThreshold = { m_iHp * 0.6f };
-	m_fPhaseThreshold2 = { m_iHp *1.f };
+	m_fPhaseThreshold2 = { m_iHp * 1.f };
 
 	m_pBehaviorTree->Initialize();
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
@@ -511,8 +516,9 @@ NodeStatus CCthulhu::Attack_Spike()
 			}
 			if (bAllFinished)
 			{
-				m_bSpikeAppeared = false;   // 촉수 활성화 플래그 해제
+				m_bSpikeAppeared = false;
 				m_fSpikeTimer = 0.f;             // 활성화 타이머 초기화
+				m_listSpikes.clear();
 				return NodeStatus::SUCCESS;         // 사라짐 처리 완료
 			}
 			else
@@ -528,54 +534,52 @@ NodeStatus CCthulhu::Attack_Spike()
 		return NodeStatus::FAIL;
 	}
 
-	m_fSpikeCoolTime = 0.f;       // 쿨다운 초기화
-	m_bSpikeAppeared = true;   // 촉수 활성화
+	m_fSpikeCoolTime = 0.f;
+	m_bSpikeAppeared = true;
 	m_fSpikeTimer = 0.f;
 	m_eState = STATE::IDLE;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Spike"), LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike"))))
-	{
-		return NodeStatus::FAIL;
-	}
+	static _bool bFirstTime = true;
+	static _float3 vScale;
+	static const _float spacingOffset = 4.f;
 
-	CSpike* pSpike = static_cast<CSpike*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike")));
-	if (pSpike)
-	{
-		_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-		if (CTransform* pTransform = static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform"))))
+	if (CTransform* pTransform = static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform"))))
+	{
+		_float3 vTargetPos = pTransform->Get_State(CTransform::STATE_POSITION);
+		_float fDistance = _float3::Distance(vTargetPos, basePos);
+		_float3 vDir = vTargetPos - basePos;
+		vDir.Normalize();
+
+		// 첫 호출 시 한번만 스파이크 스케일을 계산
+		if (bFirstTime)
 		{
-			_float3 vTargetPos = pTransform->Get_State(CTransform::STATE_POSITION);
-			_float fDistance = _float3::Distance(vTargetPos, basePos); // 플레이어와의 거리
-			CTransform* pSpikeTransform = static_cast<CTransform*>(pSpike->Get_Component(TEXT("Com_Transform")));
-			_float3 vScale = pSpikeTransform->Compute_Scaled(); // 스케일 
-			_float3 vDir = _float3{ (vTargetPos - basePos) };
-			vDir.Normalize();
-			_uint iSpikeCount = max(1u, static_cast<_uint>(fDistance / (vScale.z+0.3f)));
-			_float3 initPos = basePos + vDir * (vScale.z + 0.3f);
-			pSpike->Set_Position(initPos);
-			m_listSpikes.push_back(pSpike);
-			_float3 vPrevPos = initPos;
-			for (_uint i = 1; i < iSpikeCount; i++)
+			CSpike* pSpike = static_cast<CSpike*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_BOSS, LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike")));
+			if (CTransform* pSpikeTransform = static_cast<CTransform*>(pSpike->Get_Component(TEXT("Com_Transform"))))
 			{
-				if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Spike"), LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike"))))
-				{
-					return NodeStatus::FAIL;
-				}
-				// 새로 생성된 스파이크를 가져옴
-				CSpike* newSpike = static_cast<CSpike*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike")));
-				if (newSpike)
-				{
-					// 간격: (i * vScale.z + 추가 오프셋 0.3f)
-					_float3 newPos = vPrevPos + vDir * (i * vScale.z + 0.3f);
-					newSpike->Set_Position(newPos);
-					m_listSpikes.push_back(newSpike);
-					vPrevPos = newPos;
-				}
+				vScale = pSpikeTransform->Compute_Scaled();
+			}
+			bFirstTime = false;
+		}
+		_uint iSpikeCount = max(1u, static_cast<_uint>(ceil(fDistance / (vScale.z + spacingOffset)))) + 1;
+
+		for (_uint i = 0; i < iSpikeCount; i++)
+		{
+			if (CSpike* pNewSpike = static_cast<CSpike*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_BOSS, LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike"))))
+			{
+				_float3 newPos = basePos + vDir * ((vScale.z + spacingOffset) * i);
+				if (i == 0) newPos.z += 0.01f;
+				pNewSpike->SetActive(true);
+				pNewSpike->Set_Position(newPos);
+				m_listSpikes.push_back(pNewSpike);
+			}
+			else
+			{
+				return NodeStatus::FAIL;
 			}
 		}
 	}
-
 	return NodeStatus::RUNNING;
 }
 
@@ -601,7 +605,7 @@ void CCthulhu::Create_BehaviorTree()
 	pAttackParallel->AddChild(pDeploy);
 	pAttackParallel->AddChild(pBigDeploy);
 	pAttackParallel->AddChild(pAttackSeq);
-	
+
 
 	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {
 		return this->Update_Appear();

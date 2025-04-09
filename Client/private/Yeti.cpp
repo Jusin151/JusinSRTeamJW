@@ -119,8 +119,6 @@ HRESULT CYeti::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
-    
-
     SetUp_RenderState();
     if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
         return E_FAIL;

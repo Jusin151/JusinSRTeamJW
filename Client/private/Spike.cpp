@@ -9,6 +9,7 @@ CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
 CSpike::CSpike(const CSpike& Prototype)
 	:CMonster_Base(Prototype)
 {
+	m_pTransformCom = nullptr;
 }
 
 HRESULT CSpike::Initialize_Prototype()
@@ -22,7 +23,7 @@ HRESULT CSpike::Initialize(void* pArg)
 		return E_FAIL;
 	m_iHp = 100;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
-	m_pTransformCom->Set_Scale(5.f, 5.f, 2.f);
+	m_pTransformCom->Set_Scale(5.f, 5.f, 1.f);
 	m_fFrame = 0.f;
 	Init_Textures();
 	return S_OK;
@@ -53,13 +54,18 @@ void CSpike::Update(_float fTimeDelta)
 
 void CSpike::Late_Update(_float fTimeDelta)
 {
+	if (m_bAnimFinished)
+	{
+		SetActive(false);
+	}
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	fPos.y = m_fOffset;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
-	{
-		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-	}
+	//if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+	//{
+	//	
+	//}
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CSpike::Render()
@@ -72,12 +78,21 @@ HRESULT CSpike::Render()
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-
+	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 0.f, 15.f);
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Lights()))
+		return E_FAIL;
 	SetUp_RenderState();
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+		return E_FAIL;
+	m_pShaderCom->Begin(0);
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+	m_pShaderCom->End();
 	Release_RenderState();
 
 	return S_OK;
@@ -129,15 +144,20 @@ void CSpike::Select_Pattern(_float fTimeDelta)
 
 void CSpike::Set_Position(const _float3& vPos)
 {
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 }
 
 _bool CSpike::IsAnimationFinished() const
 {
-	return _bool();
+	return m_bAnimFinished;
 }
 
 HRESULT CSpike::SetUp_RenderState()
 {
+	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
+	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
@@ -176,6 +196,16 @@ HRESULT CSpike::Ready_Components()
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
 
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -201,7 +231,6 @@ void CSpike::Update_Animation(_float fTimeDelta)
 
 	if (m_fFrame >= numFrames)
 	{
-		m_bAnimFinished = true;
 		if (m_eState == SPIKE_STATE::ATTACK)
 		{
 			// APPEAR 애니메이션이 끝나면 공격 상태로 전환
@@ -211,10 +240,10 @@ void CSpike::Update_Animation(_float fTimeDelta)
 		}
 		else if (m_eState == SPIKE_STATE::DISAPPEAR)
 		{
-			m_eState = SPIKE_STATE::ATTACK;
+			m_bAnimFinished = true;
 			m_fFrame = 0.f;
 			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
-		//	SetActive(false);
+			
 		}
 	}
 	else
