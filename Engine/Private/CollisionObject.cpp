@@ -1,5 +1,4 @@
 ﻿#include "CollisionObject.h"
-
 CCollisionObject::CCollisionObject(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -69,11 +68,17 @@ void CCollisionObject::Take_Damage(CCollisionObject* other) //other
 	if (other == nullptr)
 		return;
 
+	if (other->Get_Type() == CG_PLAYER)
+	{
+		other->Take_Damage(Get_Damage());
+		return;
+	}
 	if (Get_Damage() >= 0)
 		other->Set_Hp(other->Get_Hp() - Get_Damage());
 
 
 }
+
 
 void CCollisionObject::Free()
 {

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Effect_Base.h"
-BEGIN(Client)
+BEGIN(Client) 
 class CBlood_Effect final : public CEffect_Base
 {
 public:

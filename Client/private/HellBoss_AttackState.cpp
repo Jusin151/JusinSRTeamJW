@@ -3,6 +3,7 @@
 #include "HellBoss_IdleState.h"
 #include "HellBoss_Bullet.h"
 #include "Pattern_Shoot.h"
+#include "Pattern_Warp.h"
 #include "HellBoss_WalkState.h"
 #include "GameInstance.h" 
 

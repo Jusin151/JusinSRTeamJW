@@ -2,8 +2,9 @@
 #include "HellBoss.h"
 #include "Pattern_EyeBlast.h"
 #include "Pattern_Shoot.h"
+#include "Pattern_Warp.h"
 #include "HellBoss_AttackState.h"
-#include "HellBoss_WalkState.h" // 추가 필요
+#include "HellBoss_WalkState.h" 
 
 void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
 {
@@ -43,10 +44,10 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 			// 페이즈2는 Shoot만 가능하니까
 			pBoss->Set_AttackPattern(new CPattern_Shoot());
 		}
-		else
+		else if (pBoss->Get_Phase() == PHASE3)
 		{
-			// 이후 페이즈에서 다른 패턴 추가 시 여기에
 		}
+	
 
 		pBoss->Change_State(new CHellBoss_AttackState());
 		return;

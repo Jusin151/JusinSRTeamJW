@@ -406,18 +406,6 @@
     <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern">
       <UniqueIdentifier>{ab147b91-e122-456a-b4a9-dade0fb61eea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack">
-      <UniqueIdentifier>{cd0f6199-48e1-45f8-808f-5f1372658788}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_EyeBlast">
-      <UniqueIdentifier>{c54c96a8-f22e-4c9c-93bd-5f1e01437e64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_Shoot">
-      <UniqueIdentifier>{de047c50-c0fa-49b1-ace0-d5e74c3cf60c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph">
-      <UniqueIdentifier>{ff0a5622-470a-4d92-ba5c-8ee17d1eaa65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\03.HellBoss_Bullet">
       <UniqueIdentifier>{87f6994b-a83a-4922-932c-d9c5dbaf87c5}</UniqueIdentifier>
     </Filter>
@@ -429,6 +417,36 @@
     </Filter>
     <Filter Include="02.GameObjects\97. UI\04. Cursor">
       <UniqueIdentifier>{d88d4f68-09f0-45c5-87c7-4c0300b651ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern">
+      <UniqueIdentifier>{cd0f6199-48e1-45f8-808f-5f1372658788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Pattern_Warp">
+      <UniqueIdentifier>{7550df4c-60a4-4e10-8c8f-8d0944b1b61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02">
+      <UniqueIdentifier>{bf12c702-e2f5-4d2a-9bdf-b0d48353f0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_01">
+      <UniqueIdentifier>{d3541fea-9fe9-43a7-ae4d-48b16d761ace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_01\Pattern_EyeBlast">
+      <UniqueIdentifier>{c54c96a8-f22e-4c9c-93bd-5f1e01437e64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All">
+      <UniqueIdentifier>{48d61c90-49ae-4bea-b347-5b8d0566f4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Morph">
+      <UniqueIdentifier>{ff0a5622-470a-4d92-ba5c-8ee17d1eaa65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Shoot">
+      <UniqueIdentifier>{de047c50-c0fa-49b1-ace0-d5e74c3cf60c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill">
+      <UniqueIdentifier>{545ec58e-31dc-438b-8973-82a0160eafef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp">
+      <UniqueIdentifier>{e6f2760e-4d45-4a75-9d4b-def2a80bae6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Prefabs\Hub_Light">
       <UniqueIdentifier>{78d09b1c-0e6d-4365-b4e5-6aa88ced3b5f}</UniqueIdentifier>
@@ -810,17 +828,17 @@
     <ClInclude Include="..\public\HellBoss_DeadState.h">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04. DeadState</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Pattern_Attack_Base.h">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack</Filter>
+    <ClInclude Include="..\public\Pattern_Base.h">
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pattern_EyeBlast.h">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_EyeBlast</Filter>
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_01\Pattern_EyeBlast</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pattern_Morph.h">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph</Filter>
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Morph</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pattern_Shoot.h">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_Shoot</Filter>
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Shoot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_Bullet.h">
       <Filter>02.GameObjects\DW_Boss\03.HellBoss_Bullet</Filter>
@@ -851,6 +869,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Cursor.h">
       <Filter>02.GameObjects\97. UI\04. Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Pattern_Warp.h">
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HellBoss_SkillBase.h">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss_Skill_Warp.h">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Hit_Blood.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
@@ -1194,13 +1221,13 @@
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04. DeadState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Pattern_Shoot.cpp">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_Shoot</Filter>
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Shoot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Pattern_EyeBlast.cpp">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Pattern_EyeBlast</Filter>
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_01\Pattern_EyeBlast</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Pattern_Morph.cpp">
-      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Attack\Patter_Morph</Filter>
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Morph</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_State.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State</Filter>
@@ -1232,6 +1259,15 @@
     <ClCompile Include="..\private\Cursor.cpp">
       <Filter>02.GameObjects\97. UI\04. Cursor</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Pattern_Warp.cpp">
+      <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HellBoss_SkillBase.cpp">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_Skill_Warp.cpp">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Warp</Filter>
+     </ClCompile>
     <ClCompile Include="..\private\UI_Hit_Blood.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
     </ClCompile>

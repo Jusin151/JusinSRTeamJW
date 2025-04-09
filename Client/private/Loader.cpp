@@ -19,6 +19,7 @@
 #include "Level_Hub.h"
 #include "HellBoss.h"
 #include "HellBoss_Bullet.h"
+#include "HellBoss_Skill_Warp.h"
 
 
 
@@ -362,6 +363,18 @@ HRESULT CLoader::Loading_For_Hong()
 	//헬보스 텍스쳐
  	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/HellBoss_%d.png"), 337))))
+		return E_FAIL;
+	CompleteOneTask();
+
+	//헬보스 워프
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill_Warp"),
+		CHellBoss_Skill_Warp::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	CompleteOneTask();
+
+	//헬보스 텍스쳐
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Skill_Warp"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Skill/Warp/Warp%d.png"), 16))))
 		return E_FAIL;
 	CompleteOneTask();
 
