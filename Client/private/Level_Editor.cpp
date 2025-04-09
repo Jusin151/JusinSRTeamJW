@@ -8,8 +8,8 @@
 #include "MyImGui.h"
 #include "JsonLoader.h"
 #include "Weapon_Base.h"
-
 #include "Level_Loading.h"
+#include <algorithm>
 
 CLevel_Editor::CLevel_Editor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device },
@@ -58,6 +58,15 @@ void CLevel_Editor::Update(_float fTimeDelta)
 		auto colliderVec = m_pGameInstance->Get_Colliders();
 		for (auto& colliderList : colliderVec)
 		{
+			/*sort(colliderList.begin(), colliderList.end(), [&](CCollider* a, CCollider* b) {
+				_float3 aPos = a->Get_State(CTransform::STATE_POSITION);
+			_float3 bPos = b->Get_State(CTransform::STATE_POSITION);
+
+			_float vDis1 = _float3::Distance(aPos, m_pPickingSys->Get_Ray().vOrigin);
+			_float vDis2 = _float3::Distance(bPos, m_pPickingSys->Get_Ray().vOrigin);
+
+			return vDis1 < vDis2;
+				});*/
 			colliderList.sort([&](CCollider* a, CCollider* b) {
 
 				_float3 aPos = a->Get_State(CTransform::STATE_POSITION);

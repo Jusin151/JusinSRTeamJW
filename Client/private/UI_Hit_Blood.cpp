@@ -1,4 +1,4 @@
-#include "UI_Hit_Blood.h"
+ï»¿#include "UI_Hit_Blood.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 
@@ -82,7 +82,7 @@ CUI_Hit_Blood* CUI_Hit_Blood::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("CUI_Hit_Blood ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("CUI_Hit_Blood ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 	return pInstance;
@@ -93,7 +93,7 @@ CGameObject* CUI_Hit_Blood::Clone(void* pArg)
 	CUI_Hit_Blood* pInstace = new CUI_Hit_Blood(*this);
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("CUI_Hit_Blood º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("CUI_Hit_Blood ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 	return pInstace;

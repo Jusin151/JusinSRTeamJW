@@ -42,6 +42,8 @@ void CCollider_Manager::Clear()
 
 }
 
+
+
 void CCollider_Manager::Update_Collison()
 {
 	Update_Collision_Trigger();
@@ -61,6 +63,43 @@ void CCollider_Manager::Update_Collison()
 	Update_Collision_Floor();
 
 	//Clear();
+}
+
+inline bool CCollider_Manager::checkCollisionWithGroup(COLLIDERGROUP group, CCollider* srcEntry)
+{
+	for (auto& dstEntry : m_pColliders[group])
+	{
+		dstEntry->Set_MTV({ 0.f, 0.f, 0.f });
+		dstEntry->Set_Depth(0.f);
+
+		if (!Calc_AABB(srcEntry, dstEntry))
+			continue;
+
+		if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+		{
+			_float3 mtv = srcEntry->Get_MTV();
+
+			// 즉시 위치 보정
+			_float3 newPos = srcEntry->Get_State(CTransform::STATE_POSITION) + mtv;
+
+			static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(L"Com_Transform"))->Set_State(CTransform::STATE_POSITION, newPos);
+			// collider도 위치 갱신
+			srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
+
+			// MTV 저장
+			srcEntry->Get_Owner()->Add_WallMtv(mtv);
+
+			// 콜백 호출
+			srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+			dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+
+			srcEntry->Get_Owner()->Set_NextPos(newPos);
+
+			return true;
+
+		}
+	}
+	return false;
 }
 
 void CCollider_Manager::Update_Collision_Structure()
@@ -132,45 +171,7 @@ void CCollider_Manager::Update_Collision_Structure()
 						srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
 						_bool bCollision = false;
 
-						auto checkCollisionWithGroup = [&](COLLIDERGROUP group)
-							{
-								for (auto& dstEntry : m_pColliders[group])
-								{
-									dstEntry->Set_MTV({ 0.f, 0.f, 0.f });
-									dstEntry->Set_Depth(0.f);
-
-									if (!Calc_AABB(srcEntry, dstEntry))
-										continue;
-
-									if (Calc_Cube_To_Cube(srcEntry, dstEntry))
-									{
-										_float3 mtv = srcEntry->Get_MTV();
-
-										// 즉시 위치 보정
-										_float3 newPos = srcEntry->Get_State(CTransform::STATE_POSITION) + mtv;
-
-										pTrans->Set_State(CTransform::STATE_POSITION, newPos);
-										// collider도 위치 갱신
-										srcEntry->Update_Collider(TEXT("Com_Transform"), srcEntry->Get_Scale());
-
-										// MTV 저장
-										srcEntry->Get_Owner()->Add_WallMtv(mtv);
-
-										// 콜백 호출
-										srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
-										dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
-
-										srcEntry->Get_Owner()->Set_NextPos(newPos);
-
-										bCollision = true;
-									}
-								}
-							};
-
-						checkCollisionWithGroup(CG_STRUCTURE_WALL);
-						checkCollisionWithGroup(CG_DOOR);
-
-						if (bCollision)
+						if (checkCollisionWithGroup(CG_STRUCTURE_WALL, srcEntry) || checkCollisionWithGroup(CG_DOOR, srcEntry))
 							break;
 					}
 				}
@@ -344,8 +345,8 @@ _bool CCollider_Manager::Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst)
 
 _bool CCollider_Manager::Calc_Cube_To_Cube(CCollider* src, CCollider* dst)
 {
-	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 
 
@@ -368,7 +369,7 @@ _bool CCollider_Manager::Calc_Sphere_To_Cube(CCollider* src, CCollider* dst)
 
 	_float srcRadius = src->Get_Radius();
 	_float3 srcPos = src->Get_State(CTransform::STATE_POSITION);
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 	_float3 xAxis = dstDesc.fAxisX;  // x 축
 	_float3 yAxis = dstDesc.fAxisY;  // y 축
@@ -519,8 +520,8 @@ _bool CCollider_Manager::Check_Cube_Distance(CCollider* src, CCollider* dst)
 	// 큐브 큐브 사이 거리가, 큐브와 큐브를 외접하는 두 구의 반지름 합보다 길면 true
 	// 아니면 false
 
-	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 
 
@@ -534,8 +535,8 @@ _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 {
 	setAxes.clear();
 
-	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 	_float fDepth = FLT_MAX;
 	_float3 bestAxis = { 0.f, 0.f, 0.f }; // 최적의 MTV
@@ -595,8 +596,8 @@ _bool CCollider_Manager::Calc_Basic_Axes_Dot(CCollider* src, CCollider* dst)
 void CCollider_Manager::Calc_Cross_Axes(CCollider* src, CCollider* dst)
 {
 	// 일단 추가만 해놓고 로직 좀 깔끔하게 수정 예정...
-	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 	_float3 srcAxisX = srcDesc.fAxisX.GetNormalized();
 	_float3 srcAxisY = srcDesc.fAxisY.GetNormalized();
@@ -652,8 +653,8 @@ _bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 	Calc_Cross_Axes(src, dst);
 
 
-	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 	_float fDepth = FLT_MAX;
 	_float3 bestAxis = { 0.f, 0.f, 0.f }; // 최적의 MTV
@@ -720,8 +721,8 @@ _bool CCollider_Manager::Calc_AddOn_Axes_Dot(CCollider* src, CCollider* dst)
 _bool CCollider_Manager::Calc_AABB(CCollider* src, CCollider* dst)
 {
 
-	CCollider_Cube::COL_CUBE_DESC srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
-	CCollider_Cube::COL_CUBE_DESC dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& srcDesc = static_cast<CCollider_Cube*>(src)->Get_Desc();
+	CCollider_Cube::COL_CUBE_DESC& dstDesc = static_cast<CCollider_Cube*>(dst)->Get_Desc();
 
 	_float3 srcMin = srcDesc.fMin;
 	_float3 srcMax = srcDesc.fMax;
@@ -745,7 +746,7 @@ _bool CCollider_Manager::Check_Floor_Ray(CCollider* src, _float& fY)
 {
 	for (auto& entry : m_pColliders[CG_STRUCTURE_FLOOR])
 	{
-		CCollider_Cube::COL_CUBE_DESC entryDesc = static_cast<CCollider_Cube*>(entry)->Get_Desc();
+		CCollider_Cube::COL_CUBE_DESC& entryDesc = static_cast<CCollider_Cube*>(entry)->Get_Desc();
 
 		_float3 vPos = src->Get_State(CTransform::STATE_POSITION);
 		_float3 vDir = { 0.f, -1.f, 0.f };

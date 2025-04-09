@@ -30,6 +30,9 @@ public:
 
 	// enum으로 원하는 타입만 충돌 처리 하도록
 	void Update_Collison();
+
+	//Helper Function
+	
 	
 	// 벽 충돌할거 먼저 충돌 처리
 	void Update_Collision_Structure();
@@ -39,7 +42,7 @@ public:
 	void Update_Collision_Trigger();
 
 	// 거리로만
-	void Collison_Sphere_To_Sphere( list<CCollider*> src, list<CCollider*> dst);
+	void Collison_Sphere_To_Sphere(list<CCollider*> src, list<CCollider*> dst);
 	// OBB 충돌
 	void Collison_Cube_To_Cube(list<CCollider*> src, list<CCollider*> dst);
 
@@ -71,6 +74,9 @@ public:
 
 	// 바닥 체크
 	_bool Check_Floor_Ray(CCollider* src, _float& fY);
+
+private:
+	inline bool checkCollisionWithGroup(COLLIDERGROUP group, CCollider* srcEntry);
 
 private:
 
