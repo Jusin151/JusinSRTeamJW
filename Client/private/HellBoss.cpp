@@ -141,7 +141,6 @@ HRESULT CHellBoss::Initialize(void* pArg)
 		return E_FAIL;
 
 
-
 	return S_OK;
 }
 
@@ -356,6 +355,20 @@ void CHellBoss::Change_State(CHellBoss_State* pNewState)
 void CHellBoss::Process_Input()
 {
 	if (GetAsyncKeyState('0') & 0x8000) m_AnimationManager.SetCurrentAnimation("Start");
+
+	if (GetAsyncKeyState('Z') & 0x8000)
+	{
+		/*m_BossInfo.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		m_BossInfo.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP); 
+		m_BossInfo.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK); 
+		m_BossInfo.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION); 
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Skill_Warp"),
+			LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Warp"),&m_BossInfo)))
+		{
+			MSG_BOX("워프이미지 생성 실패");
+		}*/
+	}
 	/*else if (GetAsyncKeyState('2') & 0x8000) m_AnimationManager.SetCurrentAnimation("2_Walk");
 	else if (GetAsyncKeyState('3') & 0x8000) m_AnimationManager.SetCurrentAnimation("3_EyeBlast");
 	else if (GetAsyncKeyState('4') & 0x8000) m_AnimationManager.SetCurrentAnimation("4_Shoot");
@@ -381,7 +394,7 @@ void CHellBoss::Process_Input()
 }
 HRESULT CHellBoss::Render()
 {
-	int iCurFrame = m_AnimationManager.GetCurrentFrame();
+	_int iCurFrame = m_AnimationManager.GetCurrentFrame();
 	if (FAILED(m_pTextureCom->Bind_Resource(iCurFrame)))
 		return E_FAIL;
 	if (FAILED(m_pTransformCom->Bind_Resource())) 

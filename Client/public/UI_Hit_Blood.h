@@ -37,10 +37,9 @@ public:
 	void StartEffect();
 	virtual void OnNotify(void* pArg, const wstring& type) override
 	{
-		if (type == L"HP")
+		if (type == L"HP_Hited")
 		{
-			if(*reinterpret_cast<_uint*>(pArg) < 0)
-				StartEffect();
+			StartEffect();
 		}
 	}
 private:

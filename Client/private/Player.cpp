@@ -334,20 +334,35 @@ void CPlayer::Input_Key(_float fTimeDelta)
 }
 
 void CPlayer::Set_Hp(_int iHp)
-{
-	if (iHp < m_iHp)
-	{
-		// 체력이 달면
-		m_iHp = max(0, iHp);
-		
-	}
-	else
-	{		
+{	
 		m_iHp += iHp;
-	}
 	Notify(m_iHp, L"HP");
 }
 
+void CPlayer::Take_Damage(_uint Damage)
+{
+
+	m_iHp -= Damage;
+
+	if (m_iHp < 0)
+		m_iHp = 0;
+
+	Notify(m_iHp, L"HP_Hited");
+
+
+}
+void CPlayer::Add_HP(_int Hp)
+{
+
+	m_iHp += Hp;
+	if (m_iHp > m_iPlayerHP.second)
+		m_iHp = m_iPlayerHP.second;
+	Notify(m_iHp, L"HP");
+	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	{
+		pUI_Event->ShowEventText(Hp, L"Hp");
+	}
+}
 _bool CPlayer::Set_Mp(_int iMp)
 {
 	_int pTemp = iMp;
@@ -397,19 +412,6 @@ void CPlayer::Add_MaxHP(_int Hp)
 	m_iHp += Hp;
 	m_iPlayerHP.second += Hp;
 	Notify(m_iHp, L"HP");
-}
-
-void CPlayer::Add_HP(_int Hp)
-{
-
-	m_iHp += Hp;
-	if (m_iHp > m_iPlayerHP.second)
-		m_iHp = m_iPlayerHP.second;
-	Notify(m_iHp, L"HP");
-	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
-	{
-		pUI_Event->ShowEventText(Hp, L"Hp");
-	}
 }
 
 void CPlayer::Add_Sprit(_int Sprit)
