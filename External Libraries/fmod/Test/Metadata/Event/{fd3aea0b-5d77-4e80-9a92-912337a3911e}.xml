@@ -5,7 +5,7 @@
 			<value>magnum_shot</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>0</value>
 		</property>
 		<relationship name="folder">
 			<destination>{97cef22f-39df-464c-ac9a-5bd261935775}</destination>
@@ -82,11 +82,7 @@
 			<destination>{08c056d6-6f4f-4306-b24a-49608ce63137}</destination>
 		</relationship>
 	</object>
-	<object class="MultiSound" id="{4a11a07d-ce2a-4bee-be0a-c36b70d4933c}">
-		<relationship name="sounds">
-			<destination>{90e8a897-3524-42b9-93b4-98f7f2a8699f}</destination>
-		</relationship>
-	</object>
+	<object class="MultiSound" id="{4a11a07d-ce2a-4bee-be0a-c36b70d4933c}" />
 	<object class="MixerBusEffectChain" id="{81f6af98-52df-48c7-bad0-1530e2280733}">
 		<relationship name="effects">
 			<destination>{cef0b481-c0d0-4cc4-80ce-a6cd0eca2062}</destination>
@@ -99,11 +95,6 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{4ac21b76-82eb-4c87-ab8f-46b292d014eb}" />
-	<object class="SingleSound" id="{90e8a897-3524-42b9-93b4-98f7f2a8699f}">
-		<relationship name="audioFile">
-			<destination>{71046fe2-d284-485a-9703-c820f2a4cb9e}</destination>
-		</relationship>
-	</object>
 	<object class="MixerBusFader" id="{cef0b481-c0d0-4cc4-80ce-a6cd0eca2062}" />
 	<object class="MixerBusFader" id="{ccda973e-b1f9-4a1b-925c-9319f486c11c}" />
 </objects>
