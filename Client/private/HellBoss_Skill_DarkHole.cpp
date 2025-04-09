@@ -1,4 +1,4 @@
-#include "HellBoss_Skill_DarkHole.h"
+ï»¿#include "HellBoss_Skill_DarkHole.h"
 #include "HellBoss.h"
 
 CHellBoss_Skill_DarkHole::CHellBoss_Skill_DarkHole(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -76,7 +76,7 @@ void CHellBoss_Skill_DarkHole::Update(_float fTimeDelta)
 	{
 		if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_DarkBullet")))
 		{
-			MSG_BOX("´ÙÅ©ºæ¸´ »ý¼º¾ÈµÊ");
+			MSG_BOX("ë‹¤í¬ë·¸ë¦¿ ìƒì„±ì•ˆë¨");
 		}
 
 	}
@@ -120,13 +120,13 @@ HRESULT CHellBoss_Skill_DarkHole::Render()
 	//if (FAILED(m_pParticleCom->Render()))
 	//	return E_FAIL;
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("½ºÅ³ À§Ä¡ X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ìŠ¤í‚¬ ìœ„ì¹˜ X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 		_float2(-300.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("½ºÅ³ À§Ä¡ Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ìŠ¤í‚¬ ìœ„ì¹˜ Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
 		_float2(-100.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("½ºÅ³ À§Ä¡ Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("ìŠ¤í‚¬ ìœ„ì¹˜ Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
 		_float2(100.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	return S_OK;
@@ -139,8 +139,8 @@ HRESULT CHellBoss_Skill_DarkHole::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 
 	return S_OK;
 }

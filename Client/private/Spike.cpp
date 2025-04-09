@@ -1,4 +1,4 @@
-#include "Spike.h"
+ï»¿#include "Spike.h"
 #include <Player.h>
 
 CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -155,7 +155,7 @@ _bool CSpike::IsAnimationFinished() const
 HRESULT CSpike::SetUp_RenderState()
 {
 	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
-	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // YÃà ¹İÀüÀ» À§ÇÑ ¿ÀÇÁ¼Â Á¶Á¤
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Yì¶• ë°˜ì „ì„ ìœ„í•œ ì˜¤í”„ì…‹ ì¡°ì •
 	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
 	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -175,7 +175,7 @@ HRESULT CSpike::Release_RenderState()
 
 HRESULT CSpike::Ready_Components()
 {
-	// ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ ÄÚµå
+	// ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” ì½”ë“œ
 	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_Spike"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -233,7 +233,7 @@ void CSpike::Update_Animation(_float fTimeDelta)
 	{
 		if (m_eState == SPIKE_STATE::ATTACK)
 		{
-			// APPEAR ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ³¡³ª¸é °ø°İ »óÅÂ·Î ÀüÈ¯
+			// APPEAR ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚˜ë©´ ê³µê²© ìƒíƒœë¡œ ì „í™˜
 			m_eState = SPIKE_STATE::DISAPPEAR;
 			m_fFrame = 0.f;
 			m_iCurrentFrame = m_mapStateTextures[m_eState][0];

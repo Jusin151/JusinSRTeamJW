@@ -487,7 +487,7 @@ void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
 		_float3 planeCenter = vPos + vLook * distanceFromBoss;
 
 		//  제외하고 랜덤 위치 생성
-		std::vector<_float3> newGrid;
+		vector<_float3> newGrid;
 
 		for (int row = 0; row < rows; ++row)
 		{
@@ -538,23 +538,21 @@ _float3 CHellBoss::Get_RandomWarpPos_InFront()
 	vUp.Normalize();
 
 	_float distanceFromBoss = 10.f;
-	_float width = 20.f;    // X축 방향 총 길이
-	_float height = 10.f;   // Y축 방향 총 길이
+	_float width = 20.f;    // X축 방향  길이
+	_float height = 10.f;   // Y축 방향  길이
 	_int cols = 5;
 	_int rows = 3;
 
-	// 앞 평면의 중심
+
 	_float3 planeCenter = vPos + vLook * distanceFromBoss;
 
-	// 랜덤 그리드 인덱스 선택
 	_int colIndex = rand() % cols;
 	_int rowIndex = rand() % rows;
 
-	// 좌상단 기준 offset 계산
+
 	_float xOffset = (colIndex - (cols - 1) / 2.0f) * (width / cols);
 	_float yOffset = (rowIndex - (rows - 1) / 2.0f) * (height / rows);
 
-	// 최종 위치 계산
 	_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
 
 	return finalPos;
