@@ -60,7 +60,7 @@ HRESULT CHub_Light::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Shader */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 
@@ -87,7 +87,9 @@ void CHub_Light::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
     m_pGameInstance->Add_Light(m_pLightCom);
-    m_pLightCom->Set_Position(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+    _float3 tempPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    tempPos += _float3{ 0.f, 0.35f, 0.f };
+    m_pLightCom->Set_Position(tempPos);
 }
 
 HRESULT CHub_Light::Pre_Render()
@@ -123,7 +125,7 @@ HRESULT CHub_Light::Render()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Lights()))
         return E_FAIL;
-    m_pShaderCom->Begin(2);
+    m_pShaderCom->Begin(0);
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
     m_pShaderCom->End();

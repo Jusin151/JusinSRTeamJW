@@ -199,6 +199,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
 			TEXT("../../Resources/Textures/XYZ.dds"), 1))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Cube_Base*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Player_Hit"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Effect/bloodscreen_2.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 	
 #pragma region Light
@@ -289,8 +296,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
 		CSound_Source::Create(m_pGraphic_Device, m_pSound_Manager))))
 		return E_FAIL;
+	/* For.Prototype_Component_Sound_Source */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Listener"),
+		CSound_Listener::Create(m_pGraphic_Device, m_pSound_Manager))))
+		return E_FAIL;
 #pragma endregion
-
 
 #pragma region Font
 	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
