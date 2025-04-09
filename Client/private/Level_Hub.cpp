@@ -66,6 +66,9 @@ HRESULT CLevel_Hub::Initialize()
 		LEVEL_HUB, TEXT("Layer_Point_Shop"))))
 		return E_FAIL;
 
+
+	//CUI_Base::UI_Parent_Desc = {};
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Weapon_Shop"),
 		LEVEL_HUB, TEXT("Layer_Weapon_Shop"))))
 		return E_FAIL;
@@ -418,7 +421,6 @@ HRESULT CLevel_Hub::Ready_Layer_UI()
 		return E_FAIL;
 
 
-
 	CUI_Base::UI_Parent_Desc DefaultUI_Desc{}; // 부모 UI는 총 6개의 정보 소유
 
 	DefaultUI_Desc.vSize = { 0,0 };
@@ -528,8 +530,10 @@ HRESULT CLevel_Hub::Ready_Layer_UI()
 		LEVEL_STATIC, TEXT("Layer_Right_Panel_UI_2"), &Left_Panel_HP)))
 		return E_FAIL;
 
-
-
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Hit_Blood"),
+		LEVEL_STATIC, TEXT("Layer_Blood"))))
+		return E_FAIL;
 
 	return S_OK;
 }

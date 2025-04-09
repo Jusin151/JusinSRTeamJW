@@ -20,8 +20,6 @@ CUI_Base::CUI_Base(const CUI_Base& Prototype)
 
 HRESULT CUI_Base::Initialize(void* pArg)
 {
-	
-
 	return S_OK;
 }
 

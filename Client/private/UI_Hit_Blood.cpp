@@ -19,6 +19,11 @@ HRESULT CUI_Hit_Blood::Initialize_Prototype()
 
 HRESULT CUI_Hit_Blood::Initialize(void* pArg)
 {
+	if(FAILED(Ready_Components()))
+		return E_FAIL;
+	m_pTransformCom->Set_Scale(1280.f, 720.f, 1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 0.f, 0.f));
+	CUI_Manager::GetInstance()->AddUI(L"Hit_Blood", this);
 	return S_OK;
 }
 
@@ -47,33 +52,95 @@ void CUI_Hit_Blood::Priority_Update(_float fTimeDelta)
 
 void CUI_Hit_Blood::Update(_float fTimeDelta)
 {
+	// 활성화 상태가 아니면 업데이트하지 않음
+	if (!m_bStart)
+	{
+		return;
+	}
+
 	m_fElpasedTime += fTimeDelta;
+
 	if (m_fElpasedTime >= m_fAnimationTime)
 	{
-		//m_fAlpha
+		m_fAlpha = 0.0f;
+		m_bStart = false;
 	}
-	m_bIsActive = false;
+	else
+	{
+		float fProgress = m_fElpasedTime / m_fAnimationTime;		
+		m_fAlpha = Lerp(0.4f, 0.0f, fProgress);
+	}
 }
 
 void CUI_Hit_Blood::Late_Update(_float fTimeDelta)
 {
-	if(m_bIsActive)
+	if(m_bStart)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI_BACKGROUND, this);
 }
 
 HRESULT CUI_Hit_Blood::Pre_Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	DWORD alphaFactorDWORD = (DWORD)(m_fAlpha * 255.0f);
+	// D3DCOLOR_ARGB(alpha, red, green, blue). RGB는 알파 연산에만 사용할 경우 보통 무시됨.
+	DWORD textureFactorColor = D3DCOLOR_ARGB(alphaFactorDWORD, 255, 255, 255);
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, textureFactorColor);
+
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 	return S_OK;
 }
 
 HRESULT CUI_Hit_Blood::Render()
 {
+	Pre_Render();
+	D3DXMATRIX matOldView, matOldProj;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matOldProj);
+
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIX matProj;
+	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
+
+	Post_Render();
 	return S_OK;
 }
 
 HRESULT CUI_Hit_Blood::Post_Render()
 {
+	DWORD textureFactorColor = D3DCOLOR_ARGB(255, 255, 255, 255);
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, textureFactorColor);
 	return S_OK;
+}
+
+void CUI_Hit_Blood::StartEffect()
+{
+	m_bStart = true;
+	m_fElpasedTime = 0.0f;
+	m_fAlpha = 0.4f;        // 시작 알파
+	m_fAnimationTime = 1.0f;
 }
 
 CUI_Hit_Blood* CUI_Hit_Blood::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -101,4 +168,5 @@ CGameObject* CUI_Hit_Blood::Clone(void* pArg)
 
 void CUI_Hit_Blood::Free()
 {
+	__super::Free();
 }

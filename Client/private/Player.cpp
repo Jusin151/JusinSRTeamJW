@@ -627,6 +627,9 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (auto pPlayer_Icon = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Exp_Bar")))
 		Add_Observer(pPlayer_Icon);
 
+	if (auto pPlayer_Hit = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hit_Blood")))
+		Add_Observer(pPlayer_Hit);
+
 	//if (auto m_pHub_PointShop = dynamic_cast<CObserver*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop"))))
 	//	Add_Observer(m_pHub_PointShop); 
 
