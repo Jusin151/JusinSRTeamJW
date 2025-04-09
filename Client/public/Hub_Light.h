@@ -42,7 +42,12 @@ private:
 	CMaterial* m_pMaterialCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-
+private:
+	CGameObject* m_pPlayer = { nullptr };
+private:
+	_float m_fElapsedTime = { 0.f };
+	const _float m_fFrameDuration = { 2.0f };
+	_uint m_iCurrentFrame;
 public:
 	static CHub_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CHub_Light* Clone(void* pArg) override;

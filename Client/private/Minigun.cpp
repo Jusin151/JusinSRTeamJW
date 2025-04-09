@@ -53,7 +53,7 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_Weapon_INFO.WeaponID = WEAPON_ID::Minigun;
     //m_Weapon_INFO.vPos = {};
     //m_Weapon_INFO.vSize = {};
-    m_Weapon_INFO.Damage = 200;
+    m_Weapon_INFO.Damage = 2000;
     m_Weapon_INFO.AttackSpeed = 1.2f;
 
     m_iAp = 50;
@@ -248,7 +248,9 @@ void CMinigun::Late_Update(_float fTimeDelta)
         if (nullptr == pTransform)
             return;
         m_pGameInstance->Add_Light(m_pLightCom);
-        m_pLightCom->Set_Position(pTransform->Get_State(CTransform::STATE_POSITION));
+        _float3 pos = pTransform->Get_State(CTransform::STATE_POSITION);
+        pos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
+        m_pLightCom->Set_Position(pos);
         m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
     }
 

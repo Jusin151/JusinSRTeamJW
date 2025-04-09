@@ -66,8 +66,10 @@ void CCthulhu_Tentacle::Late_Update(_float fTimeDelta)
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	fPos.y = m_fOffset;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+	{
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	}
 }
 
 HRESULT CCthulhu_Tentacle::Render()

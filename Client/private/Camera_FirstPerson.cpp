@@ -68,7 +68,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 		
 
 	Safe_AddRef(m_pPlayer);
-	
+	Camera_Lock(false);
 	return S_OK;
 }
 
@@ -103,10 +103,10 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 
 void CCamera_FirstPerson::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState(VK_TAB) & 0xf8000)
+	/*if (GetAsyncKeyState(VK_TAB) & 0xf8000)
 	{
-		Camera_Lock();
-	}
+		Camera_Lock(!m_bCameraLocked);
+	}*/
 }
 void CCamera_FirstPerson::HandleMouseInput(_float fTimeDelta)
 {

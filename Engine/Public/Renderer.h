@@ -19,6 +19,7 @@ public:
 		RG_UI_BACKGROUND,  //  UI 배경
 		RG_UI_BUTTON,      //  UI 버튼
 		RG_UI,             // 원래 UI
+		RG_CURSOR,
 		RG_IMGUI,
 		RG_END
 	};
@@ -33,6 +34,7 @@ public:
 	HRESULT Add_Light(class CLight* pLight);
 	_uint	Get_NumOfLights() { return (_uint)m_Lights.size(); }
 	HRESULT Draw();
+	void Clear();
 
 private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
@@ -51,6 +53,7 @@ private:
 	HRESULT Render_UI_Background(); 
 	HRESULT Render_UI_Button();
 	HRESULT Render_UI();
+	HRESULT Render_Cusor_UI();
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

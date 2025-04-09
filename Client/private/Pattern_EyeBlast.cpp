@@ -19,15 +19,12 @@ void CPattern_EyeBlast::Execute(CHellBoss* pBoss, float fDeltaTime)
         pBoss->Set_Animation("3_EyeBlast");
     }
 
-    if (!m_bHasFired && pBoss->Get_CurAnimationFrame() >= 17)
+    if (!m_bHasFired && pBoss->Get_CurAnimationFrame() >= 17) // 눈깔발사
     {
         m_bHasFired = true;
         CHellBoss_Bullet::PowerBlastDesc pDesc{};
         pDesc.wBulletType = L"3_EyeBlast";
-
-        if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
-            LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
-            LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"),&pDesc)))
+        if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PHASE1_EyeBullet"), &pDesc))
         {
             MSG_BOX("HellBoss_Bullet 생성 실패");
         }

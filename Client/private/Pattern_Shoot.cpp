@@ -47,9 +47,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             CHellBoss_Bullet::PowerBlastDesc pDesc{};
             pDesc.wBulletType = L"0_Phase2_Shoot";
             pDesc.isLeft = (m_iFiredCount % 2 == 0);
-            if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
-                LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
-                LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"), &pDesc)))
+            if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc))
             {
                 MSG_BOX("HellBoss_Bullet 생성 실패");
             }
@@ -80,12 +78,13 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                     pDesc.wBulletType = L"4_Shoot";
                     break;
                 }
-                if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
-                    LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
-                    LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"), &pDesc)))
+                if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PHASE1_HandBullet"),&pDesc))
                 {
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
+               /* if (FAILED(pBoss->Get_GameInstance()->Add_GameObject(
+                    LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_Bullet"),
+                    LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"), &pDesc)))*/
             }
         }
     }

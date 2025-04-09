@@ -53,10 +53,24 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_UI()))
 		return E_FAIL;
-	
+	if (FAILED(Render_Cusor_UI()))
+		return E_FAIL;
+
 	
 
 	return S_OK;
+}
+
+void CRenderer::Clear()
+{
+	for (auto& render : m_RenderObjects)
+	{
+		for (auto& obj : render)
+		{
+			Safe_Release(obj);
+		}
+		render.clear();
+	}
 }
 
 HRESULT CRenderer::Enable_Lights()
@@ -279,6 +293,20 @@ HRESULT CRenderer::Render_UI()
 	}
 	m_RenderObjects[RG_UI].clear();
 
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Cusor_UI()
+{
+
+	for (auto& pGameObject : m_RenderObjects[RG_CURSOR])
+	{
+		if (nullptr != pGameObject && pGameObject->IsActive())
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderObjects[RG_CURSOR].clear();
 	return S_OK;
 }
 

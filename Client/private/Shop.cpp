@@ -62,15 +62,16 @@ void CShop::Update(_float fTimeDelta)
             if (!m_bSpacePressed)  
             {
                 m_bIsOpen = !m_bIsOpen;
-                m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen);
+                CUI_Manager::GetInstance()->GetUI(L"Cursor")->SetActive(m_bIsOpen);
+               // m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen);
                 m_bSpacePressed = true; 
                 static_cast<CPlayer*>(m_pPlayer)->StopAction();
-                m_pFirstPersonCamera->Camera_Lock();
+                m_pFirstPersonCamera->Camera_Lock(m_bIsOpen);
             }
         }
         else
         {
-            m_bSpacePressed = false; 
+            m_bSpacePressed = false;
         }
     }
 

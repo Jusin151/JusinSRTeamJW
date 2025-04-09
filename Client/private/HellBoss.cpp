@@ -61,20 +61,20 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124,0.04f);  // 한팔 Walk상태
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태
 
 
-	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203);   //////////////////////////// 4페이즈 진입
+	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
 
 
 	m_AnimationManager.AddAnimation("G_Phase3_Idle", 203, 203);
-	m_AnimationManager.AddAnimation("H_Phase3_Walk", 204, 212);
-	m_AnimationManager.AddAnimation("J_Phase3_TripleEye", 213, 223);
+	m_AnimationManager.AddAnimation("H_Phase3_Walk", 204, 212,0.4f);
+	m_AnimationManager.AddAnimation("J_Phase3_TripleEye", 213, 223,0.07f);  // 삼눈깔빔
 	m_AnimationManager.AddAnimation("K_Phase3_Nova", 224, 234);
 	m_AnimationManager.AddAnimation("L_Phase3_Spawn", 235, 246);
 
-	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289); //////////////////////////// 5페이즈 진입
+	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289,0.1f); //////////////////////////// 5페이즈 진입
 
 
 	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 311);
@@ -123,6 +123,25 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_pCurState->Enter(this);
 
 
+	// 오브젝트풀링
+ 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE1_HandBullet"), 100))) 
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE1_EyeBullet"), 100)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE2_HandBullet"), 100)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PowerBlast_Bullet"), 100))) // 주변에서 회전하는녀석
+		return E_FAIL;
+
+
+
 	return S_OK;
 }
 
@@ -138,6 +157,9 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 	}
 	if (m_iHp <= 0) 
 		m_eCurState = MS_DEATH;
+
+
+
 
 	m_bIsActive = true;
 }
@@ -188,7 +210,7 @@ void CHellBoss::Update(_float fTimeDelta)
 	{
 		m_bDidPhase5Morph = true;
 		m_ePhase = PHASE5; // <<< 5페이즈 돌입! 
-		Set_AttackPattern(new CPattern_Morph()); 
+		Set_AttackPattern(new CPattern_Morph());  
 		Change_State(new CHellBoss_MorphState()); 
 		return;
 	}
@@ -227,18 +249,12 @@ void CHellBoss::Update(_float fTimeDelta)
 		pDesc.bIsPowerBlast = true;              // 회전 총알 여부
 		pDesc.vAxis = axisList[m_iPowerBlastCount % 10]; // 축 설정
 
-		if (FAILED(m_pGameInstance->Add_GameObject(
-			LEVEL_HONG,
-			TEXT("Prototype_GameObject_HellBoss_Bullet"),
-			LEVEL_HONG,
-			TEXT("Layer_HellBoss_Bullet"),
-			&pDesc)))
+		if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PowerBlast_Bullet"), &pDesc))
 		{
-			MSG_BOX("Power_Blast 총알 생성 실패");
-			return;
+			MSG_BOX("HellBoss_Bullet 생성 실패");
 		}
 
-		CGameObject* pLastObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_HellBoss_Bullet"));
+		CGameObject* pLastObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_HellBoss_PowerBlast_Bullet"));
 		CHellBoss_Bullet* pBullet = dynamic_cast<CHellBoss_Bullet*>(pLastObj);
 		if (pBullet)
 			m_vecPowerBlasts.push_back(pBullet);

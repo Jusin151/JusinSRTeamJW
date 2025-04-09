@@ -106,7 +106,7 @@ HRESULT CLevel_Hub::Initialize()
 
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Background(L"event:/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
-
+	CUI_Manager::GetInstance()->GetUI(L"Cursor")->SetActive(false);
 	return S_OK;
 }
 

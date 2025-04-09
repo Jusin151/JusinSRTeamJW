@@ -81,8 +81,12 @@ void CBullet_Base::Update(_float fTimeDelta)
 void CBullet_Base::Late_Update(_float fTimeDelta)
 {
 
+	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+	{
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this)))
 		return;
+	}
 }
 
 

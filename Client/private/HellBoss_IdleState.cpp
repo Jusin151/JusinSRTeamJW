@@ -11,6 +11,12 @@ void CHellBoss_IdleState::Enter(CHellBoss* pBoss)
         pBoss->Set_Animation("1_Idle");
     else if (pBoss->Get_Phase() == PHASE2)
         pBoss->Set_Animation("8_Phase2_Charge"); // 애매해서 일던 idle로 박았음 =
+	else if (pBoss->Get_Phase() == PHASE3)
+		pBoss->Set_Animation("U_ArmCut_Idle");
+	else if (pBoss->Get_Phase() == PHASE4)
+		pBoss->Set_Animation("G_Phase3_Idle"); 
+	else if (pBoss->Get_Phase() == PHASE5)
+		pBoss->Set_Animation("N_Phase4_Idle");
 }
 
 void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)

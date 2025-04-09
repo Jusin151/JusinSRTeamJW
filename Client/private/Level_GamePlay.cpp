@@ -22,6 +22,7 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_GamePlay::Initialize()
 {
+	
 	CJsonLoader jsonLoader;
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY_Test.json", LEVEL_GAMEPLAY);
@@ -45,10 +46,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	{
 		pCamera->Set_Yaw(D3DXToRadian(180.f));
 	}
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
-
 	return S_OK;
 }
 
