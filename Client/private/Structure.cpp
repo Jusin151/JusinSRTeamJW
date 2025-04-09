@@ -211,7 +211,7 @@ HRESULT CStructure::SetUp_RenderState()
 		D3DXVECTOR2 vScaleFactor(scale.x * 0.3f, scale.y * tileReduction);
 		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); // Y축 반전을 위한 오프셋 조정
 		m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
-		m_pShaderCom->Set_UVOffsetFactor(&vScaleFactor);
+		m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
@@ -223,7 +223,7 @@ HRESULT CStructure::SetUp_RenderState()
 		D3DXVECTOR2 vScaleFactor(scale.x, scale.y);
 		D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
 		m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
-		m_pShaderCom->Set_UVOffsetFactor(&vScaleFactor);
+		m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
 #pragma endregion

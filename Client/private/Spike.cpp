@@ -1,67 +1,68 @@
-Ôªø#include "Cthulhu_Big_Tentacle.h"
-#include "GameInstance.h"
-#include "Collider_Cube.h"
-#include "StructureManager.h"
-#include <CthulhuMissile.h>
+#include "Spike.h"
 #include <Player.h>
-#include <Cthulhu.h>
 
-CCthulhu_Big_Tentacle::CCthulhu_Big_Tentacle(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CCollisionObject(pGraphic_Device)
+CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
+	:CMonster_Base(pGraphic_Device)
 {
 }
 
-CCthulhu_Big_Tentacle::CCthulhu_Big_Tentacle(const CCthulhu_Big_Tentacle& Prototype)
-	:CCollisionObject(Prototype)
+CSpike::CSpike(const CSpike& Prototype)
+	:CMonster_Base(Prototype)
 {
 }
 
-HRESULT CCthulhu_Big_Tentacle::Initialize_Prototype()
+HRESULT CSpike::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CCthulhu_Big_Tentacle::Initialize(void* pArg)
+HRESULT CSpike::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+	m_iHp = 100;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
-	m_pTransformCom->Set_Scale(3.5f, 7.f, 2.f);
-
+	m_pTransformCom->Set_Scale(5.f, 5.f, 2.f);
+	m_fFrame = 0.f;
+	Init_Textures();
 	return S_OK;
 }
 
-void CCthulhu_Big_Tentacle::Priority_Update(_float fTimeDelta)
+void CSpike::Priority_Update(_float fTimeDelta)
 {
-
 }
 
-void CCthulhu_Big_Tentacle::Update(_float fTimeDelta)
+void CSpike::Update(_float fTimeDelta)
 {
-	if (m_pColliderCom)
+	if (m_pColliderCom )
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
-		m_pGameInstance->Add_Collider(CG_ENVIRONMENT, m_pColliderCom);
+		//m_pGameInstance->Add_Collider(CG_ENVIRONMENT, m_pColliderCom);
+		
+			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
 	Billboarding(fTimeDelta);
+	if (m_bUpdateAnimation)
+	{
+		Update_Animation(fTimeDelta);
+	}
 }
 
-void CCthulhu_Big_Tentacle::Late_Update(_float fTimeDelta)
+void CSpike::Late_Update(_float fTimeDelta)
 {
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	fPos.y = m_fOffset;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-
 	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
 	{
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	}
 }
 
-HRESULT CCthulhu_Big_Tentacle::Render()
+HRESULT CSpike::Render()
 {
 	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
 		return E_FAIL;
@@ -71,31 +72,29 @@ HRESULT CCthulhu_Big_Tentacle::Render()
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 40.f);
-	if (FAILED(m_pShaderCom->Bind_Transform()))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Lights()))
-		return E_FAIL;
+
 	SetUp_RenderState();
-	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
-		return E_FAIL;
-	m_pShaderCom->Begin(1);
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-	m_pShaderCom->End();
+
 	Release_RenderState();
+
 	return S_OK;
 }
 
-HRESULT CCthulhu_Big_Tentacle::On_Collision(CCollisionObject* other)
+void CSpike::Reset()
+{
+	m_eState = SPIKE_STATE::ATTACK;
+	m_bUpdateAnimation = true;
+}
+
+HRESULT CSpike::On_Collision(CCollisionObject* other)
 {
 	return E_NOTIMPL;
 }
 
-void CCthulhu_Big_Tentacle::Billboarding(_float fTimeDelta)
+void CSpike::Billboarding(_float fTimeDelta)
 {
 	if (!m_pTarget) return;
 
@@ -124,19 +123,21 @@ void CCthulhu_Big_Tentacle::Billboarding(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook * vScale.z);
 }
 
-
-void CCthulhu_Big_Tentacle::Set_Position(const _float3& vPos)
+void CSpike::Select_Pattern(_float fTimeDelta)
 {
-	if (m_pTransformCom)
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 }
 
-HRESULT CCthulhu_Big_Tentacle::SetUp_RenderState()
+void CSpike::Set_Position(const _float3& vPos)
 {
-	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
-	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // YÏ∂ï Î∞òÏ†ÑÏùÑ ÏúÑÌïú Ïò§ÌîÑÏÖã Ï°∞Ï†ï
-	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
-	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
+}
+
+_bool CSpike::IsAnimationFinished() const
+{
+	return _bool();
+}
+
+HRESULT CSpike::SetUp_RenderState()
+{
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
@@ -145,17 +146,17 @@ HRESULT CCthulhu_Big_Tentacle::SetUp_RenderState()
 	return S_OK;
 }
 
-HRESULT CCthulhu_Big_Tentacle::Release_RenderState()
+HRESULT CSpike::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	return S_OK;
 }
 
-HRESULT CCthulhu_Big_Tentacle::Ready_Components()
+HRESULT CSpike::Ready_Components()
 {
-	// Ïª¥Ìè¨ÎÑåÌä∏ Ï¥àÍ∏∞Ìôî ÏΩîÎìú
-	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_Cthulhu_Big_Tentacle"),
+	// ƒƒ∆˜≥Õ∆Æ √ ±‚»≠ ƒ⁄µÂ
+	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_Spike"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -168,57 +169,90 @@ HRESULT CCthulhu_Big_Tentacle::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 1.f,1.f,1.f };
-	ColliderDesc.fLocalPos = { 0.f,0.f, 0.f };
-	m_eType = CG_ENVIRONMENT;
+	ColliderDesc.fScale = { 1.f, 1.f, 3.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
+	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
-		return E_FAIL;
-
-	/* For.Com_Material */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
-		return E_FAIL;
-
-	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
-		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CCthulhu_Big_Tentacle* CCthulhu_Big_Tentacle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+void CSpike::Init_Textures()
 {
-	CCthulhu_Big_Tentacle* pInstance = new CCthulhu_Big_Tentacle(pGraphic_Device);
+	for (_uint i = 0; i < m_pTextureCom->Get_NumTextures(); i++)
+	{
+		if (i < 5)
+		{
+			m_mapStateTextures[SPIKE_STATE::ATTACK].push_back(i);
+		}
+		else
+		{
+			m_mapStateTextures[SPIKE_STATE::DISAPPEAR].push_back(i);
+		}
+	}
+}
+
+void CSpike::Update_Animation(_float fTimeDelta)
+{
+	m_fFrame += m_fAnimationSpeed * fTimeDelta;
+	size_t numFrames = m_mapStateTextures[m_eState].size();
+
+	if (m_fFrame >= numFrames)
+	{
+		m_bAnimFinished = true;
+		if (m_eState == SPIKE_STATE::ATTACK)
+		{
+			// APPEAR æ÷¥œ∏ﬁ¿Ãº«¿Ã ≥°≥™∏È ∞¯∞› ªÛ≈¬∑Œ ¿¸»Ø
+			m_eState = SPIKE_STATE::DISAPPEAR;
+			m_fFrame = 0.f;
+			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+		}
+		else if (m_eState == SPIKE_STATE::DISAPPEAR)
+		{
+			m_eState = SPIKE_STATE::ATTACK;
+			m_fFrame = 0.f;
+			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+		//	SetActive(false);
+		}
+	}
+	else
+	{
+		m_bAnimFinished = false;
+		m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
+	}
+}
+
+void CSpike::Attack()
+{
+}
+
+CSpike* CSpike::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CSpike* pInstance = new CSpike(pGraphic_Device);
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to create CCthulhu_Big_Tentacle instance");
+		MSG_BOX("Failed to create CSpike instance");
 		Safe_Release(pInstance);
 	}
 	return pInstance;
 }
 
-CGameObject* CCthulhu_Big_Tentacle::Clone(void* pArg)
+CGameObject* CSpike::Clone(void* pArg)
 {
-	CCthulhu_Big_Tentacle* pClone = new CCthulhu_Big_Tentacle(*this);
+	CSpike* pClone = new CSpike(*this);
 	if (FAILED(pClone->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to clone CCthulhu_Big_Tentacle instance");
+		MSG_BOX("Failed to clone CSpike instance");
 		Safe_Release(pClone);
 	}
 	return pClone;
 }
 
-void CCthulhu_Big_Tentacle::Free()
+void CSpike::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pColliderCom);
-	Safe_Release(m_pMaterialCom);
-
 }
