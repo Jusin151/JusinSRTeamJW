@@ -177,6 +177,7 @@
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
+    <ClInclude Include="..\public\Gib_Effect.h" />
     <ClInclude Include="..\public\HellBoss_DarkBullet.h" />
     <ClInclude Include="..\public\HellBoss_Headers.h" />
     <ClInclude Include="..\Public\HellBoss_SkillBase.h" />
@@ -263,7 +264,6 @@
     <ClInclude Include="..\Public\Monster_Base.h" />
     <ClInclude Include="..\public\MyImGui.h" />
     <ClInclude Include="..\Public\Observer.h" />
-    <ClInclude Include="..\public\Particles.h" />
     <ClInclude Include="..\public\Snowspider.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\UI_Episode_Hub.h" />
@@ -327,6 +327,7 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
+    <ClCompile Include="..\private\Gib_Effect.cpp" />
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp" />
     <ClCompile Include="..\Private\HellBoss_SkillBase.cpp" />
     <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp" />

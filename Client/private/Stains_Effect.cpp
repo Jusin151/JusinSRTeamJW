@@ -19,15 +19,14 @@ HRESULT CStains_Effect::Initialize_Prototype()
 
 HRESULT CStains_Effect::Initialize(void* pArg)
 {
-	if (pArg != nullptr)
-	{
-		HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
-		m_eHitType = (HitType)desc.type;
-	}
-
-	if (FAILED(__super::Initialize(pArg)))
+	_float3 tmpPos = {};
+	HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
+	m_eHitType = (HitType)desc.type;
+	tmpPos = desc.vPos;
+	desc.vPos.y = -0.45f;
+	
+	if (FAILED(__super::Initialize(&desc)))
 		return E_FAIL;
-
 	m_fAnimationSpeed = { 10.0f };
 	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
 	m_iCurrentFrame = { rand() % m_iLastFrame };
@@ -59,16 +58,6 @@ HRESULT CStains_Effect::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
 		return E_FAIL;
-
-	//CGib_Particle_System::GIBDESC GibDesc = {};
-	//GibDesc.iNumParticles = { 10u };
-	//GibDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gore_%d.png";
-	//GibDesc.iNumTextures = 3;
-
-	///* For.Com_StainsParticle */
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gib"),
-	//	TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &GibDesc)))
-	//	return E_FAIL;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
@@ -146,9 +135,7 @@ HRESULT CStains_Effect::Render()
 		return E_FAIL;
 	m_pShaderCom->End();
 	Post_Render();
-	if(m_pParticleCom)
-		if (FAILED(m_pParticleCom->Render()))
-			return E_FAIL;
+	
 	return S_OK;
 }
 

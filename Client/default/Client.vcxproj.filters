@@ -463,6 +463,9 @@
     <Filter Include="02.GameObjects\03. Effect\Stains_Effect">
       <UniqueIdentifier>{d43faf99-6ec5-4266-aea9-84bc302c5800}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Gib_Effect">
+      <UniqueIdentifier>{69b90a84-7a91-44a8-970e-6e4c83fd1eee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -652,9 +655,6 @@
       <Filter>02.GameObjects\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Particle_Test.h">
-      <Filter>02.GameObjects\ParticleSystemTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Particles.h">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Particle_Firework.h">
@@ -905,6 +905,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Stains_Effect.h">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Gib_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1303,6 +1306,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Stains_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Gib_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

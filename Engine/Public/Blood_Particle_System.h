@@ -8,7 +8,6 @@ public:
 	{
 		BOUNDINGSPHERE		Bound;
 		_uint				iNumParticles;
-		_float				fForce;
 	}BLOODDESC;
 private:
 	CBlood_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);

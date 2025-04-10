@@ -50,6 +50,7 @@ public:
 
 protected:
 	HRESULT Create_Stains(_uint effectNum);
+	HRESULT Create_Gibs(_uint eType);
 
 	
 
@@ -81,6 +82,7 @@ protected:
 	MONSTERSTATE m_ePreState = { MS_IDLE };
 
 	_bool		m_bCheck = { false };
+	_bool		m_bGib = { false };
 
 
 public:

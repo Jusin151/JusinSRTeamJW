@@ -400,6 +400,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 #pragma region Effect
 	else if (className == "CHit_Effect")
 		return CHit_Effect::Create(pGraphic_Device);
+	else if (className == "CGib_Effect")
+		return CGib_Effect::Create(pGraphic_Device);
 	else if (className == "CBlood_Effect")
 		return CBlood_Effect::Create(pGraphic_Device);
 	else if (className == "CWeapon_Effect")
