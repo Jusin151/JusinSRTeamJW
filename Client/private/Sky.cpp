@@ -102,12 +102,12 @@ HRESULT CSky::Ready_Components()
 		textureKey = L"Prototype_Component_Texture_Skybox_Tundra";
 		break;
 	case Client::LEVEL_HUB:
-		textureKey = L"Prototype_Component_Texture_Skybox_Tundra";
 		break;
 	case Client::LEVEL_HONG:
-		//textureKey = 
+		textureKey = L"Prototype_Component_Texture_Skybox_Hell";
 		break;
 	case Client::LEVEL_BOSS:
+		textureKey = L"Prototype_Component_Texture_Skybox_Cthulhu";
 		break;
 	}
 	/* For.Com_Texture */

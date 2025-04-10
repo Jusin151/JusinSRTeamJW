@@ -94,8 +94,10 @@ HRESULT CStaff_Bullet::Render()
 	m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame);
 	m_pShaderCom->Bind_Material(m_pMaterialCom);
 
-	m_pShaderCom->Begin(0);
+	
+	
 	SetUp_RenderState();
+	m_pShaderCom->Begin(0);
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 	m_pShaderCom->End();
@@ -103,7 +105,6 @@ HRESULT CStaff_Bullet::Render()
 		return E_FAIL;
 	if (FAILED(m_pParticleCom->Render()))
 		return E_FAIL;
-
 	Release_RenderState();
 	return S_OK;
 }

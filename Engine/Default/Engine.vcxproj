@@ -221,6 +221,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\FrustumCull.h" />
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
+    <ClInclude Include="..\public\Gib_Particle_System.h" />
     <ClInclude Include="..\public\Gold_Particle_System.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
     <ClInclude Include="..\public\LandObject.h" />
@@ -301,6 +302,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\Private\Collider_Sphere.cpp" />
     <ClCompile Include="..\Private\Firework_Particle_System.cpp" />
     <ClCompile Include="..\private\FrustumCull.cpp" />
+    <ClCompile Include="..\private\Gib_Particle_System.cpp" />
     <ClCompile Include="..\private\Gold_Particle_System.cpp" />
     <ClCompile Include="..\Private\Particle_System.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />

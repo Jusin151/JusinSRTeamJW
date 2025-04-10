@@ -221,6 +221,9 @@
     <ClInclude Include="..\public\VIBuffers.h">
       <Filter>04.Components\VIBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Gib_Particle_System.h">
+      <Filter>04.Components\Particle\System\Gib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -596,6 +599,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_TexturedCube.cpp">
       <Filter>04.Components\VIBuffer\TexturedCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Gib_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Gib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
