@@ -220,6 +220,7 @@
     <ClInclude Include="..\public\Pattern_Warp.h" />
     <ClInclude Include="..\public\Prefabs.h" />
     <ClInclude Include="..\public\Spike.h" />
+    <ClInclude Include="..\public\Stains_Effect.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
@@ -376,6 +377,7 @@
     <ClCompile Include="..\private\Pattern_Warp.cpp" />
     <ClCompile Include="..\private\Spike.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\private\Stains_Effect.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
     <ClCompile Include="..\private\Torch.cpp" />

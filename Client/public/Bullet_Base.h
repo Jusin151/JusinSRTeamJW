@@ -24,7 +24,7 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CCollider_Cube* m_pColliderCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
 
 public:

@@ -358,7 +358,7 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         effectDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
         effectDesc.vScale = { 0.5f, 0.5f, 0.5f };
 
-        CHit_Effect::HIT_DESC hitDesc;
+        CBlood_Effect::HIT_DESC hitDesc;
         hitDesc.vRight = pTargetTransform->Get_State(CTransform::STATE_RIGHT);
         hitDesc.vUp = pTargetTransform->Get_State(CTransform::STATE_UP);
         hitDesc.vLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);

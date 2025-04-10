@@ -55,10 +55,9 @@ void CCollider_Manager::Update_Collison()
 
  	Collison_Cube_To_Cube(m_pColliders[CG_WEAPON], m_pColliders[CG_MONSTER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_ITEM]);
- 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_DOOR]);
-	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_CUBE], m_pColliders[CG_DOOR]);
-	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_DOOR]);
 	Collison_Cube_To_Cube(m_pColliders[CG_MONSTER], m_pColliders[CG_MONSTER]);
+
+	Collison_Sphere_To_Cube(m_pColliders[CG_PLAYER_PROJECTILE_SPHERE], m_pColliders[CG_MONSTER]);
 
 	Update_Collision_Floor();
 
@@ -108,7 +107,31 @@ void CCollider_Manager::Update_Collision_Structure()
 	{
 		if (i == CG_PLAYER_PROJECTILE_SPHERE || i == CG_MONSTER_PROJECTILE_SPHERE)
 		{
+			for (auto& srcEntry : m_pColliders[i])
+			{
+				
+				for (auto& dstEntry : m_pColliders[CG_STRUCTURE_WALL])
+				{
+					
 
+					if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
+					{
+						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+					}
+				}
+
+				for (auto& dstEntry : m_pColliders[CG_DOOR])
+				{
+				
+
+					if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
+					{
+						srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+						dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+					}
+				}
+			}
 		}
 		else
 		{
@@ -302,6 +325,32 @@ void CCollider_Manager::Collison_Cube_To_Cube(list<CCollider*> src, list<CCollid
 			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
 			dstEntry->Set_Depth(0.f);
 			if (Calc_Cube_To_Cube(srcEntry, dstEntry))
+			{
+				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
+				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());
+			}
+		}
+	}
+}
+
+void CCollider_Manager::Collison_Sphere_To_Cube(list<CCollider*> src, list<CCollider*> dst)
+{
+	if (src.empty() || dst.empty())
+		return;
+
+	for (auto& srcEntry : src)
+	{
+		srcEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+		srcEntry->Set_Depth(0.f);
+
+		for (auto& dstEntry : dst)
+		{
+			if (srcEntry == dstEntry)
+				continue;
+
+			dstEntry->Set_MTV(_float3({ 0.f, 0.f, 0.f }));
+			dstEntry->Set_Depth(0.f);
+			if (Calc_Sphere_To_Cube(srcEntry, dstEntry))
 			{
 				srcEntry->Get_Owner()->On_Collision(dstEntry->Get_Owner());
 				dstEntry->Get_Owner()->On_Collision(srcEntry->Get_Owner());

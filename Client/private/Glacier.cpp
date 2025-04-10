@@ -184,14 +184,27 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
 
     case CG_WEAPON:
         // 죽은 상태고, 프레임 끝나있으면 죽이기
-        if(m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+        Create_Stains(5);
+        if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+        {
             m_bIsActive = false;
-       
+
+        }
         break;
 
     case CG_MONSTER:
         m_vObjectMtvSum += vMove * 0.5f;
 
+        break;
+
+    case CG_PLAYER_PROJECTILE_SPHERE:
+        if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+            m_bIsActive = false;
+        break;
+
+    case CG_PLAYER_PROJECTILE_CUBE:
+        if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+            m_bIsActive = false;
         break;
     case CG_STRUCTURE_WALL:
 

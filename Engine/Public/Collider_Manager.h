@@ -46,13 +46,15 @@ public:
 	// OBB 충돌
 	void Collison_Cube_To_Cube(list<CCollider*> src, list<CCollider*> dst);
 
+	void Collison_Sphere_To_Cube(list<CCollider*> src, list<CCollider*> dst);
+
 	// 중점 거리가 반지름 합보다 작은지 판단
 	_bool Calc_Sphere_To_Sphere(CCollider* src, CCollider* dst);
 
 	// 그냥 하면 연산량이 많아서 단계적으로 진행...
 	_bool Calc_Cube_To_Cube(CCollider* src, CCollider* dst);
 
-	// 벽이랑 충돌할때, 벽은 큐브로 다른거는 구로 판정해서
+	// 
 	_bool Calc_Sphere_To_Cube(CCollider* src, CCollider* dst);
 
 	// 큐브 큐브 사이 거리로 먼저

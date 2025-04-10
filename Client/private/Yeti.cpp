@@ -104,8 +104,6 @@ void CYeti::Late_Update(_float fTimeDelta)
     m_vWallMtvs.clear();
 
     Select_Frame(fTimeDelta);
-
-
 }
 
 HRESULT CYeti::Render()
@@ -186,7 +184,7 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
         break;
      
     case CG_WEAPON:
-
+        Create_Stains(5);
         m_eCurState = MS_HIT;
 
         break;
@@ -275,8 +273,6 @@ void CYeti::Select_Pattern(_float fTimeDelta)
     }
 
 }
-
-
 
 void CYeti::Attack_Melee(_float fTimeDelta)
 {
