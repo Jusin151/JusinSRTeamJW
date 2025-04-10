@@ -48,10 +48,13 @@ void CYeti::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 
+    if (m_eCurState == MS_DEATH && !m_bGib)
+        Create_Gibs(2);
     if (m_iCurrentFrame > 40)
     {
         m_bIsActive = false;
     }
+    
 }
 
 void CYeti::Update(_float fTimeDelta)
@@ -186,7 +189,6 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
     case CG_WEAPON:
         Create_Stains(5);
         m_eCurState = MS_HIT;
-
         break;
 
     case CG_MONSTER:
@@ -373,7 +375,6 @@ void CYeti::Select_Frame(_float fTimeDelta)
             m_fElapsedTime = 0.0f;
 
             m_iCurrentFrame++;
-
         }
         break;
 

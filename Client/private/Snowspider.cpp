@@ -48,6 +48,8 @@ void CSnowspider::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 
+    if (m_eCurState == MS_DEATH && !m_bGib)
+        Create_Gibs(1);
     if (m_iCurrentFrame > 27)
     {
         m_bIsActive = false;

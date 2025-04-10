@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Stains_Effect.h"
+#include "Gib_Effect.h"
 
 CMonster_Base::CMonster_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
@@ -148,7 +149,6 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 {
 	float offsetRangeX = 1.f, offsetRangeZ = 1.f;
 	
-
 	CStains_Effect::HIT_DESC hitDesc;
 	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
@@ -162,7 +162,6 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 		_float offsetZ = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeZ * 2.0f);
 		_float3 vOffset = _float3(offsetX, 0.f, offsetZ);
 		hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vOffset;
-		hitDesc.vPos.y = -0.45f;
 		m_pGameInstance->Add_GameObject(
 			LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Stains_Effect"),
@@ -171,6 +170,28 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 			&hitDesc);
 	}
 	return S_OK; 
+}
+
+HRESULT CMonster_Base::Create_Gibs(_uint eType)
+{
+	float offsetRangeX = 1.f, offsetRangeY = 1.f;
+
+	CGib_Effect::HIT_DESC hitDesc;
+	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	hitDesc.vScale = { 1.5f, 1.f, 1.5f };
+	hitDesc.type = eType;
+
+	hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pGameInstance->Add_GameObject(
+		LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Gib_Effect"),
+		LEVEL_STATIC,
+		TEXT("Layer_Gib_Effect"),	
+		&hitDesc);
+	m_bGib = true;
+	return S_OK;
 }
 
 json CMonster_Base::Serialize()

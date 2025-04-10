@@ -60,6 +60,11 @@
       "class": "CStains_Effect"
     },
     {
+      "tag": "Prototype_GameObject_Gib_Effect",
+      "level": 0,
+      "class": "CGib_Effect"
+    },
+    {
       "tag": "Prototype_GameObject_Terrain",
       "level": 0,
       "class": "CTerrain"

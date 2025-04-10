@@ -722,6 +722,24 @@ technique DefaultTechnique
         PixelShader = compile ps_3_0 PS_WEAPON(); // 빛 계산이 포함된 PS_MAIN 사용
     }
 
+    pass Particle
+    {
+        // --- 렌더 상태 설정 ---
+        // 양면 렌더링을 위해 컬링 비활성화
+        CullMode = None;
+
+        // 알파 블렌딩 설정 (기존 코드 유지, 오타 수정)
+        PointSpriteEnable = TRUE;
+        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
+        SrcBlend = SrcAlpha;
+        DestBlend = InvSrcAlpha;
+        BlendOp = Add;
+
+        // --- 셰이더 설정 ---
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_UNLIT(); // 빛 계산이 포함된 PS_MAIN 사용
+    }
+
     pass BLACK
     {
         VertexShader = compile vs_3_0 VS_MAIN();

@@ -7,6 +7,7 @@ public:
 	typedef struct tagGibParticleDesc : tagParticleSystemDesc
 	{
 		BOUNDINGBOX		Bounding_Box;
+		BOUNDINGSPHERE	Bound;
 		_uint			iNumParticles;
 	}GIBDESC;
 private:
@@ -16,17 +17,17 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
 public:
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
 	virtual void Update(float fTimeDelta) override;
-	void Set_Dir(_float3 vDir) { m_vDir = -vDir; }
 public:
 	virtual HRESULT Pre_Render() override;
-
+	virtual HRESULT Render() override;
+	void Set_WorldMat(const _float4x4& WorldMat) { m_WorldMat = WorldMat; }
 private:
-	_float3							m_vDir = {};
 	BOUNDINGBOX						m_Bounding_Box = {};
+	BOUNDINGSPHERE					m_Bound = {};
+	_float4x4						m_WorldMat = {};
 public:
 	static	CGib_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGib_Particle_System* Clone(void* pArg) override;

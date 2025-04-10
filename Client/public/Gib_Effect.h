@@ -1,17 +1,17 @@
 #pragma once
 #include "Effect_Base.h"
 BEGIN(Client)
-class CStains_Effect final : public CEffect_Base
+class CGib_Effect final : public CEffect_Base
 {
 public:
-    enum HitType { HT_A, HT_B, HT_END };
-    typedef struct tagHitDesc : EFFECT_DESC {
+    enum MonsterType { MT_NORMAL, MT_SNOWSPIDER, MT_YETI, MT_GLACIER_HIT, MT_GLACIER_DEAD, MT_END };
+    typedef struct tagGibDesc : EFFECT_DESC {
         _uint       type;
     } HIT_DESC;
 private:
-    CStains_Effect(LPDIRECT3DDEVICE9 pGraphic_Device);
-    CStains_Effect(const CStains_Effect& Prototype);
-    virtual ~CStains_Effect() = default;
+    CGib_Effect(LPDIRECT3DDEVICE9 pGraphic_Device);
+    CGib_Effect(const CGib_Effect& Prototype);
+    virtual ~CGib_Effect() = default;
 public:
     virtual HRESULT Initialize_Prototype()override;
     virtual HRESULT Initialize(void* pArg)override;
@@ -25,11 +25,11 @@ public:
     virtual HRESULT Render()override;
     HRESULT Post_Render();
 public:
-    static CStains_Effect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-    virtual CStains_Effect* Clone(void* pArg) override;
+    static CGib_Effect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+    virtual CGib_Effect* Clone(void* pArg) override;
     virtual void Free()override;
 private:
-    CGameObject*    m_pTarget = { nullptr };
-    HitType         m_eHitType = { HT_A };
+    CGameObject*        m_pTarget = { nullptr };
+    MonsterType         m_eMonsterType = { MT_NORMAL };
 };
 END

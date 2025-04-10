@@ -481,6 +481,9 @@
     <Filter Include="02.GameObjects\08. Deco\Base">
       <UniqueIdentifier>{99ee9fa2-fdd1-47e1-8bae-490a6b95f923}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Gib_Effect">
+      <UniqueIdentifier>{69b90a84-7a91-44a8-970e-6e4c83fd1eee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -670,9 +673,6 @@
       <Filter>02.GameObjects\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Particle_Test.h">
-      <Filter>02.GameObjects\ParticleSystemTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Particles.h">
       <Filter>02.GameObjects\ParticleSystemTest</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Particle_Firework.h">
@@ -935,6 +935,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Deco_Base.h">
       <Filter>02.GameObjects\08. Deco\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Gib_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1345,6 +1348,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Deco_Base.cpp">
       <Filter>02.GameObjects\08. Deco\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Gib_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
