@@ -54,7 +54,7 @@ public:
 	virtual void Free();
 
 	_bool m_bFireLock = { false };
-
+	_bool m_bCharged = { false };
 
 
 
