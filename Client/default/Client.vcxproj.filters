@@ -460,6 +460,18 @@
     <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_ManHae">
       <UniqueIdentifier>{ab04500d-ddb6-497f-b36f-ffc7c5d652be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\08. Deco">
+      <UniqueIdentifier>{80eaa6cd-c944-4bec-a177-498d48d7a307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Deco\Statue">
+      <UniqueIdentifier>{282bdad3-3b25-4a10-ab90-6d3659b2ce24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Deco\Box">
+      <UniqueIdentifier>{2b1e6b94-5e13-4b95-bf9b-c023eb716e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\08. Deco\Base">
+      <UniqueIdentifier>{99ee9fa2-fdd1-47e1-8bae-490a6b95f923}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -900,6 +912,12 @@
     <ClInclude Include="..\public\HellBoss_DarkBullet.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Statue.h">
+      <Filter>02.GameObjects\08. Deco\Statue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Deco_Base.h">
+      <Filter>02.GameObjects\08. Deco\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1294,6 +1312,12 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Statue.cpp">
+      <Filter>02.GameObjects\08. Deco\Statue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Deco_Base.cpp">
+      <Filter>02.GameObjects\08. Deco\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

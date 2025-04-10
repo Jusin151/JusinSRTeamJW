@@ -425,6 +425,12 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Objects\\Goblet\\egypt_goblet_small000%d.png",
       "tag": "Prototype_Component_Texture_Goblet"
+    },
+    {
+      "tag": "Prototype_Component_Texture_Statue",
+      "level": 3,
+      "path": "../../Resources/Textures/Deco/Statue/Statue_%d.png",
+      "count": 2
     }
   ],
   "gameObjects": [
@@ -783,6 +789,11 @@
       "class": "CTorch",
       "level": 3,
       "tag": "Prototype_GameObject_Light_Torch"
+    },
+    {
+      "class": "CStatue",
+      "tag": "Prototype_GameObject_Statue",
+      "level": 3
     }
   ],
   "buffers": [

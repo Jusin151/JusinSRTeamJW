@@ -124,7 +124,6 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	Attack(fTimeDelta);//좌클
 
 
-
 	Calc_Position();
 
 	if (m_vObjectMtvSum.LengthSq() > 1e-8f && m_vWallMtvs.empty())
@@ -265,6 +264,10 @@ HRESULT CPlayer::On_Collision(CCollisionObject* other)
 		break;
 	case CG_DOOR:
 		
+		break;
+
+	case CG_OBJECT:
+		m_vObjectMtvSum += vMove;
 		break;
 	default:
 		break;

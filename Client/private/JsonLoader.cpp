@@ -34,6 +34,8 @@
 #include "Level_Hub.h"
 #include "Harvester.h"
 
+#include "Statue.h"
+
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath)
@@ -426,6 +428,10 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CTorch::Create(pGraphic_Device);
 #pragma endregion
 
+#pragma region Deco
+	else if (className == "CStatue")
+		return CStatue::Create(pGraphic_Device);
+#pragma endregion
 
 	return nullptr;
 }

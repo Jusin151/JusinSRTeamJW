@@ -202,6 +202,9 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
     case CG_DOOR:
 
         break;
+    case CG_OBJECT:
+        m_vObjectMtvSum += vMove;
+        break;
     default:
         break;
     }

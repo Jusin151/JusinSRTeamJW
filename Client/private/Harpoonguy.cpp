@@ -117,7 +117,7 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 
 	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_COLLIDER, this); 
 	
-}
+}	
 
 HRESULT CHarpoonguy::Render()
 {
@@ -195,6 +195,9 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 		break;
 	case CG_STRUCTURE_WALL:
 
+		break;
+	case CG_OBJECT:
+		m_vObjectMtvSum += vMove;
 		break;
 	case CG_DOOR:
 

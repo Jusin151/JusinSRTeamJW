@@ -206,6 +206,9 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
     case CG_STRUCTURE_WALL:
 
         break;
+    case CG_OBJECT:
+        m_vObjectMtvSum += vMove;
+        break;
     case CG_DOOR:
 
         break;

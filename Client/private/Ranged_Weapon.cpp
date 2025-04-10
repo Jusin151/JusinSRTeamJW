@@ -113,23 +113,23 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
     // 게임 인스턴스에서 모든 콜라이더 그룹 가져오기
     vector<list<CCollider*>> colliderGroups = m_pGameInstance->Get_Colliders();
 
-    for (size_t i = 0;i<colliderGroups.size();i++)
+    for (size_t i = 0; i < colliderGroups.size(); i++)
     {
         if (i == CG_ENVIRONMENT) continue;
         auto group = colliderGroups[i];
         for (auto* collider : group)
         {
-       
+
             if (!collider || !collider->Get_Owner())
                 continue;
 
-     
+
             const wstring& tag = collider->Get_Owner()->Get_Tag();
-            if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos||
+            if (tag == L"Layer_Player" || tag.find(L"Floor") != wstring::npos ||
                 tag.find(L"Trigger") != wstring::npos)
                 continue;
 
-            if (tag.find(L"Projectile")!= wstring::npos )
+            if (tag.find(L"Projectile") != wstring::npos)
                 continue;
 
             _float3 vHitPos{};
@@ -170,11 +170,11 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             Wall_Picking(pClosestCollider, EffectNum);
             m_bWall = true; // 필요하다면 플래그 설정
         }
-        else if ((closestTag.find(L"Monster") != wstring::npos)|| (closestTag.find(L"Layer_Cthulhu_Tentacle") != wstring::npos))
+        else if ((closestTag.find(L"Monster") != wstring::npos) || (closestTag.find(L"Layer_Cthulhu_Tentacle") != wstring::npos))
         {
             CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
-        
-            m_bMonster = true; 
+
+            m_bMonster = true;
         }
         else if ((closestTag.find(L"Boss") != wstring::npos) || (closestTag == L"Layer_Cthulhu"))
         {
@@ -187,6 +187,11 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
             CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
 
             m_bMonster = true;
+        }
+
+        if ((closestTag.find(L"Deco") != wstring::npos))
+        {
+            CreateHitEffect(pClosestCollider, vClosestHitPos, Damage);
         }
         // TODO: 다른 종류의 객체 태그에 대한 처리 로직 추가
     }
