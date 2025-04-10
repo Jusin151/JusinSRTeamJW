@@ -41,8 +41,8 @@ void CSpike::Update(_float fTimeDelta)
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
-
-			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		if(m_bUpdateAnimation)
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
 	Billboarding(fTimeDelta);
@@ -104,7 +104,13 @@ void CSpike::Reset()
 
 HRESULT CSpike::On_Collision(CCollisionObject* other)
 {
-	return E_NOTIMPL;
+	if (!other) return E_FAIL;
+
+	if (other->Get_Type() == CG_PLAYER)
+	{
+		Take_Damage(other);
+	}
+	return S_OK;
 }
 
 void CSpike::Billboarding(_float fTimeDelta)
@@ -201,7 +207,7 @@ HRESULT CSpike::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 1.f, 1.f, 5.f };
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
