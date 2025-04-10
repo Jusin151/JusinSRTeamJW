@@ -395,7 +395,7 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // 만약 Diffuse를 곱했다면
 
     // 5. (선택 사항) 알파 값에 따른 discard 로직
-    if (Out.vColor.a < 0.8f)
+    if (Out.vColor.a < 0.7f)
          discard;
 
     return Out;

@@ -201,11 +201,25 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/XYZ.dds"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Cube_Base*/
+	/* For.Prototype_Component_Texture_Skybox_Tundra*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Skybox_Tundra"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
 			TEXT("../../Resources/Textures/SkyBox/SkyBox_Tundra.dds"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Skybox_Hell*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Skybox_Hell"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
+			TEXT("../../Resources/Textures/SkyBox/SkyBox_Hell.dds"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Skybox_Cthulhu*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Skybox_Cthulhu"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_CUBE,
+			TEXT("../../Resources/Textures/SkyBox/SkyBox_Cthulhu.dds"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Cube_Base*/
