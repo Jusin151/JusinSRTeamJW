@@ -67,7 +67,8 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 		}
 	}
 	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
+	m_pLightCom->Set_Position(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	m_pGameInstance->Add_Light(m_pLightCom);
 	m_pGameInstance->Add_Collider(CG_PLAYER_PROJECTILE_SPHERE, m_pColliderCom);
 }
 
@@ -229,6 +230,12 @@ HRESULT CStaff_Bullet::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))
+		return E_FAIL;
+
+	CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/StaffLight.json" };
+	/* For.Com_Light */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+		TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
 		return E_FAIL;
 
 	/* For.Com_Material */

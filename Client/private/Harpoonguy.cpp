@@ -86,8 +86,6 @@ void CHarpoonguy::Update(_float fTimeDelta)
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
 
-
-
 	if (m_pTarget == nullptr)
 		return;
 
