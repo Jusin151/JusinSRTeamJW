@@ -57,7 +57,7 @@ protected:
 	void SetTarget(CGameObject* pTarget) { if (nullptr == m_pTarget) m_pTarget = pTarget; }
 
 	virtual json Serialize() override;
-	
+public:	
 	CGameObject* Get_Target() { return m_pTarget; }
 protected:
 	CShader*		m_pShaderCom = { nullptr };
