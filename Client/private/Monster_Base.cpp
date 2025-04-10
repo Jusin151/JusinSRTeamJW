@@ -153,7 +153,7 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_UP);
-	hitDesc.vScale = { 1.5f, 1.5f, 1.5f };
+	hitDesc.vScale = { 1.5f, 1.f, 1.5f };
 	hitDesc.type = rand() % 2;
 
 	for (_uint i = 0; i < effectNum; ++i)
@@ -162,7 +162,7 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 		_float offsetZ = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeZ * 2.0f);
 		_float3 vOffset = _float3(offsetX, 0.f, offsetZ);
 		hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vOffset;
-		hitDesc.vPos.y = -0.5f;
+		hitDesc.vPos.y = -0.45f;
 		m_pGameInstance->Add_GameObject(
 			LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Stains_Effect"),

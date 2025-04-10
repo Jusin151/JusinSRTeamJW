@@ -103,7 +103,7 @@ void CStains_Effect::Update(_float fTimeDelta)
 
 void CStains_Effect::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
@@ -113,8 +113,8 @@ HRESULT CStains_Effect::Pre_Render()
 	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Y축 반전을 위한 오프셋 조정
 	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
 	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	/*m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);*/
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
