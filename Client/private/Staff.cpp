@@ -4,6 +4,7 @@
 #include "Item_Manager.h"
 #include "Image_Manager.h"
 #include "Player.h"
+
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
 {
@@ -69,8 +70,6 @@ HRESULT CStaff::Initialize(void* pArg)
 	return S_OK;
 }
 
-
-
 void CStaff::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
@@ -112,7 +111,7 @@ void CStaff::Attack(_float fTimeDelta)
     if (m_bFireLock)
         return;
 
-        m_bAttackInput = true;
+    m_bAttackInput = true;
 
     __super::Attack(fTimeDelta);
 }
@@ -233,9 +232,23 @@ void CStaff::Late_Update(_float fTimeDelta)
         break;
     }
 
+    if (m_eState == State::Charging || m_eState == State::Charged)
+    {
+        CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+        if (nullptr == pPlayer)
+            return;
+        CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+        if (nullptr == pTransform)
+            return;
+        m_pGameInstance->Add_Light(m_pLightCom);
+        _float3 pos = pTransform->Get_State(CTransform::STATE_POSITION);
+        pos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
+        m_pLightCom->Set_Position(pos);
+        //m_pLightCom->DecreaseIntensity(m_iCurrentFrame);   
+    }
+
     m_bAttackInput = false;
 }
-
 
 HRESULT CStaff::Render()
 {
@@ -332,16 +345,21 @@ HRESULT CStaff::Ready_Components()
         TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
         return E_FAIL;
 
+    CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/StaffLight.json" };
+    /* For.Com_Light */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
+        TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
+        return E_FAIL;
+
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 
-    /* For.Com_Shader */
+    /* For.Com_Material */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
-
 
 	return S_OK;
 }
@@ -380,7 +398,7 @@ CGameObject* CStaff::Clone(void* pArg)
 void CStaff::Free()
 {
 	__super::Free();
-
+    Safe_Release(m_pLightCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
@@ -388,4 +406,3 @@ void CStaff::Free()
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pMaterialCom);
 }
-

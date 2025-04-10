@@ -59,6 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lights", "Lights", "{06C169
 		Resources\Lights\LampLight.json = Resources\Lights\LampLight.json
 		Resources\Lights\Magic.json = Resources\Lights\Magic.json
 		Resources\Lights\Shop.json = Resources\Lights\Shop.json
+		Resources\Lights\StaffLight.json = Resources\Lights\StaffLight.json
 		Resources\Lights\TestLight.json = Resources\Lights\TestLight.json
 		Resources\Lights\TestLight2.json = Resources\Lights\TestLight2.json
 		Resources\Lights\Torch.json = Resources\Lights\Torch.json

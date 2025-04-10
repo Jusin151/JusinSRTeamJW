@@ -7,6 +7,7 @@
 
 
 BEGIN(Engine)
+class CLgiht;
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로
@@ -28,38 +29,31 @@ private:
 	CStaff(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CStaff(const CStaff& Prototype);
 	virtual ~CStaff() = default;
-
+private:
+	HRESULT Ready_Components();
 public:
 	 HRESULT Initialize_Prototype();
 	 HRESULT Initialize(void* pArg);
+public:
 	 void Priority_Update(_float fTimeDelta);
 	 void Update(_float fTimeDelta);
 	 void Attack(_float fTimeDelta);
+	 void Attack_WeaponSpecific(_float fTimeDelta) override;
 	 void Late_Update(_float fTimeDelta);
+
+public:
 	 HRESULT Render();
 	 Weapon_DESC m_Staff_INFO{};
-
 	 HRESULT On_Collision();
 
-	 HRESULT Ready_Components();
-
-
-
 private:
-	State m_eState = State::Idle;
+	CLight* m_pLightCom = { nullptr };
+	State	m_eState = State::Idle;
+	_bool m_bFireLock = { false };
 
 public:
 	static CStaff* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
-
-	_bool m_bFireLock = { false };
-
-
-
-
-	// CRanged_Weapon을(를) 통해 상속됨
-	void Attack_WeaponSpecific(_float fTimeDelta) override;
-
 };
 END

@@ -195,8 +195,6 @@ HRESULT CMagnum::Render()
 	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
 	m_pShaderCom->Set_UVOffsetFactor(&Offset);
 
-	
-
 	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Transform()))
@@ -290,12 +288,12 @@ CGameObject* CMagnum::Clone(void* pArg)
 void CMagnum::Free()
 {
 	__super::Free();
-	Safe_Release(m_pPickingSys);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pLightCom);
 	Safe_Release(m_pSoundCom);
-	Safe_Release(m_pMaterialCom);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pPickingSys);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
 }

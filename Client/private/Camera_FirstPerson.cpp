@@ -225,59 +225,58 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 	else
 	{
 
-	m_fShakeTime += fTimeDelta * 10.f;
+		m_fShakeTime += fTimeDelta * 10.f;
 
-	float shakeAmount = 0.42f; // 흔들림 강도
-	_float3 shake = {
-		cos(m_fShakeTime) * shakeAmount,
-		sin(m_fShakeTime) * shakeAmount,
-		0.f
-	};
-
-	// 보간 계수 (0.0 ~ 1.0 사이 값). 작을수록 부드럽지만 느리게 목표 도달.
-	// 예시: 고정값 사용 (값을 조절하며 테스트 필요)
-	float smoothFactor = 0.15f;
-	// 또는 시간 기반 보간 (프레임 영향 받을 수 있으므로 clamp나 다른 기법 고려)
-	// float smoothFactor = min(1.f, fTimeDelta * 10.f); // 예시
-
-	bool bIsMoving = false; // 이동 키가 눌렸는지 확인
-
-	if (GetAsyncKeyState('W') & 0x8000 ||
-		GetAsyncKeyState('S') & 0x8000 ||
-		GetAsyncKeyState('A') & 0x8000 ||
-		GetAsyncKeyState('D') & 0x8000 )
-	{
-		bIsMoving = true;
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
-	}
-	if (bIsMoving)
-	{
-		// 1. 현재 카메라 위치 가져오기
-		_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		// 2. 목표 위치 계산 (현재 위치 + 흔들림 오프셋)
-		_float3 targetPos = currentPos + shake;
-
-		// 3. 현재 위치에서 목표 위치로 부드럽게 보간하여 새 위치 계산
-		_float3 newPos = VectorLerp(currentPos, targetPos, smoothFactor);
-		// 만약 VectorLerp 헬퍼 함수를 사용하지 않는다면:
-		/*
-		_float3 newPos = {
-			Lerp(currentPos.x, targetPos.x, smoothFactor),
-			Lerp(currentPos.y, targetPos.y, smoothFactor),
-			Lerp(currentPos.z, targetPos.z, smoothFactor) // Z축도 일관성을 위해 보간
+		float shakeAmount = 0.42f; // 흔들림 강도
+		_float3 shake = {
+			cos(m_fShakeTime) * shakeAmount,
+			sin(m_fShakeTime) * shakeAmount,
+			0.f
 		};
-		*/
+
+		// 보간 계수 (0.0 ~ 1.0 사이 값). 작을수록 부드럽지만 느리게 목표 도달.
+		// 예시: 고정값 사용 (값을 조절하며 테스트 필요)
+		float smoothFactor = 0.15f;
+		// 또는 시간 기반 보간 (프레임 영향 받을 수 있으므로 clamp나 다른 기법 고려)
+		// float smoothFactor = min(1.f, fTimeDelta * 10.f); // 예시
+
+		bool bIsMoving = false; // 이동 키가 눌렸는지 확인
+
+		if (GetAsyncKeyState('W') & 0x8000 ||
+			GetAsyncKeyState('S') & 0x8000 ||
+			GetAsyncKeyState('A') & 0x8000 ||
+			GetAsyncKeyState('D') & 0x8000 )
+		{
+			bIsMoving = true;
+			//m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+		}
+		if (bIsMoving)
+		{
+			// 1. 현재 카메라 위치 가져오기
+			_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			// 2. 목표 위치 계산 (현재 위치 + 흔들림 오프셋)
+			_float3 targetPos = currentPos + shake;
+
+			// 3. 현재 위치에서 목표 위치로 부드럽게 보간하여 새 위치 계산
+			_float3 newPos = VectorLerp(currentPos, targetPos, smoothFactor);
+			// 만약 VectorLerp 헬퍼 함수를 사용하지 않는다면:
+			/*
+			_float3 newPos = {
+				Lerp(currentPos.x, targetPos.x, smoothFactor),
+				Lerp(currentPos.y, targetPos.y, smoothFactor),
+				Lerp(currentPos.z, targetPos.z, smoothFactor) // Z축도 일관성을 위해 보간
+			};
+			*/
 	
-		// 4. 계산된 새 위치로 카메라 상태 업데이트
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
-	}
+			// 4. 계산된 새 위치로 카메라 상태 업데이트
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
+		}
 	// else
 	// {
 	//     // 만약 키를 뗐을 때 원래 위치로 부드럽게 돌아가게 하려면
 	//     // 여기에 원래 위치(흔들림 없는)로 돌아가는 Lerp 로직 추가 필요
 	// }
-
 	}
 }
 void CCamera_FirstPerson::TriggerShake_HellBoss(_float shakeAmount, _float duration)
