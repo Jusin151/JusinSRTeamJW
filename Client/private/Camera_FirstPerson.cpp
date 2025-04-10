@@ -81,9 +81,14 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, fPlayerTrans->Get_State(CTransform::STATE_RIGHT).GetNormalized() * m_vScale.x);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, fPlayerTrans->Get_State(CTransform::STATE_UP).GetNormalized() * m_vScale.y);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, fPlayerTrans->Get_State(CTransform::STATE_LOOK).GetNormalized() * m_vScale.z);
-	auto vPos = fPlayerTrans->Get_State(CTransform::STATE_POSITION);
-	vPos.y += 0.2f;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
+	
+	if (!m_bTriggerShake)
+	{
+		auto vPos = fPlayerTrans->Get_State(CTransform::STATE_POSITION);
+		vPos.y += 0.2f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+	}
+
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPlayerTrans->Get_State(CTransform::STATE_POSITION));
 	UpdateRecoil(fTimeDelta);
 	
@@ -193,7 +198,6 @@ void CCamera_FirstPerson::TriggerShake(_float shakeAmount, _float duration)
 	m_vOriginalCameraPosition.y += 0.5f; // 카메라 위치 조정
 }
 
-
 void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 {
 	if (m_bTriggerShake && m_fShakeDuration > 0.f)
@@ -264,7 +268,7 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 			Lerp(currentPos.z, targetPos.z, smoothFactor) // Z축도 일관성을 위해 보간
 		};
 		*/
-
+	
 		// 4. 계산된 새 위치로 카메라 상태 업데이트
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
 	}
@@ -276,7 +280,79 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 
 	}
 }
+void CCamera_FirstPerson::TriggerShake_HellBoss(_float shakeAmount, _float duration)
+{
+	m_fShakeAmount = shakeAmount;
+	m_fShakeDuration = duration;
+	m_fShakeTime = 0.f;
+	m_bTriggerShake = true;
 
+	// 원래 위치 저장 (플레이어랑 연동 안 하고 카메라 기준)
+	m_vOriginalCameraPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	m_bSmoothReturn = false; // 혹시 모를 잔상 제거
+
+}
+void CCamera_FirstPerson::Shaking_HellBoss(_float fTimeDelta)
+{
+	if (m_bTriggerShake && m_fShakeDuration > 0.f)
+	{
+		m_fShakeTime += fTimeDelta;
+		// 쉐이크 시간이 지속 시간을 초과하면 효과 종료
+		if (m_fShakeTime >= m_fShakeDuration)
+		{
+			m_fShakeDuration = 0.f;
+			m_fShakeAmount = 0.f;
+			m_fShakeTime = 0.f;
+			m_bTriggerShake = false; // 트리거 비활성화
+			// 효과 종료 시 원래 위치로 복귀
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition);
+			return;
+		}
+
+		// 매 프레임마다 랜덤 오프셋 생성 (범위: [-1,1] * 쉐이크 강도)
+		float randomX = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+		float randomY = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+		_float3 randomOffset = { randomX * m_fShakeAmount, randomY * m_fShakeAmount, 0.f };
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition + randomOffset);
+	}
+	else
+	{
+
+		m_fShakeTime += fTimeDelta * 10.f;
+
+		float shakeAmount = 0.42f; // 흔들림 강도
+		_float3 shake = {
+			cos(m_fShakeTime) * shakeAmount,
+			sin(m_fShakeTime) * shakeAmount,
+			0.f
+		};
+		float smoothFactor = 0.15f;
+		bool bIsMoving = false; // 이동 키가 눌렸는지 확인
+
+		if (GetAsyncKeyState('W') & 0x8000 ||
+			GetAsyncKeyState('S') & 0x8000 ||
+			GetAsyncKeyState('A') & 0x8000 ||
+			GetAsyncKeyState('D') & 0x8000)
+		{
+			bIsMoving = true;
+			
+		}
+		if (bIsMoving)
+		{
+			_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			_float3 targetPos = currentPos + shake;
+
+			_float3 newPos = VectorLerp(currentPos, targetPos, smoothFactor);
+		
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
+		}
+	
+	}
+}
 HRESULT CCamera_FirstPerson::Ready_Components()
 {
 	CTransform::TRANSFORM_DESC		TransformDesc{};

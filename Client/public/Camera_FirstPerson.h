@@ -39,8 +39,10 @@ public:
 	void UpdateRecoil(_float fTimeDelta);
 
 	void TriggerShake(_float shakeAmount, _float duration);
-
-private:
+	void TriggerShake_HellBoss(_float shakeAmount, _float duration);
+	void Shaking_HellBoss(_float fTimeDelta);
+	_float3 m_vShakeOffset_HellBoss = {}; // 보스 쉐이크 전용
+	_float3 m_vShakeOffset = {};
 	void Shaking(_float fTimeDelta);
 public:
 	void Camera_Lock(_bool bIsLock)
@@ -72,11 +74,13 @@ private:
 	_float				m_fShakeTime = 0.f;
 	_bool				m_bCameraLocked = { false };
 	_float3				m_vScale = {};
-
+	_bool m_bSmoothReturn = { false };
 	_float m_fShakeAmount = 0.f;    // 쉐이크 강도 
 	_float m_fShakeDuration = 0.f;    // 쉐이크 지속 시간
 	_bool m_bTriggerShake = false; // 쉐이크 트리거 상태
 	_float3 m_vOriginalCameraPosition; // 원래 카메라 위치
+	_bool m_bSmoothReturn_HellBoss = false; // 부드럽게 복귀할지 여부
+	_float3 m_vShakeBasePosition = {}; 
 public:
 	static CCamera_FirstPerson* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
@@ -87,3 +91,4 @@ public:
 
 
 END
+

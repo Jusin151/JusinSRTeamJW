@@ -10,6 +10,6 @@ public:
     virtual ~CHellBoss_State()PURE;
 
     virtual void Enter(CHellBoss* pBoss) = 0;
-    virtual void Update(CHellBoss* pBoss, float fDeltaTime) = 0;
+    virtual void Update(CHellBoss* pBoss, float fTimeDelta) = 0;
     virtual void Exit(CHellBoss* pBoss) = 0;
 };

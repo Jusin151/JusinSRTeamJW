@@ -27,7 +27,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 	_float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
 	float fDist = D3DXVec3Length(&vToPlayer);
 
-	if (fDist < 20.f) // 공격 거리 안에 들었으면@@@#!#!@#
+	if (fDist < 30.f) // 공격 거리 안에 들었으면@@@#!#!@#
 	{
 		if (pBoss->Get_Phase() == PHASE1)
 		{

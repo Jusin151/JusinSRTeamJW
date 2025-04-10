@@ -12,7 +12,7 @@
 #include "HellBoss_DeadState.h"
 #include "Pattern_Morph.h"
 #include "Pattern_Warp.h"
-
+#include "HellBoss_FloatState.h"
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
 }
@@ -173,11 +173,10 @@ void CHellBoss::Process_Input()
 
 	if (GetAsyncKeyState('Z') & 0x8000)
 	{
-		m_bPressed = false;
-
-		if (!m_bPressed)
+		if (!m_bZKeyPressed)
 		{
-			m_bPressed = true;
+			m_bZKeyPressed = true;
+
 			m_bDarkHole_EffectActive = !m_bDarkHole_EffectActive;
 
 			if (m_bDarkHole_EffectActive)
@@ -188,20 +187,10 @@ void CHellBoss::Process_Input()
 		}
 	}
 	else
-		m_bPressed = false;
+	{
+		m_bZKeyPressed = false; // 키를 뗐을 때 false로 초기화
+	}
 
-}
-void CHellBoss::Update(_float fTimeDelta)
-{
-	if (!m_pTarget)
-		return;
-	if (m_pCurState)
-		m_pCurState->Update(this, fTimeDelta);
-
-	Process_Input();
-
-	if (m_bDarkHole_EffectActive)
-		Spawn_Warp_Effect(fTimeDelta);
 
 	if (GetAsyncKeyState('C') & 0x8000 && !m_bJumping && !m_bFalling)
 	{
@@ -210,7 +199,7 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		_float3 vPos = m_vJumpStartPos;
-		vPos.y += 80.f; 
+		vPos.y += 80.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
 		BossDESC desc{};
@@ -231,7 +220,7 @@ void CHellBoss::Update(_float fTimeDelta)
 
 			_float angleRad = ((rand() % 360)) * D3DX_PI / 180.f;
 
-			_float distance = 40.f; 
+			_float distance = 40.f;
 
 			_float3 vOffset;
 			vOffset.x = cosf(angleRad) * distance;
@@ -248,6 +237,19 @@ void CHellBoss::Update(_float fTimeDelta)
 
 
 	}
+
+}
+void CHellBoss::Update(_float fTimeDelta)
+{
+	if (!m_pTarget)
+		return;
+	if (m_pCurState)
+		m_pCurState->Update(this, fTimeDelta);
+
+	Process_Input();
+	if (m_bDarkHole_EffectActive)
+		Spawn_Warp_Effect(fTimeDelta);
+
 
 	if (m_bFalling)
 	{
@@ -284,7 +286,6 @@ void CHellBoss::Update(_float fTimeDelta)
 
 
 
-
 	m_AnimationManager.Update(fTimeDelta);
 
 	if (m_eCurState != MS_DEATH)
@@ -310,14 +311,15 @@ void CHellBoss::Update(_float fTimeDelta)
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 10000 && !m_bDidPhase4Morph)// <<< 4페이즈 돌입! 
+	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입!
 	{
 		m_bDidPhase4Morph = true;
-		m_ePhase = PHASE4; 
+		m_ePhase = PHASE4;
 		Set_AttackPattern(new CPattern_Morph());
-		Change_State(new CHellBoss_MorphState());
+		Change_State(new CHellBoss_FloatState());
 		return;
 	}
+
 	if (m_iHp <= 5000 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
 	{
 		m_bDidPhase5Morph = true;
@@ -363,7 +365,7 @@ void CHellBoss::Launch_PowerBlast_Bullets()
 	}
 
 
-	// 다 쐈으니 초기화
+
 	m_vecPowerBlasts.clear();
 	m_iPowerBlastCount = 0;
 }
@@ -497,9 +499,11 @@ void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
 					continue;
 
 				_float xOffset = (col - (cols - 1) / 2.0f) * (width / cols);
-				_float yOffset = (row - (rows - 1) / 2.0f) * (height / rows);
+				_float yOffset = (row - (rows - 1) / 2.0f) * (height / rows); // 세로 위치 조절하는곳
 
-				_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
+				//_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
+				_float3 finalPos = planeCenter + vRight * xOffset + vUp * (yOffset + 5.0f); //   (yOffset + 1.0f); 여기에서 숫자 조절하면 위로 감
+
 				newGrid.push_back(finalPos);
 			}
 		}
@@ -579,9 +583,9 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 
 	if (!m_bJumping && !m_bFalling)
 	{
-		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		fPos.y = m_fOffset;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		//_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		//fPos.y = m_fOffset;
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
 
 

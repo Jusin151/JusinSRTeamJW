@@ -21,11 +21,14 @@ private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
+
+
 public:
 	static CHellBoss_Skill_DarkHole* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
+	bool m_bFired = { false };
 
 };
 

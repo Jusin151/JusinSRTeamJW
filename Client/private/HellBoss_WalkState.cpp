@@ -17,7 +17,7 @@ void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 }
 
 
-void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
+void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fTimeDelta)
 {
 	_float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos(); 
 	float fDist = D3DXVec3Length(&vToPlayer);
@@ -25,7 +25,7 @@ void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 	D3DXVec3Normalize(&vToPlayer, &vToPlayer);
 
 
-	_float3 vNewPos = pBoss->Get_Pos() + vToPlayer * pBoss->Get_Speed() * fDeltaTime;
+	_float3 vNewPos = pBoss->Get_Pos() + vToPlayer * pBoss->Get_Speed() * fTimeDelta;
 	pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, vNewPos);
 
 	

@@ -385,20 +385,11 @@
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State">
       <UniqueIdentifier>{a0649530-afd8-4029-a844-764732747d2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\00. IdleState">
-      <UniqueIdentifier>{7e073fc2-6b26-41d1-9d51-b208ff136fa3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\02. AttackState">
       <UniqueIdentifier>{f7b56509-69c1-4e0d-96a3-2f1fb436e61d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\03. MorphState">
-      <UniqueIdentifier>{d276f531-52bd-44ac-b4d6-adf9ca28ae16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\01. WalkState">
       <UniqueIdentifier>{061822cf-6828-43e9-8876-b34ac7079424}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\04. DeadState">
-      <UniqueIdentifier>{455125b4-ca2e-4549-a3a9-9b4f9df52bb3}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\DW_Boss\99.Animation">
       <UniqueIdentifier>{fc16e1c7-8d25-46a5-854d-4e98e7e743b2}</UniqueIdentifier>
@@ -459,6 +450,21 @@
     </Filter>
     <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_ManHae">
       <UniqueIdentifier>{ab04500d-ddb6-497f-b36f-ffc7c5d652be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\98. MorphState">
+      <UniqueIdentifier>{d276f531-52bd-44ac-b4d6-adf9ca28ae16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\99. DeadState">
+      <UniqueIdentifier>{455125b4-ca2e-4549-a3a9-9b4f9df52bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\01. WalkState\00. IdleState">
+      <UniqueIdentifier>{7e073fc2-6b26-41d1-9d51-b208ff136fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState">
+      <UniqueIdentifier>{00d2e099-cebc-45d4-987d-3281c0eeecc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState">
+      <UniqueIdentifier>{901929e7-6d11-4cf4-a3c1-bc58c52e4bd1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -820,7 +826,7 @@
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HellBoss_IdleState.h">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\00. IdleState</Filter>
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\01. WalkState\00. IdleState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_WalkState.h">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\01. WalkState</Filter>
@@ -829,10 +835,10 @@
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\02. AttackState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_MorphState.h">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03. MorphState</Filter>
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\98. MorphState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_DeadState.h">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04. DeadState</Filter>
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\99. DeadState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pattern_Base.h">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern</Filter>
@@ -899,6 +905,12 @@
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_DarkBullet.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss_CircleState.h">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HellBoss_FloatState.h">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1221,7 +1233,7 @@
       <Filter>02.GameObjects\DW_Boss\00.HellBoss</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HellBoss_IdleState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\00. IdleState</Filter>
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\01. WalkState\00. IdleState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_WalkState.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\01. WalkState</Filter>
@@ -1230,10 +1242,10 @@
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\02. AttackState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_MorphState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03. MorphState</Filter>
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\98. MorphState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_DeadState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04. DeadState</Filter>
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\99. DeadState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Pattern_Shoot.cpp">
       <Filter>02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_All\Pattern_Shoot</Filter>
@@ -1294,6 +1306,12 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_CircleState.cpp">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_FloatState.cpp">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

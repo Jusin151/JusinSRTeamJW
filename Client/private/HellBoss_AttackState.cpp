@@ -38,7 +38,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 20.f)
+            if (fDist < 30.f)
             {
                 pBoss->Set_AttackPattern(new CPattern_Shoot());
             }
@@ -51,7 +51,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 20.f)
+            if (fDist < 30.f)
             {
                 pBoss->Set_AttackPattern(new CPattern_Shoot());
             }
@@ -64,7 +64,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos(); 
             float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 20.f)
+            if (fDist < 30.f)
             {
                 pBoss->Set_AttackPattern(new CPattern_Shoot());
             }
@@ -77,7 +77,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 20.f)
+            if (fDist < 30.f)
             {
                 pBoss->Set_AttackPattern(new CPattern_Shoot());
             }
