@@ -27,6 +27,11 @@ HRESULT CStaff_Bullet::Initialize(void* pArg)
 		return E_FAIL;
 	m_fSpeed = 5.f;
 	m_vDir = m_Player_Transform->Get_State(CTransform::STATE_LOOK);
+
+	m_iAp = 30;
+
+	m_eType = CG_PLAYER_PROJECTILE_SPHERE;
+
 	return S_OK;
 }
 
@@ -61,12 +66,15 @@ void CStaff_Bullet::Update(_float fTimeDelta)
 			m_iCurrentFrame = 6;
 		}
 	}
+	m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+
+	m_pGameInstance->Add_Collider(CG_PLAYER_PROJECTILE_SPHERE, m_pColliderCom);
 }
 
 
 
 void CStaff_Bullet::Late_Update(_float fTimeDelta)
-{
+{	
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -102,16 +110,54 @@ HRESULT CStaff_Bullet::Render()
 
 HRESULT CStaff_Bullet::On_Collision(CCollisionObject* other)
 {
-	__super::On_Collision(other);
+	if (nullptr == m_pColliderCom)
+		return E_FAIL;
+
+	if (nullptr == other)
+		return S_OK;
+
+	// 안바뀌면 충돌 안일어남
+	if (other->Get_Type() == CG_END)
+		return S_OK;
+
+	switch (other->Get_Type())
+	{
+	case CG_PLAYER:
+
+		
+		break;
+
+	case CG_WEAPON:
+
+		break;
+	case CG_MONSTER:
+		Take_Damage(other);
+		m_bIsActive = false;
+		break;
+
+	case CG_STRUCTURE_WALL:
+		m_bIsActive = false;
+		break;
+
+	case CG_DOOR:
+		m_bIsActive = false;
+		break;
+
+	
+	default:
+		break;
+	}
+
+
+
 	return S_OK;
+
 }
 
 
 void CStaff_Bullet::Attack_Melee()
 {
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
 }
 
 void CStaff_Bullet::Reset()
@@ -193,6 +239,20 @@ HRESULT CStaff_Bullet::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

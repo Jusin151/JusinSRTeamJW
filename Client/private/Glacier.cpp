@@ -193,6 +193,16 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
         m_vObjectMtvSum += vMove * 0.5f;
 
         break;
+
+    case CG_PLAYER_PROJECTILE_SPHERE:
+        if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+            m_bIsActive = false;
+        break;
+
+    case CG_PLAYER_PROJECTILE_CUBE:
+        if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+            m_bIsActive = false;
+        break;
     case CG_STRUCTURE_WALL:
 
         break;
