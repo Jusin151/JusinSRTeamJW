@@ -4,6 +4,7 @@
 #include "Item_Manager.h"
 #include "Image_Manager.h"
 #include "Player.h"
+#include <Staff_Bullet.h>
 CStaff::CStaff(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CRanged_Weapon(pGraphic_Device)
 {
@@ -160,7 +161,10 @@ void CStaff::Late_Update(_float fTimeDelta)
             {
                 m_fElapsedTime = 0.0f;
                 if (m_iCurrentFrame < m_TextureRanges["Charging"].second)
+                {
                     ++m_iCurrentFrame;
+                    m_bCharged = false;
+                }
                 else
                 {
                     m_eState = State::Charged;
@@ -187,6 +191,7 @@ void CStaff::Late_Update(_float fTimeDelta)
         }
         else
         {
+            m_bCharged = true;
             m_eState = State::Firing;
             m_iCurrentFrame = m_TextureRanges["Attack"].first;
             m_fElapsedTime = 0.0f;
@@ -214,7 +219,18 @@ void CStaff::Late_Update(_float fTimeDelta)
                         return;
                     }
 
-                    if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_STATIC, LEVEL_STATIC, TEXT("Layer_Staff_Bullet")))
+                    if (CStaff_Bullet* pBullet = static_cast<CStaff_Bullet*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_STATIC, LEVEL_STATIC, TEXT("Layer_Staff_Bullet"))))
+                    {
+                        if (m_bCharged)
+                        {
+                            pBullet->Set_Ap(50);
+                        }
+                        else
+                        {
+                            pBullet->Set_Ap(30);
+                        }
+                    }
+                    else
                     {
                         MSG_BOX("스태프총알 생성안됨");
                     }
