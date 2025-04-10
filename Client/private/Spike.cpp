@@ -25,6 +25,7 @@ HRESULT CSpike::Initialize(void* pArg)
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
 	m_pTransformCom->Set_Scale(5.f, 5.f, 1.f);
 	m_fFrame = 0.f;
+	m_iAp = 100;
 	Init_Textures();
 	return S_OK;
 }
@@ -40,8 +41,7 @@ void CSpike::Update(_float fTimeDelta)
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
-		//m_pGameInstance->Add_Collider(CG_ENVIRONMENT, m_pColliderCom);
-		
+
 			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
@@ -54,18 +54,13 @@ void CSpike::Update(_float fTimeDelta)
 
 void CSpike::Late_Update(_float fTimeDelta)
 {
-	if (m_bAnimFinished)
-	{
-		SetActive(false);
-	}
 	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	fPos.y = m_fOffset;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
-	//if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
-	//{
-	//	
-	//}
+	if (m_bUpdateAnimation)
+	{
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	}
 }
 
 HRESULT CSpike::Render()
@@ -102,6 +97,9 @@ void CSpike::Reset()
 {
 	m_eState = SPIKE_STATE::ATTACK;
 	m_bUpdateAnimation = true;
+	m_fFrame = 0.f;
+	m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][0];
+	m_bAnimFinished = false;
 }
 
 HRESULT CSpike::On_Collision(CCollisionObject* other)
@@ -132,7 +130,14 @@ void CSpike::Billboarding(_float fTimeDelta)
 	vNewUp.Normalize();
 
 	_float3 vScale = m_pTransformCom->Compute_Scaled();
-
+	if (m_bIsRight)
+	{
+		vScale.x = -abs(vScale.x);
+	}
+	else
+	{
+		vScale.x = abs(vScale.x);
+	}
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * vScale.x);
 	m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp * vScale.y);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook * vScale.z);
@@ -140,6 +145,13 @@ void CSpike::Billboarding(_float fTimeDelta)
 
 void CSpike::Select_Pattern(_float fTimeDelta)
 {
+}
+
+void CSpike::Flip(_bool bIsRight)
+{
+	if (m_eSpikeType == SPIKE_TYPE::CENTER) return;
+	m_bIsRight = bIsRight;
+	
 }
 
 void CSpike::Set_Position(const _float3& vPos)
@@ -189,7 +201,7 @@ HRESULT CSpike::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 1.f, 1.f, 3.f };
+	ColliderDesc.fScale = { 1.f, 1.f, 5.f };
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
@@ -215,11 +227,19 @@ void CSpike::Init_Textures()
 	{
 		if (i < 5)
 		{
-			m_mapStateTextures[SPIKE_STATE::ATTACK].push_back(i);
+			m_mapStateTextures[SPIKE_TYPE::SIDE][SPIKE_STATE::ATTACK].push_back(i);
+		}
+		else if(i>=5&&i<10)
+		{
+			m_mapStateTextures[SPIKE_TYPE::SIDE][SPIKE_STATE::DISAPPEAR].push_back(i);
+		}
+		else if (i >= 10 && i < 15)
+		{
+			m_mapStateTextures[SPIKE_TYPE::CENTER][SPIKE_STATE::ATTACK].push_back(i);
 		}
 		else
 		{
-			m_mapStateTextures[SPIKE_STATE::DISAPPEAR].push_back(i);
+			m_mapStateTextures[SPIKE_TYPE::CENTER][SPIKE_STATE::DISAPPEAR].push_back(i);
 		}
 	}
 }
@@ -227,7 +247,7 @@ void CSpike::Init_Textures()
 void CSpike::Update_Animation(_float fTimeDelta)
 {
 	m_fFrame += m_fAnimationSpeed * fTimeDelta;
-	size_t numFrames = m_mapStateTextures[m_eState].size();
+	size_t numFrames = m_mapStateTextures[m_eSpikeType][m_eState].size();
 
 	if (m_fFrame >= numFrames)
 	{
@@ -236,20 +256,19 @@ void CSpike::Update_Animation(_float fTimeDelta)
 			// APPEAR 애니메이션이 끝나면 공격 상태로 전환
 			m_eState = SPIKE_STATE::DISAPPEAR;
 			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+			m_bAnimFinished = true; // 공격이 끝나서 다음 촉수한테 알려주기 위함
+			m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][0];
 		}
 		else if (m_eState == SPIKE_STATE::DISAPPEAR)
 		{
-			m_bAnimFinished = true;
 			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
-			
+			m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][0];
+			SetActive(false);
 		}
 	}
 	else
 	{
-		m_bAnimFinished = false;
-		m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
+		m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][(_uint)m_fFrame];
 	}
 }
 

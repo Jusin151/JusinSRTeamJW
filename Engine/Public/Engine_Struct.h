@@ -117,6 +117,14 @@ namespace Engine
 			return z < other.z;
 		}
 
+		tagVector3 operator-(const tagVector3& other) const {
+			return tagVector3(x - other.x, y - other.y, z - other.z);
+		}
+
+		tagVector3 operator-() const {
+			return tagVector3(-x, -y, -z);
+		}
+
 		bool IsParallel(const tagVector3& other)
 		{
 			// 외적이 0이면 평행 (오차 허용)
