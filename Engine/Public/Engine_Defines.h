@@ -2,8 +2,7 @@
 
 #pragma warning (disable : 4251)
 #define NOMINMAX
-#include <d3d9.h>
-#include <d3dx9.h>
+
 
 #include <string>
 #include <map>
@@ -19,6 +18,8 @@
 #include <locale>
 #include <iomanip>
 #include <sstream>
+#include <d3d9.h>
+#include <d3dx9.h>
 using namespace std;
 
 #include "../../External Libraries/json.hpp"

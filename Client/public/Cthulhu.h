@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Monster_Base.h>
 #include <BehaviorTree.h>
+#include "Spike.h"
 BEGIN(Client)
 class CCthulhu final : public CMonster_Base
 {
@@ -109,9 +110,14 @@ private:
     _float m_fSpikeCoolTime{ 0.f };
     _float m_fSpikeCoolDown{ 2.f };
     _float m_fSpikeTimer{ 0.f };
+    _float m_fSpikeSpawnTimer{ 0.3f };
     _float m_fPhaseThreshold2{ 0.f };
     _bool  m_bSpikeAppeared{ false };
-    list<class CSpike*> m_listSpikes;
+    vector<CSpike*> m_vecSpikes;
+
+
+    // 플레이어 관련
+    CTransform* m_pPlayerTransform { nullptr };
 
 public:
     static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
