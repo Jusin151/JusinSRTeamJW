@@ -5,8 +5,19 @@
 #include "Effect_Base.h" 
 
 
+typedef struct SkillINFO
+{
+	_float3 vRight{};
+	_float3 vUp{};
+	_float3 vLook{};
+	_float3 vPos{};
+	string strState{};
+
+}SkillDESC;
+
 class CHellBoss_SkillBase : public CEffect_Base
 {
+
 protected:
 	CHellBoss_SkillBase(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CHellBoss_SkillBase(const CHellBoss_SkillBase& Prototype);

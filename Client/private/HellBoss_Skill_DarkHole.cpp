@@ -30,7 +30,7 @@ HRESULT CHellBoss_Skill_DarkHole::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scale(5.f,5.f,5.f);
 
-	m_AnimationManager.AddAnimation("Warp", 0, 16);
+	m_AnimationManager.AddAnimation("DarkHole", 0, 16,0.08f);
 
 	return S_OK;
 }
@@ -68,21 +68,26 @@ void CHellBoss_Skill_DarkHole::Priority_Update(_float fTimeDelta)
 void CHellBoss_Skill_DarkHole::Update(_float fTimeDelta)
 {
 
-	m_AnimationManager.SetCurrentAnimation("Warp");
+	m_AnimationManager.SetCurrentAnimation("DarkHole");
 
 	m_AnimationManager.Update(fTimeDelta); 
-	
-	if (m_AnimationManager.GetCurrentFrame() == 7)
+
+
+
+	if (m_AnimationManager.GetCurrentFrame() == 5 && !m_bFired)
 	{
+		m_bFired = true;
+
 		if (!m_pGameInstance->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_DarkBullet")))
 		{
 			MSG_BOX("다크뷸릿 생성안됨");
 		}
-
 	}
+
 
 	if (m_AnimationManager.IsFinished())
 	{
+		m_bFired = false;
 		SetActive(false);
 	}
 }

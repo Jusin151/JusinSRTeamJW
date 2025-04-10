@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "Stains_Effect.h"
 
 CMonster_Base::CMonster_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
@@ -141,6 +142,35 @@ void CMonster_Base::Chasing(_float fTimeDelta, _float fDist)
 void CMonster_Base::Set_Trigger()
 {
 
+}
+
+HRESULT CMonster_Base::Create_Stains(_uint effectNum)
+{
+	float offsetRangeX = 1.f, offsetRangeZ = 1.f;
+	
+
+	CStains_Effect::HIT_DESC hitDesc;
+	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	hitDesc.vScale = { 1.5f, 1.f, 1.5f };
+	hitDesc.type = rand() % 2;
+
+	for (_uint i = 0; i < effectNum; ++i)
+	{
+		_float offsetX = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeX * 2.0f);
+		_float offsetZ = (((rand() % 100) / 100.f) - 0.5f) * (offsetRangeZ * 2.0f);
+		_float3 vOffset = _float3(offsetX, 0.f, offsetZ);
+		hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vOffset;
+		hitDesc.vPos.y = -0.45f;
+		m_pGameInstance->Add_GameObject(
+			LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Stains_Effect"),
+			LEVEL_STATIC,
+			TEXT("Layer_Stain_Effect"),
+			&hitDesc);
+	}
+	return S_OK; 
 }
 
 json CMonster_Base::Serialize()

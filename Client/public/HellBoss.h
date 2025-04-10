@@ -85,7 +85,8 @@ private:
 	_float3 m_vLandingTargetPos = {};
 	_float m_fFallSpeed = { 100.f };
 	_float3 m_vTargetDir = {};
-
+public:
+	_float _angle = 0.f; // orbit 각도
 
 public://애니메이션관련
 	void Set_Animation(const string& strAnimKey) { m_AnimationManager.SetCurrentAnimation(strAnimKey); }
@@ -108,6 +109,7 @@ public:
 	CTransform* Get_Transform() const { return m_pTransformCom; }
 	_float Get_Speed() const { return m_fSpeed; }
 	void Set_CurPos(const _float3& vPos) { m_vCurPos = vPos; }
+	_float3 Get_CurPos() { return m_vCurPos; }
 	_bool m_bInitializedCurPos = { false };
 	list<CGameObject*> bullets = {};
 	_int m_iPrevHpDiv100 = {};

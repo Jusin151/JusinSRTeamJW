@@ -176,7 +176,7 @@ HRESULT CCrocman::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_WEAPON:
-
+		Create_Stains(5);
 		
 
 		m_eCurState = MS_HIT;

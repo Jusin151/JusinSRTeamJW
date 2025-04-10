@@ -226,7 +226,6 @@ CGameObject* CMelee_Weapon::Clone(void* pArg)
 	return nullptr;
 }
 
-
 void CMelee_Weapon::Attack(_float fTimeDelta)
 {
 	if (!m_bIsAnimating && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
@@ -255,7 +254,3 @@ void CMelee_Weapon::Attack(_float fTimeDelta)
 		}
 	}
 }
-
-
-
-

@@ -115,7 +115,7 @@ HRESULT CAnubis::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_WEAPON:
-
+		Create_Stains(5);
 
 
 		temp += fPos;

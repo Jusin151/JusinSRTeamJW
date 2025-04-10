@@ -37,12 +37,19 @@ public:
 	void Attack_Melee();
 
 	virtual void Reset() override;
+	void Set_DarkHoleTransform(CTransform* pTransform)
+	{
+		if (pTransform)
+			m_pDarkHole_Transform = pTransform;
+	}
+
 private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
 public:
 	void Set_Bullet_Scale(_float3 type){	Staff_Scale =  type;}
+
 private:
 	_float3				m_vDir = {};
 	CParticle_System*	m_pParticleCom = { nullptr };
@@ -59,7 +66,12 @@ public:
 	static CHellBoss_DarkBullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
-private:
+protected:
+	void* m_pInitArg = { nullptr };
+
+public:
+	void Set_InitArg(void* pArg) { m_pInitArg = pArg; }
+
 
 };
 END

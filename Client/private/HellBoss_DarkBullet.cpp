@@ -2,6 +2,7 @@
 #include "VIBuffer_Rect.h"
 #include "GameInstance.h"
 #include "Particles.h"
+#include "Camera_FirstPerson.h" 
 
 CHellBoss_DarkBullet::CHellBoss_DarkBullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CBullet_Base(pGraphic_Device)
@@ -26,9 +27,13 @@ HRESULT CHellBoss_DarkBullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	m_fSpeed = 5.f;
+	//Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
 
-	m_pDarkHole_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()->Get_Component(LEVEL_HONG, TEXT("Layer_HellBoss_Skill_DarkHole"), TEXT("Com_Transform")));
+	m_pDarkHole_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()
+		->Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
+		->Get_Component(TEXT("Com_Transform")));
 
+	
 	m_Player_Transform; //여기 플레이어 좌표 받아놨음
 	m_vDir = m_pDarkHole_Transform->Get_State(CTransform::STATE_LOOK);
 	return S_OK;
@@ -36,9 +41,10 @@ HRESULT CHellBoss_DarkBullet::Initialize(void* pArg)
 
 void CHellBoss_DarkBullet::Priority_Update(_float fTimeDelta)
 {
+
 	m_fLifeTime += fTimeDelta;
 
-	if (m_fLifeTime >= 2.f)
+	if (m_fLifeTime >= 5.f)
 	{
 		m_bIsActive = false;
 		m_fLifeTime = 0.f;
@@ -65,6 +71,25 @@ void CHellBoss_DarkBullet::Update(_float fTimeDelta)
 			m_iCurrentFrame = 6;
 		}
 	}
+
+	
+
+	//_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	//if (fabs(vPos.y) <= 0.1f) 
+	//{
+
+	//	CGameObject* pCamera = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera"));
+	//	if (pCamera)
+	//	{
+	//		CCamera_FirstPerson* pFirstPersonCam = dynamic_cast<CCamera_FirstPerson*>(pCamera);
+	//		if (pFirstPersonCam)
+	//		{
+	//			pFirstPersonCam->TriggerShake_HellBoss(0.4f, 0.5f);
+	//		}
+	//	}
+	//}
+
 }
 
 
@@ -104,10 +129,10 @@ HRESULT CHellBoss_DarkBullet::On_Collision(CCollisionObject* other)
 {
 	__super::On_Collision(other);
 
-	
 
 	return S_OK;
 }
+
 
 
 void CHellBoss_DarkBullet::Attack_Melee()
@@ -119,6 +144,10 @@ void CHellBoss_DarkBullet::Attack_Melee()
 
 void CHellBoss_DarkBullet::Reset()
 {
+	m_pDarkHole_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()
+		->Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
+		->Get_Component(TEXT("Com_Transform")));
+
 	m_fElapsedTime = 0.f;
 	m_iCurrentFrame = 0;
 
@@ -138,7 +167,7 @@ void CHellBoss_DarkBullet::Reset()
 	m_pTransformCom->Set_State(CTransform::STATE_UP, DarkHole_Up);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, DarkHole_Look);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, DarkHole_Pos);
-	m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
+	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 
 
 	if (m_Player_Transform)
@@ -160,6 +189,8 @@ void CHellBoss_DarkBullet::Reset()
 
 
 }
+
+
 
 HRESULT CHellBoss_DarkBullet::SetUp_RenderState()
 {
@@ -189,11 +220,17 @@ HRESULT CHellBoss_DarkBullet::Ready_Components()
 		return E_FAIL;
 
 	CProjectile_Particle_System::TRAILDESC     trailDesc{};
-	trailDesc.fDistance = 30.f;
-	trailDesc.fWidth = 0.5f;
+	trailDesc.fDistance = 20000.f;
+	trailDesc.fWidth = 1.f;
 	trailDesc.iNumParticles = 1;
 	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 	trailDesc.iNumTextures = 1;
+
+	    //1번은 꼬리 길이
+		//2번은 꼬리 넓이
+		//3번은 1개 고정
+		//4번은 꼬리로 쓸 텍스쳐
+		//5번은 텍스쳐 애니메이션있으면 쓸 텍스쳐 갯수
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))

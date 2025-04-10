@@ -430,20 +430,20 @@ HRESULT CHellBoss_Bullet::Render()
 	Release_RenderState();
 
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
-		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+	//	_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
-		_float2(-100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+	//	_float2(-100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
-		_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+	//	_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 갯수:") + to_wstring(BulletCount),
-		_float2(100.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+
+
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 갯수:") + to_wstring(BulletCount),
+	//	_float2(100.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
 

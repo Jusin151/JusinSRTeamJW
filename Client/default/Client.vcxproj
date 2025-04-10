@@ -177,8 +177,10 @@
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
+    <ClInclude Include="..\public\HellBoss_CircleState.h" />
     <ClInclude Include="..\public\Deco_Base.h" />
     <ClInclude Include="..\public\HellBoss_DarkBullet.h" />
+    <ClInclude Include="..\public\HellBoss_FloatState.h" />
     <ClInclude Include="..\public\HellBoss_Headers.h" />
     <ClInclude Include="..\Public\HellBoss_SkillBase.h" />
     <ClInclude Include="..\public\HellBoss_Skill_DarkHole.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="..\public\Pattern_Warp.h" />
     <ClInclude Include="..\public\Prefabs.h" />
     <ClInclude Include="..\public\Spike.h" />
+    <ClInclude Include="..\public\Stains_Effect.h" />
     <ClInclude Include="..\public\Statue.h" />
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
@@ -328,8 +331,10 @@
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
+    <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
     <ClCompile Include="..\private\Deco_Base.cpp" />
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp" />
+    <ClCompile Include="..\private\HellBoss_FloatState.cpp" />
     <ClCompile Include="..\Private\HellBoss_SkillBase.cpp" />
     <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />
@@ -375,6 +380,7 @@
     <ClCompile Include="..\private\Pattern_Warp.cpp" />
     <ClCompile Include="..\private\Spike.cpp" />
     <ClCompile Include="..\private\Staff.cpp" />
+    <ClCompile Include="..\private\Stains_Effect.cpp" />
     <ClCompile Include="..\private\Statue.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />

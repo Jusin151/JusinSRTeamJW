@@ -48,13 +48,16 @@ public:
 
 	void Set_Trigger();
 
+protected:
+	HRESULT Create_Stains(_uint effectNum);
+
 	
 
 	// 트리거가 없어지거나 트리거 설정을 안하면 이제 플레이어로 타겟을 바꾸도록 유도... 플레이어가 없으면 동작 x.
 	void SetTarget(CGameObject* pTarget) { if (nullptr == m_pTarget) m_pTarget = pTarget; }
 
 	virtual json Serialize() override;
-	
+public:	
 	CGameObject* Get_Target() { return m_pTarget; }
 protected:
 	CShader*		m_pShaderCom = { nullptr };
