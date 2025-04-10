@@ -79,8 +79,10 @@ protected:
 	_int m_iHitCount = { 0 };
 
 	DECOSTATE m_eCurState = { DS_IDLE };
+	DECOSTATE m_ePreState = { DS_IDLE };
 	
 	_bool		m_bInit = { false };
+	_bool		m_bChange = { false };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

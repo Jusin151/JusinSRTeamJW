@@ -31,6 +31,9 @@ private:
 	HRESULT Release_RenderState();
 	virtual void Select_State()override;
 
+private:
+	
+
 public:
 	static CStatue* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;

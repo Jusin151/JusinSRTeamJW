@@ -29,6 +29,8 @@ HRESULT CStatue::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
 	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-18.f, 0.46f, -25.f));
+
 	m_eType = CG_OBJECT;
 
 	m_iCurrentFrame = 0;
@@ -58,19 +60,25 @@ void CStatue::Update(_float fTimeDelta)
 {
 	if (!m_bInit)
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-18.f, 0.46f, -25.f));
 		m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_vNextPos = m_vCurPos;
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-
 		Calc_Position();
 		m_bInit = true;
 	}
 
-
 	Look_Player();
 
-	m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
+	
+	if (m_eCurState == DS_DEATH && !m_bChange)
+	{
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+		m_bChange = true;
+	}
+
+		
+	if(!(m_eCurState != DS_IDLE && m_eCurState == m_ePreState))
+		m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
 
 
 }
@@ -78,6 +86,16 @@ void CStatue::Update(_float fTimeDelta)
 void CStatue::Late_Update(_float fTimeDelta)
 {
 	Select_State();
+	
+
+	
+
+	Calc_Position();
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+	
+	
+	
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
@@ -136,7 +154,8 @@ HRESULT CStatue::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_WEAPON:
-		++m_iHitCount;
+		m_eCurState = DS_HIT;
+		
 
 		break;
 
@@ -145,11 +164,13 @@ HRESULT CStatue::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_PLAYER_PROJECTILE_SPHERE:
-		++m_iHitCount;
+		m_eCurState = DS_HIT;
+		
 		break;
 
 	case CG_PLAYER_PROJECTILE_CUBE:
-		++m_iHitCount;
+		m_eCurState = DS_HIT;
+	
 		break;
 	
 	default:
@@ -184,17 +205,32 @@ HRESULT CStatue::Release_RenderState()
 
 void CStatue::Select_State()
 {
-	if (m_iHitCount > 0)
+	if (m_eCurState != m_ePreState)
 	{
-		m_iCurrentFrame = 1;
-		m_eCurState = DS_DEATH;
-	}
 		
+		if (m_eCurState == DS_HIT)
+		{
+			
+			m_pColliderCom->Set_Scale(_float3(2.f, 1.f, 1.f));
+			m_pTransformCom->Set_Scale(2.f, 1.f, 1.f);
+			m_iCurrentFrame = 1;
+			m_eCurState = DS_DEATH;
+		}
+		else if (m_eCurState == DS_DEATH)
+		{
+			m_bChange = true;
+			m_ePreState = DS_DEATH;
+		}
+
+		
+	}
 	else
 	{
-		m_eCurState = DS_IDLE;
-		m_iCurrentFrame = 0;
+		if(m_eCurState == DS_IDLE)
+			m_iCurrentFrame = 0;
 	}
+
+	
 		
 }
 
