@@ -7,6 +7,7 @@
 #include "GameInstance.h"
 #include "Harpoon.h"
 #include "Projectile_Base.h"
+#include "Stains_Effect.h"
 
 CHarpoonguy::CHarpoonguy(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster_Base(pGraphic_Device)
@@ -181,17 +182,15 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
-
 		Take_Damage(other);
 		break;
 
 	case CG_WEAPON:
+		Create_Stains(5);
 		m_eCurState = MS_HIT;
 		break;
-
 	case CG_MONSTER:
 		m_vObjectMtvSum += vMove * 0.5f;
-
 		break;
 	case CG_STRUCTURE_WALL:
 
@@ -223,9 +222,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 	case MS_IDLE:
 		if (vDist.LengthSq() > 90)
 		{
-			
 			m_eCurState = MS_WALK;
-			
 		}
 		else
 		{

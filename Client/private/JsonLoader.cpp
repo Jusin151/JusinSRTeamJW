@@ -404,6 +404,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CBlood_Effect::Create(pGraphic_Device);
 	else if (className == "CWeapon_Effect")
 		return CWeapon_Effect::Create(pGraphic_Device);
+	else if (className == "CStains_Effect")
+		return CStains_Effect::Create(pGraphic_Device);
 #pragma endregion
 
 #pragma region Particle

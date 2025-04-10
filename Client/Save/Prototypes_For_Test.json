@@ -43,16 +43,21 @@
       "count": 3
     }
   ],
-  "gameObjects" :[
+  "gameObjects": [
     {
       "tag": "Prototype_GameObject_Hit_Effect",
-      "level":0,
+      "level": 0,
       "class": "CHit_Effect"
     },
     {
       "tag": "Prototype_GameObject_Blood_Effect",
       "level": 0,
       "class": "CBlood_Effect"
+    },
+    {
+      "tag": "Prototype_GameObject_Stains_Effect",
+      "level": 0,
+      "class": "CStains_Effect"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

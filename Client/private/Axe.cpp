@@ -183,4 +183,3 @@ void CAxe::Attack(_float fTimeDelta)
 void CAxe::Attack_WeaponSpecific(_float fTimeDelta)
 {
 }
-

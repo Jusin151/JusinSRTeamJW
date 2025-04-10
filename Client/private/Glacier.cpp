@@ -184,9 +184,11 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
 
     case CG_WEAPON:
         // 죽은 상태고, 프레임 끝나있으면 죽이기
-        if(m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+        if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
+        {
             m_bIsActive = false;
-       
+
+        }
         break;
 
     case CG_MONSTER:

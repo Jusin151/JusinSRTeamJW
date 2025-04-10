@@ -460,6 +460,9 @@
     <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_ManHae">
       <UniqueIdentifier>{ab04500d-ddb6-497f-b36f-ffc7c5d652be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Stains_Effect">
+      <UniqueIdentifier>{d43faf99-6ec5-4266-aea9-84bc302c5800}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -900,6 +903,9 @@
     <ClInclude Include="..\public\HellBoss_DarkBullet.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Stains_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1294,6 +1300,9 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Stains_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
