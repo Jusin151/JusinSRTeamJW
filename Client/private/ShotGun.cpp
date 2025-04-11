@@ -109,7 +109,6 @@ void CShotGun::Late_Update(_float fTimeDelta)
 				m_eState = State::Reloading;
 				m_iCurrentFrame = m_TextureRanges["Reloading"].first;
 				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpout")->SetVolume(0.5f);
-				
 			}
 		}
 		break;

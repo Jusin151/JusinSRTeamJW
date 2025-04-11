@@ -35,7 +35,7 @@ void CSound_Source::Update(_float fTimeDelta)
     auto iter = m_Events2D.begin();
     while (iter != m_Events2D.end())
     {
-        if ((*iter)->IsValid())
+        if (!(*iter)->IsValid())
         {
             Safe_Delete(*iter);
             iter = m_Events2D.erase(iter);
@@ -50,7 +50,7 @@ void CSound_Source::Update(_float fTimeDelta)
     iter = m_Events3D.begin();
     while (iter != m_Events3D.end())
     {
-        if ((*iter)->IsValid())
+        if (!(*iter)->IsValid())
         {
             Safe_Delete(*iter);
             iter = m_Events3D.erase(iter);
@@ -91,17 +91,30 @@ CSound_Event* CSound_Source::Play_Event(_wstring strEvent, void* pArg)
     return e;
 }
 
-void CSound_Source::Stop_All_Event()
+void CSound_Source::Stop_All_Event(bool allowFadeOut)
 {
     for (auto& e : m_Events2D)
     {
-        e->Stop();
+        e->Stop(allowFadeOut);
     }
     for (auto& e : m_Events3D)
     {
-        e->Stop();
+        e->Stop(allowFadeOut);
     }
 
+    Clear();
+}
+
+void CSound_Source::Clear()
+{
+    for (auto& e : m_Events2D)
+    {
+        Safe_Delete(e);
+    }
+    for (auto& e : m_Events3D)
+    {
+        Safe_Delete(e);
+    }
     // 모든 이벤트를 컨테이너에서 삭제한다.
     m_Events2D.clear();
     m_Events3D.clear();
