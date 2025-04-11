@@ -86,6 +86,7 @@ void CGlacier::Update(_float fTimeDelta)
         
     }
     m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+    m_pSoundCom->Update(fTimeDelta);
 }
 
 void CGlacier::Late_Update(_float fTimeDelta)
@@ -189,7 +190,7 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
     case CG_WEAPON:
         // 죽은 상태고, 프레임 끝나있으면 죽이기
         Create_Stains(5);
-        
+        m_pSoundCom->Play_Event(L"event:/Objects/Ice Break", m_pTransformCom)->SetVolume(0.5f);
         if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
         {
             m_bIsActive = false;

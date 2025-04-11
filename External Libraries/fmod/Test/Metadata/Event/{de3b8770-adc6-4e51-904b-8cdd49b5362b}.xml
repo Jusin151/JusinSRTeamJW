@@ -59,7 +59,17 @@
 			<destination>{2fcea790-9b86-4127-b1be-ebf4d51ccd9f}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{5bc8a172-5844-4c2a-ba6d-f820490729ef}" />
+	<object class="EventAutomatableProperties" id="{5bc8a172-5844-4c2a-ba6d-f820490729ef}">
+		<property name="minimumDistance">
+			<value>0</value>
+		</property>
+		<property name="maximumDistance">
+			<value>65</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>580</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{14282796-b6de-4105-82ca-6c723d78d147}" />
 	<object class="Timeline" id="{6671401f-6bf3-425b-b533-47b6b13784ea}">
 		<property name="isProxyEnabled">
@@ -109,7 +119,14 @@
 	</object>
 	<object class="MixerBusFader" id="{d5158896-db69-4896-9e89-89faf7603dcd}" />
 	<object class="MixerBusFader" id="{38d89799-00ce-4998-a424-b272fcc1837e}" />
-	<object class="SpatialiserEffect" id="{66c84b06-9b73-4600-bd05-f3aa731dbe57}" />
+	<object class="SpatialiserEffect" id="{66c84b06-9b73-4600-bd05-f3aa731dbe57}">
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{87a9b10b-df23-47f8-b83e-2ce894ee28a1}">
 		<relationship name="audioFile">
 			<destination>{03c65a51-03b3-4ccd-87df-66661842ebce}</destination>

@@ -3,6 +3,7 @@
 #include "CollisionObject.h"
 
 BEGIN(Engine)
+class CSound_Source;
 class CShader;
 class CTransform;
 class CCollider;
@@ -83,6 +84,7 @@ private:
     void UpdateDoorTransform();
 
 private:
+    CSound_Source* m_pSoundCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
     CCollider*  m_pColliderCom = { nullptr };
     CTexture*   m_pTextureCom = { nullptr };
