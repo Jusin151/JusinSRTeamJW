@@ -66,13 +66,23 @@ void CSound_Source::Late_Update(_float fTimeDelta)
 {
 }
 
-CSound_Event* CSound_Source::Play_Event(_wstring strEvent)
+_float CSound_Source::Get_Global_Parameter(const string& name)
+{
+    return m_pSound_Manager->Get_Global_Parameter(name);
+}
+
+void CSound_Source::Set_Global_Parameter(const string& name, _float value)
+{
+    m_pSound_Manager->Set_Global_Parameter(name, value);
+}
+
+CSound_Event* CSound_Source::Play_Event(_wstring strEvent, void* pArg)
 {
     CSound_Event* e = m_pSound_Manager->Play_Event(strEvent);
     if (e->Is3D())
     {
         m_Events3D.emplace_back(e);
-        //e.Set3DAttributes();
+        //e->Set3DAttributes();
     }
     else
     {

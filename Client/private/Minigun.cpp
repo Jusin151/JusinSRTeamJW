@@ -126,10 +126,9 @@ void CMinigun::Update(_float fTimeDelta)
     {
         Ranged_INFO.CurrentAmmo += 100;
         Notify_Bullet(); 
-
     }
     __super::Update(fTimeDelta);
-  
+    m_pSoundCom->Update(fTimeDelta);
 }
 
 void CMinigun::Late_Update(_float fTimeDelta)
@@ -233,6 +232,7 @@ void CMinigun::Late_Update(_float fTimeDelta)
         m_eState = State::Idle;
         m_iCurrentFrame = m_TextureRanges["Idle"].first;
         m_fHoldTime = 0.f;
+        m_pSoundCom->Play_Event(L"event:/Weapons/Range/Minigun/minigun_rotate_end")->SetVolume(0.5f);
         break;
 
     default:
@@ -253,23 +253,16 @@ void CMinigun::Late_Update(_float fTimeDelta)
         m_pLightCom->Set_Position(pos);
         m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
     }
-
     m_bAttackInput = false;
-
-
-    
 }
-
-
-
-
-
 
 void CMinigun::Attack(_float fTimeDelta)
 {
-	if (Ranged_INFO.CurrentAmmo <= 0)
-		return;
-
+    if (Ranged_INFO.CurrentAmmo <= 0)
+    {
+        m_pSoundCom->Play_Event(L"event:/Weapons/Range/Gun/gun_empty")->SetVolume(0.5f);
+        return;
+    }
 
     if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
         m_bAttackInput = true;
@@ -341,17 +334,12 @@ HRESULT CMinigun::Render()
     return S_OK;
 }
 
-
-
-
 HRESULT CMinigun::On_Collision()
 {
 
 
     return S_OK;
 }
-
-
 
 CMinigun* CMinigun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -157,6 +157,15 @@ _float CSound_Event::GetParameter(const std::string& name)
 	return retVal;
 }
 
+void CSound_Event::SetCallBack(FMOD_STUDIO_EVENT_CALLBACK callback, FMOD_STUDIO_EVENT_CALLBACK_TYPE callbackmask)
+{
+	auto event = m_pSound_Manager ? m_pSound_Manager->Get_EventInstance(m_iID) : nullptr;
+	if (event)
+	{
+		event->setCallback(callback, callbackmask);
+	}
+}
+
 void CSound_Event::Free()
 {
 	__super::Free();

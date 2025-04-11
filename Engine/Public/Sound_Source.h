@@ -18,7 +18,9 @@ public:
 	void Late_Update(_float fTimeDelta);
 
 public:
-	CSound_Event*	Play_Event(_wstring strEvent);
+	_float			Get_Global_Parameter(const string& name);
+	void			Set_Global_Parameter(const string& name, _float value);
+	CSound_Event*	Play_Event(_wstring strEvent, void* pArg = nullptr);
 	void			Stop_All_Event();
 	
 private:

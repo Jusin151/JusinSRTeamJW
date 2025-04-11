@@ -30,6 +30,7 @@
 		</relationship>
 		<relationship name="parameters">
 			<destination>{2c50862b-b604-42ef-ab53-34324a94abf4}</destination>
+			<destination>{42c89e0a-4c75-4db2-ad99-dbd7d853031b}</destination>
 		</relationship>
 		<relationship name="banks">
 			<destination>{43acc906-8dcd-4c99-81fc-b5e3a3e1d3a9}</destination>
@@ -59,7 +60,14 @@
 			<destination>{2fcea790-9b86-4127-b1be-ebf4d51ccd9f}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{67d0089c-a2cc-42f0-80e1-077ae63e8bc6}" />
+	<object class="EventAutomatableProperties" id="{67d0089c-a2cc-42f0-80e1-077ae63e8bc6}">
+		<property name="maxVoices">
+			<value>1</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>500</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{b72d27d6-ccf9-44d0-8a40-11f7e2c74cfb}" />
 	<object class="Timeline" id="{0af8d7c6-0772-444e-b1f5-cd6a451be726}">
 		<property name="isProxyEnabled">
@@ -69,6 +77,11 @@
 	<object class="ActionSheet" id="{2c50862b-b604-42ef-ab53-34324a94abf4}">
 		<relationship name="modules">
 			<destination>{d81aa9df-e0de-4c05-9fd8-6eebe782298f}</destination>
+		</relationship>
+	</object>
+	<object class="ParameterProxy" id="{42c89e0a-4c75-4db2-ad99-dbd7d853031b}">
+		<relationship name="preset">
+			<destination>{beefee2a-0751-4c48-957e-9457e1739f15}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{39c715c5-e50c-418b-868a-b309b0e063fe}">

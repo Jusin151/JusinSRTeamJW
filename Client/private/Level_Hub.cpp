@@ -106,7 +106,7 @@ HRESULT CLevel_Hub::Initialize()
 		LEVEL_HUB, TEXT("Layer_SkyBox"))))
 		return E_FAIL;
 
-	m_pGameInstance->Play_Background(L"event:/Backgrounds/003 All That Glitters Is Gold (Hub)").SetVolume(0.5f);
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/003 All That Glitters Is Gold (Hub)").SetVolume(0.25f);
 	CUI_Manager::GetInstance()->GetUI(L"Cursor")->SetActive(false);
 	return S_OK;
 }
