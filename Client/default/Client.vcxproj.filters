@@ -465,7 +465,7 @@
     </Filter>
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState">
       <UniqueIdentifier>{901929e7-6d11-4cf4-a3c1-bc58c52e4bd1}</UniqueIdentifier>
-      </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\03. Effect\Stains_Effect">
       <UniqueIdentifier>{d43faf99-6ec5-4266-aea9-84bc302c5800}</UniqueIdentifier>
     </Filter>
@@ -939,6 +939,12 @@
     <ClInclude Include="..\public\Gib_Effect.h">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WarningZone.h">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CthulhuAttackMag.h">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1339,7 +1345,7 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_FloatState.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Stains_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
     </ClCompile>
@@ -1351,6 +1357,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Gib_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WarningZone.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CthulhuAttackMag.cpp">
+      <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

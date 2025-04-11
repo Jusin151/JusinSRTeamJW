@@ -43,9 +43,10 @@ public:
     }
     void Active_Animaiton(_bool bFlag) { m_bUpdateAnimation = bFlag; }
     void Flip(_bool bIsRight);
-
+    void ActiveShakeTrigger() { m_bShaked = true; }
     void Set_Position(const _float3& vPos);
     _bool IsAnimationFinished() const;
+    void Activate_WarningZone();
 private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
@@ -54,6 +55,10 @@ private:
     void Init_Textures();
     void Update_Animation(_float fTimeDelta);
     void Attack();
+    void Apply_Shake(_float fTimeDelta);
+   
+
+
 private:
     unordered_map<SPIKE_TYPE,unordered_map<SPIKE_STATE, vector<_uint>>> m_mapStateTextures;
     _float m_fFrame = 0.f;
@@ -66,6 +71,18 @@ private:
     _bool m_bCanAttack{ false };
     _bool m_bAnimFinished{ false };
     _bool m_bIsRight{ false };
+
+    _float m_fShakeTime{ 0.f };
+    _bool m_bShaked{ false };
+    class CTransform* m_pCameraTransform{ nullptr };
+
+
+    // 경고 지역
+    class CWarningZone* m_pWarningZone = nullptr;
+    class CTransform* m_pWarningZoneTransform = nullptr;
+
+    // 경고 영역 확장 애니메이션을 위한 누적 시간 변수
+    _float m_fWarningElapsedTime = 0.f;
 
 public:
     static CSpike* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

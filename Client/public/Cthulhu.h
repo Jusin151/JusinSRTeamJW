@@ -5,6 +5,7 @@
 BEGIN(Client)
 class CCthulhu final : public CMonster_Base
 {
+    friend  class CCthulhuAttackMag;
 public:
 	enum class STATE
 	{

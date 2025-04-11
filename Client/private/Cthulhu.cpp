@@ -336,7 +336,7 @@ NodeStatus CCthulhu::Update_Appear()
 		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
 		if (pCamera)
 		{
-			pCamera->TriggerShake(0.2f, 4.f);
+			pCamera->TriggerShake(0.2f, 4.5f);
 			m_bCameraShaken = true;
 		}
 	}
@@ -499,13 +499,19 @@ NodeStatus CCthulhu::Deploy_BigTentacles()
 
 NodeStatus CCthulhu::Attack_Spike()
 {
-	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
+	if (m_eState == STATE::DEAD )//|| static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
 		return NodeStatus::FAIL;
 	static _uint iIndex = 0;
 	static _bool bIsCircle = false;
+	static _float fWaringTime = 0.f;
 	if (m_bSpikeAppeared)
 	{
+		fWaringTime += m_fDelta;
 		m_fSpikeTimer += m_fDelta;
+
+		if (fWaringTime >= 1.2f)
+		{
+
 
 		_float fSpikeTimer = (bIsCircle ? 0.2f : 0.09f);
 		if (m_fSpikeTimer >= fSpikeTimer)
@@ -516,8 +522,13 @@ NodeStatus CCthulhu::Attack_Spike()
 				// 마지막 스파이크가 아니라면 다음 스파이크로 진행
 				if (iIndex < m_vecSpikes.size())
 				{
+					if (iIndex == m_vecSpikes.size() - 1)
+					{
+						m_vecSpikes[iIndex]->ActiveShakeTrigger();
+					}
 					m_vecSpikes[iIndex]->Active_Animaiton(true);
 					iIndex++;
+
 				}
 			}
 			else
@@ -534,11 +545,14 @@ NodeStatus CCthulhu::Attack_Spike()
 			{
 				m_bSpikeAppeared = false;
 				iIndex = 0;
+				fWaringTime = 0.f;
 				m_vecSpikes.clear();
 				return NodeStatus::SUCCESS;
 			}
 		
 			m_fSpikeTimer = 0.f;
+		}
+
 		}
 
 		return NodeStatus::RUNNING;
@@ -556,7 +570,7 @@ NodeStatus CCthulhu::Attack_Spike()
 
 	static _bool bFirstTime = true;
 	static _float3 vScale;
-	static const _float s_fSpacingOffset = 4.f;
+	static const _float s_fSpacingOffset = 3.5f;
 
 	_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -585,7 +599,7 @@ NodeStatus CCthulhu::Attack_Spike()
 			bFirstTime = false;
 		}
 
-		_uint iSpikeCount = max(1u, static_cast<_uint>(ceil(fDistance / (vScale.z + s_fSpacingOffset)))) + 4;
+		_uint iSpikeCount = max(1u, static_cast<_uint>(ceil(fDistance / (2.f + s_fSpacingOffset)))) + 1;
 
 		if (fDistance >= 11.5f)
 		{
@@ -596,7 +610,7 @@ NodeStatus CCthulhu::Attack_Spike()
 			{
 
 				pNewSpike->Active_Animaiton(false);
-				_float3 newPos = basePos + vDir * ((vScale.z + s_fSpacingOffset) * i);
+				_float3 newPos = basePos + vDir * ((2.f + s_fSpacingOffset) * i);
 				if (i == 0)
 					newPos.z += 0.01f;
 
@@ -611,6 +625,7 @@ NodeStatus CCthulhu::Attack_Spike()
 					pNewSpike->Flip(fDotVal > 0.f);
 				}
 				pNewSpike->Set_Position(newPos);
+				pNewSpike->Activate_WarningZone();
 				m_vecSpikes.push_back(pNewSpike);
 			}
 			else
@@ -646,7 +661,7 @@ NodeStatus CCthulhu::Attack_Spike()
 					pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
 
 					pNewSpike->Set_Position(vNewPos);
-					
+					pNewSpike->Activate_WarningZone();
 					m_vecSpikes.push_back(pNewSpike);
 				}
 				else
@@ -672,8 +687,8 @@ void CCthulhu::Create_BehaviorTree()
 	CCompositeNode* pAttackSeq = new CSequenceNode();
 	TaskNode* pAttack = new TaskNode(L"Attack", [this]() -> NodeStatus { return this->Attack(); });
 	TaskNode* pUpdateAttack = new TaskNode(L"UpdateAttack", [this]() -> NodeStatus { return this->UpdateAttack(); });
-	pAttackSeq->AddChild(pAttack);
-	pAttackSeq->AddChild(pUpdateAttack);
+//	pAttackSeq->AddChild(pAttack);
+	//pAttackSeq->AddChild(pUpdateAttack);
 
 	TaskNode* pMultiAttack = new TaskNode(L"MultiMissileAttack", [this]() -> NodeStatus { return this->MultiMissileAttack(); });
 	TaskNode* pDeploy = new TaskNode(L"Deploy", [this]() -> NodeStatus { return this->Deploy_Tentacles(); });
@@ -682,8 +697,8 @@ void CCthulhu::Create_BehaviorTree()
 
 	// 동시에 실행
 	pAttackParallel->AddChild(pSpikeAttack);
-	pAttackParallel->AddChild(pMultiAttack);
-	pAttackParallel->AddChild(pDeploy);
+	//pAttackParallel->AddChild(pMultiAttack);
+	//pAttackParallel->AddChild(pDeploy);
 	pAttackParallel->AddChild(pBigDeploy);
 	pAttackParallel->AddChild(pAttackSeq);
 
