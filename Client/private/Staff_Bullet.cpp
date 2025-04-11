@@ -39,7 +39,7 @@ void CStaff_Bullet::Priority_Update(_float fTimeDelta)
 {
 	m_fLifeTime += fTimeDelta;
 
-	if (m_fLifeTime >= 2.f)
+	if (m_fLifeTime >= 4.f)
 	{
 		m_bIsActive = false;
 		m_fLifeTime = 0.f;
@@ -166,7 +166,7 @@ void CStaff_Bullet::Reset()
 {
 	m_fElapsedTime = 0.f;
 	m_iCurrentFrame = 0;
-
+	m_fLifeTime = 0.f;
 	if (!m_Player_Transform) return;
 
 	Player_RIght = m_Player_Transform->Get_State(CTransform::STATE_RIGHT);

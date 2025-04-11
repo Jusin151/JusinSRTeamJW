@@ -178,6 +178,7 @@
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
     <ClInclude Include="..\public\Camera_CutScene.h" />
+    <ClInclude Include="..\public\CthulhuAttackMag.h" />
     <ClInclude Include="..\public\HellBoss_CircleState.h" />
     <ClInclude Include="..\public\Deco_Base.h" />
     <ClInclude Include="..\public\Gib_Effect.h" />
@@ -311,6 +312,7 @@
     <ClInclude Include="..\public\UI_Player_Icon.h" />
     <ClInclude Include="..\Public\UI_Spell_Shop.h" />
     <ClInclude Include="..\public\UI_Structs.h" />
+    <ClInclude Include="..\public\WarningZone.h" />
     <ClInclude Include="..\public\Weapon_Base.h" />
     <ClInclude Include="..\Public\Weapon_Effect.h" />
     <ClInclude Include="..\public\Weapon_Headers.h" />
@@ -332,6 +334,8 @@
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
     <ClCompile Include="..\private\Camera_CutScene.cpp" />
+    <ClCompile Include="..\private\CthulhuAttackMag.cpp" />
+    <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
     <ClCompile Include="..\private\Deco_Base.cpp" />
     <ClCompile Include="..\private\Gib_Effect.cpp" />
     <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
@@ -446,6 +450,7 @@
     <ClCompile Include="..\private\UI_HP_Bar.cpp" />
     <ClCompile Include="..\private\UI_Left_Display.cpp" />
     <ClCompile Include="..\Private\UI_Spell_Shop.cpp" />
+    <ClCompile Include="..\private\WarningZone.cpp" />
     <ClCompile Include="..\private\Weapon_Base.cpp" />
     <ClCompile Include="..\Private\UI_WeaponShop_UI.cpp" />
     <ClCompile Include="..\private\Yeti.cpp" />
