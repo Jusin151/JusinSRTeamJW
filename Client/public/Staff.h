@@ -56,13 +56,13 @@ public:
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 
-	_bool m_bFireLock = { false };
+	
 	_bool m_bCharged = { false };
 
 
 
 	// CRanged_Weapon을(를) 통해 상속됨
-	void Attack_WeaponSpecific(_float fTimeDelta) override;
+
 
 };
 END

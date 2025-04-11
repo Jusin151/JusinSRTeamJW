@@ -1,5 +1,6 @@
 #include "Statue.h"
 #include "GameInstance.h"
+#include "Gib_Effect.h"
 
 
 
@@ -215,6 +216,25 @@ void CStatue::Select_State()
 			m_pTransformCom->Set_Scale(2.f, 1.f, 1.f);
 			m_iCurrentFrame = 1;
 			m_eCurState = DS_DEATH;
+
+			// gib Ãß°¡..
+
+			float offsetRangeX = 1.f, offsetRangeY = 1.f;
+
+			CGib_Effect::HIT_DESC hitDesc;
+			hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+			hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			hitDesc.vScale = { 1.5f, 1.f, 1.5f };
+			hitDesc.type = 3;
+
+			hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			m_pGameInstance->Add_GameObject(
+				LEVEL_STATIC,
+				TEXT("Prototype_GameObject_Gib_Effect"),
+				LEVEL_STATIC,
+				TEXT("Layer_Gib_Effect"),
+				&hitDesc);
 		}
 		else if (m_eCurState == DS_DEATH)
 		{
