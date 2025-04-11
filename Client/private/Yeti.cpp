@@ -49,7 +49,11 @@ void CYeti::Priority_Update(_float fTimeDelta)
     __super::Priority_Update(fTimeDelta);
 
     if (m_eCurState == MS_DEATH && !m_bGib)
+    {
+        m_bGib = true;
         Create_Gibs(2);
+    }
+        
     if (m_iCurrentFrame > 40)
     {
         m_bIsActive = false;

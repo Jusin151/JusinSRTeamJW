@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 class Deco_Base
 {
 };
@@ -35,7 +35,7 @@ public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 private:
-	// texturecom´Â °¢ monster¿¡¼­ Ãß°¡
+	// texturecomëŠ” ê° monsterì—ì„œ ì¶”ê°€
 	HRESULT Ready_Components();
 
 public:
@@ -59,11 +59,11 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
-	// ÀÚ½Ä¿¡¼­ Ãß°¡
+	// ìì‹ì—ì„œ ì¶”ê°€
 	CTexture* m_pTextureCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
 
-	// ³ªÁß¿¡ Ãß°¡
+	// ë‚˜ì¤‘ì— ì¶”ê°€
 	CShader* m_pShaderCom = { nullptr };
 	CMaterial* m_pMaterialCom = { nullptr };
 
@@ -71,11 +71,11 @@ protected:
 
 	CGameObject* m_pTarget = { nullptr };
 
-	// ¾Ö´Ï¸ŞÀÌ¼Ç ÀÖÀ¸¸é ¾²±â
+	// ì• ë‹ˆë©”ì´ì…˜ ìˆìœ¼ë©´ ì“°ê¸°
 	_float m_fElapsedTime = { 0.f };
 	_int m_iCurrentFrame = { 0 };
 
-	// ÀÌ°É·Î ÀÌÁ¦ »óÅÂ º¯°æÇÏ±â
+	// ì´ê±¸ë¡œ ì´ì œ ìƒíƒœ ë³€ê²½í•˜ê¸°
 	_int m_iHitCount = { 0 };
 
 	DECOSTATE m_eCurState = { DS_IDLE };

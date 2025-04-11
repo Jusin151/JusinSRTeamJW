@@ -5,6 +5,7 @@
 #include "UI_Base.h"
 
 BEGIN(Engine)
+class CSound_Source;
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;  // UI는 사각형으로
@@ -41,6 +42,7 @@ public:
 protected:
 	CTexture* m_Button_pTextureCom{};
     CTexture* m_Button_pTextureCom_Second{};
+    CSound_Source* m_pSoundCom{};
 	CVIBuffer_Rect* m_Button_pVIBufferCom{};  
     CTransform* m_Button_pTransformCom{};
 

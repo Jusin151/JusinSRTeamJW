@@ -1,6 +1,7 @@
 ﻿#include "MiniMap.h"
 #include "Player.h"
 #include <Transform.h>
+#include "HellBoss.h"
 #include <StructureManager.h>
 #include <Camera_FirstPerson.h>
 
@@ -92,6 +93,11 @@ void CMiniMap::Update(_float fTimeDelta)
 {
 	_float fAngleY = m_pCamera->Get_Yaw();
 	m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), -fAngleY);
+
+	if (!m_pHellboss)
+	{
+		m_pHellboss = m_pGameInstance->Find_Object(LEVEL_HONG, TEXT("Layer_HellBoss"));
+	}
 }
 
 void CMiniMap::Late_Update(_float fTimeDelta)
@@ -137,6 +143,10 @@ HRESULT CMiniMap::Render()
 		}
 	}
 
+	if (m_pHellboss)
+	{
+		RenderHellBossOnMiniMap();
+	}
 
 	if (m_pPlayer)
 	{
@@ -283,6 +293,51 @@ void CMiniMap::RenderPlayerOnMiniMap()
 	memcpy(pVertices, vertices, sizeof(vertices));
 	m_pVertexBuffer->Unlock();
 	bInit = true;
+	}
+
+	m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));
+	m_pGraphic_Device->SetFVF(VERTEX::FVF);
+	m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+}
+
+void CMiniMap::RenderHellBossOnMiniMap()
+{
+	if (!m_pHellboss)
+		return;
+	// 플레이어 Transform 얻기
+	CTransform* pHellbossTransform = static_cast<CTransform*>(m_pHellboss->Get_Component(TEXT("Com_Transform")));
+	if (!pHellbossTransform)
+		return;
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	_float fAngleY = m_pCamera->Get_Yaw();
+	_float3 playerPos = pHellbossTransform->Get_State(CTransform::STATE_POSITION);
+	D3DXMATRIX rotMat, matWorld, matTrans;
+
+	D3DXMatrixRotationY(&rotMat, fAngleY);
+	D3DXMatrixTranslation(&matTrans, playerPos.x, 0.f, playerPos.z);
+	matWorld = rotMat * matTrans;
+
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
+
+	static _bool bInit = { false };
+
+	if (!bInit)
+	{
+
+		// 삼각형 정점 생성
+		float size = 1.f; // 삼각형 크기
+		VERTEX vertices[3] = {
+			{ D3DXVECTOR3(0.f, 0.f, size), D3DCOLOR_RGBA(0, 255, 0, 255) },
+			{ D3DXVECTOR3(size * 0.7f, 0.f, -size * 0.7f),  D3DCOLOR_RGBA(0, 255, 0, 255)},
+			{ D3DXVECTOR3(-size * 0.7f, 0.f, -size * 0.7f),  D3DCOLOR_RGBA(0, 255, 0, 255)}
+		};
+
+		// 정점 버퍼에 쓰기
+		void* pVertices = nullptr;
+		m_pVertexBuffer->Lock(0, sizeof(vertices), &pVertices, 0);
+		memcpy(pVertices, vertices, sizeof(vertices));
+		m_pVertexBuffer->Unlock();
+		bInit = true;
 	}
 
 	m_pGraphic_Device->SetStreamSource(0, m_pVertexBuffer, 0, sizeof(VERTEX));

@@ -276,6 +276,7 @@ void CGameInstance::Stop_All_Event()
 
 CSound_Event CGameInstance::Play_Background(const _wstring& strEventName, void* pArg)
 {
+	m_pSound_Manager->Stop_All_Event();
 	return m_pSound_Manager->Play_Background(strEventName, pArg);
 }
 

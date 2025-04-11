@@ -20,6 +20,7 @@ public: // Getters
     _float      GetVolume() const;
     _float      GetPitch()  const;
     _float      GetParameter(const std::string& name);
+    void        SetCallBack(FMOD_STUDIO_EVENT_CALLBACK callback, FMOD_STUDIO_EVENT_CALLBACK_TYPE callbackmask = FMOD_STUDIO_EVENT_CALLBACK_ALL);
     
 private:
     friend class CSound_Manager;

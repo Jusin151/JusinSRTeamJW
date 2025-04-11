@@ -1,5 +1,6 @@
 ﻿#include "Spike.h"
 #include <Player.h>
+#include "WarningZone.h"
 
 CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster_Base(pGraphic_Device)
@@ -7,13 +8,26 @@ CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CSpike::CSpike(const CSpike& Prototype)
-	:CMonster_Base(Prototype)
+	:CMonster_Base(Prototype),
+	m_pCameraTransform(Prototype.m_pCameraTransform)
 {
 	m_pTransformCom = nullptr;
 }
 
 HRESULT CSpike::Initialize_Prototype()
 {
+  	m_pCameraTransform = static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera"))->Get_Component(TEXT("Com_Transform")));
+	auto pWaring = CWarningZone::Create(m_pGraphic_Device);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_WaringZone"), pWaring)))
+	{
+		Safe_Release(pWaring);
+		return E_FAIL;
+	}
+
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_WaringZone"), TEXT("Layer_WaringZone"), 54)))
+	{
+		return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -23,15 +37,26 @@ HRESULT CSpike::Initialize(void* pArg)
 		return E_FAIL;
 	m_iHp = 100;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
-	m_pTransformCom->Set_Scale(5.f, 5.f, 1.f);
+	m_pTransformCom->Set_Scale(5.f, 5.f, 5.f);
 	m_fFrame = 0.f;
-	m_iAp = 100;
+	m_iAp = 2;
 	Init_Textures();
+
+
+	m_pWarningZone = static_cast<CWarningZone*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_BOSS, LEVEL_BOSS, TEXT("Layer_WaringZone")));
+	
+	if (m_pWarningZone)
+	{
+	m_pWarningZoneTransform = static_cast<CTransform*>(m_pWarningZone->Get_Component(TEXT("Com_Transform")));
+	}
+	m_fWarningElapsedTime = 0.f;
+
 	return S_OK;
 }
 
 void CSpike::Priority_Update(_float fTimeDelta)
 {
+	
 }
 
 void CSpike::Update(_float fTimeDelta)
@@ -41,14 +66,24 @@ void CSpike::Update(_float fTimeDelta)
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
-
-			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
 	Billboarding(fTimeDelta);
 	if (m_bUpdateAnimation)
 	{
+		Attack();
+		Apply_Shake(fTimeDelta);
 		Update_Animation(fTimeDelta);
+	}
+	else
+	{
+		if (m_pWarningZone && m_pWarningZone->IsActive())
+		{
+			m_fWarningElapsedTime += fTimeDelta*1.2f;
+			_float fNewScale =1.2f + m_fWarningElapsedTime;  // 예: 1초당 1단위씩 증가
+			m_pWarningZoneTransform->Set_Scale(fNewScale, fNewScale, 1.0f);
+		}
 	}
 }
 
@@ -90,6 +125,8 @@ HRESULT CSpike::Render()
 	m_pShaderCom->End();
 	Release_RenderState();
 
+
+
 	return S_OK;
 }
 
@@ -100,11 +137,14 @@ void CSpike::Reset()
 	m_fFrame = 0.f;
 	m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][0];
 	m_bAnimFinished = false;
+	m_fWarningElapsedTime = 0.f;
+	m_bCanAttack = true;
 }
 
 HRESULT CSpike::On_Collision(CCollisionObject* other)
 {
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 
 void CSpike::Billboarding(_float fTimeDelta)
@@ -157,11 +197,22 @@ void CSpike::Flip(_bool bIsRight)
 void CSpike::Set_Position(const _float3& vPos)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+	_float3 zonePos = vPos;
+	zonePos.y = -0.44f;
+	m_pWarningZone->Set_Position(zonePos);
 }
 
 _bool CSpike::IsAnimationFinished() const
 {
 	return m_bAnimFinished;
+}
+
+void CSpike::Activate_WarningZone()
+{
+	if (m_pWarningZone)
+	{
+		m_pWarningZone->Set_Render(true);
+	}
 }
 
 HRESULT CSpike::SetUp_RenderState()
@@ -201,7 +252,7 @@ HRESULT CSpike::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 
-	ColliderDesc.fScale = { 1.f, 1.f, 5.f };
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 	m_eType = CG_MONSTER;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
@@ -253,7 +304,7 @@ void CSpike::Update_Animation(_float fTimeDelta)
 	{
 		if (m_eState == SPIKE_STATE::ATTACK)
 		{
-			// APPEAR 애니메이션이 끝나면 공격 상태로 전환
+		
 			m_eState = SPIKE_STATE::DISAPPEAR;
 			m_fFrame = 0.f;
 			m_bAnimFinished = true; // 공격이 끝나서 다음 촉수한테 알려주기 위함
@@ -261,6 +312,10 @@ void CSpike::Update_Animation(_float fTimeDelta)
 		}
 		else if (m_eState == SPIKE_STATE::DISAPPEAR)
 		{
+			if (m_pWarningZone)
+			{
+				m_pWarningZone->Set_Render(false);
+			}
 			m_fFrame = 0.f;
 			m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][0];
 			SetActive(false);
@@ -274,6 +329,52 @@ void CSpike::Update_Animation(_float fTimeDelta)
 
 void CSpike::Attack()
 {
+	if (m_eState != SPIKE_STATE::ATTACK||!m_bCanAttack)
+	{
+		return;
+	}
+
+	size_t numFrames = m_mapStateTextures[m_eSpikeType][m_eState].size();
+
+	if ((_uint)(numFrames - 1) == (_uint)m_fFrame)
+	{
+		_float3 spikePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		spikePos.y = 0.f;
+		_float3 playerPos = m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+		playerPos.y = 0.f;
+		_float distance = _float3::Distance(playerPos, spikePos);
+		if (abs(distance) <= ATTACK_DISTANCE_THRESHOLD)
+		{
+			if (m_pTarget )
+			{
+				static_cast<CPlayer*>(m_pTarget)->Take_Damage(10); // 10 데미지 적용 예시
+				m_bCanAttack = false;
+			}
+
+		}
+	}
+}
+
+void CSpike::Apply_Shake(_float fTimeDelta)
+{
+	if (m_bShaked == false) return;
+	static float shakeSpeed = 5.0f;  // 흔들림 속도 조절 (값이 클수록 빠르게 흔들림)
+	static float shakeMagnitude = 0.1f; // 흔들림 크기 (값이 클수록 크게 흔들림)
+
+	// m_fShakeTime가 클래스 멤버 변수라고 가정 (초기값 0)
+	m_fShakeTime += fTimeDelta * shakeSpeed;
+
+	// 사인/코사인 함수를 사용해서 X, Y축으로 미세한 오프셋을 계산
+	float offsetX = shakeMagnitude * cosf(m_fShakeTime);
+	float offsetY = shakeMagnitude * sinf(m_fShakeTime);
+
+	// 기존 위치에서 미세한 오프셋 적용 (Z축은 변화 없이)
+	_float3 currentPos = m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 shakeOffset = { offsetX, offsetY, 0.f };
+	_float3 newPos = currentPos + shakeOffset;
+
+	auto vCurCameraPos = m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vCurCameraPos+newPos);
 }
 
 CSpike* CSpike::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

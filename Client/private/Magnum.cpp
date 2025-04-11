@@ -4,7 +4,6 @@
 #include "Item_Manager.h"
 #include "Image_Manager.h"
 #include "Sound_Source.h"
-#include "Sound_Event.h"
 #include "Light.h"
 
 
@@ -69,6 +68,7 @@ HRESULT CMagnum::Initialize(void* pArg)
 	m_bIsActive = false;
 
 	__super::Ready_Picking();
+	
 
 	return S_OK;
 }
@@ -118,6 +118,7 @@ void CMagnum::Update(_float fTimeDelta)
 	}
 	break;
 	}
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 
@@ -137,8 +138,12 @@ void CMagnum::Attack_WeaponSpecific(_float fTimeDelta)
 		__super::Picking_Object(1, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo--; 
 		Notify_Bullet();
-		m_pSoundCom->Play_Event(L"event:/Weapons/magnum_shot")->SetVolume(0.5f);
-		//m_pGameInstance->Play_Event(L"event:/magnum_shot")->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Magnum/magnum_shot")->SetVolume(0.5f);
+	}
+	else if (m_eState == State::Idle && Ranged_INFO.CurrentAmmo == 0)
+	{
+		m_eState = State::Wait;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Gun/gun_empty")->SetVolume(0.5f);
 	}
 }
 

@@ -266,6 +266,8 @@ CSound_Event* CSound_Manager::Play_Event(const _wstring& strEventPath, void* pAr
         iter->second->createInstance(&event);
         if (event)
         {
+            FMOD_STUDIO_PLAYBACK_STATE tmp = {};
+            event->setUserData(m_pStudioSystem);
             // 이벤트 인스턴스를 시작한다.
             event->start();
             // 새 아이디를 얻어 맵에 추가한다.
@@ -299,6 +301,18 @@ void CSound_Manager::Stop_All_Event()
 	m_pStudioSystem->getBus("bus:/", &m_pBus);
 	m_pBus->stopAllEvents(FMOD_STUDIO_STOP_IMMEDIATE);
 	//Update();
+}
+
+_float CSound_Manager::Get_Global_Parameter(const string& name)
+{
+    _float value = {};
+    m_pStudioSystem->getParameterByName(name.c_str(), &value);
+    return value;
+}
+
+void CSound_Manager::Set_Global_Parameter(const string& name, _float value)
+{
+    m_pStudioSystem->setParameterByName(name.c_str(), value);
 }
 
 void CSound_Manager::Set_Listner(const CTransform& worldTrans)
@@ -337,7 +351,7 @@ _bool CSound_Manager::GetBusPaused(const _wstring& name) const
     {
         iter->second->getPaused(&retVal);
     }
-    return retVal;
+    return retVal;  
 }
 
 void CSound_Manager::SetBusVolume(const _wstring& name, float volume)

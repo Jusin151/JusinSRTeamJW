@@ -88,12 +88,12 @@ void CHarvester::Update(_float fTimeDelta)
 			if (m_iCurrentFrame < m_TextureRanges["Firing"].second)
 			{
 				m_iCurrentFrame++;
-	
 			}
 			else
 			{
 				m_eState = State::Reloading;
 				m_iCurrentFrame = m_TextureRanges["Reloading"].first;
+				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpout")->SetVolume(0.5f);
 			}
 		}
 		break;
@@ -110,11 +110,13 @@ void CHarvester::Update(_float fTimeDelta)
 			{
 				m_eState = State::Idle;
 				m_iCurrentFrame = m_TextureRanges["Idle"].first;
+				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
 			}
 		}
 		break;
 	}
 
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 void CHarvester::Late_Update(_float fTimeDelta)
@@ -138,7 +140,11 @@ void CHarvester::Late_Update(_float fTimeDelta)
 
 void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
 {
-	if (Ranged_INFO.CurrentAmmo == 0) return;
+	if (Ranged_INFO.CurrentAmmo == 0)
+	{
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Gun/gun_empty")->SetVolume(0.5f);
+		return;
+	}
 	if (m_eState == State::Idle)
 	{
 		m_eState = State::Firing;
@@ -147,6 +153,7 @@ void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
 		__super::Picking_Object(5, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo = max(0,Ranged_INFO.CurrentAmmo-4);
 		Notify_Bullet();
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Harvester/harvester_shot")->SetVolume(0.5f);		
 	}
 }
 

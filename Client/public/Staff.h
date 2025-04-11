@@ -50,18 +50,15 @@ private:
 	CLight* m_pLightCom = { nullptr };
 	State	m_eState = State::Idle;
 	_bool m_bFireLock = { false };
+	_bool m_bCharged = { false };
 
 public:
 	static CStaff* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 
-	
+	_bool m_bFireLock = { false };
 	_bool m_bCharged = { false };
-
-
-
-	// CRanged_Weapon을(를) 통해 상속됨
 
 
 };

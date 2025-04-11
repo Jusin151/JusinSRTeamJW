@@ -34,26 +34,26 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         {
             pBoss->Change_State(new CHellBoss_IdleState());
         }
-        else if (pBoss->Get_Phase() == PHASE2)
+        else if (pBoss->Get_Phase() == PHASE2)// <<< 2페이즈 돌입!
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);
             if (fDist < 30.f)
             {
-                pBoss->Set_AttackPattern(new CPattern_Shoot());
+                pBoss->Set_Pattern(new CPattern_Shoot());
             }
             else
             {
                 pBoss->Change_State(new CHellBoss_WalkState());
             }
         }
-        else if (pBoss->Get_Phase() == PHASE3) 
+        else if (pBoss->Get_Phase() == PHASE3)  // <<< 3페이즈 돌입! , 한팔 절단
         {
             _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
             float fDist = D3DXVec3Length(&vToPlayer);
             if (fDist < 30.f)
             {
-                pBoss->Set_AttackPattern(new CPattern_Shoot());
+                pBoss->Set_Pattern(new CPattern_Shoot());
             }
             else
             {
@@ -66,7 +66,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
             float fDist = D3DXVec3Length(&vToPlayer);
             if (fDist < 30.f)
             {
-                pBoss->Set_AttackPattern(new CPattern_Shoot());
+                pBoss->Set_Pattern(new CPattern_Shoot());
             }
             else
             {
@@ -79,7 +79,7 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
             float fDist = D3DXVec3Length(&vToPlayer);
             if (fDist < 30.f)
             {
-                pBoss->Set_AttackPattern(new CPattern_Shoot());
+                pBoss->Set_Pattern(new CPattern_Shoot());
             }
             else
             {
