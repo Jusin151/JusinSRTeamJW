@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "Component.h"
+#include "Sound_Event.h"
 BEGIN(Engine)
 class CSound_Manager;
-class CSound_Event;
 class ENGINE_DLL CSound_Source final : public CComponent
 {
 private:

@@ -35,14 +35,30 @@ void CSound_Source::Update(_float fTimeDelta)
     auto iter = m_Events2D.begin();
     while (iter != m_Events2D.end())
     {
-        (*iter)->IsValid() ? iter = m_Events2D.erase(iter) : iter;
+        if ((*iter)->IsValid())
+        {
+            Safe_Delete(*iter);
+            iter = m_Events2D.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
     }
 
     // 유효하지 않는 3D event 삭제
     iter = m_Events3D.begin();
     while (iter != m_Events3D.end())
     {
-        (*iter)->IsValid() ? iter = m_Events3D.erase(iter) : iter;
+        if ((*iter)->IsValid())
+        {
+            Safe_Delete(*iter);
+            iter = m_Events3D.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
     }
 }
 

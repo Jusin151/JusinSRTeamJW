@@ -1,6 +1,7 @@
 ﻿#include "Camera_FirstPerson.h"
 #include "GameInstance.h"
 #include "PickingSys.h" // 테스트 용으로 헤더 추가
+#include "Sound_Listener.h"
 
 static POINT ptLast = { 0, 0 };
 
@@ -93,6 +94,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	UpdateRecoil(fTimeDelta);
 	
 
+	m_pListenerCom->Set_Listner(*fPlayerTrans);
 	if (!m_bCameraLocked)
 	{
 		Shaking(fTimeDelta);
@@ -363,6 +365,11 @@ HRESULT CCamera_FirstPerson::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 	m_vScale = { 1.f, 1.f, 1.f };
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Listener"),
+		TEXT("Com_Sound_Listener"), reinterpret_cast<CComponent**>(&m_pListenerCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -395,6 +402,6 @@ CGameObject* CCamera_FirstPerson::Clone(void* pArg)
 void CCamera_FirstPerson::Free()
 {
 	__super::Free();
-
 	Safe_Release(m_pPlayer);
+	Safe_Release(m_pListenerCom);
 }

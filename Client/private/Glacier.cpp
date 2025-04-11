@@ -49,7 +49,10 @@ void CGlacier::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
     if (m_eCurState == MS_DEATH && !m_bGib)
+    {
+        m_bGib = true;
         Create_Gibs(4);
+    }
 }
 
 void CGlacier::Update(_float fTimeDelta)
@@ -186,11 +189,15 @@ HRESULT CGlacier::On_Collision(CCollisionObject* other)
     case CG_WEAPON:
         // 죽은 상태고, 프레임 끝나있으면 죽이기
         Create_Stains(5);
-        Create_Gibs(3);
+        
         if (m_eCurState == MS_DEATH && m_iCurrentFrame >= 52)
         {
             m_bIsActive = false;
-
+            Create_Gibs(4);
+        }
+        else
+        {
+            Create_Gibs(3);
         }
         break;
 

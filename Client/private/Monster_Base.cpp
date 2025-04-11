@@ -190,7 +190,6 @@ HRESULT CMonster_Base::Create_Gibs(_uint eType)
 		LEVEL_STATIC,
 		TEXT("Layer_Gib_Effect"),	
 		&hitDesc);
-	m_bGib = true;
 	return S_OK;
 }
 
