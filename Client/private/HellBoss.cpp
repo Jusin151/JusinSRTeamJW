@@ -12,24 +12,21 @@
 #include "HellBoss_DeadState.h"
 #include "Pattern_Morph.h"
 #include "Pattern_Warp.h"
-#include "HellBoss_FloatState.h"
+#include "HellBoss_CircleState.h"
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
 }
-
 CHellBoss::CHellBoss(const CHellBoss& Prototype)
 	: CMonster_Base(Prototype) {
 }
-
 HRESULT CHellBoss::Initialize_Prototype() { return S_OK; }
-
 HRESULT CHellBoss::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components())) return E_FAIL;
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp = 25000;
+	m_iHp =16000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -146,8 +143,6 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 	return S_OK;
 }
-
-
 void CHellBoss::Priority_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
@@ -165,7 +160,115 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 
 	m_bIsActive = true;
 }
+void CHellBoss::Update(_float fTimeDelta)
+{
+	if (!m_pTarget)
+		return;
+	if (m_pCurState)
+		m_pCurState->Update(this, fTimeDelta);
 
+	Process_Input();
+
+	if (m_bDarkHole_EffectActive)
+		Spawn_Warp_Effect(fTimeDelta);
+
+	Power_Blast_Patter(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 공용
+
+	if (m_bFalling)
+	{
+		_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelta;
+		vCurPos.y -= m_fFallSpeed * fTimeDelta;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
+		if (vCurPos.y <= m_fOffset + 0.5f)
+		{
+			m_bFalling = false;
+			_float3 landedPos = vCurPos;
+			landedPos.y = m_fOffset;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, landedPos);
+
+			BossDESC desc{};
+			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			desc.vPos = landedPos;
+			desc.strState = "Down";
+
+			m_pGameInstance->Add_GameObject(LEVEL_HONG,
+				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+		}
+	}
+
+
+
+	m_AnimationManager.Update(fTimeDelta);
+
+	if (m_eCurState != MS_DEATH)
+	{
+		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Transform"));
+
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+	}
+
+	if (m_iHp <= 20000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
+	{
+		m_bDidPhase2Morph = true;
+		m_ePhase = PHASE2;
+		Set_Pattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+	if (m_iHp <= 15000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
+	{
+		m_bDidPhase3Morph = true;
+		m_ePhase = PHASE3;
+		Set_Pattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입!
+	{
+		m_bDidPhase4Morph = true;
+		m_ePhase = PHASE4;
+		Set_Pattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState()); 
+		return;
+	}
+	if (m_iHp <= 5000 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
+	{
+		m_bDidPhase5Morph = true;
+		m_ePhase = PHASE5;
+		Set_Pattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
+	int a{};
+	switch (m_ePhase) // 피 깎이는 로직의 대해서만 여기서 패턴상태로 관리
+	{
+	case PHASE1:
+		a = 5;
+		break;
+	case PHASE2:
+		break;
+	case PHASE3:
+		a = 5;
+		break;
+	case PHASE4:
+		a = 5;
+		break;
+	case PHASE5:
+		a = 5;
+		break;
+	default:
+		break;
+	}
+
+
+	__super::Update(fTimeDelta);
+}
 void CHellBoss::Process_Input()
 {
 	//if (GetAsyncKeyState('0') & 0x8000)		
@@ -239,123 +342,32 @@ void CHellBoss::Process_Input()
 	}
 
 }
-void CHellBoss::Update(_float fTimeDelta)
+void CHellBoss::Use_Attack(_float fDeltaTime)
 {
-	if (!m_pTarget)
-		return;
-	if (m_pCurState)
-		m_pCurState->Update(this, fTimeDelta);
-
-	Process_Input();
-	if (m_bDarkHole_EffectActive)
-		Spawn_Warp_Effect(fTimeDelta);
-
-
-	if (m_bFalling)
+	if (m_pCurAttackPattern)
 	{
-		_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pCurAttackPattern->Execute(this, fDeltaTime);
 
-		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelta;
-		vCurPos.y -= m_fFallSpeed * fTimeDelta;
+		if (dynamic_cast<CPattern_Morph*>(m_pCurAttackPattern))
+			return;
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
-		if (vCurPos.y <= m_fOffset + 0.5f)
+		if (m_pCurAttackPattern->Is_Finished())
 		{
-			m_bFalling = false;
-			_float3 landedPos = vCurPos;
-			landedPos.y = m_fOffset;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, landedPos);
+			delete m_pCurAttackPattern;
+			m_pCurAttackPattern = nullptr;
 
-			// Down 애니메이션 생성
-			BossDESC desc{};
-			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
-			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-			desc.vPos = landedPos;
-			desc.strState = "Down";
-
-			m_pGameInstance->Add_GameObject(LEVEL_HONG,
-				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
-				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+			// Phase1만 Idle로 복귀
+			if (m_ePhase == PHASE1)
+				Change_State(new CHellBoss_IdleState());
+			else if (m_ePhase == PHASE2)
+				Change_State(new CHellBoss_IdleState());
+			else if (m_ePhase == PHASE3)
+				Change_State(new CHellBoss_IdleState());
+			else if (m_ePhase == PHASE4)
+				Change_State(new CHellBoss_CircleState());
 		}
 	}
-
-
-
-
-
-
-
-	m_AnimationManager.Update(fTimeDelta);
-
-	if (m_eCurState != MS_DEATH)
-	{
-		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Transform")); 
-
-		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
-	}
-
-	if (m_iHp <= 20000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
-	{
-		m_bDidPhase2Morph = true;
-		m_ePhase = PHASE2;
-		Set_AttackPattern(new CPattern_Morph());
-		Change_State(new CHellBoss_MorphState());
-		return;
-	}
-	if (m_iHp <= 15000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
-	{
-		m_bDidPhase3Morph = true;
-		m_ePhase = PHASE3;
-		Set_AttackPattern(new CPattern_Morph());
-		Change_State(new CHellBoss_MorphState());
-		return;
-	}
-	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입!
-	{
-		m_bDidPhase4Morph = true;
-		m_ePhase = PHASE4;
-		Set_AttackPattern(new CPattern_Morph());
-		Change_State(new CHellBoss_FloatState());
-		return;
-	}
-
-	if (m_iHp <= 5000 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
-	{
-		m_bDidPhase5Morph = true;
-		m_ePhase = PHASE5;
-		Set_AttackPattern(new CPattern_Morph());  
-		Change_State(new CHellBoss_MorphState()); 
-		return;
-	}
-
-
-
-	int a{};
-	switch (m_ePhase) // 피 깎이는 로직의 대해서만 여기서 패턴상태로 관리
-	{
-	case PHASE1: 
-		a = 5;
-		break;
-	case PHASE2:
-		break;
-	case PHASE3:
-		a = 5;
-		break;
-	case PHASE4:
-		a = 5;
-		break;
-	case PHASE5:
-		a = 5;
-		break;
-	default:
-		break;
-	}
-	Power_Blast_Patter(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 공용
-
-	__super::Update(fTimeDelta);
 }
-
 void CHellBoss::Launch_PowerBlast_Bullets()
 {
 	for (auto& pBullet : m_vecPowerBlasts)
@@ -369,7 +381,6 @@ void CHellBoss::Launch_PowerBlast_Bullets()
 	m_vecPowerBlasts.clear();
 	m_iPowerBlastCount = 0;
 }
-
 void CHellBoss::Power_Blast_Patter()
 {
 	_int iCurHpDiv100 = m_iHp / 100;
@@ -527,9 +538,6 @@ void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
 		}
 	}
 }
-
-
-
 _float3 CHellBoss::Get_RandomWarpPos_InFront()
 {
 	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -561,7 +569,7 @@ _float3 CHellBoss::Get_RandomWarpPos_InFront()
 
 	return finalPos;
 }
-void CHellBoss::Set_AttackPattern(CPattern_Base* pPattern)
+void CHellBoss::Set_Pattern(CPattern_Base* pPattern)
 {
 	if (m_pCurAttackPattern)
 	{
@@ -571,7 +579,6 @@ void CHellBoss::Set_AttackPattern(CPattern_Base* pPattern)
 
 	m_pCurAttackPattern = pPattern;
 }
-
 void CHellBoss::Late_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
@@ -594,24 +601,6 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 
 
 }
-void CHellBoss::Use_Attack(_float fDeltaTime)
-{
-	if (m_pCurAttackPattern)
-	{
-		m_pCurAttackPattern->Execute(this, fDeltaTime);
-		if (m_pCurAttackPattern->Is_Finished())
-		{
-			// Morph 패턴인 경우 혹은 1페이즈라면 
-			if (dynamic_cast<CPattern_Morph*>(m_pCurAttackPattern) != nullptr || m_ePhase == PHASE1)
-			{
-				delete m_pCurAttackPattern;
-				m_pCurAttackPattern = nullptr;
-				Change_State(new CHellBoss_IdleState());
-			}
-		}
-	}
-}
-
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
 {
 	if (m_pCurState)
@@ -637,7 +626,6 @@ void CHellBoss::Change_State(CHellBoss_State* pNewState)
 	if (m_pCurState)
 		m_pCurState->Enter(this);
 }
-
 HRESULT CHellBoss::Render()
 {
 	_int iCurFrame = m_AnimationManager.GetCurrentFrame();
@@ -662,7 +650,7 @@ HRESULT CHellBoss::Render()
 
 	//if (g_bDebugCollider) 
 		
-		m_pColliderCom->Render();
+	m_pColliderCom->Render();
 	m_pShaderCom->End();
 	Release_RenderState();
 
@@ -763,7 +751,6 @@ HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 
 	return S_OK;
 }
-
 void CHellBoss::Select_Pattern(_float fTimeDelta)
 {
 	if (m_eCurState == MS_DEATH)
@@ -782,7 +769,6 @@ void CHellBoss::Select_Pattern(_float fTimeDelta)
 		break;
 	}
 }
-
 HRESULT CHellBoss::SetUp_RenderState()
 {
 	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
@@ -797,7 +783,6 @@ HRESULT CHellBoss::SetUp_RenderState()
 
 	return S_OK;
 }
-
 HRESULT CHellBoss::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -805,7 +790,6 @@ HRESULT CHellBoss::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	return S_OK;
 }
-
 HRESULT CHellBoss::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -871,7 +855,6 @@ HRESULT CHellBoss::Ready_Components()
 
 	return S_OK;
 }
-
 CHellBoss* CHellBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CHellBoss* pInstance = new CHellBoss(pGraphic_Device);
@@ -884,7 +867,6 @@ CHellBoss* CHellBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	return pInstance;
 }
-
 CGameObject* CHellBoss::Clone(void* pArg)
 {
 	CHellBoss* pInstance = new CHellBoss(*this);
@@ -897,7 +879,6 @@ CGameObject* CHellBoss::Clone(void* pArg)
 
 	return pInstance;
 }
-
 void CHellBoss::Free()
 {
 	__super::Free();

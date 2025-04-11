@@ -7,32 +7,49 @@
 #include "HellBoss_WalkState.h"
 #include "GameInstance.h" 
 
+static _float3 m_vCenterPos{};
+
 void CHellBoss_CircleState::Enter(CHellBoss* pBoss)
 {
-
     if (pBoss->Get_Phase() == PHASE4)
         pBoss->Set_Animation("G_Phase3_Idle");
 
+    _float3 pos = pBoss->Get_Transform()->Get_State(CTransform::STATE_POSITION);
 
+    const float radius = 10.f;
+
+    _float angle = 0.f; 
+    pBoss->m_fAngle = angle;
+
+    _float3 center;
+    center.x = pos.x - cosf(angle) * radius;
+    center.z = pos.z - sinf(angle) * radius;
+    center.y = pos.y;
+
+    m_vCenterPos = center;
 }
+
+
 
 void CHellBoss_CircleState::Update(CHellBoss* pBoss, float fTimeDelta)
 {
-    _float3 playerPos = static_cast<CPlayer*>(pBoss->Get_Target())->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
     const float radius = 30.f;
-    const float angularSpeed = D3DX_PI / 4; // 45도/초
-    pBoss->_angle += fTimeDelta * angularSpeed;
+    const float angularSpeed = D3DX_PI / 4.f; 
+
+    pBoss->m_fAngle += fTimeDelta * angularSpeed;
+
     _float3 orbitPos;
-    orbitPos.x = playerPos.x + cos(pBoss->_angle) * radius;
-    orbitPos.z = playerPos.z + sin(pBoss->_angle) * radius;
-    // 고정된 높이 (예: 플레이어 높이에서 +20.f)
-    orbitPos.y = playerPos.y + 20.f;
+    orbitPos.x = m_vCenterPos.x + cos(pBoss->m_fAngle) * radius;
+    orbitPos.z = m_vCenterPos.z + sin(pBoss->m_fAngle) * radius;
+    orbitPos.y = m_vCenterPos.y;
+
     pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, orbitPos);
 }
 
 
 
+
 void CHellBoss_CircleState::Exit(CHellBoss* pBoss)
 {
-	
+
 }

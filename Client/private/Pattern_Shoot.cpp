@@ -26,10 +26,12 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             m_fNextFireTime = 0.f;
             break;
         case PHASE3:
-            pBoss->Set_Animation("K_Phase3_Nova");
+            pBoss->Set_Animation("O_ArmCut_Attack");
             break;
         case PHASE4:
-            pBoss->Set_Animation("M_Phase4_Death");
+            pBoss->Set_Animation("J_Phase3_TripleEye");
+        case PHASE5:
+            pBoss->Set_Animation("N_Phase4_Idle");
             break;
         }
         m_bStarted = true;

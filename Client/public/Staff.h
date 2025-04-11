@@ -57,5 +57,8 @@ public:
 	virtual CGameObject* Clone(void* pArg) ;
 	virtual void Free();
 
+	_bool m_bCharged = { false };
+
+
 };
 END

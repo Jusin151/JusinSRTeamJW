@@ -12,4 +12,6 @@ public:
     virtual void Enter(CHellBoss* pBoss) = 0;
     virtual void Update(CHellBoss* pBoss, float fTimeDelta) = 0;
     virtual void Exit(CHellBoss* pBoss) = 0;
+
+
 };
