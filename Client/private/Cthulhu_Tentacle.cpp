@@ -12,12 +12,14 @@ CCthulhu_Tentacle::CCthulhu_Tentacle(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CCthulhu_Tentacle::CCthulhu_Tentacle(const CCthulhu_Tentacle& Prototype)
-	:CMonster_Base(Prototype)
+	:CMonster_Base(Prototype),
+	m_pOwner(Prototype.m_pOwner)
 {
 }
 
 HRESULT CCthulhu_Tentacle::Initialize_Prototype()
 {
+
 	return S_OK;
 }
 
@@ -30,6 +32,7 @@ HRESULT CCthulhu_Tentacle::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
 	m_fFrame = 0.f;
 	Init_Textures();
+
 	return S_OK;
 }
 
@@ -268,43 +271,6 @@ void CCthulhu_Tentacle::Init_Textures()
 
 void CCthulhu_Tentacle::Update_Animation(_float fTimeDelta)
 {
-	/*m_fFrame += m_fAnimationSpeed * fTimeDelta;
-	size_t numFrames = m_mapStateTextures[m_eState].size();
-
-	if (m_fFrame >= numFrames)
-	{
-		m_bAnimFinished = true;
-		if (m_eState == Tentacle_STATE::APPEAR)
-		{
-			m_eState = Tentacle_STATE::IDLE;
-			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
-		}
-		else if (m_eState == Tentacle_STATE::DISAPPEAR)
-		{
-
-			m_eState = Tentacle_STATE::IDLE;
-			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
-			SetActive(false);
-		}
-		else if (m_eState == Tentacle_STATE::DEAD)
-		{
-			SetActive(false);
-		}
-		else
-		{
-			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
-		}
-		
-	}
-	else
-	{
-		m_bAnimFinished = false;
-		m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
-	}*/
-
 	m_fFrame += m_fAnimationSpeed * fTimeDelta;
 	size_t numFrames = m_mapStateTextures[m_eState].size();
 
@@ -378,6 +344,16 @@ _bool CCthulhu_Tentacle::IsPlayerVisible()
 		{
 			return false;
 		}
+	}
+
+	if (m_pOwner)
+	{
+
+	CCollider_Cube* pOwnerCol = dynamic_cast<CCollider_Cube*>(m_pOwner->Get_Component(TEXT("Com_Collider_Cube")));
+	if (CCthulhu::RayCubeIntersection(rayOrigin, rayDir, pOwnerCol, fDistance))
+	{
+		return false;
+	}
 	}
 	return true;
 }

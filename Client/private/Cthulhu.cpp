@@ -128,6 +128,12 @@ HRESULT CCthulhu::Initialize(void* pArg)
 
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(pos.x, -0.5f, pos.z));
+
+	for (auto& pTentacle : m_listTentacles)
+	{
+		if(pTentacle)
+		pTentacle->Set_Parent(this);
+	}
 	return S_OK;
 }
 
