@@ -170,6 +170,7 @@ void CMinigun::Late_Update(_float fTimeDelta)
                 m_iCurrentFrame++;
                 if (m_iCurrentFrame > m_TextureRanges["Loop"].second)
                     m_iCurrentFrame = m_TextureRanges["Loop"].first;
+                m_pSoundCom->Play_Event(L"event:/Weapons/Range/Minigun/minigun_rotate_start")->SetVolume(0.5f);
             }
             if (m_fHoldTime >= 1.0f)
             {
@@ -221,6 +222,7 @@ void CMinigun::Late_Update(_float fTimeDelta)
                 {
                     m_eState = State::Idle;
                     m_iCurrentFrame = m_TextureRanges["Idle"].first;
+                    m_pSoundCom->Play_Event(L"event:/Weapons/Range/Minigun/minigun_rotate_end")->SetVolume(0.5f);
                 }
             }
         }
@@ -232,7 +234,6 @@ void CMinigun::Late_Update(_float fTimeDelta)
         m_eState = State::Idle;
         m_iCurrentFrame = m_TextureRanges["Idle"].first;
         m_fHoldTime = 0.f;
-        m_pSoundCom->Play_Event(L"event:/Weapons/Range/Minigun/minigun_rotate_end")->SetVolume(0.5f);
         break;
 
     default:
@@ -252,6 +253,7 @@ void CMinigun::Late_Update(_float fTimeDelta)
         pos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
         m_pLightCom->Set_Position(pos);
         m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
+        m_pSoundCom->Play_Event(L"event:/Weapons/Range/Minigun/minigun_shot")->SetVolume(0.5f);
     }
     m_bAttackInput = false;
 }

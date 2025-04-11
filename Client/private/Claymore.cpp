@@ -129,11 +129,11 @@ HRESULT CClaymore::On_Collision(CCollisionObject* other)
 
 	switch (other->Get_Type()) //여기서 디버깅 잡히나?
 	{
-	case CG_MONSTER:
-
+	case CG_MONSTER:	
 		// 나중에 공격력 만들어서 추가하는 식으로
-			Take_Damage(other);
-			m_bAttack = true;
+		Take_Damage(other);
+		m_bAttack = true;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Hit")->SetVolume(0.5f);
 		break;
 	case CG_STRUCTURE_WALL:
 		m_bAttack = true;
@@ -208,11 +208,12 @@ void CClaymore::Attack(_float fTimeDelta)
 {
 	if (m_bIsAnimating) return;
 
-		m_bIsAnimating = true;
-		m_bAttack = false;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
-		m_iLastFrame = 13;
+	m_bIsAnimating = true;
+	m_bAttack = false;
+	m_iCurrentFrame = 0;
+	m_fElapsedTime = 0.0f;
+	m_iLastFrame = 13;
+	m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Swing")->SetVolume(0.5f);
 }
 
 void CClaymore::Attack_WeaponSpecific(_float fTimeDelta)

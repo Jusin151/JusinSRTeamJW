@@ -21,7 +21,9 @@ public:
 	_float			Get_Global_Parameter(const string& name);
 	void			Set_Global_Parameter(const string& name, _float value);
 	CSound_Event*	Play_Event(_wstring strEvent, void* pArg = nullptr);
-	void			Stop_All_Event();
+	void			Stop_All_Event(bool allowFadeOut = true);
+private:
+	void			Clear();
 	
 private:
 	CSound_Manager*			m_pSound_Manager;

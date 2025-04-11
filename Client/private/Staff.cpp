@@ -89,22 +89,8 @@ void CStaff::Priority_Update(_float fTimeDelta)
 
 void CStaff::Update(_float fTimeDelta)
 {
-    if (GetAsyncKeyState('W') & 0x8000 ||
-        GetAsyncKeyState('A') & 0x8000 ||
-        GetAsyncKeyState('S') & 0x8000 ||
-        GetAsyncKeyState('D') & 0x8000)
-    {
-        t += speed;
-    }
-
-    float v = 20.0f;
-    _float3 vNewPos;
-    vNewPos.x = m_vInitialPos.x + (1 + v * cosf(t / 2)) * cosf(t);
-    vNewPos.y = m_vInitialPos.y + (1 + v * cosf(t / 2)) * sinf(t);
-
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
-
-
+    __super::Update(fTimeDelta);
+    m_pSoundCom->Update(fTimeDelta);
 }
 
 void CStaff::Attack(_float fTimeDelta)
@@ -146,6 +132,8 @@ void CStaff::Late_Update(_float fTimeDelta)
             m_iCurrentFrame = m_TextureRanges["Charging"].first;
             m_fElapsedTime = 0.0f;
             m_bHasFired = false;
+            m_pSoundCom->Stop_All_Event(false);
+            m_pSoundCom->Play_Event(L"event:/Weapons/Range/Staff/staff_charging_full")->SetVolume(0.5f);
         }
         else
         {
@@ -162,11 +150,11 @@ void CStaff::Late_Update(_float fTimeDelta)
                 if (m_iCurrentFrame < m_TextureRanges["Charging"].second)
                 {
                     ++m_iCurrentFrame;
-                    m_bCharged = false;
                 }
                 else
                 {
                     m_eState = State::Charged;
+                    m_pSoundCom->Stop_All_Event(false);
                     m_iCurrentFrame = m_TextureRanges["Loop"].first;
                 }
             }
@@ -186,6 +174,7 @@ void CStaff::Late_Update(_float fTimeDelta)
             {
                 m_fElapsedTime = 0.0f;
                 m_iCurrentFrame = (m_iCurrentFrame + 1) % (m_TextureRanges["Loop"].second - m_TextureRanges["Loop"].first + 1) + m_TextureRanges["Loop"].first;
+                m_pSoundCom->Play_Event(L"event:/Weapons/Range/Staff/staff_charge_loopable_sound_loop")->SetVolume(0.5f);
             }
         }
         else
@@ -211,6 +200,7 @@ void CStaff::Late_Update(_float fTimeDelta)
                     if (!pPlayer || !pPlayer->TryUseMana(10))  
                     {
                         m_bFireLock = true;
+                        m_pSoundCom->Stop_All_Event(false);
                         if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
                         {
                             pUI_Event->ShowEventText(0, L"Mp_End");
@@ -233,8 +223,9 @@ void CStaff::Late_Update(_float fTimeDelta)
                     {
                         MSG_BOX("스태프총알 생성안됨");
                     }
-
                     m_bHasFired = true;
+                    m_pSoundCom->Stop_All_Event(false);
+                    m_pSoundCom->Play_Event(L"event:/Weapons/Range/Staff/staff_basic_shot")->SetVolume(0.5f);
                 }
 
 
