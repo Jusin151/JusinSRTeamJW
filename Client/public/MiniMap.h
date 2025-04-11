@@ -46,9 +46,11 @@ private:
 
 private:
     void RenderPlayerOnMiniMap();
+    void RenderHellBossOnMiniMap();
 private:
     list<class CDoor*> m_DoorList;
     list<class CStructure*> m_StructureList;
+    class CGameObject* m_pHellboss{ nullptr };
     class CPlayer* m_pPlayer = { nullptr };
     class CCamera_FirstPerson* m_pCamera = { nullptr };
     LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // ¹Ì´Ï¸Ê ·»´õ Å¸°Ù
