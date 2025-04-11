@@ -43,6 +43,7 @@ public:
 
     void Set_Position(const _float3& vPos);
     _bool IsAnimationFinished() const;
+    void Set_Parent(CGameObject* pParent) {m_pOwner = pParent; }
 private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
@@ -51,7 +52,6 @@ private:
     void Init_Textures();
     void Update_Animation(_float fTimeDelta);
     _bool IsPlayerVisible();
-
     void Attack();
 private:
     unordered_map<Tentacle_STATE, vector<_uint>> m_mapStateTextures;
@@ -63,7 +63,7 @@ private:
 	_bool m_bCanHit{ false };
 	_bool m_bCanAttack{ false };
     _bool m_bAnimFinished { false };
-
+    CGameObject* m_pOwner{ nullptr };
 public:
     static CCthulhu_Tentacle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);
