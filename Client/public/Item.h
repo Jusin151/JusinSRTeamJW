@@ -5,6 +5,7 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
+class CSound_Source;
 class CTransform;
 class CLight;
 class CShader;
@@ -78,6 +79,7 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CSound_Source* m_pSoundCom = { nullptr };
 	CParticle_System* m_pParticleCom = { nullptr };
 	CMaterial* m_pMaterialCom = { nullptr };
 private:

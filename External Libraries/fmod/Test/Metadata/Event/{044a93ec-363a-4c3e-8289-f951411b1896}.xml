@@ -5,7 +5,7 @@
 			<value>Door_Sliding_CLose_Clean</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{1bad0a85-88ad-4738-bcdb-2118fe7b698d}</destination>
@@ -59,7 +59,14 @@
 			<destination>{2fcea790-9b86-4127-b1be-ebf4d51ccd9f}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{e425f079-c2f1-4e19-9228-5388adfc4d6c}" />
+	<object class="EventAutomatableProperties" id="{e425f079-c2f1-4e19-9228-5388adfc4d6c}">
+		<property name="maximumDistance">
+			<value>10000</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>1400</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{7e919662-aca1-46c8-a114-71e4be28bbf9}" />
 	<object class="Timeline" id="{1bd906e9-6f83-4842-af66-ab70b8c63205}">
 		<property name="isProxyEnabled">
@@ -96,7 +103,6 @@
 	<object class="MixerBusEffectChain" id="{5b99d4c2-f43d-479f-9320-11c18568685a}">
 		<relationship name="effects">
 			<destination>{f411e3a1-e9bf-4961-a4a4-1021aa13c294}</destination>
-			<destination>{57b20afc-e1a0-4928-9bfe-4643b3f4c6ce}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{5ebb555a-3c7f-4891-b743-8533397fa2eb}" />
@@ -107,5 +113,4 @@
 	</object>
 	<object class="MixerBusFader" id="{e0ddaf7a-b5c1-4079-b804-f5b286dd9da8}" />
 	<object class="MixerBusFader" id="{f411e3a1-e9bf-4961-a4a4-1021aa13c294}" />
-	<object class="SpatialiserEffect" id="{57b20afc-e1a0-4928-9bfe-4643b3f4c6ce}" />
 </objects>

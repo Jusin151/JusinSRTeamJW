@@ -1,5 +1,6 @@
 ﻿#include "Sound_Source.h"
 #include "Sound_Manager.h"
+#include "Transform.h"
 
 CSound_Source::CSound_Source(LPDIRECT3DDEVICE9 pGraphic_Device, CSound_Manager* pSound_Manager)
     : CComponent{ pGraphic_Device }
@@ -81,8 +82,9 @@ CSound_Event* CSound_Source::Play_Event(_wstring strEvent, void* pArg)
     CSound_Event* e = m_pSound_Manager->Play_Event(strEvent);
     if (e->Is3D())
     {
+        CTransform* pTranform = reinterpret_cast<CTransform*>(pArg);
         m_Events3D.emplace_back(e);
-        //e->Set3DAttributes();
+        e->Set3DAttributes(*pTranform);
     }
     else
     {

@@ -186,9 +186,10 @@ void CPlayer::Input_ItemtoInven()
 void CPlayer::Equip(_float fTimeDelta)
 {
 	if (m_eWeaponState != WEAPON_STATE::IDLE) return;
+	
 	m_eWeaponState = WEAPON_STATE::CHANGE;
 	for (int i = 1; i <= 8; ++i)
-	{
+	{	
 		if (GetAsyncKeyState('0' + i) & 0x8000)
 		{
 			if (m_pPlayer_Weapon)
@@ -196,6 +197,7 @@ void CPlayer::Equip(_float fTimeDelta)
 				m_pPlayer_Weapon->SetActive(false);
 			}
 			m_pPlayer_Weapon = m_pPlayer_Inven->Equip(i);
+			m_pSoundCom->Play_Event(L"event:/Player/Weapon_Change")->SetVolume(0.5f);
 			//m_pPlayer_Weapon->SetActive(true);
 			break;
 		}
@@ -213,7 +215,6 @@ void CPlayer::Equip(_float fTimeDelta)
 		}
 	}
 	m_eWeaponState = WEAPON_STATE::IDLE;
-
 }
 HRESULT CPlayer::Render()
 {
@@ -440,7 +441,6 @@ void CPlayer::Add_HP(_int Hp)
 	{
 		pUI_Event->ShowEventText(Hp, L"Hp");
 	}
-	m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 }
 _bool CPlayer::Set_Mp(_int iMp)
 {
@@ -474,7 +474,7 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 			if (pWeapon)
 			{
 				pWeapon->Add_Ammo(iFinalAmmo);
-				m_pSoundCom->Play_Event(L"event:/Objects/ammo_pickup")->SetVolume(0.5f);
+				
 			}	
 		}
 	}

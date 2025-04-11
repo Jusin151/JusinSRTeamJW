@@ -69,7 +69,11 @@ HRESULT CMonster_Base::Ready_Components()
 	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
-		return E_FAIL;						
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -223,6 +227,7 @@ json CMonster_Base::Serialize()
 void CMonster_Base::Free()
 {
 	__super::Free();
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);

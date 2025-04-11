@@ -5,7 +5,7 @@
 			<value>Melee_Hit</value>
 		</property>
 		<property name="outputFormat">
-			<value>5</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2253fb65-ef96-4cc6-ba3c-59cf356fff38}</destination>
