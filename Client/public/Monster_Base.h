@@ -9,9 +9,10 @@ class CShader;
 class CTexture;
 class CMaterial;
 class CTransform;
+class CSound_Source;
 class CVIBuffer_Rect;
-class CCollider_Sphere;
 class CCollider_Cube;
+class CCollider_Sphere;
 END
 
 BEGIN(Client)
@@ -63,10 +64,13 @@ public:
 protected:
 	CShader*		m_pShaderCom = { nullptr };
 	CTexture*		m_pTextureCom = { nullptr };
+	CMaterial*		m_pMaterialCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
+	CSound_Source*	m_pSoundCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
-	CMaterial*		m_pMaterialCom = { nullptr };
+	
+	
 	
 protected:
 

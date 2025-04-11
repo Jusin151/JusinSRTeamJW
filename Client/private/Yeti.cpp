@@ -52,6 +52,7 @@ void CYeti::Priority_Update(_float fTimeDelta)
     {
         m_bGib = true;
         Create_Gibs(2);
+        m_pSoundCom->Play_Event(L"event:/Monsters/Yeti/Yeti_Death", m_pTransformCom)->SetVolume(0.5f);
     }
         
     if (m_iCurrentFrame > 40)
@@ -86,6 +87,7 @@ void CYeti::Update(_float fTimeDelta)
 
         m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
     }
+    m_pSoundCom->Update(fTimeDelta);
 }
 
 void CYeti::Late_Update(_float fTimeDelta)
@@ -274,6 +276,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
 
         break;
     case MS_ATTACK:
+        //m_pSoundCom->Play_Event(L"event:/Monsters/Yeti/Yeti_Attack", m_pTransformCom)->SetVolume(0.5f);
         Attack_Melee(fTimeDelta);
         break;
 
@@ -292,7 +295,6 @@ void CYeti::Attack_Melee(_float fTimeDelta)
         else
             return;
     }
-
 }
 
 _bool CYeti::Check_DIstance(_float fTimeDelta)
