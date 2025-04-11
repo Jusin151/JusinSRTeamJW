@@ -412,9 +412,6 @@
     <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern">
       <UniqueIdentifier>{cd0f6199-48e1-45f8-808f-5f1372658788}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Pattern_Warp">
-      <UniqueIdentifier>{7550df4c-60a4-4e10-8c8f-8d0944b1b61c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02">
       <UniqueIdentifier>{bf12c702-e2f5-4d2a-9bdf-b0d48353f0a5}</UniqueIdentifier>
     </Filter>
@@ -463,9 +460,6 @@
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState">
       <UniqueIdentifier>{00d2e099-cebc-45d4-987d-3281c0eeecc6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState">
-      <UniqueIdentifier>{901929e7-6d11-4cf4-a3c1-bc58c52e4bd1}</UniqueIdentifier>
-      </Filter>
     <Filter Include="02.GameObjects\03. Effect\Stains_Effect">
       <UniqueIdentifier>{d43faf99-6ec5-4266-aea9-84bc302c5800}</UniqueIdentifier>
     </Filter>
@@ -483,6 +477,9 @@
     </Filter>
     <Filter Include="02.GameObjects\03. Effect\Gib_Effect">
       <UniqueIdentifier>{69b90a84-7a91-44a8-970e-6e4c83fd1eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99. Camera\CCamera_CutScene">
+      <UniqueIdentifier>{f6865727-0c79-4b0b-9b5c-adc792dd03aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -924,9 +921,6 @@
     <ClInclude Include="..\public\HellBoss_CircleState.h">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\HellBoss_FloatState.h">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Stains_Effect.h">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
     </ClInclude>
@@ -938,6 +932,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Gib_Effect.h">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera_CutScene.h">
+      <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1334,12 +1331,6 @@
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\HellBoss_CircleState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\HellBoss_FloatState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
-      </ClCompile>
     <ClCompile Include="..\private\Stains_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
     </ClCompile>
@@ -1351,6 +1342,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Gib_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HellBoss_CircleState.cpp">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera_CutScene.cpp">
+      <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

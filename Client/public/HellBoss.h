@@ -55,7 +55,7 @@ public:
 	bool HasTarget() const { return m_pTarget != nullptr; }
 	void Change_State(CHellBoss_State* pNewState);
 public: // 패턴관련
-	void Set_AttackPattern(CPattern_Base* pPattern); // 공격패턴 설정
+	void Set_Pattern(CPattern_Base* pPattern); // 공격패턴 설정
 	void Use_Attack(_float fDeltaTime); // 패턴 사용
 public:
 	void Power_Blast_Patter(); // 주변 회전하는 구들
@@ -86,7 +86,10 @@ private:
 	_float m_fFallSpeed = { 100.f };
 	_float3 m_vTargetDir = {};
 public:
-	_float _angle = 0.f; // orbit 각도
+	void Set_CircleBasePos(const _float3& vPos) { m_vCircleBasePos = vPos; }
+	_float3 Get_CircleBasePos() const { return m_vCircleBasePos; }
+	_float m_fAngle = 0.f; // orbit 각도
+	_float3 m_vCircleBasePos = {};
 
 public://애니메이션관련
 	void Set_Animation(const string& strAnimKey) { m_AnimationManager.SetCurrentAnimation(strAnimKey); }

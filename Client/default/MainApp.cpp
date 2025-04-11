@@ -27,6 +27,7 @@
 #include "GameObject_Snow.h"
 #include "Sound_Manager.h"
 #include "UI_Hit_Blood.h"
+#include "Camera_CutScene.h"
 
 
 CMainApp::CMainApp()
@@ -85,6 +86,11 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
+		return E_FAIL;
+
+	//컷씬 카메라 등록
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_Camera_CutScene"),
+		CCamera_CutScene::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	ShowCursor(false);

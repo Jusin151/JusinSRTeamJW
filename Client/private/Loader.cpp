@@ -18,6 +18,7 @@
 #include "Inven_UI.h"
 #include "Level_Hub.h"
 #include "HellBoss_Headers.h" // 헬보스 관련 생성에 필요한 헤더 
+#include "Camera_CutScene.h"
 
 
 
@@ -351,6 +352,9 @@ HRESULT CLoader::Loading_For_Hong()
 
 
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Hong.json");
+
+
+
 
 	//헬보스 객체 등록
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
