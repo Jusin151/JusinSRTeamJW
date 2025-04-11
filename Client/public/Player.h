@@ -10,10 +10,10 @@
 #include "UI_Manager.h"
 #include "UI_Event.h"
 
-
 BEGIN(Engine)
 class CTexture;
 class CTransform;
+class CSound_Source;
 class CVIBuffer_Cube;
 class CCollider_Sphere;
 class CCollider_Cube;
@@ -133,6 +133,7 @@ private: // 인벤관련
 private:
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CSound_Source* m_pSoundCom = { nullptr };
 	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
 private:
 	POINT m_ptOldMousePos = {};

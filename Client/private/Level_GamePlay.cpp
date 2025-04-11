@@ -26,8 +26,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	CJsonLoader jsonLoader;
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY_Test.json", LEVEL_GAMEPLAY);
-	//m_pGameInstance->Stop_All_Event();
-
+	
 	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;*/
@@ -53,6 +52,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Statue"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
 		return E_FAIL;
+
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.5f);
 
 	return S_OK;
 }

@@ -1,6 +1,7 @@
 ﻿#include "Logo_Button.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "Sound_Source.h"
 
 CLogo_Button::CLogo_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI_Base(pGraphic_Device)
@@ -54,9 +55,15 @@ void CLogo_Button::Update(_float fTimeDelta)
 	{
 		if (true == isPick(g_hWnd))
 		{
+			if (!m_bIsMouseOver)
+				m_pSoundCom->Play_Event(L"event:/Menu/Menu_Select")->SetVolume(1.0f);
 			m_bIsMouseOver = true;
 			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+			{
+				m_pGameInstance->Stop_All_Event();
+				m_pSoundCom->Play_Event(L"event:/Menu/Menu_Press_PLAY")->SetVolume(0.5f);
 				m_bIsMouseClick = true;
+			}
 		}
 		else
 			m_bIsMouseOver = false;
@@ -65,16 +72,22 @@ void CLogo_Button::Update(_float fTimeDelta)
 	{
 		if (isPick(g_hWnd))
 		{
+			if (!m_bIsMouseOver)
+				m_pSoundCom->Play_Event(L"event:/Menu/Menu_Select")->SetVolume(1.0f);
 			m_bIsMouseOver = true;
 			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+			{
+				m_pSoundCom->Play_Event(L"event:/Menu/Menu_Press")->SetVolume(0.5f);
 				PostQuitMessage(0);
+			}
+				
 		}
 		else
 		{
 			m_bIsMouseOver = false;
 		}
 	}
-
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 
@@ -147,6 +160,10 @@ HRESULT CLogo_Button::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_Button_pTransformCom), &tDesc)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -181,7 +198,7 @@ CGameObject* CLogo_Button::Clone(void* pArg)
 void CLogo_Button::Free()
 {
 	__super::Free();
-
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_Button_pTextureCom);
 	Safe_Release(m_Button_pTextureCom_Second);
 	Safe_Release(m_Button_pTransformCom);

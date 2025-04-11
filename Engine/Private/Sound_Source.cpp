@@ -35,14 +35,30 @@ void CSound_Source::Update(_float fTimeDelta)
     auto iter = m_Events2D.begin();
     while (iter != m_Events2D.end())
     {
-        (*iter)->IsValid() ? iter = m_Events2D.erase(iter) : iter;
+        if ((*iter)->IsValid())
+        {
+            Safe_Delete(*iter);
+            iter = m_Events2D.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
     }
 
     // 유효하지 않는 3D event 삭제
     iter = m_Events3D.begin();
     while (iter != m_Events3D.end())
     {
-        (*iter)->IsValid() ? iter = m_Events3D.erase(iter) : iter;
+        if ((*iter)->IsValid())
+        {
+            Safe_Delete(*iter);
+            iter = m_Events3D.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
     }
 }
 
@@ -50,13 +66,23 @@ void CSound_Source::Late_Update(_float fTimeDelta)
 {
 }
 
-CSound_Event* CSound_Source::Play_Event(_wstring strEvent)
+_float CSound_Source::Get_Global_Parameter(const string& name)
+{
+    return m_pSound_Manager->Get_Global_Parameter(name);
+}
+
+void CSound_Source::Set_Global_Parameter(const string& name, _float value)
+{
+    m_pSound_Manager->Set_Global_Parameter(name, value);
+}
+
+CSound_Event* CSound_Source::Play_Event(_wstring strEvent, void* pArg)
 {
     CSound_Event* e = m_pSound_Manager->Play_Event(strEvent);
     if (e->Is3D())
     {
         m_Events3D.emplace_back(e);
-        //e.Set3DAttributes();
+        //e->Set3DAttributes();
     }
     else
     {
