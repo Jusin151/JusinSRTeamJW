@@ -1,4 +1,4 @@
-﻿
+﻿	
 #include "PickingSys.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
@@ -426,7 +426,7 @@ void CPlayer::Take_Damage(_uint Damage)
 		m_iHp = 0;
 
 	Notify(m_iHp, L"HP_Hited");
-
+	m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);
 
 }
 void CPlayer::Add_HP(_int Hp)
@@ -440,6 +440,7 @@ void CPlayer::Add_HP(_int Hp)
 	{
 		pUI_Event->ShowEventText(Hp, L"Hp");
 	}
+	m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 }
 _bool CPlayer::Set_Mp(_int iMp)
 {
@@ -473,7 +474,8 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 			if (pWeapon)
 			{
 				pWeapon->Add_Ammo(iFinalAmmo);
-			}
+				m_pSoundCom->Play_Event(L"event:/Objects/ammo_pickup")->SetVolume(0.5f);
+			}	
 		}
 	}
 }
@@ -533,7 +535,7 @@ void CPlayer::Add_Exp(_int Exp)
 			pUI_Event->ShowEventText(0, L"LevelUp");
 		}
 	}
-
+	m_pSoundCom->Play_Event(L"event:/Level_Up_Distorted")->SetVolume(0.5f);
 	Notify(m_iPlayerEXP.first, L"Exp");
 
 

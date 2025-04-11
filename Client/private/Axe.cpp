@@ -109,6 +109,7 @@ HRESULT CAxe::On_Collision(CCollisionObject* other)
 		// 나중에 공격력 만들어서 추가하는 식으로
 		Take_Damage(other);
 		m_bAttack = true;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Hit")->SetVolume(0.5f);
 		break;
 	default:
 		break;
@@ -171,13 +172,12 @@ void CAxe::Attack(_float fTimeDelta)
 {
 	if (m_bIsAnimating) return;
 
-		m_bIsAnimating = true;
-		m_bAttack = false;
-		m_iCurrentFrame = 0;
-		m_fElapsedTime = 0.0f;
-		m_iLastFrame = 10;
-
-
+	m_bIsAnimating = true;
+	m_bAttack = false;
+	m_iCurrentFrame = 0;
+	m_fElapsedTime = 0.0f;
+	m_iLastFrame = 10;
+	m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Swing")->SetVolume(0.5f);
 }
 
 void CAxe::Attack_WeaponSpecific(_float fTimeDelta)
