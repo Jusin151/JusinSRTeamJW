@@ -1,4 +1,4 @@
-#include "Gib_Particle_System.h"
+ï»¿#include "Gib_Particle_System.h"
 
 CGib_Particle_System::CGib_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CParticle_System{ pGraphic_Device }
@@ -80,8 +80,8 @@ HRESULT CGib_Particle_System::Pre_Render()
     m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
     m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
 
-    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // Á¤Á¡ »ö»ó¸¸ »ç¿ë
-    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // ÅØ½ºÃÄ »ö»ó ÁöÁ¤
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // ì •ì  ìƒ‰ìƒë§Œ ì‚¬ìš©
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // í…ìŠ¤ì³ ìƒ‰ìƒ ì§€ì •
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

@@ -338,7 +338,6 @@
     <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
     <ClCompile Include="..\private\Deco_Base.cpp" />
     <ClCompile Include="..\private\Gib_Effect.cpp" />
-    <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp" />
     <ClCompile Include="..\Private\HellBoss_SkillBase.cpp" />
     <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp" />

@@ -1358,9 +1358,6 @@
     <ClCompile Include="..\private\Gib_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\HellBoss_CircleState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Camera_CutScene.cpp">
       <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
   </ClCompile>
