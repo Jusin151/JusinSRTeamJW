@@ -5,7 +5,7 @@
 			<value>pw2_wpn_claymore_default_hit_meat-001</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{54f10a0f-4297-4882-ab1d-f91d5a331491}</destination>
@@ -96,7 +96,6 @@
 	<object class="MixerBusEffectChain" id="{17da3a87-9df3-4a7e-97dc-80fd16c32fe4}">
 		<relationship name="effects">
 			<destination>{c6dab0f3-dcbd-4f63-b8bc-eba6b08321ed}</destination>
-			<destination>{aa0806f2-6b9e-4fad-8997-bf6311452822}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{5ab39d93-07ba-4535-82e8-607dd4f45f8e}" />
@@ -107,5 +106,4 @@
 	</object>
 	<object class="MixerBusFader" id="{21bf2e08-e740-4bae-b870-813cb02260ac}" />
 	<object class="MixerBusFader" id="{c6dab0f3-dcbd-4f63-b8bc-eba6b08321ed}" />
-	<object class="SpatialiserEffect" id="{aa0806f2-6b9e-4fad-8997-bf6311452822}" />
 </objects>
