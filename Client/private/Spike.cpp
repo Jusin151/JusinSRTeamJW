@@ -24,7 +24,7 @@ HRESULT CSpike::Initialize_Prototype()
 		return E_FAIL;
 	}
 
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_WaringZone"), TEXT("Layer_WaringZone"), 50)))
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_WaringZone"), TEXT("Layer_WaringZone"), 54)))
 	{
 		return E_FAIL;
 	}
@@ -72,6 +72,7 @@ void CSpike::Update(_float fTimeDelta)
 	Billboarding(fTimeDelta);
 	if (m_bUpdateAnimation)
 	{
+		Attack();
 		Apply_Shake(fTimeDelta);
 		Update_Animation(fTimeDelta);
 	}
@@ -137,16 +138,11 @@ void CSpike::Reset()
 	m_iCurrentFrame = m_mapStateTextures[m_eSpikeType][m_eState][0];
 	m_bAnimFinished = false;
 	m_fWarningElapsedTime = 0.f;
+	m_bCanAttack = true;
 }
 
 HRESULT CSpike::On_Collision(CCollisionObject* other)
 {
-	if (!other) return E_FAIL;
-
-	if (other->Get_Type() == CG_PLAYER)
-	{
-		Take_Damage(other);
-	}
 
 	return S_OK;
 }
@@ -308,6 +304,7 @@ void CSpike::Update_Animation(_float fTimeDelta)
 	{
 		if (m_eState == SPIKE_STATE::ATTACK)
 		{
+		
 			m_eState = SPIKE_STATE::DISAPPEAR;
 			m_fFrame = 0.f;
 			m_bAnimFinished = true; // 공격이 끝나서 다음 촉수한테 알려주기 위함
@@ -332,6 +329,30 @@ void CSpike::Update_Animation(_float fTimeDelta)
 
 void CSpike::Attack()
 {
+	if (m_eState != SPIKE_STATE::ATTACK||!m_bCanAttack)
+	{
+		return;
+	}
+
+	size_t numFrames = m_mapStateTextures[m_eSpikeType][m_eState].size();
+
+	if ((_uint)(numFrames - 1) == (_uint)m_fFrame)
+	{
+		_float3 spikePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		spikePos.y = 0.f;
+		_float3 playerPos = m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+		playerPos.y = 0.f;
+		_float distance = _float3::Distance(playerPos, spikePos);
+		if (abs(distance) <= ATTACK_DISTANCE_THRESHOLD)
+		{
+			if (m_pTarget )
+			{
+				static_cast<CPlayer*>(m_pTarget)->Take_Damage(10); // 10 데미지 적용 예시
+				m_bCanAttack = false;
+			}
+
+		}
+	}
 }
 
 void CSpike::Apply_Shake(_float fTimeDelta)

@@ -84,6 +84,8 @@ private:
     // 경고 영역 확장 애니메이션을 위한 누적 시간 변수
     _float m_fWarningElapsedTime = 0.f;
 
+    const _float ATTACK_DISTANCE_THRESHOLD = 3.5f; // 플레이어와의 거리 3.0f 이하일 때 공격
+
 public:
     static CSpike* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);

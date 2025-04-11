@@ -91,7 +91,7 @@ HRESULT CCthulhu::Initialize_Prototype()
 	}
 
 
-	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Spike"), TEXT("Layer_Cthulhu_Spike"), 50)))
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_BOSS, TEXT("Prototype_GameObject_Cthulhu_Spike"), TEXT("Layer_Cthulhu_Spike"), 54)))
 	{
 		return E_FAIL;
 	}
@@ -499,7 +499,7 @@ NodeStatus CCthulhu::Deploy_BigTentacles()
 
 NodeStatus CCthulhu::Attack_Spike()
 {
-	if (m_eState == STATE::DEAD )//|| static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
+	if (m_eState == STATE::DEAD)// || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
 		return NodeStatus::FAIL;
 	static _uint iIndex = 0;
 	static _bool bIsCircle = false;
@@ -534,11 +534,11 @@ NodeStatus CCthulhu::Attack_Spike()
 			else
 			{
 
-				for (_uint j = iIndex; j < iIndex + 15 && j < m_vecSpikes.size(); j++)
+				for (_uint j = iIndex; j < iIndex + 18 && j < m_vecSpikes.size(); j++)
 				{
 					m_vecSpikes[j]->Active_Animaiton(true);
 				}
-				iIndex += 15; 
+				iIndex += 18; 
 			}
 
 			if (iIndex == m_vecSpikes.size())
@@ -601,7 +601,7 @@ NodeStatus CCthulhu::Attack_Spike()
 
 		_uint iSpikeCount = max(1u, static_cast<_uint>(ceil(fDistance / (2.f + s_fSpacingOffset)))) + 1;
 
-		if (fDistance >= 11.5f)
+		if (fDistance >=14.f)
 		{
 			bIsCircle = false;
 		for (_uint i = 0; i < iSpikeCount; i++)
@@ -638,9 +638,9 @@ NodeStatus CCthulhu::Attack_Spike()
 		else
 		{
 			bIsCircle = true;
-		_uint uiTotalSpikes = 15; // 배치할 스파이크 개수
-		_float fRadius = 5.f;    // 원의 반지름
-
+		_uint uiTotalSpikes = 18; // 배치할 스파이크 개수
+		_float fRadius = 7.5f;    // 원의 반지름
+		
 		for (_uint i = 0; i < 3; i++)
 		{
 
@@ -658,10 +658,42 @@ NodeStatus CCthulhu::Attack_Spike()
 					vNewPos.y = basePos.y;
 					vNewPos.z = basePos.z + fRadius * sinf(fAngle);
 
-					pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
-
 					pNewSpike->Set_Position(vNewPos);
 					pNewSpike->Activate_WarningZone();
+
+					_float fAngleDeg = D3DXToDegree(fAngle);
+					if (fAngleDeg < 0.f)
+						fAngleDeg += 360.f;
+
+					// 상/하/좌/우 영역 구분
+					// [315, 360) && [0, 45) => 상 (CENTER)
+					// [45, 135) => 오른쪽 (RIGHT)
+					// [135, 225) => 하 (CENTER)
+					// [225, 315) => 왼쪽 (LEFT)
+
+					if ((fAngleDeg >= 315.f && fAngleDeg < 360.f) ||
+						(fAngleDeg >= 0.f && fAngleDeg < 45.f))
+					{
+						// 위쪽
+						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
+					}
+					else if (fAngleDeg >= 45.f && fAngleDeg < 135.f)
+					{
+						// 오른쪽
+						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
+						pNewSpike->Flip(true);
+					}
+					else if (fAngleDeg >= 135.f && fAngleDeg < 225.f)
+					{
+						// 아래쪽
+						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
+					}
+					else
+					{
+						// 왼쪽
+						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
+						pNewSpike->Flip(false);
+					}
 					m_vecSpikes.push_back(pNewSpike);
 				}
 				else
@@ -669,7 +701,7 @@ NodeStatus CCthulhu::Attack_Spike()
 					return NodeStatus::FAIL;
 				}
 			}
-			fRadius += 2.5f;
+			fRadius += 2.3f;
 		}
 		}
 	}
@@ -687,8 +719,8 @@ void CCthulhu::Create_BehaviorTree()
 	CCompositeNode* pAttackSeq = new CSequenceNode();
 	TaskNode* pAttack = new TaskNode(L"Attack", [this]() -> NodeStatus { return this->Attack(); });
 	TaskNode* pUpdateAttack = new TaskNode(L"UpdateAttack", [this]() -> NodeStatus { return this->UpdateAttack(); });
-//	pAttackSeq->AddChild(pAttack);
-	//pAttackSeq->AddChild(pUpdateAttack);
+	pAttackSeq->AddChild(pAttack);
+	pAttackSeq->AddChild(pUpdateAttack);
 
 	TaskNode* pMultiAttack = new TaskNode(L"MultiMissileAttack", [this]() -> NodeStatus { return this->MultiMissileAttack(); });
 	TaskNode* pDeploy = new TaskNode(L"Deploy", [this]() -> NodeStatus { return this->Deploy_Tentacles(); });
@@ -696,11 +728,11 @@ void CCthulhu::Create_BehaviorTree()
 	TaskNode* pSpikeAttack = new TaskNode(L"Attack_Spike", [this]() -> NodeStatus { return this->Attack_Spike(); });
 
 	// 동시에 실행
-	pAttackParallel->AddChild(pSpikeAttack);
-	//pAttackParallel->AddChild(pMultiAttack);
-	//pAttackParallel->AddChild(pDeploy);
 	pAttackParallel->AddChild(pBigDeploy);
+	pAttackParallel->AddChild(pDeploy);
 	pAttackParallel->AddChild(pAttackSeq);
+	pAttackParallel->AddChild(pMultiAttack);
+	pAttackParallel->AddChild(pSpikeAttack);
 
 
 	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {
@@ -961,6 +993,12 @@ HRESULT CCthulhu::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 남은 촉수 :") + to_wstring(m_iCountTentacle),
 		_float2(-200.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
+	_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vPlayerPos = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	_float fDistance = _float3::Distance(vPlayerPos, basePos);
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 거리 :") + to_wstring(fDistance),
+		_float2(0.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 	return S_OK;
 }
 
