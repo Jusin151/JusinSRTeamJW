@@ -49,11 +49,15 @@ public:
 	static CHellBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+
 public:
 	_float3 Get_PlayerPos() const { return static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION); }
 	_float3 Get_Pos() const { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
 	bool HasTarget() const { return m_pTarget != nullptr; }
 	void Change_State(CHellBoss_State* pNewState);
+	_bool m_bCutSceneCamera_Look = {false};
+	_bool Get_CutSceneCamera_Lock() { return m_bCutSceneCamera_Look; }
+	void Set_CutSceneCamera_Lock(_bool bType) { m_bCutSceneCamera_Look = bType; }
 public: // 패턴관련
 	void Set_Pattern(CPattern_Base* pPattern); // 공격패턴 설정
 	void Use_Attack(_float fDeltaTime); // 패턴 사용
@@ -62,6 +66,7 @@ public:
 	void Launch_PowerBlast_Bullets(); // 10개 쌓이면 발사
 	virtual void Select_Pattern(_float fTimeDelta) override;
 	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
+	_float3 Get_CutScene_AnchorPos() const; //카메라용
 private:
 	CPattern_Base* m_pCurAttackPattern = { nullptr };
 private: // 2페이즈 관련 , 양손 멀쩡
@@ -118,6 +123,7 @@ public:
 	_int m_iPrevHpDiv100 = {};
 	_int m_iPowerBlastCount = {};
 	list<CHellBoss_Bullet*> m_vecPowerBlasts;
+	_bool m_bDidPhase1Morph = { false };  //1번째 최초페이즈 
 	_bool m_bDidPhase2Morph = { false };  //2번째 페이즈 진입 , 통통이에서 날씬이로
 	_bool m_bDidPhase3Morph = { false }; // 3번째 페이즈 진입, 날씬이에서 한팔잘린상태
 	_bool m_bDidPhase4Morph = { false }; // 4번째 페이즈 진입, 한팔잘린상태에서 뚱뚱이로

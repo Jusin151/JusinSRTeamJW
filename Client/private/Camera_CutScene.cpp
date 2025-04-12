@@ -56,9 +56,9 @@ void CCamera_CutScene::Set_CutSceneMove(const _float3& vStart, const _float3& vE
     m_fMoveSpeed = fSpeed;
     m_fLerpT = 0.f;
     m_bMoving = true;
-
-
+    m_bUsePath = false; 
 }
+
 
 HRESULT CCamera_CutScene::Ready_Components()
 {
@@ -85,12 +85,21 @@ void CCamera_CutScene::Set_FixedTransform(const _float3& vEye, const _float3& vA
     m_vEye = vEye;
     m_vAt = vAt;
 }
-void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
+void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay) //플레이어계속 보게하려면
 {
     m_fDisableDelay = fDelay;
     m_fDisableTimer = 0.f;
     m_bDelayDisable = true;
-
+}
+void CCamera_CutScene::Set_CutScenePath(const std::vector<_float3>& vecPath, float fSpeed)
+{
+    m_vecPathPoints = vecPath;
+    m_fMoveSpeed = fSpeed;
+    m_iCurrentSegment = 0;
+    m_fLerpT = 0.f;
+    m_bMoving = true;
+    m_bUsePath = true;
+    m_vCurEye = vecPath.front();
 }
 
 void CCamera_CutScene::Update(_float fTimeDelta)
@@ -98,15 +107,52 @@ void CCamera_CutScene::Update(_float fTimeDelta)
 
     if (m_bMoving)
     {
-        m_fLerpT += fTimeDelta * m_fMoveSpeed;
-        if (m_fLerpT >= 1.f)
+        if (m_bMoving && m_bUsePath && m_vecPathPoints.size() >= 2)
         {
-            m_fLerpT = 1.f;
-            m_bMoving = false;
+            _float3 vFrom = m_vecPathPoints[m_iCurrentSegment];
+            _float3 vTo = m_vecPathPoints[m_iCurrentSegment + 1];
+
+            m_fLerpT += fTimeDelta * m_fMoveSpeed;
+            m_vCurEye = VectorLerp(vFrom, vTo, m_fLerpT);
+
+            if (m_fLerpT >= 1.f)
+            {
+                m_fLerpT = 0.f;
+                ++m_iCurrentSegment;
+
+                if (m_iCurrentSegment >= m_vecPathPoints.size() - 1)
+                {
+                    m_bMoving = false;
+                    m_iCurrentSegment = 0;
+                }
+            }
+        }
+        else if (m_bMoving && !m_bUsePath)
+        {
+            m_fLerpT += fTimeDelta * m_fMoveSpeed;
+            m_vCurEye = VectorLerp(m_vStart, m_vEnd, m_fLerpT);
+
+            if (m_fLerpT >= 1.f)
+            {
+                m_fLerpT = 1.f;
+                m_bMoving = false;
+            }
         }
 
-        m_vCurEye = VectorLerp(m_vStart, m_vEnd, m_fLerpT);
+        else
+        {
+            // 단일 이동
+            m_fLerpT += fTimeDelta * m_fMoveSpeed;
+            if (m_fLerpT >= 1.f)
+            {
+                m_fLerpT = 1.f;
+                m_bMoving = false;
+            }
+
+            m_vCurEye = VectorLerp(m_vStart, m_vEnd, m_fLerpT);
+        }
     }
+
 
 
     if (m_pTarget)

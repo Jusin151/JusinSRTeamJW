@@ -1,5 +1,6 @@
 ﻿#include "Pattern_Morph.h"
 #include "HellBoss_IdleState.h"
+#include "HellBoss_CircleState.h"
 
 CPattern_Morph::CPattern_Morph()
 {
@@ -55,7 +56,13 @@ void CPattern_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
         m_bStarted = false;
         m_fAccTime = 0.f;
 
-        // 상(보스가 Idle 상태로 돌아가게 할 예정)
+        if (pBoss->Get_Phase() == PHASE4)
+        {
+            pBoss->Change_State(new CHellBoss_CircleState);
+            return;
+        }
+
         pBoss->Change_State(new CHellBoss_IdleState());
+
     }
 }

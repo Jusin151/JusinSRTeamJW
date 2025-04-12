@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "HellBoss_State.h"
+#include "Client_Defines.h"
 
 class CHellBoss_MorphState : public CHellBoss_State
 {

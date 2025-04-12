@@ -145,6 +145,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 }
 void CHellBoss::Priority_Update(_float fTimeDelta)
 {
+
 	if (nullptr == m_pTarget)
 	{
 		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
@@ -155,6 +156,7 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 	if (m_iHp <= 0) 
 		m_eCurState = MS_DEATH;
 
+	
 
 
 
@@ -203,7 +205,6 @@ void CHellBoss::Update(_float fTimeDelta)
 	}
 
 
-
 	m_AnimationManager.Update(fTimeDelta);
 
 	if (m_eCurState != MS_DEATH)
@@ -212,7 +213,14 @@ void CHellBoss::Update(_float fTimeDelta)
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
-
+	if (!m_bDidPhase1Morph) // <<< 2페이즈 돌입!
+	{
+		m_bDidPhase1Morph = true;
+		m_ePhase = PHASE1;
+		Set_Pattern(new CPattern_Morph());
+		Change_State(new CHellBoss_MorphState());
+		return;
+	}
 	if (m_iHp <= 20000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
 	{
 		m_bDidPhase2Morph = true;
@@ -229,7 +237,7 @@ void CHellBoss::Update(_float fTimeDelta)
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입!
+	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
 	{
 		m_bDidPhase4Morph = true;
 		m_ePhase = PHASE4;
@@ -245,27 +253,6 @@ void CHellBoss::Update(_float fTimeDelta)
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	int a{};
-	switch (m_ePhase) // 피 깎이는 로직의 대해서만 여기서 패턴상태로 관리
-	{
-	case PHASE1:
-		a = 5;
-		break;
-	case PHASE2:
-		break;
-	case PHASE3:
-		a = 5;
-		break;
-	case PHASE4:
-		a = 5;
-		break;
-	case PHASE5:
-		a = 5;
-		break;
-	default:
-		break;
-	}
-
 
 	__super::Update(fTimeDelta);
 }
@@ -569,6 +556,13 @@ _float3 CHellBoss::Get_RandomWarpPos_InFront()
 
 	return finalPos;
 }
+_float3 CHellBoss::Get_CutScene_AnchorPos() const
+{
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vPos.y = m_fOffset; // 땅 기준으로 보정하거나 중앙 정렬
+	return vPos;
+}
+
 void CHellBoss::Set_Pattern(CPattern_Base* pPattern)
 {
 	if (m_pCurAttackPattern)
@@ -588,11 +582,11 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 			return;
 
-	if (!m_bJumping && !m_bFalling)
+	if (!m_bJumping && !m_bFalling&&!m_bDidPhase4Morph)
 	{
-		//_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		//fPos.y = m_fOffset;
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		fPos.y = m_fOffset;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	}
 
 
