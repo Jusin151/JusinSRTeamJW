@@ -5,7 +5,7 @@
 			<value>Cthulhu_death_01</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{0b84de4e-a6af-4216-872f-5ea8aa0b4f92}</destination>
@@ -96,7 +96,6 @@
 	<object class="MixerBusEffectChain" id="{832e2d05-3f13-4627-9c50-26e882e966ec}">
 		<relationship name="effects">
 			<destination>{0c982b72-180b-4200-a878-25136c84d17c}</destination>
-			<destination>{af8e7f35-4eb3-44b6-942a-048413ed5395}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c8bc703d-f118-4f9c-aa98-c0f7bf6f94ab}" />
@@ -107,5 +106,4 @@
 	</object>
 	<object class="MixerBusFader" id="{1ee4279e-a0ff-4751-a5d5-69ec16ecc840}" />
 	<object class="MixerBusFader" id="{0c982b72-180b-4200-a878-25136c84d17c}" />
-	<object class="SpatialiserEffect" id="{af8e7f35-4eb3-44b6-942a-048413ed5395}" />
 </objects>

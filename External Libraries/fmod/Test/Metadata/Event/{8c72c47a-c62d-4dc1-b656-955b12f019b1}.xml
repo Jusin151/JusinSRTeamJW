@@ -5,7 +5,7 @@
 			<value>Cthulhu_attack_01</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{0b84de4e-a6af-4216-872f-5ea8aa0b4f92}</destination>
@@ -96,7 +96,6 @@
 	<object class="MixerBusEffectChain" id="{a66c40f5-4957-49bd-bfae-a0db8698d43e}">
 		<relationship name="effects">
 			<destination>{29f7f465-b5c7-49ac-b0a6-9823e47ccf0f}</destination>
-			<destination>{7ec5a82f-7330-42d8-9a23-0402d1e0b789}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{e12c3196-da2e-4120-a844-57cbe85a6fb9}" />
@@ -107,5 +106,4 @@
 	</object>
 	<object class="MixerBusFader" id="{c48034c9-735f-4f78-bcea-295e481c9ec0}" />
 	<object class="MixerBusFader" id="{29f7f465-b5c7-49ac-b0a6-9823e47ccf0f}" />
-	<object class="SpatialiserEffect" id="{7ec5a82f-7330-42d8-9a23-0402d1e0b789}" />
 </objects>
