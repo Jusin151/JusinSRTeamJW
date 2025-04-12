@@ -34,13 +34,15 @@ HRESULT CCthulhuMissile::Initialize(void* pArg)
 	Safe_AddRef(m_pTarget);
 	if (nullptr != pArg)
 	{
-		PROJ_DESC* pDesc = static_cast<PROJ_DESC*>(pArg);
+		Missile_DESC* pDesc = static_cast<Missile_DESC*>(pArg);
 
 		m_vPos = pDesc->vPos;
 		m_vDir = pDesc->vDir;
 		m_fSpeed = pDesc->fSpeed;
+		m_iSplitLevel = pDesc->iSplitLevel;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	}
+
 	m_eType = CG_MONSTER_PROJECTILE_CUBE;
 	return S_OK;
 }
@@ -48,6 +50,7 @@ HRESULT CCthulhuMissile::Initialize(void* pArg)
 void CCthulhuMissile::Priority_Update(_float fTimeDelta)
 {
 	Move(fTimeDelta);
+	SplitAttack(fTimeDelta);
 }
 
 void CCthulhuMissile::Update(_float fTimeDelta)
@@ -205,6 +208,41 @@ void CCthulhuMissile::Move(_float fTimeDelta)
 	fPos += m_vDir * m_fSpeed * fTimeDelta;
 
  	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+}
+
+void CCthulhuMissile::SplitAttack(_float fTimeDelta)
+{
+	m_fElapsedTime += fTimeDelta;
+
+	if (m_iSplitLevel > 0 && m_fElapsedTime >= m_fSplitDelay)
+	{
+		// 현재 미사일의 방향에서 기본 각도 계산
+		_float fBaseAngle = atan2f(m_vDir.z, m_vDir.x);
+
+		// 분리 시 생성할 미사일 3발의 각도 오프셋 
+		const _float fOffsetRad = D3DXToRadian(20.0f);
+		_float arrOffsets[3] = { -fOffsetRad, 0.f, fOffsetRad };
+
+		for (_int i = 0; i < 3; i++)
+		{
+			_float fChildAngle = fBaseAngle + arrOffsets[i];
+
+			_float3 vChildDir = { cosf(fChildAngle), m_vDir.y, sinf(fChildAngle) };
+			vChildDir.Normalize();
+
+			_float fChildSpeed = m_fSpeed * 0.7f;
+
+			Missile_DESC childDesc;
+			childDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);  // 현재 위치에서 생성
+			childDesc.vDir = vChildDir;
+			childDesc.fSpeed = fChildSpeed;
+			childDesc.iSplitLevel = m_iSplitLevel - 1; // 분리 단계 감소
+
+			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"),
+				LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &childDesc);
+		}
+		m_bIsActive = false;
+	}
 }
 
 CCthulhuMissile* CCthulhuMissile::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

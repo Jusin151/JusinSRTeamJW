@@ -33,6 +33,7 @@ public:
     virtual HRESULT On_Collision(CCollisionObject* other);
     void Billboarding(_float fTimeDelta);
     void Select_Pattern(_float fTimeDelta) override;
+    _bool Get_CanHit() const { return m_bCanHit; }
 
     virtual json Serialize() override;
     virtual void Deserialize(const json& j) override;
@@ -70,15 +71,15 @@ private:
     _bool m_bCanHit = { false };
 
     // 공격 관련
-    _float m_fAttackCoolTime = 4.f;  
-    _float m_fAttackCoolDown = 4.f;   
+    _float m_fAttackCoolTime = 0.f;  
+    _float m_fAttackCoolDown = 3.f;   
     _bool  m_bIsAttacking{ false };
     _int   m_iMissilesToFire{ 3 };
     _float m_fMissileTimer{ 0.f };
 
     _float m_fPhaseThreshold{ 1000*0.5f };  
     _bool  m_bIsMultiAttack{ false };     
-    _float m_fMultiAttackCoolTime = 8.f;
+    _float m_fMultiAttackCoolTime = 0.f;
     _float m_fMultiAttackCoolDown = 8.f;
     _int   m_iMultiMissilesToFire{ 7 };// 멀티 공격 시 발사할 미사일 수
     _float m_fMultiMissileTimer{ 0.f };  // 멀티 공격 타이머

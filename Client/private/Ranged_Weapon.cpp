@@ -6,6 +6,7 @@
 #include "Effects.h"
 #include "UI_Manager.h"
 #include "Collider_Manager.h"
+#include <Cthulhu.h>
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{ pGraphic_Device }
 {
@@ -115,7 +116,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 
     for (size_t i = 0; i < colliderGroups.size(); i++)
     {
-        if (i == CG_ENVIRONMENT) continue;
+        if (i == CG_ENVIRONMENT||i== CG_MONSTER_PROJECTILE_CUBE||i== CG_MONSTER_PROJECTILE_SPHERE) continue;
         auto group = colliderGroups[i];
         for (auto* collider : group)
         {
@@ -178,6 +179,15 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
         }
         else if ((closestTag.find(L"Boss") != wstring::npos) || (closestTag == L"Layer_Cthulhu"))
         {
+            if (CCthulhu* pTarget = dynamic_cast<CCthulhu*>(pClosestCollider->Get_Owner()))
+            {
+                if (!pTarget->Get_CanHit())
+                {
+                    m_bMonster = true;
+                    return S_OK;
+               }
+            }
+
             CreateBossHitEffect(pClosestCollider, vClosestHitPos, Damage);
 
             m_bMonster = true;

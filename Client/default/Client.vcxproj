@@ -201,6 +201,7 @@
     <ClInclude Include="..\public\Goblet.h" />
     <ClInclude Include="..\public\HellBoss_Bullet.h" />
     <ClInclude Include="..\public\HellBoss_Skill_Landing.h" />
+    <ClInclude Include="..\public\HP_WorldUI.h" />
     <ClInclude Include="..\public\Hub_Light.h" />
     <ClInclude Include="..\public\Lamp.h" />
     <ClInclude Include="..\public\Long_Torch.h" />
@@ -361,6 +362,7 @@
     <ClCompile Include="..\private\Hit_Effect.cpp" />
     <ClCompile Include="..\private\Glacier.cpp" />
     <ClCompile Include="..\private\GlacierBullet.cpp" />
+    <ClCompile Include="..\private\HP_WorldUI.cpp" />
     <ClCompile Include="..\private\Hub_Episode.cpp" />
     <ClCompile Include="..\private\Hub_Light.cpp" />
     <ClCompile Include="..\private\Hub_PointShop.cpp" />

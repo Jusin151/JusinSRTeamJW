@@ -28,6 +28,7 @@ public:
     virtual HRESULT Render()override;
 
 	virtual void Reset() override;  
+    virtual void Set_Hp(_int iHp);
 
 public:
     virtual HRESULT On_Collision(CCollisionObject* other);
@@ -59,11 +60,13 @@ private:
     _float m_fAnimationSpeed = 6.f;
     Tentacle_STATE  m_eState = Tentacle_STATE::IDLE;
 
+    _uint m_iMaxHp{ 0u };
     _bool  m_bUpdateAnimation{ true };
 	_bool m_bCanHit{ false };
 	_bool m_bCanAttack{ false };
     _bool m_bAnimFinished { false };
     CGameObject* m_pOwner{ nullptr };
+    class CHP_WorldUI* m_pHpBar{ nullptr };
 public:
     static CCthulhu_Tentacle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg);

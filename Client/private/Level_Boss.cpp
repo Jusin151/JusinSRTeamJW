@@ -22,6 +22,7 @@ CLevel_Boss::CLevel_Boss(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 HRESULT CLevel_Boss::Initialize()
 {
+
 	CJsonLoader jsonLoader;
  	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_GAMEPLAY);
 	m_pGameInstance->Stop_All_Event();
@@ -44,6 +45,8 @@ HRESULT CLevel_Boss::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_BOSS, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }

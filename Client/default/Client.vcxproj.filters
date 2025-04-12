@@ -484,6 +484,9 @@
     <Filter Include="02.GameObjects\03. Effect\Gib_Effect">
       <UniqueIdentifier>{69b90a84-7a91-44a8-970e-6e4c83fd1eee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\JW_Boss\UI">
+      <UniqueIdentifier>{b8a2f44f-b50b-4c80-97fb-2ac894e0e3c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -945,6 +948,9 @@
     <ClInclude Include="..\public\CthulhuAttackMag.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\HP_WorldUI.h">
+      <Filter>02.GameObjects\JW_Boss\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1363,6 +1369,9 @@
     </ClCompile>
     <ClCompile Include="..\private\CthulhuAttackMag.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HP_WorldUI.cpp">
+      <Filter>02.GameObjects\JW_Boss\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
