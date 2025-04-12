@@ -1,4 +1,4 @@
-#include "HP_WorldUI.h"
+ï»¿#include "HP_WorldUI.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "GameInstance.h"
@@ -79,7 +79,7 @@ HRESULT CHP_WorldUI::Render()
 	_float3 vOffsetY = vUp * -fOffsetAmount;
 	_float3 vOffsetZ = vLook * fOffsetAmount;
 
-	// ÇöÀç À§Ä¡¸¦ °¡Á®¿Â ÈÄ ¿ÀÇÁ¼ÂÀ» Àû¿ëÇÕ´Ï´Ù.
+	// í˜„ìž¬ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜¨ í›„ ì˜¤í”„ì…‹ì„ ì ìš©í•©ë‹ˆë‹¤.
 	_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vCurPos += vOffsetZ+ vOffsetY; 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);\
@@ -118,7 +118,7 @@ void CHP_WorldUI::Reset()
 
 HRESULT CHP_WorldUI::Ready_Components()
 {
-	// ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ ÄÚµå
+	// ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” ì½”ë“œ
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Monster_HP_Bar"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -142,7 +142,7 @@ HRESULT CHP_WorldUI::Ready_Components()
 HRESULT CHP_WorldUI::SetUp_RenderState()
 {
 	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
-	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // YÃà ¹ÝÀüÀ» À§ÇÑ ¿ÀÇÁ¼Â Á¶Á¤
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Yì¶• ë°˜ì „ì„ ìœ„í•œ ì˜¤í”„ì…‹ ì¡°ì •
 	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
 	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 

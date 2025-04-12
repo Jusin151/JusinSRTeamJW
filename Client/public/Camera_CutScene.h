@@ -29,6 +29,7 @@ public:
     void Set_FixedTransform(const _float3& vEye, const _float3& vAt);
     void Set_CameraDisableDelay(_float fDelay);
     void Set_CutScenePath(const vector<_float3>& vecPoints, float fSpeed);
+    CTransform* Get_Transform() { return m_pTransformCom; }
     _bool Get_DelayDisable() { return m_bDelayDisable; } 
     void  Set_DelayDisable(_bool bType) { m_bDelayDisable = bType; }
 private:

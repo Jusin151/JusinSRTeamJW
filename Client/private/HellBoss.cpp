@@ -13,6 +13,8 @@
 #include "Pattern_Morph.h"
 #include "Pattern_Warp.h"
 #include "HellBoss_CircleState.h"
+#include "Camera_CutScene.h"
+
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
 }
@@ -145,20 +147,20 @@ HRESULT CHellBoss::Initialize(void* pArg)
 }
 void CHellBoss::Priority_Update(_float fTimeDelta)
 {
-
-	if (nullptr == m_pTarget)
+	if (!m_bCutSceneCamera_Look)
 	{
-		CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-		if (nullptr == pTarget) return;
-		SetTarget(pTarget);
-		Safe_AddRef(pTarget);
+		if (nullptr == m_pTarget)
+		{
+			CGameObject* pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+			if (nullptr == pTarget) return;
+			SetTarget(pTarget);
+			Safe_AddRef(pTarget);
+		}
 	}
-	if (m_iHp <= 0) 
+
+
+	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
-
-	
-
-
 
 	m_bIsActive = true;
 }
@@ -168,6 +170,7 @@ void CHellBoss::Update(_float fTimeDelta)
 		return;
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
+
 
 	Process_Input();
 
