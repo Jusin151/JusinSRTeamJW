@@ -115,8 +115,8 @@ HRESULT CCthulhu::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_iHp = 2000;
-	m_fPhaseThreshold = { m_iHp * 0.6f };
-	m_fPhaseThreshold2 = { m_iHp * 0.3f };
+	m_fPhaseThreshold = { m_iHp * 0.7f }; // 70퍼일 때 멀티 미사일
+	m_fPhaseThreshold2 = { m_iHp * 0.5f }; // 50퍼일 때 럴커
 
 	m_pBehaviorTree->Initialize();
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
@@ -237,6 +237,9 @@ NodeStatus CCthulhu::Attack()
 
 NodeStatus CCthulhu::UpdateAttack()
 {
+	if (m_bIsMultiAttack) 
+		return NodeStatus::FAIL;
+
 	if (m_bIsAttacking)
 	{
 		m_eState = STATE::ATTACK;
@@ -282,7 +285,7 @@ NodeStatus CCthulhu::MultiMissileAttack()
 		return NodeStatus::FAIL;
 	}
 
-	if (m_iHp < m_fPhaseThreshold && IsPlayerVisible())
+	if (m_iHp < m_fPhaseThreshold && IsPlayerVisible()&& !m_bIsAttacking)
 	{
 		m_fMultiAttackCoolTime = 0.f;
 
@@ -290,7 +293,7 @@ NodeStatus CCthulhu::MultiMissileAttack()
 		{
 			m_bIsMultiAttack = true;
 			m_eState = STATE::MULTI_ATTACK;
-			m_iMultiMissilesToFire = 7;
+			m_iMultiMissilesToFire = 3;
 			m_fMultiMissileTimer = 0.f;
 			m_fFrame = 0.f;
 			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
@@ -309,7 +312,7 @@ NodeStatus CCthulhu::MultiMissileAttack()
 			_float3 vDir = pTransform->Get_State(CTransform::STATE_POSITION) - vPos;
 			vDir.Normalize();
 
-			CCthulhuMissile::PROJ_DESC prjDesc{ vPos, vDir, 60.f };
+			CCthulhuMissile::Missile_DESC prjDesc { vPos, vDir, 20.f,1 };
 			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"),
 				LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
 
@@ -505,7 +508,7 @@ NodeStatus CCthulhu::Deploy_BigTentacles()
 
 NodeStatus CCthulhu::Attack_Spike()
 {
-	if (m_eState == STATE::DEAD)// || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
+	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
 		return NodeStatus::FAIL;
 	static _uint iIndex = 0;
 	static _bool bIsCircle = false;
@@ -733,11 +736,16 @@ void CCthulhu::Create_BehaviorTree()
 	TaskNode* pBigDeploy = new TaskNode(L"Big_Deploy", [this]() -> NodeStatus { return this->Deploy_BigTentacles(); });
 	TaskNode* pSpikeAttack = new TaskNode(L"Attack_Spike", [this]() -> NodeStatus { return this->Attack_Spike(); });
 
+
+	CCompositeNode* pAttackSelector = new CSelectorNode();
+	pAttackSelector->AddChild(pAttackSeq);      // 기본 미사일 공격
+	pAttackSelector->AddChild(pMultiAttack);      // 멀티 미사일 공격
 	// 동시에 실행
 	pAttackParallel->AddChild(pBigDeploy);
 	pAttackParallel->AddChild(pDeploy);
-	pAttackParallel->AddChild(pAttackSeq);
-	pAttackParallel->AddChild(pMultiAttack);
+	pAttackParallel->AddChild(pAttackSelector);
+	//pAttackParallel->AddChild(pAttackSeq);
+	//pAttackParallel->AddChild(pMultiAttack);
 	pAttackParallel->AddChild(pSpikeAttack);
 
 
@@ -922,9 +930,6 @@ void CCthulhu::Update(_float fTimeDelta)
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Collider_Cube"));
-
-
-		if (m_bCanHit)
 			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 

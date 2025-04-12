@@ -4,6 +4,7 @@
 #include "StructureManager.h"
 #include <CthulhuMissile.h>
 #include <Player.h>
+#include "HP_WorldUI.h"
 #include <Cthulhu.h>
 
 CCthulhu_Tentacle::CCthulhu_Tentacle(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -27,12 +28,20 @@ HRESULT CCthulhu_Tentacle::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_iHp = 100;
+	m_iHp =150;
+	m_iMaxHp = m_iHp;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
 	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
 	m_fFrame = 0.f;
 	Init_Textures();
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_World_HpBar"), LEVEL_BOSS, TEXT("Layer_UI_HpBarWorld"))))
+	{
+		return E_FAIL;
+	}
 
+	m_pHpBar = static_cast<CHP_WorldUI*>( m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_UI_HpBarWorld")));
+	m_pHpBar->Set_Parent(this);
+	m_pHpBar->SetActive(false);
 	return S_OK;
 }
 
@@ -62,6 +71,8 @@ void CCthulhu_Tentacle::Update(_float fTimeDelta)
 	{
 		Update_Animation(fTimeDelta);
 	}
+
+
 }
 
 void CCthulhu_Tentacle::Late_Update(_float fTimeDelta)
@@ -107,6 +118,13 @@ HRESULT CCthulhu_Tentacle::Render()
 void CCthulhu_Tentacle::Reset()
 {
 	m_eState = Tentacle_STATE::APPEAR;
+}
+
+void CCthulhu_Tentacle::Set_Hp(_int iHp)
+{
+	m_iHp = iHp;
+	_float fHpRatio =(_float)m_iHp / m_iMaxHp;
+	m_pHpBar->OnNotify(&fHpRatio, TEXT(""));
 }
 
 HRESULT CCthulhu_Tentacle::On_Collision(CCollisionObject* other)
@@ -168,6 +186,10 @@ void CCthulhu_Tentacle::Select_Pattern(_float fTimeDelta)
 		break;
 	
 	case Client::CCthulhu_Tentacle::Tentacle_STATE::DEAD:
+		if (m_pHpBar)
+		{
+		m_pHpBar->SetActive(false);
+		}
 		break;
 	default:
 		break;

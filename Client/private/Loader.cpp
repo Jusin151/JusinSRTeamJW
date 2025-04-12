@@ -17,6 +17,7 @@
 #include "Image.h"
 #include "Inven_UI.h"
 #include "Level_Hub.h"
+#include "HP_WorldUI.h"
 #include "HellBoss_Headers.h" // 헬보스 관련 생성에 필요한 헤더 
 #include "Camera_CutScene.h"
 
@@ -451,7 +452,9 @@ HRESULT CLoader::Loading_For_Boss()
 {
 	CJsonLoader jsonLoader;
 
-
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_World_HpBar"),
+		CHP_WorldUI::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Boss1.json");
 
 	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));

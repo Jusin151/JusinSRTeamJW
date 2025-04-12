@@ -41,7 +41,7 @@ public:
 	HRESULT Set_Fog(_float3 rgb, _float start, _float end);
 	HRESULT Set_UVScaleFactor(const _float2* pScale);
 	HRESULT Set_UVOffsetFactor(const _float2* pOffset);
-
+	HRESULT Set_Bool(const char* pParameterName, _bool bValue);
 public:
 	void Begin(_uint iPassIndex);
 	void End();

@@ -1,6 +1,12 @@
 {
   "textures": [
     {
+      "tag": "Prototype_Component_Texture_Monster_HP_Bar",
+      "level": 0,
+      "path": "../../Resources/Textures/UI/HUD_bar_monster_HP%d.png",
+      "count": 2
+    },
+    {
       "tag": "Prototype_Component_Texture_Cursor",
       "level": 0,
       "path": "../../Resources/Textures/UI/cursor%d.png",
