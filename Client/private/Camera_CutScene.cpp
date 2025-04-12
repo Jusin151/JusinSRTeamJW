@@ -24,9 +24,9 @@ HRESULT CCamera_CutScene::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")); 
-    m_pPlayer_Camera = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera"));
 
+
+    
     if (pArg != nullptr)
     {
         _float3* pEyeAt = (_float3*)pArg;
@@ -100,6 +100,12 @@ void CCamera_CutScene::Set_CutScenePath(const std::vector<_float3>& vecPath, flo
     m_bMoving = true;
     m_bUsePath = true;
     m_vCurEye = vecPath.front();
+    if (CHellBoss* pBoss = dynamic_cast<CHellBoss*>(m_pHellBoss = m_pGameInstance->Find_Object(LEVEL_HONG, TEXT("Layer_HellBoss"))))
+    {
+        pBoss->Set_CutSceneCamera_Lock(true);
+    }
+
+    
 }
 
 void CCamera_CutScene::Update(_float fTimeDelta)
@@ -184,9 +190,6 @@ void CCamera_CutScene::Update(_float fTimeDelta)
 
     __super::Update_VP_Matrices();
 }
-
-
-
 void CCamera_CutScene::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);

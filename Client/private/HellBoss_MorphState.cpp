@@ -46,13 +46,15 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
     {
         _float3 vBossPos = pBoss->Get_CutScene_AnchorPos();
 
+        _float3 vLookDir = pBoss->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+        vLookDir.Normalize();
+
         _float3 vUp = _float3(0.f, 1.f, 0.f);
         _float radius = 30.f;
 
- 
-        _float3 vStart = vBossPos + _float3(-radius, 10.f, -radius);
-        _float3 vMid = vBossPos + _float3(-radius * 0.5f, 15.f, radius * 0.5f);
-        _float3 vEnd = vBossPos + _float3(0.f, 3.f, radius * 1.8f);  // 거의 정면
+        _float3 vStart = vBossPos - vLookDir * radius + vUp * 10.f;
+        _float3 vMid = vBossPos - vLookDir * (radius * 1.5f) + vUp * 15.f;
+        _float3 vEnd = vBossPos - vLookDir * (radius * 0.4f) + vUp * 3.f;
 
         vector<_float3> vecPath = { vStart, vMid, vEnd };
 
@@ -67,13 +69,13 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
         if (pCutCam)
         {
             pCutCam->Set_LookTarget(pBoss);
-            pCutCam->Set_CutScenePath(vecPath, 0.4f);  // 부드럽게 움직이도록
+            pCutCam->Set_CutScenePath(vecPath, 0.4f);
             pCutCam->Set_CameraDisableDelay(4.2f);
-
-            _float3 vCamPos = pCutCam->Get_CameraPosition();
-            pBoss->Get_Transform()->LookAt(vCamPos);
         }
     }
+
+
+
 
 
 
@@ -89,7 +91,15 @@ void CHellBoss_MorphState::Update(CHellBoss* pBoss, float fDeltaTime)
     {
         _float3 pos = pBoss->Get_Transform()->Get_State(CTransform::STATE_POSITION);
         pos.y += fDeltaTime * upwardSpeed;
-        pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, pos);  
+        pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, pos);
+
+        CCamera_CutScene* pCam = dynamic_cast<CCamera_CutScene*>(
+            pBoss->Get_GameInstance()->Find_Object(LEVEL_HONG, TEXT("Layer_Camera")));
+        if (pCam)
+        {
+            _float3 vCamPos = pCam->Get_Transform()->Get_State(CTransform::STATE_POSITION);
+            pBoss->Get_Transform()->LookAt(vCamPos);
+        }
     }
 
 
