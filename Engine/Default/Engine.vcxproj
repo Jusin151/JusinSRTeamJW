@@ -229,6 +229,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClInclude Include="..\public\Level.h" />
     <ClInclude Include="..\public\Level_Manager.h" />
     <ClInclude Include="..\public\Light.h" />
+    <ClInclude Include="..\public\Magic_Particle_System.h" />
     <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
     <ClInclude Include="..\public\Particles.h" />
@@ -304,6 +305,7 @@ CALL $(SolutionDir)\UpdateFMODLib.bat</Command>
     <ClCompile Include="..\private\FrustumCull.cpp" />
     <ClCompile Include="..\private\Gib_Particle_System.cpp" />
     <ClCompile Include="..\private\Gold_Particle_System.cpp" />
+    <ClCompile Include="..\private\Magic_Particle_System.cpp" />
     <ClCompile Include="..\Private\Particle_System.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\private\Editor.cpp" />

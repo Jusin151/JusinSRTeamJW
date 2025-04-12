@@ -31,23 +31,26 @@ private:
 	virtual ~CMinigun() = default;
 
 public:
-	 HRESULT Initialize_Prototype();
-	 HRESULT Initialize(void* pArg);
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
 private:
 	HRESULT Ready_Components();
 public:
-	 void Priority_Update(_float fTimeDelta);
-	 void Update(_float fTimeDelta);
-	 void Attack(_float fTimeDelta);
-	 void Attack_WeaponSpecific(_float fTimeDelta) override;
-	 void Late_Update(_float fTimeDelta);
+	void Priority_Update(_float fTimeDelta);
+	void Update(_float fTimeDelta);
+	void Attack(_float fTimeDelta);
+	void Attack_WeaponSpecific(_float fTimeDelta) override;
+	void Late_Update(_float fTimeDelta);
 public:
-	 HRESULT Render();
+	HRESULT Render();
 public:
-	 HRESULT On_Collision();
+	HRESULT On_Collision();
+private:
+	HRESULT CreateBulletShell();
 	 
 private:
 	CLight*			m_pLightCom = { nullptr };
+	CParticle_System* m_pParticleCom = { nullptr };
 private:
 	State m_eState = State::Idle;
 	Weapon_DESC m_Staff_INFO{};

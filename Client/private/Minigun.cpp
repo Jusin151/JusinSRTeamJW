@@ -3,6 +3,7 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
+#include "BulletShell_Effect.h"
 #include <Camera_FirstPerson.h>
 
 CMinigun::CMinigun(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -112,6 +113,28 @@ HRESULT CMinigun::Ready_Components()
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
+
+    /*CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+    if (nullptr == pPlayer)
+        return E_FAIL;
+    CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+    if (nullptr == pTransform)
+        return E_FAIL;*/
+
+    //CBulletShell_Particle_System::BULLETSHELLDESC bulletShellDesc = {};
+    //bulletShellDesc.iNumParticles = { 0u };
+    //bulletShellDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
+    //bulletShellDesc.Bounding_Box.m_vMin = { 0.f, -pTransform->Get_State(CTransform::STATE_POSITION).y, 0.f};
+    //bulletShellDesc.Bounding_Box.m_vMax = { 1.f, 1.f, 1.f };
+    //bulletShellDesc.Bound.m_fRadius = 0.1f;
+    //bulletShellDesc.strTexturePath = L"../../Resources/Textures/Particle/minigun_bullet_casing.png";
+    //bulletShellDesc.iNumTextures = 1;
+
+    ///* For.Com_BulletShellParticle */
+    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
+    //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &bulletShellDesc)))
+    //    return E_FAIL;
+
     return S_OK;
 }
 
@@ -198,6 +221,7 @@ void CMinigun::Late_Update(_float fTimeDelta)
             {
                 if (Ranged_INFO.CurrentAmmo > 0)
                 {
+                    CreateBulletShell();
                     __super::Picking_Object(1, m_Weapon_INFO.Damage);
                     Ranged_INFO.CurrentAmmo--;
                     Notify_Bullet();
@@ -343,6 +367,37 @@ HRESULT CMinigun::On_Collision()
     return S_OK;
 }
 
+HRESULT CMinigun::CreateBulletShell()
+{
+    float offsetRangeX = 1.f, offsetRangeY = 1.f;
+
+
+    CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+    if (nullptr == pPlayer)
+        return E_FAIL;
+    CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+    if (nullptr == pTransform)
+        return E_FAIL;
+
+    
+    CBulletShell_Effect::BULLETSHELLDESC BulletShellDesc = {};
+    BulletShellDesc.vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+
+
+    /*CGib_Effect::HIT_DESC hitDesc;
+    hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+    hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+    hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+    hitDesc.vScale = { 1.5f, 1.f, 1.5f };
+    hitDesc.type = eType;*/
+
+    if (FAILED(m_pGameInstance->Add_GameObject(
+        LEVEL_STATIC, TEXT("Prototype_GameObject_BulletShell_Effect"),
+        LEVEL_STATIC, TEXT("Layer_BulletShell_Effect"), &BulletShellDesc)))
+        return E_FAIL;
+    return S_OK;
+}
+
 CMinigun* CMinigun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
     CMinigun* pInstance = new CMinigun(pGraphic_Device);
@@ -377,7 +432,6 @@ CGameObject* CMinigun::Clone(void* pArg)
 void CMinigun::Free()
 {
     __super::Free();
-
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);

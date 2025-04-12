@@ -189,5 +189,6 @@ namespace Engine
 		D3DCOLOR		vColorFade;
 		bool			bIsAlive;
 		unsigned int	iIndex;
+		D3DXVECTOR3		vDir;
 	} ATTRIBUTE;
 }

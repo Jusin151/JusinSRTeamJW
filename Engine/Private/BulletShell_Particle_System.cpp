@@ -7,7 +7,6 @@ CBulletShell_Particle_System::CBulletShell_Particle_System(LPDIRECT3DDEVICE9 pGr
 
 CBulletShell_Particle_System::CBulletShell_Particle_System(const CBulletShell_Particle_System& Prototype)
     : CParticle_System{ Prototype }
-    , m_vDir{ Prototype.m_vDir }
 {
 }
 
@@ -27,9 +26,7 @@ HRESULT CBulletShell_Particle_System::Initialize(void* pArg)
     m_VBBatchSize = 512;
     m_iMaxParticles = desc.iNumParticles;
 
-    PARTICLEDESC pDesc = { m_VBSize, desc.strShaderPath, desc.strTexturePath };
-
-    if (FAILED(__super::Initialize(&pDesc)))
+    if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
     for (_uint i = 0; i < m_iMaxParticles; ++i)
     {
@@ -41,27 +38,87 @@ HRESULT CBulletShell_Particle_System::Initialize(void* pArg)
 void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
     pAttribute->bIsAlive = true;
-    GetRandomVector(&pAttribute->vPosition, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);
-    pAttribute->vVelocity = { 0.f, GetRandomFloat(0.f, 1.0f), 0.f };
+    pAttribute->vPosition = m_vPos;
+    //GetRandomVector(&pAttribute->vPosition, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);
+    pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(0.f, 5.0f), GetRandomFloat(-1.f, 1.0f) };
+    pAttribute->vAcceleration = { 1.5f, 1.2f, 0.0f };
     pAttribute->fAge = 0;
-    pAttribute->fLifetime = 2.0f;
-
-    pAttribute->vCurrentColor = D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f);
+    pAttribute->fLifetime = 10.0f;
+    pAttribute->iIndex = 0;
+    //pAttribute->vDir = {0.f, 1.f, 0.f};
+    //pAttribute->vDir = { GetRandomFloat(0.f, 1.0f), GetRandomFloat(0.f, 1.0f), GetRandomFloat(0.f, 1.0f) };
+    pAttribute->vCurrentColor = 0xFFFFFFFF;
+    pAttribute->fSize = m_fSize;
 }
 
 void CBulletShell_Particle_System::Update(float fTimeDelta)
 {
-    for (auto& i : m_Particles)
+    /*for (auto& i : m_Particles)
     {
         if (i.bIsAlive)
         {
-            i.vPosition += i.vVelocity * fTimeDelta;
+            _float3 worldPos = {};
+            D3DXVec3TransformCoord(&worldPos, &i.vPosition, &m_WorldMat);
+            if (worldPos.y - m_Bounding_Box.m_vMin.y > 0.1f)
+            {
+                i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
+                i.vVelocity.y -= GRAVITY * fTimeDelta;
+            }
             i.fAge += fTimeDelta;
         }
         if (i.fAge > i.fLifetime)
             i.bIsAlive = false;
-    }
+    }*/
     __super::Late_Update(fTimeDelta);
+}
+
+HRESULT CBulletShell_Particle_System::Render()
+{
+    __super::Pre_Render();
+
+    PARTICLE* v = 0;
+
+    m_pTexture->Bind_Resource(0);
+    m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_PSIZE | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+    m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
+
+    m_PointVB->Lock(
+        m_VBOffset * sizeof(PARTICLE),
+        m_VBBatchSize * sizeof(PARTICLE),
+        (void**)&v,
+        m_VBOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
+
+    ATTRIBUTE i = *m_Particles.begin();
+
+    //i.vDir 에서 둘
+    //-i.vDir 에서 둘
+    _float3 vNormal = {};
+    D3DXVec3Normalize(&vNormal, &i.vDir);
+    D3DXVECTOR3 up = { 0.0f, 1.0f, 0.0f };
+    D3DXVec3Cross(&vNormal, &i.vDir, &up);
+    D3DXVec3Normalize(&vNormal, &vNormal);
+    
+    //v[0].vPosition = m_vPos - vNormal * 4.f / 2.f;
+    v[0].vColor = i.vCurrentColor;
+    v[0].vTexCoord = { 0, 0 };
+    //v[1].vPosition = m_vPos + vNormal * 4.f / 2.f;
+    v[1].vColor = i.vCurrentColor;
+    v[1].vTexCoord = { 1, 0 };
+    //v[2].vPosition = m_vPos - vNormal * 4.f / 2.f;
+    v[2].vColor = i.vCurrentColor;
+    v[2].vTexCoord = { 0, 1 };
+    //v[3].vPosition = m_vPos + vNormal * 4.f / 2.f;
+    v[3].vColor = i.vCurrentColor;
+    v[3].vTexCoord = { 1, 1 };
+    v[0].vPosition = { -0.5f, 0.0f, -0.5f }; // 왼쪽 아래 (Bottom-Left)
+    v[1].vPosition = { 0.5f, 0.0f, -0.5f }; // 오른쪽 아래 (Bottom-Right)
+    v[2].vPosition = { -0.5f,  0.f, 0.5f }; // 왼쪽 위 (Top-Left)
+    v[3].vPosition = { 0.5f,  0.f, 0.5f }; // 오른쪽 위 (Top-Right)
+    m_PointVB->Unlock();
+    m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, 0, 1);
+    //m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+    __super::Post_Render();
+    return S_OK;
 }
 
 CBulletShell_Particle_System* CBulletShell_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -94,3 +151,4 @@ void CBulletShell_Particle_System::Free()
 {
     __super::Free();
 }
+    
