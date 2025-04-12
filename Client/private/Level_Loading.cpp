@@ -35,7 +35,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	m_pLoader = CLoader::Create(m_pGraphic_Device, m_eNextLevelID);
 	if (nullptr == m_pLoader)
 		return E_FAIL;
-	
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/004 Entering Level - Waking The Dead").SetVolume(0.50f);
 	return S_OK;
 }
 

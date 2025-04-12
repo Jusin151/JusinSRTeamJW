@@ -46,6 +46,7 @@ HRESULT CLevel_Boss::Initialize()
 		LEVEL_BOSS, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
 
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/030 Antarctic - The End").SetVolume(0.25f);
 
 
 	return S_OK;

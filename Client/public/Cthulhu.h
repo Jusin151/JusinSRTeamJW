@@ -35,9 +35,11 @@ public:
     void Select_Pattern(_float fTimeDelta) override;
     _bool Get_CanHit() const { return m_bCanHit; }
 
+    virtual void Set_Hp(_int iHp) override;
+
     virtual json Serialize() override;
     virtual void Deserialize(const json& j) override;
-   static _bool RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, CCollider_Cube* pCollider, _float fMaxDistance);
+    static _bool RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, CCollider_Cube* pCollider, _float fMaxDistance);
 private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();

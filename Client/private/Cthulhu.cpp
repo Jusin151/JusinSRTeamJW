@@ -170,6 +170,10 @@ HRESULT CCthulhu::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -262,6 +266,7 @@ NodeStatus CCthulhu::UpdateAttack()
 			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
 			m_iMissilesToFire--;
 			m_fMissileTimer = 0.f;
+			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.5f);
 		}
 
 
@@ -762,6 +767,7 @@ void CCthulhu::Create_BehaviorTree()
 			m_eState = STATE::DEAD;
 			m_fFrame = 0.f;
 			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_death_01", m_pTransformCom)->SetVolume(0.5f);
 		}
 
 		if (m_fFrame < m_mapStateTextures[STATE::DEAD].size() - 1)
@@ -862,6 +868,7 @@ _bool CCthulhu::IsPlayerVisible()
 			return false;
 		}
 	}
+
 	return true;
 }
 
@@ -873,9 +880,16 @@ HRESULT CCthulhu::On_Collision(CCollisionObject* other)
 
 void CCthulhu::Select_Pattern(_float fTimeDelta)
 {
+	if (m_eState == STATE::DEAD) return;
 	// 비헤이비어 트리 실행
 	if (m_pBehaviorTree)
 		m_pBehaviorTree->Run();
+}
+
+void CCthulhu::Set_Hp(_int iHp)
+{
+	m_iHp = iHp;
+	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/yeti_pain_1", m_pTransformCom)->SetVolume(0.5f);
 }
 
 json CCthulhu::Serialize()
