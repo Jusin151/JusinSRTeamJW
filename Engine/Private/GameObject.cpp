@@ -2,14 +2,14 @@
 #include "GameInstance.h"
 
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: m_pGraphic_Device { pGraphic_Device }
-	, m_pGameInstance { CGameInstance::Get_Instance() }
+	: m_pGraphic_Device{ pGraphic_Device }
+	, m_pGameInstance{ CGameInstance::Get_Instance() }
 {
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pGameInstance);
 }
 
-CGameObject::CGameObject(const CGameObject& Prototype) 
+CGameObject::CGameObject(const CGameObject& Prototype)
 	: m_pGraphic_Device{ Prototype.m_pGraphic_Device }
 	, m_pGameInstance{ Prototype.m_pGameInstance }
 {
@@ -27,10 +27,10 @@ HRESULT CGameObject::Initialize(void* pArg)
 	if (pArg)
 	{
 
-	if (!static_cast<OBJECT_DESC*>(pArg)->stProtTag.empty())
-	{
-		m_tObjDesc = *static_cast<OBJECT_DESC*>(pArg);
-	}
+		if (!static_cast<OBJECT_DESC*>(pArg)->stProtTag.empty())
+		{
+			m_tObjDesc = *static_cast<OBJECT_DESC*>(pArg);
+		}
 	}
 	return S_OK;
 }
@@ -84,46 +84,46 @@ json CGameObject::Serialize()
 
 void CGameObject::Deserialize(const json& j)
 {
-		if (j.contains("IsActive")) m_bIsActive = j["IsActive"];
-		if (j.contains("FromPool")) m_bFromPool = j["FromPool"];
-		if (j.contains("LayerTag"))
+	if (j.contains("IsActive")) m_bIsActive = j["IsActive"];
+	if (j.contains("FromPool")) m_bFromPool = j["FromPool"];
+	if (j.contains("LayerTag"))
+	{
+		string layerTag = j["LayerTag"].get<string>();
+		m_strLayerTag = ISerializable::Utf8ToWide(layerTag);
+	}
+
+	if (j.contains("OBJECT_DESC"))
+	{
+		const json& objectDesc = j["OBJECT_DESC"];
+
+		if (objectDesc.contains("ProtTag"))
 		{
-			string layerTag = j["LayerTag"].get<string>();
-			m_strLayerTag = ISerializable::Utf8ToWide(layerTag);
+			string protTag = objectDesc["ProtTag"].get<string>();
+			m_tObjDesc.stProtTag = ISerializable::Utf8ToWide(protTag);
 		}
 
-		if (j.contains("OBJECT_DESC"))
+		if (objectDesc.contains("ProtTextureTag"))
 		{
-			const json& objectDesc = j["OBJECT_DESC"];
-
-			if (objectDesc.contains("ProtTag"))
-			{
-				string protTag = objectDesc["ProtTag"].get<string>();
-				m_tObjDesc.stProtTag = ISerializable::Utf8ToWide(protTag);
-			}
-
-			if (objectDesc.contains("ProtTextureTag"))
-			{
-				string protTextureTag = objectDesc["ProtTextureTag"].get<string>();
-				m_tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(protTextureTag);
-			}
-
-			if (objectDesc.contains("BufferTag"))
-			{
-				string bufferTag = objectDesc["BufferTag"].get<string>();
-				m_tObjDesc.stBufferTag = ISerializable::Utf8ToWide(bufferTag);
-			}
-
-			if (objectDesc.contains("Level")) m_tObjDesc.iLevel = objectDesc["Level"];
-			if (objectDesc.contains("ProtoLevel")) m_tObjDesc.iProtoLevel = objectDesc["ProtoLevel"];
+			string protTextureTag = objectDesc["ProtTextureTag"].get<string>();
+			m_tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(protTextureTag);
 		}
-		
+
+		if (objectDesc.contains("BufferTag"))
+		{
+			string bufferTag = objectDesc["BufferTag"].get<string>();
+			m_tObjDesc.stBufferTag = ISerializable::Utf8ToWide(bufferTag);
+		}
+
+		if (objectDesc.contains("Level")) m_tObjDesc.iLevel = objectDesc["Level"];
+		if (objectDesc.contains("ProtoLevel")) m_tObjDesc.iProtoLevel = objectDesc["ProtoLevel"];
+	}
+
 }
 
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
 	auto	iter = m_Components.find(strComponentTag);
-	if(iter == m_Components.end())
+	if (iter == m_Components.end())
 		return nullptr;
 
 	return iter->second;
@@ -134,8 +134,8 @@ HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& s
 	if (m_Components.end() != m_Components.find(strComponentTag))
 		return E_FAIL;
 
-	CComponent*		pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, iPrototypeLevelIndex, strPrototypeTag, pArg));
- 	if (nullptr == pComponent)
+	CComponent* pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, iPrototypeLevelIndex, strPrototypeTag, pArg));
+	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_Components.emplace(strComponentTag, pComponent);
