@@ -8,6 +8,18 @@ END
 BEGIN(Client)
 class CCthulhuMissile final : public CProjectile_Base
 {
+public:
+	typedef struct tagMissileDesc : public PROJ_DESC
+	{
+		_int iSplitLevel = 0;
+		tagMissileDesc(const _float3& _vPos, const _float3& _vDir, _float _fSpeed, _int _iSplitLevel = 0)
+			: PROJ_DESC{ _vPos, _vDir, _fSpeed }, iSplitLevel(_iSplitLevel)
+		{
+		}
+
+		tagMissileDesc() {}
+
+	}Missile_DESC;
 private:
 	CCthulhuMissile(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCthulhuMissile(const CCthulhuMissile& Prototype);
@@ -31,6 +43,7 @@ private:
 	void Billboarding(_float fTimeDelta);
 	void Update_Animation(_float fTimeDelta);
 	void Move(_float fTimeDelta);
+	void SplitAttack(_float fTimeDelta);
 private:
 	_uint m_iCurrentFrame = 0;
 	_uint m_iMaxFrame = 14;
@@ -43,6 +56,10 @@ private:
 	class CPlayer* m_pTarget = nullptr;
 	CMaterial* m_pMaterialCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
+
+	_int     m_iSplitLevel{ 0 };     // 남은 분리 단계
+	_float   m_fElapsedTime{ 0.f };   
+	_float   m_fSplitDelay{0.5f};    
 public:
 	static CCthulhuMissile* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;

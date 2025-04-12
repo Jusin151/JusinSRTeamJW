@@ -156,6 +156,11 @@ HRESULT CShader::Set_UVOffsetFactor(const _float2* pOffset)
 	return Bind_Vector("g_OffsetFactor", pOffset);
 }
 
+HRESULT CShader::Set_Bool(const char* pParameterName, _bool bValue)
+{
+	return m_pEffect->SetBool(pParameterName, bValue);
+}
+
 
 void CShader::Begin(_uint iPassIndex)
 {

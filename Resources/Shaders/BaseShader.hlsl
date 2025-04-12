@@ -72,7 +72,9 @@ float4 g_MaterialSpecular = float4(1.f, 1.f, 1.f, 1.f); // 재질의 정반사광 색상
 float g_MaterialSpecularPower = 32.f; // 재질의 정반사 지수 (Shininess)
 float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // 재질의 자체 발광 색상
 
-
+uniform bool g_bUseHPClip; // HP 클리핑 사용 여부 (true이면 클리핑, false이면 그대로)
+uniform float g_HpRatio; // 0 ~ 1 범위, 현재 HP 비율
+uniform bool g_bUseTiling;
 // 타일링 전역변수 추가
 float2 g_ScaleFactor    = float2(1.0f, 1.0f);
 float2 g_OffsetFactor   = float2(0.0f, 0.0f);
@@ -370,12 +372,21 @@ PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE는 양면 렌더링 시 필요할
     PS_OUT Out;
 
     // 1. 텍스처 색상 가져오기
-    float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
+  //  float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
+    float2 tiledUV = g_bUseTiling ? (In.vTexcoord * g_ScaleFactor + g_OffsetFactor) : In.vTexcoord;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
     // 2. (선택 사항) 재질의 Diffuse 색상을 곱하여 기본 색상 조절
     baseColor *= g_Material.Diffuse; // Material 구조체 사용 시
 
+    // HP 클리핑 여부에 따른 처리
+    if (g_bUseHPClip)
+    {
+        // 만약 UV의 x가 g_HpRatio보다 크면 해당 픽셀의 알파를 0으로 설정 (보이지 않게 처리)
+        if (tiledUV.x < (1.0 - g_HpRatio))
+            baseColor.a = 0.0f;
+    }
+    
     // --- 안개 효과 계산 시작 ---
     float distance = length(In.vViewPos); // 보간된 뷰 공간 위치 사용
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
