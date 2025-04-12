@@ -412,9 +412,6 @@
     <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern">
       <UniqueIdentifier>{cd0f6199-48e1-45f8-808f-5f1372658788}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Pattern_Warp">
-      <UniqueIdentifier>{7550df4c-60a4-4e10-8c8f-8d0944b1b61c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\02.HellBoss_Pattern\Pattern\Phase_02">
       <UniqueIdentifier>{bf12c702-e2f5-4d2a-9bdf-b0d48353f0a5}</UniqueIdentifier>
     </Filter>
@@ -486,6 +483,9 @@
     </Filter>
     <Filter Include="02.GameObjects\JW_Boss\UI">
       <UniqueIdentifier>{b8a2f44f-b50b-4c80-97fb-2ac894e0e3c0}</UniqueIdentifier>
+ </Filter>
+    <Filter Include="02.GameObjects\99. Camera\CCamera_CutScene">
+      <UniqueIdentifier>{f6865727-0c79-4b0b-9b5c-adc792dd03aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -927,9 +927,6 @@
     <ClInclude Include="..\public\HellBoss_CircleState.h">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\HellBoss_FloatState.h">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Stains_Effect.h">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
     </ClInclude>
@@ -942,6 +939,9 @@
     <ClInclude Include="..\public\Gib_Effect.h">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Camera_CutScene.h">
+      <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
+ </ClInclude>
     <ClInclude Include="..\public\WarningZone.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
@@ -1364,6 +1364,9 @@
     <ClCompile Include="..\private\Gib_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Gib_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Camera_CutScene.cpp">
+      <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
+  </ClCompile>
     <ClCompile Include="..\private\WarningZone.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>

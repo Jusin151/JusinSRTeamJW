@@ -4,6 +4,7 @@
 #include "Serializable.h"
 
 BEGIN(Engine)
+class CSound_Source;
 class CShader;
 class CTexture;
 class CTransform;
@@ -53,6 +54,7 @@ private:
     void Find_Target();
 
 private:
+    CSound_Source* m_pSoundCom = { nullptr };
     CShader* m_pShaderCom = { nullptr };
     CTexture* m_pTextureCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };

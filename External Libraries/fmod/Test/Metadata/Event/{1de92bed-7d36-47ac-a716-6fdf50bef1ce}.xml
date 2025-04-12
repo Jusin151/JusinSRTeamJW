@@ -5,7 +5,7 @@
 			<value>pw2_wpn_claymore_default_hit_meat-002</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{54f10a0f-4297-4882-ab1d-f91d5a331491}</destination>
@@ -30,6 +30,9 @@
 		</relationship>
 		<relationship name="parameters">
 			<destination>{bc929975-37f6-4e57-a921-7cd3776aaf16}</destination>
+		</relationship>
+		<relationship name="banks">
+			<destination>{6215e83c-39fc-453f-8183-4d3b0857f057}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixer" id="{7387df31-aa4b-44f7-903c-568eda68d458}">
@@ -93,7 +96,6 @@
 	<object class="MixerBusEffectChain" id="{d129d37e-1ea9-4509-aa81-c43b57f6a80c}">
 		<relationship name="effects">
 			<destination>{3c7e1e5f-7f18-49a0-8f64-4f61eadb2b21}</destination>
-			<destination>{0bc2bea2-5f35-40ee-8dc9-002e5cc4834e}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{a86dc93e-6e87-44fc-b7f6-2e88f3562137}" />
@@ -104,5 +106,4 @@
 	</object>
 	<object class="MixerBusFader" id="{ef2796a0-7907-43ec-aa0a-cd299b431b42}" />
 	<object class="MixerBusFader" id="{3c7e1e5f-7f18-49a0-8f64-4f61eadb2b21}" />
-	<object class="SpatialiserEffect" id="{0bc2bea2-5f35-40ee-8dc9-002e5cc4834e}" />
 </objects>

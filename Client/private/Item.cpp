@@ -94,6 +94,7 @@ void CItem::Update(_float fTimeDelta)
 	m_pGameInstance->Add_Collider(CG_ITEM, m_pColliderCom);
 
 	Float_Item(fTimeDelta);
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 void CItem::Late_Update(_float fTimeDelta)
@@ -191,11 +192,14 @@ void CItem::Use_Item()
 	{
 	case Client::CItem::ITEM_TYPE::HP:
 		m_pPlayer->Add_HP(+10);
+		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
 	case Client::CItem::ITEM_TYPE::MP:
+		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
 	case Client::CItem::ITEM_TYPE::AMMO:
 		m_pPlayer->Add_Ammo(m_strItemName, 10);
+		m_pSoundCom->Play_Event(L"event:/Objects/ammo_pickup")->SetVolume(0.5f);
 		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event"))) 
 		{
 			pUI_Event->ShowEventText(10,m_strItemName);
@@ -206,6 +210,7 @@ void CItem::Use_Item()
 	case Client::CItem::ITEM_TYPE::STAT:
 		break;
 	case Client::CItem::ITEM_TYPE::KEY:
+		m_pSoundCom->Play_Event(L"event:/Objects/Keys_Pickup")->SetVolume(0.5f);
 		if (FAILED(m_pPlayer->Add_Item(m_strItemName)))
 		{
 			return;
@@ -391,6 +396,10 @@ HRESULT CItem::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -474,6 +483,7 @@ CGameObject* CItem::Clone(void* pArg)
 void CItem::Free()
 {
 	__super::Free();
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

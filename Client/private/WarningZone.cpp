@@ -1,4 +1,4 @@
-#include "WarningZone.h"
+ï»¿#include "WarningZone.h"
 
 
 CWarningZone::CWarningZone(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -91,7 +91,7 @@ void CWarningZone::Set_Position(const _float3& vPos)
 
 HRESULT CWarningZone::Ready_Components()
 {
-	// ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ ÄÚµå
+	// ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” ì½”ë“œ
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Vignette"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -117,7 +117,7 @@ HRESULT CWarningZone::Ready_Components()
 HRESULT CWarningZone::SetUp_RenderState()
 {
 	D3DXVECTOR2 vScaleFactor(1.f, 1.f);
-	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // YÃà ¹ÝÀüÀ» À§ÇÑ ¿ÀÇÁ¼Â Á¶Á¤
+	D3DXVECTOR2 vOffsetFactor(0.0f, 0.0f); // Yì¶• ë°˜ì „ì„ ìœ„í•œ ì˜¤í”„ì…‹ ì¡°ì •
 	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
 	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

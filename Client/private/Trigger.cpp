@@ -57,6 +57,7 @@ void CTrigger::Update(_float fTimeDelta)
 
 	// 게임 인스턴스의 충돌 확인 시스템에 콜라이더 추가
 	m_pGameInstance->Add_Collider(CG_TRIGGER, m_pColliderCom);
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 void CTrigger::Late_Update(_float fTimeDelta)
@@ -119,6 +120,7 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 			return S_OK;
  		if (!m_bWasTriggered&&GetAsyncKeyState(VK_SPACE)&0x8000)
 		{
+			m_pSoundCom->Play_Event(L"event:/Objects/Button")->SetVolume(0.5f);
 			m_bWasTriggered = true;
 			OnTrigger_Activated();
 		}
@@ -261,6 +263,10 @@ HRESULT CTrigger::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -294,7 +300,7 @@ CGameObject* CTrigger::Clone(void* pArg)
 void CTrigger::Free()
 {
 	__super::Free();
-
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

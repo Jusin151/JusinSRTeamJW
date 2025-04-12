@@ -1,5 +1,6 @@
 ﻿#include "Sound_Source.h"
 #include "Sound_Manager.h"
+#include "Transform.h"
 
 CSound_Source::CSound_Source(LPDIRECT3DDEVICE9 pGraphic_Device, CSound_Manager* pSound_Manager)
     : CComponent{ pGraphic_Device }
@@ -35,14 +36,30 @@ void CSound_Source::Update(_float fTimeDelta)
     auto iter = m_Events2D.begin();
     while (iter != m_Events2D.end())
     {
-        (*iter)->IsValid() ? iter = m_Events2D.erase(iter) : iter;
+        if (!(*iter)->IsValid())
+        {
+            Safe_Delete(*iter);
+            iter = m_Events2D.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
     }
 
     // 유효하지 않는 3D event 삭제
     iter = m_Events3D.begin();
     while (iter != m_Events3D.end())
     {
-        (*iter)->IsValid() ? iter = m_Events3D.erase(iter) : iter;
+        if (!(*iter)->IsValid())
+        {
+            Safe_Delete(*iter);
+            iter = m_Events3D.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
     }
 }
 
@@ -50,13 +67,24 @@ void CSound_Source::Late_Update(_float fTimeDelta)
 {
 }
 
-CSound_Event* CSound_Source::Play_Event(_wstring strEvent)
+_float CSound_Source::Get_Global_Parameter(const string& name)
+{
+    return m_pSound_Manager->Get_Global_Parameter(name);
+}
+
+void CSound_Source::Set_Global_Parameter(const string& name, _float value)
+{
+    m_pSound_Manager->Set_Global_Parameter(name, value);
+}
+
+CSound_Event* CSound_Source::Play_Event(_wstring strEvent, void* pArg)
 {
     CSound_Event* e = m_pSound_Manager->Play_Event(strEvent);
     if (e->Is3D())
     {
+        CTransform* pTranform = reinterpret_cast<CTransform*>(pArg);
         m_Events3D.emplace_back(e);
-        //e.Set3DAttributes();
+        e->Set3DAttributes(*pTranform);
     }
     else
     {
@@ -65,17 +93,30 @@ CSound_Event* CSound_Source::Play_Event(_wstring strEvent)
     return e;
 }
 
-void CSound_Source::Stop_All_Event()
+void CSound_Source::Stop_All_Event(bool allowFadeOut)
 {
     for (auto& e : m_Events2D)
     {
-        e->Stop();
+        e->Stop(allowFadeOut);
     }
     for (auto& e : m_Events3D)
     {
-        e->Stop();
+        e->Stop(allowFadeOut);
     }
 
+    Clear();
+}
+
+void CSound_Source::Clear()
+{
+    for (auto& e : m_Events2D)
+    {
+        Safe_Delete(e);
+    }
+    for (auto& e : m_Events3D)
+    {
+        Safe_Delete(e);
+    }
     // 모든 이벤트를 컨테이너에서 삭제한다.
     m_Events2D.clear();
     m_Events3D.clear();

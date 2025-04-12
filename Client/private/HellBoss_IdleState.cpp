@@ -35,19 +35,18 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 			int randIndex = rand() % 2;
 			switch (randIndex)
 			{
-			case 0: pBoss->Set_AttackPattern(new CPattern_EyeBlast()); break;
-			case 1: pBoss->Set_AttackPattern(new CPattern_Shoot()); break;
+			case 0: pBoss->Set_Pattern(new CPattern_EyeBlast()); break;
+			case 1: pBoss->Set_Pattern(new CPattern_Shoot()); break;
 			}
 		}
 		else if (pBoss->Get_Phase() == PHASE2)
 		{
 			// 페이즈2는 Shoot만 가능하니까
-			pBoss->Set_AttackPattern(new CPattern_Shoot());
+			pBoss->Set_Pattern(new CPattern_Shoot());
 		}
 		else if (pBoss->Get_Phase() == PHASE3)
 		{
 		}
-	
 
 		pBoss->Change_State(new CHellBoss_AttackState());
 		return;

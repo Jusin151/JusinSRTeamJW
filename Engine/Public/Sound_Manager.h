@@ -27,6 +27,12 @@ public:
 public:
 	void					Stop_All_Event();
 	void					Stop();
+
+public:
+	_float					Get_Global_Parameter(const string& name);
+	void					Set_Global_Parameter(const string& name, _float value);
+
+public:
 	
 public:
 	void					Set_Listner(const class CTransform& worldTrans);

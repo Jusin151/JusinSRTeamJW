@@ -43,7 +43,7 @@ HRESULT CDoor::Initialize(void* pArg)
 
 	// 열렸을 때의 위치 계산 (아래로 슬라이드)
 	m_vSlidePosition = m_vOriginalPosition;
-	m_vSlidePosition.y -= m_fSlideDistance;  // Y축 기준 하강
+	m_vSlidePosition.y -= m_fSlideDistance;  // Y축 기준 하강	
 
 
 	CStructureManager::Get_Instance()->Add_Door(this);
@@ -56,6 +56,7 @@ void CDoor::Update(_float fTimeDelta)
 	// 문 애니메이션 업데이트
 	if (m_eDoorState == DOOR_STATE::OPENING)
 	{
+		m_pSoundCom->Play_Event(L"event:/Objects/door_Sliding_CLose_Clean", m_pTransformCom)->SetVolume(0.5f);
 		m_fDoorOpenAmount += m_fDoorOpenSpeed * fTimeDelta;
 		if (m_fDoorOpenAmount >= 1.0f)
 		{
@@ -66,6 +67,7 @@ void CDoor::Update(_float fTimeDelta)
 	}
 	else if (m_eDoorState == DOOR_STATE::CLOSING)
 	{
+		m_pSoundCom->Play_Event(L"event:/Objects/door_Sliding_CLose_Clean", m_pTransformCom)->SetVolume(0.5f);
 		m_fDoorOpenAmount -= m_fDoorOpenSpeed * fTimeDelta;
 		if (m_fDoorOpenAmount <= 0.0f)
 		{
@@ -85,7 +87,7 @@ void CDoor::Update(_float fTimeDelta)
 
 	if(m_eDoorState != DOOR_STATE::OPEN)
 		m_pGameInstance->Add_Collider(CG_DOOR, m_pColliderCom);
-	
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 void CDoor::Late_Update(_float fTimeDelta)
@@ -279,6 +281,10 @@ HRESULT CDoor::Ready_Components()
 			return E_FAIL;
 	}
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -311,7 +317,7 @@ CGameObject* CDoor::Clone(void* pArg)
 void CDoor::Free()
 {
 	__super::Free();
-
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pColliderCom);

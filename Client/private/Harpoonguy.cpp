@@ -49,7 +49,11 @@ void CHarpoonguy::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	if (m_eCurState == MS_DEATH && !m_bGib)
+	{
+		m_bGib = true;
 		Create_Gibs(0);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+	}
 	if (m_iCurrentFrame >= 26)
 	{
 		m_bIsActive = false;
@@ -81,6 +85,7 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
+	m_pSoundCom->Update(fTimeDelta);
 }
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
@@ -187,6 +192,7 @@ HRESULT CHarpoonguy::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
 		m_eCurState = MS_HIT;
 		break;
 	case CG_MONSTER:
@@ -233,6 +239,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		}
 		break;
 	case MS_WALK:
+		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
 		Chasing(fTimeDelta, 90.f);
 		break;
 	case MS_HIT:
@@ -243,6 +250,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 
 		break;
 	case MS_ATTACK:
+		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Shooting(fTimeDelta);
 		break;
 

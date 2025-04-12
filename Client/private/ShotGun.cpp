@@ -78,6 +78,7 @@ void CShotGun::Update(_float fTimeDelta)
 	//m_bIsActive = false;
 	__super::Update(fTimeDelta);
 
+	m_pSoundCom->Update(fTimeDelta);
 }
 void CShotGun::Late_Update(_float fTimeDelta)
 {
@@ -107,6 +108,7 @@ void CShotGun::Late_Update(_float fTimeDelta)
 			{
 				m_eState = State::Reloading;
 				m_iCurrentFrame = m_TextureRanges["Reloading"].first;
+				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpout")->SetVolume(0.5f);
 			}
 		}
 		break;
@@ -121,6 +123,7 @@ void CShotGun::Late_Update(_float fTimeDelta)
 			{
 				m_eState = State::Idle;
 				m_iCurrentFrame = m_TextureRanges["Idle"].first;
+				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
 			}
 		}
 		break;
@@ -153,6 +156,13 @@ void CShotGun::Attack_WeaponSpecific(_float fTimeDelta)
 		m_iCurrentFrame = m_TextureRanges["Firing"].first;
 		m_fElapsedTime = 0.f;
 		m_bHasFired = false;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_shot")->SetVolume(0.5f);
+		
+	}
+	else if (m_eState == State::Idle && Ranged_INFO.CurrentAmmo == 0)
+	{
+		m_eState = State::Reloading;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Gun/gun_empty")->SetVolume(0.5f);
 	}
 }
 
@@ -264,7 +274,7 @@ HRESULT CShotGun::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
-	/* For.Com_Shader */
+	/* For.Com_Material */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
 		return E_FAIL;

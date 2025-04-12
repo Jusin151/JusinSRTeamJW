@@ -37,10 +37,6 @@ HRESULT CUI_Menu::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
-
-
-
-
 	m_pTransformCom->Set_Scale(m_INFO.vSize.x, m_INFO.vSize.y, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_INFO.vPos.x, m_INFO.vPos.y, 0.f));

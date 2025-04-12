@@ -4,6 +4,10 @@
 #include "Player.h"
 #include "Camera.h"
 
+BEGIN(Engine)
+class CSound_Listener;
+END
+
 BEGIN(Client)
 
 class CCamera_FirstPerson final : public CCamera
@@ -49,7 +53,8 @@ public:
 	{
 		m_bCameraLocked = bIsLock;
  	}
-
+private:
+	CSound_Listener*	m_pListenerCom = { nullptr };
 private:
 	POINT				m_ptOldMousePos = {};
 	_float				m_fMouseSensor = {};

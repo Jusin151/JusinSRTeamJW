@@ -19,6 +19,7 @@
 #include "Level_Hub.h"
 #include "HP_WorldUI.h"
 #include "HellBoss_Headers.h" // 헬보스 관련 생성에 필요한 헤더 
+#include "Camera_CutScene.h"
 
 
 
@@ -141,8 +142,13 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("셰이더을(를) 로딩중입니다."));
 	CompleteOneTask(); // 1/6
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	CompleteOneTask(); // 1/6
  	m_pGameInstance->Load_Bank(L"Background");
+	m_pGameInstance->Load_Bank(L"Menu");
+	m_pGameInstance->Load_Bank(L"Objects");
+	m_pGameInstance->Load_Bank(L"Player");
+	m_pGameInstance->Load_Bank(L"Monsters");
+	m_pGameInstance->Load_Bank(L"Weapons");
+	CompleteOneTask(); // 1/6
 
  	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 
@@ -162,13 +168,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes.json");
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Test.json");
-
- //	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device,L"../Save/Prototypes.json")))
-	//return E_FAIL;
-
-	//// JSON 로더를 사용하여 모든 프로토타입 로드
-	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
-	//	return E_FAIL;
 
 	jsonLoader.Load_Prototypes(
 		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json",
@@ -322,13 +321,6 @@ HRESULT CLoader::Loading_For_Hub()
 
 	lstrcpy(m_szLoadingText, TEXT("JSON에서 프로토타입을 로딩중입니다."));
 
-
-	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json"))) // 건물관련
-	//	return E_FAIL;
-	//// JSON 로더를 사용하여 모든 프로토타입 로드
-	//if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json"))) // 명훈이형꺼 관련
-	//	return E_FAIL;
-
 	jsonLoader.Load_Prototypes(
 		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json",
 		[this]() { CompleteOneTask(); }
@@ -352,6 +344,9 @@ HRESULT CLoader::Loading_For_Hong()
 
 
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Hong.json");
+
+
+
 
 	//헬보스 객체 등록
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),

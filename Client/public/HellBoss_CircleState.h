@@ -9,4 +9,6 @@ public:
     void Enter(CHellBoss* pBoss) override;
     void Update(CHellBoss* pBoss, float fTimeDelta) override;
     void Exit(CHellBoss* pBoss) override;
+
+
 };

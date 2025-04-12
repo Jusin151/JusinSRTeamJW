@@ -48,7 +48,7 @@ public: //공격 관련
 
 private:
 	State m_eState = State::Idle;
-	CLight* m_pLightCom = { nullptr };
+	CLight*			m_pLightCom = { nullptr };
 
 public:
 	static CShotGun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

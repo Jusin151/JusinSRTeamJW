@@ -383,6 +383,7 @@ void CRanged_Weapon::Monster_Hit(CCollider* pCollider, _uint Damage)
         effectDesc.vPos = vFinalEffectPos;
         hitDesc.vPos = vFinalEffectPos;
 
+        
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
             TEXT("Prototype_GameObject_Blood_Effect"),
@@ -502,12 +503,13 @@ void CRanged_Weapon::CreateHitEffect(CCollider* pClosestCollider, const _float3&
     // TODO: 충돌 대상(벽, 몬스터 등)에 따라 다른 프로토타입/레이어 이름 사용
     // if (pTarget && pTarget->IsMonster()) { ... } else if (pWall) { ... }
 
-    m_pGameInstance->Add_GameObject(
-        LEVEL_STATIC,         // 이펙트가 속할 레벨 (STATIC 또는 GAMEPLAY 등)
-        effectPrototypeName,  // 사용할 이펙트 프로토타입 이름 (ID 기반 검색 권장)
-        LEVEL_STATIC,       // 이펙트 오브젝트가 추가될 레벨
-        effectLayerName,      // 이펙트 오브젝트가 속할 레이어 이름 (ID 기반 검색 권장)
-        &hitDesc);            // 이펙트 초기화 데이터
+    if(pClosestCollider->Get_Owner()->Get_Type() != CG_OBJECT)
+        m_pGameInstance->Add_GameObject(
+            LEVEL_STATIC,         // 이펙트가 속할 레벨 (STATIC 또는 GAMEPLAY 등)
+            effectPrototypeName,  // 사용할 이펙트 프로토타입 이름 (ID 기반 검색 권장)
+            LEVEL_STATIC,       // 이펙트 오브젝트가 추가될 레벨
+            effectLayerName,      // 이펙트 오브젝트가 속할 레이어 이름 (ID 기반 검색 권장)
+            &hitDesc);            // 이펙트 초기화 데이터
 
 #pragma endregion
 }

@@ -1,4 +1,4 @@
-﻿
+﻿	
 #include "PickingSys.h"
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
@@ -12,6 +12,43 @@
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
 {
+}
+
+// 예시 통합 콜백 함수
+// F_CALL 또는 F_CALLBACK (FMOD 버전에 맞게 사용)
+FMOD_RESULT F_CALL ManageIsWalkingCallback(FMOD_STUDIO_EVENT_CALLBACK_TYPE type, FMOD_STUDIO_EVENTINSTANCE* instance_ptr, void* parameters) {
+	FMOD::Studio::EventInstance* instance = (FMOD::Studio::EventInstance*)instance_ptr;
+	FMOD::Studio::System* fmodSystem = nullptr;
+	void* userDataPtr = nullptr;
+	FMOD_RESULT result;
+	float targetValue = -1.0f; // 초기값 (변경 없을 시 -1)
+
+	// 어떤 타입의 콜백이 발생했는지 확인
+	if (type == FMOD_STUDIO_EVENT_CALLBACK_STARTED || type == FMOD_STUDIO_EVENT_CALLBACK_CREATED || type == FMOD_STUDIO_EVENT_CALLBACK_STARTING || type == FMOD_STUDIO_EVENT_CALLBACK_RESTARTED /* 또는 SOUND_PLAYED 등 '걷기 시작' 조건 */) {
+		targetValue = 1.0f;
+	}
+	else if (type == FMOD_STUDIO_EVENT_CALLBACK_STOPPED || type == FMOD_STUDIO_EVENT_CALLBACK_DESTROYED  /* 또는 SOUND_STOPPED 등 '걷기 멈춤' 조건 */) {
+		targetValue = 0.0f;
+	}
+	else {
+		// 처리할 필요 없는 다른 콜백 타입은 그냥 무시
+		return FMOD_OK;
+	}
+
+	// UserData에서 System 포인터 가져오기 (Instance UserData 사용 가정)
+	result = instance->getUserData(&userDataPtr);
+	if (result == FMOD_OK && userDataPtr) {
+		fmodSystem = static_cast<FMOD::Studio::System*>(userDataPtr);
+	}
+	else {
+		return FMOD_ERR_INVALID_HANDLE; // 또는 다른 적절한 에러 코드
+	}
+
+	// 결정된 값으로 파라미터 설정
+	if (fmodSystem && targetValue >= 0.0f) { // targetValue가 유효하게 설정되었을 때만
+		result = fmodSystem->setParameterByName("IsWalking", targetValue);
+	}
+	return FMOD_OK;
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
@@ -116,7 +153,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		Add_Sprit(1000);
 	}
-
+	m_pSoundCom->Update(fTimeDelta);
 }
 void CPlayer::Late_Update(_float fTimeDelta)
 {
@@ -149,9 +186,10 @@ void CPlayer::Input_ItemtoInven()
 void CPlayer::Equip(_float fTimeDelta)
 {
 	if (m_eWeaponState != WEAPON_STATE::IDLE) return;
+	
 	m_eWeaponState = WEAPON_STATE::CHANGE;
 	for (int i = 1; i <= 8; ++i)
-	{
+	{	
 		if (GetAsyncKeyState('0' + i) & 0x8000)
 		{
 			if (m_pPlayer_Weapon)
@@ -159,6 +197,7 @@ void CPlayer::Equip(_float fTimeDelta)
 				m_pPlayer_Weapon->SetActive(false);
 			}
 			m_pPlayer_Weapon = m_pPlayer_Inven->Equip(i);
+			m_pSoundCom->Play_Event(L"event:/Player/Weapon_Change")->SetVolume(0.5f);
 			//m_pPlayer_Weapon->SetActive(true);
 			break;
 		}
@@ -176,7 +215,6 @@ void CPlayer::Equip(_float fTimeDelta)
 		}
 	}
 	m_eWeaponState = WEAPON_STATE::IDLE;
-
 }
 HRESULT CPlayer::Render()
 {
@@ -293,7 +331,7 @@ void CPlayer::Move(_float fTimeDelta)
 	}
 
 	if (GetAsyncKeyState('A') & 0x8000) {
-		moveDir -= m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 왼쪽 방향
+		moveDir -= m_pTransformCom->Get_State(CTransform::STATE_RIGHT); // 왼쪽 방향	
 	}
 
 	if (GetAsyncKeyState('D') & 0x8000) {
@@ -309,14 +347,44 @@ void CPlayer::Move(_float fTimeDelta)
 		moveDir.y = 0.f;
 		m_vNextPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_vNextPos += moveDir * fTimeDelta * m_fSpeed * 10;
+		LEVEL level = (LEVEL)m_pGameInstance->Get_CurrentLevel();
+		switch (level)
+		{
+		case Client::LEVEL_GAMEPLAY:
+			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
+			{
+				CSound_Event* temp = m_pSoundCom->Play_Event(L"event:/Player/Footstep_Snow");
+				temp->SetVolume(1.0f);
+				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
+			}
+			break;
+		case Client::LEVEL_HUB:
+			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
+			{
+				CSound_Event* temp = m_pSoundCom->Play_Event(L"event:/Player/Footstep_Hard");
+				temp->SetVolume(1.0f);
+				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
+			}
+		break;
+		case Client::LEVEL_HONG:
+			//m_pSoundCom->Play_Event(L"event:/Player/Footstep_Hard")->SetVolume(0.5f);
+			break;
+		case Client::LEVEL_BOSS:
+			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
+			{
+				CSound_Event* temp = m_pSoundCom->Play_Event(L"event:/Player/Footstep_Water");
+				temp->SetVolume(1.0f);
+				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 	else
 	{
 		m_vNextPos = m_vCurPos;
 	}
-	
-
-
 }
 
 void CPlayer::Attack(_float fTimeDelta)
@@ -359,7 +427,7 @@ void CPlayer::Take_Damage(_uint Damage)
 		m_iHp = 0;
 
 	Notify(m_iHp, L"HP_Hited");
-
+	m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);
 
 }
 void CPlayer::Add_HP(_int Hp)
@@ -406,7 +474,8 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 			if (pWeapon)
 			{
 				pWeapon->Add_Ammo(iFinalAmmo);
-			}
+				
+			}	
 		}
 	}
 }
@@ -466,7 +535,7 @@ void CPlayer::Add_Exp(_int Exp)
 			pUI_Event->ShowEventText(0, L"LevelUp");
 		}
 	}
-
+	m_pSoundCom->Play_Event(L"event:/Level_Up_Distorted")->SetVolume(0.5f);
 	Notify(m_iPlayerEXP.first, L"Exp");
 
 
@@ -584,6 +653,10 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -679,7 +752,7 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
 	__super::Free();
-
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

@@ -1,4 +1,4 @@
-#include "Deco_Base.h"
+ï»¿#include "Deco_Base.h"
 #include "GameInstance.h"
 #include "Player.h"
 
@@ -46,9 +46,9 @@ HRESULT CDeco_Base::Ready_Components()
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 0.5f,0.5f,0.5f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 
