@@ -1388,8 +1388,6 @@
     <ClCompile Include="..\private\Box.cpp">
       <Filter>02.GameObjects\08. Deco\Box</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\Animation.cpp" />
-   </ClCompile>
     <ClCompile Include="..\private\Tree.cpp">
       <Filter>02.GameObjects\08. Deco\Tree</Filter>
     </ClCompile>
