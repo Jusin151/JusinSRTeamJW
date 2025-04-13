@@ -675,7 +675,6 @@ HRESULT CPlayer::Ready_Components()
 
 HRESULT CPlayer::Ready_Player_SetUP()
 {
-	// 이거 나중에 수정 필요할듯?
 
 	m_iPlayerHP = { 100,100 }; // 현재/최대  이하 동문
 	m_iPlayerMP = { 50, 50 };

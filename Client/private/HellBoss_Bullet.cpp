@@ -37,7 +37,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 
 
 		m_wBulletType = pDesc.wBulletType;
-		if (pDesc.wBulletType == L"Power_Blast")
+		if (pDesc.wBulletType == L"Power_Blast") // 피 깎일때마다 발사되는거
 		{
 			m_wBulletType = pDesc.wBulletType;
 			m_fFixedAngle = (360.f / pDesc.iTotalCount) * pDesc.iIndex;
@@ -50,21 +50,21 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 			m_iFrameCount = 7;
 			m_iMaxFrame = 7;
 		}
-		else if (pDesc.wBulletType == L"3_EyeBlast")
+		else if (pDesc.wBulletType == L"3_EyeBlast") // 눈에서 발사되는거
 		{
 			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
 			m_fFrameDuration = 0.02f;
 			m_iFrameCount = 7;
 			m_iMaxFrame = 7;
 		}
-		else if (pDesc.wBulletType == L"4_Shoot")
+		else if (pDesc.wBulletType == L"4_Shoot") // 오른손 발사
 		{
 			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Hand_Bullet";
 			m_fFrameDuration = 0.03f;
 			m_iFrameCount = 10;
 			m_iMaxFrame = 10;
 		}
-		else if (pDesc.wBulletType == L"0_Phase2_Shoot")
+		else if (pDesc.wBulletType == L"0_Phase2_Shoot") // 2페이즈 양손 발사
 		{
 			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet";
 			m_fFrameDuration = 0.03f;
@@ -73,7 +73,15 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 
 			m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
 		}
+		else if (pDesc.wBulletType == L"O_ArmCut_Shoot") // 3페이즈 한손 절단 발사
+		{
+			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet";
+			m_fFrameDuration = 0.03f;
+			m_iFrameCount = 6;
+			m_iMaxFrame = 6;
 
+			m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
+		}
 
 		m_vAxis = pDesc.vAxis;
 		m_fSpeed = 3.f;
@@ -159,7 +167,15 @@ void CHellBoss_Bullet::Reset()
 			else
 				offsetPos += m_fHellBoss_RIght * 0.14f;
 		}
+		else if (m_wBulletType == L"O_ArmCut_Shoot")//2페이즈			
+		{
+			offsetPos += m_fHellBoss_Up * 5.7f;
 
+			if (m_bRotated_Bullet)
+				offsetPos += m_fHellBoss_RIght * -0.14f;
+			else
+				offsetPos += m_fHellBoss_RIght * 0.14f;
+		}
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, offsetPos);
 		m_fHellBoss_Pos = offsetPos; // 이후 방향 계산에도 이 위치 써야함
@@ -194,6 +210,11 @@ void CHellBoss_Bullet::Reset()
 			m_fSpeed = 2.0f;
 		}
 		else if (m_wBulletType == L"0_Phase2_Shoot")
+		{
+			m_fBullet_Scale = { 2.f, 2.f, 2.f };
+			m_fSpeed = 1.5f;
+		}
+		else if (m_wBulletType == L"O_ArmCut_Shoot")
 		{
 			m_fBullet_Scale = { 2.f, 2.f, 2.f };
 			m_fSpeed = 1.5f;
@@ -428,23 +449,6 @@ HRESULT CHellBoss_Bullet::Render()
 
 
 	Release_RenderState();
-
-
-	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
-	//	_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
-	//	_float2(-100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
-	//	_float2(100.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-
-
-
-	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("총알 갯수:") + to_wstring(BulletCount),
-	//	_float2(100.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
 
 
 	return S_OK;

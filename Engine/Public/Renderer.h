@@ -15,7 +15,7 @@ public:
 		RG_PRIORITY,
 		RG_NONBLEND,
 		RG_BLEND,
-		RG_VIEWMODEL,
+		RG_VIEWMODEL, //무기가 사용중
 		RG_UI_BACKGROUND,  //  UI 배경
 		RG_UI_BUTTON,      //  UI 버튼
 		RG_UI,             // 원래 UI

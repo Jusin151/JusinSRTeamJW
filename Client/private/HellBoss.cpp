@@ -21,7 +21,11 @@ CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 CHellBoss::CHellBoss(const CHellBoss& Prototype)
 	: CMonster_Base(Prototype) {
 }
-HRESULT CHellBoss::Initialize_Prototype() { return S_OK; }
+HRESULT CHellBoss::Initialize_Prototype() 
+{ 
+
+	return S_OK; 
+}
 HRESULT CHellBoss::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components())) return E_FAIL;
@@ -42,8 +46,6 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("4_Shoot", 30, 55);
 
 
-
-
 	m_AnimationManager.AddAnimation("5_Morph", 56, 86);  //////////////////////////////2페이즈 진입
 
 
@@ -58,14 +60,14 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("T_Phase2_End", 108, 111,0.15f); // 워프 모션
 
 
-	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117);        //////////////////////////////3페이즈 진입, 한팔 잘리는 모션
+	m_AnimationManager.AddAnimation("Y_ArmCut", 112, 117,0.09f);        //////////////////////////////3페이즈 진입, 한팔 잘리는 모션
 
 
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.1f);  // 한팔 Walk상태
-	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태
-
+	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
+	m_AnimationManager.AddAnimation("O_ArmCut_Attack_Roof", 133, 133,0.03f);// 한팔 Attack상태 , 팔든상태에서 쏘기
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
 
@@ -85,41 +87,6 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("Start", 0, 337,0.02f);
 
 	m_AnimationManager.SetCurrentAnimation("1_Idle");
-
-
-
-     //0     Idle //대기모션
-     //1~8   Walk // 걷는모션
-     //9~29  EyeBlast // 눈깔빔
-     //30~55 Shoot // 발사
-     //56~86 Morph // 진화
-     //
-     //86 //   두번째 모습/ IDLE 대기모션
-     //87~94   두번째 모습 / 걷는모션
-     //95~99   두번째 모습 / 발사준비
-     //100~103 두번째 모습 / 스핀(예열)
-     //104~107 두번째 모습 / 발사
-     //108~111 두번째 모습 / 발사 끝
-     //
-     //112~117 두번째 모습 / 팔 절단
-     //
-     //117     두번째 모습 / 팔 절단 IDLE
-     //118~124 두번째 모습 / 팔 절단 걷는모션
-     //125~138 두번째 모습 / 팔 절단 공격모션
-     //
-     //139~203 // 진화
-     //
-     //203       // 세번째 모습 IDLE
-     //204~212   // 세번째 모습 걷는보션
-     //213~223   // 세번째 모습 삼눈깔빔
-     //224~234   // 세번째 모습 노바(주위폭발)
-     //234~246   // 세번째 모습 몬스터 소환 ( 또는 창작)
-     //
-     //247~289   // 진화
-     //
-     //290~311 // 네번째 모습 Idle 모션
-     //312~337 // 네번째 모습 드디어 죽는 모션
-
 
 	m_pCurState = new CHellBoss_IdleState();
 	m_pCurState->Enter(this);
@@ -170,6 +137,7 @@ void CHellBoss::Update(_float fTimeDelta)
 		return;
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
+
 
 	Process_Input();
 
@@ -237,10 +205,16 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_ePhase = PHASE3;
 		Set_Pattern(new CPattern_Morph());
 		Change_State(new CHellBoss_MorphState());
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(0, L"HellBoss_Phase3");
+		}
+
 		return;
 	}
 	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
 	{
+	
 		m_bDidPhase4Morph = true;
 		m_ePhase = PHASE4;
 		Set_Pattern(new CPattern_Morph());
