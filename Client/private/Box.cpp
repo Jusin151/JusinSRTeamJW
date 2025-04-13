@@ -262,18 +262,11 @@ void CBox::Smart_Drop()
     }
     else if (PlayerMp.first / float(PlayerMp.second) <= 0.5f)
     {
-        if (PlayerMp.first / float(PlayerMp.second) <= 0.1f)
-        {
-            tItemDesc.eType = CItem::ITEM_TYPE::MP;
-            tItemDesc.strItemName = L"MP_Big";
-            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_MP_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
-        }
-        else
-        {
-            tItemDesc.eType = CItem::ITEM_TYPE::MP;
-            tItemDesc.strItemName = L"MP_Small";
-            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_MP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
-        }
+       
+        tItemDesc.eType = CItem::ITEM_TYPE::MP;
+        tItemDesc.strItemName = L"MP_Small";
+        m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_MP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+        
     }
     else
     {

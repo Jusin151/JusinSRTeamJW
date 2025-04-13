@@ -76,6 +76,7 @@ public:
 
 	// 최대체력 증가
 	void Add_HP(_int Hp); // 현재체력 증가
+	void Add_MP(_int Mp);
 	void Add_Sprit(_int Sprit); // 정신력 증가
 	
 	void Add_SkillPoint(_int SkillPoint); // 스킬포인트 증가

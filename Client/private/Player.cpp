@@ -444,6 +444,17 @@ void CPlayer::Add_HP(_int Hp)
 		pUI_Event->ShowEventText(Hp, L"Hp");
 	}
 }
+void CPlayer::Add_MP(_int Mp)
+{
+	m_iPlayerMP.first += Mp;
+	if (m_iPlayerMP.first > m_iPlayerMP.second)
+		m_iPlayerMP.first = m_iPlayerMP.second;
+	Notify(m_iPlayerMP.first, L"MP");
+	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	{
+		pUI_Event->ShowEventText(Mp, L"MP");
+	}
+}
 _bool CPlayer::Set_Mp(_int iMp)
 {
 	_int pTemp = iMp;
