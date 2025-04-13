@@ -714,6 +714,11 @@
     {
       "class": "CItem",
       "level": 3,
+      "tag": "Prototype_GameObject_Item_Minigun_Ammo"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
       "tag": "Prototype_GameObject_Item_HP_Big"
     },
     {
