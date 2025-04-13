@@ -82,6 +82,12 @@ public:
 			text = L"레벨업!";
 		else if (tag == L"Mp_End")
 			text = L"마나가 부족합니다..!";
+		else if (tag == L"HellBoss_Phase3")
+		{
+			text = L"악마가 위기감을 느끼기 시작했습니다..!";
+			m_vecEventTexts.push_back({ text, 5.f });
+			return;
+		}
 
 		m_vecEventTexts.push_back({ text, 1.5f }); // 1.5초간 유지
 	}

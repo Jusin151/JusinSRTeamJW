@@ -93,13 +93,13 @@ HRESULT CUI_Episode_Hub::Render()
 
 void CUI_Episode_Hub::Create_Episode_Select_Button() //초록색 셀렉트 버튼
 {
-	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(5);
+	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(3); // 현재 3개만 생성이라 3개로 잡음
 
-	for (int index = 0; index < 5; ++index)
+	for (int index = 0; index < 3; ++index) // 버튼 3개만 생성
 	{
 		vecButtonDescs[index].Button_Desc.vSize = { 192.f, 192.f };
 
-		switch (index)
+		switch (index) // 버튼 현재 3개
 		{
 		case 0:
 			vecButtonDescs[index].Button_Desc.vPos = { -108.f,118.f };
@@ -110,12 +110,12 @@ void CUI_Episode_Hub::Create_Episode_Select_Button() //초록색 셀렉트 버�
 		case 2:
 			vecButtonDescs[index].Button_Desc.vPos = { -108.f,-73.f };
 			break;
-		case 3:
+		/*case 3:
 			vecButtonDescs[index].Button_Desc.vPos = { 80.f,-73.f };
 			break;
 		case 4:
 			vecButtonDescs[index].Button_Desc.vPos = { 273.f,-73.f };
-			break;
+			break;*/
 		default:
 			break;
 		}
@@ -154,7 +154,7 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 {
 	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(5);
 
-	for (int index = 0; index < 5; ++index)
+	for (int index = 0; index < 3; ++index) // 버튼 3개만 생성
 	{
 		vecButtonDescs[index].Button_Desc.vSize = { 192.f, 192.f };
 		switch (index)
@@ -171,14 +171,14 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 			vecButtonDescs[index].Button_Desc.vPos = { -108.f,-73.f };
 			vecButtonDescs[index].iCurrentImageNum = FIRST_BOSS_MAP_GRAY;
 			break;
-		case 3:
+	/*	case 3:
 			vecButtonDescs[index].Button_Desc.vPos = { 80.f,-73.f };
 			vecButtonDescs[index].iCurrentImageNum = SECOND_BOSS_MAP_GRAY;
 			break;
 		case 4:
 			vecButtonDescs[index].Button_Desc.vPos = { 273.f,-73.f };
 			vecButtonDescs[index].iCurrentImageNum = THIRD_BOSS_MAP_GRAY;
-			break;
+			break;*/
 		}
 		vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Episode_Hub_UI_Level_1";
 		vecButtonDescs[index].strUIName = L"Level_Episode_Button_Image_" + to_wstring(index);

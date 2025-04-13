@@ -60,18 +60,24 @@ public:
 	void Set_CutSceneCamera_Lock(_bool bType) { m_bCutSceneCamera_Look = bType; }
 public: // 패턴관련
 	void Set_Pattern(CPattern_Base* pPattern); // 공격패턴 설정
-	void Use_Attack(_float fDeltaTime); // 패턴 사용
+	void Use_Attack(_float fTimeDelta); // 패턴 사용
 public:
 	void Power_Blast_Patter(); // 주변 회전하는 구들
 	void Launch_PowerBlast_Bullets(); // 10개 쌓이면 발사
 	virtual void Select_Pattern(_float fTimeDelta) override;
 	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }
 	_float3 Get_CutScene_AnchorPos() const; //카메라용
+	bool Is_Player_Out_Of_Range()
+	{
+		_float3 vToPlayer = Get_PlayerPos() - Get_Pos();
+		return D3DXVec3Length(&vToPlayer) > 30.f;  //  원하는 거리로 바꿔도 됨
+	}
+
 private:
 	CPattern_Base* m_pCurAttackPattern = { nullptr };
 private: // 2페이즈 관련 , 양손 멀쩡
 	void Generate_Warp_Positions(); // 보스 뒤에 평면으로 정렬하는거
-	void Spawn_Warp_Effect(_float fDeltaTime); //  정렬한 평면으로 보스 롸업룩 넣는거
+	void Spawn_Warp_Effect(_float fTimeDelta); //  정렬한 평면으로 보스 롸업룩 넣는거
 	_float3 Get_RandomWarpPos_InFront(); // 하나씩 발사하는거
 	_bool m_bDarkHole_EffectActive = { false };  // 2페이즈  생성 ON/OFF 상태
 	_float m_fDarkHole_SpawnTimer = 0.f; ; // 2페이즈 
@@ -90,7 +96,11 @@ private:
 	_float3 m_vLandingTargetPos = {};
 	_float m_fFallSpeed = { 100.f };
 	_float3 m_vTargetDir = {};
+	_float m_fAttackDelay = 0.f;
+	_float m_fAttackDelayTimer = 0.f;
+
 public:
+	void Set_AttackDelay(_float fDelay) { m_fAttackDelay = fDelay; m_fAttackDelayTimer = 0.f; }
 	void Set_CircleBasePos(const _float3& vPos) { m_vCircleBasePos = vPos; }
 	_float3 Get_CircleBasePos() const { return m_vCircleBasePos; }
 	_float m_fAngle = 0.f; // orbit 각도

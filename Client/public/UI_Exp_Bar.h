@@ -70,7 +70,7 @@ public:
 	void ShowExpText(_int iExp)
 	{
 		m_strExpText = L"+EXP " + to_wstring(iExp);
-		m_fExpTextDuration = 1.5f; 
+		m_fExpTextDuration = 1.5f;  
 	}
 
 private:

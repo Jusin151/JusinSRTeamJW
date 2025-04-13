@@ -9,85 +9,71 @@
 
 void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 {
-	if (pBoss->Get_Phase() == PHASE1)
-		pBoss->Set_Animation("4_Shoot");
-	else if (pBoss->Get_Phase() == PHASE2)
-		pBoss->Set_Animation("0_Phase2_Shoot");
-    else if (pBoss->Get_Phase() == PHASE3)
-        pBoss->Set_Animation("O_ArmCut_Attack");
-    else if (pBoss->Get_Phase() == PHASE4)
-        pBoss->Set_Animation("J_Phase3_TripleEye");
-    else if (pBoss->Get_Phase() == PHASE5)
-        pBoss->Set_Animation("N_Phase4_Idle");
+   m_bAttackFinished = false;
+    m_fDelayTimer = 0.f;
+    m_eAttackSubState = ATTACK_ENTER;
 
+    if (pBoss->Get_Phase() == PHASE1)
+    {
+        pBoss->Set_Animation("4_Shoot");
+        m_fDelayDuration = 1.2f;
+    }
+    else if (pBoss->Get_Phase() == PHASE2)
+    {
+        pBoss->Set_Animation("0_Phase2_Shoot");
+    }
+    else if (pBoss->Get_Phase() == PHASE3)
+    {
+        pBoss->Set_Animation("O_ArmCut_Attack");
+        m_fDelayDuration = 1.0f;
+    }
+    else if (pBoss->Get_Phase() == PHASE4)
+    {
+        pBoss->Set_Animation("J_Phase3_TripleEye");
+        m_fDelayDuration = 1.3f;
+    }
+    else if (pBoss->Get_Phase() == PHASE5)
+    {
+        pBoss->Set_Animation("N_Phase4_Idle");
+        m_fDelayDuration = 1.5f;
+    }
 }
+
 
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
-    pBoss->Use_Attack(fDeltaTime);
-
-    auto pPattern = pBoss->Get_AttackPattern();
-    if (pPattern && pPattern->Is_Finished())
+    if (!m_bAttackFinished)
     {
-     
-        if (pBoss->Get_Phase() == PHASE1)
+        pBoss->Use_Attack(fDeltaTime);
+
+        auto pPattern = pBoss->Get_AttackPattern();
+        if (pPattern && pPattern->Is_Finished())
         {
-            pBoss->Change_State(new CHellBoss_IdleState());
+            m_bAttackFinished = true;
+            m_fDelayTimer = 0.f;
         }
-        else if (pBoss->Get_Phase() == PHASE2)// <<< 2페이즈 돌입!
-        {
-            _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
-            float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 30.f)
-            {
-                pBoss->Set_Pattern(new CPattern_Shoot());
-            }
-            else
-            {
-                pBoss->Change_State(new CHellBoss_WalkState());
-            }
-        }
-        else if (pBoss->Get_Phase() == PHASE3)  // <<< 3페이즈 돌입! , 한팔 절단
-        {
-            _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
-            float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 30.f)
-            {
-                pBoss->Set_Pattern(new CPattern_Shoot());
-            }
-            else
-            {
-                pBoss->Change_State(new CHellBoss_WalkState());
-            }
-        }
-        else if (pBoss->Get_Phase() == PHASE4)
-        {
-            _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos(); 
-            float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 30.f)
-            {
-                pBoss->Set_Pattern(new CPattern_Shoot());
-            }
-            else
-            {
-                pBoss->Change_State(new CHellBoss_WalkState());
-            }
-        }
-        else if (pBoss->Get_Phase() == PHASE5)
-        {
-            _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
-            float fDist = D3DXVec3Length(&vToPlayer);
-            if (fDist < 30.f)
-            {
-                pBoss->Set_Pattern(new CPattern_Shoot());
-            }
-            else
-            {
-                pBoss->Change_State(new CHellBoss_WalkState());
-            }
-        }
+        return;
+    }
+
+    m_fDelayTimer += fDeltaTime;
+    if (m_fDelayTimer < m_fDelayDuration)
+        return;
+
+    //  끝났으면 다음 행동 
+    _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
+
+    float fDist = D3DXVec3Length(&vToPlayer);
+
+    if (fDist < 30.f)
+    {
+        pBoss->Set_Pattern(new CPattern_Shoot());
+    }
+    else
+    {
+        pBoss->Change_State(new CHellBoss_WalkState());
     }
 }
+
 
 
 

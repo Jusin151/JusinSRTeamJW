@@ -46,6 +46,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		}
 		else if (pBoss->Get_Phase() == PHASE3)
 		{
+			pBoss->Set_Pattern(new CPattern_Shoot()); 
 		}
 
 		pBoss->Change_State(new CHellBoss_AttackState());
@@ -57,8 +58,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		return;
 	}
 
-	//  이건 사실상 도달하지 않을듯? 일단 
-	pBoss->Set_Animation("1_Idle");
+
 }
 
 
