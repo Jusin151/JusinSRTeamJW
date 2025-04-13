@@ -248,6 +248,8 @@ void CItem::Init_TextureTag()
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Magnum_Ammo_Big"] = 2;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"Magnum_Ammo_Small"] = 86;
 
+	m_mapTextureTag[ITEM_TYPE::AMMO][L"Minigun_Ammo"] = 3;
+
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"ShotGun_Ammo_Small"] = 87;
 	m_mapTextureTag[ITEM_TYPE::AMMO][L"ShotGun_Ammo_Big"] = 88;
 
