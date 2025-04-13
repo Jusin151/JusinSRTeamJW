@@ -61,6 +61,9 @@ private:
 
     NodeStatus Attack_Spike(); // 스파이크 공격
 
+    NodeStatus Dead();
+    void DropItems();
+
     _bool IsPlayerVisible();
 
 private:

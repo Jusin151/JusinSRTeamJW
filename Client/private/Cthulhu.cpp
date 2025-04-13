@@ -200,10 +200,22 @@ void CCthulhu::Init_Textures()
 
 void CCthulhu::Update_Animation(_float fTimeDelta)
 {
+	if (m_eState == STATE::DEAD && !m_bUpdateAnimation)
+		return;
 	m_fFrame += m_fAnimationSpeed * fTimeDelta;
-	if (m_fFrame >= m_mapStateTextures[m_eState].size())
+	if (m_eState == STATE::DEAD)
 	{
-		m_fFrame = 0.f;
+		if (m_fFrame >= m_mapStateTextures[m_eState].size())
+		{
+			m_fFrame = static_cast<_float>(m_mapStateTextures[m_eState].size() - 1);  // 마지막 프레임에 고정
+		}
+	}
+	else
+	{
+		if (m_fFrame >= m_mapStateTextures[m_eState].size())
+		{
+			m_fFrame = 0.f;
+		}
 	}
 	m_iCurrentFrame = m_mapStateTextures[m_eState][(_uint)m_fFrame];
 }
@@ -731,6 +743,72 @@ NodeStatus CCthulhu::Attack_Spike()
 	return NodeStatus::RUNNING;
 }
 
+void CCthulhu::DropItems()
+{
+	const _int iDropCount = 10;
+	_float3 vBasePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CItem::ITEM_DESC itemDesc;
+	for (_int i = 0; i < iDropCount; i++)
+	{
+	
+		if (i < 2)
+		{
+		itemDesc.eType = CItem::ITEM_TYPE::AMMO;
+		itemDesc.strItemName = L"Magnum_Ammo_Small";
+		}
+		else if (i >= 2 && i < 4)
+		{
+			itemDesc.strItemName = L"ShotGun_Ammo_Small";
+		}
+		else if (i >= 4 && i < 6)
+		{
+			itemDesc.eType = CItem::ITEM_TYPE::HP;
+			itemDesc.strItemName = L"HP_Small";
+		}
+		else if (i >= 6 && i < 8)
+		{
+			itemDesc.eType = CItem::ITEM_TYPE::MP;
+			itemDesc.strItemName = L"MP_Small";
+		}
+		else if (i == 8)
+		{
+			itemDesc.eType = CItem::ITEM_TYPE::AMMO;
+			itemDesc.strItemName = L"Minigun_Ammo";
+		}
+		else
+		{
+			itemDesc.eType = CItem::ITEM_TYPE::STAT;
+			itemDesc.strItemName = L"STAT";
+		}
+
+
+		_float fOffsetX = ((rand() % 100) / 100.f - 0.5f) * 10.f;
+		_float fOffsetZ = ((rand() % 100) / 100.f - 0.5f) * 10.f;
+
+		_float3 vDropPos = vBasePos;
+		vDropPos.x += fOffsetX;
+		vDropPos.z += fOffsetZ;
+		vDropPos.y -= 1.0f;
+		_wstring stProtTag = L"Prototype_GameObject_Item_" + itemDesc.strItemName;
+		m_pGameInstance->Add_GameObject(LEVEL_BOSS,
+			stProtTag,
+			LEVEL_BOSS,
+			TEXT("Layer_Item"),
+			&itemDesc);
+		CItem* pItem = dynamic_cast<CItem*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, L"Layer_Item"));
+		if (pItem)
+		{
+			pItem->Set_Drop(true);
+			CTransform* pTransform = dynamic_cast<CTransform*>(pItem->Get_Component(TEXT("Com_Transform")));
+			if (pTransform)
+			{
+				pTransform->Set_State(CTransform::STATE_POSITION, vDropPos);
+			}
+		}
+	}
+}
+
+
 void CCthulhu::Create_BehaviorTree()
 {
 	CCompositeNode* pStateSelector = new CSelectorNode();
@@ -774,6 +852,7 @@ void CCthulhu::Create_BehaviorTree()
 			m_fFrame = 0.f;
 			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
 			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_death_01", m_pTransformCom)->SetVolume(0.5f);
+			DropItems();
 		}
 
 		if (m_fFrame < m_mapStateTextures[STATE::DEAD].size() - 1)
@@ -894,6 +973,7 @@ void CCthulhu::Select_Pattern(_float fTimeDelta)
 
 void CCthulhu::Set_Hp(_int iHp)
 {
+	if (!m_bCanHit) return;
 	m_iHp = iHp;
 	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/yeti_pain_1", m_pTransformCom)->SetVolume(0.5f);
 }
