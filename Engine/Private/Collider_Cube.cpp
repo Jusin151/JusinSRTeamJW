@@ -94,6 +94,8 @@ HRESULT CCollider_Cube::Initialize(void* pArg)
 	
 	m_tDesc.fRadius = m_fScale.LengthSq() / 4.f;
 
+	m_tDesc.vecIndices.reserve(8);
+
 	D3DXMatrixIdentity(&m_WorldMatrix);
 	return S_OK;
 }
@@ -182,6 +184,8 @@ HRESULT CCollider_Cube::Update_Collider(const _wstring& strLayerTag, _float3 fSc
 	// 축과 점 위치를 월드 행렬에 맞게 고친다
 
 	m_tDesc.vecIndices.clear();
+
+	
 
 	m_tDesc.fAxisX = Get_State(CTransform::STATE_RIGHT);
 	m_tDesc.fAxisY = Get_State(CTransform::STATE_UP);

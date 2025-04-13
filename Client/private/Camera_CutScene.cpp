@@ -91,7 +91,7 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay) //플레이어계�
     m_fDisableTimer = 0.f;
     m_bDelayDisable = true;
 }
-void CCamera_CutScene::Set_CutScenePath(const std::vector<_float3>& vecPath, float fSpeed)
+void CCamera_CutScene::Set_CutScenePath(const vector<_float3>& vecPath, float fSpeed)
 {
     m_vecPathPoints = vecPath;
     m_fMoveSpeed = fSpeed;

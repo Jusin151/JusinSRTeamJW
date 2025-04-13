@@ -171,7 +171,6 @@ void CHellBoss::Update(_float fTimeDelta)
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
 
-
 	Process_Input();
 
 	if (m_bDarkHole_EffectActive)

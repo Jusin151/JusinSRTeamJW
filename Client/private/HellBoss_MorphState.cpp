@@ -54,7 +54,7 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
 
         _float3 vStart = vBossPos - vLookDir * radius + vUp * 10.f;
         _float3 vMid = vBossPos - vLookDir * (radius * 1.5f) + vUp * 15.f;
-        _float3 vEnd = vBossPos - vLookDir * (radius * 0.4f) + vUp * 3.f;
+        _float3 vEnd = vBossPos - vLookDir * (radius * 1.5f) + vUp * 25.f;
 
         vector<_float3> vecPath = { vStart, vMid, vEnd };
 
@@ -68,9 +68,9 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
         CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
         if (pCutCam)
         {
-            pCutCam->Set_LookTarget(pBoss);
-            pCutCam->Set_CutScenePath(vecPath, 0.4f);
-            pCutCam->Set_CameraDisableDelay(4.2f);
+            pCutCam->Set_LookTarget(pBoss); // 컷씬 카메라가 뭘 보게 할껀지
+            pCutCam->Set_CutScenePath(vecPath, 0.4f); // 경로 넣기
+            pCutCam->Set_CameraDisableDelay(4.2f); // 몇초뒤에 카메라끌껀지
         }
     }
 

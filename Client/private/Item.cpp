@@ -191,6 +191,7 @@ void CItem::Use_Item()
 		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
 	case Client::CItem::ITEM_TYPE::MP:
+		m_pPlayer->Add_MP(10);
 		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
 	case Client::CItem::ITEM_TYPE::AMMO:

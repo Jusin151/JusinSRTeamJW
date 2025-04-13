@@ -439,6 +439,12 @@
       "count": 2
     },
     {
+      "tag": "Prototype_Component_Texture_Tree",
+      "level": 3,
+      "path": "../../Resources/Textures/Deco/Tree/Tree_%d.png",
+      "count": 4
+    },
+    {
       "tag": "Prototype_Component_Texture_Ant_Exit",
       "level": 3,
       "path": "../../Resources/Textures/Map/Antarctic/texture_antarctic_exit.png",
@@ -820,6 +826,11 @@
     {
       "class": "CBox",
       "tag": "Prototype_GameObject_Box",
+      "level": 3
+    },
+    {
+      "class": "CTree",
+      "tag": "Prototype_GameObject_Tree",
       "level": 3
     }
   ],
