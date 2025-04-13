@@ -47,6 +47,11 @@ HRESULT CHub_Portal::Initialize(void* pArg)
 
     m_bPortal_On = false;
 
+    if (pArg)
+    {
+        m_eLevel = static_cast<LEVEL>(static_cast<PORTAL_DESC*>(pArg)->eLevel);
+    }
+
     return S_OK;
 }
 
@@ -70,15 +75,14 @@ void CHub_Portal::Update(_float fTimeDelta)
     }
 
     
-   /* if (SUCCEEDED(On_Collision()))
+   if (SUCCEEDED(On_Collision()))
     {
-        if (GetAsyncKeyState('C') & 0x8000)
-        {
-            if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-                CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
-                return;
-        }
-    }*/
+       m_bPortal_On = true;
+    }
+   else
+   {
+       m_bPortal_On = false;
+   }
 
 
     if (GetAsyncKeyState('C') & 0x8000)

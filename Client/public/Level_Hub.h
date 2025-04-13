@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Level.h"
+#include "Hub_Portal.h"
 
 BEGIN(Engine)
 class CPickingSys;
@@ -32,6 +33,7 @@ private:
 
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
+	CHub_Portal* m_pPortal{ nullptr };
 
 
 public:

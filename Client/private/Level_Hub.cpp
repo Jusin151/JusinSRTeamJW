@@ -135,6 +135,20 @@ void CLevel_Hub::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_BOSS))))
 			return;
 	}
+
+	if (!m_pPortal)
+	{
+		m_pPortal = static_cast<CHub_Portal*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Portal")));
+	}
+	else
+	{
+		if (m_pPortal->IsOpen_Portal()&& GetAsyncKeyState(VK_SPACE) & 0x8000)
+		{
+			if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+				CLevel_Loading::Create(m_pGraphic_Device, m_pPortal->Get_Level()))))
+				return;
+		}
+	}
 }
 
 HRESULT CLevel_Hub::Render()

@@ -1,6 +1,7 @@
 ﻿#include "UI_Episode_Hub.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "Hub_Portal.h"
 
 
 CUI_Episode_Hub::CUI_Episode_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -230,8 +231,9 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 							if (m_vecMapButtons.size() > SECOND_NORMAL_MAP &&
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
 							{
+								CHub_Portal::PORTAL_DESC vPortalDesc{ LEVEL_GAMEPLAY };
 								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Portal"),
-									LEVEL_HUB, TEXT("Layer_Portal"))))
+									LEVEL_HUB, TEXT("Layer_Portal"),&vPortalDesc)))
 									return;
 
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;
