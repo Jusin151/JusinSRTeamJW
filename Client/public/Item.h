@@ -50,16 +50,21 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
-private:
-	HRESULT Ready_Components();
-public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
-public:
+	virtual HRESULT Render()override;
+
+	void Set_Drop(_bool bFlag) { m_bIsDropping = bFlag; }
+
+
+private:
+	HRESULT Ready_Components();
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
-	virtual HRESULT Render()override;
+
+
+	void Update_Drop(_float fTimeDelta);
 
 private:
 	void Billboarding(_float fTimeDelta);
@@ -95,6 +100,8 @@ private:
 	_float m_fFrame = { 0.f };
 	_uint m_iCurrentTexture = { 0 };
 	_bool m_bIsUp = { true };
+	_bool m_bIsDropping{ false };
+	_float3 m_vDropVelocity;
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

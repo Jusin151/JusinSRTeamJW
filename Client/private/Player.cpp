@@ -106,6 +106,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vNextPos = m_vCurPos;
+
+	m_iPlayerHP.first = m_iHp;
 }
 
 
@@ -138,7 +140,7 @@ void CPlayer::Update(_float fTimeDelta)
 	//	m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
 		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+	//	m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
 		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 		
@@ -440,6 +442,17 @@ void CPlayer::Add_HP(_int Hp)
 	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 	{
 		pUI_Event->ShowEventText(Hp, L"Hp");
+	}
+}
+void CPlayer::Add_MP(_int Mp)
+{
+	m_iPlayerMP.first += Mp;
+	if (m_iPlayerMP.first > m_iPlayerMP.second)
+		m_iPlayerMP.first = m_iPlayerMP.second;
+	Notify(m_iPlayerMP.first, L"MP");
+	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+	{
+		pUI_Event->ShowEventText(Mp, L"MP");
 	}
 }
 _bool CPlayer::Set_Mp(_int iMp)

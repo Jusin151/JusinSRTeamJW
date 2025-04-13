@@ -37,7 +37,7 @@ HRESULT CLevel_Editor::Initialize()
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Antarctic1.json", LEVEL_EDITOR);
 // 	jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Boss1.json");
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_EDITOR);
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GamePlay_Test.json", LEVEL_EDITOR);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GamePlay_Item.json", LEVEL_EDITOR);
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hub.json", LEVEL_EDITOR);
 
 	m_pImgui = CMyImGui::Create(LEVEL_END, m_pGraphic_Device);

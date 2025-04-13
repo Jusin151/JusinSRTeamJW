@@ -36,6 +36,7 @@
 
 #include "Statue.h"
 #include "Box.h"
+#include "Tree.h"
 
 
 
@@ -411,6 +412,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CWeapon_Effect::Create(pGraphic_Device);
 	else if (className == "CStains_Effect")
 		return CStains_Effect::Create(pGraphic_Device);
+	else if (className == "CBulletShell_Effect")
+		return CBulletShell_Effect::Create(pGraphic_Device);
 #pragma endregion
 
 #pragma region Particle
@@ -438,6 +441,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CStatue::Create(pGraphic_Device);
 	else if (className == "CBox")
 		return CBox::Create(pGraphic_Device);
+	else if (className == "CTree")
+		return CTree::Create(pGraphic_Device);
 #pragma endregion
 
 	return nullptr;

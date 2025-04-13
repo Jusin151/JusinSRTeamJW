@@ -175,6 +175,7 @@
     <ClInclude Include="..\public\BehaviorTree.h" />
     <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\public\Box.h" />
+    <ClInclude Include="..\public\BulletShell_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\public\Hub_Headers.h" />
     <ClInclude Include="..\public\Torch.h" />
     <ClInclude Include="..\public\TaskNode.h" />
+    <ClInclude Include="..\public\Tree.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -333,6 +335,7 @@
     <ClCompile Include="..\private\BehaviorTree.cpp" />
     <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\private\Box.cpp" />
+    <ClCompile Include="..\private\BulletShell_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />
@@ -393,6 +396,7 @@
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
     <ClCompile Include="..\private\Torch.cpp" />
+    <ClCompile Include="..\private\Tree.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />

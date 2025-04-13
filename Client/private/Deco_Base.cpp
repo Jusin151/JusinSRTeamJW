@@ -104,8 +104,25 @@ void CDeco_Base::Look_Player()
 {
 	if (TEXT("Layer_Player") != m_pTarget->Get_Tag())
 		return;
+	CTransform* pTrans = static_cast<CPlayer*>(m_pTarget)->Get_TransForm();
 
-	m_pTransformCom->LookAt(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+	_float3 vScaled = m_pTransformCom->Compute_Scaled(); // 스케일값 저장
+
+	_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION); // 위치 저장
+
+	_float3 vLook = pTrans->Get_State(CTransform::STATE_POSITION) - vPosition; // 방향 벡터 (Look)
+	vLook = vLook.GetNormalized(); // 정규화
+
+	_float3 vUp = { 0.f, 1.f, 0.f }; // Y축 고정
+
+	_float3 vRight = {};
+	D3DXVec3Cross(&vRight, &vUp, &vLook); // Up이 고정이니까 Right만 외적해서 구함
+	vRight = vRight.GetNormalized();
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * vScaled.x);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp * vScaled.y); // 고정된 Up 벡터
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook * vScaled.z);
+
 }
 
 json CDeco_Base::Serialize()

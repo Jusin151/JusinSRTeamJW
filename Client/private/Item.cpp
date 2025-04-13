@@ -67,10 +67,10 @@ HRESULT CItem::Initialize(void* pArg)
 		m_bIsNeedAnim = true;
 	}
 
-	if (m_eItemType == ITEM_TYPE::WEAPON)
-	{
-		m_pTransformCom->Set_Scale(1.5f, 1.5f, 1.5f);
-	}
+	m_vDropVelocity.x = ((rand() % 100) / 100.f - 0.5f) * 5.f;  // -2.5 ~ 2.5
+	m_vDropVelocity.z = ((rand() % 100) / 100.f - 0.5f) * 5.f;
+	m_vDropVelocity.y = 2.f;
+
 	return S_OK;
 }
 
@@ -94,7 +94,14 @@ void CItem::Update(_float fTimeDelta)
 	}
 	m_pGameInstance->Add_Collider(CG_ITEM, m_pColliderCom);
 
-	Float_Item(fTimeDelta);
+	if (m_bIsDropping)
+	{
+		Update_Drop(fTimeDelta);
+	}
+	else
+	{
+		Float_Item(fTimeDelta);
+	}
 	m_pSoundCom->Update(fTimeDelta);
 }
 
@@ -196,6 +203,7 @@ void CItem::Use_Item()
 		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
 	case Client::CItem::ITEM_TYPE::MP:
+		m_pPlayer->Add_MP(10);
 		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
 	case Client::CItem::ITEM_TYPE::AMMO:
@@ -343,6 +351,37 @@ HRESULT CItem::Release_RenderState()
 	return S_OK;
 }
 
+void CItem::Update_Drop(_float fTimeDelta)
+{
+	const _float GROUND_Y = 0.6f;
+
+	// 중력 적용: 속도에 중력 가속도 반영
+	m_vDropVelocity.y += -GRAVITY * fTimeDelta;
+
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vPos += m_vDropVelocity * fTimeDelta;
+
+	// 바닥에 닿으면 튕기는 효과 
+	if (vPos.y < GROUND_Y)
+	{
+		vPos.y = GROUND_Y;
+		// Y축 속도 반전 + 감쇠 
+		m_vDropVelocity.y = -m_vDropVelocity.y * 0.5f;
+
+		// X, Z 축 속도도 감쇠 처리
+		m_vDropVelocity.x *= 0.5f;
+		m_vDropVelocity.z *= 0.5f;
+
+		if (abs(m_vDropVelocity.y) < 0.2f)
+		{
+			m_bIsDropping = false;
+			//m_vDropVelocity = _float3(0.f, 0.f, 0.f);
+		}
+	}
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+}
+
 HRESULT CItem::Ready_Components()
 {
 
@@ -357,7 +396,7 @@ HRESULT CItem::Ready_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Items"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Items"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

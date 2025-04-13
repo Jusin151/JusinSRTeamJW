@@ -116,7 +116,7 @@ HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
 
     for (size_t i = 0; i < colliderGroups.size(); i++)
     {
-        if (i == CG_ENVIRONMENT||i== CG_MONSTER_PROJECTILE_CUBE||i== CG_MONSTER_PROJECTILE_SPHERE) continue;
+        if (i == CG_ENVIRONMENT||i== CG_MONSTER_PROJECTILE_CUBE||i== CG_MONSTER_PROJECTILE_SPHERE || i == CG_ITEM) continue;
         auto group = colliderGroups[i];
         for (auto* collider : group)
         {

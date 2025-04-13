@@ -2,88 +2,123 @@
   "gameObjects": [
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_AntWall1"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_AntCeil1"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_AntFloor1"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_AntBossWall"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_AntWall2"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_AntWall3"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant1_Wall"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant1_Floor"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant1_Floor2"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant1_Wall2"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant_Wall3"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant_Wall4"
     },
     {
       "class": "CTrigger",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Trigger_Button"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant_Wall6"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ant_Wall5"
     },
     {
       "class": "CStructure",
-    "level": 8,
+      "level": 8,
       "tag": "Prototype_GameObject_Ocean"
     },
     {
       "class": "CCthulhu",
       "level": 8,
       "tag": "Prototype_GameObject_Cthulhu"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_HP_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_EXP"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_MP_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_STAT"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_ShoGun_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_Minigun_Ammo"
     }
   ],
   "textures": [

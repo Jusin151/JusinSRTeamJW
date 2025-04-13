@@ -90,6 +90,13 @@ void CHarpoonguy::Update(_float fTimeDelta)
 
 void CHarpoonguy::Late_Update(_float fTimeDelta)
 {
+	if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
+	{
+		if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+			return;
+	}
+
+
 
 	if (m_pTarget == nullptr)
 		return;
@@ -97,12 +104,7 @@ void CHarpoonguy::Late_Update(_float fTimeDelta)
 	if (!m_bCheck)
 		return;
 
-	if (m_pGameInstance->IsPointInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION)))
-	{
-		if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-			return;
-	}
-	
+
 	  
 	Calc_Position();
 

@@ -90,9 +90,7 @@ void CParticle_System::Add_Particle()
 {
 	ATTRIBUTE attribute = {};
 	Reset_Particle(&attribute);
-	
 	m_Particles.push_back(attribute);
-
 }
 
 void CParticle_System::Reset()

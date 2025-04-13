@@ -1547,7 +1547,7 @@ void CMyImGui::ShowItemCreationTab()
 	static const char* s_MPSubTypeNames[] = { "Small MP", "Big MP" };
 	static const char* s_AmmoSubTypeNames[] = { "ShotGun_Ammo_Small","ShotGun_Ammo_Big",  "Staff_Ammo_Small", "Staff_Ammo_Big",
 		"Magnum_Ammo_Small",
-		"Magnum_Ammo_Big" };
+		"Magnum_Ammo_Big","Minigun_Ammo"};
 	static const char* s_ExpSubTypeNames[] = { "Small EXP", "Medium EXP", "Large EXP" };
 
 	static const char* s_KeySubTypeNames[] = { "Blue", "Red", "Yellow" };
@@ -1653,7 +1653,7 @@ void CMyImGui::ShowItemCreationTab()
 				case 3: strcpy_s(s_szItemNameBuffer, "Staff_Ammo_Big"); break;
 				case 4: strcpy_s(s_szItemNameBuffer, "Magnum_Ammo_Small"); break;
 				case 5: strcpy_s(s_szItemNameBuffer, "Magnum_Ammo_Big"); break;
-				default: strcpy_s(s_szItemNameBuffer, "Pistol_Ammo_Small"); break;
+				case 6: strcpy_s(s_szItemNameBuffer, "Minigun_Ammo"); break;
 				}
 				break;
 			case 3: // EXP
@@ -1719,9 +1719,9 @@ void CMyImGui::ShowItemCreationTab()
 			case 1: strItemName = L"Shotgun_Ammo_Big"; break;
 			case 2: strItemName = L"Staff_Ammo_Small"; break;
 			case 3: strItemName = L"Staff_Ammo_Big"; break;
-			case 4: strItemName = L"Pistol_Ammo_Small"; break;
-			case 5: strItemName = L"Pistol_Ammo_Big"; break;
-			default: strItemName = L"Pistol_Ammo_Small"; break;
+			case 4: strItemName = L"Magnum_Ammo_Small"; break;
+			case 5: strItemName = L"Magnum_Ammo_Big"; break;
+			case 6: strItemName = L"Minigun_Ammo"; break;
 			}
 			break;
 		case CItem::ITEM_TYPE::EXP:
