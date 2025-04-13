@@ -125,6 +125,12 @@ public:
 		}
 
 	}
+
+private:
+	_float2 m_fFisrt_Button_Pos{};
+	_float2 m_fSecond_Button_Pos{};
+	_float2 m_fThird_Button_Pos{};
+
 };
 
 END

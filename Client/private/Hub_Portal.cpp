@@ -69,10 +69,25 @@ void CHub_Portal::Update(_float fTimeDelta)
             m_iCurrentFrame = 0;
     }
 
-    if (SUCCEEDED(On_Collision()))
+    
+   /* if (SUCCEEDED(On_Collision()))
     {
-        
+        if (GetAsyncKeyState('C') & 0x8000)
+        {
+            if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+                CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+                return;
+        }
+    }*/
+
+
+    if (GetAsyncKeyState('C') & 0x8000)
+    {
+        if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+            CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+            return;
     }
+
 }
 
 
