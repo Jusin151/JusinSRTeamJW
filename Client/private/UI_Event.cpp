@@ -65,6 +65,14 @@ HRESULT CUI_Event::Render()
 
 			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
 		}
+		else if (evt.wstr == L"악마가 위기감을 느끼기 시작했습니다..!")
+		{
+			_float2 centerPos = _float2(-330.f, -300.f);
+			_float2 centerSize = _float2(20.f, 40.f);
+			_float3 levelColor = _float3(255.f, 0.f, 0.f);
+
+			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
+		}
 		else
 		{
 	

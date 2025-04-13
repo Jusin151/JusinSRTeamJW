@@ -58,8 +58,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		return;
 	}
 
-	//  이건 사실상 도달하지 않을듯? 일단 
-	pBoss->Set_Animation("1_Idle");
+
 }
 
 

@@ -15,32 +15,38 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 {
     if (!m_bStarted)
     {
-        switch (pBoss->Get_Phase())
-        {
-        case PHASE1:
-            pBoss->Set_Animation("4_Shoot");
-            break;
-        case PHASE2:
-            pBoss->Set_Animation("0_Phase2_Shoot");
-            m_iFiredCount = 0;
-            m_fNextFireTime = 0.f;
-            break;
-        case PHASE3:
-            pBoss->Set_Animation("O_ArmCut_Attack_Roof");
-            m_iFiredCount = 0;
-            m_fNextFireTime = 0.f;
-            break;
-        case PHASE4:
-            pBoss->Set_Animation("J_Phase3_TripleEye");
-        case PHASE5:
-            pBoss->Set_Animation("N_Phase4_Idle");
-            break;
-        }
         m_bStarted = true;
         m_fAccTime = 0.f;
-    
+        m_iFiredCount = 0;
+        m_fNextFireTime = 0.f;
     }
 
+    m_fAccTime += fDeltaTime;
+
+    if (pBoss->Get_Phase() == PHASE2 || pBoss->Get_Phase() == PHASE3 || pBoss->Get_Phase() == PHASE4)
+    {
+        if (m_fAccTime >= m_fNextFireTime && m_iFiredCount < 100)
+        {
+            CHellBoss_Bullet::PowerBlastDesc pDesc{};
+            if (pBoss->Get_Phase() == PHASE2)
+                pDesc.wBulletType = L"0_Phase2_Shoot";
+            else
+                pDesc.wBulletType = L"O_ArmCut_Shoot";
+
+            pDesc.isLeft = (m_iFiredCount % 2 == 0);
+            pBoss->Get_GameInstance()->Add_GameObject_FromPool(
+                LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc);
+
+            m_iFiredCount++;
+            m_fNextFireTime += 0.2f;
+        }
+    }
+
+    if (pBoss->Get_AnimationFinished() && m_fAccTime >= 1.0f)
+    {
+        m_bStarted = false;
+        m_fAccTime = 0.f;
+    }
     m_fAccTime += fDeltaTime;
 
     if (pBoss->Get_Phase() == PHASE2)
@@ -51,6 +57,21 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             CHellBoss_Bullet::PowerBlastDesc pDesc{};
             pDesc.wBulletType = L"0_Phase2_Shoot";
             pDesc.isLeft = (m_iFiredCount % 2 == 0);
+            if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc))
+            {
+                MSG_BOX("HellBoss_Bullet 생성 실패");
+            }
+            m_iFiredCount++;
+            m_fNextFireTime += 0.2f;  // 몇초마다 발사할껀지
+        }
+    }
+    else if (pBoss->Get_Phase() == PHASE3)
+    {
+        if (m_fAccTime >= m_fNextFireTime && m_iFiredCount < 100)
+        {
+            CHellBoss_Bullet::PowerBlastDesc pDesc{};
+            pDesc.wBulletType = L"O_ArmCut_Shoot";
+            pDesc.isLeft = 1;
             if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(LEVEL_HONG, LEVEL_HONG, TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc))
             {
                 MSG_BOX("HellBoss_Bullet 생성 실패");
@@ -72,7 +93,6 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 bShouldFire = (iCurFrame >= 36);
                 break;
             }
-
 
             if (bShouldFire)
             {
@@ -120,13 +140,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
     case PHASE3:
         if (pBoss->Get_AnimationFinished())
         {
-            // 애니메이션이 끝나고 최소 4초가 경과하면 다음 상태로 전환
-            if (m_fAccTime >= 2.0f)
-            {
-                m_bStarted = false;
-                pBoss->Change_State(new CHellBoss_IdleState());
-                m_fAccTime = 0.f;
-            }
+           
         }
     
         break;
