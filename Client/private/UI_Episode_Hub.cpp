@@ -25,6 +25,12 @@ HRESULT CUI_Episode_Hub::Initialize(void* pArg)
 	else
 		return E_FAIL;
 
+	m_fFisrt_Button_Pos = { -108.f,118.f };
+
+	m_fSecond_Button_Pos = { 80.f,118.f };
+
+	m_fThird_Button_Pos = { 273.f,118.f };
+
 	m_bOnUI = false;
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -44,6 +50,16 @@ HRESULT CUI_Episode_Hub::Initialize(void* pArg)
 		_float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
 	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this, UI_TYPE::UI_DYNAMIC);
+
+
+	
+
+	
+
+	
+
+
+
 
 	return S_OK;
 }
@@ -102,13 +118,13 @@ void CUI_Episode_Hub::Create_Episode_Select_Button() //초록색 셀렉트 버�
 		switch (index) // 버튼 현재 3개
 		{
 		case 0:
-			vecButtonDescs[index].Button_Desc.vPos = { -108.f,118.f };
+			vecButtonDescs[index].Button_Desc.vPos = m_fFisrt_Button_Pos;  //{ -108.f,118.f };
 			break;
 		case 1:
-			vecButtonDescs[index].Button_Desc.vPos = { 273.f,118.f };
+			vecButtonDescs[index].Button_Desc.vPos = m_fSecond_Button_Pos; //{ 273.f,118.f };
 			break;
 		case 2:
-			vecButtonDescs[index].Button_Desc.vPos = { -108.f,-73.f };
+			vecButtonDescs[index].Button_Desc.vPos = m_fThird_Button_Pos; //{ -108.f,-73.f };
 			break;
 		/*case 3:
 			vecButtonDescs[index].Button_Desc.vPos = { 80.f,-73.f };
@@ -160,15 +176,15 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 		switch (index)
 		{
 		case 0:
-			vecButtonDescs[index].Button_Desc.vPos = { -108.f,118.f };
+			vecButtonDescs[index].Button_Desc.vPos = m_fFisrt_Button_Pos;
 			vecButtonDescs[index].iCurrentImageNum = FIRST_NORMAP_MAP_COLOR;
 			break;
 		case 1:
-			vecButtonDescs[index].Button_Desc.vPos = { 273.f,118.f };
+			vecButtonDescs[index].Button_Desc.vPos = m_fSecond_Button_Pos;
 			vecButtonDescs[index].iCurrentImageNum = SECOND_NORMAP_MAP_GRAY;
 			break;
 		case 2:
-			vecButtonDescs[index].Button_Desc.vPos = { -108.f,-73.f };
+			vecButtonDescs[index].Button_Desc.vPos = m_fThird_Button_Pos;
 			vecButtonDescs[index].iCurrentImageNum = FIRST_BOSS_MAP_GRAY;
 			break;
 	/*	case 3:

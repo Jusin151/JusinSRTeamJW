@@ -29,7 +29,7 @@ HRESULT CHub_Episode::Initialize(void* pArg)
         return E_FAIL;
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.5f, 0.6f, 0.5f));
-
+   // m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-3.f, 0.6f, 8.3f));
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 2.f);
 
 
