@@ -437,9 +437,20 @@
       "level": 3,
       "path": "../../Resources/Textures/Deco/Box/Box_%d.png",
       "count": 2
+    },
+    {
+      "tag": "Prototype_Component_Texture_Ant_Exit",
+      "level": 3,
+      "path": "../../Resources/Textures/Map/Antarctic/texture_antarctic_exit.png",
+      "count": 1
     }
   ],
   "gameObjects": [
+    {
+      "tag": "Prototype_GameObject_Ant_Exit",
+      "level": 3,
+      "class": "CStructure"
+    },
     {
       "tag": "Prototype_GameObject_Particle_System_Snow",
       "level": 3,
