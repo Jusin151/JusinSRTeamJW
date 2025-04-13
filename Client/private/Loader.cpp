@@ -525,7 +525,10 @@ HRESULT CLoader::Loading_For_Editor()
 	if (FAILED(jsonLoader.Load_Prototypes(m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json")))
 		return E_FAIL;
 
-
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes.json",
+		[this]() { CompleteOneTask(); }
+	);
 
 	jsonLoader.Load_Prototypes(
 		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json",
