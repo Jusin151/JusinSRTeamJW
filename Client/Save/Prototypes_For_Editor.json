@@ -341,60 +341,70 @@
       "tag": "Prototype_GameObject_Item_Staff"
     },
     {
-      "tag": "Prototype_GameObject_Harpoonguy",
+      "class": "CHarpoonguy",
       "level": 3,
-      "class": "CHarpoonguy"
+      "tag": "Prototype_GameObject_Harpoonguy"
     },
     {
-      "tag": "Prototype_GameObject_Harpoon",
+      "class": "CHarpoon",
       "level": 3,
-      "class": "CHarpoon"
+      "tag": "Prototype_GameObject_Harpoon"
     },
     {
-      "tag": "Prototype_GameObject_Yeti",
+      "class": "CYeti",
       "level": 3,
-      "class": "CYeti"
+      "tag": "Prototype_GameObject_Yeti"
     },
     {
-      "tag": "Prototype_GameObject_Glacier",
+      "class": "CGlacier",
       "level": 3,
-      "class": "CGlacier"
+      "tag": "Prototype_GameObject_Glacier"
     },
     {
-      "tag": "Prototype_GameObject_GlacierBullet",
+      "class": "CGlacierBullet",
       "level": 3,
-      "class": "CGlacierBullet"
+      "tag": "Prototype_GameObject_GlacierBullet"
     },
     {
-      "tag": "Prototype_GameObject_Snowspider",
+      "class": "CSnowspider",
       "level": 3,
-      "class": "CSnowspider"
+      "tag": "Prototype_GameObject_Snowspider"
+    },
+    {
+      "class": "CStructure",
+      "level": 6,
+      "tag": "Prototype_GameObject_Portal_Entersad"
+    },
+    {
+      "class": "CStructure",
+      "level": 6,
+      "tag": "Prototype_GameObject_Portal_Enter"
     }
   ],
   "textures": [
     {
-      "tag": "Prototype_Component_Texture_Glacier",
+      "count": 53,
       "level": 3,
       "path": "../../Resources/Textures/Monster/Glacier/glacier_%d.png",
-      "count": 53
+      "tag": "Prototype_Component_Texture_Glacier"
     },
     {
-      "tag": "Prototype_Component_Texture_Harpoonguy",
+      "count": 27,
       "level": 3,
       "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoonguy_%d.png",
-      "count": 27
+      "tag": "Prototype_Component_Texture_Harpoonguy"
     },
     {
-      "tag": "Prototype_Component_Texture_Yeti",
+      "count": 41,
       "level": 3,
       "path": "../../Resources/Textures/Monster/Yeti/Yeti_%d.png",
-      "count": 41
+      "tag": "Prototype_Component_Texture_Yeti"
     },
     {
-      "tag": "Prototype_Component_Texture_Snowspider",
+      "count": 28,
       "level": 3,
       "path": "../../Resources/Textures/Monster/Snowspider/Snowspider_%d.png",
-      "count": 28
+      "tag": "Prototype_Component_Texture_Snowspider"
     },
     {
       "count": 1,
@@ -647,6 +657,12 @@
       "level": 3,
       "path": "../../Resources\\Textures\\Map\\Antarctic\\texture_antarctic_door_red.png",
       "tag": "Prototype_Component_Texture_Door_Red"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources\\Textures\\Portal\\TEXTURE_HUB_portal_1.png",
+      "tag": "Prototype_Component_Texture_Portal_Enter"
     }
   ]
 }

@@ -3,6 +3,18 @@
     {
       "count": 1,
       "level": 6,
+      "path": "../../Resources\\Textures/Portal/portal_purple.png",
+      "tag": "Prototype_Component_Texture_Hub_Portal_Meachine"
+    },
+    {
+      "count": 1,
+      "level": 6,
+      "path": "../../Resources\\Textures/Portal/TEXTURE_HUB_portal_1.png",
+      "tag": "Prototype_Component_Texture_Hub_Portal_Monitor"
+    },
+    {
+      "count": 1,
+      "level": 6,
       "path": "../../Resources\\Textures\\Map\\Hub\\TEXTURE_HUB_FLOOR_1.png",
       "tag": "Prototype_Component_Texture_Hub_Floor3"
     },
@@ -180,6 +192,17 @@
       "class": "CHub_Light",
       "level": 6,
       "tag": "Prototype_GameObject_Light_Hub_Light"
+    },
+    {
+      "class": "CStructure",
+      "level": 6,
+      "tag": "Prototype_GameObject_Hub_Portal_Monitor"
+    },
+    {
+      "class": "CStructure",
+      "level": 6,
+      "tag": "Prototype_GameObject_Hub_Portal_Meachine"
     }
+   
   ]
 }
