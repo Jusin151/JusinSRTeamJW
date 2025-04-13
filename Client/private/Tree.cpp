@@ -175,6 +175,8 @@ HRESULT CTree::On_Collision(CCollisionObject* other)
 		break;
 	}
 
+	if (m_iHitCount > 3)
+		m_iHitCount = 3;
 
 	return S_OK;
 }
