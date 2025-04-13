@@ -21,12 +21,12 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT On_Collision(CCollisionObject* other) = 0;
 
-	_int Get_Damage() { return m_iAp; }
-	_int Get_Hp() { return m_iHp; }
-	COLLIDERGROUP Get_Type() { return m_eType; }
-	_float Get_Length() { return m_fLength; }
-	_float3 Get_Dir() { return m_vDir; }
-	_float Get_Speed() { return m_fSpeed; }
+	inline  _int Get_Damage() { return m_iAp; }
+	inline  _int Get_Hp() { return m_iHp; }
+	inline  COLLIDERGROUP Get_Type() { return m_eType; }
+	inline _float Get_Length() { return m_fLength; }
+	inline _float3 Get_Dir() { return m_vDir; }
+	inline _float Get_Speed() { return m_fSpeed; }
 
 	virtual void Set_Hp(_int iHp) { m_iHp = iHp; }
 	virtual void Set_Ap(_int iAp) { m_iAp = iAp; }
@@ -37,16 +37,16 @@ public:
 	void Take_Damage(CCollisionObject* other);
 
 
-	void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }
+	inline void Set_Type(COLLIDERGROUP eType) { m_eType = eType; }
 	
-	CGameObject* Get_Trigger() { return m_pTrigger; }
-	void Set_Trigger(CGameObject* pTrigger) { m_pTrigger = pTrigger; }
+	inline CGameObject* Get_Trigger() { return m_pTrigger; }
+	inline void Set_Trigger(CGameObject* pTrigger) { m_pTrigger = pTrigger; }
 
 	
-	void Add_WallMtv(_float3 mtv) { m_vWallMtvs.push_back(mtv); }
+	inline void Add_WallMtv(_float3 mtv) { m_vWallMtvs.push_back(mtv); }
 	
-	void Set_NextPos(_float3 fPos) { m_vNextPos = fPos; }
-	void Set_Offset(_float offset) { m_fOffset = offset; }
+	inline void Set_NextPos(_float3 fPos) { m_vNextPos = fPos; }
+	inline void Set_Offset(_float offset) { m_fOffset = offset; }
 
 	void Calc_Position();
 
