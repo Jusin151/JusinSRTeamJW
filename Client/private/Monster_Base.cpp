@@ -188,12 +188,13 @@ HRESULT CMonster_Base::Create_Gibs(_uint eType)
 	hitDesc.type = eType;
 
 	hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	m_pGameInstance->Add_GameObject(
+	if(FAILED(m_pGameInstance->Add_GameObject(
 		LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Gib_Effect"),
 		LEVEL_STATIC,
 		TEXT("Layer_Gib_Effect"),	
-		&hitDesc);
+		&hitDesc)))
+		return E_FAIL;
 	return S_OK;
 }
 

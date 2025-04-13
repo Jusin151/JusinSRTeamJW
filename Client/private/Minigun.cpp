@@ -3,6 +3,7 @@
 #include "UI_Manager.h"
 #include "Item_Manager.h"
 #include "Image_Manager.h"
+#include "BulletShell_Effect.h"
 #include <Camera_FirstPerson.h>
 
 CMinigun::CMinigun(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -198,6 +199,7 @@ void CMinigun::Late_Update(_float fTimeDelta)
             {
                 if (Ranged_INFO.CurrentAmmo > 0)
                 {
+                    CreateBulletShell();
                     __super::Picking_Object(1, m_Weapon_INFO.Damage);
                     Ranged_INFO.CurrentAmmo--;
                     Notify_Bullet();
@@ -328,11 +330,9 @@ HRESULT CMinigun::Render()
         return E_FAIL;
 
     m_pShaderCom->End();
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-
     return S_OK;
 }
 
@@ -340,6 +340,34 @@ HRESULT CMinigun::On_Collision()
 {
 
 
+    return S_OK;
+}
+
+HRESULT CMinigun::CreateBulletShell()
+{
+    float offsetRangeX = 1.f, offsetRangeY = 1.f;
+
+    CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
+    if (nullptr == pPlayer)
+        return E_FAIL;
+    CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+    if (nullptr == pTransform)
+        return E_FAIL;
+
+    
+    CBulletShell_Effect::BULLETSHELLDESC BulletShellDesc = {};
+    BulletShellDesc.vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+    BulletShellDesc.vPos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
+    BulletShellDesc.vPos += pTransform->Get_State(CTransform::STATE_RIGHT) * 0.5f;
+    BulletShellDesc.vRight = pTransform->Get_State(CTransform::STATE_RIGHT);
+    BulletShellDesc.vUp = pTransform->Get_State(CTransform::STATE_UP);
+    BulletShellDesc.vLook = pTransform->Get_State(CTransform::STATE_LOOK);
+    BulletShellDesc.vScale = { 0.5f, .5f, .5f };
+
+    if (FAILED(m_pGameInstance->Add_GameObject(
+        LEVEL_STATIC, TEXT("Prototype_GameObject_BulletShell_Effect"),
+        LEVEL_STATIC, TEXT("Layer_BulletShell_Effect"), &BulletShellDesc)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -377,7 +405,6 @@ CGameObject* CMinigun::Clone(void* pArg)
 void CMinigun::Free()
 {
     __super::Free();
-
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);

@@ -175,6 +175,7 @@
     <ClInclude Include="..\public\BehaviorTree.h" />
     <ClInclude Include="..\public\Blood_Effect.h" />
     <ClInclude Include="..\public\Box.h" />
+    <ClInclude Include="..\public\BulletShell_Effect.h" />
     <ClInclude Include="..\Public\Bullet_Base.h" />
     <ClInclude Include="..\Public\Camera_FirstPerson.h" />
     <ClInclude Include="..\public\Candles.h" />
@@ -334,6 +335,7 @@
     <ClCompile Include="..\private\BehaviorTree.cpp" />
     <ClCompile Include="..\private\Blood_Effect.cpp" />
     <ClCompile Include="..\private\Box.cpp" />
+    <ClCompile Include="..\private\BulletShell_Effect.cpp" />
     <ClCompile Include="..\Private\Camera_FirstPerson.cpp" />
     <ClCompile Include="..\Private\Bullet_Base.cpp" />
     <ClCompile Include="..\private\Candles.cpp" />

@@ -224,6 +224,9 @@
     <ClInclude Include="..\public\Gib_Particle_System.h">
       <Filter>04.Components\Particle\System\Gib</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Magic_Particle_System.h">
+      <Filter>04.Components\Particle\System\Magic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -430,6 +433,9 @@
     <Filter Include="04.Components\Particle\System\Staff">
       <UniqueIdentifier>{227b58f9-3709-4ef7-80e2-0edff643c9ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Magic">
+      <UniqueIdentifier>{3ed57068-dc71-42c0-887d-6045d2297c25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -602,6 +608,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Gib_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Gib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Magic_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Magic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

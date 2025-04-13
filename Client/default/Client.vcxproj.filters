@@ -490,6 +490,9 @@
     <Filter Include="02.GameObjects\08. Deco\Tree">
       <UniqueIdentifier>{94e323bf-80c7-400e-b66c-0760703677c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\03. Effect\BulletShell_Effect">
+      <UniqueIdentifier>{61bf1cbd-efa6-4ad8-b840-59de4ac56600}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -960,6 +963,9 @@
     <ClInclude Include="..\public\Tree.h">
       <Filter>02.GameObjects\08. Deco\Tree</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BulletShell_Effect.h">
+      <Filter>02.GameObjects\03. Effect\BulletShell_Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1387,6 +1393,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Tree.cpp">
       <Filter>02.GameObjects\08. Deco\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletShell_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\BulletShell_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
