@@ -66,11 +66,6 @@ HRESULT CItem::Initialize(void* pArg)
 	{
 		m_bIsNeedAnim = true;
 	}
-
-	if (m_eItemType == ITEM_TYPE::WEAPON)
-	{
-		m_pTransformCom->Set_Scale(1.5f, 1.5f, 1.5f);
-	}
 	return S_OK;
 }
 

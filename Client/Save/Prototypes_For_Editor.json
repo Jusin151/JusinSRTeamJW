@@ -379,6 +379,26 @@
       "class": "CStructure",
       "level": 6,
       "tag": "Prototype_GameObject_Portal_Enter"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Stat"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_MP_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Minigun_Ammo"
     }
   ],
   "textures": [
