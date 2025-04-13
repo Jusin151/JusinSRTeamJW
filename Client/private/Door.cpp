@@ -166,6 +166,27 @@ HRESULT CDoor::On_Collision(CCollisionObject* other)
  	return S_OK;
 }
 
+HRESULT CDoor::RenderOnMiniMap()
+{
+	if (FAILED(m_pMaterialCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	SetUp_RenderState();
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+	Release_RenderState();
+	return S_OK;
+}
+
 void CDoor::Open_Door()
 {
 	if (m_eDoorState == DOOR_STATE::CLOSED || m_eDoorState == DOOR_STATE::CLOSING)

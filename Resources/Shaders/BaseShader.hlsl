@@ -143,6 +143,14 @@ VS_OUT VS_ORTHO(VS_IN In)
     Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
     // 뷰 공간 위치 계산 (World * View) <-- 추가
     Out.vViewPos = mul(Out.vWorldPos, g_ViewMatrix).xyz;
+    
+    float3 tmpX = g_WorldMatrix._11_12_13;
+    float3 tmpY = g_WorldMatrix._21_22_23;
+    float3 tmpZ = g_WorldMatrix._31_32_33;
+    
+    float3 scale = { length(tmpX), length(tmpY), length(tmpZ) };
+    
+    Out.vScale = scale;
 
     // 최종 클립 공간 위치 계산 (World * View * Projection)
     //Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
@@ -675,11 +683,20 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
     return Out;
 }*/
 
-PS_OUT PS_MAIN_BLACK(PS_IN In)
+PS_OUT PS_BLACK(PS_IN In)
 {
     PS_OUT Out;
     
     Out.vColor = vector(0.f, 0.f, 0.f, 1.f);
+        
+    return Out;
+}
+
+PS_OUT PS_WHITE(PS_IN In)
+{
+    PS_OUT Out;
+    
+    Out.vColor = vector(1.f, 1.f, 1.f, 1.f);
         
     return Out;
 }
@@ -753,8 +770,18 @@ technique DefaultTechnique
 
     pass BLACK
     {
-        VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_MAIN_BLACK();
+        CullMode = None;
+
+        //VertexShader = compile vs_3_0 VS_ORTHO();
+        PixelShader = compile ps_3_0 PS_BLACK();
+    }
+
+    pass WHITE
+    {
+        CullMode = None;
+
+        //VertexShader = compile vs_3_0 VS_ORTHO();
+        PixelShader = compile ps_3_0 PS_WHITE();
     }
 
     pass TEST

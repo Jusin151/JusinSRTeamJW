@@ -65,6 +65,8 @@ public:
     virtual HRESULT Render() override;
     virtual HRESULT On_Collision(CCollisionObject* other) override;
 public:
+    HRESULT RenderOnMiniMap();
+public:
     // 문 열기/닫기 함수
     void Open_Door();
     void Close_Door();

@@ -352,6 +352,40 @@ HRESULT CStructure::On_Collision(CCollisionObject* ohter)
 	return S_OK;
 }
 
+HRESULT CStructure::RenderOnMiniMap()
+{
+	if (FAILED(m_pMaterialCom->Bind_Resource()))
+		return E_FAIL;
+	if (m_eStructureType == STRUCTURE_TYPE::MAGMA)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_int>(m_iCurrentTexture))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(0)))
+			return E_FAIL;
+	}
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	SetUp_RenderState();
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	if (g_bDebugCollider)
+	{
+		m_pColliderCom->Render();
+	}
+	Release_RenderState();
+
+	return S_OK;
+}
+
 
 
 

@@ -164,8 +164,9 @@ HRESULT CShader::Set_Bool(const char* pParameterName, _bool bValue)
 
 void CShader::Begin(_uint iPassIndex)
 {
+	_uint num = 5;
 	m_pEffect->CommitChanges();
-	m_pEffect->Begin(nullptr, 0);
+	m_pEffect->Begin(&num, 0);
 	m_pEffect->BeginPass(iPassIndex);
 }
 

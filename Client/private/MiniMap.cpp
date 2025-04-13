@@ -111,7 +111,7 @@ HRESULT CMiniMap::Render()
 	{
 		return E_FAIL;
 	}
-
+	
 	// 1. 원래 렌더 타겟 저장
 	LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
 	m_pGraphic_Device->GetRenderTarget(0, &pBackBuffer);
@@ -123,6 +123,7 @@ HRESULT CMiniMap::Render()
 	m_pGraphic_Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(10,50, 50, 50), 0.0f, 0);
 	
 	SetUp_RenderState();
+	m_pShaderCom->Begin(4);
 	for (const auto& structure : m_StructureList)
 	{
 		if (!structure) continue;
@@ -132,17 +133,17 @@ HRESULT CMiniMap::Render()
 			structure->Get_Tag().find(L"Magma") != wstring::npos)
 			continue;
 
-		structure->Render();
+		structure->RenderOnMiniMap();
 	}
 
 	for (const auto& door : m_DoorList)
 	{
 		if (door && !door->IsOpen())
 		{
-			door->Render();
+			door->RenderOnMiniMap();
 		}
 	}
-
+	m_pShaderCom->End();
 	if (m_pHellboss)
 	{
 		RenderHellBossOnMiniMap();
@@ -150,9 +151,11 @@ HRESULT CMiniMap::Render()
 
 	if (m_pPlayer)
 	{
+		m_pShaderCom->Begin(5);
 		RenderPlayerOnMiniMap();
+		m_pShaderCom->End();
 	}
-
+	
 	Release_RenderState();
 	m_pGraphic_Device->SetRenderTarget(0, pBackBuffer);
 	Safe_Release(pBackBuffer);
@@ -252,6 +255,15 @@ HRESULT CMiniMap::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Vignette"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -395,6 +407,7 @@ void CMiniMap::Free()
 		Safe_Release(m_pMiniMapSurface);
 	}
 
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pMiniMapTexture);
 	Safe_Release(m_pVertexBuffer);
 	Safe_Release(m_pSprite); // 스프라이트 해제 추가
@@ -402,5 +415,5 @@ void CMiniMap::Free()
 	Safe_Release(m_pTextureCom);
 	__super::Free();
 	//Safe_Release(m_pTransformCom);
-	//Safe_Release(m_pMaterialCom);
+	Safe_Release(m_pMaterialCom);
 }

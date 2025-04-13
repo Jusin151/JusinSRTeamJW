@@ -43,6 +43,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
+public:
+	HRESULT RenderOnMiniMap();
 
 private:
 	CTransform* m_pTransformCom	= { nullptr };

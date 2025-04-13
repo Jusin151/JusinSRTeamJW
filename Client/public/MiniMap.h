@@ -4,6 +4,8 @@
 
 
 BEGIN(Engine)
+class CMaterial;
+class CShader;
 class CTransform;
 class CVIBuffer;
 class CMaterial;
@@ -53,13 +55,18 @@ private:
     class CGameObject* m_pHellboss{ nullptr };
     class CPlayer* m_pPlayer = { nullptr };
     class CCamera_FirstPerson* m_pCamera = { nullptr };
+private:
     LPDIRECT3DTEXTURE9 m_pMiniMapTexture = {nullptr};  // ¹Ì´Ï¸Ê ·»´õ Å¸°Ù
     LPDIRECT3DSURFACE9 m_pMiniMapSurface = {nullptr};
-    CTexture* m_pTextureCom = { nullptr };
     LPDIRECT3DVERTEXBUFFER9 m_pVertexBuffer = { nullptr };
     LPD3DXSPRITE m_pSprite = nullptr;
-    _bool m_bIsOriginal = { true };
+private:
+    CTexture* m_pTextureCom = { nullptr };
+    CShader* m_pShaderCom = { nullptr };
+    CMaterial* m_pMaterialCom = { nullptr };
     CTransform* m_pTransformCom = { nullptr };
+private:
+    _bool m_bIsOriginal = { true };
     _float4x4 m_OldProjMatrix{};
     _float4x4 m_OldViewMatrix{};
     _float4x4 m_matMiniMapView;
