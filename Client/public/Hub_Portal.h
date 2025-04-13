@@ -4,6 +4,12 @@
 BEGIN(Client)
 class CHub_Portal : public CGameObject 
 {
+public:
+    typedef struct tagPortalDesc
+    {
+        _uint eLevel;
+    }
+    PORTAL_DESC;
 private:
     CHub_Portal(LPDIRECT3DDEVICE9 pGraphic_Device);
     CHub_Portal(const CHub_Portal& Prototype);
@@ -22,6 +28,9 @@ public:
     void LookAtPlayer(_float fTimeDelta);
     HRESULT Release_RenderState();
     virtual HRESULT Render()override;
+
+    LEVEL Get_Level() const { return m_eLevel; }
+    _bool IsOpen_Portal() const { return m_bPortal_On; }
 protected:
     CLight* m_pLightCom = { nullptr };
     CShader* m_pShaderCom = { nullptr };
@@ -45,6 +54,7 @@ private:
     CGameObject* m_pPlayer = { nullptr }; // 상점이 늘 플레이어를 쳐다보게 하기 위해서 선언
     _float m_fFrameTime = {};
     _uint m_iCurrentFrame = {};
+    LEVEL m_eLevel;
 public:
     void OnNotify(void* pArg, const wstring& type)
     {

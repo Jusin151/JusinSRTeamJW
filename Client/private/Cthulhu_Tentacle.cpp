@@ -124,6 +124,7 @@ void CCthulhu_Tentacle::Set_Hp(_int iHp)
 {
 	m_iHp = iHp;
 	_float fHpRatio =(_float)m_iHp / m_iMaxHp;
+	Create_Stains(5);
 	m_pSoundCom->Play_Event(L"event:/Monsters/the/the_thing_death_pain_1", m_pTransformCom)->SetVolume(0.5f);
 	m_pHpBar->OnNotify(&fHpRatio, TEXT(""));
 }
