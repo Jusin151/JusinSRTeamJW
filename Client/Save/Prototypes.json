@@ -431,6 +431,12 @@
       "level": 3,
       "path": "../../Resources/Textures/Deco/Statue/Statue_%d.png",
       "count": 2
+    },
+    {
+      "tag": "Prototype_Component_Texture_Box",
+      "level": 3,
+      "path": "../../Resources/Textures/Deco/Box/Box_%d.png",
+      "count": 2
     }
   ],
   "gameObjects": [
@@ -793,6 +799,11 @@
     {
       "class": "CStatue",
       "tag": "Prototype_GameObject_Statue",
+      "level": 3
+    },
+    {
+      "class": "CBox",
+      "tag": "Prototype_GameObject_Box",
       "level": 3
     }
   ],

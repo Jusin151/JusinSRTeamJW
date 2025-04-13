@@ -144,7 +144,9 @@ HRESULT CStaff_Bullet::On_Collision(CCollisionObject* other)
 	case CG_DOOR:
 		m_bIsActive = false;
 		break;
-
+	case CG_OBJECT:
+		m_bIsActive = false;
+		break;
 	
 	default:
 		break;

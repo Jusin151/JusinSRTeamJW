@@ -35,6 +35,7 @@
 #include "Harvester.h"
 
 #include "Statue.h"
+#include "Box.h"
 
 
 
@@ -435,6 +436,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 #pragma region Deco
 	else if (className == "CStatue")
 		return CStatue::Create(pGraphic_Device);
+	else if (className == "CBox")
+		return CBox::Create(pGraphic_Device);
 #pragma endregion
 
 	return nullptr;

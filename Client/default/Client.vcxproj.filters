@@ -483,7 +483,7 @@
     </Filter>
     <Filter Include="02.GameObjects\JW_Boss\UI">
       <UniqueIdentifier>{b8a2f44f-b50b-4c80-97fb-2ac894e0e3c0}</UniqueIdentifier>
- </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\99. Camera\CCamera_CutScene">
       <UniqueIdentifier>{f6865727-0c79-4b0b-9b5c-adc792dd03aa}</UniqueIdentifier>
     </Filter>
@@ -941,7 +941,7 @@
     </ClInclude>
     <ClInclude Include="..\public\Camera_CutScene.h">
       <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
- </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\WarningZone.h">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
@@ -950,6 +950,9 @@
     </ClInclude>
     <ClInclude Include="..\public\HP_WorldUI.h">
       <Filter>02.GameObjects\JW_Boss\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Box.h">
+      <Filter>02.GameObjects\08. Deco\Box</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1349,9 +1352,6 @@
     <ClCompile Include="..\private\HellBoss_CircleState.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\HellBoss_FloatState.cpp">
-      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.HellBoss_FloatState</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Stains_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Stains_Effect</Filter>
     </ClCompile>
@@ -1366,7 +1366,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Camera_CutScene.cpp">
       <Filter>02.GameObjects\99. Camera\CCamera_CutScene</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\WarningZone.cpp">
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
@@ -1375,6 +1375,9 @@
     </ClCompile>
     <ClCompile Include="..\private\HP_WorldUI.cpp">
       <Filter>02.GameObjects\JW_Boss\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Box.cpp">
+      <Filter>02.GameObjects\08. Deco\Box</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -49,7 +49,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
+	// json으로 변경 필요
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Statue"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Box"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
 		return E_FAIL;
 

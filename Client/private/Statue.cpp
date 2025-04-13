@@ -217,7 +217,7 @@ void CStatue::Select_State()
 			m_iCurrentFrame = 1;
 			m_eCurState = DS_DEATH;
 
-			// gib Ãß°¡..
+			// gib ï¿½ß°ï¿½..
 
 			float offsetRangeX = 1.f, offsetRangeY = 1.f;
 
