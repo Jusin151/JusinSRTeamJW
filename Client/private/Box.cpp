@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Item.h"
 #include "Player.h"
+#include "Ranged_Weapon.h"
 
 
 CBox::CBox(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -212,26 +213,9 @@ void CBox::Select_State()
             m_eCurState = DS_DEATH;
 
             // 아이템 생성 로직 추가
-            
-            CItem::ITEM_DESC tItemDesc;
-            tItemDesc.eType = CItem::ITEM_TYPE::HP;
-            tItemDesc.strItemName = L"HP_Small";
 
-            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTarget);
-
-
-
-            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_HP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
-
-
-
-            CGameObject* pObject = m_pGameInstance->Find_Last_Object(LEVEL_GAMEPLAY, TEXT("Layer_Item"));
-
-            CTransform* pTrans = static_cast<CTransform*>(pObject->Get_Component(TEXT("Com_Transform")));
-
-            _float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-            pTrans->Set_State(CTransform::STATE_POSITION, fPos);
+            // 아이템 생성하고, 위치까지
+            Smart_Drop();
         
         }
         else if (m_eCurState == DS_DEATH)
@@ -247,6 +231,101 @@ void CBox::Select_State()
         if (m_eCurState == DS_IDLE)
             m_iCurrentFrame = 0;
     }
+}
+
+void CBox::Smart_Drop()
+{
+    // 정보를 일단 가져옴
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTarget);
+    pair<_int, _int> PlayerHp = pPlayer->Get_PlayerHp();
+    pair<_int, _int> PlayerMp = pPlayer->Get_PlayerMp();
+    CWeapon_Base* pWeapon = pPlayer->Get_Current_Weapon();
+
+    // 체력 부터 체크
+
+    CItem::ITEM_DESC tItemDesc;
+
+    if (PlayerHp.first / float(PlayerHp.second) <= 0.5f)
+    {
+        if (PlayerHp.first / float(PlayerHp.second) <= 0.1f)
+        {
+            tItemDesc.eType = CItem::ITEM_TYPE::HP;
+            tItemDesc.strItemName = L"HP_Big";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_HP_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+        }
+        else
+        {
+            tItemDesc.eType = CItem::ITEM_TYPE::HP;
+            tItemDesc.strItemName = L"HP_Small";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_HP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+        }
+    }
+    else if (PlayerMp.first / float(PlayerMp.second) <= 0.5f)
+    {
+        if (PlayerMp.first / float(PlayerMp.second) <= 0.1f)
+        {
+            tItemDesc.eType = CItem::ITEM_TYPE::MP;
+            tItemDesc.strItemName = L"MP_Big";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_MP_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+        }
+        else
+        {
+            tItemDesc.eType = CItem::ITEM_TYPE::MP;
+            tItemDesc.strItemName = L"MP_Small";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_MP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+        }
+    }
+    else
+    {
+        CWeapon_Base::WEAPON_ID WeaponID = pWeapon->Get_Weapon_ID();
+
+        tItemDesc.eType = CItem::ITEM_TYPE::AMMO;
+
+        switch (WeaponID)
+        {
+        case Client::CWeapon_Base::Claymore:
+            tItemDesc.eType = CItem::ITEM_TYPE::HP;
+            tItemDesc.strItemName = L"HP_Small";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_HP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+            break;
+        case Client::CWeapon_Base::Axe:
+            tItemDesc.eType = CItem::ITEM_TYPE::HP;
+            tItemDesc.strItemName = L"HP_Small";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_HP_Small"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+            break;
+        case Client::CWeapon_Base::ShotGun:
+            tItemDesc.strItemName = L"ShotGun_Ammo_Big";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_ShotGun_Ammo_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+            break;
+        case Client::CWeapon_Base::Magnum:
+            tItemDesc.strItemName = L"Magnum_Ammo_Big";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Magnum_Ammo_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+            break;
+        case Client::CWeapon_Base::Staff:
+            tItemDesc.strItemName = L"Staff_Ammo_Big";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Staff_Ammo_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
+            break;
+        case Client::CWeapon_Base::Minigun:
+            break;
+        case Client::CWeapon_Base::Harvester:
+            break;
+        case Client::CWeapon_Base::Sonic:
+            break;
+        default:
+            break;
+        }
+   
+    }
+
+
+
+    CGameObject* pObject = m_pGameInstance->Find_Last_Object(LEVEL_GAMEPLAY, TEXT("Layer_Item"));
+
+    CTransform* pTrans = static_cast<CTransform*>(pObject->Get_Component(TEXT("Com_Transform")));
+
+    _float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+    pTrans->Set_State(CTransform::STATE_POSITION, fPos);
 }
 
 CBox* CBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

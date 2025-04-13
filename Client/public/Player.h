@@ -106,6 +106,10 @@ public:
 	}
 	 _bool Has_Item(const _wstring& stItemTag);
 	 HRESULT Add_Item(const _wstring& stItemTag);
+
+	 pair<_int, _int> Get_PlayerHp() { return m_iPlayerHP; }
+	 pair<_int, _int> Get_PlayerMp() { return m_iPlayerMP; }
+	 CWeapon_Base* Get_Current_Weapon() { return m_pPlayer_Weapon; }
 private:
 			bool m_bDoubleAmmoGain = false; // 탄약 획득량 2배 여부
 			bool m_bDoubleSpeedGain = false; // 탄약 획득량 2배 여부

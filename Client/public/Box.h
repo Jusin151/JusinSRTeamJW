@@ -31,6 +31,8 @@ private:
 	HRESULT Release_RenderState();
 	virtual void Select_State()override;
 
+	void	Smart_Drop();
+
 private:
 
 

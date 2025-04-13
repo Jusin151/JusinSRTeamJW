@@ -76,6 +76,7 @@ public:
     void   Set_MouseClick(_bool type) { m_bIsMouseClick = type; }
     virtual wstring GetLayerID() { return L"Default"; }
     _float3 GetInitialPos() const { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
+    WEAPON_ID Get_Weapon_ID() { return m_Weapon_INFO.WeaponID; }
 
 protected:
     bool m_bIsMouseOver = {};
