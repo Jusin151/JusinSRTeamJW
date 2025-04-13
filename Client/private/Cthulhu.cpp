@@ -215,14 +215,20 @@ NodeStatus CCthulhu::Attack()
 		return NodeStatus::SUCCESS;
 	}
 
-	if (!IsPlayerVisible() || m_bIsMultiAttack)
+	if (m_bIsMultiAttack)
 	{
 		return NodeStatus::FAIL;
 	}
 
 	if (m_fAttackCoolTime < m_fAttackCoolDown)
 	{
+		
 		return NodeStatus::FAIL;
+	}
+	else
+	{
+		if (!IsPlayerVisible())
+			return NodeStatus::FAIL;
 	}
 
 	// 쿨타임이 완료되었으므로 타이머를 리셋
@@ -266,7 +272,7 @@ NodeStatus CCthulhu::UpdateAttack()
 			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
 			m_iMissilesToFire--;
 			m_fMissileTimer = 0.f;
-			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.5f);
+			//m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.5f);
 		}
 
 
@@ -868,7 +874,7 @@ _bool CCthulhu::IsPlayerVisible()
 			return false;
 		}
 	}
-
+	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_detect_01", m_pTransformCom)->SetVolume(0.5f);
 	return true;
 }
 

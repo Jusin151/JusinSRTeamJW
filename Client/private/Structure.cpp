@@ -216,6 +216,14 @@ HRESULT CStructure::SetUp_RenderState()
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
 	}
+	else if (this->m_strLayerTag == L"Layer_Portal_Monitor")
+		{
+		D3DXVECTOR2 vScaleFactor(1.f,1.f);
+		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); 
+		m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
+		m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
+			m_pShaderCom->Set_Bool("g_bUseTiling", false);
+		}
 	else
 	{
 #pragma region 텍스쳐 스케일에 따라 반복
@@ -235,10 +243,12 @@ HRESULT CStructure::SetUp_RenderState()
 		// scale.x 또는 y < 1: 텍스처의 일부만 표시됨
 
 
-	m_pGraphic_Device->SetTransform(D3DTS_TEXTURE0, &matTexture);
-	// 텍스처 변환을 활성화 (2D 텍스처 좌표에 대해)
-// D3DTTFF_COUNT2: u, v 두 좌표에 대해 변환 적용 (2D)
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
+//	m_pGraphic_Device->SetTransform(D3DTS_TEXTURE0, &matTexture);
+//	// 텍스처 변환을 활성화 (2D 텍스처 좌표에 대해)
+//// D3DTTFF_COUNT2: u, v 두 좌표에 대해 변환 적용 (2D)
+//	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
+
+
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -312,6 +322,11 @@ HRESULT CStructure::Render()
 }
 HRESULT CStructure::Release_RenderState()
 {
+	if (this->m_strLayerTag == L"Layer_Portal_Monitor")
+	{
+		m_pShaderCom->Set_Bool("g_bUseTiling", true);
+	}
+
 	// 기본 컬링 모드로 복원 (반시계 방향 면만 렌더링 - 일반적인 앞면)
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	// 알파 테스트 비활성화

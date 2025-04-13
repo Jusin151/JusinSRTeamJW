@@ -124,6 +124,7 @@ void CCthulhu_Tentacle::Set_Hp(_int iHp)
 {
 	m_iHp = iHp;
 	_float fHpRatio =(_float)m_iHp / m_iMaxHp;
+	m_pSoundCom->Play_Event(L"event:/Monsters/the/the_thing_death_pain_1", m_pTransformCom)->SetVolume(0.5f);
 	m_pHpBar->OnNotify(&fHpRatio, TEXT(""));
 }
 
@@ -261,6 +262,9 @@ HRESULT CCthulhu_Tentacle::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 	return S_OK;
 }
 

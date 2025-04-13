@@ -526,6 +526,13 @@ HRESULT CLoader::Loading_For_Editor()
 		return E_FAIL;
 
 
+
+	jsonLoader.Load_Prototypes(
+		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Hub.json",
+		[this]() { CompleteOneTask(); }
+	);
+
+
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 
