@@ -90,15 +90,21 @@ HRESULT CProjectile_Particle_System::Render()
 	D3DXVec3Cross(&vNormal, &m_vDir, &up);
 	D3DXVec3Normalize(&vNormal, &vNormal);
 	v[0].vPosition = m_vPos - vNormal * m_fWidth / 2.f;
+	//v[0].fSize = 1.f;
 	v[0].vColor = i.vCurrentColor;
 	v[0].vTexCoord = { 0, 0 };
 	v[1].vPosition = m_vPos + vNormal * m_fWidth / 2.f;
+	//v[1].fSize = 1.f;
 	v[1].vColor = i.vCurrentColor;
 	v[1].vTexCoord = { 1, 0 };
+
 	v[2].vPosition = i.vPosition - vNormal * m_fWidth / 2.f;
+	//v[2].fSize = 1.f;
 	v[2].vColor = i.vColorFade;
 	v[2].vTexCoord = { 0, 1 };
+
 	v[3].vPosition = i.vPosition + vNormal * m_fWidth / 2.f;
+	//v[3].fSize = 1.f;
 	v[3].vColor = i.vColorFade;
 	v[3].vTexCoord = { 1, 1 };
 	m_PointVB->Unlock();

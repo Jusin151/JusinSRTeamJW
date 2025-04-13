@@ -382,14 +382,10 @@ HRESULT CMinigun::CreateBulletShell()
     
     CBulletShell_Effect::BULLETSHELLDESC BulletShellDesc = {};
     BulletShellDesc.vPos = pTransform->Get_State(CTransform::STATE_POSITION);
-
-
-    /*CGib_Effect::HIT_DESC hitDesc;
-    hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-    hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
-    hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-    hitDesc.vScale = { 1.5f, 1.f, 1.5f };
-    hitDesc.type = eType;*/
+    BulletShellDesc.vRight = pTransform->Get_State(CTransform::STATE_RIGHT);
+    BulletShellDesc.vUp = pTransform->Get_State(CTransform::STATE_UP);
+    BulletShellDesc.vLook = pTransform->Get_State(CTransform::STATE_LOOK);
+    BulletShellDesc.vScale = { 1.5f, 1.f, 1.5f };
 
     if (FAILED(m_pGameInstance->Add_GameObject(
         LEVEL_STATIC, TEXT("Prototype_GameObject_BulletShell_Effect"),

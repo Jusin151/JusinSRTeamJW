@@ -38,7 +38,7 @@ HRESULT CBulletShell_Particle_System::Initialize(void* pArg)
 void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
     pAttribute->bIsAlive = true;
-    pAttribute->vPosition = m_vPos;
+    pAttribute->vPosition = { 0.f, 0.f, 0.f };
     //GetRandomVector(&pAttribute->vPosition, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);
     pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(0.f, 5.0f), GetRandomFloat(-1.f, 1.0f) };
     pAttribute->vAcceleration = { 1.5f, 1.2f, 0.0f };
@@ -77,7 +77,6 @@ HRESULT CBulletShell_Particle_System::Render()
     __super::Pre_Render();
 
     PARTICLE* v = 0;
-
     m_pTexture->Bind_Resource(0);
     m_pGraphic_Device->SetFVF(D3DFVF_XYZ | D3DFVF_PSIZE | D3DFVF_DIFFUSE | D3DFVF_TEX1);
     m_pGraphic_Device->SetStreamSource(0, m_PointVB, 0, sizeof(PARTICLE));
@@ -97,26 +96,30 @@ HRESULT CBulletShell_Particle_System::Render()
     D3DXVECTOR3 up = { 0.0f, 1.0f, 0.0f };
     D3DXVec3Cross(&vNormal, &i.vDir, &up);
     D3DXVec3Normalize(&vNormal, &vNormal);
-    
     //v[0].vPosition = m_vPos - vNormal * 4.f / 2.f;
+    v[0].vPosition = i.vPosition + _float3{ -0.5f, 0.5f, 0.0f }; // 왼쪽 위 (Top-Left)
+    v[0].fSize = i.fSize;
     v[0].vColor = i.vCurrentColor;
     v[0].vTexCoord = { 0, 0 };
-    //v[1].vPosition = m_vPos + vNormal * 4.f / 2.f;
+    ////v[1].vPosition = m_vPos + vNormal * 4.f / 2.f;
+    v[1].vPosition = i.vPosition + _float3{ 0.5f,  0.5f, 0.0f }; // 오른쪽 위 (Top-Right)
+    v[1].fSize = i.fSize;
     v[1].vColor = i.vCurrentColor;
     v[1].vTexCoord = { 1, 0 };
-    //v[2].vPosition = m_vPos - vNormal * 4.f / 2.f;
+    ////v[2].vPosition = m_vPos - vNormal * 4.f / 2.f;
+    v[2].vPosition = i.vPosition + _float3{ -0.5f, -0.5f, -0.0f }; // 왼쪽 아래 (Bottom-Left)
+    v[2].fSize = i.fSize;
     v[2].vColor = i.vCurrentColor;
     v[2].vTexCoord = { 0, 1 };
-    //v[3].vPosition = m_vPos + vNormal * 4.f / 2.f;
+    ////v[3].vPosition = m_vPos + vNormal * 4.f / 2.f;
+    v[3].vPosition = i.vPosition + _float3{ 0.5f, -0.5f, -0.0f }; // 오른쪽 아래 (Bottom-Right)
+    v[3].fSize = i.fSize;
     v[3].vColor = i.vCurrentColor;
     v[3].vTexCoord = { 1, 1 };
-    v[0].vPosition = { -0.5f, 0.0f, -0.5f }; // 왼쪽 아래 (Bottom-Left)
-    v[1].vPosition = { 0.5f, 0.0f, -0.5f }; // 오른쪽 아래 (Bottom-Right)
-    v[2].vPosition = { -0.5f,  0.f, 0.5f }; // 왼쪽 위 (Top-Left)
-    v[3].vPosition = { 0.5f,  0.f, 0.5f }; // 오른쪽 위 (Top-Right)
     m_PointVB->Unlock();
-    m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, 0, 1);
-    //m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+    //m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, 0, 4);
+    //m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
+    m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
     __super::Post_Render();
     return S_OK;
 }
