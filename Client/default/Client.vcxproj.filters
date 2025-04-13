@@ -487,6 +487,9 @@
     <Filter Include="02.GameObjects\99. Camera\CCamera_CutScene">
       <UniqueIdentifier>{f6865727-0c79-4b0b-9b5c-adc792dd03aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\08. Deco\Tree">
+      <UniqueIdentifier>{94e323bf-80c7-400e-b66c-0760703677c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -954,6 +957,9 @@
     <ClInclude Include="..\public\Box.h">
       <Filter>02.GameObjects\08. Deco\Box</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Tree.h">
+      <Filter>02.GameObjects\08. Deco\Tree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1378,6 +1384,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Box.cpp">
       <Filter>02.GameObjects\08. Deco\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Tree.cpp">
+      <Filter>02.GameObjects\08. Deco\Tree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

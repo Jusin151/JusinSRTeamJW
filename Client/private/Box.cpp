@@ -306,6 +306,8 @@ void CBox::Smart_Drop()
             m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Staff_Ammo_Big"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
             break;
         case Client::CWeapon_Base::Minigun:
+            tItemDesc.strItemName = L"Minigun_Ammo";
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Minigun_Ammo"), LEVEL_GAMEPLAY, TEXT("Layer_Item"), &tItemDesc);
             break;
         case Client::CWeapon_Base::Harvester:
             break;

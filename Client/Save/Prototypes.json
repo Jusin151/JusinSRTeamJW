@@ -437,6 +437,12 @@
       "level": 3,
       "path": "../../Resources/Textures/Deco/Box/Box_%d.png",
       "count": 2
+    },
+    {
+      "tag": "Prototype_Component_Texture_Tree",
+      "level": 3,
+      "path": "../../Resources/Textures/Deco/Tree/Tree_%d.png",
+      "count": 4
     }
   ],
   "gameObjects": [
@@ -809,6 +815,11 @@
     {
       "class": "CBox",
       "tag": "Prototype_GameObject_Box",
+      "level": 3
+    },
+    {
+      "class": "CTree",
+      "tag": "Prototype_GameObject_Tree",
       "level": 3
     }
   ],

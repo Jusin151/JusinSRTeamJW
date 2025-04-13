@@ -106,6 +106,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vNextPos = m_vCurPos;
+
+	m_iPlayerHP.first = m_iHp;
 }
 
 

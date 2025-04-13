@@ -232,6 +232,7 @@
     <ClInclude Include="..\public\Hub_Headers.h" />
     <ClInclude Include="..\public\Torch.h" />
     <ClInclude Include="..\public\TaskNode.h" />
+    <ClInclude Include="..\public\Tree.h" />
     <ClInclude Include="..\Public\UI_Event.h" />
     <ClInclude Include="..\Public\UI_Exp_Bar.h" />
     <ClInclude Include="..\public\GameObjects_Base.h" />
@@ -393,6 +394,7 @@
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
     <ClCompile Include="..\private\Torch.cpp" />
+    <ClCompile Include="..\private\Tree.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\UI_Base.cpp" />
     <ClCompile Include="..\private\UI_Episode_Hub.cpp" />
