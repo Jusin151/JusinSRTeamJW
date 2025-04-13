@@ -33,8 +33,14 @@ public:
             {
                 m_pCurAnim = it->second;
                 m_pCurAnim->Reset();
+                m_strCurrentKey = strKey; 
             }
         }
+    }
+
+    bool IsPlaying(const string& strKey) const
+    {
+        return m_strCurrentKey == strKey;
     }
 
     bool IsFinished() const
@@ -75,6 +81,7 @@ public:
     }
 
 private:
+    string m_strCurrentKey;  // 현재 재생 중인 키 이름
     map<string, CAnimation*> m_mapAnimations;
     CAnimation* m_pCurAnim;
 };

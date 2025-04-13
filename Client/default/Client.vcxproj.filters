@@ -1379,6 +1379,7 @@
     <ClCompile Include="..\private\Box.cpp">
       <Filter>02.GameObjects\08. Deco\Box</Filter>
     </ClCompile>
+    <ClCompile Include="..\public\Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">

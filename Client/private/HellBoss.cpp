@@ -21,14 +21,18 @@ CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 CHellBoss::CHellBoss(const CHellBoss& Prototype)
 	: CMonster_Base(Prototype) {
 }
-HRESULT CHellBoss::Initialize_Prototype() { return S_OK; }
+HRESULT CHellBoss::Initialize_Prototype() 
+{ 
+
+	return S_OK; 
+}
 HRESULT CHellBoss::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components())) return E_FAIL;
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =16000;
+	m_iHp =26000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -64,8 +68,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.1f);  // 한팔 Walk상태
-	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태
-
+	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
+	m_AnimationManager.AddAnimation("O_ArmCut_Attack_Roof", 129, 135);// 한팔 Attack상태 , 팔든상태에서 쏘기
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
 
@@ -170,6 +174,7 @@ void CHellBoss::Update(_float fTimeDelta)
 		return;
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
+
 
 	Process_Input();
 

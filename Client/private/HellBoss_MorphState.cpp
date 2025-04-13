@@ -50,11 +50,12 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
         vLookDir.Normalize();
 
         _float3 vUp = _float3(0.f, 1.f, 0.f);
+        _float3 vRight = _float3(3.f, 1.f, 10.f);
         _float radius = 30.f;
 
         _float3 vStart = vBossPos - vLookDir * radius + vUp * 10.f;
         _float3 vMid = vBossPos - vLookDir * (radius * 1.5f) + vUp * 15.f;
-        _float3 vEnd = vBossPos - vLookDir * (radius * 1.5f) + vUp * 25.f;
+        _float3 vEnd = vBossPos - vLookDir * (radius * 1.5f) + vUp * 25.f + vRight;
 
         vector<_float3> vecPath = { vStart, vMid, vEnd };
 
