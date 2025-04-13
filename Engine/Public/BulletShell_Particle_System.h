@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Particle_System.h"
 BEGIN(Engine)
+class CTransform;
 class ENGINE_DLL CBulletShell_Particle_System final : public CParticle_System
 {
 public:
@@ -17,6 +18,9 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+
+public:
+	void Add_Particle(BOUNDINGBOX bound);
 
 public:
 	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;

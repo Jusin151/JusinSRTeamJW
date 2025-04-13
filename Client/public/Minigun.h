@@ -49,8 +49,8 @@ private:
 	HRESULT CreateBulletShell();
 	 
 private:
-	CLight*			m_pLightCom = { nullptr };
-	CParticle_System* m_pParticleCom = { nullptr };
+	CLight*				m_pLightCom			= { nullptr };
+	CParticle_System*	m_pParticleCom		= { nullptr };
 private:
 	State m_eState = State::Idle;
 	Weapon_DESC m_Staff_INFO{};

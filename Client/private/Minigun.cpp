@@ -113,28 +113,6 @@ HRESULT CMinigun::Ready_Components()
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
-
-    /*CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-    if (nullptr == pPlayer)
-        return E_FAIL;
-    CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
-    if (nullptr == pTransform)
-        return E_FAIL;*/
-
-    //CBulletShell_Particle_System::BULLETSHELLDESC bulletShellDesc = {};
-    //bulletShellDesc.iNumParticles = { 0u };
-    //bulletShellDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
-    //bulletShellDesc.Bounding_Box.m_vMin = { 0.f, -pTransform->Get_State(CTransform::STATE_POSITION).y, 0.f};
-    //bulletShellDesc.Bounding_Box.m_vMax = { 1.f, 1.f, 1.f };
-    //bulletShellDesc.Bound.m_fRadius = 0.1f;
-    //bulletShellDesc.strTexturePath = L"../../Resources/Textures/Particle/minigun_bullet_casing.png";
-    //bulletShellDesc.iNumTextures = 1;
-
-    ///* For.Com_BulletShellParticle */
-    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
-    //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &bulletShellDesc)))
-    //    return E_FAIL;
-
     return S_OK;
 }
 
@@ -352,11 +330,9 @@ HRESULT CMinigun::Render()
         return E_FAIL;
 
     m_pShaderCom->End();
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-
     return S_OK;
 }
 
@@ -371,7 +347,6 @@ HRESULT CMinigun::CreateBulletShell()
 {
     float offsetRangeX = 1.f, offsetRangeY = 1.f;
 
-
     CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
     if (nullptr == pPlayer)
         return E_FAIL;
@@ -382,10 +357,12 @@ HRESULT CMinigun::CreateBulletShell()
     
     CBulletShell_Effect::BULLETSHELLDESC BulletShellDesc = {};
     BulletShellDesc.vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+    BulletShellDesc.vPos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
+    BulletShellDesc.vPos += pTransform->Get_State(CTransform::STATE_RIGHT) * 0.5f;
     BulletShellDesc.vRight = pTransform->Get_State(CTransform::STATE_RIGHT);
     BulletShellDesc.vUp = pTransform->Get_State(CTransform::STATE_UP);
     BulletShellDesc.vLook = pTransform->Get_State(CTransform::STATE_LOOK);
-    BulletShellDesc.vScale = { 1.5f, 1.f, 1.5f };
+    BulletShellDesc.vScale = { 0.5f, .5f, .5f };
 
     if (FAILED(m_pGameInstance->Add_GameObject(
         LEVEL_STATIC, TEXT("Prototype_GameObject_BulletShell_Effect"),

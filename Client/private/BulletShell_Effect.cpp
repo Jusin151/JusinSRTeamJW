@@ -29,11 +29,17 @@ HRESULT CBulletShell_Effect::Initialize(void* pArg)
 
 	m_fLifeTime = 5.f;
 	static_cast<CBulletShell_Particle_System*>(m_pParticleCom)->Set_WorldMat(*m_pTransformCom->Get_WorldMatrix());
+	//m_pTransformCom->Ro
 	return S_OK;
 }
 
 HRESULT CBulletShell_Effect::Ready_Components()
 {
+	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
+		return E_FAIL;
+
 	CBulletShell_Particle_System::BULLETSHELLDESC BulletShellDesc = {};
 	BulletShellDesc.iNumParticles = { 1u };
 	BulletShellDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
@@ -42,11 +48,6 @@ HRESULT CBulletShell_Effect::Ready_Components()
 	BulletShellDesc.Bound.m_fRadius = 0.1f;
 	BulletShellDesc.strTexturePath = L"../../Resources/Textures/Particle/minigun_bullet_casing.png";
 	BulletShellDesc.iNumTextures = 1;
-
-	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &tDesc)))
-		return E_FAIL;
 
 	/* For.Com_BulletShellParticle */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
