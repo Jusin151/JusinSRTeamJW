@@ -227,6 +227,10 @@
     <ClInclude Include="..\public\Magic_Particle_System.h">
       <Filter>04.Components\Particle\System\Magic</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Fire_Particle_System.h">
+      <Filter>04.Components\Particle\System\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Smoke_Particle_System.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -436,6 +440,9 @@
     <Filter Include="04.Components\Particle\System\Magic">
       <UniqueIdentifier>{3ed57068-dc71-42c0-887d-6045d2297c25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Particle\System\Smoke">
+      <UniqueIdentifier>{6056a0f2-f7c0-40c0-a1ff-c987ad32612d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -612,6 +619,10 @@
     <ClCompile Include="..\private\Magic_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Magic</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Fire_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Smoke_Particle_System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\LandObject.cpp">
