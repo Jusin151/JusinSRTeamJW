@@ -98,6 +98,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 
+	// 디버그용
+	Add_Item(L"Red");
+
 	return S_OK;
 }
 
