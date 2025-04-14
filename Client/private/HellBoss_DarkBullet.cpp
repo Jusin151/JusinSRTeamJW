@@ -27,11 +27,14 @@ HRESULT CHellBoss_DarkBullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	m_fSpeed = 5.f;
+	m_iAp = 1.f;
+	m_eType = CG_MONSTER_PROJECTILE_SPHERE;
 	//Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
 
 	m_pDarkHole_Transform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Instance()
 		->Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
 		->Get_Component(TEXT("Com_Transform")));
+
 
 	
 	m_Player_Transform; //여기 플레이어 좌표 받아놨음
@@ -90,6 +93,10 @@ void CHellBoss_DarkBullet::Update(_float fTimeDelta)
 	//	}
 	//}
 
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_SPHERE, m_pAttackCollider);
+
 }
 
 
@@ -127,7 +134,32 @@ HRESULT CHellBoss_DarkBullet::Render()
 
 HRESULT CHellBoss_DarkBullet::On_Collision(CCollisionObject* other)
 {
-	__super::On_Collision(other);
+	if (nullptr == m_pColliderCom && nullptr == m_pAttackCollider)
+		return E_FAIL;
+
+	if (nullptr == other)
+		return S_OK;
+
+	// 안바뀌면 충돌 안일어남
+	if (other->Get_Type() == CG_END)
+		return S_OK;
+
+	switch (other->Get_Type())
+	{
+	case CG_PLAYER:
+		Take_Damage(other);
+		m_bIsActive = false;
+		break;
+
+	case CG_WEAPON:
+
+
+
+		break;
+	default:
+		break;
+	}
+
 
 
 	return S_OK;
@@ -137,9 +169,7 @@ HRESULT CHellBoss_DarkBullet::On_Collision(CCollisionObject* other)
 
 void CHellBoss_DarkBullet::Attack_Melee()
 {
-	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
-
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	
 }
 
 void CHellBoss_DarkBullet::Reset()
@@ -238,6 +268,18 @@ HRESULT CHellBoss_DarkBullet::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))
+		return E_FAIL;
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
