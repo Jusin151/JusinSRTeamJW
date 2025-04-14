@@ -1,19 +1,19 @@
-#pragma once
+﻿#pragma once
 #include	"Particle_System.h"
 BEGIN(Engine)
-class ENGINE_DLL CProjectile_Particle_System final : public CParticle_System
+class ENGINE_DLL CTrail_Particle_System final : public CParticle_System
 {
 public:
-	typedef struct tagProjectileParticleDesc : tagParticleSystemDesc
+	typedef struct tagTrailParticleDesc : tagParticleSystemDesc
 	{
 		_uint			iNumParticles;
 		_float			fWidth;
 		_float			fDistance;
-	}PROJECTILEDESC;
+	}TRAILDESC;
 private:
-	CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CProjectile_Particle_System(const CProjectile_Particle_System& Prototype);
-	virtual ~CProjectile_Particle_System() = default;
+	CTrail_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CTrail_Particle_System(const CTrail_Particle_System& Prototype);
+	virtual ~CTrail_Particle_System() = default;
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
@@ -31,8 +31,8 @@ private:
 	_float		m_fDistance = {};
 
 public:
-	static CProjectile_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CProjectile_Particle_System* Clone(void* pArg) override;
+	static CTrail_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CTrail_Particle_System* Clone(void* pArg) override;
 	virtual void Free();
 };
 

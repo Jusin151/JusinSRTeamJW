@@ -178,8 +178,6 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 
 HRESULT CMonster_Base::Create_Gibs(_uint eType)
 {
-	float offsetRangeX = 1.f, offsetRangeY = 1.f;
-
 	CGib_Effect::HIT_DESC hitDesc;
 	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);

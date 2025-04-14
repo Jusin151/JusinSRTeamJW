@@ -61,7 +61,7 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
-    CProjectile_Particle_System::TRAILDESC particleDesc = {};
+    CTrail_Particle_System::TRAILDESC particleDesc = {};
     particleDesc.iNumParticles = { 1 };
     particleDesc.fDistance = { 10.f };
     particleDesc.fWidth = { 2.f };
@@ -69,7 +69,7 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
     particleDesc.iNumTextures = { 1 };
 
     /* For.Com_Particle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
         TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &particleDesc)))
         return E_FAIL;
 
@@ -125,7 +125,7 @@ void CGameObject_Projectile_Test::Update(_float fTimeDelta)
     
     m_pTransformCom->Go(m_vDir, fTimeDelta);
 
-    dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+    dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
     //m_pParticleCom->Set_Origin(m_vDir);
 }
 
