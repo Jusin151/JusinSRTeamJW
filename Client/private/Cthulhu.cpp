@@ -531,7 +531,7 @@ NodeStatus CCthulhu::Deploy_BigTentacles()
 
 NodeStatus CCthulhu::Attack_Spike()
 {
-	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
+	if (m_eState == STATE::DEAD /*|| static_cast<_float>(m_iHp)> m_fPhaseThreshold2*/)
 		return NodeStatus::FAIL;
 	static _uint iIndex = 0;
 	static _bool bIsCircle = false;
