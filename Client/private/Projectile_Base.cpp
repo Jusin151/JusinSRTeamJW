@@ -16,7 +16,11 @@ CProjectile_Base::CProjectile_Base(const CProjectile_Base& Prototype)
 	, m_pTextureCom		{ Prototype.m_pTextureCom }
 	, m_pTransformCom	{ Prototype.m_pTransformCom }
 	, m_pVIBufferCom	{ Prototype.m_pVIBufferCom }
+	, m_pMaterialCom	{ Prototype.m_pMaterialCom }
+	,m_pShaderCom       {Prototype.m_pShaderCom}
+
 {
+
 
 }
 

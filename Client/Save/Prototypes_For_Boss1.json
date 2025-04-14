@@ -1,6 +1,11 @@
 {
   "gameObjects": [
     {
+      "class": "CTrigger",
+      "level": 0,
+      "tag": "Prototype_GameObject_Trigger_Button"
+    },
+    {
       "class": "CStructure",
       "level": 8,
       "tag": "Prototype_GameObject_AntWall1"
