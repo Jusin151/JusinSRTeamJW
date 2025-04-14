@@ -48,7 +48,12 @@ private:
 	void Move(_float fTimeDelta);
 	void Attack(_float fTimeDelta);
 	void Input_Key(_float fTimeDelta);
-
+public: // 헬보스와 관련된 
+	void KnockBack(_float3 vDir, _float fPower);
+private:
+	_float3 m_vKnockBackDir = { 0.f, 0.f, 0.f }; // 밀치는 방향
+	_float  m_fKnockBackPower = 0.f;             // 밀침 힘
+	_bool   m_bKnockBack = false;                // 밀림 여부
 
 private: //옵저버 관련
 

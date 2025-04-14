@@ -41,8 +41,18 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
             pCutCam->Set_CameraDisableDelay(3.f);          // 4초 후 자동으로꺼지게
         }
     }
+    if (pBoss->Get_Phase() == PHASE2)
+    {
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_1to2")->SetVolume(0.7f);
+    }
+    if (pBoss->Get_Phase() == PHASE3)
+    {
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_2to3")->SetVolume(0.7f);
+    }
     if (pBoss->Get_Phase() == PHASE4)
     {
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+
         _float3 vBossPos = pBoss->Get_CutScene_AnchorPos();
 
         _float3 vLookDir = pBoss->Get_Transform()->Get_State(CTransform::STATE_LOOK);

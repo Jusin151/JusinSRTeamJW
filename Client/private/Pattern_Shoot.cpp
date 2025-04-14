@@ -37,9 +37,9 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 
         if (m_fAccTime < fCycle && m_fAccTime >= m_fNextFireTime && m_iFiredCount < 5)
         {
-            const int iBulletPerShot = 5;
+            const _int iBulletPerShot = 5;
 
-            for (int i = 0; i < iBulletPerShot; ++i)
+            for (_int i = 0; i < iBulletPerShot; ++i)
             {
                 CHellBoss_Bullet::PowerBlastDesc pDesc{};
                 pDesc.wBulletType = L"0_Phase4_Shoot";
@@ -52,8 +52,9 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 {
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
+             
             }
-            for (int i = 0; i < iBulletPerShot; ++i)
+            for (_int i = 0; i < iBulletPerShot; ++i)
             {
                 CHellBoss_Bullet::PowerBlastDesc pDesc{};
                 pDesc.wBulletType = L"0_Phase4_Shoot";
@@ -67,9 +68,6 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
             }
-
-
-
 
             ++m_iFiredCount;
             m_fNextFireTime += 0.15f;
@@ -97,9 +95,9 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 {
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
+                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/slugshot_reworked_shot")->SetVolume(0.3f);
             }
         }
-
         if (pBoss->Get_AnimationFinished())
         {
             m_bStarted = false;

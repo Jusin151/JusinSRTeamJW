@@ -109,6 +109,7 @@ private:
 	_float3 m_vTargetDir = {};
 	_float m_fAttackDelay = 0.f;
 	_float m_fAttackDelayTimer = 0.f;
+	_float m_fPhase3_KnockBack_Timer = 0.f; // 밀어버리는 함수
 
 public:
 	void Set_AttackDelay(_float fDelay) { m_fAttackDelay = fDelay; m_fAttackDelayTimer = 0.f; }
