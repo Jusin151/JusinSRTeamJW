@@ -505,21 +505,18 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			D3DXVec3Normalize(&m_vDir, &m_vDir);
 		}
 
-		// 1. 방향 설정
+
 		_float3 vTarget = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vDir;
 		m_pTransformCom->LookAt(vTarget);
 
-		// 2. '12시 방향이 정면'이므로, 미사일 Y축(Up)이 전방을 보게 회전해야 함.
-		// 즉, 원래 전방(Z축 Look)을 → Y축(Up)으로 옮겨야 하니까 보정을 이렇게 해야 됨:
+
 
 		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-		// 실제로는, 미사일이 **Up = Look**이 되도록 설정
 		m_pTransformCom->Set_State(CTransform::STATE_UP, vLook);
 
-		// 그리고 Look은 기존 Right × Up 으로 다시 계산
-		_float3 newLook = vRight.Cross(vLook); // newLook = Right × Up
+		_float3 newLook = vRight.Cross(vLook); 
 		newLook.Normalize();
 		m_pTransformCom->Set_State(CTransform::STATE_LOOK, newLook);
 
