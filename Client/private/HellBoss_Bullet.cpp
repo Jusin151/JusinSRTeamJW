@@ -555,6 +555,11 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			{
 				if (m_wBulletType == L"Power_Blast")
 				pCamera->TriggerShake(1.f, 1.f); // 쉐이크 강도, 지속 시간 조절
+				else if (m_wBulletType == L"0_Phase4_Shoot")
+				{
+					pCamera->TriggerShake(0.5f, 0.5f); // 쉐이크 강도, 지속 시간 조절
+					m_pSoundCom->Play_Event(L"event:/Weapons/Boom")->SetVolume(1.f); 
+				}
 				else
 					pCamera->TriggerShake(0.3f, 0.3f); // 쉐이크 강도, 지속 시간 조절
 			}

@@ -58,20 +58,21 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 {
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
-             
+           // event: / Weapons / rocketlauncher_shot
+                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Rocketlauncher_shot")->SetVolume(0.1f);
             }
-            for (_int i = 0; i < iBulletPerShot; ++i)
+            for (_int i = 0; i < iBulletPerShot; ++i)// 발사이펙트용 
             {
-                CHellBoss_Bullet::PowerBlastDesc pDesc{};
-                pDesc.wBulletType = L"0_Phase4_Shoot";
-                pDesc.isLeft = (rand() % 2 == 0);
+                CHellBoss_Bullet::PowerBlastDesc pDesc{};// 발사이펙트용 
+                pDesc.wBulletType = L"0_Phase4_Shoot";// 발사이펙트용 
+                pDesc.isLeft = (rand() % 2 == 0);// 발사이펙트용 
                 pDesc.iPatternType = 1; // 발사이펙트용 
 
-                if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(
+                if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(// 발사이펙트용 
                     LEVEL_HONG, LEVEL_HONG,
-                    TEXT("Layer_HellBoss_PHASE4_Bullet"), &pDesc))
+                    TEXT("Layer_HellBoss_PHASE4_Bullet"), &pDesc))// 발사이펙트용 
                 {
-                    MSG_BOX("HellBoss_Bullet 생성 실패");
+                    MSG_BOX("HellBoss_Bullet 생성 실패");// 발사이펙트용 
                 }
             }
 
