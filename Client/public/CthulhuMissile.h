@@ -54,8 +54,6 @@ private:
 	_bool m_bIsDead = false;
 	_bool m_bIsColned = false;
 	class CPlayer* m_pTarget = nullptr;
-	CMaterial* m_pMaterialCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
 
 	_int     m_iSplitLevel{ 0 };     // 남은 분리 단계
 	_float   m_fElapsedTime{ 0.f };   

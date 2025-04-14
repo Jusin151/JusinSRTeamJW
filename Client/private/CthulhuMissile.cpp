@@ -13,7 +13,7 @@ CCthulhuMissile::CCthulhuMissile(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CCthulhuMissile::CCthulhuMissile(const CCthulhuMissile& Prototype)
 	: CProjectile_Base(Prototype)
-{    m_iAp = Prototype.m_iAp;
+{  m_iAp = Prototype.m_iAp;
 	m_bIsColned = true;
 	m_pTransformCom = { nullptr };
 }
@@ -22,15 +22,11 @@ CCthulhuMissile::CCthulhuMissile(const CCthulhuMissile& Prototype)
 HRESULT CCthulhuMissile::Initialize_Prototype()
 {
 	m_iAp = 10;
-
-	if (FAILED(__super::Ready_Components()))
-		return E_FAIL;
 	return S_OK;
 }
 
 HRESULT CCthulhuMissile::Initialize(void* pArg)
 {
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	m_pTarget = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player"));
@@ -88,10 +84,7 @@ HRESULT CCthulhuMissile::Render()
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-	if (m_pShaderCom)
-	{
 	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 60.f);
-	}
 	if (FAILED(m_pShaderCom->Bind_Transform()))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
@@ -163,12 +156,8 @@ HRESULT CCthulhuMissile::Release_RenderState()
 }
 HRESULT CCthulhuMissile::Ready_Components()
 {
-	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
+	if (FAILED(__super::Ready_Components()))
+		return E_FAIL;	
 	if (FAILED(__super::Add_Component(LEVEL_BOSS, TEXT("Prototype_Component_Texture_CthulhuMissile"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
@@ -180,21 +169,6 @@ HRESULT CCthulhuMissile::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
-
-	if (!m_pShaderCom)
-	{
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
-			TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
-			return E_FAIL;
-	}
-
-	if (!m_pMaterialCom)
-	{
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-			TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
-			return E_FAIL;
-	}
-
 	return S_OK;
 }
 
@@ -291,11 +265,9 @@ void CCthulhuMissile::Free()
 	__super::Free();
 	if (!m_bIsColned)
 	{
- 	
+
 	}
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pMaterialCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTarget);
- }
+}
