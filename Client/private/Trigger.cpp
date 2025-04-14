@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Collider_Sphere.h"
 #include "Collider_Cube.h"
+#include "Level_Loading.h"
 #include "Door.h"
 
 CTrigger::CTrigger(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -29,18 +30,24 @@ HRESULT CTrigger::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		TRIGGER_DESC* pDesc = (TRIGGER_DESC*)pArg;
-		m_eTriggerType = pDesc->eType;
+		m_vTriggerDesc = *pDesc;
 		m_bIsActive = pDesc->bStartsActive;
-		if(!pDesc->stTargetTag.empty())
-		m_stTargetTag = pDesc->stTargetTag;
+
+		if (m_vTriggerDesc.eType == TRIGGER_TYPE::LEVEL_CHANGE)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vTriggerDesc.vPos);
+		}
 	}
 
 	Find_Target();
 
-	if (m_eTriggerType == TRIGGER_TYPE::INTERACTION)
+	m_pTransformCom->Set_Scale(5.f, 5.f, 5.f);
+	if (m_vTriggerDesc.eType == TRIGGER_TYPE::INTERACTION)
 	{
 		m_pTransformCom->Set_Scale(40.f, 1.f, 40.f);
 	}
+
+
 	return S_OK;
 }
 
@@ -62,13 +69,13 @@ void CTrigger::Update(_float fTimeDelta)
 
 void CTrigger::Late_Update(_float fTimeDelta)
 {
-	if(m_eTriggerType == TRIGGER_TYPE::BUTTON)
+	if(m_vTriggerDesc.eType == TRIGGER_TYPE::BUTTON)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CTrigger::Render()
 {
-	if (m_eTriggerType == TRIGGER_TYPE::BUTTON)
+	if (m_vTriggerDesc.eType == TRIGGER_TYPE::BUTTON)
 	{
 		if (FAILED(m_pTextureCom->Bind_Resource(m_bWasTriggered)))
 			return E_FAIL;
@@ -112,7 +119,7 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 
 
 	// 트리거 타입에 따른 처리
-	switch (m_eTriggerType)
+	switch (m_vTriggerDesc.eType)
 	{
 	case TRIGGER_TYPE::BUTTON:
 	{	// 플레이어인지 확인 (CG_PLAYER와 비교)
@@ -130,6 +137,18 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	{
 
 		other->Set_Trigger(this);
+
+		break;
+	}
+	case TRIGGER_TYPE::LEVEL_CHANGE:
+	{
+		if (other->Get_Type() == CG_PLAYER)
+		{
+			SetActive(false);
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+			return E_FAIL;
+		}
 
 		break;
 	}
@@ -178,9 +197,9 @@ void CTrigger::OnTrigger_Deactivated()
 
 void CTrigger::Find_Target()
 {
-	if (!m_pTargetObject&& !m_stTargetTag.empty())
+	if (!m_pTargetObject&& !m_vTriggerDesc.stTargetTag.empty())
 	{
-		CDoor* pDoor = dynamic_cast<CDoor*>(m_pGameInstance->Find_Object(m_tObjDesc.iLevel, m_stTargetTag));
+		CDoor* pDoor = dynamic_cast<CDoor*>(m_pGameInstance->Find_Object(m_tObjDesc.iLevel, m_vTriggerDesc.stTargetTag));
 		AddTargetObject(pDoor);
 	}
 
@@ -230,7 +249,7 @@ HRESULT CTrigger::Ready_Components()
 		TEXT("Com_Collider_Cube"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
-	if (m_eTriggerType == TRIGGER_TYPE::BUTTON)
+	if (m_vTriggerDesc.eType == TRIGGER_TYPE::BUTTON)
 	{
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_VIBuffer_Rect",
 			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -334,7 +353,7 @@ json CTrigger::Serialize()
 		RoundToDecimalPlaces(scale.z, 2)
 	};
 
-	j["trigger_type"] = static_cast<int>(m_eTriggerType);
+	j["trigger_type"] = static_cast<int>(m_vTriggerDesc.eType);
 
 	if (m_pTargetObject)
 	{
@@ -353,12 +372,12 @@ void CTrigger::Deserialize(const json& j)
 	SET_TRANSFORM(j, m_pTransformCom);
 
 	if (j.contains("trigger_type"))
-		m_eTriggerType = static_cast<TRIGGER_TYPE>(j["trigger_type"].get<int>());
+		m_vTriggerDesc.eType = static_cast<TRIGGER_TYPE>(j["trigger_type"].get<int>());
 
 	if (j.contains("is_active"))
 		m_bIsActive = j["is_active"].get<bool>();
 
 	if (j.contains("target_tags"))
-		m_stTargetTag = ISerializable::Utf8ToWide(j["target_tags"].get<string>());
+		m_vTriggerDesc.stTargetTag = ISerializable::Utf8ToWide(j["target_tags"].get<string>());
 
 }

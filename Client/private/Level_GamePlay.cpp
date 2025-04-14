@@ -14,6 +14,7 @@
 #include "Sound_Event.h"
 #include "Level_Loading.h"
 #include <Camera_FirstPerson.h>
+#include "Trigger.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -40,6 +41,15 @@ HRESULT CLevel_GamePlay::Initialize()
 			return E_FAIL;
 		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-4.6f, 1.f, -1.1f));
 	}
+
+	CTrigger::TRIGGER_DESC vTriggerDesc;
+	vTriggerDesc.bStartsActive = true;
+	vTriggerDesc.eLevel = LEVEL_HUB;
+	vTriggerDesc.vPos = _float3(-31.f, 0.3f, -30.f);
+	vTriggerDesc.eType = CTrigger::TRIGGER_TYPE::LEVEL_CHANGE;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trigger_Button"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Trigger_Level"), &vTriggerDesc)))
+		return E_FAIL;
 
 	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
 	if (pCamera)
@@ -68,6 +78,8 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.5f);
+
+	
 
 	return S_OK;
 }
