@@ -12,6 +12,11 @@ CPattern_Shoot::CPattern_Shoot()
     , m_fNextFireTime(0.f)
 {
 }
+bool CPattern_Shoot::Is_Finished() const
+{
+    return m_bFinished;
+}
+
 void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 {
     if (!m_bStarted)
@@ -105,23 +110,36 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 
     else if (pBoss->Get_Phase() == PHASE2)
     {
-        if (m_fAccTime >= m_fNextFireTime && m_iFiredCount < 100)
-        {
-            CHellBoss_Bullet::PowerBlastDesc pDesc{};
-            pDesc.wBulletType = L"0_Phase2_Shoot";
-            pDesc.isLeft = (m_iFiredCount % 2 == 0);
+        _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
+        float fDist = D3DXVec3Length(&vToPlayer);
 
-            if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(
-                LEVEL_HONG, LEVEL_HONG,
-                TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc))
+        // 사거리 안에 있을 때만 계속 발사
+        if (fDist < 50.f)
+        {
+            if (m_fAccTime >= m_fNextFireTime)
             {
-                MSG_BOX("HellBoss_Bullet 생성 실패");
+                CHellBoss_Bullet::PowerBlastDesc pDesc{};
+                pDesc.wBulletType = L"0_Phase2_Shoot";
+                pDesc.isLeft = (m_iFiredCount % 2 == 0);
+
+                if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(
+                    LEVEL_HONG, LEVEL_HONG,
+                    TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc))
+                {
+                    MSG_BOX("HellBoss_Bullet 생성 실패");
+                }
+
+                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/slugshot_reworked_shot")->SetVolume(0.2f);
+                ++m_iFiredCount;
+                m_fNextFireTime += 0.2f;
             }
-            pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/slugshot_reworked_shot")->SetVolume(0.2f);
-            m_iFiredCount++;
-            m_fNextFireTime += 0.2f;
+        }
+        else
+        {
+            m_bFinished = true;
         }
     }
+
 
     if (pBoss->Get_Phase() == PHASE3)
     {

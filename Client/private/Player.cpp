@@ -94,7 +94,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.3f;
+	m_fSpeed = 1.f;
 	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -468,6 +468,7 @@ void CPlayer::Take_Damage(_uint Damage)
 
 	Notify(m_iHp, L"HP_Hited");
 	m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);
+
 
 }
 void CPlayer::Add_HP(_int Hp)
