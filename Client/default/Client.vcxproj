@@ -188,6 +188,7 @@
     <ClInclude Include="..\public\Gib_Effect.h" />
     <ClInclude Include="..\public\HellBoss_DarkBullet.h" />
     <ClInclude Include="..\public\HellBoss_Headers.h" />
+    <ClInclude Include="..\public\HellBoss_JumpLoopState.h" />
     <ClInclude Include="..\Public\HellBoss_SkillBase.h" />
     <ClInclude Include="..\public\HellBoss_Skill_DarkHole.h" />
     <ClInclude Include="..\public\Claymore.h" />
@@ -350,6 +351,7 @@
     <ClCompile Include="..\private\Deco_Base.cpp" />
     <ClCompile Include="..\private\Gib_Effect.cpp" />
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp" />
+    <ClCompile Include="..\private\HellBoss_JumpLoopState.cpp" />
     <ClCompile Include="..\Private\HellBoss_SkillBase.cpp" />
     <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp" />
     <ClCompile Include="..\private\Cthulhu.cpp" />

@@ -496,6 +496,9 @@
     <Filter Include="02.GameObjects\03. Effect\Explosion_Effect">
       <UniqueIdentifier>{daca6efd-0fb0-4ad8-a81c-e56993d9fe66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\04.JumpState">
+      <UniqueIdentifier>{eadbf511-7337-475a-9109-f3943a9d2aed}</UniqueIdentifier>
+      </Filter>
     <Filter Include="02.GameObjects\03. Effect\Magic_Effect">
       <UniqueIdentifier>{28f0584e-132a-4bc0-8b00-80c37a1bf626}</UniqueIdentifier>
     </Filter>
@@ -978,6 +981,9 @@
     <ClInclude Include="..\Public\Explosion_Effect.h">
       <Filter>02.GameObjects\03. Effect\Explosion_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\HellBoss_JumpLoopState.h">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.JumpState</Filter>
+     </ClInclude>
     <ClInclude Include="..\public\Magic_Effect.h">
       <Filter>02.GameObjects\03. Effect\Magic_Effect</Filter>
     </ClInclude>
@@ -1418,6 +1424,9 @@
     <ClCompile Include="..\Private\Explosion_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Explosion_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\HellBoss_JumpLoopState.cpp">
+      <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.JumpState</Filter>
+     </ClCompile>
     <ClCompile Include="..\private\Magic_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Magic_Effect</Filter>
     </ClCompile>

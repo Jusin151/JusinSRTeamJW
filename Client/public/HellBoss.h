@@ -86,16 +86,25 @@ private: // 2페이즈 관련 , 양손 멀쩡
 	vector<_float3> m_vecWarpGrid{}; // 2페이즈 보스 쉐도우의 위치 목록
 	_bool m_bPressed = { false }; ; // 2페이즈 
 	_bool m_bZKeyPressed = { false }; ; // 2페이즈 
-private:
+private: // 3페이즈 관련
+	_bool m_bBlink = {false};
 	_bool m_bJumping = false;
 	_float m_fJumpTime = 0.f;
 	_float3 m_vJumpStartPos = {};
 	_float3 m_vJumpTargetPos = {};
+	_float3 m_vLandingTargetPos = {};
+public: // 3페이즈 관련
+	void Set_Blink(_bool bType) { m_bBlink = bType; }
+	_bool Get_Blink() { return m_bBlink; }
+	_bool Is_Jumping() { return m_bJumping; }
+	_bool Is_Falling() { return m_bJumping; }
+	void Force_Jump(); // 강제 점프
+
+private:
+	_bool m_bFalling = false;
 	_bool m_bParryWindow = false; 
 	_bool m_bParrySuccess = false;
 	_float m_fParryTextTimer = 0.f;
-	_bool m_bFalling = false;
-	_float3 m_vLandingTargetPos = {};
 	_float m_fFallSpeed = { 100.f };
 	_float3 m_vTargetDir = {};
 	_float m_fAttackDelay = 0.f;
