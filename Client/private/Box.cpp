@@ -207,8 +207,8 @@ void CBox::Select_State()
         if (m_eCurState == DS_HIT)
         {
 
-            m_pColliderCom->Set_Scale(_float3(1.5f, 0.75f, 1.5f));
-            m_pTransformCom->Set_Scale(1.5f, 0.75f, 1.5f);
+            m_pTransformCom->Set_Scale(1.f, 0.5f, 1.f);
+            m_pColliderCom->Set_Scale(_float3(1.f, 0.5f, 1.f));
             m_iCurrentFrame = 1;
             m_eCurState = DS_DEATH;
 

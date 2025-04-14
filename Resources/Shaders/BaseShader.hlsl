@@ -1,5 +1,4 @@
-
-// Ä«¸Ş¶ó À§Ä¡ (Specular °è»ê¿¡ ÇÊ¿ä, C++¿¡¼­ ¼³Á¤)
+// ì¹´ë©”ë¼ ìœ„ì¹˜ (Specular ê³„ì‚°ì— í•„ìš”, C++ì—ì„œ ì„¤ì •)
 float3 g_CameraPosition;
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
@@ -26,63 +25,64 @@ sampler DefaultSampler = sampler_state
     AddressV = Wrap;
 };
 
-#define MAX_LIGHTS 8 // ¼ÎÀÌ´õ¿¡¼­ Ã³¸®ÇÒ ÃÖ´ë ¶óÀÌÆ® ¼ö (ÇÊ¿ä¿¡ µû¶ó Á¶Àı)
+#define MAX_LIGHTS 8 // ì…°ì´ë”ì—ì„œ ì²˜ë¦¬í•  ìµœëŒ€ ë¼ì´íŠ¸ ìˆ˜ (í•„ìš”ì— ë”°ë¼ ì¡°ì ˆ)
 
 struct Light
 {
     int     Type; // 0: UnUsed 1: Point, 2: Spot, 3: Direction
     float3 _unused_;
-    float4  Color; // ¶óÀÌÆ® »ö»ó ¹× °­µµ
-    float4  Position; // ¿ùµå °ø°£ À§Ä¡ (Point/Spot)
-    float4  Direction; // ¿ùµå °ø°£ ¹æÇâ (Directional/Spot)
-    float   Range; // µµ´Ş ¹üÀ§ (Point/Spot)
-    float   Attenuation0; // °¨¼è »ó¼öÇ× (Constant Attenuation)
-    float   Attenuation1; // °¨¼è ¼±ÇüÇ× (Linear Attenuation)
-    float   Attenuation2; // °¨¼è Á¦°öÇ× (Quadratic Attenuation)
-    // --- ½ºÆ÷Æ®¶óÀÌÆ®¿ë Ãß°¡ Á¤º¸ (ÇÊ¿ä½Ã) ---
-    // float SpotFalloff; // ½ºÆ÷Æ®¶óÀÌÆ® °¨¼è Áö¼ö (Power)
-    // float SpotCosInnerAngle; // ½ºÆ÷Æ®¶óÀÌÆ® ³»ºÎ °¢ ÄÚ»çÀÎ°ª
-    // float SpotCosOuterAngle; // ½ºÆ÷Æ®¶óÀÌÆ® ¿ÜºÎ °¢ ÄÚ»çÀÎ°ª
+    float4  Color; // ë¼ì´íŠ¸ ìƒ‰ìƒ ë° ê°•ë„
+    float4  Position; // ì›”ë“œ ê³µê°„ ìœ„ì¹˜ (Point/Spot)
+    float4  Direction; // ì›”ë“œ ê³µê°„ ë°©í–¥ (Directional/Spot)
+    float   Range; // ë„ë‹¬ ë²”ìœ„ (Point/Spot)
+    float   Attenuation0; // ê°ì‡  ìƒìˆ˜í•­ (Constant Attenuation)
+    float   Attenuation1; // ê°ì‡  ì„ í˜•í•­ (Linear Attenuation)
+    float   Attenuation2; // ê°ì‡  ì œê³±í•­ (Quadratic Attenuation)
+    // --- ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ìš© ì¶”ê°€ ì •ë³´ (í•„ìš”ì‹œ) ---
+    float Falloff; // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ê°ì‡  ì§€ìˆ˜ (Power)
+    float Theta; // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ë‚´ë¶€ ê° ì½”ì‚¬ì¸ê°’
+    float Phi; // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ì™¸ë¶€ ê° ì½”ì‚¬ì¸ê°’
+    float _unused2_;
 };
 Light g_LightTest : LIGHT;
-Light g_Lights[MAX_LIGHTS] : LIGHTS; // ¶óÀÌÆ® Á¤º¸ ¹è¿­
-int g_NumActiveLights; // ÇöÀç °´Ã¼¿¡ ¿µÇâÀ» ÁÖ´Â È°¼º ¶óÀÌÆ® °³¼ö (C++¿¡¼­ ¼³Á¤)
+Light g_Lights[MAX_LIGHTS] : LIGHTS; // ë¼ì´íŠ¸ ì •ë³´ ë°°ì—´
+int g_NumActiveLights; // í˜„ì¬ ê°ì²´ì— ì˜í–¥ì„ ì£¼ëŠ” í™œì„± ë¼ì´íŠ¸ ê°œìˆ˜ (C++ì—ì„œ ì„¤ì •)
 
 struct Material
 {
-    float4 Diffuse; // ÀçÁúÀÇ È®»ê±¤ ¹İ»çÀ² (ÅØ½ºÃ³¿Í °öÇØÁü)
-    float4 Ambient; // ÀçÁúÀÇ ÁÖº¯±¤ ¹İ»çÀ²
-    float4 Specular; // ÀçÁúÀÇ Á¤¹İ»ç±¤ »ö»ó
-    float4 Emissive; // ÀçÁúÀÇ ÀÚÃ¼ ¹ß±¤ »ö»ó
-    float Power; // ÀçÁúÀÇ Á¤¹İ»ç Áö¼ö (Shininess)
+    float4 Diffuse; // ì¬ì§ˆì˜ í™•ì‚°ê´‘ ë°˜ì‚¬ìœ¨ (í…ìŠ¤ì²˜ì™€ ê³±í•´ì§)
+    float4 Ambient; // ì¬ì§ˆì˜ ì£¼ë³€ê´‘ ë°˜ì‚¬ìœ¨
+    float4 Specular; // ì¬ì§ˆì˜ ì •ë°˜ì‚¬ê´‘ ìƒ‰ìƒ
+    float4 Emissive; // ì¬ì§ˆì˜ ìì²´ ë°œê´‘ ìƒ‰ìƒ
+    float Power; // ì¬ì§ˆì˜ ì •ë°˜ì‚¬ ì§€ìˆ˜ (Shininess)
 };
 
 Material g_Material : MATERIAL;
 
-// ºû °ü·Ã Àü¿ª º¯¼ö Ãß°¡ (C++¿¡¼­ ¼³Á¤ ÇÊ¿ä)
+// ë¹› ê´€ë ¨ ì „ì—­ ë³€ìˆ˜ ì¶”ê°€ (C++ì—ì„œ ì„¤ì • í•„ìš”)
 float3 g_LightPosition = float3(0.8f, 1.0f, 8.f);
-float3 g_LightDirection = normalize(float3(0.f, -1.f, 0.f)); // ¿¹½Ã: Á¶¸í ¹æÇâ (Ä«¸Ş¶ó ±âÁØ?)
-float4 g_LightColor = float4(0.3f, 0.3f, 0.3f, 1.f); // ¿¹½Ã: Á¶¸í »ö»ó
-float4 g_AmbientLightColor = float4(0.5f, 0.5f, 0.5f, 1.f); // ¿¹½Ã: ÁÖº¯±¤ »ö»ó
+float3 g_LightDirection = normalize(float3(0.f, -1.f, 0.f)); // ì˜ˆì‹œ: ì¡°ëª… ë°©í–¥ (ì¹´ë©”ë¼ ê¸°ì¤€?)
+float4 g_LightColor = float4(0.3f, 0.3f, 0.3f, 1.f); // ì˜ˆì‹œ: ì¡°ëª… ìƒ‰ìƒ
+float4 g_AmbientLightColor = float4(0.5f, 0.5f, 0.5f, 1.f); // ì˜ˆì‹œ: ì£¼ë³€ê´‘ ìƒ‰ìƒ
 
-// <<< ÀçÁú ¼Ó¼º Àü¿ª º¯¼ö Ãß°¡ (C++¿¡¼­ ¼³Á¤) >>>
-float4 g_MaterialAmbient = float4(0.2f, 0.2f, 0.2f, 1.f); // ÀçÁúÀÇ ÁÖº¯±¤ ¹İ»çÀ²
-float4 g_MaterialDiffuse = float4(1.f, 1.f, 1.f, 1.f); // ÀçÁúÀÇ È®»ê±¤ ¹İ»çÀ² (ÅØ½ºÃ³¿Í °öÇØÁü)
-float4 g_MaterialSpecular = float4(1.f, 1.f, 1.f, 1.f); // ÀçÁúÀÇ Á¤¹İ»ç±¤ »ö»ó
-float g_MaterialSpecularPower = 32.f; // ÀçÁúÀÇ Á¤¹İ»ç Áö¼ö (Shininess)
-float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // ÀçÁúÀÇ ÀÚÃ¼ ¹ß±¤ »ö»ó
+// <<< ì¬ì§ˆ ì†ì„± ì „ì—­ ë³€ìˆ˜ ì¶”ê°€ (C++ì—ì„œ ì„¤ì •) >>>
+float4 g_MaterialAmbient = float4(0.2f, 0.2f, 0.2f, 1.f); // ì¬ì§ˆì˜ ì£¼ë³€ê´‘ ë°˜ì‚¬ìœ¨
+float4 g_MaterialDiffuse = float4(1.f, 1.f, 1.f, 1.f); // ì¬ì§ˆì˜ í™•ì‚°ê´‘ ë°˜ì‚¬ìœ¨ (í…ìŠ¤ì²˜ì™€ ê³±í•´ì§)
+float4 g_MaterialSpecular = float4(1.f, 1.f, 1.f, 1.f); // ì¬ì§ˆì˜ ì •ë°˜ì‚¬ê´‘ ìƒ‰ìƒ
+float g_MaterialSpecularPower = 32.f; // ì¬ì§ˆì˜ ì •ë°˜ì‚¬ ì§€ìˆ˜ (Shininess)
+float4 g_MaterialEmissive = float4(0.f, 0.f, 0.f, 1.f); // ì¬ì§ˆì˜ ìì²´ ë°œê´‘ ìƒ‰ìƒ
 
-uniform bool g_bUseHPClip; // HP Å¬¸®ÇÎ »ç¿ë ¿©ºÎ (trueÀÌ¸é Å¬¸®ÇÎ, falseÀÌ¸é ±×´ë·Î)
-uniform float g_HpRatio; // 0 ~ 1 ¹üÀ§, ÇöÀç HP ºñÀ²
+uniform bool g_bUseHPClip; // HP í´ë¦¬í•‘ ì‚¬ìš© ì—¬ë¶€ (trueì´ë©´ í´ë¦¬í•‘, falseì´ë©´ ê·¸ëŒ€ë¡œ)
+uniform float g_HpRatio; // 0 ~ 1 ë²”ìœ„, í˜„ì¬ HP ë¹„ìœ¨
 uniform bool g_bUseTiling;
-// Å¸ÀÏ¸µ Àü¿ªº¯¼ö Ãß°¡
+// íƒ€ì¼ë§ ì „ì—­ë³€ìˆ˜ ì¶”ê°€
 float2 g_ScaleFactor    = float2(1.0f, 1.0f);
 float2 g_OffsetFactor   = float2(0.0f, 0.0f);
 
-// --- ¾È°³ È¿°ú Àü¿ª º¯¼ö Ãß°¡ (C++¿¡¼­ ¼³Á¤) ---
-float3 g_FogColor = float3(0.5f, 0.9f, 0.9f); // ¾È°³ »ö»ó (ÇÏ¾á»ö)
-float g_FogStart = 8.0f; // ¾È°³ ½ÃÀÛ °Å¸®
-float g_FogEnd = 20.0f; // ¾È°³ ³¡ °Å¸®
+// --- ì•ˆê°œ íš¨ê³¼ ì „ì—­ ë³€ìˆ˜ ì¶”ê°€ (C++ì—ì„œ ì„¤ì •) ---
+float3 g_FogColor = float3(0.5f, 0.9f, 0.9f); // ì•ˆê°œ ìƒ‰ìƒ (í•˜ì–€ìƒ‰)
+float g_FogStart = 8.0f; // ì•ˆê°œ ì‹œì‘ ê±°ë¦¬
+float g_FogEnd = 20.0f; // ì•ˆê°œ ë ê±°ë¦¬
 
 struct VS_IN
 {
@@ -93,11 +93,11 @@ struct VS_IN
 
 struct VS_OUT
 {
-    float4 vPosition    :  POSITION;  // Å¬¸³ °ø°£ À§Ä¡
-    float2 vTexcoord    :  TEXCOORD0; // ÅØ½ºÃ³ ÁÂÇ¥
-    float4 vWorldPos    :  TEXCOORD1; // ¿ùµå °ø°£ À§Ä¡ (ÇÊ¿ä½Ã »ç¿ë)
-    float3 vNormal      :  TEXCOORD2; // ¿ùµå °ø°£ ¹ı¼± º¤ÅÍ Ãß°¡!
-    float3 vViewPos     :  TEXCOORD3; // ºä °ø°£ À§Ä¡ (¾È°³ °è»ê¿ë) <-- Ãß°¡
+    float4 vPosition    :  POSITION;  // í´ë¦½ ê³µê°„ ìœ„ì¹˜
+    float2 vTexcoord    :  TEXCOORD0; // í…ìŠ¤ì²˜ ì¢Œí‘œ
+    float4 vWorldPos    :  TEXCOORD1; // ì›”ë“œ ê³µê°„ ìœ„ì¹˜ (í•„ìš”ì‹œ ì‚¬ìš©)
+    float3 vNormal      :  TEXCOORD2; // ì›”ë“œ ê³µê°„ ë²•ì„  ë²¡í„° ì¶”ê°€!
+    float3 vViewPos     :  TEXCOORD3; // ë·° ê³µê°„ ìœ„ì¹˜ (ì•ˆê°œ ê³„ì‚°ìš©) <-- ì¶”ê°€
     float3 vScale       :  TEXCOORD4;
 };
 
@@ -106,7 +106,7 @@ VS_OUT VS_MAIN(VS_IN In)
 {
     VS_OUT Out;
 
-    // ¿ùµå º¯È¯ (World Position °è»ê)
+    // ì›”ë“œ ë³€í™˜ (World Position ê³„ì‚°)
     Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
     
     float3 tmpX = g_WorldMatrix._11_12_13;
@@ -117,19 +117,19 @@ VS_OUT VS_MAIN(VS_IN In)
     
     Out.vScale = scale;
     
-    // ºä °ø°£ À§Ä¡ °è»ê (World * View) <-- Ãß°¡
+    // ë·° ê³µê°„ ìœ„ì¹˜ ê³„ì‚° (World * View) <-- ì¶”ê°€
     Out.vViewPos = mul(Out.vWorldPos, g_ViewMatrix).xyz;
 
-    // ÃÖÁ¾ Å¬¸³ °ø°£ À§Ä¡ °è»ê (World * View * Projection)
+    // ìµœì¢… í´ë¦½ ê³µê°„ ìœ„ì¹˜ ê³„ì‚° (World * View * Projection)
     //Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
     Out.vPosition = mul(float4(Out.vViewPos, 1.f), g_ProjMatrix);
 
-    // ÅØ½ºÃ³ ÁÂÇ¥ Àü´Ş
+    // í…ìŠ¤ì²˜ ì¢Œí‘œ ì „ë‹¬
     Out.vTexcoord = In.vTexcoord;
 
-    // ¹ı¼± º¤ÅÍ¸¦ ¿ùµå °ø°£À¸·Î º¯È¯ÇÏ¿© Àü´Ş
-    // WorldMatrix¿¡ non-uniform scalingÀÌ ¾ø´Ù¸é ÀÌ°ÍÀ¸·Î ÃæºĞ
-    // ¸¸¾à ÀÖ´Ù¸é, WorldInverseTranspose Çà·ÄÀ» »ç¿ëÇØ¾ß ÇÔ
+    // ë²•ì„  ë²¡í„°ë¥¼ ì›”ë“œ ê³µê°„ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì „ë‹¬
+    // WorldMatrixì— non-uniform scalingì´ ì—†ë‹¤ë©´ ì´ê²ƒìœ¼ë¡œ ì¶©ë¶„
+    // ë§Œì•½ ìˆë‹¤ë©´, WorldInverseTranspose í–‰ë ¬ì„ ì‚¬ìš©í•´ì•¼ í•¨
     Out.vNormal = normalize(mul(In.vNormal, (float3x3) g_WorldMatrix));
 
     return Out;
@@ -139,9 +139,9 @@ VS_OUT VS_ORTHO(VS_IN In)
 {
     VS_OUT Out;
 
-    // ¿ùµå º¯È¯ (World Position °è»ê)
+    // ì›”ë“œ ë³€í™˜ (World Position ê³„ì‚°)
     Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
-    // ºä °ø°£ À§Ä¡ °è»ê (World * View) <-- Ãß°¡
+    // ë·° ê³µê°„ ìœ„ì¹˜ ê³„ì‚° (World * View) <-- ì¶”ê°€
     Out.vViewPos = mul(Out.vWorldPos, g_ViewMatrix).xyz;
     
     float3 tmpX = g_WorldMatrix._11_12_13;
@@ -152,33 +152,33 @@ VS_OUT VS_ORTHO(VS_IN In)
     
     Out.vScale = scale;
 
-    // ÃÖÁ¾ Å¬¸³ °ø°£ À§Ä¡ °è»ê (World * View * Projection)
+    // ìµœì¢… í´ë¦½ ê³µê°„ ìœ„ì¹˜ ê³„ì‚° (World * View * Projection)
     //Out.vPosition = mul(Out.vWorldPos, g_ViewMatrix);
     //Out.vPosition = mul(Out.vPosition, g_ProjMatrix);
-    Out.vPosition = mul(float4(Out.vViewPos, 1.f), g_ProjMatrix); // vViewPos »ç¿ëÇÏµµ·Ï ¼öÁ¤
-    // ÅØ½ºÃ³ ÁÂÇ¥ Àü´Ş
+    Out.vPosition = mul(float4(Out.vViewPos, 1.f), g_ProjMatrix); // vViewPos ì‚¬ìš©í•˜ë„ë¡ ìˆ˜ì •
+    // í…ìŠ¤ì²˜ ì¢Œí‘œ ì „ë‹¬
     Out.vTexcoord = In.vTexcoord;
 
-    // ¹ı¼± º¤ÅÍ¸¦ ¿ùµå °ø°£À¸·Î º¯È¯ÇÏ¿© Àü´Ş
-    // WorldMatrix¿¡ non-uniform scalingÀÌ ¾ø´Ù¸é ÀÌ°ÍÀ¸·Î ÃæºĞ
-    // ¸¸¾à ÀÖ´Ù¸é, WorldInverseTranspose Çà·ÄÀ» »ç¿ëÇØ¾ß ÇÔ
+    // ë²•ì„  ë²¡í„°ë¥¼ ì›”ë“œ ê³µê°„ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì „ë‹¬
+    // WorldMatrixì— non-uniform scalingì´ ì—†ë‹¤ë©´ ì´ê²ƒìœ¼ë¡œ ì¶©ë¶„
+    // ë§Œì•½ ìˆë‹¤ë©´, WorldInverseTranspose í–‰ë ¬ì„ ì‚¬ìš©í•´ì•¼ í•¨
     Out.vNormal = normalize(mul(In.vNormal, (float3x3) g_WorldMatrix));
 
     return Out;
 }
 
-/* Á¤Á¡3°³°¡ ³ª¿Â´Ù */
-/* w³ª´©±â¿¬»ê. */
-/* ºäÆ÷Æ®º¯È¯ */
-/* ·¡½ºÅÍ¶óÀÌÁî -> ÇÈ¼¿¸¸µé¾ú´Ù. */
+/* ì •ì 3ê°œê°€ ë‚˜ì˜¨ë‹¤ */
+/* wë‚˜ëˆ„ê¸°ì—°ì‚°. */
+/* ë·°í¬íŠ¸ë³€í™˜ */
+/* ë˜ìŠ¤í„°ë¼ì´ì¦ˆ -> í”½ì…€ë§Œë“¤ì—ˆë‹¤. */
 
 struct PS_IN
 {
-    float4 vPosition : POSITION; // Å¬¸³ °ø°£ À§Ä¡
-    float2 vTexcoord : TEXCOORD0; // ÅØ½ºÃ³ ÁÂÇ¥
-    float4 vWorldPos : TEXCOORD1; // ¿ùµå °ø°£ À§Ä¡ (ÇÊ¿ä½Ã »ç¿ë)
-    float3 vNormal : TEXCOORD2; // ¿ùµå °ø°£ ¹ı¼± º¤ÅÍ Ãß°¡!
-    float3 vViewPos : TEXCOORD3; // ºä °ø°£ À§Ä¡ (¾È°³ °è»ê¿ë) <-- Ãß°¡
+    float4 vPosition : POSITION; // í´ë¦½ ê³µê°„ ìœ„ì¹˜
+    float2 vTexcoord : TEXCOORD0; // í…ìŠ¤ì²˜ ì¢Œí‘œ
+    float4 vWorldPos : TEXCOORD1; // ì›”ë“œ ê³µê°„ ìœ„ì¹˜ (í•„ìš”ì‹œ ì‚¬ìš©)
+    float3 vNormal : TEXCOORD2; // ì›”ë“œ ê³µê°„ ë²•ì„  ë²¡í„° ì¶”ê°€!
+    float3 vViewPos : TEXCOORD3; // ë·° ê³µê°„ ìœ„ì¹˜ (ì•ˆê°œ ê³„ì‚°ìš©) <-- ì¶”ê°€
     float3 vScale : TEXCOORD4;
 };
 
@@ -187,72 +187,72 @@ struct PS_OUT
     vector vColor : COLOR0;
 };
 
-/* ÇÈ¼¿ÀÇ »öÀ» °áÁ¤ÇÑ´Ù. */
+/* í”½ì…€ì˜ ìƒ‰ì„ ê²°ì •í•œë‹¤. */
 PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
-    // --- Á¶¸í °è»ê¿¡ ÇÊ¿äÇÑ º¤ÅÍµé °è»ê ---
+    // --- ì¡°ëª… ê³„ì‚°ì— í•„ìš”í•œ ë²¡í„°ë“¤ ê³„ì‚° ---
     float3 normal = normalize(In.vNormal * sign(facing));
     float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz);
-    //float3 lightVec = -g_LightDirection; // ¶óÀÌÆ® ¹æÇâ
+    //float3 lightVec = -g_LightDirection; // ë¼ì´íŠ¸ ë°©í–¥
 
-    // --- ÅØ½ºÃ³ »ùÇÃ¸µ ---
+    // --- í…ìŠ¤ì²˜ ìƒ˜í”Œë§ ---
     float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
-    // --- Á¶¸í ¿ä¼Ò °è»ê ---
+    // --- ì¡°ëª… ìš”ì†Œ ê³„ì‚° ---
 
-    // --- ÃÖÁ¾ »ö»ó °è»êÀ» À§ÇÑ º¯¼ö ÃÊ±âÈ­ ---
-    // 1. ±âº» »ö»ó °è»ê (Ambient + Emissive)
+    // --- ìµœì¢… ìƒ‰ìƒ ê³„ì‚°ì„ ìœ„í•œ ë³€ìˆ˜ ì´ˆê¸°í™” ---
+    // 1. ê¸°ë³¸ ìƒ‰ìƒ ê³„ì‚° (Ambient + Emissive)
     float3 accumulatedColor = (baseColor.rgb * g_Material.Ambient.rgb * g_Material.Diffuse.rgb) + g_Material.Emissive.rgb;
     
-    // --- Àü¿ª(Global) ¹æÇâ¼º ¶óÀÌÆ® °è»ê Ãß°¡ ---
-    /*float3 globalLightVec = normalize(-g_LightDirection); // ¶óÀÌÆ®¸¦ ÇâÇÏ´Â º¤ÅÍ
-    float NdotL_global = saturate(dot(normal, globalLightVec)); // ¹ı¼±°ú ¶óÀÌÆ® º¤ÅÍ ³»Àû
+    // --- ì „ì—­(Global) ë°©í–¥ì„± ë¼ì´íŠ¸ ê³„ì‚° ì¶”ê°€ ---
+    /*float3 globalLightVec = normalize(-g_LightDirection); // ë¼ì´íŠ¸ë¥¼ í–¥í•˜ëŠ” ë²¡í„°
+    float NdotL_global = saturate(dot(normal, globalLightVec)); // ë²•ì„ ê³¼ ë¼ì´íŠ¸ ë²¡í„° ë‚´ì 
 
-    if (NdotL_global > 0.0f) // ¶óÀÌÆ®¸¦ ¹Ş´Â ºÎºĞ¸¸ °è»ê
+    if (NdotL_global > 0.0f) // ë¼ì´íŠ¸ë¥¼ ë°›ëŠ” ë¶€ë¶„ë§Œ ê³„ì‚°
     {
-        // Àü¿ª ¶óÀÌÆ® Diffuse °è»ê
+        // ì „ì—­ ë¼ì´íŠ¸ Diffuse ê³„ì‚°
         float3 globalDiffuse = baseColor.rgb * g_Material.Diffuse.rgb * NdotL_global * g_LightColor.rgb;
 
-        // Àü¿ª ¶óÀÌÆ® Specular °è»ê
+        // ì „ì—­ ë¼ì´íŠ¸ Specular ê³„ì‚°
         float3 halfwayDir_global = normalize(globalLightVec + viewDir);
         float NdotH_global = saturate(dot(normal, halfwayDir_global));
-        float specPower_global = pow(NdotH_global, g_Material.Power); // ÀçÁúÀÇ Power »ç¿ë
+        float specPower_global = pow(NdotH_global, g_Material.Power); // ì¬ì§ˆì˜ Power ì‚¬ìš©
         float3 globalSpecular = g_Material.Specular.rgb * specPower_global * g_LightColor.rgb;
 
-        // Àü¿ª ¶óÀÌÆ® ±â¿©µµ ´©Àû (¹æÇâ¼º ¶óÀÌÆ®´Â °¨¼è ¾øÀ½)
+        // ì „ì—­ ë¼ì´íŠ¸ ê¸°ì—¬ë„ ëˆ„ì  (ë°©í–¥ì„± ë¼ì´íŠ¸ëŠ” ê°ì‡  ì—†ìŒ)
         accumulatedColor += (globalDiffuse + globalSpecular);
     }*/
-    // --- Àü¿ª ¶óÀÌÆ® °è»ê ³¡ ---
+    // --- ì „ì—­ ë¼ì´íŠ¸ ê³„ì‚° ë ---
 
-    // 2. °¢ ¶óÀÌÆ® ½½·Ô¿¡ ´ëÇÑ ±â¿©µµ °è»ê ¹× ´©Àû
+    // 2. ê° ë¼ì´íŠ¸ ìŠ¬ë¡¯ì— ëŒ€í•œ ê¸°ì—¬ë„ ê³„ì‚° ë° ëˆ„ì 
     for (int i = 0; i < g_NumActiveLights; ++i)
     {
         
-        // ÇöÀç Ã³¸®ÇÒ ¶óÀÌÆ® Á¤º¸ °¡Á®¿À±â
+        // í˜„ì¬ ì²˜ë¦¬í•  ë¼ì´íŠ¸ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
         Light currentLight = g_Lights[i];
 
-        // --- Å¸ÀÔ È®ÀÎ: 0¹ø(LT_UNUSED)ÀÌ¸é °è»ê °Ç³Ê¶Ù±â ---
+        // --- íƒ€ì… í™•ì¸: 0ë²ˆ(LT_UNUSED)ì´ë©´ ê³„ì‚° ê±´ë„ˆë›°ê¸° ---
         if (currentLight.Type == 0) // LT_UNUSED
         {
-            continue; // ´ÙÀ½ ¶óÀÌÆ®·Î ³Ñ¾î°¨
+            continue; // ë‹¤ìŒ ë¼ì´íŠ¸ë¡œ ë„˜ì–´ê°
         }
         
         
 
-        // ÇöÀç ¶óÀÌÆ® °è»ê¿¡ ÇÊ¿äÇÑ º¯¼ö ÃÊ±âÈ­
-        float3 lightVec = float3(0.0f, 0.0f, 0.0f); // ÇÈ¼¿¿¡¼­ ¶óÀÌÆ®·Î ÇâÇÏ´Â Á¤±ÔÈ­µÈ º¤ÅÍ
-        float attenuation = 0.0f; // ¶óÀÌÆ® °¨¼è °ª (0.0 ~ 1.0)
-        float NdotL = 0.0f; // ¹ı¼±°ú ¶óÀÌÆ® º¤ÅÍ ³»Àû °ª
+        // í˜„ì¬ ë¼ì´íŠ¸ ê³„ì‚°ì— í•„ìš”í•œ ë³€ìˆ˜ ì´ˆê¸°í™”
+        float3 lightVec = float3(0.0f, 0.0f, 0.0f); // í”½ì…€ì—ì„œ ë¼ì´íŠ¸ë¡œ í–¥í•˜ëŠ” ì •ê·œí™”ëœ ë²¡í„°
+        float attenuation = 0.0f; // ë¼ì´íŠ¸ ê°ì‡  ê°’ (0.0 ~ 1.0)
+        float NdotL = 0.0f; // ë²•ì„ ê³¼ ë¼ì´íŠ¸ ë²¡í„° ë‚´ì  ê°’
 
-        // ¶óÀÌÆ® Å¸ÀÔº° °è»ê (Å¸ÀÔ ¹øÈ£ º¯°æµÊ!)
+        // ë¼ì´íŠ¸ íƒ€ì…ë³„ ê³„ì‚° (íƒ€ì… ë²ˆí˜¸ ë³€ê²½ë¨!)
         if (currentLight.Type == 3) // Directional Light (LT_DIR = 3)
         {
             lightVec = normalize(-currentLight.Direction).xyz;
             NdotL = saturate(dot(normal, lightVec));
-            attenuation = 1.0f; // ¹æÇâ¼ºÀº °¨¼è ¾øÀ½
+            attenuation = 1.0f; // ë°©í–¥ì„±ì€ ê°ì‡  ì—†ìŒ
         }
         else if (currentLight.Type == 1) // Point Light (LT_POINT = 1)
         {
@@ -276,7 +276,7 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
         }
         else if (currentLight.Type == 2) // Spot Light (LT_SPOT = 2)
         {
-            // ½ºÆ÷Æ®¶óÀÌÆ® °è»ê (ÇöÀç´Â Æ÷ÀÎÆ® ¶óÀÌÆ®¿Í µ¿ÀÏÇÏ°Ô Ã³¸®, ÃßÈÄ È®Àå °¡´É)
+            // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ê³„ì‚° (í˜„ì¬ëŠ” í¬ì¸íŠ¸ ë¼ì´íŠ¸ì™€ ë™ì¼í•˜ê²Œ ì²˜ë¦¬, ì¶”í›„ í™•ì¥ ê°€ëŠ¥)
             float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz;
             float distSq = dot(dirToLight, dirToLight);
             float dist = sqrt(distSq);
@@ -289,9 +289,22 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
                                                 currentLight.Attenuation1 * dist +
                                                 currentLight.Attenuation2 * distSq));
 
-                // TODO: ¿©±â¿¡ ½ºÆ÷Æ®¶óÀÌÆ® ¿ø»Ô°¢/°¨¼è °è»ê Ãß°¡
-                // float spotFactor = ... °è»ê ...
-                // attenuation *= spotFactor;
+                float3 lightDirection = currentLight.Direction.xyz;
+                float spotCosAngle = dot(-lightVec, lightDirection);
+                
+                if (spotCosAngle >= currentLight.Phi)
+                {
+                    NdotL = saturate(dot(normal, lightVec));
+
+                    if (NdotL > 0.0f)
+                    {
+                        float distanceAttenuation = saturate(1.0f / (currentLight.Attenuation0 +
+                                                     currentLight.Attenuation1 * dist +
+                                                     currentLight.Attenuation2 * distSq));
+                        float spotFactor = smoothstep(currentLight.Phi, currentLight.Theta, spotCosAngle);
+                        attenuation = distanceAttenuation * spotFactor;
+                    }
+                }
             }
             else
             {
@@ -302,72 +315,72 @@ PS_OUT PS_LIT(PS_IN In, float facing : VFACE)
         
         
 
-        // ÇöÀç ¶óÀÌÆ®ÀÇ ±â¿©µµ°¡ À¯È¿ÇÏ´Ù¸é (NdotL > 0, attenuation > 0)
-        // (Type 0Àº À§¿¡¼­ continue·Î °É·¯Á³À¸¹Ç·Î ¿©±â¼­´Â 1, 2, 3 Å¸ÀÔ¸¸ °í·ÁµÊ)
+        // í˜„ì¬ ë¼ì´íŠ¸ì˜ ê¸°ì—¬ë„ê°€ ìœ íš¨í•˜ë‹¤ë©´ (NdotL > 0, attenuation > 0)
+        // (Type 0ì€ ìœ„ì—ì„œ continueë¡œ ê±¸ëŸ¬ì¡Œìœ¼ë¯€ë¡œ ì—¬ê¸°ì„œëŠ” 1, 2, 3 íƒ€ì…ë§Œ ê³ ë ¤ë¨)
         
         if (NdotL > 0.0f && attenuation > 0.0f)
         {
             
-            // µğÇ»Áî(Diffuse) °è»ê
+            // ë””í“¨ì¦ˆ(Diffuse) ê³„ì‚°
             float3 diffuse = baseColor.rgb * g_Material.Diffuse.rgb * NdotL * currentLight.Color.rgb;
 
-            // ½ºÆäÅ§·¯(Specular) °è»ê
+            // ìŠ¤í˜í˜ëŸ¬(Specular) ê³„ì‚°
             float3 halfwayDir = normalize(lightVec + viewDir);
             float NdotH = saturate(dot(normal, halfwayDir));
             float specPower = pow(NdotH, g_Material.Power);
             float3 specular = g_Material.Specular.rgb * specPower * currentLight.Color.rgb;
 
-            // ÇöÀç ¶óÀÌÆ®ÀÇ ÃÖÁ¾ ±â¿©µµ = (µğÇ»Áî + ½ºÆäÅ§·¯) * °¨¼è
+            // í˜„ì¬ ë¼ì´íŠ¸ì˜ ìµœì¢… ê¸°ì—¬ë„ = (ë””í“¨ì¦ˆ + ìŠ¤í˜í˜ëŸ¬) * ê°ì‡ 
             float3 currentLightContribution = (diffuse + specular) * attenuation;
 
-            // ÃÖÁ¾ »ö»ó¿¡ ÇöÀç ¶óÀÌÆ® ±â¿©µµ ´©Àû
+            // ìµœì¢… ìƒ‰ìƒì— í˜„ì¬ ë¼ì´íŠ¸ ê¸°ì—¬ë„ ëˆ„ì 
             accumulatedColor += currentLightContribution;
         }
 
     } // End of for loop*/
 
 
-    // --- ÃÖÁ¾ »ö»ó Á¶ÇÕ ¹× ÈÄÃ³¸® ---
+    // --- ìµœì¢… ìƒ‰ìƒ ì¡°í•© ë° í›„ì²˜ë¦¬ ---
     float4 litColor;
     litColor.rgb = saturate(accumulatedColor);
-    litColor.a = baseColor.a * g_Material.Diffuse.a; // ¾ËÆÄ °ª
+    litColor.a = baseColor.a * g_Material.Diffuse.a; // ì•ŒíŒŒ ê°’
 
-    // --- ¾È°³ È¿°ú °è»ê ---
+    // --- ì•ˆê°œ íš¨ê³¼ ê³„ì‚° ---
     float distance = length(In.vViewPos);
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
     
-    // === »õ·Î¿î Additive ¹æ½Ä ===
-    // 1. ¾È°³ ±â¿©µµ °è»ê (¾È°³ »ö»ó * ¾È°³ ÀÎÀÚ)
+    // === ìƒˆë¡œìš´ Additive ë°©ì‹ ===
+    // 1. ì•ˆê°œ ê¸°ì—¬ë„ ê³„ì‚° (ì•ˆê°œ ìƒ‰ìƒ * ì•ˆê°œ ì¸ì)
     float3 fogContribution = g_FogColor * fogFactor;
-    // 2. ¿ø·¡ Á¶¸í »ö»ó¿¡ ¾È°³ ±â¿©µµ¸¦ ´õÇÔ (saturate·Î 0~1 ¹üÀ§ À¯Áö)
+    // 2. ì›ë˜ ì¡°ëª… ìƒ‰ìƒì— ì•ˆê°œ ê¸°ì—¬ë„ë¥¼ ë”í•¨ (saturateë¡œ 0~1 ë²”ìœ„ ìœ ì§€)
     Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
     //Out.vColor.rgb = saturate(litColor.rgb + fogContribution);
-    // 3. ¾ËÆÄ °ªÀº ¿ø·¡ ¾ËÆÄ °ª À¯Áö
+    // 3. ì•ŒíŒŒ ê°’ì€ ì›ë˜ ì•ŒíŒŒ ê°’ ìœ ì§€
     Out.vColor.a = litColor.a;
 
-    // --- ¾ËÆÄ Å×½ºÆ® ---
+    // --- ì•ŒíŒŒ í…ŒìŠ¤íŠ¸ ---
     if (Out.vColor.a < 0.8f) discard;
 
     return Out;
 }
 
-// »õ·Î¿î 'Unlit' ÇÈ¼¿ ¼ÎÀÌ´õ
-PS_OUT PS_WEAPON(PS_IN In, float facing : VFACE) // VFACE´Â ¾ç¸é ·»´õ¸µ ½Ã ÇÊ¿äÇÒ ¼ö ÀÖÀ½
+// ìƒˆë¡œìš´ 'Unlit' í”½ì…€ ì…°ì´ë”
+PS_OUT PS_WEAPON(PS_IN In, float facing : VFACE) // VFACEëŠ” ì–‘ë©´ ë Œë”ë§ ì‹œ í•„ìš”í•  ìˆ˜ ìˆìŒ
 {
     PS_OUT Out;
 
-    // 1. ÅØ½ºÃ³ »ö»ó °¡Á®¿À±â
+    // 1. í…ìŠ¤ì²˜ ìƒ‰ìƒ ê°€ì ¸ì˜¤ê¸°
     float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
-    // 2. (¼±ÅÃ »çÇ×) ÀçÁúÀÇ Diffuse »ö»óÀ» °öÇÏ¿© ±âº» »ö»ó Á¶Àı
-    baseColor *= g_Material.Diffuse; // Material ±¸Á¶Ã¼ »ç¿ë ½Ã
+    // 2. (ì„ íƒ ì‚¬í•­) ì¬ì§ˆì˜ Diffuse ìƒ‰ìƒì„ ê³±í•˜ì—¬ ê¸°ë³¸ ìƒ‰ìƒ ì¡°ì ˆ
+    baseColor *= g_Material.Diffuse; // Material êµ¬ì¡°ì²´ ì‚¬ìš© ì‹œ
     Out.vColor = baseColor;
 
-    // 4. ¾ËÆÄ °ª Ã³¸® (ÅØ½ºÃ³ ¾ËÆÄ¿Í ÀçÁú ¾ËÆÄ °öÇÏ±â µî)
-    //Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ¸¸¾à Diffuse¸¦ °öÇß´Ù¸é
+    // 4. ì•ŒíŒŒ ê°’ ì²˜ë¦¬ (í…ìŠ¤ì²˜ ì•ŒíŒŒì™€ ì¬ì§ˆ ì•ŒíŒŒ ê³±í•˜ê¸° ë“±)
+    //Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ë§Œì•½ Diffuseë¥¼ ê³±í–ˆë‹¤ë©´
 
-    // 5. (¼±ÅÃ »çÇ×) ¾ËÆÄ °ª¿¡ µû¸¥ discard ·ÎÁ÷
+    // 5. (ì„ íƒ ì‚¬í•­) ì•ŒíŒŒ ê°’ì— ë”°ë¥¸ discard ë¡œì§
     if (Out.vColor.a < 0.7f)
        discard;
 
@@ -378,67 +391,72 @@ PS_OUT PS_PORTAL(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
-    // 1. ÅØ½ºÃ³ »ö»ó °¡Á®¿À±â
+    // 1. í…ìŠ¤ì²˜ ìƒ‰ìƒ ê°€ì ¸ì˜¤ê¸°
     float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
-    // 2. ÅØ½ºÃ³ÀÇ RGB¿Í ÀçÁúÀÇ Diffuse RGB¸¦ °öÇÏ¿© ±âº» »ö»ó Á¶Àı
-    //    (ÀçÁúÀÇ ¾ËÆÄ´Â ÃÖÁ¾ ¾ËÆÄ ¼³Á¤¿¡¸¸ »ç¿ë)
+    // 2. í…ìŠ¤ì²˜ì˜ RGBì™€ ì¬ì§ˆì˜ Diffuse RGBë¥¼ ê³±í•˜ì—¬ ê¸°ë³¸ ìƒ‰ìƒ ì¡°ì ˆ
+    //    (ì¬ì§ˆì˜ ì•ŒíŒŒëŠ” ìµœì¢… ì•ŒíŒŒ ì„¤ì •ì—ë§Œ ì‚¬ìš©)
     baseColor *= g_Material.Diffuse;
     Out.vColor = baseColor;
-    // 3. ÃÖÁ¾ »ö»ó ¼³Á¤
-    //    RGB´Â À§¿¡¼­ °è»êÇÑ °ªÀ» »ç¿ëÇÏ°í,
-    //    Alpha´Â ÀçÁúÀÇ ¾ËÆÄ °ª(g_Material.Diffuse.a)À» Á÷Á¢ »ç¿ë
+    
+    // 3. ìµœì¢… ìƒ‰ìƒ ì„¤ì •
+    //    RGBëŠ” ìœ„ì—ì„œ ê³„ì‚°í•œ ê°’ì„ ì‚¬ìš©í•˜ê³ ,
+    //    AlphaëŠ” ì¬ì§ˆì˜ ì•ŒíŒŒ ê°’(g_Material.Diffuse.a)ì„ ì§ì ‘ ì‚¬ìš©
     //Out.vColor = float4(baseColor.rgb, g_Material.Diffuse.a);
 
-    // 4. (¼±ÅÃ »çÇ×) ¾ËÆÄ °ª¿¡ µû¸¥ discard ·ÎÁ÷
-    //    ÀÌÁ¦ discard Á¶°ÇÀº ÀçÁúÀÇ ¾ËÆÄ °ª¿¡ µû¶ó °áÁ¤µË´Ï´Ù.
-    if (Out.vColor.a < 0.5f) // ÇÊ¿ä¿¡ µû¶ó ÀÌ ÀÓ°è°ªÀ» Á¶ÀıÇÏ¼¼¿ä.
+    // 4. (ì„ íƒ ì‚¬í•­) ì•ŒíŒŒ ê°’ì— ë”°ë¥¸ discard ë¡œì§
+    //    ì´ì œ discard ì¡°ê±´ì€ ì¬ì§ˆì˜ ì•ŒíŒŒ ê°’ì— ë”°ë¼ ê²°ì •ë©ë‹ˆë‹¤.
+    if (Out.vColor.r > 0.5f &&
+        Out.vColor.g > 0.5f &&
+        Out.vColor.b > 0.5f)
+        discard;
+    if (Out.vColor.a < 0.5f) // í•„ìš”ì— ë”°ë¼ ì´ ì„ê³„ê°’ì„ ì¡°ì ˆí•˜ì„¸ìš”.
        discard;
 
     return Out;
 }
 
-// »õ·Î¿î 'Unlit' ÇÈ¼¿ ¼ÎÀÌ´õ
-PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACE´Â ¾ç¸é ·»´õ¸µ ½Ã ÇÊ¿äÇÒ ¼ö ÀÖÀ½
+// ìƒˆë¡œìš´ 'Unlit' í”½ì…€ ì…°ì´ë”
+PS_OUT PS_UNLIT(PS_IN In, float facing : VFACE) // VFACEëŠ” ì–‘ë©´ ë Œë”ë§ ì‹œ í•„ìš”í•  ìˆ˜ ìˆìŒ
 {
     PS_OUT Out;
 
-    // 1. ÅØ½ºÃ³ »ö»ó °¡Á®¿À±â
+    // 1. í…ìŠ¤ì²˜ ìƒ‰ìƒ ê°€ì ¸ì˜¤ê¸°
   //  float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
     float2 tiledUV = g_bUseTiling ? (In.vTexcoord * g_ScaleFactor + g_OffsetFactor) : In.vTexcoord;
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
-    // 2. (¼±ÅÃ »çÇ×) ÀçÁúÀÇ Diffuse »ö»óÀ» °öÇÏ¿© ±âº» »ö»ó Á¶Àı
-    baseColor *= g_Material.Diffuse; // Material ±¸Á¶Ã¼ »ç¿ë ½Ã
+    // 2. (ì„ íƒ ì‚¬í•­) ì¬ì§ˆì˜ Diffuse ìƒ‰ìƒì„ ê³±í•˜ì—¬ ê¸°ë³¸ ìƒ‰ìƒ ì¡°ì ˆ
+    baseColor *= g_Material.Diffuse; // Material êµ¬ì¡°ì²´ ì‚¬ìš© ì‹œ
 
-    // HP Å¬¸®ÇÎ ¿©ºÎ¿¡ µû¸¥ Ã³¸®
+    // HP í´ë¦¬í•‘ ì—¬ë¶€ì— ë”°ë¥¸ ì²˜ë¦¬
     if (g_bUseHPClip)
     {
-        // ¸¸¾à UVÀÇ x°¡ g_HpRatioº¸´Ù Å©¸é ÇØ´ç ÇÈ¼¿ÀÇ ¾ËÆÄ¸¦ 0À¸·Î ¼³Á¤ (º¸ÀÌÁö ¾Ê°Ô Ã³¸®)
+        // ë§Œì•½ UVì˜ xê°€ g_HpRatioë³´ë‹¤ í¬ë©´ í•´ë‹¹ í”½ì…€ì˜ ì•ŒíŒŒë¥¼ 0ìœ¼ë¡œ ì„¤ì • (ë³´ì´ì§€ ì•Šê²Œ ì²˜ë¦¬)
         if (tiledUV.x < (1.0 - g_HpRatio))
             baseColor.a = 0.0f;
     }
     
-    // --- ¾È°³ È¿°ú °è»ê ½ÃÀÛ ---
-    float distance = length(In.vViewPos); // º¸°£µÈ ºä °ø°£ À§Ä¡ »ç¿ë
+    // --- ì•ˆê°œ íš¨ê³¼ ê³„ì‚° ì‹œì‘ ---
+    float distance = length(In.vViewPos); // ë³´ê°„ëœ ë·° ê³µê°„ ìœ„ì¹˜ ì‚¬ìš©
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
 
-    // 3. ÅØ½ºÃ³(¶Ç´Â Á¶ÀıµÈ) »ö»ó°ú ¾È°³ »ö»óÀ» È¥ÇÕ
-    // === »õ·Î¿î Additive ¹æ½Ä ===
-    // 1. ¾È°³ ±â¿©µµ °è»ê (¾È°³ »ö»ó * ¾È°³ ÀÎÀÚ)
+    // 3. í…ìŠ¤ì²˜(ë˜ëŠ” ì¡°ì ˆëœ) ìƒ‰ìƒê³¼ ì•ˆê°œ ìƒ‰ìƒì„ í˜¼í•©
+    // === ìƒˆë¡œìš´ Additive ë°©ì‹ ===
+    // 1. ì•ˆê°œ ê¸°ì—¬ë„ ê³„ì‚° (ì•ˆê°œ ìƒ‰ìƒ * ì•ˆê°œ ì¸ì)
     float3 fogContribution = g_FogColor * fogFactor;
-    // 2. ¿ø·¡ Á¶¸í »ö»ó¿¡ ¾È°³ ±â¿©µµ¸¦ ´õÇÔ (saturate·Î 0~1 ¹üÀ§ À¯Áö)
+    // 2. ì›ë˜ ì¡°ëª… ìƒ‰ìƒì— ì•ˆê°œ ê¸°ì—¬ë„ë¥¼ ë”í•¨ (saturateë¡œ 0~1 ë²”ìœ„ ìœ ì§€)
     Out.vColor.rgb = saturate(baseColor.rgb + fogContribution);
-    // 3. ¾ËÆÄ °ªÀº ¿ø·¡ ¾ËÆÄ °ª À¯Áö
+    // 3. ì•ŒíŒŒ ê°’ì€ ì›ë˜ ì•ŒíŒŒ ê°’ ìœ ì§€
     Out.vColor.a = baseColor.a;
 //    Out.vColor = lerp(baseColor, float4(g_FogColor, baseColor.a), fogFactor);
-    // --- ¾È°³ È¿°ú °è»ê ³¡ ---
+    // --- ì•ˆê°œ íš¨ê³¼ ê³„ì‚° ë ---
 
-    // 4. ¾ËÆÄ °ª Ã³¸® (ÅØ½ºÃ³ ¾ËÆÄ¿Í ÀçÁú ¾ËÆÄ °öÇÏ±â µî)
-    // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ¸¸¾à Diffuse¸¦ °öÇß´Ù¸é
+    // 4. ì•ŒíŒŒ ê°’ ì²˜ë¦¬ (í…ìŠ¤ì²˜ ì•ŒíŒŒì™€ ì¬ì§ˆ ì•ŒíŒŒ ê³±í•˜ê¸° ë“±)
+    // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ë§Œì•½ Diffuseë¥¼ ê³±í–ˆë‹¤ë©´
 
-    // 5. (¼±ÅÃ »çÇ×) ¾ËÆÄ °ª¿¡ µû¸¥ discard ·ÎÁ÷
+    // 5. (ì„ íƒ ì‚¬í•­) ì•ŒíŒŒ ê°’ì— ë”°ë¥¸ discard ë¡œì§
     if (Out.vColor.a < 0.7f)
          discard;
 
@@ -449,14 +467,14 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
-    // --- ±âº» º¤ÅÍ °è»ê ---
+    // --- ê¸°ë³¸ ë²¡í„° ê³„ì‚° ---
     float3 normal = normalize(In.vNormal * sign(facing));
     float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz);
 
-    // --- ÅØ½ºÃ³ »ùÇÃ¸µ ---
-    float4 baseColor = tex2D(DefaultSampler, In.vTexcoord); // Å¸ÀÏ¸µ ¹ÌÀû¿ë
+    // --- í…ìŠ¤ì²˜ ìƒ˜í”Œë§ ---
+    float4 baseColor = tex2D(DefaultSampler, In.vTexcoord); // íƒ€ì¼ë§ ë¯¸ì ìš©
 
-    // --- ÃÖÁ¾ »ö»ó °è»êÀ» À§ÇÑ º¯¼ö ÃÊ±âÈ­ ---
+    // --- ìµœì¢… ìƒ‰ìƒ ê³„ì‚°ì„ ìœ„í•œ ë³€ìˆ˜ ì´ˆê¸°í™” ---
     float3 accumulatedColor = (baseColor.rgb * g_Material.Diffuse.rgb * g_AmbientLightColor.rgb) + g_Material.Emissive.rgb;
 
     Light currentLight = g_Lights[0];
@@ -465,10 +483,10 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
     float attenuation = 0.0f;
     float NdotL = 0.0f;*/
     
-            // --- È®ÀÎÇÏ°í ½ÍÀº °ª¿¡ µû¶ó ¾Æ·¡ ÄÚµå Áß ÇÏ³ª¸¸ ÁÖ¼® ÇØÁ¦ ---
+            // --- í™•ì¸í•˜ê³  ì‹¶ì€ ê°’ì— ë”°ë¼ ì•„ë˜ ì½”ë“œ ì¤‘ í•˜ë‚˜ë§Œ ì£¼ì„ í•´ì œ ---
 
-            // [µğ¹ö±ë 1] ¶óÀÌÆ® Å¸ÀÔ(Type) È®ÀÎÇÏ±â
-            // Type °ª¿¡ µû¶ó ´Ù¸¥ »ö»ó Ãâ·Â (0:°ËÁ¤, 1:»¡°­, 2:ÃÊ·Ï, 3:ÆÄ¶û)
+            // [ë””ë²„ê¹… 1] ë¼ì´íŠ¸ íƒ€ì…(Type) í™•ì¸í•˜ê¸°
+            // Type ê°’ì— ë”°ë¼ ë‹¤ë¥¸ ìƒ‰ìƒ ì¶œë ¥ (0:ê²€ì •, 1:ë¹¨ê°•, 2:ì´ˆë¡, 3:íŒŒë‘)
             
             /*if (currentLight.Type == 1) { Out.vColor = float4(1.f, 0.f, 0.f, 1.f); return Out; } // Point = Red
             else if (currentLight.Type == 2) { Out.vColor = float4(0.f, 1.f, 0.f, 1.f); return Out; } // Spot = Green
@@ -476,32 +494,32 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             else { Out.vColor = float4(0.f, 0.f, 0.f, 1.f); return Out; } // Unused(0) or Unknown = Black*/
             
 
-            // [µğ¹ö±ë 2] ¶óÀÌÆ® »ö»ó(Color/fDiffuse) È®ÀÎÇÏ±â
-            // ¶óÀÌÆ®ÀÇ Color °ªÀ» ±×´ë·Î Ãâ·Â (Alpha´Â 1·Î °íÁ¤)
+            // [ë””ë²„ê¹… 2] ë¼ì´íŠ¸ ìƒ‰ìƒ(Color/fDiffuse) í™•ì¸í•˜ê¸°
+            // ë¼ì´íŠ¸ì˜ Color ê°’ì„ ê·¸ëŒ€ë¡œ ì¶œë ¥ (AlphaëŠ” 1ë¡œ ê³ ì •)
             
             /*Out.vColor = float4(currentLight.Color.rgb, 1.0f);
             return Out; */
 
-            // [µğ¹ö±ë 3] ¶óÀÌÆ® À§Ä¡(Position) È®ÀÎÇÏ±â (x,y,z -> R,G,B)
-            // À§Ä¡ °ªÀº ¹üÀ§°¡ Å©¹Ç·Î ÀûÀıÈ÷ ½ºÄÉÀÏ¸µÇÏ¿© [0,1] ¹üÀ§·Î ¸¸µé¾î ½Ã°¢È­
-            // ¿¹: ¿ùµå ÁÂÇ¥ ±âÁØ -50 ~ +50 ¹üÀ§¸¦ [0,1]·Î ¸ÅÇÎ °¡Á¤
+            // [ë””ë²„ê¹… 3] ë¼ì´íŠ¸ ìœ„ì¹˜(Position) í™•ì¸í•˜ê¸° (x,y,z -> R,G,B)
+            // ìœ„ì¹˜ ê°’ì€ ë²”ìœ„ê°€ í¬ë¯€ë¡œ ì ì ˆíˆ ìŠ¤ì¼€ì¼ë§í•˜ì—¬ [0,1] ë²”ìœ„ë¡œ ë§Œë“¤ì–´ ì‹œê°í™”
+            // ì˜ˆ: ì›”ë“œ ì¢Œí‘œ ê¸°ì¤€ -50 ~ +50 ë²”ìœ„ë¥¼ [0,1]ë¡œ ë§¤í•‘ ê°€ì •
             
-            /*float3 posColor = saturate(abs(currentLight.Position) / 50.f); // Àı´ë°ªÀ» 50À¸·Î ³ª´©¾î [0,1]·Î ¸¸µë
+            /*float3 posColor = saturate(abs(currentLight.Position) / 50.f); // ì ˆëŒ€ê°’ì„ 50ìœ¼ë¡œ ë‚˜ëˆ„ì–´ [0,1]ë¡œ ë§Œë“¬
             Out.vColor = float4(posColor, 1.0f);
             return Out;*/
             
 
-            // [µğ¹ö±ë 4] ¶óÀÌÆ® ¹æÇâ(Direction) È®ÀÎÇÏ±â (x,y,z -> R,G,B)
-            // ¹æÇâ º¤ÅÍ °ª(-1 ~ +1)À» [0,1] ¹üÀ§·Î º¯È¯ÇÏ¿© ½Ã°¢È­
+            // [ë””ë²„ê¹… 4] ë¼ì´íŠ¸ ë°©í–¥(Direction) í™•ì¸í•˜ê¸° (x,y,z -> R,G,B)
+            // ë°©í–¥ ë²¡í„° ê°’(-1 ~ +1)ì„ [0,1] ë²”ìœ„ë¡œ ë³€í™˜í•˜ì—¬ ì‹œê°í™”
             
             /*float3 dirForColor = (normalize(currentLight.Direction) + 1.0f) * 0.5f;
             Out.vColor = float4(dirForColor, 1.0f);
             return Out;*/
             
 
-            // [µğ¹ö±ë 5] ¶óÀÌÆ® ¹üÀ§(Range) È®ÀÎÇÏ±â (»¡°£»ö Ã¤³Î »ç¿ë)
-            // Range °ªÀ» Æ¯Á¤ ÃÖ´ë°ªÀ¸·Î ³ª´©¾î [0,1] ¹üÀ§·Î ¸¸µé¾î ½Ã°¢È­
-            // ¿¹: ÃÖ´ë Range 50À¸·Î °¡Á¤
+            // [ë””ë²„ê¹… 5] ë¼ì´íŠ¸ ë²”ìœ„(Range) í™•ì¸í•˜ê¸° (ë¹¨ê°„ìƒ‰ ì±„ë„ ì‚¬ìš©)
+            // Range ê°’ì„ íŠ¹ì • ìµœëŒ€ê°’ìœ¼ë¡œ ë‚˜ëˆ„ì–´ [0,1] ë²”ìœ„ë¡œ ë§Œë“¤ì–´ ì‹œê°í™”
+            // ì˜ˆ: ìµœëŒ€ Range 50ìœ¼ë¡œ ê°€ì •
             
             
             /*float rangeColor = currentLight.Range / 50.f;  //saturate(currentLight.Range / 50.f);
@@ -509,38 +527,38 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             return Out;*/
             
 
-            // [µğ¹ö±ë 6] ¶óÀÌÆ® °¨¼è(Attenuation1) È®ÀÎÇÏ±â (³ì»ö Ã¤³Î »ç¿ë)
-            // Attenuation1 °ªÀ» Æ¯Á¤ ÃÖ´ë°ªÀ¸·Î ³ª´©¾î [0,1] ¹üÀ§·Î ¸¸µé¾î ½Ã°¢È­
-            // ¿¹: ÃÖ´ë Attenuation1 1.0À¸·Î °¡Á¤
+            // [ë””ë²„ê¹… 6] ë¼ì´íŠ¸ ê°ì‡ (Attenuation1) í™•ì¸í•˜ê¸° (ë…¹ìƒ‰ ì±„ë„ ì‚¬ìš©)
+            // Attenuation1 ê°’ì„ íŠ¹ì • ìµœëŒ€ê°’ìœ¼ë¡œ ë‚˜ëˆ„ì–´ [0,1] ë²”ìœ„ë¡œ ë§Œë“¤ì–´ ì‹œê°í™”
+            // ì˜ˆ: ìµœëŒ€ Attenuation1 1.0ìœ¼ë¡œ ê°€ì •
             
             /* float atten1Color = saturate(currentLight.Attenuation1 / 1.0f);
             Out.vColor = float4(0.f, atten1Color, 0.f, 1.f);
             return Out; */
     
 
-            // [µğ¹ö±ë 7] ½ÇÁ¦ °è»êµÈ °¨¼è°ª(attenuation) È®ÀÎÇÏ±â (È¸»öÁ¶)
-            // ÀÌ µğ¹ö±ë ÄÚµå¸¦ »ç¿ëÇÏ·Á¸é ¾Æ·¡ÀÇ ½ÇÁ¦ °è»ê ·ÎÁ÷ ÀÏºÎ°¡ ÇÊ¿äÇÔ
+            // [ë””ë²„ê¹… 7] ì‹¤ì œ ê³„ì‚°ëœ ê°ì‡ ê°’(attenuation) í™•ì¸í•˜ê¸° (íšŒìƒ‰ì¡°)
+            // ì´ ë””ë²„ê¹… ì½”ë“œë¥¼ ì‚¬ìš©í•˜ë ¤ë©´ ì•„ë˜ì˜ ì‹¤ì œ ê³„ì‚° ë¡œì§ ì¼ë¶€ê°€ í•„ìš”í•¨
             
             /*float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz;
             float distSq = dot(dirToLight, dirToLight);
             float dist = sqrt(distSq);
             float attenuation = 0.0f;
-            if(currentLight.Type == 1 || currentLight.Type == 2) { // Æ÷ÀÎÆ® ¶Ç´Â ½ºÆÌ
+            if(currentLight.Type == 1 || currentLight.Type == 2) { // í¬ì¸íŠ¸ ë˜ëŠ” ìŠ¤íŒŸ
                  if (dist < currentLight.Range) {
                      attenuation = saturate(1.0f / (currentLight.Attenuation0 + currentLight.Attenuation1 * dist + currentLight.Attenuation2 * distSq));
                  }
-            } else if (currentLight.Type == 3) { // ¹æÇâ¼º
+            } else if (currentLight.Type == 3) { // ë°©í–¥ì„±
                  attenuation = 1.0f;
             }
             Out.vColor = float4(attenuation, attenuation, attenuation, 1.0f);
             return Out;*/
             
 
-            // [µğ¹ö±ë 8] ½ÇÁ¦ °è»êµÈ NdotL °ª È®ÀÎÇÏ±â (È¸»öÁ¶)
-            // ÀÌ µğ¹ö±ë ÄÚµå¸¦ »ç¿ëÇÏ·Á¸é ¾Æ·¡ÀÇ ½ÇÁ¦ °è»ê ·ÎÁ÷ ÀÏºÎ°¡ ÇÊ¿äÇÔ
+            // [ë””ë²„ê¹… 8] ì‹¤ì œ ê³„ì‚°ëœ NdotL ê°’ í™•ì¸í•˜ê¸° (íšŒìƒ‰ì¡°)
+            // ì´ ë””ë²„ê¹… ì½”ë“œë¥¼ ì‚¬ìš©í•˜ë ¤ë©´ ì•„ë˜ì˜ ì‹¤ì œ ê³„ì‚° ë¡œì§ ì¼ë¶€ê°€ í•„ìš”í•¨
             
             float3 lightVec = float3(0,0,0);
-            // ... (Å¸ÀÔ¿¡ µû¶ó lightVec °è»ê ·ÎÁ÷ ÇÊ¿ä) ...
+            // ... (íƒ€ì…ì— ë”°ë¼ lightVec ê³„ì‚° ë¡œì§ í•„ìš”) ...
             if (currentLight.Type == 3) lightVec = normalize(-currentLight.Direction).xyz;
             else if (currentLight.Type == 1 || currentLight.Type == 2) {
                 float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz;
@@ -551,21 +569,21 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
             Out.vColor = float4(NdotL, NdotL, NdotL, 1.0f);
             return Out;
 
-            // --- µğ¹ö±ë ÄÚµå ³¡ ---
+            // --- ë””ë²„ê¹… ì½”ë“œ ë ---
         // ==============================================================
-        //            ¡Ú¡Ú¡Ú µğ¹ö±ë ÄÚµå »ğÀÔ ³¡ ¡Ú¡Ú¡Ú
+        //            â˜…â˜…â˜… ë””ë²„ê¹… ì½”ë“œ ì‚½ì… ë â˜…â˜…â˜…
         // ==============================================================
 
 
-        // --- ¿ø·¡ÀÇ ¶óÀÌÆ® °è»ê ·ÎÁ÷ ---
+        // --- ì›ë˜ì˜ ë¼ì´íŠ¸ ê³„ì‚° ë¡œì§ ---
 
 
-    // --- ÃÖÁ¾ »ö»ó Á¶ÇÕ ¹× ÈÄÃ³¸® ---
+    // --- ìµœì¢… ìƒ‰ìƒ ì¡°í•© ë° í›„ì²˜ë¦¬ ---
     float4 litColor;
     litColor.rgb = saturate(accumulatedColor);
-    litColor.a = baseColor.a; // ¾ËÆÄ °ª
+    litColor.a = baseColor.a; // ì•ŒíŒŒ ê°’
 
-    // --- ¾È°³ È¿°ú °è»ê ---
+    // --- ì•ˆê°œ íš¨ê³¼ ê³„ì‚° ---
     float distance = length(In.vViewPos);
     float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
     Out.vColor = lerp(litColor, float4(g_FogColor, litColor.a), fogFactor);
@@ -577,34 +595,34 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
 {
     PS_OUT Out;
 
-    // --- ±âº» º¤ÅÍ °è»ê ---
+    // --- ê¸°ë³¸ ë²¡í„° ê³„ì‚° ---
     float3 normal = normalize(In.vNormal * sign(facing));
     float3 viewDir = normalize(g_CameraPosition - In.vWorldPos.xyz);
 
-    // --- ÅØ½ºÃ³ »ùÇÃ¸µ ---
-    float2 tiledUV = In.vTexcoord * In.vScale; // ½ºÄÉÀÏ °í·Á
+    // --- í…ìŠ¤ì²˜ ìƒ˜í”Œë§ ---
+    float2 tiledUV = In.vTexcoord * In.vScale; // ìŠ¤ì¼€ì¼ ê³ ë ¤
     float4 baseColor = tex2D(DefaultSampler, tiledUV);
 
-    // --- ÃÖÁ¾ »ö»ó °è»êÀ» À§ÇÑ º¯¼ö ÃÊ±âÈ­ ---
-    float3 accumulatedColor = float3(0.0f, 0.0f, 0.0f); // Ãß°¡ ÆĞ½º¸¦ À§ÇØ 0À¸·Î ÃÊ±âÈ­
+    // --- ìµœì¢… ìƒ‰ìƒ ê³„ì‚°ì„ ìœ„í•œ ë³€ìˆ˜ ì´ˆê¸°í™” ---
+    float3 accumulatedColor = float3(0.0f, 0.0f, 0.0f); // ì¶”ê°€ íŒ¨ìŠ¤ë¥¼ ìœ„í•´ 0ìœ¼ë¡œ ì´ˆê¸°í™”
 
-    // Ã¹ ¹øÂ° ÆĞ½º(Base Pass)ÀÎ °æ¿ì¿¡¸¸ Ambient¿Í Emissive¸¦ °è»ê
+    // ì²« ë²ˆì§¸ íŒ¨ìŠ¤(Base Pass)ì¸ ê²½ìš°ì—ë§Œ Ambientì™€ Emissiveë¥¼ ê³„ì‚°
     if (g_CurrentPassIndex == 0)
     {
-        // Âü°í: Ambient °è»ê ¹æ½Ä È®ÀÎ ÇÊ¿ä (g_Material.Ambient¿Í g_Material.Diffuse µÑ ´Ù °öÇÏ´Â °ÍÀÌ ÀÏ¹İÀûÀÌÁö ¾ÊÀ» ¼ö ÀÖÀ½)
-        // ÀÏ¹İÀûÀÎ Ambient: baseColor.rgb * g_Material.Ambient.rgb * g_AmbientLightColor.rgb
-        // ¶Ç´Â: baseColor.rgb * g_Material.Ambient.rgb (ÅØ½ºÃ³¿Í ÀçÁú ÁÖº¯±¤¸¸ °í·Á)
-        // ÇöÀç ÄÚµå À¯Áö:
+        // ì°¸ê³ : Ambient ê³„ì‚° ë°©ì‹ í™•ì¸ í•„ìš” (g_Material.Ambientì™€ g_Material.Diffuse ë‘˜ ë‹¤ ê³±í•˜ëŠ” ê²ƒì´ ì¼ë°˜ì ì´ì§€ ì•Šì„ ìˆ˜ ìˆìŒ)
+        // ì¼ë°˜ì ì¸ Ambient: baseColor.rgb * g_Material.Ambient.rgb * g_AmbientLightColor.rgb
+        // ë˜ëŠ”: baseColor.rgb * g_Material.Ambient.rgb (í…ìŠ¤ì²˜ì™€ ì¬ì§ˆ ì£¼ë³€ê´‘ë§Œ ê³ ë ¤)
+        // í˜„ì¬ ì½”ë“œ ìœ ì§€:
         accumulatedColor = (baseColor.rgb * g_Material.Ambient.rgb * g_Material.Diffuse.rgb) + g_Material.Emissive.rgb;
     }
 
-    // ÀÌ¹ø ÆĞ½º¿¡¼­ Ã³¸®ÇÒ ¶óÀÌÆ®µé¿¡ ´ëÇÑ °è»ê ¹× ´©Àû
-    // for ·çÇÁÀÇ ½ÃÀÛ°ú ³¡À» C++¿¡¼­ Àü´ŞµÈ ÀÎµ¦½º¿Í °³¼ö·Î Á¶Á¤
+    // ì´ë²ˆ íŒ¨ìŠ¤ì—ì„œ ì²˜ë¦¬í•  ë¼ì´íŠ¸ë“¤ì— ëŒ€í•œ ê³„ì‚° ë° ëˆ„ì 
+    // for ë£¨í”„ì˜ ì‹œì‘ê³¼ ëì„ C++ì—ì„œ ì „ë‹¬ëœ ì¸ë±ìŠ¤ì™€ ê°œìˆ˜ë¡œ ì¡°ì •
     int loopEnd = g_LightStartIndex + g_NumLightsInPass;
     for (int i = g_LightStartIndex; i < loopEnd; ++i)
     {
-        // g_Lights ¹è¿­ ¹üÀ§ È®ÀÎ (¼±ÅÃÀûÀÌÁö¸¸ ¾ÈÀüÇÔ)
-        if (i >= MAX_LIGHTS) // ¶Ç´Â ½ÇÁ¦ C++¿¡¼­ °ü¸®ÇÏ´Â ÀüÃ¼ ¶óÀÌÆ® ¼ö
+        // g_Lights ë°°ì—´ ë²”ìœ„ í™•ì¸ (ì„ íƒì ì´ì§€ë§Œ ì•ˆì „í•¨)
+        if (i >= MAX_LIGHTS) // ë˜ëŠ” ì‹¤ì œ C++ì—ì„œ ê´€ë¦¬í•˜ëŠ” ì „ì²´ ë¼ì´íŠ¸ ìˆ˜
             break;
 
         Light currentLight = g_Lights[i];
@@ -612,20 +630,20 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
         if (currentLight.Type == 0)
             continue; // LT_UNUSED
 
-        // --- ¶óÀÌÆ® Å¸ÀÔº° °è»ê (±âÁ¸ ÄÚµå¿Í °ÅÀÇ µ¿ÀÏ) ---
+        // --- ë¼ì´íŠ¸ íƒ€ì…ë³„ ê³„ì‚° (ê¸°ì¡´ ì½”ë“œì™€ ê±°ì˜ ë™ì¼) ---
         float3 lightVec = float3(0.0f, 0.0f, 0.0f);
         float attenuation = 0.0f;
         float NdotL = 0.0f;
 
         if (currentLight.Type == 3) // Directional
         {
-            lightVec = normalize(-currentLight.Direction.xyz); // DirectionÀº xyz »ç¿ë
+            lightVec = normalize(-currentLight.Direction.xyz); // Directionì€ xyz ì‚¬ìš©
             NdotL = saturate(dot(normal, lightVec));
             attenuation = 1.0f;
         }
         else if (currentLight.Type == 1) // Point
         {
-            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz; // PositionÀº xyz »ç¿ë
+            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz; // Positionì€ xyz ì‚¬ìš©
             float distSq = dot(dirToLight, dirToLight);
             float dist = sqrt(distSq);
 
@@ -637,12 +655,12 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
                                               currentLight.Attenuation1 * dist +
                                               currentLight.Attenuation2 * distSq));
             }
-            // else: NdotL=0, attenuation=0 (ÃÊ±â°ª À¯Áö)
+            // else: NdotL=0, attenuation=0 (ì´ˆê¸°ê°’ ìœ ì§€)
         }
         else if (currentLight.Type == 2) // Spot
         {
-            // ½ºÆ÷Æ®¶óÀÌÆ® °è»ê (ÇöÀç´Â Æ÷ÀÎÆ® ¶óÀÌÆ®¿Í À¯»çÇÏ°Ô Ã³¸®µÊ, ÇÊ¿ä½Ã È®Àå)
-            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz; // PositionÀº xyz »ç¿ë
+            // ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ê³„ì‚° (í˜„ì¬ëŠ” í¬ì¸íŠ¸ ë¼ì´íŠ¸ì™€ ìœ ì‚¬í•˜ê²Œ ì²˜ë¦¬ë¨, í•„ìš”ì‹œ í™•ì¥)
+            float3 dirToLight = currentLight.Position.xyz - In.vWorldPos.xyz; // Positionì€ xyz ì‚¬ìš©
             float distSq = dot(dirToLight, dirToLight);
             float dist = sqrt(distSq);
 
@@ -654,56 +672,56 @@ PS_OUT PS_TEST_LIGHTING(PS_IN In, float facing : VFACE)
                                               currentLight.Attenuation1 * dist +
                                               currentLight.Attenuation2 * distSq));
 
-                // TODO: ¿©±â¿¡ ½ºÆ÷Æ®¶óÀÌÆ® ¿ø»Ô°¢/°¨¼è °è»ê Ãß°¡
-                // float spotFactor = ... °è»ê ...
+                // TODO: ì—¬ê¸°ì— ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ì›ë¿”ê°/ê°ì‡  ê³„ì‚° ì¶”ê°€
+                // float spotFactor = ... ê³„ì‚° ...
                 // attenuation *= spotFactor;
             }
-             // else: NdotL=0, attenuation=0 (ÃÊ±â°ª À¯Áö)
+             // else: NdotL=0, attenuation=0 (ì´ˆê¸°ê°’ ìœ ì§€)
         }
 
-        // ÇöÀç ¶óÀÌÆ®ÀÇ ±â¿©µµ°¡ À¯È¿ÇÏ´Ù¸é ´©Àû
+        // í˜„ì¬ ë¼ì´íŠ¸ì˜ ê¸°ì—¬ë„ê°€ ìœ íš¨í•˜ë‹¤ë©´ ëˆ„ì 
         if (NdotL > 0.0f && attenuation > 0.0f)
         {
-            // µğÇ»Áî(Diffuse) °è»ê
+            // ë””í“¨ì¦ˆ(Diffuse) ê³„ì‚°
             float3 diffuse = baseColor.rgb * g_Material.Diffuse.rgb * NdotL * currentLight.Color.rgb;
 
-            // ½ºÆäÅ§·¯(Specular) °è»ê
+            // ìŠ¤í˜í˜ëŸ¬(Specular) ê³„ì‚°
             float3 halfwayDir = normalize(lightVec + viewDir);
             float NdotH = saturate(dot(normal, halfwayDir));
             float specPower = pow(NdotH, g_Material.Power);
             float3 specular = g_Material.Specular.rgb * specPower * currentLight.Color.rgb;
 
-            // ÇöÀç ¶óÀÌÆ®ÀÇ ÃÖÁ¾ ±â¿©µµ = (µğÇ»Áî + ½ºÆäÅ§·¯) * °¨¼è
+            // í˜„ì¬ ë¼ì´íŠ¸ì˜ ìµœì¢… ê¸°ì—¬ë„ = (ë””í“¨ì¦ˆ + ìŠ¤í˜í˜ëŸ¬) * ê°ì‡ 
             float3 currentLightContribution = (diffuse + specular) * attenuation;
 
-            // ÃÖÁ¾ »ö»ó¿¡ ÇöÀç ¶óÀÌÆ® ±â¿©µµ ´©Àû
+            // ìµœì¢… ìƒ‰ìƒì— í˜„ì¬ ë¼ì´íŠ¸ ê¸°ì—¬ë„ ëˆ„ì 
             accumulatedColor += currentLightContribution;
         }
     } // End of for loop
 
-    // --- ÃÖÁ¾ »ö»ó Á¶ÇÕ ¹× ÈÄÃ³¸® ---
+    // --- ìµœì¢… ìƒ‰ìƒ ì¡°í•© ë° í›„ì²˜ë¦¬ ---
 
-    // Ã¹ ¹øÂ° ÆĞ½º¿¡¼­¸¸ ¾È°³¸¦ Àû¿ëÇÏ°Å³ª, ¸ğµç ÆĞ½º°¡ ³¡³­ ÈÄ ÈÄÃ³¸®·Î ¾È°³¸¦ Àû¿ëÇÏ´Â °ÍÀÌ ÁÁÀ½.
-    // ¿©±â¼­´Â Ã¹ ¹øÂ° ÆĞ½º¿¡¼­¸¸ ¾È°³¸¦ Àû¿ëÇÏ´Â ¿¹½Ã
+    // ì²« ë²ˆì§¸ íŒ¨ìŠ¤ì—ì„œë§Œ ì•ˆê°œë¥¼ ì ìš©í•˜ê±°ë‚˜, ëª¨ë“  íŒ¨ìŠ¤ê°€ ëë‚œ í›„ í›„ì²˜ë¦¬ë¡œ ì•ˆê°œë¥¼ ì ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ìŒ.
+    // ì—¬ê¸°ì„œëŠ” ì²« ë²ˆì§¸ íŒ¨ìŠ¤ì—ì„œë§Œ ì•ˆê°œë¥¼ ì ìš©í•˜ëŠ” ì˜ˆì‹œ
     float4 finalColor;
     finalColor.rgb = saturate(accumulatedColor);
-    finalColor.a = baseColor.a * g_Material.Diffuse.a; // ¾ËÆÄ °ª
+    finalColor.a = baseColor.a * g_Material.Diffuse.a; // ì•ŒíŒŒ ê°’
 
     if (g_CurrentPassIndex == 0)
     {
-        // --- ¾È°³ È¿°ú °è»ê (Ã¹ ÆĞ½º¿¡¸¸ Àû¿ë) ---
+        // --- ì•ˆê°œ íš¨ê³¼ ê³„ì‚° (ì²« íŒ¨ìŠ¤ì—ë§Œ ì ìš©) ---
         float distance = length(In.vViewPos);
         float fogFactor = saturate((distance - g_FogStart) / (g_FogEnd - g_FogStart));
         Out.vColor = lerp(finalColor, float4(g_FogColor, finalColor.a), fogFactor);
     }
     else
     {
-        // Ãß°¡ ÆĞ½º¿¡¼­´Â °è»êµÈ Á¶¸í ±â¿©µµ¸¸ Ãâ·Â (¾È°³ ¾øÀ½)
+        // ì¶”ê°€ íŒ¨ìŠ¤ì—ì„œëŠ” ê³„ì‚°ëœ ì¡°ëª… ê¸°ì—¬ë„ë§Œ ì¶œë ¥ (ì•ˆê°œ ì—†ìŒ)
         Out.vColor = finalColor;
     }
 
-    // --- ¾ËÆÄ Å×½ºÆ® ---
-    // if (Out.vColor.a < 0.1f) discard; // ÇÊ¿äÇÏ´Ù¸é ¸ğµç ÆĞ½º¿¡ Àû¿ë
+    // --- ì•ŒíŒŒ í…ŒìŠ¤íŠ¸ ---
+    // if (Out.vColor.a < 0.1f) discard; // í•„ìš”í•˜ë‹¤ë©´ ëª¨ë“  íŒ¨ìŠ¤ì— ì ìš©
 
     return Out;
 }*/
@@ -743,54 +761,54 @@ technique DefaultTechnique
 
     pass PlanePass
     {
-        // --- ·»´õ »óÅÂ ¼³Á¤ ---
-        // ¾ç¸é ·»´õ¸µÀ» À§ÇØ ÄÃ¸µ ºñÈ°¼ºÈ­
+        // --- ë Œë” ìƒíƒœ ì„¤ì • ---
+        // ì–‘ë©´ ë Œë”ë§ì„ ìœ„í•´ ì»¬ë§ ë¹„í™œì„±í™”
         CullMode = None;
 
-        // ¾ËÆÄ ºí·»µù ¼³Á¤ (±âÁ¸ ÄÚµå À¯Áö, ¿ÀÅ¸ ¼öÁ¤)
+        // ì•ŒíŒŒ ë¸”ë Œë”© ì„¤ì • (ê¸°ì¡´ ì½”ë“œ ìœ ì§€, ì˜¤íƒ€ ìˆ˜ì •)
         AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
         BlendOp = Add;
 
-        // --- ¼ÎÀÌ´õ ¼³Á¤ ---
+        // --- ì…°ì´ë” ì„¤ì • ---
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_LIT(); // ºû °è»êÀÌ Æ÷ÇÔµÈ PS_MAIN »ç¿ë
+        PixelShader = compile ps_3_0 PS_LIT(); // ë¹› ê³„ì‚°ì´ í¬í•¨ëœ PS_MAIN ì‚¬ìš©
     }
 
     pass Weapon
     {
-        // --- ·»´õ »óÅÂ ¼³Á¤ ---
-        // ¾ç¸é ·»´õ¸µÀ» À§ÇØ ÄÃ¸µ ºñÈ°¼ºÈ­
+        // --- ë Œë” ìƒíƒœ ì„¤ì • ---
+        // ì–‘ë©´ ë Œë”ë§ì„ ìœ„í•´ ì»¬ë§ ë¹„í™œì„±í™”
         CullMode = None;
 
-        // ¾ËÆÄ ºí·»µù ¼³Á¤ (±âÁ¸ ÄÚµå À¯Áö, ¿ÀÅ¸ ¼öÁ¤)
+        // ì•ŒíŒŒ ë¸”ë Œë”© ì„¤ì • (ê¸°ì¡´ ì½”ë“œ ìœ ì§€, ì˜¤íƒ€ ìˆ˜ì •)
         AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
         BlendOp = Add;
 
-        // --- ¼ÎÀÌ´õ ¼³Á¤ ---
+        // --- ì…°ì´ë” ì„¤ì • ---
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_WEAPON(); // ºû °è»êÀÌ Æ÷ÇÔµÈ PS_MAIN »ç¿ë
+        PixelShader = compile ps_3_0 PS_WEAPON(); // ë¹› ê³„ì‚°ì´ í¬í•¨ëœ PS_MAIN ì‚¬ìš©
     }
 
     pass Particle
     {
-        // --- ·»´õ »óÅÂ ¼³Á¤ ---
-        // ¾ç¸é ·»´õ¸µÀ» À§ÇØ ÄÃ¸µ ºñÈ°¼ºÈ­
+        // --- ë Œë” ìƒíƒœ ì„¤ì • ---
+        // ì–‘ë©´ ë Œë”ë§ì„ ìœ„í•´ ì»¬ë§ ë¹„í™œì„±í™”
         CullMode = None;
 
-        // ¾ËÆÄ ºí·»µù ¼³Á¤ (±âÁ¸ ÄÚµå À¯Áö, ¿ÀÅ¸ ¼öÁ¤)
+        // ì•ŒíŒŒ ë¸”ë Œë”© ì„¤ì • (ê¸°ì¡´ ì½”ë“œ ìœ ì§€, ì˜¤íƒ€ ìˆ˜ì •)
         PointSpriteEnable = TRUE;
         AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
         BlendOp = Add;
 
-        // --- ¼ÎÀÌ´õ ¼³Á¤ ---
+        // --- ì…°ì´ë” ì„¤ì • ---
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_UNLIT(); // ºû °è»êÀÌ Æ÷ÇÔµÈ PS_MAIN »ç¿ë
+        PixelShader = compile ps_3_0 PS_UNLIT(); // ë¹› ê³„ì‚°ì´ í¬í•¨ëœ PS_MAIN ì‚¬ìš©
     }
 
     pass BLACK
@@ -811,35 +829,35 @@ technique DefaultTechnique
 
     pass PORTAL
     {
-        // --- ·»´õ »óÅÂ ¼³Á¤ ---     
-        // ¾ç¸é ·»´õ¸µÀ» À§ÇØ ÄÃ¸µ ºñÈ°¼ºÈ­
+        // --- ë Œë” ìƒíƒœ ì„¤ì • ---     
+        // ì–‘ë©´ ë Œë”ë§ì„ ìœ„í•´ ì»¬ë§ ë¹„í™œì„±í™”
         CullMode = None;
 
-        // ¾ËÆÄ ºí·»µù ¼³Á¤ (±âÁ¸ ÄÚµå À¯Áö, ¿ÀÅ¸ ¼öÁ¤)
+        // ì•ŒíŒŒ ë¸”ë Œë”© ì„¤ì • (ê¸°ì¡´ ì½”ë“œ ìœ ì§€, ì˜¤íƒ€ ìˆ˜ì •)
         AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
         BlendOp = Add;
 
-        // --- ¼ÎÀÌ´õ ¼³Á¤ ---
+        // --- ì…°ì´ë” ì„¤ì • ---
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_PORTAL(); // ºû °è»êÀÌ Æ÷ÇÔµÈ PS_MAIN »ç¿ë
+        PixelShader = compile ps_3_0 PS_PORTAL(); // ë¹› ê³„ì‚°ì´ í¬í•¨ëœ PS_MAIN ì‚¬ìš©
     }
 
     pass TEST
     {
-        // --- ·»´õ »óÅÂ ¼³Á¤ ---
-        // ¾ç¸é ·»´õ¸µÀ» À§ÇØ ÄÃ¸µ ºñÈ°¼ºÈ­
+        // --- ë Œë” ìƒíƒœ ì„¤ì • ---
+        // ì–‘ë©´ ë Œë”ë§ì„ ìœ„í•´ ì»¬ë§ ë¹„í™œì„±í™”
         CullMode = None;
 
-        // ¾ËÆÄ ºí·»µù ¼³Á¤ (±âÁ¸ ÄÚµå À¯Áö, ¿ÀÅ¸ ¼öÁ¤)
+        // ì•ŒíŒŒ ë¸”ë Œë”© ì„¤ì • (ê¸°ì¡´ ì½”ë“œ ìœ ì§€, ì˜¤íƒ€ ìˆ˜ì •)
         AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
         SrcBlend = SrcAlpha;
         DestBlend = InvSrcAlpha;
         BlendOp = Add;
 
-        // --- ¼ÎÀÌ´õ ¼³Á¤ ---
+        // --- ì…°ì´ë” ì„¤ì • ---
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_TEST_LIGHTING(); // ºû °è»êÀÌ Æ÷ÇÔµÈ PS_MAIN »ç¿ë
+        PixelShader = compile ps_3_0 PS_TEST_LIGHTING(); // ë¹› ê³„ì‚°ì´ í¬í•¨ëœ PS_MAIN ì‚¬ìš©
     }
 }   

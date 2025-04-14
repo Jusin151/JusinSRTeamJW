@@ -6,3 +6,4 @@
 #include "Stains_Effect.h"
 #include "Weapon_Effect.h"
 #include "BulletShell_Effect.h"
+#include "Explosion_Effect.h"

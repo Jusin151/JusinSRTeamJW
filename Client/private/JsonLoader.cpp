@@ -416,6 +416,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CStains_Effect::Create(pGraphic_Device);
 	else if (className == "CBulletShell_Effect")
 		return CBulletShell_Effect::Create(pGraphic_Device);
+ 	else if (className == "CExplosion_Effect")
+		return CExplosion_Effect::Create(pGraphic_Device);
 #pragma endregion
 
 #pragma region Particle

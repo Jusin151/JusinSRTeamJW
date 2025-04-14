@@ -49,6 +49,35 @@ public:
 		}
     }
 
+    void Remove_UI(const wstring& tag, UI_TYPE eType = UI_TYPE::UI_STATIC)
+    {
+        if (eType == UI_TYPE::UI_STATIC)
+        {
+            m_staticUIMap.erase(tag);
+          
+        }
+        else
+        {
+            m_dynamicUIMap.erase(tag);
+        }
+    }
+
+    void Set_Actived_UI(_bool bType)
+    {
+        for (auto& it : m_staticUIMap)
+        {
+            if (it.second != nullptr&&it.first!=L"Cursor")
+                it.second->SetActive(bType);
+        }
+
+        for (auto& it : m_dynamicUIMap)
+        {
+            if (it.second != nullptr)
+                it.second->SetActive(bType);
+        }
+    }
+
+
     CUI_Base* GetUI(const wstring& tag)
     {
         auto it = m_staticUIMap.find(tag);

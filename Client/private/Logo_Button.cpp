@@ -32,6 +32,7 @@ HRESULT CLogo_Button::Initialize(void* pArg)
 		Set_Position(m_Button_INFO.Button_Desc.vPos);
 		Set_Size(m_Button_INFO.Button_Desc.vSize);
 		CUI_Manager::GetInstance()->AddUI(m_Button_INFO.strUIName, this);
+
 	}
 	else
 		return E_FAIL;
@@ -203,4 +204,6 @@ void CLogo_Button::Free()
 	Safe_Release(m_Button_pTextureCom_Second);
 	Safe_Release(m_Button_pTransformCom);
 	Safe_Release(m_Button_pVIBufferCom);
+	CUI_Manager::GetInstance()->Remove_UI(m_Button_INFO.strUIName);
+
 }
