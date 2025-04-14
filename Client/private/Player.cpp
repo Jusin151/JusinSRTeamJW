@@ -98,6 +98,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 
+	// 디버그용
+	Add_Item(L"Red");
+
 	return S_OK;
 }
 
@@ -422,6 +425,9 @@ void CPlayer::Set_Hp(_int iHp)
 
 void CPlayer::Take_Damage(_uint Damage)
 {
+
+	if (static_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon"))->Get_Hit())
+		return;
 
 	m_iHp -= Damage;
 

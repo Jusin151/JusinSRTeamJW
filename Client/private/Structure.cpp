@@ -44,7 +44,8 @@ HRESULT CStructure::Ready_Components()
 		m_eStructureType = STRUCTURE_TYPE::OCEAN;
 	else if (m_tObjDesc.stProtTextureTag.find(L"BossWall") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::BOSS_WALL;
-	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos || m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos)
+	else if (m_tObjDesc.stProtTag.find(L"Magma") != wstring::npos || m_tObjDesc.stProtTextureTag.find(L"Ocean") != wstring::npos||
+		m_tObjDesc.stProtTag.find(L"Wormhole") != wstring::npos)
 		m_eStructureType = STRUCTURE_TYPE::MAGMA;
 	else
 		m_eStructureType = STRUCTURE_TYPE::NORMAL;
@@ -53,8 +54,6 @@ HRESULT CStructure::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	
-	
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 

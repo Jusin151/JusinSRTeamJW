@@ -111,6 +111,8 @@ public:
 	 pair<_int, _int> Get_PlayerHp() { return m_iPlayerHP; }
 	 pair<_int, _int> Get_PlayerMp() { return m_iPlayerMP; }
 	 CWeapon_Base* Get_Current_Weapon() { return m_pPlayer_Weapon; }
+	 LEVEL Get_ClearLevel()const { return m_eClearLevel; }
+	 void Set_ClearLevel(LEVEL eLevel) { m_eClearLevel = eLevel; }
 private:
 			bool m_bDoubleAmmoGain = false; // 탄약 획득량 2배 여부
 			bool m_bDoubleSpeedGain = false; // 탄약 획득량 2배 여부
@@ -170,7 +172,9 @@ private: // 플레이어 관련
 	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
 	CInventory* m_pPlayer_Inven = { nullptr };
 
+	LEVEL m_eClearLevel{ LEVEL_END };
 
+	_float m_fAvoidTime = { 0.f };
 };
 
 

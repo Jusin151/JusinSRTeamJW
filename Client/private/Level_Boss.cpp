@@ -13,6 +13,7 @@
 #include "Image.h"
 #include "Sound_Event.h"
 #include "Level_Loading.h"
+#include "Trigger.h"
 #include <Camera_FirstPerson.h>
 
 CLevel_Boss::CLevel_Boss(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -28,10 +29,10 @@ HRESULT CLevel_Boss::Initialize()
 	m_pGameInstance->Stop_All_Event();
 
 
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-	if (pPlayer)
+	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+	if (m_pPlayer)
 	{
-		CTransform* pTransform = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		CTransform* pTransform = static_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")));
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-14.5f, 0.f, -2.f));
@@ -48,8 +49,16 @@ HRESULT CLevel_Boss::Initialize()
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/030 Antarctic - The End").SetVolume(0.25f);
 
-
-
+	CTrigger::TRIGGER_DESC vTriggerDesc;
+	vTriggerDesc.bStartsActive = true;
+	vTriggerDesc.eLevel = LEVEL_HUB;
+	vTriggerDesc.vPos = _float3(-14.5f, 0.3f, -2.f);
+	vTriggerDesc.eType = CTrigger::TRIGGER_TYPE::LEVEL_CHANGE;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger_Button"),
+		LEVEL_BOSS, TEXT("Layer_Trigger_Level"), &vTriggerDesc)))
+		return E_FAIL;
+	m_pLevelTrigger = static_cast<CTrigger*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Trigger_Level")));
+	m_pLevelTrigger->SetActive(false);
 	return S_OK;
 }
 
@@ -57,10 +66,26 @@ void CLevel_Boss::Update(_float fTimeDelta)
 {
 	if (GetAsyncKeyState('F') & 0x8000)
 	{
-
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;
+		return;
+	}
+
+
+	if (m_pPlayer&& m_pPlayer->Get_ClearLevel()==LEVEL_BOSS)
+	{
+		if (m_pLevelTrigger && !m_pLevelTrigger->IsActive())
+		{
+			m_pLevelTrigger->SetActive(true);
+		}
+		if (m_pLevelTrigger&&m_pLevelTrigger->WasTriggered())
+		{
+			// 나중에 웜홀 만들기
+		/*  if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+			return;*/
+		}
 	}
 }
 

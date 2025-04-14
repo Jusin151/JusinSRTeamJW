@@ -30,6 +30,7 @@ private:
 	HRESULT Ready_Layer_Weapon_Icon();
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
+	class CTrigger* m_pLevelTrigger{ nullptr };
 
 
 public:
