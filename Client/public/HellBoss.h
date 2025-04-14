@@ -59,10 +59,12 @@ public:
 	_bool Get_CutSceneCamera_Lock() { return m_bCutSceneCamera_Look; }
 	void Set_CutSceneCamera_Lock(_bool bType) { m_bCutSceneCamera_Look = bType; }
 public: // 패턴관련
+	void Hp_Pattern();
+	void Jump_Pattern(_float fTimeDelata);
 	void Set_Pattern(CPattern_Base* pPattern); // 공격패턴 설정
 	void Use_Attack(_float fTimeDelta); // 패턴 사용
 public:
-	void Power_Blast_Patter(); // 주변 회전하는 구들
+	void Power_Blast_Pattern(); // 주변 회전하는 구들
 	void Launch_PowerBlast_Bullets(); // 10개 쌓이면 발사
 	virtual void Select_Pattern(_float fTimeDelta) override;
 	CPattern_Base* Get_AttackPattern() const { return m_pCurAttackPattern; }

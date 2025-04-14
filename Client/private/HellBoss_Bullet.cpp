@@ -171,10 +171,8 @@ void CHellBoss_Bullet::Reset()
 		{
 			offsetPos += m_fHellBoss_Up * 5.7f;
 
-			if (m_bRotated_Bullet)
 				offsetPos += m_fHellBoss_RIght * -0.14f;
-			else
-				offsetPos += m_fHellBoss_RIght * 0.14f;
+
 		}
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, offsetPos);

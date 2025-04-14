@@ -67,7 +67,6 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.1f);  // 한팔 Walk상태
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
-	m_AnimationManager.AddAnimation("O_ArmCut_Attack_Roof", 133, 133,0.03f);// 한팔 Attack상태 , 팔든상태에서 쏘기
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
 
@@ -137,46 +136,20 @@ void CHellBoss::Update(_float fTimeDelta)
 		return;
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
-
+	if (m_bDarkHole_EffectActive)
+		Spawn_Warp_Effect(fTimeDelta); 
 
 	Process_Input();
 
-	if (m_bDarkHole_EffectActive)
-		Spawn_Warp_Effect(fTimeDelta);
-
-	Power_Blast_Patter(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 공용
-
-	if (m_bFalling)
-	{
-		_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelta;
-		vCurPos.y -= m_fFallSpeed * fTimeDelta;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
-		if (vCurPos.y <= m_fOffset + 0.5f)
-		{
-			m_bFalling = false;
-			_float3 landedPos = vCurPos;
-			landedPos.y = m_fOffset;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, landedPos);
-
-			BossDESC desc{};
-			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
-			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-			desc.vPos = landedPos;
-			desc.strState = "Down";
-
-			m_pGameInstance->Add_GameObject(LEVEL_HONG,
-				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
-				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
-		}
-	}
-
+	Power_Blast_Pattern(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 모든패턴에 적용
+	Hp_Pattern();
 
 	m_AnimationManager.Update(fTimeDelta);
 
+	__super::Update(fTimeDelta);
+}
+void CHellBoss::Hp_Pattern()
+{
 	if (m_eCurState != MS_DEATH)
 	{
 		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Transform"));
@@ -214,11 +187,11 @@ void CHellBoss::Update(_float fTimeDelta)
 	}
 	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
 	{
-	
+
 		m_bDidPhase4Morph = true;
 		m_ePhase = PHASE4;
 		Set_Pattern(new CPattern_Morph());
-		Change_State(new CHellBoss_MorphState()); 
+		Change_State(new CHellBoss_MorphState());
 		return;
 	}
 	if (m_iHp <= 5000 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
@@ -230,35 +203,45 @@ void CHellBoss::Update(_float fTimeDelta)
 		return;
 	}
 
-	__super::Update(fTimeDelta);
+}
+void CHellBoss::Jump_Pattern(_float fTimeDelata)
+{
+
+	if (m_bFalling)
+	{
+		_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelata;
+		vCurPos.y -= m_fFallSpeed * fTimeDelata; 
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
+		if (vCurPos.y <= m_fOffset + 0.5f)
+		{
+			m_bFalling = false;
+			_float3 landedPos = vCurPos;
+			landedPos.y = m_fOffset;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, landedPos);
+
+			BossDESC desc{};
+			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			desc.vPos = landedPos;
+			desc.strState = "Down";
+
+			m_pGameInstance->Add_GameObject(LEVEL_HONG,
+				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+		}
+	}
+
 }
 void CHellBoss::Process_Input()
 {
 	//if (GetAsyncKeyState('0') & 0x8000)		
 	//	m_AnimationManager.SetCurrentAnimation("Start");
 
-	if (GetAsyncKeyState('Z') & 0x8000)
-	{
-		if (!m_bZKeyPressed)
-		{
-			m_bZKeyPressed = true;
-
-			m_bDarkHole_EffectActive = !m_bDarkHole_EffectActive;
-
-			if (m_bDarkHole_EffectActive)
-			{
-				Generate_Warp_Positions();
-				m_fDarkHole_SpawnTimer = 0.f;
-			}
-		}
-	}
-	else
-	{
-		m_bZKeyPressed = false; // 키를 뗐을 때 false로 초기화
-	}
-
-
-	if (GetAsyncKeyState('C') & 0x8000 && !m_bJumping && !m_bFalling)
+	if ((GetAsyncKeyState('C') & 0x8000 &&!m_bJumping && !m_bFalling && m_ePhase == PHASE3))
 	{
 		m_bJumping = true;
 		m_fJumpTime = 0.f;
@@ -299,10 +282,29 @@ void CHellBoss::Process_Input()
 			m_bFalling = true;
 			m_bJumping = false;
 		}
-
-
-
 	}
+
+
+	if (GetAsyncKeyState('Z') & 0x8000)
+	{
+		if (!m_bZKeyPressed)
+		{
+			m_bZKeyPressed = true;
+
+			m_bDarkHole_EffectActive = !m_bDarkHole_EffectActive;
+
+			if (m_bDarkHole_EffectActive)
+			{
+				Generate_Warp_Positions();
+				m_fDarkHole_SpawnTimer = 0.f;
+			}
+		}
+	}
+	else
+	{
+		m_bZKeyPressed = false; // 키를 뗐을 때 false로 초기화
+	}
+
 
 }
 void CHellBoss::Use_Attack(_float fDeltaTime)
@@ -344,7 +346,7 @@ void CHellBoss::Launch_PowerBlast_Bullets()
 	m_vecPowerBlasts.clear();
 	m_iPowerBlastCount = 0;
 }
-void CHellBoss::Power_Blast_Patter()
+void CHellBoss::Power_Blast_Pattern()
 {
 	_int iCurHpDiv100 = m_iHp / 100;
 	if (iCurHpDiv100 < m_iPrevHpDiv100)
@@ -539,6 +541,7 @@ _float3 CHellBoss::Get_CutScene_AnchorPos() const
 	return vPos;
 }
 
+
 void CHellBoss::Set_Pattern(CPattern_Base* pPattern)
 {
 	if (m_pCurAttackPattern)
@@ -546,6 +549,8 @@ void CHellBoss::Set_Pattern(CPattern_Base* pPattern)
 		delete m_pCurAttackPattern;
 		m_pCurAttackPattern = nullptr;
 	}
+
+
 
 	m_pCurAttackPattern = pPattern;
 }

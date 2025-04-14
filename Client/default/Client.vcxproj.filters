@@ -1406,7 +1406,6 @@
     <ClCompile Include="..\private\BulletShell_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\BulletShell_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\Animation.cpp" />
     <ClCompile Include="..\private\BombBox.cpp">
       <Filter>02.GameObjects\08. Deco\BombBox</Filter>
     </ClCompile>

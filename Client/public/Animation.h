@@ -33,3 +33,4 @@ private:
 	int m_iStartFrame, m_iEndFrame, m_iCurrentFrame;
 	float m_fFrameTime, m_fAccTime;
 };
+	
