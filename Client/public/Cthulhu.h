@@ -66,6 +66,8 @@ private:
 
     _bool IsPlayerVisible();
 
+    void Remove_DeadTentacles();
+
 private:
     CBehaviorTree* m_pBehaviorTree = nullptr;
     unordered_map<STATE, vector<_uint>> m_mapStateTextures;
@@ -104,6 +106,7 @@ private:
 	_float m_fTentacleTimer{ 0.f };
 	list<class CCthulhu_Tentacle*> m_listTentacles;
     _int m_iCountTentacle{ 0 };
+    _bool m_bRemovedTentacle{ false };
 
     _float m_fBigTentacleCoolTime{ 0.f };
     _float m_fBigTentacleCoolDown{ 5.f };

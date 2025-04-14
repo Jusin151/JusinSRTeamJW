@@ -361,16 +361,14 @@ NodeStatus CCthulhu::Update_Appear()
 	if (m_bIsAppeared)
 		return NodeStatus::FAIL;
 
-	const float appearSpeed = 2.2f;
-	const float targetY = 4.5f;
+	const _float fAppearSpeed = 2.2f;
+	const _float fTargetY = 4.5f;
 
 	if (!m_bCameraShaken)
 	{
-		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		_float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
-		_float3 vStart = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION)+_float3(-1.54f,-0.6f, -0.8f);
-		_float3 vEnd = vBossPos + _float3(-14.f, 7.5f, 0.f);
+		const _float3& vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		const _float3& vStart = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION)+_float3(-1.54f,-0.6f, -0.8f);
+		const _float3& vEnd = vBossPos + _float3(-14.f, 7.5f, 0.f);
 		_float3 vArgs[2] = { vStart, vEnd };
 		m_pGameInstance->Add_GameObject(
 			LEVEL_STATIC,
@@ -378,8 +376,7 @@ NodeStatus CCthulhu::Update_Appear()
 			LEVEL_BOSS,
 			TEXT("Layer_Camera"),
 			vArgs);
-		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Camera"));
-		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
+		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Camera")));
 		if (pCutCam)
 		{
 			pCutCam->TriggerShake(0.2f, 4.5f);
@@ -391,13 +388,25 @@ NodeStatus CCthulhu::Update_Appear()
 		m_bCameraShaken = true;
 	}
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	pos.y += appearSpeed * m_fDelta;
+	pos.y += fAppearSpeed * m_fDelta;
 
-	if (pos.y >= targetY)
+	if (pos.y >= fTargetY)
 	{
-		pos.y = targetY;
+		pos.y = fTargetY;
 		m_bIsAppeared = true;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pos);
+
+		auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
+		if (pUI_Event)
+		{
+			CUI_Event::EVENT_RENDER_TEXT vRenderText;
+			vRenderText.stText = TEXT("TENTACLES LEFT: ") + std::to_wstring(m_iCountTentacle);
+			vRenderText.vPos = _float2(-70.f, 0.f);
+			vRenderText.vFontSize = _float2(10.f, 30.f);
+			vRenderText.vColor = _float3(1.f, 0.f, 0.1f);
+			vRenderText.fLifeTime = 1.f;
+			pUI_Event->Add_EventRender(vRenderText);
+		}
 
 		return NodeStatus::SUCCESS;
 	}
@@ -470,12 +479,12 @@ NodeStatus CCthulhu::Deploy_Tentacles()
 	{
 		CCthulhu_Tentacle* pTentacle = *it;
 
-
 		if (pTentacle == nullptr
 			|| pTentacle->Get_State() == CCthulhu_Tentacle::Tentacle_STATE::DEAD)
 		{
 			Safe_Release(pTentacle);
 			it = m_listTentacles.erase(it);
+			m_bRemovedTentacle = true;
 			m_iCountTentacle--;
 		}
 		else
@@ -761,6 +770,31 @@ NodeStatus CCthulhu::Attack_Spike()
 	return NodeStatus::RUNNING;
 }
 
+NodeStatus CCthulhu::Dead()
+{
+	if (m_iHp > 0)
+		return NodeStatus::FAIL;
+
+	if (m_eState != STATE::DEAD)
+	{
+		m_eState = STATE::DEAD;
+		m_fFrame = 0.f;
+		m_iCurrentFrame = m_mapStateTextures[m_eState][0];
+		m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_death_01", m_pTransformCom)->SetVolume(0.5f);
+		DropItems();
+		static_cast<CPlayer*>(m_pTarget)->Set_ClearLevel(LEVEL_BOSS);
+	}
+
+	if (m_fFrame < m_mapStateTextures[STATE::DEAD].size() - 1)
+		return NodeStatus::RUNNING;
+	else
+	{
+		if (m_bUpdateAnimation)
+			m_bUpdateAnimation = false;
+		return NodeStatus::SUCCESS;
+	}
+}
+
 void CCthulhu::DropItems()
 {
 	const _int iDropCount = 10;
@@ -861,27 +895,7 @@ void CCthulhu::Create_BehaviorTree()
 		}));
 
 	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {
-		if (m_iHp > 0)
-			return NodeStatus::FAIL;
-
-		if (m_eState != STATE::DEAD)
-		{
-			m_eState = STATE::DEAD;
-			m_fFrame = 0.f;
-			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
-			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_death_01", m_pTransformCom)->SetVolume(0.5f);
-			DropItems();
-			static_cast<CPlayer*>(m_pTarget)->Set_ClearLevel(LEVEL_BOSS);
-		}
-
-		if (m_fFrame < m_mapStateTextures[STATE::DEAD].size() - 1)
-			return NodeStatus::RUNNING;
-		else
-		{
-			if (m_bUpdateAnimation)
-				m_bUpdateAnimation = false;
-			return NodeStatus::SUCCESS;
-		}
+		return this->Dead();
 		}));
 
 	pStateSelector->AddChild(pAttackParallel);
@@ -976,6 +990,38 @@ _bool CCthulhu::IsPlayerVisible()
 	return true;
 }
 
+void CCthulhu::Remove_DeadTentacles()
+{
+	for (auto it = m_listTentacles.begin(); it != m_listTentacles.end(); )
+	{
+		CCthulhu_Tentacle* pTentacle = *it;
+		if (pTentacle != nullptr && pTentacle->Get_State() == CCthulhu_Tentacle::Tentacle_STATE::DEAD)
+		{
+			Safe_Release(pTentacle);
+			it = m_listTentacles.erase(it);
+			m_bRemovedTentacle = true;
+			m_iCountTentacle--;  // 남은 촉수 개수 갱신
+
+			// 즉시 UI 텍스트 이벤트 호출하여 남은 촉수 개수 표시
+			auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
+			if (pUI_Event)
+			{
+				CUI_Event::EVENT_RENDER_TEXT vRenderText;
+				vRenderText.stText = TEXT("TENTACLES LEFT: ") + std::to_wstring(m_iCountTentacle);
+				vRenderText.vPos = _float2(-70.f, 0.f);
+				vRenderText.vFontSize = _float2(10.f, 30.f);
+				vRenderText.vColor = _float3(1.f, 0.f, 0.1f);
+				vRenderText.fLifeTime = 1.f;
+				pUI_Event->Add_EventRender(vRenderText);
+			}
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
 HRESULT CCthulhu::On_Collision(CCollisionObject* other)
 {
 	return S_OK;
@@ -1039,6 +1085,8 @@ void CCthulhu::Priority_Update(_float fTimeDelta)
 	m_fBigTentacleCoolTime += fTimeDelta;
 	m_fSpikeCoolTime += fTimeDelta;
 	}
+
+
 	Select_Pattern(fTimeDelta);
 }
 
@@ -1051,7 +1099,7 @@ void CCthulhu::Update(_float fTimeDelta)
 		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Collider_Cube"));
 			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
-
+	Remove_DeadTentacles();
 
 	Billboarding(fTimeDelta);
 	if (m_bUpdateAnimation)
@@ -1120,15 +1168,10 @@ HRESULT CCthulhu::Render()
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 HP :") + to_wstring(m_iHp),
 		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 남은 촉수 :") + to_wstring(m_iCountTentacle),
-		_float2(-200.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
 	_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPlayerPos = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
 	_float fDistance = _float3::Distance(vPlayerPos, basePos);
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 거리 :") + to_wstring(fDistance),
-		_float2(0.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 	return S_OK;
 }
 
