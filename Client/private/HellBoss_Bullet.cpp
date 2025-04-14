@@ -116,7 +116,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
 		m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 
-		m_iAp = 1.f;
+		m_iAp = 1;
 		m_eType = CG_MONSTER_PROJECTILE_SPHERE;
 	}
 

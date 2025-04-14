@@ -843,6 +843,11 @@
       "class": "CBombBox",
       "tag": "Prototype_GameObject_BombBox",
       "level": 3
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Stat"
     }
   ], 
   "buffers": [
