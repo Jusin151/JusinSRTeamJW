@@ -114,7 +114,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	if (!m_pBehaviorTree)
 		return E_FAIL;
 
-	m_iHp = 0;
+	m_iHp = 1500;
 	m_fPhaseThreshold = { m_iHp * 0.7f }; // 70퍼일 때 멀티 미사일
 	m_fPhaseThreshold2 = { m_iHp * 0.5f }; // 50퍼일 때 럴커
 
