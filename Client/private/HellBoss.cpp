@@ -10,10 +10,12 @@
 #include "HellBoss_MorphState.h"
 #include "HellBoss_AttackState.h"
 #include "HellBoss_DeadState.h"
+#include "HellBoss_JumpLoopState.h"
 #include "Pattern_Morph.h"
 #include "Pattern_Warp.h"
 #include "HellBoss_CircleState.h"
 #include "Camera_CutScene.h"
+
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device) {
@@ -183,6 +185,7 @@ void CHellBoss::Hp_Pattern()
 			pUI_Event->ShowEventText(0, L"HellBoss_Phase3");
 		}
 
+		m_pCurState = new CHellBoss_JumpLoopState(); 
 		return;
 	}
 	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
@@ -241,7 +244,8 @@ void CHellBoss::Process_Input()
 	//if (GetAsyncKeyState('0') & 0x8000)		
 	//	m_AnimationManager.SetCurrentAnimation("Start");
 
-	if ((GetAsyncKeyState('C') & 0x8000 &&!m_bJumping && !m_bFalling && m_ePhase == PHASE3))
+	//if ((GetAsyncKeyState('C') & 0x8000 &&!m_bJumping && !m_bFalling && m_ePhase == PHASE3))
+	if (m_bBlink&&!m_bJumping && !m_bFalling && m_ePhase == PHASE3)
 	{
 		m_bJumping = true;
 		m_fJumpTime = 0.f;
@@ -534,6 +538,51 @@ _float3 CHellBoss::Get_RandomWarpPos_InFront()
 
 	return finalPos;
 }
+void CHellBoss::Force_Jump()
+{
+	if (m_bJumping || m_bFalling || m_ePhase != PHASE3)
+		return;
+
+	m_bJumping = true;
+	m_fJumpTime = 0.f;
+	m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float3 vPos = m_vJumpStartPos;
+	vPos.y += 80.f;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+	BossDESC desc{};
+	desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	desc.vPos = m_vJumpStartPos;
+	desc.strState = "Up";
+
+	m_pGameInstance->Add_GameObject(LEVEL_HONG,
+		TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+		LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+	if (m_pTarget)
+	{
+		_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+		_float3 vCurrentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float angleRad = ((rand() % 360)) * D3DX_PI / 180.f;
+		_float distance = 40.f;
+
+		_float3 vOffset;
+		vOffset.x = cosf(angleRad) * distance;
+		vOffset.z = sinf(angleRad) * distance;
+		vOffset.y = 0.f;
+
+		_float3 vTargetPos = vPlayerPos + vOffset;
+		m_vTargetDir = (vTargetPos - vCurrentPos);
+		m_vTargetDir.Normalize();
+		m_bFalling = true;
+		m_bJumping = false;
+	}
+}
+
 _float3 CHellBoss::Get_CutScene_AnchorPos() const
 {
 	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -633,13 +682,13 @@ HRESULT CHellBoss::Render()
 		_float2(-100.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
-	_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	_float2(-300.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
-	_float2(-100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	_float2(-100.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
-	_float2(100.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	_float2(100.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 if (m_fParryTextTimer > 0.f)
 {

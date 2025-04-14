@@ -1,6 +1,8 @@
 ﻿#include "HellBoss.h"
 #include "HellBoss_AttackState.h"
 #include "HellBoss_IdleState.h"
+#include "HellBoss_AttackState.h"
+#include "HellBoss_JumpLoopState.h" 
 #include "HellBoss_Bullet.h"
 #include "Pattern_Shoot.h"
 #include "Pattern_Warp.h"
@@ -42,6 +44,9 @@ void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
+
+   
+
     if (!m_bAttackFinished)
     {
         pBoss->Use_Attack(fDeltaTime);
@@ -49,6 +54,14 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         auto pPattern = pBoss->Get_AttackPattern();
         if (pPattern && pPattern->Is_Finished())
         {
+            m_bAttackFinished = true;
+            m_fDelayTimer = 0.f;
+
+            if (pBoss->Get_Phase() == PHASE3)
+            {
+                pBoss->Change_State(new CHellBoss_JumpLoopState());
+                return;
+            }
             m_bAttackFinished = true;
             m_fDelayTimer = 0.f;
         }
