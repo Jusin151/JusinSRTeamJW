@@ -2,6 +2,7 @@
 #include "HellBoss_CircleState.h"
 #include "HellBoss.h"
 #include "Camera_CutScene.h"
+#include "HellBoss_IdleState.h"
 
 
 _float upwardSpeed = {};
@@ -83,7 +84,10 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
             pCutCam->Set_CameraDisableDelay(4.2f); // 몇초뒤에 카메라끌껀지
         }
     }
-
+    if (pBoss->Get_Phase() == PHASE5)
+    {
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_2to3")->SetVolume(0.7f);
+    }
 
 
     upwardSpeed = 5.f;
@@ -106,14 +110,42 @@ void CHellBoss_MorphState::Update(CHellBoss* pBoss, float fDeltaTime)
         }
     }
 
+    static _float fFallSpeed = 0.f;
+    static const _float fGravity = 98.f;
 
-   
+    if (pBoss->Get_Phase() == PHASE5)
+    {
+        _float3 pos = pBoss->Get_Transform()->Get_State(CTransform::STATE_POSITION);
 
+
+        fFallSpeed += fGravity * fDeltaTime;
+        pos.y -= fFallSpeed * fDeltaTime;
+
+        if (pos.y <= pBoss->Get_FloorOffset() + 0.5f)
+        {
+            pos.y = pBoss->Get_FloorOffset();
+            fFallSpeed = 0.f; // 속도 초기화
+           //pBoss->Change_State(new CHellBoss_IdleState());
+
+            BossDESC desc{};
+            desc.vRight = pBoss->Get_Transform()->Get_State(CTransform::STATE_RIGHT);
+            desc.vUp = pBoss->Get_Transform()->Get_State(CTransform::STATE_UP);
+            desc.vLook = pBoss->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+            desc.vPos = pos;
+            desc.strState = "Down";
+
+            pBoss->Get_GameInstance()->Add_GameObject(LEVEL_HONG,
+                TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+                LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+            pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Down")->SetVolume(1.f);
+        }
+
+        pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, pos);
+    }
 
     if (pBoss->Get_AttackPattern())
         pBoss->Use_Attack(fDeltaTime);
-
-   
 }
 
 

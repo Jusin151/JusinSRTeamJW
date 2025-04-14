@@ -93,7 +93,8 @@ private: // 3페이즈 관련
 	_float3 m_vJumpStartPos = {};
 	_float3 m_vJumpTargetPos = {};
 	_float3 m_vLandingTargetPos = {};
-	
+public://5페이즈 관련
+	_float Get_FloorOffset() const { return m_fOffset; } 
 
 
 public: // 3페이즈 관련
