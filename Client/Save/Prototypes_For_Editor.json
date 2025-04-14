@@ -31,6 +31,21 @@
   ],
   "gameObjects": [
     {
+      "class": "CStatue",
+      "tag": "Prototype_GameObject_Statue",
+      "level": 3
+    },
+    {
+      "class": "CBox",
+      "tag": "Prototype_GameObject_Box",
+      "level": 3
+    },
+    {
+      "class": "CTree",
+      "tag": "Prototype_GameObject_Tree",
+      "level": 3
+    },
+    {
       "class": "CStructure",
       "level": 4,
       "tag": "Prototype_GameObject_Wall"
@@ -44,11 +59,6 @@
       "class": "CPlayer",
       "level": 4,
       "tag": "Prototype_GameObject_Player"
-    },
-    {
-      "class": "CTerrain",
-      "level": 4,
-      "tag": "Prototype_GameObject_Terrain"
     },
     {
       "class": "CCamera_Free",
@@ -431,12 +441,6 @@
       "level": 4,
       "path": "../../Resources/Textures/Player/Player.png",
       "tag": "Prototype_Component_Texture_Player"
-    },
-    {
-      "count": 1,
-      "level": 4,
-      "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
-      "tag": "Prototype_Component_Texture_Terrain"
     },
     {
       "count": 10,
