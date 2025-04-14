@@ -22,7 +22,7 @@ HRESULT CTrigger::Initialize_Prototype()
 
 HRESULT CTrigger::Initialize(void* pArg)
 {
-	INIT_PARENT(pArg)
+	INIT_PARENT(pArg)	
 
 		if (FAILED(Ready_Components()))
 			return E_FAIL;
@@ -41,7 +41,7 @@ HRESULT CTrigger::Initialize(void* pArg)
 
 	Find_Target();
 
-	m_pTransformCom->Set_Scale(5.f, 5.f, 5.f);
+	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
 	if (m_vTriggerDesc.eType == TRIGGER_TYPE::INTERACTION)
 	{
 		m_pTransformCom->Set_Scale(40.f, 1.f, 40.f);
@@ -61,7 +61,12 @@ void CTrigger::Update(_float fTimeDelta)
 		// 콜라이더 트랜스폼 업데이트
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 	}
-
+	if (m_bWasTriggered && m_vTriggerDesc.eType == TRIGGER_TYPE::LEVEL_CHANGE)
+	{
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+			return;
+	}
 	// 게임 인스턴스의 충돌 확인 시스템에 콜라이더 추가
 	m_pGameInstance->Add_Collider(CG_TRIGGER, m_pColliderCom);
 	m_pSoundCom->Update(fTimeDelta);
@@ -71,6 +76,8 @@ void CTrigger::Late_Update(_float fTimeDelta)
 {
 	if(m_vTriggerDesc.eType == TRIGGER_TYPE::BUTTON)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+
 }
 
 HRESULT CTrigger::Render()
@@ -144,10 +151,8 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 	{
 		if (other->Get_Type() == CG_PLAYER)
 		{
-			SetActive(false);
-		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
-			return E_FAIL;
+			m_bWasTriggered = true;
+		
 		}
 
 		break;

@@ -50,7 +50,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trigger_Button"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Trigger_Level"), &vTriggerDesc)))
 		return E_FAIL;
-
+	m_pLevelTrigger = static_cast<CTrigger*>(m_pGameInstance->Find_Last_Object(LEVEL_GAMEPLAY, TEXT("Layer_Trigger_Level")));
 	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
 	if (pCamera)
 	{
@@ -89,6 +89,13 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	if (GetAsyncKeyState('F') & 0x8000)
 	{
 
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+			return;
+	}
+
+	if (m_pLevelTrigger && m_pLevelTrigger->WasTriggered())
+	{
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
 			return;

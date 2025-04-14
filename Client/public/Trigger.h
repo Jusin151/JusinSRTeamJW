@@ -50,6 +50,7 @@ public:
     void Deactivate();
 
     void AddTargetObject(class CDoor* pTarget);
+    _bool WasTriggered() const { return m_bWasTriggered; }
 
     void OnTrigger_Activated();
     void OnTrigger_Deactivated();
