@@ -102,7 +102,7 @@ void CUI_Episode_Hub::Create_Episode_Select_Button() //초록색 셀렉트 버�
 {
 	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(3); // 현재 3개만 생성이라 3개로 잡음
 
-	for (int index = 0; index < 3; ++index) // 버튼 3개만 생성
+	for (int index = 0; index < MAP_END; ++index) // 버튼 3개만 생성
 	{
 		vecButtonDescs[index].Button_Desc.vSize = { 192.f, 192.f };
 
@@ -117,12 +117,6 @@ void CUI_Episode_Hub::Create_Episode_Select_Button() //초록색 셀렉트 버�
 		case 2:
 			vecButtonDescs[index].Button_Desc.vPos = m_fThird_Button_Pos; //{ -108.f,-73.f };
 			break;
-		/*case 3:
-			vecButtonDescs[index].Button_Desc.vPos = { 80.f,-73.f };
-			break;
-		case 4:
-			vecButtonDescs[index].Button_Desc.vPos = { 273.f,-73.f };
-			break;*/
 		default:
 			break;
 		}
@@ -161,31 +155,23 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 {
 	vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(5);
 
-	for (int index = 0; index < 3; ++index) // 버튼 3개만 생성
+	for (int index = 0; index < MAP_END; ++index) // 버튼 3개만 생성
 	{
 		vecButtonDescs[index].Button_Desc.vSize = { 192.f, 192.f };
 		switch (index)
 		{
-		case 0:
+		case FIRST_NORMAL_MAP:
 			vecButtonDescs[index].Button_Desc.vPos = m_fFisrt_Button_Pos;
 			vecButtonDescs[index].iCurrentImageNum = FIRST_NORMAP_MAP_COLOR;
 			break;
-		case 1:
+		case FIRST_BOSS_MAP:
 			vecButtonDescs[index].Button_Desc.vPos = m_fSecond_Button_Pos;
-			vecButtonDescs[index].iCurrentImageNum = SECOND_NORMAP_MAP_GRAY;
-			break;
-		case 2:
-			vecButtonDescs[index].Button_Desc.vPos = m_fThird_Button_Pos;
 			vecButtonDescs[index].iCurrentImageNum = FIRST_BOSS_MAP_GRAY;
 			break;
-	/*	case 3:
-			vecButtonDescs[index].Button_Desc.vPos = { 80.f,-73.f };
+		case SECOND_BOSS_MAP:
+			vecButtonDescs[index].Button_Desc.vPos = m_fThird_Button_Pos;
 			vecButtonDescs[index].iCurrentImageNum = SECOND_BOSS_MAP_GRAY;
 			break;
-		case 4:
-			vecButtonDescs[index].Button_Desc.vPos = { 273.f,-73.f };
-			vecButtonDescs[index].iCurrentImageNum = THIRD_BOSS_MAP_GRAY;
-			break;*/
 		}
 		vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Episode_Hub_UI_Level_1";
 		vecButtonDescs[index].strUIName = L"Level_Episode_Button_Image_" + to_wstring(index);
@@ -217,49 +203,24 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 						if (current == FIRST_NORMAP_MAP_COLOR)
 						{
 							current = FIRST_NORMAP_MAP_RED;
-						
-							if (m_vecMapButtons.size() > SECOND_NORMAL_MAP &&
-								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
+
+							if (m_vecMapButtons.size() > FIRST_BOSS_MAP &&
+								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum == FIRST_BOSS_MAP_GRAY)
 							{
-				
+
 								if (m_pPortal)
 								{
 									m_pPortal->SetActive(true);
 									m_pPortal->Set_Level(LEVEL_GAMEPLAY);
 								}
 
-								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;
-							}
-						}
-						break;
-
-					case SECOND_NORMAL_MAP:
-						if (m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum != FIRST_NORMAP_MAP_RED)
-						{
-							MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
-							return;
-						}
-
-						if (current == SECOND_NORMAP_MAP_COLOR)
-						{
-							current = SECOND_NORMAP_MAP_RED;
-							if (m_vecMapButtons.size() > FIRST_BOSS_MAP &&
-								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum == FIRST_BOSS_MAP_GRAY)
-							{
 								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum = FIRST_BOSS_MAP_COLOR;
-
-
-								if (m_pPortal)
-								{
-									m_pPortal->SetActive(true);
-									m_pPortal->Set_Level(LEVEL_BOSS);
-								}
 							}
 						}
 						break;
 
 					case FIRST_BOSS_MAP:
-						if (m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum != SECOND_NORMAP_MAP_RED)
+						if (m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum != FIRST_NORMAP_MAP_RED)
 						{
 							MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
 							return;
@@ -271,13 +232,12 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 							if (m_vecMapButtons.size() > SECOND_BOSS_MAP &&
 								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum == SECOND_BOSS_MAP_GRAY)
 							{
-								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum = SECOND_BOSS_MAP_COLOR;
-
 								if (m_pPortal)
 								{
 									m_pPortal->SetActive(true);
-									m_pPortal->Set_Level(LEVEL_HONG);
+									m_pPortal->Set_Level(LEVEL_BOSS);
 								}
+								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum = SECOND_BOSS_MAP_COLOR;
 							}
 						}
 						break;
@@ -292,25 +252,12 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 						if (current == SECOND_BOSS_MAP_COLOR)
 						{
 							current = SECOND_BOSS_MAP_RED;
-							if (m_vecMapButtons.size() > THIRD_BOSS_MAP &&
-								m_vecMapButtons[THIRD_BOSS_MAP]->m_Button_Info.iCurrentImageNum == THIRD_BOSS_MAP_GRAY)
+
+							if (m_pPortal)
 							{
-								m_vecMapButtons[THIRD_BOSS_MAP]->m_Button_Info.iCurrentImageNum = THIRD_BOSS_MAP_COLOR;
+								m_pPortal->SetActive(true);
+								m_pPortal->Set_Level(LEVEL_HONG);
 							}
-						}
-						break;
-
-					case THIRD_BOSS_MAP:
-						if (m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum != SECOND_BOSS_MAP_RED)
-						{
-							MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
-							return;
-						}
-
-						if (current == THIRD_BOSS_MAP_COLOR)
-						{
-							current = THIRD_BOSS_MAP_RED;
-							// 마지막 맵이니까 여기선 다음 없음!
 						}
 						break;
 					}
