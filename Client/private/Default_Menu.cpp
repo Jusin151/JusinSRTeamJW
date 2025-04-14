@@ -146,7 +146,7 @@ void CDefault_Menu::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTransformCom);
+	CUI_Manager::GetInstance()->Remove_UI(L"Default_Menu");
+
+
 }

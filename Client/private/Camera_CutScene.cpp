@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "GameInstance.h"
 #include "HellBoss.h"
+#include "UI_Manager.h"
 
 CCamera_CutScene::CCamera_CutScene(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCamera(pGraphic_Device) 
@@ -85,12 +86,19 @@ void CCamera_CutScene::Set_FixedTransform(const _float3& vEye, const _float3& vA
     m_vEye = vEye;
     m_vAt = vAt;
 }
-void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay) //플레이어계속 보게하려면
+void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay) 
 {
     m_fDisableDelay = fDelay;
     m_fDisableTimer = 0.f;
     m_bDelayDisable = true;
+    CUI_Manager::GetInstance()->Set_Actived_UI(false);
+    if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
+    {
+        pPlayer->Get_Current_Weapon()->SetActive(false);
+    }
 }
+
+
 void CCamera_CutScene::Set_CutScenePath(const vector<_float3>& vecPath, float fSpeed)
 {
     m_vecPathPoints = vecPath;
@@ -183,8 +191,13 @@ void CCamera_CutScene::Update(_float fTimeDelta)
         m_fDisableTimer += fTimeDelta;
         if (m_fDisableTimer >= m_fDisableDelay)
         {
-            m_bDelayDisable = false;
+            m_bDelayDisable = false; 
             SetActive(false); 
+            CUI_Manager::GetInstance()->Set_Actived_UI(true);
+            if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
+            {
+                pPlayer->Get_Current_Weapon()->SetActive(true);
+            }
         }
     }
 

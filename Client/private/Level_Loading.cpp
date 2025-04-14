@@ -146,6 +146,7 @@ CLevel_Loading* CLevel_Loading::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL 
 
 void CLevel_Loading::Free()
 {
+
 	__super::Free();
 
 	Safe_Release(m_pLoader);
