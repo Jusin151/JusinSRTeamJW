@@ -94,6 +94,7 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
     CUI_Manager::GetInstance()->Set_Actived_UI(false);
     if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
     {
+        if(pPlayer->Get_Current_Weapon()!=nullptr)
         pPlayer->Get_Current_Weapon()->SetActive(false);
     }
 }
@@ -196,7 +197,8 @@ void CCamera_CutScene::Update(_float fTimeDelta)
             CUI_Manager::GetInstance()->Set_Actived_UI(true);
             if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
             {
-                pPlayer->Get_Current_Weapon()->SetActive(true);
+                if (pPlayer->Get_Current_Weapon() != nullptr)
+                    pPlayer->Get_Current_Weapon()->SetActive(false);
             }
         }
     }

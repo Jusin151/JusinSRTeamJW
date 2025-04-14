@@ -41,38 +41,6 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
             pCutCam->Set_CameraDisableDelay(3.f);          // 4초 후 자동으로꺼지게
         }
     }
-    //if (pBoss->Get_Phase() == PHASE3)
-    //{
-    //    _float3 vBossPos = pBoss->Get_CutScene_AnchorPos();
-
-    //    _float3 vLookDir = pBoss->Get_Transform()->Get_State(CTransform::STATE_LOOK);
-    //    vLookDir.Normalize();
-
-    //    _float3 vUp = _float3(0.f, 1.f, 0.f);
-    //    _float3 vRight = _float3(3.f, 1.f, 10.f);
-    //    _float radius = 30.f;
-
-    //    _float3 vStart = vBossPos - vLookDir * radius + vUp * 10.f;
-    //    _float3 vMid = vBossPos - vLookDir * (radius * 1.5f) + vUp;
-    //    _float3 vEnd = vBossPos - vLookDir * (radius * 1.5f) + vUp;
-
-    //    vector<_float3> vecPath = { vStart, vMid, vEnd };
-
-    //    pBoss->Get_GameInstance()->Add_GameObject(
-    //        LEVEL_STATIC,
-    //        TEXT("Prototype_GameObject_Camera_CutScene"),
-    //        LEVEL_HONG,
-    //        TEXT("Layer_Camera"));
-
-    //    CGameObject* pObj = pBoss->Get_GameInstance()->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera"));
-    //    CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
-    //    if (pCutCam)
-    //    {
-    //        pCutCam->Set_LookTarget(pBoss); // 컷씬 카메라가 뭘 보게 할껀지
-    //        pCutCam->Set_CutScenePath(vecPath, 0.4f); // 경로 넣기
-    //        pCutCam->Set_CameraDisableDelay(0.6f); // 몇초뒤에 카메라끌껀지
-    //    }
-    //}
     if (pBoss->Get_Phase() == PHASE4)
     {
         _float3 vBossPos = pBoss->Get_CutScene_AnchorPos();
