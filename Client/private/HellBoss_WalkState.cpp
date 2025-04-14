@@ -1,8 +1,7 @@
 ﻿#include "HellBoss_WalkState.h"
 #include "HellBoss.h"
-#include "HellBoss_IdleState.h"
-#include "Pattern_Shoot.h"
-#include "HellBoss_AttackState.h"
+
+
 
 void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 {
@@ -21,18 +20,18 @@ void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 
 void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
-	if (pBoss->Get_Phase() == PHASE3 && pBoss->Is_WaitingForPhase3Attack())
-	{
-		pBoss->m_fPhase3_AttackCooldown -= fDeltaTime;
-		if (pBoss->m_fPhase3_AttackCooldown <= 0.f)
-		{
-			// 다시 공격
-			pBoss->Set_Pattern(new CPattern_Shoot());
-			pBoss->Change_State(new CHellBoss_AttackState());
-			pBoss->m_bPhase3_WaitingForAttack = false;
-			return;
-		}
-	}
+	//if (pBoss->Get_Phase() == PHASE3 && pBoss->Is_WaitingForPhase3Attack())
+	//{
+	//	pBoss->m_fPhase3_AttackCooldown -= fDeltaTime;
+	//	if (pBoss->m_fPhase3_AttackCooldown <= 0.f)
+	//	{
+	//		// 다시 공격
+	//		pBoss->Set_Pattern(new CPattern_Shoot());
+	//		pBoss->Change_State(new CHellBoss_AttackState());
+	//		pBoss->m_bPhase3_WaitingForAttack = false;
+	//		return;
+	//	}
+	//}
 
 	_float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
 	float fDist = D3DXVec3Length(&vToPlayer);
@@ -44,15 +43,18 @@ void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 	pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, vNewPos);
 
 
-	if (fDist < 20.f) // 플레이어랑 거리가 8보다 가까우면 Idle 
+	if (fDist < 20.f)
 	{
-		pBoss->Change_State(new CHellBoss_IdleState());
+		//if (pBoss->Get_Phase() != PHASE3)
+			pBoss->Change_State(new CHellBoss_IdleState());
+
 		return;
 	}
-}
 
+}
 
 
 void CHellBoss_WalkState::Exit(CHellBoss* pBoss)
 {
 }
+

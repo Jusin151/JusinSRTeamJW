@@ -148,13 +148,8 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 }
             }
         }
-        if (pBoss->Get_AnimationFinished())
-        {
-            m_bStarted = false; // 패턴 종료 처리
-            pBoss->Change_State(new CHellBoss_WalkState()); // → Walk로 넘기기
-        }
-        
-
+            pBoss->Change_State(new CHellBoss_DashState());
+     
 
     }
 
