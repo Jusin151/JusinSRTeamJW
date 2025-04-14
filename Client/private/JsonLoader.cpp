@@ -37,6 +37,7 @@
 #include "Statue.h"
 #include "Box.h"
 #include "Tree.h"
+#include "BombBox.h"
 
 
 
@@ -443,6 +444,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CBox::Create(pGraphic_Device);
 	else if (className == "CTree")
 		return CTree::Create(pGraphic_Device);
+	else if (className == "CBombBox")
+		return CBombBox::Create(pGraphic_Device);
 #pragma endregion
 
 	return nullptr;

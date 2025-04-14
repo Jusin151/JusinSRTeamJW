@@ -490,6 +490,9 @@
     <Filter Include="02.GameObjects\03. Effect\BulletShell_Effect">
       <UniqueIdentifier>{61bf1cbd-efa6-4ad8-b840-59de4ac56600}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\08. Deco\BombBox">
+      <UniqueIdentifier>{a8f05f02-a123-491d-9811-0924eaded1ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -963,6 +966,9 @@
     <ClInclude Include="..\public\BulletShell_Effect.h">
       <Filter>02.GameObjects\03. Effect\BulletShell_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BombBox.h">
+      <Filter>02.GameObjects\08. Deco\BombBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1393,6 +1399,10 @@
     </ClCompile>
     <ClCompile Include="..\private\BulletShell_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\BulletShell_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\Animation.cpp" />
+    <ClCompile Include="..\private\BombBox.cpp">
+      <Filter>02.GameObjects\08. Deco\BombBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -66,6 +66,9 @@ void CCollider_Manager::Update_Collison()
 
 	Collison_Sphere_To_Cube(m_pColliders[CG_PLAYER_PROJECTILE_SPHERE], m_pColliders[CG_MONSTER]);
 
+	Collison_Sphere_To_Cube(m_pColliders[CG_BOMB], m_pColliders[CG_MONSTER]);
+	Collison_Sphere_To_Cube(m_pColliders[CG_BOMB], m_pColliders[CG_PLAYER]);
+
 	Update_Collision_Floor();
 
 	//Clear();

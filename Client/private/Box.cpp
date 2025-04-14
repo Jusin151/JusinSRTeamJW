@@ -77,7 +77,7 @@ void CBox::Update(_float fTimeDelta)
     }
 
 
-    if (!(m_eCurState != DS_IDLE && m_eCurState == m_ePreState))
+    if (m_eCurState == DS_IDLE || m_eCurState != m_ePreState)
         m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
 }
 
@@ -146,7 +146,7 @@ HRESULT CBox::On_Collision(CCollisionObject* other)
     switch (other->Get_Type())
     {
     case CG_PLAYER:
-
+        
         break;
 
     case CG_WEAPON:

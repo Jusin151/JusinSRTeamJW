@@ -1,25 +1,22 @@
-Ôªø#include "Statue.h"
+#include "BombBox.h"
 #include "GameInstance.h"
-#include "Gib_Effect.h"
 
-
-
-CStatue::CStatue(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBombBox::CBombBox(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CDeco_Base(pGraphic_Device)
 {
 }
 
-CStatue::CStatue(const CStatue& Prototype)
+CBombBox::CBombBox(const CBombBox& Prototype)
 	:CDeco_Base(Prototype)
 {
 }
 
-HRESULT CStatue::Initialize_Prototype()
+HRESULT CBombBox::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CStatue::Initialize(void* pArg)
+HRESULT CBombBox::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -27,82 +24,92 @@ HRESULT CStatue::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
-	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+	m_pTransformCom->Set_Scale(1.5f, 1.5f, 1.5f);
+	m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-18.f, 0.46f, -25.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	m_eType = CG_OBJECT;
 
 	m_iCurrentFrame = 0;
 
+	m_iAp = 50;
+
 	return S_OK;
 }
 
-HRESULT CStatue::Ready_Components()
+HRESULT CBombBox::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Statue"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BombBox"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
-	
+
+	/* For.Com_Collider */
+	CCollider::COL_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// ¿Ã∞…∑Œ ƒ›∂Û¿Ã¥ı ≈©±‚ º≥¡§
+	ColliderDesc.fScale = { 7.f,7.f,7.f };
+	// ø¿∫Í¡ß∆ÆøÕ ªÛ¥Î¿˚¿Œ ∞≈∏Æ º≥¡§
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackColliderCom), &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
 
-void CStatue::Priority_Update(_float fTimeDelta)
+void CBombBox::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
-
-	
 }
 
-void CStatue::Update(_float fTimeDelta)
+void CBombBox::Update(_float fTimeDelta)
 {
 	if (!m_bInit)
 	{
 		m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_vNextPos = m_vCurPos;
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+		m_pAttackColliderCom->Update_Collider(TEXT("Com_Transform"), m_pAttackColliderCom->Get_Scale());
 		Calc_Position();
 		m_bInit = true;
 	}
 
 	Look_Player();
 
-	
-	if (m_eCurState == DS_DEATH && !m_bChange)
+
+	if (m_eCurState == DS_DEATH)
+		return;
+
+	if (m_bExplosion)
 	{
-		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
-		m_bChange = true;
+		m_eType = CG_BOMB;
+		m_pGameInstance->Add_Collider(CG_BOMB, m_pAttackColliderCom);
+		m_eCurState = DS_DEATH;
 	}
-
-		
-	if (m_eCurState == DS_IDLE || m_eCurState != m_ePreState)
+	else if (m_eCurState == DS_IDLE || m_eCurState != m_ePreState)
+	{
 		m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
-
+	}
 
 }
 
-void CStatue::Late_Update(_float fTimeDelta)
+void CBombBox::Late_Update(_float fTimeDelta)
 {
 	Select_State();
-	
-
-	
 
 	Calc_Position();
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-	
-	
-	
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
-HRESULT CStatue::Render()
+HRESULT CBombBox::Render()
 {
 	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
 		return E_FAIL;
@@ -134,46 +141,46 @@ HRESULT CStatue::Render()
 	return S_OK;
 }
 
-HRESULT CStatue::On_Collision(CCollisionObject* other)
+HRESULT CBombBox::On_Collision(CCollisionObject* other)
 {
-
-
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
 
 	if (nullptr == other)
 		return S_OK;
 
-	// ÏïàÎ∞îÎÄåÎ©¥ Ï∂©Îèå ÏïàÏùºÏñ¥ÎÇ®
+	// æ»πŸ≤Ó∏È √Êµπ æ»¿œæÓ≥≤
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
-
+		if (m_bExplosion)
+			Take_Damage(other);
 		break;
 
 	case CG_WEAPON:
 		m_eCurState = DS_HIT;
-		
+
 
 		break;
 
 	case CG_MONSTER:
-
+		if (m_bExplosion)
+			Take_Damage(other);
 		break;
 
 	case CG_PLAYER_PROJECTILE_SPHERE:
 		m_eCurState = DS_HIT;
-		
+
 		break;
 
 	case CG_PLAYER_PROJECTILE_CUBE:
 		m_eCurState = DS_HIT;
-	
+
 		break;
-	
+
 	default:
 		break;
 	}
@@ -182,13 +189,13 @@ HRESULT CStatue::On_Collision(CCollisionObject* other)
 	return S_OK;
 }
 
-HRESULT CStatue::SetUp_RenderState()
+HRESULT CBombBox::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ÏïåÌåå Í∞íÏù¥ Í∏∞Ï§ÄÎ≥¥Îã§ ÌÅ¨Î©¥ ÌîΩÏÖÄ Î†åÎçîÎßÅ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100); // Í∏∞Ï§ÄÍ∞í ÏÑ§Ï†ï (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // æÀ∆ƒ ∞™¿Ã ±‚¡ÿ∫∏¥Ÿ ≈©∏È «»ºø ∑ª¥ı∏µ
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100); // ±‚¡ÿ∞™ º≥¡§ (0~255)
 	_float2 ScaleFactor = { 1.0f, 1.0f };
 	_float2 Offset = { 0.f, 0.f };
 	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
@@ -196,7 +203,7 @@ HRESULT CStatue::SetUp_RenderState()
 	return S_OK;
 }
 
-HRESULT CStatue::Release_RenderState()
+HRESULT CBombBox::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -204,86 +211,68 @@ HRESULT CStatue::Release_RenderState()
 	return S_OK;
 }
 
-void CStatue::Select_State()
+void CBombBox::Select_State()
 {
-	if (m_eCurState != m_ePreState)
+	if (m_eCurState == DS_DEATH)
 	{
-		
-		if (m_eCurState == DS_HIT)
-		{
-			
-			m_pColliderCom->Set_Scale(_float3(2.f, 1.f, 1.f));
-			m_pTransformCom->Set_Scale(2.f, 1.f, 1.f);
-			m_iCurrentFrame = 1;
-			m_eCurState = DS_DEATH;
-
-			// gib ÔøΩﬂ∞ÔøΩ..
-
-			float offsetRangeX = 1.f, offsetRangeY = 1.f;
-
-			CGib_Effect::HIT_DESC hitDesc;
-			hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-			hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
-			hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-			hitDesc.vScale = { 1.5f, 1.f, 1.5f };
-			hitDesc.type = 3;
-
-			hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			m_pGameInstance->Add_GameObject(
-				LEVEL_STATIC,
-				TEXT("Prototype_GameObject_Gib_Effect"),
-				LEVEL_STATIC,
-				TEXT("Layer_Gib_Effect"),
-				&hitDesc);
-		}
-		else if (m_eCurState == DS_DEATH)
-		{
-			m_bChange = true;
-			m_ePreState = DS_DEATH;
-		}
-
-		
+		m_ePreState = DS_DEATH;
+		return;
 	}
-	else
+
+	if (m_eCurState == DS_HIT)
 	{
-		if(m_eCurState == DS_IDLE)
-			m_iCurrentFrame = 0;
+
+		m_pColliderCom->Set_Scale(_float3(1.5f, 0.75f, 1.5f));
+		m_pTransformCom->Set_Scale(1.5f, 0.75f, 1.5f);
+		m_iCurrentFrame = 1;
+		m_bExplosion = true;
+
+		// ∆¯πﬂ ¿Ã∆Â∆Æ ª˝º∫
+		Explosion();
+		
+
 	}
 
 	
-		
+
 }
 
-CStatue* CStatue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+void CBombBox::Explosion()
 {
-	CStatue* pInstance = new CStatue(pGraphic_Device);
+	// ∆¯πﬂ ¿Ã∆Â∆Æ ª˝º∫
+}
+
+CBombBox* CBombBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CBombBox* pInstance = new CBombBox(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CStatue");
+		MSG_BOX("Failed to Created : CBombBox");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CStatue::Clone(void* pArg)
+CGameObject* CBombBox::Clone(void* pArg)
 {
-	CStatue* pInstance = new CStatue(*this);
+	CBombBox* pInstance = new CBombBox(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CStatue");
+		MSG_BOX("Failed to Created : CBombBox");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CStatue::Free()
+void CBombBox::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pAttackColliderCom);
 	Safe_Release(m_pTarget);
 }
