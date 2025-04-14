@@ -121,6 +121,7 @@
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;$(SolutionDir)External Libraries\imgui;$(SolutionDir)External Libraries\imgui\backends;$(SolutionDir)External Libraries\fmod\core\inc;$(SolutionDir)External Libraries\fmod\fsbank\inc;$(SolutionDir)External Libraries\fmod\studio\inc;$(SolutionDir)External Libraries\ImGuizmo-master\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

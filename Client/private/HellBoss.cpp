@@ -15,6 +15,8 @@
 #include "Pattern_Warp.h"
 #include "HellBoss_CircleState.h"
 #include "Camera_CutScene.h"
+#include "Level_Logo.h"
+#include "Level_Loading.h"
 
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -37,7 +39,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =6000;
+	m_iHp =30000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -86,8 +88,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289,0.1f); //////////////////////////// 5페이즈 진입
 
 
-	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 311);
-	m_AnimationManager.AddAnimation("M_Phase4_Death", 312, 337);
+	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 310);
+	m_AnimationManager.AddAnimation("M_Phase4_Death", 311, 337,0.15f);
 
 	m_AnimationManager.AddAnimation("Start", 0, 337,0.02f);
 
@@ -160,6 +162,57 @@ void CHellBoss::Update(_float fTimeDelta)
 	Power_Blast_Pattern();
 	Hp_Pattern();
 
+
+	static _bool bTrue = { false }; // 너무힘들어서 스태틱 남발하는거 봐줘...ㅠㅜㅜㅠㅜㅠㅜㅠ
+	if (m_iHp <= 0)
+	{
+		if (!bTrue)
+		{
+			m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+			bTrue = true;
+		}
+
+		m_fSpeed = 0.f;
+		m_ePhase = PHASE6;
+		//m_eCurState = MS_DEATH; 
+
+		// 애니메이션 재생
+		m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
+
+		// 컷씬 카메라 생성
+		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+
+		_float3 vUp = _float3(0.f, 0.f, 0.f);
+		_float3 vStart = vBossPos - vLook * 15.f + vUp * 7.f;
+		_float3 vEnd = vBossPos + vLook * 5.f + vUp * 2.f;
+
+		_float3 vArgs[2] = { vStart, vEnd };
+
+		m_pGameInstance->Add_GameObject(
+			LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Camera_CutScene"),
+			LEVEL_HONG,
+			TEXT("Layer_Camera"),
+			vArgs);
+
+		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera"));
+		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
+		if (pCutCam)
+		{
+			pCutCam->Set_LookTarget(this);
+			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);
+			pCutCam->Set_CameraDisableDelay(4.f);
+		}
+		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
+		{
+			SetActive(false);
+		}
+
+		//m_pSoundCom->Play_Event(L"event:/Monsters/satan_death")->SetVolume(1.f);
+
+	}
 
 	if (m_ePhase == PHASE3)
 	{

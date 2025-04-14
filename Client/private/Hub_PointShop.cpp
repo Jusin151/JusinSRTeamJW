@@ -152,24 +152,11 @@ _bool CHub_PointShop::Can_Purchase(_uint iItemID, _uint iCount)
 
 void CHub_PointShop::Buy_Stat(_int index)
 {
-	// 포인트 차감 
-
-	if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
-	{
-
-		switch (index)
-		{
-		case 0: pPlayer->Add_Strength(1); break;
-		case 1: pPlayer->Add_MaxHP(10); break;
-		case 2: pPlayer->Add_Sprit(1); break;
-		case 3: pPlayer->Add_Capacity(5); break;
-		}
-
-		Notify(&index, L"StatBuy"); // UI에도 알림
-	}
-	else
-		MSG_BOX("허브포인트샵 헤더의 Buy_Stat 오류");
+	
+			Notify(&index, L"StatBuy");  // 성공했을 때만 UI 갱신
+	
 }
+
 
 
 HRESULT CHub_PointShop::Ready_Components()

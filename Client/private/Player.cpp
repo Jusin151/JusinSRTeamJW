@@ -94,7 +94,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.f;
+	m_fSpeed = 0.6f;
 	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -532,41 +532,70 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 	}
 }
 
-void CPlayer::Add_Strength(_int Str)
-{
-	m_iStr += Str;
 
-	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
-}
-
-void CPlayer::Add_MaxHP(_int Hp)
-{
-	m_iHp += Hp;
-	m_iPlayerHP.second += Hp;
-	Notify(m_iHp, L"HP");
-}
-
-void CPlayer::Add_Sprit(_int Sprit)
-{
-	m_iSprit += Sprit;
-	m_iPlayerMP.first += Sprit * 5;
-	m_iPlayerMP.second += Sprit * 5;
-	Notify(m_iPlayerMP.first, L"MP");
-	Notify(m_iPlayerMP.second, L"MP_Max");
-}
 
 void CPlayer::Add_SkillPoint(_int SkillPoint)
 {
 	m_iSkillpoint += SkillPoint;
+
 }
 
-void CPlayer::Add_Capacity(_int type)
+_bool CPlayer::Add_MaxHP(_int Hp)
 {
+	if (m_iStatpoint <= 0)
+		return false;
 
+	m_iStatpoint--;
+	m_iHp += Hp;
+	m_iPlayerHP.second += Hp;
+
+	Notify(m_iHp, L"HP");
+	return true;
+}
+
+_bool CPlayer::Add_Strength(_int Str)
+{
+	if (m_iStatpoint <= 0)
+		return false;
+
+	m_iStatpoint--;
+	m_iStr += Str;
+
+	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
+	return true;
+}
+
+
+_bool CPlayer::Add_Sprit(_int Sprit)
+{
+	if (m_iStatpoint <= 0)
+		return false;
+
+	m_iStatpoint--;
+	m_iSprit += Sprit;
+	m_iPlayerMP.first += Sprit * 5;
+	m_iPlayerMP.second += Sprit * 5;
+
+	Notify(m_iPlayerMP.first, L"MP");
+	Notify(m_iPlayerMP.second, L"MP_Max");
+	return true;
+}
+
+
+
+_bool CPlayer::Add_Capacity(_int type)
+{
+	if (m_iStatpoint <= 0)
+		return false;
+
+	m_iStatpoint--;
 	m_iCapacity += type;
 
 	CItem_Manager::GetInstance()->SetUp_RangedWeapon_to_Capacity(type);
+	return true;
 }
+
+
 
 void CPlayer::Add_Exp(_int Exp)
 {

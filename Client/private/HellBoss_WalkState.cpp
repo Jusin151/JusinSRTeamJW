@@ -28,7 +28,8 @@ void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 
 	if (pBoss->Get_Phase() == PHASE3)
 		vToPlayer *= -1.f;
-
+	if (pBoss->Get_Phase() == PHASE5)
+		vToPlayer *= -1.f;
 	_float3 vNewPos = pBoss->Get_Pos() + vToPlayer * pBoss->Get_Speed() * fDeltaTime;
 	pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, vNewPos);
 

@@ -73,6 +73,7 @@ public:
 protected:
     HRESULT Ready_Components();
     _bool isPick(HWND hWnd);
+    _bool m_bPressed = false;
 
 private:
     CTexture* m_pTextureCom = nullptr;
@@ -81,6 +82,8 @@ private:
 public:
     GamePlayer_Button_Desc m_Button_Info;
 
+private:
+    bool m_bLButtonPressed = false;
 
 public:
     wstring m_strMouseOnText{};

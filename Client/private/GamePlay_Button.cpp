@@ -46,28 +46,58 @@ void CGamePlay_Button::Update(_float fTimeDelta)
 {
     m_bIsActive = m_Button_Info.bActive;
 
+    //if (isPick(g_hWnd))
+    //{
+    //    if (m_OnMouse)  
+    //        m_OnMouse();
+
+    //    if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+    //    {
+    //        if (m_OnClick)
+    //            m_OnClick();
+    //        
+    //       // m_strMouseOnText.clear();
+    //        m_bVisible_Click = true;
+    //    }
+    //    m_bVisible = true;
+    //}
+    //else 
+    //{ 
+    // /*   if(!m_bVisible_Click)
+    //    m_strMouseOnText.clear();*/
+    // 
+    //    m_strMouseOnText.clear();
+    //    m_bVisible = false;
+    //}
     if (isPick(g_hWnd))
     {
-        if (m_OnMouse)  
+        if (m_OnMouse)
             m_OnMouse();
 
-        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+        if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000))
         {
-            if (m_OnClick)
-                m_OnClick();
-            
-           // m_strMouseOnText.clear();
-            m_bVisible_Click = true;
+            if (!m_bPressed) // 처음 누를 때만
+            {
+                m_bPressed = true;
+
+                if (m_OnClick)
+                    m_OnClick();
+
+                m_bVisible_Click = true;
+            }
         }
+        else
+        {
+            m_bPressed = false; // 버튼 뗐을 때 다시 클릭 가능
+        }
+
         m_bVisible = true;
     }
-    else 
-    { 
-     /*   if(!m_bVisible_Click)
-        m_strMouseOnText.clear();*/
-     
+    else
+    {
         m_strMouseOnText.clear();
         m_bVisible = false;
+        m_bPressed = false; // 범위 벗어나면 눌린 거 초기화
     }
 
 

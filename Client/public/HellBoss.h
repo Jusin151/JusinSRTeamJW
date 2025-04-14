@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "HellBoss_Bullet.h"
 
-enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4, PHASE5};
+enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4, PHASE5, PHASE6};
 
 typedef struct BossINFO
 {
