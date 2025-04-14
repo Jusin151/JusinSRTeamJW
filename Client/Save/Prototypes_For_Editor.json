@@ -46,6 +46,11 @@
       "level": 3
     },
     {
+      "class": "CBombBox",
+      "tag": "Prototype_GameObject_BombBox",
+      "level": 3
+    },
+    {
       "class": "CStructure",
       "level": 4,
       "tag": "Prototype_GameObject_Wall"

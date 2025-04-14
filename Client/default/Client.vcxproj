@@ -182,6 +182,7 @@
     <ClInclude Include="..\public\Candles.h" />
     <ClInclude Include="..\public\Camera_CutScene.h" />
     <ClInclude Include="..\public\CthulhuAttackMag.h" />
+    <ClInclude Include="..\Public\Explosion_Effect.h" />
     <ClInclude Include="..\public\HellBoss_CircleState.h" />
     <ClInclude Include="..\public\Deco_Base.h" />
     <ClInclude Include="..\public\Gib_Effect.h" />
@@ -343,6 +344,7 @@
     <ClCompile Include="..\private\Candles.cpp" />
     <ClCompile Include="..\private\Camera_CutScene.cpp" />
     <ClCompile Include="..\private\CthulhuAttackMag.cpp" />
+    <ClCompile Include="..\Private\Explosion_Effect.cpp" />
     <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
     <ClCompile Include="..\private\Deco_Base.cpp" />
     <ClCompile Include="..\private\Gib_Effect.cpp" />

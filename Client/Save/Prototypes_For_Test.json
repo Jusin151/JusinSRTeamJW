@@ -41,6 +41,12 @@
       "level": 0,
       "path": "../../Resources/Textures/Effect/Hit/Bullet/bullet_hit_D_%d.png",
       "count": 3
+    },
+    {
+      "tag": "Prototype_Component_Texture_Explosion_Effect",
+      "level": 0,
+      "path": "../../Resources/Textures/Deco/BombBox/explosion_%d.png",
+      "count": 12
     }
   ],
   "gameObjects": [
@@ -68,6 +74,11 @@
       "tag": "Prototype_GameObject_BulletShell_Effect",
       "level": 0,
       "class": "CBulletShell_Effect"
+    },
+    {
+      "tag": "Prototype_GameObject_Explosion_Effect",
+      "level": 0,
+      "class": "CExplosion_Effect"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

@@ -1,5 +1,6 @@
 #include "BombBox.h"
 #include "GameInstance.h"
+#include "Explosion_Effect.h"
 
 CBombBox::CBombBox(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CDeco_Base(pGraphic_Device)
@@ -24,8 +25,8 @@ HRESULT CBombBox::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scale(1.5f, 1.5f, 1.5f);
-	m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
+	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
@@ -222,8 +223,8 @@ void CBombBox::Select_State()
 	if (m_eCurState == DS_HIT)
 	{
 
-		m_pColliderCom->Set_Scale(_float3(1.5f, 0.75f, 1.5f));
-		m_pTransformCom->Set_Scale(1.5f, 0.75f, 1.5f);
+		m_pTransformCom->Set_Scale(1.f, 0.5f, 1.f);
+		m_pColliderCom->Set_Scale(_float3(1.f, 0.5f, 1.f));
 		m_iCurrentFrame = 1;
 		m_bExplosion = true;
 
@@ -240,6 +241,22 @@ void CBombBox::Select_State()
 void CBombBox::Explosion()
 {
 	// Æø¹ß ÀÌÆåÆ® »ý¼º
+
+	CEffect_Base::EFFECT_DESC effectDesc;
+	effectDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	effectDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	effectDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	effectDesc.vScale = { 5.f, 5.f, 5.f };
+	
+
+	effectDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	effectDesc.vPos += {0.f, 2.f, 0.f};
+	m_pGameInstance->Add_GameObject(
+		LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Explosion_Effect"),
+		LEVEL_STATIC,
+		TEXT("Layer_Explosion_Effect"),
+		&effectDesc);
 }
 
 CBombBox* CBombBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
