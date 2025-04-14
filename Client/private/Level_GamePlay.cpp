@@ -25,7 +25,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	
 	CJsonLoader jsonLoader;
  	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY_Test.json", LEVEL_GAMEPLAY);
+ 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GamePlay_Test.json", LEVEL_GAMEPLAY);
 	
 	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))

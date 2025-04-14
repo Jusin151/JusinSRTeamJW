@@ -22,6 +22,7 @@ HRESULT CDeco_Base::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	INIT_PARENT(pArg)
 	m_eType = CG_STRUCTURE_WALL;
 
 
@@ -102,7 +103,7 @@ HRESULT CDeco_Base::Render()
 
 void CDeco_Base::Look_Player()
 {
-	if (TEXT("Layer_Player") != m_pTarget->Get_Tag())
+	if (!m_pTarget||(TEXT("Layer_Player") != m_pTarget->Get_Tag()))
 		return;
 	CTransform* pTrans = static_cast<CPlayer*>(m_pTarget)->Get_TransForm();
 
@@ -149,6 +150,11 @@ json CDeco_Base::Serialize()
 	};
 
 	return j;
+}
+
+void CDeco_Base::Deserialize(const json& j)
+{
+	SET_TRANSFORM(j, m_pTransformCom);
 }
 
 

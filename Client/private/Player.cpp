@@ -573,7 +573,10 @@ void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
 	{
 
 		m_pPlayer_Inven->Add_Weapon(stWeaponTag,3);
-
+	}
+	else if (stWeaponTag == L"Minigun")
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 6);
 	}
 }
 

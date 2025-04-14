@@ -833,7 +833,7 @@
       "tag": "Prototype_GameObject_Tree",
       "level": 3
     }
-  ],
+  ], 
   "buffers": [
     {
       "tag": "Prototype_Component_VIBuffer_Terrain",
