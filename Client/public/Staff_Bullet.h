@@ -44,6 +44,9 @@ private:
 	HRESULT SetUp_RenderState();
 	HRESULT Release_RenderState();
 	HRESULT Ready_Components();
+
+private:
+	HRESULT CreateParticle();
 public:
 	void Set_Bullet_Scale(_float3 type)
 	{

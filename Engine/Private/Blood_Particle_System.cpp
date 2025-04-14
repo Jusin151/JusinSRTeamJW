@@ -21,7 +21,7 @@ HRESULT CBlood_Particle_System::Initialize(void* pArg)
 	BLOODDESC desc = *reinterpret_cast<BLOODDESC*>(pArg);
 	m_Bound = desc.Bound;
     m_vPos = { 0.f, 0.f, 0.f };
-    m_fSize = 0.1f;
+	m_fSize = desc.fSize;
     m_VBSize = 2048;
     m_VBOffset = 0;
     m_VBBatchSize = 512;

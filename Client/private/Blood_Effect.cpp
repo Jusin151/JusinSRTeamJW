@@ -29,6 +29,7 @@ HRESULT CBlood_Effect::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fAnimationSpeed = { 0.08f };
+	//m_pParticleCom->Set
 	m_iLastFrame = { m_pTextureCom->Get_NumTextures() };
 	m_iCurrentFrame = { 0 };
 
@@ -61,6 +62,7 @@ HRESULT CBlood_Effect::Ready_Components()
 		return E_FAIL;
 
 	CBlood_Particle_System::BLOODDESC bloodDesc = {};
+	bloodDesc.fSize = 0.1f;
 	bloodDesc.iNumParticles = { 10u };
 	bloodDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
 	bloodDesc.Bound.m_fRadius = 0.1f;

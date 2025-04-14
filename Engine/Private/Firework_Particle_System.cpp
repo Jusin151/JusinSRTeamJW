@@ -104,13 +104,6 @@ HRESULT CFirework_Particle_System::Pre_Render()
 {
 	__super::Pre_Render();
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 155); // 기준값 설정 (0~255)
-	// read, but don't write particles to z-buffer
-	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
 	return S_OK;
 }
 
