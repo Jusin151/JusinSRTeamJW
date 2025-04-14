@@ -2,6 +2,7 @@
 #include "VIBuffer_Rect.h"
 #include "GameInstance.h"
 #include "Particles.h"
+#include "Magic_Effect.h"
 
 CStaff_Bullet::CStaff_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CBullet_Base(pGraphic_Device)
@@ -135,18 +136,22 @@ HRESULT CStaff_Bullet::On_Collision(CCollisionObject* other)
 
 		break;
 	case CG_MONSTER:
+		CreateParticle();
 		Take_Damage(other);
 		m_bIsActive = false;
 		break;
 
 	case CG_STRUCTURE_WALL:
+		CreateParticle();
 		m_bIsActive = false;
 		break;
 
 	case CG_DOOR:
+		CreateParticle();
 		m_bIsActive = false;
 		break;
 	case CG_OBJECT:
+		CreateParticle();
 		m_bIsActive = false;
 		break;
 	
@@ -266,6 +271,23 @@ HRESULT CStaff_Bullet::Ready_Components()
 		return E_FAIL;
 
 
+	return S_OK;
+}
+
+HRESULT CStaff_Bullet::CreateParticle()
+{
+	CMagic_Effect::HIT_DESC hitDesc = {};
+	hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	hitDesc.vScale = { 1.0f, 1.0f, 1.0f };
+	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Magic_Effect"),
+		LEVEL_STATIC,
+		TEXT("Layer_Magic_Effect"), &hitDesc)))
+		return E_FAIL;
 	return S_OK;
 }
 

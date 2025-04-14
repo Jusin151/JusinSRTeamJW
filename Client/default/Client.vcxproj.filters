@@ -496,6 +496,9 @@
     <Filter Include="02.GameObjects\03. Effect\Explosion_Effect">
       <UniqueIdentifier>{daca6efd-0fb0-4ad8-a81c-e56993d9fe66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Magic_Effect">
+      <UniqueIdentifier>{28f0584e-132a-4bc0-8b00-80c37a1bf626}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -975,6 +978,9 @@
     <ClInclude Include="..\Public\Explosion_Effect.h">
       <Filter>02.GameObjects\03. Effect\Explosion_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Magic_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Magic_Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1411,6 +1417,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Explosion_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Explosion_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Magic_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Magic_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
