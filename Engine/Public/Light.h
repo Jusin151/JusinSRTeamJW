@@ -37,14 +37,11 @@ public:
 		_float fAttenuation0;
 		_float fAttenuation1;
 		_float fAttenuation2;
-
-
 		//SpotLight Options
-		//_float FallOff;
-		//_float SpotCosOuter;
-		//float SpotCosInner; // Match HLSL struct fields
-
-		//_float Padding_End[2];    // Ensure total size is multiple of 16 bytes if necessary
+		_float fFallOff;
+		_float fTheta; // Match HLSL struct fields
+		_float fPhi;
+		_float fPadding_End;    // Ensure total size is multiple of 16 bytes if necessary
 		// Adjust padding based on exact HLSL struct size/layout.
 	}SHADER_LIGHT;
 private:

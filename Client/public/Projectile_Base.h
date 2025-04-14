@@ -49,7 +49,6 @@ protected:
 	CTransform*		m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
-
 	// 투사체 따라서 다를 수 있어서 원하는거로 자식에서 설정하면 될듯?
 	CCollider*		m_pColliderCom = { nullptr };
 

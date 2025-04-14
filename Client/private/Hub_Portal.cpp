@@ -44,7 +44,12 @@ HRESULT CHub_Portal::Initialize(void* pArg)
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(12.f, 1.f, 2.5f));
 
     m_pTransformCom->Set_Scale(1.f, 2.f, 1.f);
-
+    _float3 lightPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    lightPos.y += 0.7f;
+    m_pLightCom->Set_Position(lightPos);
+    /*lightPos.x += 0.4f;*/
+    
+    
     m_bPortal_On = false;
 
     if (pArg)
@@ -99,7 +104,8 @@ void CHub_Portal::Late_Update(_float fTimeDelta)
 {
     if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
         return;
- 
+    if (FAILED(m_pGameInstance->Add_Light(m_pLightCom)))
+        return;
 }
 
 
@@ -263,7 +269,7 @@ HRESULT CHub_Portal::Ready_Components()
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
 
-    CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/GunLight.json" };
+    CLight::LIGHT_INIT lDesc = { L"../../Resources/Lights/PortalLight.json" };
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Light_Point"),
         TEXT("Com_Light"), reinterpret_cast<CComponent**>(&m_pLightCom), &lDesc)))
         return E_FAIL;
