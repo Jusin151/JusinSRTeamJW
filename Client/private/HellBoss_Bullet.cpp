@@ -232,6 +232,9 @@ void CHellBoss_Bullet::Reset()
 
 	m_bPlayedOnce = false; // 애니메이션 1회 재생
 
+	m_eType = CG_MONSTER_PROJECTILE_SPHERE; 
+	m_iAp = 1;
+
 }
 
 void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
