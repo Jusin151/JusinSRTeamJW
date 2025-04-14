@@ -141,6 +141,9 @@ void CHellBoss::Update(_float fTimeDelta)
 	if (m_bDarkHole_EffectActive)
 		Spawn_Warp_Effect(fTimeDelta); 
 
+	if (m_bFalling)
+		Jump_Pattern(fTimeDelta); 
+
 	Process_Input();
 
 	Power_Blast_Pattern(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 모든패턴에 적용
@@ -287,8 +290,6 @@ void CHellBoss::Process_Input()
 			m_bJumping = false;
 		}
 	}
-
-
 	if (GetAsyncKeyState('Z') & 0x8000)
 	{
 		if (!m_bZKeyPressed)

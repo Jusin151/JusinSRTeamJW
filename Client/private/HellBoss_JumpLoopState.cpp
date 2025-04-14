@@ -15,45 +15,56 @@ void CHellBoss_JumpLoopState::Enter(CHellBoss* pBoss)
     m_eStep = STEP_JUMP;
     m_iJumpCount = 0;
     m_fWaitTimer = 0.f;
+    m_fJumpIntervalTimer = 0.f;
 }
 
 void CHellBoss_JumpLoopState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
-
-        switch (m_eStep)
+    switch (m_eStep)
+    {
+    case STEP_JUMP:
+        if (!pBoss->Is_Jumping() && !pBoss->Is_Falling())
         {
-        case STEP_JUMP:
-            if (!pBoss->Is_Jumping() && !pBoss->Is_Falling())
+            pBoss->Force_Jump();
+            ++m_iJumpCount;
+
+            if (m_iJumpCount < 3)
             {
-                pBoss->Force_Jump(); 
-                ++m_iJumpCount;
-
-                if (m_iJumpCount >= 3)
-                {
-                    m_eStep = STEP_WAIT;
-                    m_fWaitTimer = 0.f;
-                }
+                m_fJumpIntervalTimer = 0.f;
+                m_eStep = STEP_WAIT_BETWEEN_JUMPS;
             }
-            break;
-
-        case STEP_WAIT:
-            m_fWaitTimer += fDeltaTime;
-            if (m_fWaitTimer >= 3.0f)
+            else
             {
-                m_eStep = STEP_ATTACK;
-                pBoss->Set_Pattern(new CPattern_Shoot());
-                pBoss->Change_State(new CHellBoss_AttackState());
+                m_fWaitTimer = 0.f;
+                m_eStep = STEP_WAIT;
             }
-            break;
-
-        case STEP_ATTACK:
-            // 공격이 끝나면 다시 이 상태로 돌아오게 설계되어야 함
-            break;
         }
-    
+        break;
+
+    case STEP_WAIT_BETWEEN_JUMPS:
+        m_fJumpIntervalTimer += fDeltaTime;
+        if (m_fJumpIntervalTimer >= 1.0f) // 점프 간 간격
+        {
+            m_eStep = STEP_JUMP;
+        }
+        break;
+
+    case STEP_WAIT:
+        m_fWaitTimer += fDeltaTime;
+        if (m_fWaitTimer >= 3.0f)
+        {
+            pBoss->Set_Pattern(new CPattern_Shoot());
+            pBoss->Change_State(new CHellBoss_AttackState());
+            m_eStep = STEP_ATTACK;
+        }
+        break;
+
+    case STEP_ATTACK:
+        // 패턴 끝나고 JumpLoopState로 돌아감 (AttackState에서 처리됨)
+        break;
+    }
 }
 
 void CHellBoss_JumpLoopState::Exit(CHellBoss* pBoss)
 {
 }
-
