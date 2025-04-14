@@ -107,10 +107,13 @@ HRESULT CHub_Portal::SetUp_RenderState()
 {
 
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
-
+    //m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    //m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+    //m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
+    _float2 ScaleFactor = { 1.0f, 1.0f };
+    _float2 Offset = { 0.f, 0.f };
+    m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
+    m_pShaderCom->Set_UVOffsetFactor(&Offset);
     return S_OK;
 }
 
@@ -143,7 +146,7 @@ HRESULT CHub_Portal::Render()
     if (FAILED(m_pShaderCom->Bind_Lights()))
         return E_FAIL;
 
-    m_pShaderCom->Begin(2);
+    m_pShaderCom->Begin(6);
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
     m_pShaderCom->End();
@@ -270,9 +273,11 @@ HRESULT CHub_Portal::Ready_Components()
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 
+    CMaterial::MATERIAL_DESC materialDesc = { L"../../Resources/Materials/PortalMaterial.json" };
+
     /* For.Com_Material */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+        TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom), &materialDesc)))
         return E_FAIL;
 
     ///* For.Com_Particle*/
