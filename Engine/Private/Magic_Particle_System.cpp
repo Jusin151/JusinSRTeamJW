@@ -1,4 +1,4 @@
-#include "Magic_Particle_System.h"
+ï»¿#include "Magic_Particle_System.h"
 
 CMagic_Particle_System::CMagic_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CParticle_System{ pGraphic_Device }
@@ -60,11 +60,11 @@ void CMagic_Particle_System::Update(float fTimeDelta)
 	{
 		if (i.bIsAlive)
 		{
-			// --- À§Ä¡ ¾÷µ¥ÀÌÆ® (º¯°æµÈ ¼Óµµ Àû¿ë) ---
+			// --- ìœ„ì¹˜ ì—…ë°ì´íŠ¸ (ë³€ê²½ëœ ì†ë„ ì ìš©) ---
 			i.vPosition += i.vVelocity * fTimeDelta;
 			i.fSize *= 0.90f;
 
-			// --- »ö»ó ÆäÀÌµå ¾Æ¿ô ¹× ¼ö¸í °ü¸® (±âÁ¸°ú µ¿ÀÏ) ---
+			// --- ìƒ‰ìƒ í˜ì´ë“œ ì•„ì›ƒ ë° ìˆ˜ëª… ê´€ë¦¬ (ê¸°ì¡´ê³¼ ë™ì¼) ---
 			float ratio = i.fAge / i.fLifetime;
 			i.vCurrentColor = ColorLerp(i.vInitialColor, i.vColorFade, ratio);
 			i.fAge += fTimeDelta;

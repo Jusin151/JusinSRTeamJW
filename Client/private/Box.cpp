@@ -1,4 +1,4 @@
-#include "Box.h"
+ï»¿#include "Box.h"
 #include "GameInstance.h"
 #include "Item.h"
 #include "Player.h"
@@ -139,7 +139,7 @@ HRESULT CBox::On_Collision(CCollisionObject* other)
     if (nullptr == other)
         return S_OK;
 
-    // ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+    // ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
     if (other->Get_Type() == CG_END)
         return S_OK;
 
@@ -182,8 +182,8 @@ HRESULT CBox::SetUp_RenderState()
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100); // ±âÁØ°ª ¼³Á¤ (0~255)
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
     _float2 ScaleFactor = { 1.0f, 1.0f };
     _float2 Offset = { 0.f, 0.f };
     m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
@@ -212,9 +212,9 @@ void CBox::Select_State()
             m_iCurrentFrame = 1;
             m_eCurState = DS_DEATH;
 
-            // ¾ÆÀÌÅÛ »ı¼º ·ÎÁ÷ Ãß°¡
+            // ì•„ì´í…œ ìƒì„± ë¡œì§ ì¶”ê°€
 
-            // ¾ÆÀÌÅÛ »ı¼ºÇÏ°í, À§Ä¡±îÁö
+            // ì•„ì´í…œ ìƒì„±í•˜ê³ , ìœ„ì¹˜ê¹Œì§€
             Smart_Drop();
         
         }
@@ -235,13 +235,13 @@ void CBox::Select_State()
 
 void CBox::Smart_Drop()
 {
-    // Á¤º¸¸¦ ÀÏ´Ü °¡Á®¿È
+    // ì •ë³´ë¥¼ ì¼ë‹¨ ê°€ì ¸ì˜´
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTarget);
     pair<_int, _int> PlayerHp = pPlayer->Get_PlayerHp();
     pair<_int, _int> PlayerMp = pPlayer->Get_PlayerMp();
     CWeapon_Base* pWeapon = pPlayer->Get_Current_Weapon();
 
-    // Ã¼·Â ºÎÅÍ Ã¼Å©
+    // ì²´ë ¥ ë¶€í„° ì²´í¬
 
     CItem::ITEM_DESC tItemDesc;
 

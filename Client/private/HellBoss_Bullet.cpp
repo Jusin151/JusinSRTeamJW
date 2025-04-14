@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Particles.h"
 #include "HellBoss.h"
+#include "Camera_FirstPerson.h"
 
 static _uint BulletCount = 0;
 
@@ -523,6 +524,22 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 	}
 
+	if (!m_bShakeTriggered)
+	{
+		_float3 bulletPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		if (bulletPos.y <= 0.f)
+		{
+			m_bShakeTriggered = true;
+
+			// 카메라에 접근해서 흔들기
+			CCamera_FirstPerson* pCamera =
+				static_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+
+			if (pCamera)
+				pCamera->TriggerShake(0.3f, 0.3f); // 쉐이크 강도, 지속 시간 조절
+		}
+	}
 
 
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_fBullet_Scale);

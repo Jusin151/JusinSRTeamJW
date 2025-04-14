@@ -30,11 +30,12 @@ HRESULT CHellBoss::Initialize_Prototype()
 }
 HRESULT CHellBoss::Initialize(void* pArg)
 {
+
 	if (FAILED(Ready_Components())) return E_FAIL;
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =11000;
+	m_iHp =30000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;

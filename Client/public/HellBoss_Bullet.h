@@ -74,6 +74,8 @@ public:
 	_float3 Get_RandomBackOffsetPos();
 public:
 	const wstring& Get_BulletType() const { return m_wBulletType; }
+	_bool m_bShakeTriggered = false;
+
 public:
 	void Launch_Toward_Player();
 	void Set_BulletIndex(_int iIndex) { m_iBulletIndex = iIndex; }
