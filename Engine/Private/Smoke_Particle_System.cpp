@@ -20,7 +20,7 @@ HRESULT CSmoke_Particle_System::Initialize(void* pArg)
     SMOKEDESC desc = *reinterpret_cast<SMOKEDESC*>(pArg);
     m_Bounding_Box = desc.Bounding_Box;
     m_vPos = { 0.f, 0.f, 0.f };
-    m_fSize = 0.2f;
+    m_fSize = desc.fSize;
     m_VBSize = 2048;
     m_VBOffset = 0;
     m_VBBatchSize = 1;
@@ -39,32 +39,75 @@ void CSmoke_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
     pAttribute->bIsAlive = true;
     GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
-    pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(0.f, 5.0f), GetRandomFloat(-1.f, 1.0f) };
-    pAttribute->vAcceleration = { 1.5f, 1.2f, 0.0f };
+    pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(1.f, 5.0f), GetRandomFloat(-1.f, 1.0f) };
+    pAttribute->vAcceleration = { 0.8, 0.8, 0.8f };
     pAttribute->fAge = 0;
     pAttribute->fLifetime = 10.0f;
-    pAttribute->iIndex = rand() % m_pTexture->Get_NumTextures();
+    pAttribute->iIndex = 0;
     pAttribute->vCurrentColor = 0xFFFFFFFF;
     pAttribute->fSize = m_fSize;
 }
 
 void CSmoke_Particle_System::Update(float fTimeDelta)
 {
+    const _uint numTextures = m_pTexture->Get_NumTextures();
+    if (numTextures <= 0) {
+        return;
+    }
+
+    // 거리 기반 애니메이션을 위한 최대 거리 (이전과 동일)
+    const float maxAnimDistance = 15.0f; // 예시 값
+    if (maxAnimDistance <= 0.0f) {
+        return;
+    }
+
     for (auto& i : m_Particles)
     {
         if (i.bIsAlive)
         {
-            _float3 worldPos = {};
-            D3DXVec3TransformCoord(&worldPos, &i.vPosition, &m_WorldMat);
-            if (worldPos.y - m_Bounding_Box.m_vMin.y > 0.1f)
-            {
-                i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
-                i.vVelocity.y -= GRAVITY * fTimeDelta;
+            // --- 1. 시간 비율 계산 (0.0 ~ 1.0) ---
+            float ageRatio = 0.0f;
+            if (i.fLifetime > 0.0f) {
+                ageRatio = i.fAge / i.fLifetime;
+                ageRatio = std::max(0.0f, std::min(ageRatio, 1.0f));
             }
+
+            // --- 2. 거리 비율 계산 (0.0 ~ 1.0) ---
+            _float3 pos = i.vPosition;
+            float currentDistance = pos.Length();
+            float distanceRatio = currentDistance / maxAnimDistance;
+            distanceRatio = max(0.0f, std::min(distanceRatio, 1.0f));
+
+            // --- 3. 두 비율 조합 (최댓값 사용) ---
+            // 시간과 거리 중 더 많이 진행된 쪽의 비율을 최종 비율로 사용
+            float finalRatio = max(ageRatio, distanceRatio);
+
+            /* --- 다른 조합 방식 예시 (주석 처리됨) ---
+            // 가중 평균 (예: 시간 60%, 거리 40%)
+            // float timeWeight = 0.6f;
+            // float distanceWeight = 0.4f;
+            // float finalRatio = timeWeight * ageRatio + distanceWeight * distanceRatio;
+            // finalRatio = std::max(0.0f, std::min(finalRatio, 1.0f)); // 결과 클램핑
+
+            // 곱셈
+            // float finalRatio = ageRatio * distanceRatio;
+            */
+
+            // --- 4. 최종 비율을 프레임 인덱스로 매핑 ---
+            float targetFrame = finalRatio * static_cast<float>(numTextures);
+            i.iIndex = static_cast<int>(targetFrame);
+            i.iIndex = min(i.iIndex, numTextures - 1); // 인덱스 범위 제한
+
+
+            // --- 위치 및 나이 업데이트 ---
+            i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
             i.fAge += fTimeDelta;
         }
-        if (i.fAge > i.fLifetime)
+
+        // --- 수명 체크 ---
+        if (i.fAge > i.fLifetime) {
             i.bIsAlive = false;
+        }
     }
 }
 

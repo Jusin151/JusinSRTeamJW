@@ -36,12 +36,13 @@ HRESULT CSmoke_Effect::Ready_Components()
 {
 	CSmoke_Particle_System::SMOKEDESC SmokeDesc = {};
 	SmokeDesc.iNumParticles = { 10u };
+	SmokeDesc.fSize = { 0.5f };
 	SmokeDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
-	SmokeDesc.Bounding_Box.m_vMin = { 0.f, -m_Weapon_Effect_INFO.vPos.y, 0.f };
+	SmokeDesc.Bounding_Box.m_vMin = { 0.f, m_Weapon_Effect_INFO.vPos.y, 0.f };
 	SmokeDesc.Bounding_Box.m_vMax = { 1.f, 1.f, 1.f };
 	SmokeDesc.Bound.m_fRadius = 0.1f;
-	SmokeDesc.strTexturePath = L"../../Resources/Textures/Effects/Smoke_ground_000%d.png";
-	SmokeDesc.iNumTextures = 7;
+	SmokeDesc.strTexturePath = L"../../Resources/Textures/Effect/Smoke/tile%d.png";
+	SmokeDesc.iNumTextures = 10;
 
 	CTransform::TRANSFORM_DESC tDesc{ 10.f,D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -68,7 +69,7 @@ void CSmoke_Effect::Update(_float fTimeDelta)
 
 void CSmoke_Effect::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 
