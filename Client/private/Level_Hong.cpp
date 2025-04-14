@@ -26,6 +26,7 @@ HRESULT CLevel_Hong::Initialize()
 
 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hong.json", LEVEL_HONG);
 	static _bool bIsLoading = false;
+	m_pGameInstance->Stop_All_Event();
 
 	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (pPlayer)
@@ -49,6 +50,8 @@ HRESULT CLevel_Hong::Initialize()
 		LEVEL_HONG, TEXT("Layer_HellBoss"))))
 		return E_FAIL;
 
+
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/068 Hell - HongDongWan").SetVolume(0.25f);
 
 
 	return S_OK;

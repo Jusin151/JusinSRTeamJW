@@ -1,4 +1,4 @@
-#include "BombBox.h"
+ï»¿#include "BombBox.h"
 #include "GameInstance.h"
 #include "Explosion_Effect.h"
 
@@ -49,9 +49,9 @@ HRESULT CBombBox::Ready_Components()
 	/* For.Com_Collider */
 	CCollider::COL_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î ÄÝ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 7.f,7.f,7.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 
@@ -150,7 +150,7 @@ HRESULT CBombBox::On_Collision(CCollisionObject* other)
 	if (nullptr == other)
 		return S_OK;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
@@ -195,8 +195,8 @@ HRESULT CBombBox::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	_float2 ScaleFactor = { 1.0f, 1.0f };
 	_float2 Offset = { 0.f, 0.f };
 	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
@@ -228,7 +228,7 @@ void CBombBox::Select_State()
 		m_iCurrentFrame = 1;
 		m_bExplosion = true;
 
-		// Æø¹ß ÀÌÆåÆ® »ý¼º
+		// í­ë°œ ì´íŽ™íŠ¸ ìƒì„±
 		Explosion();
 		
 
@@ -240,7 +240,7 @@ void CBombBox::Select_State()
 
 void CBombBox::Explosion()
 {
-	// Æø¹ß ÀÌÆåÆ® »ý¼º
+	// í­ë°œ ì´íŽ™íŠ¸ ìƒì„±
 
 	CEffect_Base::EFFECT_DESC effectDesc;
 	effectDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);

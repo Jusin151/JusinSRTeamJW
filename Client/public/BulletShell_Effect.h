@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Effect_Base.h"
 BEGIN(Client)
 class CBulletShell_Effect final : public CEffect_Base
