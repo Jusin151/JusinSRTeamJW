@@ -498,9 +498,15 @@
     </Filter>
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\04.JumpState">
       <UniqueIdentifier>{eadbf511-7337-475a-9109-f3943a9d2aed}</UniqueIdentifier>
-      </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\03. Effect\Magic_Effect">
       <UniqueIdentifier>{28f0584e-132a-4bc0-8b00-80c37a1bf626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Fire_Effect">
+      <UniqueIdentifier>{c55b1dda-3bb0-41fe-a8d0-1170783cf932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03. Effect\Smoke_Effect">
+      <UniqueIdentifier>{aebe63eb-63d3-42bc-bd81-6377fa94085a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -983,10 +989,14 @@
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_JumpLoopState.h">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.JumpState</Filter>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Magic_Effect.h">
       <Filter>02.GameObjects\03. Effect\Magic_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Smoke_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Fire_Effect.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1426,10 +1436,14 @@
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_JumpLoopState.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\04.JumpState</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Magic_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Magic_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Smoke_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Fire_Effect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">
