@@ -52,6 +52,7 @@ void CCollider_Manager::Update_Collison()
 	Update_Collision_Structure();
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER]);
 	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_MONSTER_PROJECTILE_CUBE]);
+	
 
  	Collison_Cube_To_Cube(m_pColliders[CG_WEAPON], m_pColliders[CG_MONSTER]);
  	Collison_Cube_To_Cube(m_pColliders[CG_PLAYER], m_pColliders[CG_ITEM]);
@@ -65,6 +66,7 @@ void CCollider_Manager::Update_Collison()
 	Collison_Sphere_To_Cube(m_pColliders[CG_PLAYER_PROJECTILE_SPHERE], m_pColliders[CG_OBJECT]);
 
 	Collison_Sphere_To_Cube(m_pColliders[CG_PLAYER_PROJECTILE_SPHERE], m_pColliders[CG_MONSTER]);
+	Collison_Sphere_To_Cube(m_pColliders[CG_MONSTER_PROJECTILE_SPHERE], m_pColliders[CG_PLAYER]);
 
 	Collison_Sphere_To_Cube(m_pColliders[CG_BOMB], m_pColliders[CG_MONSTER]);
 	Collison_Sphere_To_Cube(m_pColliders[CG_BOMB], m_pColliders[CG_PLAYER]);

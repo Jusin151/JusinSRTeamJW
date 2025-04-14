@@ -41,8 +41,8 @@ private:
 
 
 protected:
-	// 공격 때 만들 콜라이더
-	CCollider_Cube* m_pAttackCollider = { nullptr };
+	// 공격 때 만들 콜라이더, 각 불릿에서 지정
+	CCollider* m_pAttackCollider = { nullptr };
 
 public:
 	static CBullet_Base* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

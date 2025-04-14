@@ -116,7 +116,8 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
 		m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 
-		
+		m_iAp = 1.f;
+		m_eType = CG_MONSTER_PROJECTILE_SPHERE;
 	}
 
 
@@ -404,7 +405,9 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 	}
 
 
+	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_fBullet_Scale);
 
+	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_SPHERE, m_pAttackCollider);
 
 }
 _float3 CHellBoss_Bullet::Lerp(const _float3& a, const _float3& b, _float t)
@@ -416,9 +419,7 @@ void CHellBoss_Bullet::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-	m_pAttackCollider->Update_Collider_Boss(TEXT("Com_Transform"));
-
-	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_SPHERE, m_pColliderCom);
+	
 }
 
 
@@ -454,7 +455,7 @@ HRESULT CHellBoss_Bullet::Render()
 
 HRESULT CHellBoss_Bullet::On_Collision(CCollisionObject* other)
 {
-	if (nullptr == m_pColliderCom)
+	if (nullptr == m_pColliderCom && nullptr == m_pAttackCollider)
 		return E_FAIL;
 
 	if (nullptr == other)
@@ -464,15 +465,11 @@ HRESULT CHellBoss_Bullet::On_Collision(CCollisionObject* other)
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
-	_float3 fMTV = m_pColliderCom->Get_MTV();
-	_float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 temp = { 1.f, 0.f, 1.f };
-
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
-
-		MSG_BOX("맞았음!");
+		Take_Damage(other);
+		m_bIsActive = false;
 		break;
 
 	case CG_WEAPON:
@@ -530,18 +527,17 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 		return E_FAIL;
 
 
-	/* For.Com_Collider */
-	CCollider_Cube::COL_CUBE_DESC	AttackColliderDesc = {};
-	AttackColliderDesc.pOwner = this;
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	AttackColliderDesc.fScale = { 10.f, 10.f, 10.f };
+	ColliderDesc.fScale = { 0.6f, 0.6f, 0.6f };
 	// 오브젝트와 상대적인 거리 설정
-	AttackColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
 
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &AttackColliderDesc)))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
 		return E_FAIL;
+
 
 	CProjectile_Particle_System::TRAILDESC     trailDesc{};
 	trailDesc.fDistance = 30.f;
@@ -556,19 +552,6 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))
-		return E_FAIL;
-
-
-	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.pOwner = this;
-	// 이걸로 콜라이더 크기 설정
-	AttackColliderDesc.fScale = { 10.f, 10.f, 10.f };
-	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
-
-	/* For.Com_Collider_Sphere */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
