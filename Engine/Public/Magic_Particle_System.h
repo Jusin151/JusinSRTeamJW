@@ -7,6 +7,7 @@ public:
 	typedef struct tagMagicParticleDesc : tagParticleSystemDesc
 	{
 		BOUNDINGSPHERE		Bound;
+		_float3				vOrigin;
 		_uint				iNumParticles;
 	}MAGICDESC;
 private:

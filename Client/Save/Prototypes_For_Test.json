@@ -71,6 +71,11 @@
       "class": "CGib_Effect"
     },
     {
+      "tag": "Prototype_GameObject_Magic_Effect",
+      "level": 0,
+      "class": "CMagic_Effect"
+    },
+    {
       "tag": "Prototype_GameObject_BulletShell_Effect",
       "level": 0,
       "class": "CBulletShell_Effect"
