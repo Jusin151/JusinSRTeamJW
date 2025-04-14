@@ -28,6 +28,11 @@ HRESULT CBulletShell_Effect::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fLifeTime = 5.f;
+	
+	_float3 pos = m_Weapon_Effect_INFO.vPos;
+	pos += m_Weapon_Effect_INFO.vLook * 1.5f;
+	pos += m_Weapon_Effect_INFO.vRight * 0.5f;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pos);
 	static_cast<CBulletShell_Particle_System*>(m_pParticleCom)->Set_WorldMat(*m_pTransformCom->Get_WorldMatrix());
 	//m_pTransformCom->Ro
 	return S_OK;
@@ -43,7 +48,7 @@ HRESULT CBulletShell_Effect::Ready_Components()
 	CBulletShell_Particle_System::BULLETSHELLDESC BulletShellDesc = {};
 	BulletShellDesc.iNumParticles = { 1u };
 	BulletShellDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
-	BulletShellDesc.Bounding_Box.m_vMin = { 0.f, -m_Weapon_Effect_INFO.vPos.y, 0.f };
+	BulletShellDesc.Bounding_Box.m_vMin = { 0.f, m_Weapon_Effect_INFO.vPos.y, 0.f };
 	BulletShellDesc.Bounding_Box.m_vMax = { 1.f, 1.f, 1.f };
 	BulletShellDesc.Bound.m_fRadius = 0.1f;
 	BulletShellDesc.strTexturePath = L"../../Resources/Textures/Particle/minigun_bullet_casing.png";

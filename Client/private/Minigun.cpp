@@ -356,9 +356,7 @@ HRESULT CMinigun::CreateBulletShell()
 
     
     CBulletShell_Effect::BULLETSHELLDESC BulletShellDesc = {};
-    BulletShellDesc.vPos = pTransform->Get_State(CTransform::STATE_POSITION);
-    BulletShellDesc.vPos += pTransform->Get_State(CTransform::STATE_LOOK) * 1.5f;
-    BulletShellDesc.vPos += pTransform->Get_State(CTransform::STATE_RIGHT) * 0.5f;
+    BulletShellDesc.vPos = pTransform->Get_State(CTransform::STATE_POSITION);    
     BulletShellDesc.vRight = pTransform->Get_State(CTransform::STATE_RIGHT);
     BulletShellDesc.vUp = pTransform->Get_State(CTransform::STATE_UP);
     BulletShellDesc.vLook = pTransform->Get_State(CTransform::STATE_LOOK);
