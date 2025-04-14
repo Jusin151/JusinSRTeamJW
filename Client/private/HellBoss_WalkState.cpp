@@ -20,38 +20,25 @@ void CHellBoss_WalkState::Enter(CHellBoss* pBoss)
 
 void CHellBoss_WalkState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
-	//if (pBoss->Get_Phase() == PHASE3 && pBoss->Is_WaitingForPhase3Attack())
-	//{
-	//	pBoss->m_fPhase3_AttackCooldown -= fDeltaTime;
-	//	if (pBoss->m_fPhase3_AttackCooldown <= 0.f)
-	//	{
-	//		// 다시 공격
-	//		pBoss->Set_Pattern(new CPattern_Shoot());
-	//		pBoss->Change_State(new CHellBoss_AttackState());
-	//		pBoss->m_bPhase3_WaitingForAttack = false;
-	//		return;
-	//	}
-	//}
-
 	_float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
 	float fDist = D3DXVec3Length(&vToPlayer);
 
 	D3DXVec3Normalize(&vToPlayer, &vToPlayer);
 
 
+	if (pBoss->Get_Phase() == PHASE3)
+		vToPlayer *= -1.f;
+
 	_float3 vNewPos = pBoss->Get_Pos() + vToPlayer * pBoss->Get_Speed() * fDeltaTime;
 	pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, vNewPos);
 
-
 	if (fDist < 20.f)
 	{
-		//if (pBoss->Get_Phase() != PHASE3)
-			pBoss->Change_State(new CHellBoss_IdleState());
-
+		pBoss->Change_State(new CHellBoss_IdleState());
 		return;
 	}
-
 }
+
 
 
 void CHellBoss_WalkState::Exit(CHellBoss* pBoss)

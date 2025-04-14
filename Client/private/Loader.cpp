@@ -20,6 +20,7 @@
 #include "HP_WorldUI.h"
 #include "HellBoss_Headers.h" // 헬보스 관련 생성에 필요한 헤더 
 #include "Camera_CutScene.h"
+#include "HellBoss_AfterImage.h"
 
 
 
@@ -428,6 +429,18 @@ HRESULT CLoader::Loading_For_Hong()
 		return E_FAIL;
 	CompleteOneTask();
 
+
+	//헬보스 대쉬객체 생성
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_AfterImage"),
+		CHellBoss_AfterImage::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	CompleteOneTask();
+
+	//헬보스 대쉬 이미지
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_AfterImage"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Dash.png"), 1))))
+		return E_FAIL;
+	CompleteOneTask();
 
 	////패링용 왼손 생성
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_B"),

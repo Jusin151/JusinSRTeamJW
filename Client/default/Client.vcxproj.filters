@@ -439,15 +439,6 @@
     <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI">
       <UniqueIdentifier>{4e089300-224f-4de9-8196-16511e409ae8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole">
-      <UniqueIdentifier>{e6f2760e-4d45-4a75-9d4b-def2a80bae6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_Landing">
-      <UniqueIdentifier>{f410d14c-5980-4028-869f-f3247f77b879}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_ManHae">
-      <UniqueIdentifier>{ab04500d-ddb6-497f-b36f-ffc7c5d652be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\DW_Boss\01.HellBoss_State\98. MorphState">
       <UniqueIdentifier>{d276f531-52bd-44ac-b4d6-adf9ca28ae16}</UniqueIdentifier>
     </Filter>
@@ -507,6 +498,18 @@
     </Filter>
     <Filter Include="02.GameObjects\03. Effect\Smoke_Effect">
       <UniqueIdentifier>{aebe63eb-63d3-42bc-bd81-6377fa94085a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_ManHae">
+      <UniqueIdentifier>{ab04500d-ddb6-497f-b36f-ffc7c5d652be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Landing">
+      <UniqueIdentifier>{f410d14c-5980-4028-869f-f3247f77b879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_DarkHole">
+      <UniqueIdentifier>{e6f2760e-4d45-4a75-9d4b-def2a80bae6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage">
+      <UniqueIdentifier>{aeabafd8-e822-4661-a67a-ac9e6cd6125f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -928,7 +931,7 @@
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_Skill_DarkHole.h">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_DarkHole</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Hit_Blood.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
@@ -937,13 +940,13 @@
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_Skill_Landing.h">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_Landing</Filter>
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Landing</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_Headers.h">
       <Filter>97. Hong_Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_DarkBullet.h">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_DarkHole</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HellBoss_CircleState.h">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
@@ -997,6 +1000,9 @@
       <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Fire_Effect.h" />
+    <ClInclude Include="..\Public\HellBoss_AfterImage.h">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1378,7 +1384,7 @@
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_Skill_DarkHole.cpp">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_DarkHole</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Hit_Blood.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\99. Player Hit Effect UI</Filter>
@@ -1387,10 +1393,10 @@
       <Filter>02.GameObjects\JW_Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_Skill_Landing.cpp">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_Landing</Filter>
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_Landing</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_DarkBullet.cpp">
-      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\CHellBoss_Skill_DarkHole</Filter>
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_Skill\HellBoss_Skill_DarkHole</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HellBoss_CircleState.cpp">
       <Filter>02.GameObjects\DW_Boss\01.HellBoss_State\03.CircleState</Filter>
@@ -1444,6 +1450,9 @@
       <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Fire_Effect.cpp" />
+    <ClCompile Include="..\Private\HellBoss_AfterImage.cpp">
+      <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">

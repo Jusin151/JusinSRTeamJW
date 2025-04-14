@@ -184,6 +184,7 @@
     <ClInclude Include="..\public\CthulhuAttackMag.h" />
     <ClInclude Include="..\Public\Explosion_Effect.h" />
     <ClInclude Include="..\public\Fire_Effect.h" />
+    <ClInclude Include="..\Public\HellBoss_AfterImage.h" />
     <ClInclude Include="..\public\HellBoss_CircleState.h" />
     <ClInclude Include="..\public\Deco_Base.h" />
     <ClInclude Include="..\public\Gib_Effect.h" />
@@ -350,6 +351,7 @@
     <ClCompile Include="..\private\CthulhuAttackMag.cpp" />
     <ClCompile Include="..\Private\Explosion_Effect.cpp" />
     <ClCompile Include="..\private\Fire_Effect.cpp" />
+    <ClCompile Include="..\Private\HellBoss_AfterImage.cpp" />
     <ClCompile Include="..\private\HellBoss_CircleState.cpp" />
     <ClCompile Include="..\private\Deco_Base.cpp" />
     <ClCompile Include="..\private\Gib_Effect.cpp" />

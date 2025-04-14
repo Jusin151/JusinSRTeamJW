@@ -70,8 +70,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.1f);  // 한팔 Walk상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 120, 120, 0.1f);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.2f);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 120, 120, 0.1f);  // 대쉬!!!
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
@@ -134,7 +134,6 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 		}
 	}
 
-
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
 
@@ -164,22 +163,21 @@ void CHellBoss::Update(_float fTimeDelta)
 
 	if (m_ePhase == PHASE3)
 	{
+		m_fSpeed = 2.f;
+
 		m_fPhase3_KnockBack_Timer += fTimeDelta;
-		if (m_fPhase3_KnockBack_Timer >= 5.f)
+		if (m_fPhase3_KnockBack_Timer >= 10.f)
 		{
 			m_fPhase3_KnockBack_Timer = 0.f;
 
-			// 점프 플래그 초기화
 			m_bJumping = true;
 			m_fJumpTime = 0.f;
 			m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-			// 점프 위로 올리기
 			_float3 vPos = m_vJumpStartPos;
 			vPos.y += 80.f;
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
-			// Up 이펙트 생성
 			BossDESC desc{};
 			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
@@ -191,7 +189,7 @@ void CHellBoss::Update(_float fTimeDelta)
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
 				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
 
-			// 점프 목표 설정 (랜덤)
+
 			if (m_pTarget)
 			{
 				_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
@@ -216,6 +214,8 @@ void CHellBoss::Update(_float fTimeDelta)
 	}
 	if (m_ePhase == PHASE3 && m_eCurState == MS_IDLE)
 	{
+	
+
 		if (m_bWaitingForPhase3Dash)
 		{
 			m_fPhase3AttackCooldown -= fTimeDelta;
