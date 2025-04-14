@@ -156,6 +156,35 @@ void CHub_PointShop::Buy_Stat(_int index)
 			Notify(&index, L"StatBuy");  // 성공했을 때만 UI 갱신
 	
 }
+void CHub_PointShop::Buy_Skill(_int index)
+{
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+	if (!pPlayer)
+		return;
+
+	switch (index)
+	{
+	case 6:
+		if (pPlayer->Get_SkillPoint() >= 5)
+		{
+			pPlayer->Use_SkillPoint(5);
+			pPlayer->Set_DoubleAmmoGain(true);
+			MessageBox(nullptr, L"탄약획득량이 2배 증가했습니다!", L"더 많이!", MB_OK);
+		}
+		break;
+
+	case 11:
+		if (pPlayer->Get_SkillPoint() >= 3)
+		{
+			pPlayer->Use_SkillPoint(3);
+			pPlayer->Set_DoubleSpeedGain();
+			MessageBox(nullptr, L"스피드가 2배로 증가했습니다!", L"더욱 빠르게!", MB_OK);
+		}
+		break;
+
+		// 여기에 더 추가 가능
+	}
+}
 
 
 

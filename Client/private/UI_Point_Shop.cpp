@@ -266,62 +266,75 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
 
                         m_pSelectedSpellButton = pButton;
 
-                        switch (index)
-                        {
-                        case 0:                       
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 1:                           
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 2:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 3:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 4:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 5:                       
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 6:
-                        {
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                            if (pPlayer)
+                   
+                        pButton->SetOnClickCallback([this, index]()
                             {
-                                pPlayer->Set_DoubleAmmoGain(true);
-                                MessageBox(nullptr, L"총기 탄약 획득량이 2배로 증가했습니다!", L"획득량 증가", MB_OK);
-                            }
-                        }
-                            break;
-                        case 7:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 8:                           
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 9:                            
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 10:                          
-                            //pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 11:
-                        {
-                            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                            if (pPlayer)
-                            {
-                                pPlayer->Set_DoubleSpeedGain();
-                                MessageBox(nullptr, L"스피드가 2배로 증가했습니다!", L"더욱빠르게!", MB_OK);
-                            }
-                        }
-                            break;
-                        default:
-                            break;
-                        }
+                                CHub_PointShop* pShop = dynamic_cast<CHub_PointShop*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop")));
+                                if (!pShop)
+                                    return;
+
+                                pShop->Buy_Skill(index);
+                            });
+
+
+                        //switch (index)
+                        //{
+                        //case 0:                       
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 1:                           
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 2:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 3:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 4:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 5:                       
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 6:
+                        //{
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+                        //    if (pPlayer)
+                        //    {
+                        //        pPlayer->Set_DoubleAmmoGain(true);
+                        //        MessageBox(nullptr, L"총기 탄약 획득량이 2배로 증가했습니다!", L"획득량 증가", MB_OK);
+                        //    }
+                        //    pShop->Buy_Skill(index);
+                        //}
+                        //    break;
+                        //case 7:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 8:                           
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 9:                            
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 10:                          
+                        //    //pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 11:
+                        //{
+                        //    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+                        //    if (pPlayer)
+                        //    {
+                        //        pPlayer->Set_DoubleSpeedGain();
+                        //        MessageBox(nullptr, L"스피드가 2배로 증가했습니다!", L"더욱빠르게!", MB_OK);
+                        //    }
+                        //    pShop->Buy_Skill(index);
+                        //}
+                        //    break;
+                        //default:
+                        //    break;
+                        //}
                     });
 
                 pButton->SetOnMouseCallback([this, pButton, index]()

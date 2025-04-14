@@ -33,6 +33,8 @@ public: //상점관련
     virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
     void  Buy_Stat(_int index);
 
+    void Buy_Skill(_int index);
+
 
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();

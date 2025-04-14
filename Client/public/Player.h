@@ -183,6 +183,15 @@ public:
 	_uint Get_StatPoint() { return m_iStatpoint; }
 	_uint Get_SkillPoint() { return m_iSkillpoint; }
 	_uint Get_Level() { return m_iLevel; }
+	_bool Use_SkillPoint(_uint amount)  
+	{
+		if (m_iSkillpoint < amount)
+			return false;
+
+		m_iSkillpoint -= amount;
+		return true;
+	}
+
 };
 
 
