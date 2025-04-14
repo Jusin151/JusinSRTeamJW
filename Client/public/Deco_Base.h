@@ -51,6 +51,7 @@ public:
 	void Look_Player();
 
 	virtual json Serialize() override;
+	virtual void Deserialize(const json& j) override;
 
 	CGameObject* Get_Target() { return m_pTarget; }
 

@@ -31,7 +31,7 @@ HRESULT CBox::Initialize(void* pArg)
     m_pTransformCom->Set_Scale(1.5f, 1.5f, 1.5f);
     m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-20.f, 0.46f, -30.f));
+   m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-20.f, 0.46f, -30.f));
 
     m_eType = CG_OBJECT;
 

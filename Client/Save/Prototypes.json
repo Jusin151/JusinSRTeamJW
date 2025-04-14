@@ -844,7 +844,7 @@
       "tag": "Prototype_GameObject_BombBox",
       "level": 3
     }
-  ],
+  ], 
   "buffers": [
     {
       "tag": "Prototype_Component_VIBuffer_Terrain",

@@ -66,7 +66,7 @@ void CBulletShell_Particle_System::Update(float fTimeDelta)
         {
             _float3 worldPos = {};
             D3DXVec3TransformCoord(&worldPos, &i.vPosition, &m_WorldMat);
-            if (worldPos.y - m_Bounding_Box.m_vMin.y > 0.1f)
+            if (worldPos.y > m_Bounding_Box.m_vMin.y - 0.75f)
             {
                 i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
                 i.vVelocity.y -= GRAVITY * fTimeDelta;

@@ -287,6 +287,7 @@ HRESULT CJsonLoader::Load_Level(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 
 					continue;
 			}
 
+			
 			// 생성된 객체를 찾아 나머지 데이터 역직렬화
 			CGameObject* pGameObject = pGameInstance->Find_Last_Object(tObjDesc.iLevel, layerTag);
 			if (pGameObject)
@@ -441,7 +442,7 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 	else if (className == "CStatue")
 		return CStatue::Create(pGraphic_Device);
 	else if (className == "CBox")
-		return CBox::Create(pGraphic_Device);
+ 		return CBox::Create(pGraphic_Device);
 	else if (className == "CTree")
 		return CTree::Create(pGraphic_Device);
 	else if (className == "CBombBox")
