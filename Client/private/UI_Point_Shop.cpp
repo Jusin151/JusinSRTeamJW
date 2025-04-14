@@ -114,7 +114,7 @@ HRESULT CUI_Point_Shop::Ready_Skill_Button_Text()
             m_str_Skill_MouseOn_Text[index] = L"연료 및 폭발 아이템 증가";
             break;
         case 6:
-            m_str_Skill_MouseOn_Text[index] = L"총기 탄약 획득량 2배 증가";
+            m_str_Skill_MouseOn_Text[index] = L"총기 탄약 획득량 2배 증가 \n 스킬포인트 : 5";
             break;
         case 7:
             m_str_Skill_MouseOn_Text[index] = L"몬스터 통과 가능";
@@ -129,7 +129,7 @@ HRESULT CUI_Point_Shop::Ready_Skill_Button_Text()
             m_str_Skill_MouseOn_Text[index] = L"적 처치 시 마나 회복";
             break;
         case 11:
-            m_str_Skill_MouseOn_Text[index] = L"이동 속도 대폭 증가";
+            m_str_Skill_MouseOn_Text[index] = L"이동 속도 대폭 증가 \n 스킬포인트 : 3";
             break;
         default:
             return E_FAIL;
@@ -174,6 +174,8 @@ HRESULT CUI_Point_Shop::Render()
     if (FAILED(__super::Render()))
         return E_FAIL;
 
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+
     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("근접 마스터"), _float2(0.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("탄약 수집광"), _float2(223.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("트레저 헌터"), _float2(0.f, -165.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
@@ -201,11 +203,26 @@ HRESULT CUI_Point_Shop::Render()
         _float2(-298.f, 46.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
 
-    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iLevel),
-        _float2(-163.f, -220.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iPoint),
-        _float2(-358.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    if (pPlayer)
+    {
+        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_Level()), 
+            _float2(-163.f, -220.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    }
+    if (pPlayer)
+    {
+        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_SkillPoint()),
+            _float2(-44.f, 58.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    }
+
+  
+    if (pPlayer)
+    {
+        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_StatPoint()), 
+            _float2(-358.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
+    }
+
+  
 
     return S_OK;
 }
@@ -249,62 +266,75 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
 
                         m_pSelectedSpellButton = pButton;
 
-                        switch (index)
-                        {
-                        case 0:                       
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 1:                           
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 2:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 3:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 4:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 5:                       
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 6:
-                        {
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                            if (pPlayer)
+                   
+                        pButton->SetOnClickCallback([this, index]()
                             {
-                                pPlayer->Set_DoubleAmmoGain(true);
-                                MessageBox(nullptr, L"총기 탄약 획득량이 2배로 증가했습니다!", L"획득량 증가", MB_OK);
-                            }
-                        }
-                            break;
-                        case 7:                          
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 8:                           
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 9:                            
-                           // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 10:                          
-                            //pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
-                            break;
-                        case 11:
-                        {
-                            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                            if (pPlayer)
-                            {
-                                pPlayer->Set_DoubleSpeedGain();
-                                MessageBox(nullptr, L"스피드가 2배로 증가했습니다!", L"더욱빠르게!", MB_OK);
-                            }
-                        }
-                            break;
-                        default:
-                            break;
-                        }
+                                CHub_PointShop* pShop = dynamic_cast<CHub_PointShop*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop")));
+                                if (!pShop)
+                                    return;
+
+                                pShop->Buy_Skill(index);
+                            });
+
+
+                        //switch (index)
+                        //{
+                        //case 0:                       
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 1:                           
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 2:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 3:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 4:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 5:                       
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 6:
+                        //{
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+                        //    if (pPlayer)
+                        //    {
+                        //        pPlayer->Set_DoubleAmmoGain(true);
+                        //        MessageBox(nullptr, L"총기 탄약 획득량이 2배로 증가했습니다!", L"획득량 증가", MB_OK);
+                        //    }
+                        //    pShop->Buy_Skill(index);
+                        //}
+                        //    break;
+                        //case 7:                          
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 8:                           
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 9:                            
+                        //   // pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 10:                          
+                        //    //pButton->m_strMouseOnText = m_str_Skill_MouseOn_Text[index];
+                        //    break;
+                        //case 11:
+                        //{
+                        //    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+                        //    if (pPlayer)
+                        //    {
+                        //        pPlayer->Set_DoubleSpeedGain();
+                        //        MessageBox(nullptr, L"스피드가 2배로 증가했습니다!", L"더욱빠르게!", MB_OK);
+                        //    }
+                        //    pShop->Buy_Skill(index);
+                        //}
+                        //    break;
+                        //default:
+                        //    break;
+                        //}
                     });
 
                 pButton->SetOnMouseCallback([this, pButton, index]()
@@ -328,7 +358,7 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
     }
 }
 
-void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼 
+void CUI_Point_Shop::Create_StatButton()
 {
     vector<CGamePlay_Button::GamePlayer_Button_Desc> vecButtonDescs(4);
 
@@ -340,22 +370,17 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
     for (_int index = 0; index < 4; ++index)
     {
         vecButtonDescs[index].Button_Desc.vSize = { 50.f, 50.f };
-
         vecButtonDescs[index].Button_Desc.vPos.x = { -349.f };
-
-        vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Stat"; // 컴포넌트
-
-        vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_Stat_" + to_wstring(index); // 혹시 몰라서.
-
+        vecButtonDescs[index].strTexture_Default_Tag = L"Prototype_Component_Texture_Button_Point_Shop_Stat";
+        vecButtonDescs[index].strUIName = L"Level_Point_Shop_Selected_Stat_" + to_wstring(index);
         vecButtonDescs[index].bActive = true;
-
         vecButtonDescs[index].Button_Type = CGamePlay_Button::BUTTON_TYPE_ENUM::POINT_SHOP_STAT;
 
         if (FAILED(m_pGameInstance->Add_GameObject(
             LEVEL_HUB,
-            TEXT("Prototype_GameObject_GamePlayer_Button"), //  이건 프로토타입 이름이고
+            TEXT("Prototype_GameObject_GamePlayer_Button"),
             LEVEL_HUB,
-            vecButtonDescs[index].strUIName, // 이건 레이어 이름이고
+            vecButtonDescs[index].strUIName,
             &vecButtonDescs[index])))
             continue;
 
@@ -363,36 +388,43 @@ void CUI_Point_Shop::Create_StatButton() // 왼쪽 스탯버튼
 
         if (pButton)
         {
-            m_vecButtons.push_back(pButton); // 버튼 저장
+            m_vecButtons.push_back(pButton);
 
             pButton->SetOnClickCallback([this, index]()
-                { 
+                {
                     CHub_PointShop* pShop = dynamic_cast<CHub_PointShop*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop")));
                     if (!pShop)
                         return E_FAIL;
 
-                    pShop->Buy_Stat(index); 
-                    return S_OK; 
+                    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+                    if (!pPlayer)
+                        return E_FAIL;
+
+                    _bool bSuccess = false;
+
+                    switch (index)
+                    {
+                    case 0: bSuccess = pPlayer->Add_Strength(1); break;
+                    case 1: bSuccess = pPlayer->Add_MaxHP(10); break;
+                    case 2: bSuccess = pPlayer->Add_Sprit(1); break;
+                    case 3: bSuccess = pPlayer->Add_Capacity(1); break;
+                    }
+
+                    if (bSuccess)
+                        pShop->Buy_Stat(index);
+
+                    return S_OK;
                 });
 
 
             pButton->SetOnMouseCallback([this, pButton, index]()
                 {
-                    if (index < m_str_Skill_MouseOn_Text.size())
+                    if (index < m_str_Stat_MouseOn_Text.size())
                     {
-                        pButton->SetOnMouseCallback([this, pButton, index]()
-                            {
-                                pButton->m_strMouseOnText = m_str_Stat_MouseOn_Text[index];
-
-                            });
+                        pButton->m_strMouseOnText = m_str_Stat_MouseOn_Text[index];
                     }
-
                 });
-
-
         }
-
-
     }
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Particle_System.h"
 BEGIN(Engine)
 class ENGINE_DLL CFire_Particle_System final : public CParticle_System

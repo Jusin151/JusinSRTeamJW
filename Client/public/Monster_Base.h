@@ -66,12 +66,11 @@ protected:
 	CTexture*		m_pTextureCom = { nullptr };
 	CMaterial*		m_pMaterialCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
-	CSound_Source*	m_pSoundCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
 	
-	
-	
+public:	
+	CSound_Source* m_pSoundCom = { nullptr };
 protected:
 
 	// 일단 몬스터는 플레이어만 타겟으로 하도록. 다른 걸 타겟으로 하는 것은 나중에 하도록

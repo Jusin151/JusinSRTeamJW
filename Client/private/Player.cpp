@@ -94,7 +94,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.f;
+	m_fSpeed = 0.6f;
 	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -113,6 +113,12 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	m_iPlayerHP.first = m_iHp;
 }
 
+void CPlayer::KnockBack(_float3 vDir, _float fPower)
+{
+	m_vKnockBackDir = vDir;
+	m_fKnockBackPower = fPower;
+	m_bKnockBack = true;
+}
 
 void CPlayer::Update(_float fTimeDelta)
 {
@@ -158,6 +164,29 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		Add_Sprit(1000);
 	}
+
+	if (m_bKnockBack)
+	{
+		/*Notify(m_iHp, L"HP_Hited");
+		m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);*/
+
+		Take_Damage(10);
+
+		m_pTransformCom->Go_Pos(m_vKnockBackDir * m_fKnockBackPower * fTimeDelta);
+
+
+		m_fKnockBackPower *= 0.85f;  //  숫자가 작을수록 더 빨리 멈춰용
+
+		if (m_fKnockBackPower <= 1.f) // 너무 작아지면 그냥 멈춤
+		{
+			m_bKnockBack = false;
+			m_fKnockBackPower = 0.f;
+		}
+	}
+
+
+
+
 	m_pSoundCom->Update(fTimeDelta);
 }
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -165,21 +194,24 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	Attack(fTimeDelta);//좌클
 
-
 	Calc_Position();
 
-	if (m_vObjectMtvSum.LengthSq() > 1e-8f && m_vWallMtvs.empty())
+	if (!m_bKnockBack)
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
-	}
-	else
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		if (m_vObjectMtvSum.LengthSq() > 1e-8f && m_vWallMtvs.empty())
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vCurPos);
+		}
+		else
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+		}
 	}
 
 	m_vWallMtvs.clear();
 	m_vObjectMtvSum = { 0.f, 0.f,0.f };
 }
+
 
 
 void CPlayer::Input_ItemtoInven()
@@ -437,6 +469,7 @@ void CPlayer::Take_Damage(_uint Damage)
 	Notify(m_iHp, L"HP_Hited");
 	m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);
 
+
 }
 void CPlayer::Add_HP(_int Hp)
 {
@@ -499,41 +532,70 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 	}
 }
 
-void CPlayer::Add_Strength(_int Str)
-{
-	m_iStr += Str;
 
-	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
-}
-
-void CPlayer::Add_MaxHP(_int Hp)
-{
-	m_iHp += Hp;
-	m_iPlayerHP.second += Hp;
-	Notify(m_iHp, L"HP");
-}
-
-void CPlayer::Add_Sprit(_int Sprit)
-{
-	m_iSprit += Sprit;
-	m_iPlayerMP.first += Sprit * 5;
-	m_iPlayerMP.second += Sprit * 5;
-	Notify(m_iPlayerMP.first, L"MP");
-	Notify(m_iPlayerMP.second, L"MP_Max");
-}
 
 void CPlayer::Add_SkillPoint(_int SkillPoint)
 {
 	m_iSkillpoint += SkillPoint;
+
 }
 
-void CPlayer::Add_Capacity(_int type)
+_bool CPlayer::Add_MaxHP(_int Hp)
 {
+	if (m_iStatpoint <= 0)
+		return false;
 
+	m_iStatpoint--;
+	m_iHp += Hp;
+	m_iPlayerHP.second += Hp;
+
+	Notify(m_iHp, L"HP");
+	return true;
+}
+
+_bool CPlayer::Add_Strength(_int Str)
+{
+	if (m_iStatpoint <= 0)
+		return false;
+
+	m_iStatpoint--;
+	m_iStr += Str;
+
+	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_iStr);
+	return true;
+}
+
+
+_bool CPlayer::Add_Sprit(_int Sprit)
+{
+	if (m_iStatpoint <= 0)
+		return false;
+
+	m_iStatpoint--;
+	m_iSprit += Sprit;
+	m_iPlayerMP.first += Sprit * 5;
+	m_iPlayerMP.second += Sprit * 5;
+
+	Notify(m_iPlayerMP.first, L"MP");
+	Notify(m_iPlayerMP.second, L"MP_Max");
+	return true;
+}
+
+
+
+_bool CPlayer::Add_Capacity(_int type)
+{
+	if (m_iStatpoint <= 0)
+		return false;
+
+	m_iStatpoint--;
 	m_iCapacity += type;
 
 	CItem_Manager::GetInstance()->SetUp_RangedWeapon_to_Capacity(type);
+	return true;
 }
+
+
 
 void CPlayer::Add_Exp(_int Exp)
 {

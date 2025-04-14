@@ -15,6 +15,8 @@
 #include "Pattern_Warp.h"
 #include "HellBoss_CircleState.h"
 #include "Camera_CutScene.h"
+#include "Level_Logo.h"
+#include "Level_Loading.h"
 
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -31,7 +33,9 @@ HRESULT CHellBoss::Initialize_Prototype()
 HRESULT CHellBoss::Initialize(void* pArg)
 {
 
-	if (FAILED(Ready_Components())) return E_FAIL;
+ 	if (FAILED(Ready_Components())) 
+		return E_FAIL;
+
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
@@ -68,7 +72,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.1f);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.2f);  // 한팔 Walk상태
+	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 120, 120, 0.1f);  // 대쉬!!!
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
@@ -83,8 +88,8 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	m_AnimationManager.AddAnimation("B_Phase3_End", 247, 289,0.1f); //////////////////////////// 5페이즈 진입
 
 
-	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 311);
-	m_AnimationManager.AddAnimation("M_Phase4_Death", 312, 337);
+	m_AnimationManager.AddAnimation("N_Phase4_Idle", 290, 310);
+	m_AnimationManager.AddAnimation("M_Phase4_Death", 311, 337,0.15f);
 
 	m_AnimationManager.AddAnimation("Start", 0, 337,0.02f);
 
@@ -104,7 +109,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
-		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE2_HandBullet"), 100)))
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE2_HandBullet"), 30000)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
@@ -131,33 +136,172 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 		}
 	}
 
-
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
 
 	m_bIsActive = true;
+
+	m_pSoundCom->Update(fTimeDelta);
 }
 void CHellBoss::Update(_float fTimeDelta)
 {
 	if (!m_pTarget)
 		return;
+
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
+
 	if (m_bDarkHole_EffectActive)
-		Spawn_Warp_Effect(fTimeDelta); 
+		Spawn_Warp_Effect(fTimeDelta);
 
 	if (m_bFalling)
-		Jump_Pattern(fTimeDelta); 
+		Jump_Pattern(fTimeDelta);
 
 	Process_Input();
 
-	Power_Blast_Pattern(); // 피가 100 달때마다 생기는 파워블라스트같은 경우에는 모든패턴에 적용
+	Power_Blast_Pattern();
 	Hp_Pattern();
+
+
+	static _bool bTrue = { false }; // 너무힘들어서 스태틱 남발하는거 봐줘...ㅠㅜㅜㅠㅜㅠㅜㅠ
+	if (m_iHp <= 0)
+	{
+		if (!bTrue)
+		{
+			m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+			bTrue = true;
+		}
+
+		m_fSpeed = 0.f;
+		m_ePhase = PHASE6;
+		//m_eCurState = MS_DEATH; 
+
+		// 애니메이션 재생
+		m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
+
+		// 컷씬 카메라 생성
+		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+
+		_float3 vUp = _float3(0.f, 0.f, 0.f);
+		_float3 vStart = vBossPos - vLook * 15.f + vUp * 7.f;
+		_float3 vEnd = vBossPos + vLook * 5.f + vUp * 2.f;
+
+		_float3 vArgs[2] = { vStart, vEnd };
+
+		m_pGameInstance->Add_GameObject(
+			LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Camera_CutScene"),
+			LEVEL_HONG,
+			TEXT("Layer_Camera"),
+			vArgs);
+
+		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera"));
+		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
+		if (pCutCam)
+		{
+			pCutCam->Set_LookTarget(this);
+			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);
+			pCutCam->Set_CameraDisableDelay(4.f);
+		}
+		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
+		{
+			SetActive(false);
+		}
+
+		//m_pSoundCom->Play_Event(L"event:/Monsters/satan_death")->SetVolume(1.f);
+
+	}
+
+	if (m_ePhase == PHASE3)
+	{
+		m_fSpeed = 2.f;
+
+		m_fPhase3_KnockBack_Timer += fTimeDelta;
+		if (m_fPhase3_KnockBack_Timer >= 5.f)
+		{
+			m_fPhase3_KnockBack_Timer = 0.f;
+
+			m_bJumping = true;
+			m_fJumpTime = 0.f;
+			m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			_float3 vPos = m_vJumpStartPos;
+			vPos.y += 80.f;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+			BossDESC desc{};
+			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			desc.vPos = m_vJumpStartPos;
+			desc.strState = "Up";
+		     // event: / Monsters / Up
+			m_pSoundCom->Play_Event(L"event:/Monsters/Up")->SetVolume(1.f);
+
+			m_pGameInstance->Add_GameObject(LEVEL_HONG,
+				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+
+			if (m_pTarget)
+			{
+				_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+				_float3 vCurrentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+				_float angleRad = ((rand() % 360)) * D3DX_PI / 180.f;
+				_float distance = 40.f;
+
+				_float3 vOffset;
+				vOffset.x = cosf(angleRad) * distance;
+				vOffset.z = sinf(angleRad) * distance;
+				vOffset.y = 0.f;
+
+				_float3 vTargetPos = vPlayerPos + vOffset;
+				m_vTargetDir = vTargetPos - vCurrentPos;
+				m_vTargetDir.Normalize();
+
+				m_bFalling = true;
+				m_bJumping = false;
+			}
+		}
+	}
+	if (m_ePhase == PHASE3 && m_eCurState == MS_IDLE)
+	{
+	
+
+		if (m_bWaitingForPhase3Dash)
+		{
+			m_fPhase3AttackCooldown -= fTimeDelta;
+			if (m_fPhase3AttackCooldown <= 0.f)
+				m_bWaitingForPhase3Dash = false;
+		}
+
+		if (m_bWaitingForPhase3Dash)
+			return;
+
+		_float3 vToPlayer = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION)
+			- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		vToPlayer.y = 0.f;
+
+		if (D3DXVec3Length(&vToPlayer) < 30.f)
+		{
+			Change_State(new CHellBoss_DashState());
+			m_bWaitingForPhase3Dash = true;
+			m_fPhase3AttackCooldown = 0.5f;
+			return;
+		}
+	}
+
+
+
 
 	m_AnimationManager.Update(fTimeDelta);
 
 	__super::Update(fTimeDelta);
 }
+
 void CHellBoss::Hp_Pattern()
 {
 	if (m_eCurState != MS_DEATH)
@@ -166,7 +310,7 @@ void CHellBoss::Hp_Pattern()
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
-	if (!m_bDidPhase1Morph) // <<< 2페이즈 돌입!
+	if (!m_bDidPhase1Morph) // <<< 1페이즈 
 	{
 		m_bDidPhase1Morph = true;
 		m_ePhase = PHASE1;
@@ -194,6 +338,23 @@ void CHellBoss::Hp_Pattern()
 			pUI_Event->ShowEventText(0, L"HellBoss_Phase3");
 		}
 
+		if (m_pTarget)
+		{
+			CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTarget);
+			if (pPlayer)
+			{
+				_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 vPlayerPos = pPlayer->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+
+				_float3 vDir = vPlayerPos - vBossPos;
+				vDir.y = 0.f;  
+				vDir.Normalize();
+
+				pPlayer->KnockBack(vDir, 300.f);  // 힘조절은 요기서
+			}
+		}
+
+
 		return;
 	}
 
@@ -216,17 +377,16 @@ void CHellBoss::Hp_Pattern()
 	}
 
 }
-void CHellBoss::Jump_Pattern(_float fTimeDelata)
+void CHellBoss::Jump_Pattern(_float fTimeDelta)
 {
-
 	if (m_bFalling)
 	{
 		_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelata;
-		vCurPos.y -= m_fFallSpeed * fTimeDelata; 
+		vCurPos += m_vTargetDir * m_fFallSpeed * fTimeDelta;
+		vCurPos.y -= m_fFallSpeed * fTimeDelta;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
+
 		if (vCurPos.y <= m_fOffset + 0.5f)
 		{
 			m_bFalling = false;
@@ -244,10 +404,28 @@ void CHellBoss::Jump_Pattern(_float fTimeDelata)
 			m_pGameInstance->Add_GameObject(LEVEL_HONG,
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
 				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+			m_pSoundCom->Play_Event(L"event:/Monsters/Down")->SetVolume(1.f);
+
+			if (m_pTarget)
+			{
+				CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTarget);
+				if (pPlayer)
+				{
+					_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+					_float3 vPlayerPos = pPlayer->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+
+					_float3 vDir = vPlayerPos - vBossPos;
+					vDir.y = 0.f;
+					vDir.Normalize();
+
+					pPlayer->KnockBack(vDir, 300.f);
+				}
+			}
 		}
 	}
-
 }
+
 void CHellBoss::Process_Input()
 {
 	//if (GetAsyncKeyState('0') & 0x8000)		
@@ -332,7 +510,7 @@ void CHellBoss::Use_Attack(_float fDeltaTime)
 			delete m_pCurAttackPattern;
 			m_pCurAttackPattern = nullptr;
 
-			// Phase1만 Idle로 복귀
+
 			if (m_ePhase == PHASE1)
 				Change_State(new CHellBoss_IdleState());
 			else if (m_ePhase == PHASE2)
@@ -344,6 +522,7 @@ void CHellBoss::Use_Attack(_float fDeltaTime)
 		}
 	}
 }
+
 void CHellBoss::Launch_PowerBlast_Bullets()
 {
 	for (auto& pBullet : m_vecPowerBlasts)
@@ -405,6 +584,7 @@ void CHellBoss::Power_Blast_Pattern()
 
 		if (m_iPowerBlastCount == 15)
 		{
+			m_pSoundCom->Play_Event(L"event:/Weapons/ssg_open")->SetVolume(0.6f);
 			Launch_PowerBlast_Bullets();  // 나선 발사
 			m_iPowerBlastCount = 0;
 		}
@@ -882,6 +1062,9 @@ HRESULT CHellBoss::Ready_Components()
 		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 
 	return S_OK;

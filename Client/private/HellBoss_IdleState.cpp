@@ -47,8 +47,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		}
 		else if (pBoss->Get_Phase() == PHASE3)
 		{
-
-			pBoss->Set_Pattern(new CPattern_Shoot()); 
+			pBoss->Set_Pattern(new CPattern_Shoot());
 		}
 
 		pBoss->Change_State(new CHellBoss_AttackState());
