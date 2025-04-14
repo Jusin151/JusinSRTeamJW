@@ -144,6 +144,7 @@ CGameObject* CLoading_UI::Clone(void* pArg)
 
 void CLoading_UI::Free()
 {
+	CUI_Manager::GetInstance()->Remove_UI(L"Loading");
 	__super::Free();
 
 
