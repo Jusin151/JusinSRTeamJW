@@ -996,7 +996,9 @@
     <ClInclude Include="..\public\Smoke_Effect.h">
       <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Fire_Effect.h" />
+    <ClInclude Include="..\public\Fire_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Fire_Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1443,7 +1445,9 @@
     <ClCompile Include="..\private\Smoke_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Fire_Effect.cpp" />
+    <ClCompile Include="..\private\Fire_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Fire_Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\VertexShaderTest.hlsl">

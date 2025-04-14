@@ -408,13 +408,13 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 	if (m_wBulletType == L"Power_Blast" && m_eBulletMode == LAUNCHING)
 	{
-		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 		m_pParticleCom->Update(fTimeDelta);
 	}
 	else if (m_wBulletType != L"Power_Blast")
 	{
 
-		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 		m_pParticleCom->Update(fTimeDelta);
 	}
 
@@ -685,14 +685,14 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 		return E_FAIL;
 
 
-	CProjectile_Particle_System::TRAILDESC     trailDesc{};
+	CTrail_Particle_System::TRAILDESC     trailDesc{};
 	trailDesc.fDistance = 30.f;
 	trailDesc.fWidth = 1.f;
 	trailDesc.iNumParticles = 1;
 	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 	trailDesc.iNumTextures = 1;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
 		return E_FAIL;
 

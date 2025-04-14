@@ -59,7 +59,7 @@ void CHellBoss_DarkBullet::Update(_float fTimeDelta)
 	
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-	dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+	dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 	m_pParticleCom->Update(fTimeDelta);
 	m_fElapsedTime += fTimeDelta;
 	if (m_fElapsedTime >= 0.02f) 
@@ -250,7 +250,7 @@ HRESULT CHellBoss_DarkBullet::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	CProjectile_Particle_System::TRAILDESC     trailDesc{};
+	CTrail_Particle_System::TRAILDESC     trailDesc{};
 	trailDesc.fDistance = 20000.f;
 	trailDesc.fWidth = 1.f;
 	trailDesc.iNumParticles = 1;
@@ -263,7 +263,7 @@ HRESULT CHellBoss_DarkBullet::Ready_Components()
 		//4번은 꼬리로 쓸 텍스쳐
 		//5번은 텍스쳐 애니메이션있으면 쓸 텍스쳐 갯수
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
 		return E_FAIL;
 
