@@ -423,6 +423,9 @@ void CPlayer::Set_Hp(_int iHp)
 void CPlayer::Take_Damage(_uint Damage)
 {
 
+	if (static_cast<CUI_Player_Icon*>(CUI_Manager::GetInstance()->GetUI(L"Player_Icon"))->Get_Hit())
+		return;
+
 	m_iHp -= Damage;
 
 	if (m_iHp < 0)

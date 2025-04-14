@@ -170,7 +170,7 @@ private: // 플레이어 관련
 	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
 	CInventory* m_pPlayer_Inven = { nullptr };
 
-
+	_float m_fAvoidTime = { 0.f };
 };
 
 
