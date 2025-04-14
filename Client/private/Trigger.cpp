@@ -61,12 +61,7 @@ void CTrigger::Update(_float fTimeDelta)
 		// 콜라이더 트랜스폼 업데이트
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pTransformCom->Compute_Scaled());
 	}
-	if (m_bWasTriggered && m_vTriggerDesc.eType == TRIGGER_TYPE::LEVEL_CHANGE)
-	{
-		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
-			return;
-	}
+
 	// 게임 인스턴스의 충돌 확인 시스템에 콜라이더 추가
 	m_pGameInstance->Add_Collider(CG_TRIGGER, m_pColliderCom);
 	m_pSoundCom->Update(fTimeDelta);
@@ -152,7 +147,10 @@ HRESULT CTrigger::On_Collision(CCollisionObject* other)
 		if (other->Get_Type() == CG_PLAYER)
 		{
 			m_bWasTriggered = true;
-		
+		}
+		else
+		{
+			m_bWasTriggered = false;
 		}
 
 		break;

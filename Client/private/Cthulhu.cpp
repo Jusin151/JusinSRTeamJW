@@ -114,7 +114,7 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	if (!m_pBehaviorTree)
 		return E_FAIL;
 
-	m_iHp = 2000;
+	m_iHp = 0;
 	m_fPhaseThreshold = { m_iHp * 0.7f }; // 70퍼일 때 멀티 미사일
 	m_fPhaseThreshold2 = { m_iHp * 0.5f }; // 50퍼일 때 럴커
 
@@ -853,6 +853,7 @@ void CCthulhu::Create_BehaviorTree()
 			m_iCurrentFrame = m_mapStateTextures[m_eState][0];
 			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_death_01", m_pTransformCom)->SetVolume(0.5f);
 			DropItems();
+			static_cast<CPlayer*>(m_pTarget)->Set_ClearLevel(LEVEL_BOSS);
 		}
 
 		if (m_fFrame < m_mapStateTextures[STATE::DEAD].size() - 1)

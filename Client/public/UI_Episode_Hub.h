@@ -52,10 +52,14 @@ private:
 
 	virtual void Late_Update(_float fTimeDelta) override;
 
+public:
+	void Set_Level(LEVEL eLevel);
+
 private:
 	HRESULT Ready_Texture();
 	HRESULT Ready_Skill_Button_Text();
 	HRESULT Ready_Stat_Button_Text();
+	void HandleMapButtonClick(_uint index);
 public:
 	virtual HRESULT Render()override;
 
