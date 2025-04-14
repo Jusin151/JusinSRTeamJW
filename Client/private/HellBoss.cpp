@@ -37,7 +37,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =21000;
+	m_iHp =16000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -184,6 +184,8 @@ void CHellBoss::Update(_float fTimeDelta)
 			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 			desc.vPos = m_vJumpStartPos;
 			desc.strState = "Up";
+		     // event: / Monsters / Up
+			m_pSoundCom->Play_Event(L"event:/Monsters/Up")->SetVolume(1.f);
 
 			m_pGameInstance->Add_GameObject(LEVEL_HONG,
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
@@ -349,6 +351,8 @@ void CHellBoss::Jump_Pattern(_float fTimeDelta)
 			m_pGameInstance->Add_GameObject(LEVEL_HONG,
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
 				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+			m_pSoundCom->Play_Event(L"event:/Monsters/Down")->SetVolume(1.f);
 
 			if (m_pTarget)
 			{
