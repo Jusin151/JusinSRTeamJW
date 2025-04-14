@@ -27,7 +27,7 @@ HRESULT CHellBoss_DarkBullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	m_fSpeed = 5.f;
-	m_iAp = 1.f;
+	m_iAp = 1;
 	m_eType = CG_MONSTER_PROJECTILE_SPHERE;
 	//Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
 

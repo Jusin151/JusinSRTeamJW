@@ -32,23 +32,23 @@
   "gameObjects": [
     {
       "class": "CStatue",
-      "tag": "Prototype_GameObject_Statue",
-      "level": 3
+      "level": 3,
+      "tag": "Prototype_GameObject_Statue"
     },
     {
       "class": "CBox",
-      "tag": "Prototype_GameObject_Box",
-      "level": 3
+      "level": 3,
+      "tag": "Prototype_GameObject_Box"
     },
     {
       "class": "CTree",
-      "tag": "Prototype_GameObject_Tree",
-      "level": 3
+      "level": 3,
+      "tag": "Prototype_GameObject_Tree"
     },
     {
       "class": "CBombBox",
-      "tag": "Prototype_GameObject_BombBox",
-      "level": 3
+      "level": 3,
+      "tag": "Prototype_GameObject_BombBox"
     },
     {
       "class": "CStructure",
