@@ -24,6 +24,7 @@ public:
     virtual void Free();
 private:
     HRESULT Ready_Components();
+    void Shaking(_float fTimeDelta);
 public:
     void Set_LookTarget(CGameObject* pTarget); // 보스 등 바라볼 대상 설정
     void Set_FixedTransform(const _float3& vEye, const _float3& vAt);
@@ -32,6 +33,7 @@ public:
     CTransform* Get_Transform() { return m_pTransformCom; }
     _bool Get_DelayDisable() { return m_bDelayDisable; } 
     void  Set_DelayDisable(_bool bType) { m_bDelayDisable = bType; }
+    void TriggerShake(_float shakeAmount, _float duration);
 private:
     _bool				m_bIsRotating{};       // 카메라 회전 활성화 상태 (우클릭 시)
     _float				m_fDamping{};          // 움직임 감속 계수
@@ -76,6 +78,12 @@ private:
     CGameObject* m_pPlayer_Camera{};
     CGameObject* m_pPlayer{};
     CGameObject* m_pHellBoss{};
+
+
+    _float m_fShakeAmount = 0.f;    // 쉐이크 강도 
+    _float m_fShakeDuration = 0.f;    // 쉐이크 지속 시간
+    _bool m_bTriggerShake = false; // 쉐이크 트리거 상태
+    _float3 m_vOriginalCameraPosition; // 원래 카메라 위치
 
 private:  // 
     vector<_float3> m_vecPathPoints;

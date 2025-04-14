@@ -5,6 +5,7 @@
 #include <Camera_FirstPerson.h>
 #include "Cthulhu_Tentacle.h"
 #include "Cthulhu_Big_Tentacle.h"
+#include <Camera_CutScene.h>
 
 CCthulhu::CCthulhu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster_Base(pGraphic_Device), m_pBehaviorTree(nullptr),
@@ -365,12 +366,29 @@ NodeStatus CCthulhu::Update_Appear()
 
 	if (!m_bCameraShaken)
 	{
-		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
-		if (pCamera)
+		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+		_float3 vStart = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION)+_float3(-1.54f,-0.6f, -0.8f);
+		_float3 vEnd = vBossPos + _float3(-14.f, 7.5f, 0.f);
+		_float3 vArgs[2] = { vStart, vEnd };
+		m_pGameInstance->Add_GameObject(
+			LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Camera_CutScene"),
+			LEVEL_BOSS,
+			TEXT("Layer_Camera"),
+			vArgs);
+		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Camera"));
+		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
+		if (pCutCam)
 		{
-			pCamera->TriggerShake(0.2f, 4.5f);
-			m_bCameraShaken = true;
+			pCutCam->TriggerShake(0.2f, 4.5f);
+			pCutCam->Set_LookTarget(this);                 
+			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);  // 카메라 이동
+			pCutCam->Set_CameraDisableDelay(5.f);          
 		}
+
+		m_bCameraShaken = true;
 	}
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	pos.y += appearSpeed * m_fDelta;
@@ -531,7 +549,7 @@ NodeStatus CCthulhu::Deploy_BigTentacles()
 
 NodeStatus CCthulhu::Attack_Spike()
 {
-	if (m_eState == STATE::DEAD /*|| static_cast<_float>(m_iHp)> m_fPhaseThreshold2*/)
+	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
 		return NodeStatus::FAIL;
 	static _uint iIndex = 0;
 	static _bool bIsCircle = false;
