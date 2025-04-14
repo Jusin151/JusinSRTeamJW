@@ -365,11 +365,36 @@ PS_OUT PS_WEAPON(PS_IN In, float facing : VFACE) // VFACE´Â ¾ç¸é ·»´õ¸µ ½Ã ÇÊ¿äÇ
     Out.vColor = baseColor;
 
     // 4. ¾ËÆÄ °ª Ã³¸® (ÅØ½ºÃ³ ¾ËÆÄ¿Í ÀçÁú ¾ËÆÄ °öÇÏ±â µî)
-    // Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ¸¸¾à Diffuse¸¦ °öÇß´Ù¸é
+    //Out.vColor.a = baseColor.a * g_Material.Diffuse.a; // ¸¸¾à Diffuse¸¦ °öÇß´Ù¸é
 
     // 5. (¼±ÅÃ »çÇ×) ¾ËÆÄ °ª¿¡ µû¸¥ discard ·ÎÁ÷
-    if (Out.vColor.a < 0.8f)
-        discard;
+    if (Out.vColor.a < 0.7f)
+       discard;
+
+    return Out;
+}
+
+PS_OUT PS_PORTAL(PS_IN In, float facing : VFACE)
+{
+    PS_OUT Out;
+
+    // 1. ÅØ½ºÃ³ »ö»ó °¡Á®¿À±â
+    float2 tiledUV = In.vTexcoord * g_ScaleFactor + g_OffsetFactor;
+    float4 baseColor = tex2D(DefaultSampler, tiledUV);
+
+    // 2. ÅØ½ºÃ³ÀÇ RGB¿Í ÀçÁúÀÇ Diffuse RGB¸¦ °öÇÏ¿© ±âº» »ö»ó Á¶Àý
+    //    (ÀçÁúÀÇ ¾ËÆÄ´Â ÃÖÁ¾ ¾ËÆÄ ¼³Á¤¿¡¸¸ »ç¿ë)
+    baseColor *= g_Material.Diffuse;
+    Out.vColor = baseColor;
+    // 3. ÃÖÁ¾ »ö»ó ¼³Á¤
+    //    RGB´Â À§¿¡¼­ °è»êÇÑ °ªÀ» »ç¿ëÇÏ°í,
+    //    Alpha´Â ÀçÁúÀÇ ¾ËÆÄ °ª(g_Material.Diffuse.a)À» Á÷Á¢ »ç¿ë
+    //Out.vColor = float4(baseColor.rgb, g_Material.Diffuse.a);
+
+    // 4. (¼±ÅÃ »çÇ×) ¾ËÆÄ °ª¿¡ µû¸¥ discard ·ÎÁ÷
+    //    ÀÌÁ¦ discard Á¶°ÇÀº ÀçÁúÀÇ ¾ËÆÄ °ª¿¡ µû¶ó °áÁ¤µË´Ï´Ù.
+    if (Out.vColor.a < 0.5f) // ÇÊ¿ä¿¡ µû¶ó ÀÌ ÀÓ°è°ªÀ» Á¶ÀýÇÏ¼¼¿ä.
+       discard;
 
     return Out;
 }
@@ -782,6 +807,23 @@ technique DefaultTechnique
 
         //VertexShader = compile vs_3_0 VS_ORTHO();
         PixelShader = compile ps_3_0 PS_WHITE();
+    }
+
+    pass PORTAL
+    {
+        // --- ·»´õ »óÅÂ ¼³Á¤ ---     
+        // ¾ç¸é ·»´õ¸µÀ» À§ÇØ ÄÃ¸µ ºñÈ°¼ºÈ­
+        CullMode = None;
+
+        // ¾ËÆÄ ºí·»µù ¼³Á¤ (±âÁ¸ ÄÚµå À¯Áö, ¿ÀÅ¸ ¼öÁ¤)
+        AlphaBlendEnable = True; // aLPHAbLENDeNABLE -> AlphaBlendEnable
+        SrcBlend = SrcAlpha;
+        DestBlend = InvSrcAlpha;
+        BlendOp = Add;
+
+        // --- ¼ÎÀÌ´õ ¼³Á¤ ---
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_PORTAL(); // ºû °è»êÀÌ Æ÷ÇÔµÈ PS_MAIN »ç¿ë
     }
 
     pass TEST

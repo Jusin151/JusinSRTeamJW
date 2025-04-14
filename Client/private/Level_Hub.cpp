@@ -16,7 +16,7 @@
 #include <Camera_FirstPerson.h>
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
- 	: CLevel{ pGraphic_Device }
+	: CLevel{ pGraphic_Device }
 {
 
 }
@@ -24,7 +24,7 @@ HRESULT CLevel_Hub::Initialize()
 
 {
 	CJsonLoader jsonLoader;
-	
+
 	//jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_GAMEPLAY.json", LEVEL_GAMEPLAY);
 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_Hub.json", LEVEL_HUB);
 	static _bool bIsLoading = false;
@@ -32,7 +32,7 @@ HRESULT CLevel_Hub::Initialize()
 	if (!bIsLoading)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven_UI"),
-			LEVEL_STATIC, TEXT("Layer_Inven_UI")))) 
+			LEVEL_STATIC, TEXT("Layer_Inven_UI"))))
 			return E_FAIL;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Inven"),
@@ -58,7 +58,15 @@ HRESULT CLevel_Hub::Initialize()
 		bIsLoading = true;
 
 	}
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Portal"),
+		LEVEL_HUB, TEXT("Layer_Portal"))))
+		return E_FAIL;
+	m_pPortal = static_cast<CHub_Portal*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Portal")));
 
+	if (m_pPortal)
+	{
+		m_pPortal->SetActive(false);
+	}
 	if (FAILED(Ready_Layer_Shop_UI()))
 		return E_FAIL;
 
@@ -92,7 +100,7 @@ HRESULT CLevel_Hub::Initialize()
 		pTransform->Set_State(CTransform::STATE_POSITION, _float3(-9.f, 1.f, 8.f));
 	}
 
-	CCamera_FirstPerson * pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
 	if (pCamera)
 	{
 		pCamera->Set_Yaw(D3DXToRadian(90.f));
@@ -122,7 +130,7 @@ void CLevel_Hub::Update(_float fTimeDelta)
 	}
 	if (GetAsyncKeyState('H') & 0x8000)
 	{
-  		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HONG))))
 			return;
 		return;
@@ -134,20 +142,14 @@ void CLevel_Hub::Update(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_BOSS))))
 			return;
+		return;
 	}
 
-	if (!m_pPortal)
+	if (m_pPortal && (m_pPortal->IsOpen_Portal() && GetAsyncKeyState(VK_SPACE) & 0x8000))
 	{
-		m_pPortal = static_cast<CHub_Portal*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Portal")));
-	}
-	else
-	{
-		if (m_pPortal->IsOpen_Portal()&& GetAsyncKeyState(VK_SPACE) & 0x8000)
-		{
-			if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-				CLevel_Loading::Create(m_pGraphic_Device, m_pPortal->Get_Level()))))
-				return;
-		}
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, m_pPortal->Get_Level()))))
+			return;
 	}
 }
 
@@ -191,11 +193,11 @@ HRESULT CLevel_Hub::Ready_Layer_Weapon()
 
 	CWeapon_Base::Weapon_DESC Weapon_ShotGun_Desc{}; // 샷건
 	Weapon_ShotGun_Desc.WeaponID = CWeapon_Base::WEAPON_ID::ShotGun;
-	Weapon_ShotGun_Desc.vPos =  { 0.f,-170.f };
+	Weapon_ShotGun_Desc.vPos = { 0.f,-170.f };
 	Weapon_ShotGun_Desc.vSize = { 749,420.f };
 	Weapon_ShotGun_Desc.AttackSpeed = { 1.f };
 	Weapon_ShotGun_Desc.Damage = { 1 };
-	Weapon_ShotGun_Desc.TextureKey =L"Prototype_Component_Texture_ShotGun";
+	Weapon_ShotGun_Desc.TextureKey = L"Prototype_Component_Texture_ShotGun";
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Weapon_ShotGun"),
 		LEVEL_STATIC, TEXT("Layer_Weapon_ShotGun"),
 		&Weapon_ShotGun_Desc)))
@@ -384,7 +386,7 @@ HRESULT CLevel_Hub::Ready_Layer_Shop_UI()
 	Episode_Hub_UI.vPos = { 0.f, 0.f };
 	Episode_Hub_UI.vSize = { 804.f, 482.f };
 
- 	if (FAILED(m_pGameInstance->Add_GameObject(
+	if (FAILED(m_pGameInstance->Add_GameObject(
 		LEVEL_HUB,
 		TEXT("Prototype_GameObject_UI_Episode_Hub"),
 		LEVEL_HUB,
@@ -407,7 +409,7 @@ HRESULT CLevel_Hub::Ready_Layer_Player(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag)))
- 		return E_FAIL;
+		return E_FAIL;
 
 
 	return S_OK;
@@ -415,7 +417,7 @@ HRESULT CLevel_Hub::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_Hub::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	
+
 
 	return S_OK;
 }
@@ -568,6 +570,6 @@ CLevel_Hub* CLevel_Hub::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Hub::Free()
 {
 	__super::Free();
-	
+
 	Safe_Release(m_pPickingSys);
 }

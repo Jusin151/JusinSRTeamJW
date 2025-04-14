@@ -91,10 +91,12 @@ HRESULT CStaff_Bullet::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	m_pShaderCom->Bind_Transform();
-	m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame);
-	m_pShaderCom->Bind_Material(m_pMaterialCom);
-
+	if (FAILED(m_pShaderCom->Bind_Transform()))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Texture(m_pTextureCom, m_iCurrentFrame)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))
+		return E_FAIL;
 	
 	
 	SetUp_RenderState();

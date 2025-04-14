@@ -68,8 +68,15 @@ HRESULT CProjectile_Base::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Material */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
+		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
+		return E_FAIL;
 
-
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -78,6 +85,8 @@ HRESULT CProjectile_Base::Ready_Components()
 void CProjectile_Base::Free()
 {
 	__super::Free();
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pMaterialCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 }
