@@ -422,6 +422,12 @@ HRESULT CLoader::Loading_For_Hong()
 		return E_FAIL;
 	CompleteOneTask();
 
+	//헬보스 네번째 페이즈 총알 텍스쳐 (손)
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_Component_Texture_HellBoss_Phase4_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/Boss/HellBoss/Bullet/Rocket.png"), 1))))
+		return E_FAIL;
+	CompleteOneTask();
+
 
 	////패링용 왼손 생성
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss_B"),
