@@ -30,6 +30,7 @@ public:
     virtual HRESULT Render()override;
 
     LEVEL Get_Level() const { return m_eLevel; }
+    void Set_Level(LEVEL eLevel) { m_eLevel = eLevel; }
     _bool IsOpen_Portal() const { return m_bPortal_On; }
 protected:
     CLight* m_pLightCom = { nullptr };

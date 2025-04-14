@@ -51,17 +51,7 @@ HRESULT CUI_Episode_Hub::Initialize(void* pArg)
 		_float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
 	CUI_Manager::GetInstance()->AddUI(L"Episode_Hub_UI", this, UI_TYPE::UI_DYNAMIC);
-
-
-	
-
-	
-
-	
-
-
-
-
+	m_pPortal = static_cast<CHub_Portal*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Portal")));
 	return S_OK;
 }
 
@@ -231,10 +221,12 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 							if (m_vecMapButtons.size() > SECOND_NORMAL_MAP &&
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum == SECOND_NORMAP_MAP_GRAY)
 							{
-								CHub_Portal::PORTAL_DESC vPortalDesc{ LEVEL_GAMEPLAY };
-								if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HUB, TEXT("Prototype_GameObject_Portal"),
-									LEVEL_HUB, TEXT("Layer_Portal"),&vPortalDesc)))
-									return;
+				
+								if (m_pPortal)
+								{
+									m_pPortal->SetActive(true);
+									m_pPortal->Set_Level(LEVEL_GAMEPLAY);
+								}
 
 								m_vecMapButtons[SECOND_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = SECOND_NORMAP_MAP_COLOR;
 							}
@@ -255,6 +247,13 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum == FIRST_BOSS_MAP_GRAY)
 							{
 								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum = FIRST_BOSS_MAP_COLOR;
+
+
+								if (m_pPortal)
+								{
+									m_pPortal->SetActive(true);
+									m_pPortal->Set_Level(LEVEL_BOSS);
+								}
 							}
 						}
 						break;
@@ -273,6 +272,12 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum == SECOND_BOSS_MAP_GRAY)
 							{
 								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum = SECOND_BOSS_MAP_COLOR;
+
+								if (m_pPortal)
+								{
+									m_pPortal->SetActive(true);
+									m_pPortal->Set_Level(LEVEL_HONG);
+								}
 							}
 						}
 						break;
