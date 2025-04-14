@@ -75,6 +75,33 @@ HRESULT CCamera_CutScene::Ready_Components()
     return S_OK;
 }
 
+void CCamera_CutScene::Shaking(_float fTimeDelta)
+{
+    m_fShakeTime += fTimeDelta;
+    // 지속 시간 초과 시 흔들림 종료 및 초기화
+    if (m_fShakeTime >= m_fShakeDuration)
+    {
+        m_fShakeDuration = 0.f;
+        m_fShakeAmount = 0.f;
+        m_fShakeTime = 0.f;
+        m_bTriggerShake = false;
+        _float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+        basePos.y += 0.2f;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, basePos);
+        return;
+    }
+
+    // 랜덤 오프셋 생성 (범위: [-1, 1] * 흔들림 강도)
+    float randomX = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+    float randomY = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+    _float3 randomOffset = { randomX * m_fShakeAmount, randomY * m_fShakeAmount, 0.f };
+
+    _float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    basePos.y += 0.2f; // 기존에 사용하던 높이 오프셋
+
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, basePos + randomOffset);
+}
+
 void CCamera_CutScene::Set_LookTarget(CGameObject* pTarget)
 {
     
@@ -115,6 +142,16 @@ void CCamera_CutScene::Set_CutScenePath(const vector<_float3>& vecPath, float fS
     }
 
     
+}
+
+void CCamera_CutScene::TriggerShake(_float shakeAmount, _float duration)
+{
+    m_fShakeAmount = shakeAmount;
+    m_fShakeDuration = duration;
+    m_fShakeTime = 0.f; // 초기화하여 새 효과 적용
+    m_bTriggerShake = true; // 트리거 활성화
+    m_vOriginalCameraPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION); // 원래 카메라 위치 저장
+    m_vOriginalCameraPosition.y += 0.5f; // 카메라 위치 조정
 }
 
 void CCamera_CutScene::Update(_float fTimeDelta)
@@ -202,6 +239,8 @@ void CCamera_CutScene::Update(_float fTimeDelta)
             }
         }
     }
+
+    Shaking(fTimeDelta);
 
     __super::Update_VP_Matrices();
 }

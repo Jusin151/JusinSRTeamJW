@@ -1,6 +1,7 @@
 ﻿#include "Spike.h"
 #include <Player.h>
 #include "WarningZone.h"
+#include "Camera_FirstPerson.h"
 
 CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster_Base(pGraphic_Device)
@@ -9,6 +10,7 @@ CSpike::CSpike(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CSpike::CSpike(const CSpike& Prototype)
 	:CMonster_Base(Prototype),
+	m_pCamera(Prototype.m_pCamera),
 	m_pCameraTransform(Prototype.m_pCameraTransform)
 {
 	m_pTransformCom = nullptr;
@@ -16,7 +18,11 @@ CSpike::CSpike(const CSpike& Prototype)
 
 HRESULT CSpike::Initialize_Prototype()
 {
-  	m_pCameraTransform = static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera"))->Get_Component(TEXT("Com_Transform")));
+  	m_pCamera = static_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+	if (m_pCamera)
+	{
+		m_pCameraTransform = static_cast<CTransform*>(m_pCamera->Get_Component(TEXT("Com_Transform")));
+	}
 	auto pWaring = CWarningZone::Create(m_pGraphic_Device);
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BOSS, TEXT("Prototype_GameObject_WaringZone"), pWaring)))
 	{
@@ -358,23 +364,10 @@ void CSpike::Attack()
 void CSpike::Apply_Shake(_float fTimeDelta)
 {
 	if (m_bShaked == false) return;
-	static float shakeSpeed = 5.0f;  // 흔들림 속도 조절 (값이 클수록 빠르게 흔들림)
-	static float shakeMagnitude = 0.1f; // 흔들림 크기 (값이 클수록 크게 흔들림)
-
-	// m_fShakeTime가 클래스 멤버 변수라고 가정 (초기값 0)
-	m_fShakeTime += fTimeDelta * shakeSpeed;
-
-	// 사인/코사인 함수를 사용해서 X, Y축으로 미세한 오프셋을 계산
-	float offsetX = shakeMagnitude * cosf(m_fShakeTime);
-	float offsetY = shakeMagnitude * sinf(m_fShakeTime);
-
-	// 기존 위치에서 미세한 오프셋 적용 (Z축은 변화 없이)
-	_float3 currentPos = m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
-	_float3 shakeOffset = { offsetX, offsetY, 0.f };
-	_float3 newPos = currentPos + shakeOffset;
-
-	auto vCurCameraPos = m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
-	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vCurCameraPos+newPos);
+	if (m_pCamera)
+	{
+		m_pCamera->TriggerShake(0.2f, 0.5f);
+	}
 }
 
 CSpike* CSpike::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

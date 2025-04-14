@@ -41,7 +41,7 @@ HRESULT CTrigger::Initialize(void* pArg)
 
 	Find_Target();
 
-	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
+	m_pTransformCom->Set_Scale(1.f, 1.f, 0.5f);
 	if (m_vTriggerDesc.eType == TRIGGER_TYPE::INTERACTION)
 	{
 		m_pTransformCom->Set_Scale(40.f, 1.f, 40.f);

@@ -74,8 +74,8 @@ private:
 
     _float m_fShakeTime{ 0.f };
     _bool m_bShaked{ false };
+    class CCamera_FirstPerson* m_pCamera{ nullptr };
     class CTransform* m_pCameraTransform{ nullptr };
-
 
     // 경고 지역
     class CWarningZone* m_pWarningZone = nullptr;

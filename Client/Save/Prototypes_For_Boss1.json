@@ -124,9 +124,20 @@
       "class": "CItem",
       "level": 8,
       "tag": "Prototype_GameObject_Item_Minigun_Ammo"
+    },
+    {
+      "class": "CStructure",
+      "level": 8,
+      "tag": "Prototype_GameObject_Wormhole"
     }
   ],
   "textures": [
+    {
+      "count": 4,
+      "level": 8,
+      "path": "../../Resources\\Textures\\Map\\Antarctic/Wormhole/wormhole%d.png",
+      "tag": "Prototype_Component_Texture_Wormhole"
+    },
     {
       "count": 1,
       "level": 8,

@@ -52,13 +52,19 @@ HRESULT CLevel_Boss::Initialize()
 	CTrigger::TRIGGER_DESC vTriggerDesc;
 	vTriggerDesc.bStartsActive = true;
 	vTriggerDesc.eLevel = LEVEL_HUB;
-	vTriggerDesc.vPos = _float3(-14.5f, 0.3f, -2.f);
+	vTriggerDesc.vPos = _float3(4.f,1.f, -2.4f);
 	vTriggerDesc.eType = CTrigger::TRIGGER_TYPE::LEVEL_CHANGE;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger_Button"),
 		LEVEL_BOSS, TEXT("Layer_Trigger_Level"), &vTriggerDesc)))
 		return E_FAIL;
 	m_pLevelTrigger = static_cast<CTrigger*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_Trigger_Level")));
 	m_pLevelTrigger->SetActive(false);
+
+	auto pWormhole = m_pGameInstance->Find_Object(LEVEL_BOSS, TEXT("Layer_Wormhole"));
+	if (pWormhole)
+	{
+		pWormhole->SetActive(false);
+	}
 	return S_OK;
 }
 
@@ -78,13 +84,18 @@ void CLevel_Boss::Update(_float fTimeDelta)
 		if (m_pLevelTrigger && !m_pLevelTrigger->IsActive())
 		{
 			m_pLevelTrigger->SetActive(true);
+			auto pWormhole = m_pGameInstance->Find_Object(LEVEL_BOSS, TEXT("Layer_Wormhole"));
+			if (pWormhole)
+			{
+				pWormhole->SetActive(true);
+			}
 		}
 		if (m_pLevelTrigger&&m_pLevelTrigger->WasTriggered())
 		{
 			// 나중에 웜홀 만들기
-		/*  if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+		  if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
-			return;*/
+			return;
 		}
 	}
 }

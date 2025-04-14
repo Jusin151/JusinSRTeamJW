@@ -205,81 +205,134 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 	if (m_bTriggerShake && m_fShakeDuration > 0.f)
 	{
 		m_fShakeTime += fTimeDelta;
-		// 쉐이크 시간이 지속 시간을 초과하면 효과 종료
+		// 지속 시간 초과 시 흔들림 종료 및 초기화
 		if (m_fShakeTime >= m_fShakeDuration)
 		{
 			m_fShakeDuration = 0.f;
 			m_fShakeAmount = 0.f;
 			m_fShakeTime = 0.f;
-			m_bTriggerShake = false; // 트리거 비활성화
-			// 효과 종료 시 원래 위치로 복귀
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition);
+			m_bTriggerShake = false;
+			CTransform* playerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
+			_float3 basePos = playerTransform->Get_State(CTransform::STATE_POSITION);
+			basePos.y += 0.2f;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, basePos);
 			return;
 		}
 
-		// 매 프레임마다 랜덤 오프셋 생성 (범위: [-1,1] * 쉐이크 강도)
+		// 랜덤 오프셋 생성 (범위: [-1, 1] * 흔들림 강도)
 		float randomX = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
 		float randomY = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
 		_float3 randomOffset = { randomX * m_fShakeAmount, randomY * m_fShakeAmount, 0.f };
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition + randomOffset);
+		// 플레이어의 현재 위치를 기준으로 삼음
+		CTransform* playerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
+		_float3 basePos = playerTransform->Get_State(CTransform::STATE_POSITION);
+		basePos.y += 0.2f; // 기존에 사용하던 높이 오프셋
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, basePos + randomOffset);
 	}
 	else
 	{
 
 		m_fShakeTime += fTimeDelta * 10.f;
-
 		float shakeAmount = 0.42f; // 흔들림 강도
-		_float3 shake = {
-			cos(m_fShakeTime) * shakeAmount,
-			sin(m_fShakeTime) * shakeAmount,
-			0.f
-		};
-
-		// 보간 계수 (0.0 ~ 1.0 사이 값). 작을수록 부드럽지만 느리게 목표 도달.
-		// 예시: 고정값 사용 (값을 조절하며 테스트 필요)
+		_float3 shake = { cos(m_fShakeTime) * shakeAmount, sin(m_fShakeTime) * shakeAmount, 0.f };
 		float smoothFactor = 0.15f;
-		// 또는 시간 기반 보간 (프레임 영향 받을 수 있으므로 clamp나 다른 기법 고려)
-		// float smoothFactor = min(1.f, fTimeDelta * 10.f); // 예시
-
-		bool bIsMoving = false; // 이동 키가 눌렸는지 확인
-
+		bool bIsMoving = false;
 		if (GetAsyncKeyState('W') & 0x8000 ||
 			GetAsyncKeyState('S') & 0x8000 ||
 			GetAsyncKeyState('A') & 0x8000 ||
-			GetAsyncKeyState('D') & 0x8000 )
+			GetAsyncKeyState('D') & 0x8000)
 		{
 			bIsMoving = true;
-			//m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
 		}
 		if (bIsMoving)
 		{
-			// 1. 현재 카메라 위치 가져오기
 			_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-			// 2. 목표 위치 계산 (현재 위치 + 흔들림 오프셋)
 			_float3 targetPos = currentPos + shake;
-
-			// 3. 현재 위치에서 목표 위치로 부드럽게 보간하여 새 위치 계산
 			_float3 newPos = VectorLerp(currentPos, targetPos, smoothFactor);
-			// 만약 VectorLerp 헬퍼 함수를 사용하지 않는다면:
-			/*
-			_float3 newPos = {
-				Lerp(currentPos.x, targetPos.x, smoothFactor),
-				Lerp(currentPos.y, targetPos.y, smoothFactor),
-				Lerp(currentPos.z, targetPos.z, smoothFactor) // Z축도 일관성을 위해 보간
-			};
-			*/
-	
-			// 4. 계산된 새 위치로 카메라 상태 업데이트
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
 		}
-	// else
-	// {
-	//     // 만약 키를 뗐을 때 원래 위치로 부드럽게 돌아가게 하려면
-	//     // 여기에 원래 위치(흔들림 없는)로 돌아가는 Lerp 로직 추가 필요
-	// }
 	}
+
+	//if (m_bTriggerShake && m_fShakeDuration > 0.f)
+	//{
+	//	m_fShakeTime += fTimeDelta;
+	//	// 쉐이크 시간이 지속 시간을 초과하면 효과 종료
+	//	if (m_fShakeTime >= m_fShakeDuration)
+	//	{
+	//		m_fShakeDuration = 0.f;
+	//		m_fShakeAmount = 0.f;
+	//		m_fShakeTime = 0.f;
+	//		m_bTriggerShake = false; // 트리거 비활성화
+	//		// 효과 종료 시 원래 위치로 복귀
+	//		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition);
+	//		return;
+	//	}
+
+	//	// 매 프레임마다 랜덤 오프셋 생성 (범위: [-1,1] * 쉐이크 강도)
+	//	float randomX = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+	//	float randomY = ((float)rand() / (float)RAND_MAX) * 1.5f - 1.f;
+	//	_float3 randomOffset = { randomX * m_fShakeAmount, randomY * m_fShakeAmount, 0.f };
+
+	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginalCameraPosition + randomOffset);
+	//}
+	//else
+	//{
+
+	//	m_fShakeTime += fTimeDelta * 10.f;
+
+	//	float shakeAmount = 0.42f; // 흔들림 강도
+	//	_float3 shake = {
+	//		cos(m_fShakeTime) * shakeAmount,
+	//		sin(m_fShakeTime) * shakeAmount,
+	//		0.f
+	//	};
+
+	//	// 보간 계수 (0.0 ~ 1.0 사이 값). 작을수록 부드럽지만 느리게 목표 도달.
+	//	// 예시: 고정값 사용 (값을 조절하며 테스트 필요)
+	//	float smoothFactor = 0.15f;
+	//	// 또는 시간 기반 보간 (프레임 영향 받을 수 있으므로 clamp나 다른 기법 고려)
+	//	// float smoothFactor = min(1.f, fTimeDelta * 10.f); // 예시
+
+	//	bool bIsMoving = false; // 이동 키가 눌렸는지 확인
+
+	//	if (GetAsyncKeyState('W') & 0x8000 ||
+	//		GetAsyncKeyState('S') & 0x8000 ||
+	//		GetAsyncKeyState('A') & 0x8000 ||
+	//		GetAsyncKeyState('D') & 0x8000 )
+	//	{
+	//		bIsMoving = true;
+	//		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + shake);
+	//	}
+	//	if (bIsMoving)
+	//	{
+	//		// 1. 현재 카메라 위치 가져오기
+	//		_float3 currentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	//		// 2. 목표 위치 계산 (현재 위치 + 흔들림 오프셋)
+	//		_float3 targetPos = currentPos + shake;
+
+	//		// 3. 현재 위치에서 목표 위치로 부드럽게 보간하여 새 위치 계산
+	//		_float3 newPos = VectorLerp(currentPos, targetPos, smoothFactor);
+	//		// 만약 VectorLerp 헬퍼 함수를 사용하지 않는다면:
+	//		/*
+	//		_float3 newPos = {
+	//			Lerp(currentPos.x, targetPos.x, smoothFactor),
+	//			Lerp(currentPos.y, targetPos.y, smoothFactor),
+	//			Lerp(currentPos.z, targetPos.z, smoothFactor) // Z축도 일관성을 위해 보간
+	//		};
+	//		*/
+	//
+	//		// 4. 계산된 새 위치로 카메라 상태 업데이트
+	//		m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
+	//	}
+	//// else
+	//// {
+	////     // 만약 키를 뗐을 때 원래 위치로 부드럽게 돌아가게 하려면
+	////     // 여기에 원래 위치(흔들림 없는)로 돌아가는 Lerp 로직 추가 필요
+	//// }
+	//}
 }
 void CCamera_FirstPerson::TriggerShake_HellBoss(_float shakeAmount, _float duration)
 {

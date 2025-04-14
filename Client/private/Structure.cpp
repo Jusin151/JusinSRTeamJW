@@ -217,7 +217,7 @@ HRESULT CStructure::SetUp_RenderState()
 		D3DXMatrixTransformation2D(&matTexture, NULL, 0.0f,
 			&vScaleFactor, NULL, 0.0f, &vOffsetFactor);
 	}
-	else if (this->m_strLayerTag == L"Layer_Portal_Monitor"|| m_strLayerTag == L"Layer_Ant_Exit")
+	else if (this->m_strLayerTag == L"Layer_Portal_Monitor"|| m_strLayerTag == L"Layer_Ant_Exit"|| m_strLayerTag==L"Layer_Wormhole")
 		{
 		D3DXVECTOR2 vScaleFactor(1.f,1.f);
 		D3DXVECTOR2 vOffsetFactor(0.f, 0.f); 

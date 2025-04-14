@@ -96,7 +96,7 @@ HRESULT CCthulhu_Tentacle::Render()
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
-	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 35.f);
+	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 40.f);
 	if (FAILED(m_pShaderCom->Bind_Transform()))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Material(m_pMaterialCom)))

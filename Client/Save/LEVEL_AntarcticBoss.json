@@ -1,5 +1,35 @@
 {
   "layers": {
+    "Layer_Wormhole": [
+      {
+        "FromPool": false,
+        "IsActive": true,
+        "LayerTag": "Layer_Wormhole",
+        "OBJECT_DESC": {
+          "BufferTag": "Prototype_Component_VIBuffer_Rect",
+          "Level": 8,
+          "ProtTag": "Prototype_GameObject_Wormhole",
+          "ProtTextureTag": "Prototype_Component_Texture_Wormhole",
+          "ProtoLevel": 8
+        },
+        "position": [
+          4,
+          1,
+          -2.4
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          3.0,
+          3.0,
+          0.001
+        ]
+      }
+    ],
+
     "Layer_Sky": [
       {
         "FromPool": false,
