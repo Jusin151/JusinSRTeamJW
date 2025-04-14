@@ -27,7 +27,6 @@ HRESULT CCthulhuMissile::Initialize_Prototype()
 
 HRESULT CCthulhuMissile::Initialize(void* pArg)
 {
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	m_pTarget = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player"));
@@ -170,17 +169,6 @@ HRESULT CCthulhuMissile::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
 		TEXT("Com_Collider_Cube"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
-
-
-	/* For.Com_Material */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Material"),
-		TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
-		return E_FAIL;
-
-	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_BaseShader"),
-		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
-		return E_FAIL;
 	return S_OK;
 }
 
@@ -279,9 +267,6 @@ void CCthulhuMissile::Free()
 	{
 
 	}
-
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pMaterialCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pTarget);
