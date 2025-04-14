@@ -565,9 +565,18 @@ HRESULT CHellBoss_Bullet::Render()
 		if (FAILED(m_pParticleCom->Render()))
 			return E_FAIL;
 	}
+	else if(m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType != 1)
+	{
+
+		if (FAILED(m_pParticleTransformCom->Bind_Resource())) ////////여기다가 미사일 이펙트 달아주세요!!
+			return E_FAIL;
+		if (FAILED(m_pParticleCom->Render()))
+			return E_FAIL;
+
+	}
 
 
-	Release_RenderState();
+	Release_RenderState(); //
 
 
 	return S_OK;
