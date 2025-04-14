@@ -519,7 +519,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 			m_vDir = Lerp(m_vDir, vToTarget, fTimeDelta * 0.7f);
 			D3DXVec3Normalize(&m_vDir, &m_vDir);
-		}
+		} 
 
 
 		_float3 vTarget = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vDir;

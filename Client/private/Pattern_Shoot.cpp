@@ -43,7 +43,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
 
         if (m_fAccTime < fCycle && m_fAccTime >= m_fNextFireTime && m_iFiredCount < 5)
         {
-            const _int iBulletPerShot = 5;
+            const _int iBulletPerShot = 10;
 
             for (_int i = 0; i < iBulletPerShot; ++i)
             {
