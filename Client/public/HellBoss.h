@@ -93,13 +93,22 @@ private: // 3페이즈 관련
 	_float3 m_vJumpStartPos = {};
 	_float3 m_vJumpTargetPos = {};
 	_float3 m_vLandingTargetPos = {};
+	
+
+
 public: // 3페이즈 관련
 	void Set_Blink(_bool bType) { m_bBlink = bType; }
 	_bool Get_Blink() { return m_bBlink; }
 	_bool Is_Jumping() { return m_bJumping; }
 	_bool Is_Falling() { return m_bJumping; }
 	void Force_Jump(); // 강제 점프
-
+	void Set_Phase3AttackCooldown(_float fDelay) {
+		m_fPhase3_AttackCooldown = fDelay;
+		m_bPhase3_WaitingForAttack = true;
+	}
+	_bool Is_WaitingForPhase3Attack() const { return m_bPhase3_WaitingForAttack; }
+	_bool m_bPhase3_WaitingForAttack = false;
+	_float m_fPhase3_AttackCooldown = 0.f;
 private:
 	_bool m_bFalling = false;
 	_bool m_bParryWindow = false; 

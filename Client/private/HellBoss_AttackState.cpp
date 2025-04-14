@@ -59,9 +59,12 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 
             if (pBoss->Get_Phase() == PHASE3)
             {
-                pBoss->Change_State(new CHellBoss_JumpLoopState());
+                // 공격 끝났으면 Walk로 전환 후, 3초 타이머 시작
+                pBoss->Change_State(new CHellBoss_WalkState());
+                pBoss->Set_Phase3AttackCooldown(3.0f); // 타이머 시작
                 return;
             }
+
             m_bAttackFinished = true;
             m_fDelayTimer = 0.f;
         }

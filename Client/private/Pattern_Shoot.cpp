@@ -2,6 +2,7 @@
 #include "HellBoss.h"
 #include "HellBoss_IdleState.h" 
 #include "HellBoss_Bullet.h"
+#include "HellBoss_WalkState.h"
 
 CPattern_Shoot::CPattern_Shoot()
     : m_bStarted(false)
@@ -146,6 +147,11 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
             }
+        }
+        if (pBoss->Get_AnimationFinished())
+        {
+            m_bStarted = false; // 패턴 종료 처리
+            pBoss->Change_State(new CHellBoss_WalkState()); // → Walk로 넘기기
         }
         
 
