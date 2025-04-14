@@ -47,6 +47,8 @@ public:
 	virtual void Free();
 public: //UI 매니저 호출용
 	void Set_Hp_Event();
+
+	_bool Get_Hit() { return m_bIsHit; }
 private:
 	_float m_fElapsedTime = 0.0f; 
 	_int m_iCurrentFrame = 0; 
