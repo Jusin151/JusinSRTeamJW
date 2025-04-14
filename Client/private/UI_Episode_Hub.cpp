@@ -80,6 +80,59 @@ void CUI_Episode_Hub::Late_Update(_float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 }
 
+void CUI_Episode_Hub::Set_Level(LEVEL eLevel)
+{
+	if (m_vecMapButtons.empty())
+		return;
+
+
+	// 2. LEVEL 유형에 따라 버튼 상태와 포탈 활성화를 변경합니다.
+	switch (eLevel)
+	{
+	case LEVEL_GAMEPLAY:
+	{
+		if (m_vecMapButtons.size() > FIRST_BOSS_MAP &&
+			m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum == FIRST_BOSS_MAP_GRAY)
+		{
+			m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = FIRST_NORMAP_MAP_RED;
+			m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum = FIRST_BOSS_MAP_COLOR;
+		}
+	}
+	break;
+	case LEVEL_BOSS:
+	{
+		if (m_vecMapButtons.size() > SECOND_BOSS_MAP &&
+			m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum == SECOND_BOSS_MAP_GRAY)
+		{
+			m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = FIRST_NORMAP_MAP_RED;
+			m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum = FISRT_BOSS_MAP_RED ;
+			m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum = SECOND_BOSS_MAP_COLOR;
+		}
+		
+	}
+	break;
+	case LEVEL_HONG:
+	{
+		// LEVEL_HONG: 첫 번째 보스 맵 버튼이 클릭(빨간색) 상태여야 합니다.
+		if (m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum != FISRT_BOSS_MAP_RED)
+		{
+			MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
+			return;
+		}
+		// 두 번째 보스 맵 버튼이 활성 상태일 경우, 클릭(빨간색) 상태로 전환하고 포탈을 LEVEL_HONG으로 설정합니다.
+		if (m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum == SECOND_BOSS_MAP_COLOR)
+		{
+			m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum = FIRST_NORMAP_MAP_RED;
+			m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum = FISRT_BOSS_MAP_RED;
+			m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum = SECOND_BOSS_MAP_RED;
+		}
+	}
+	break;
+	default:
+		break;
+	}
+}
+
 HRESULT CUI_Episode_Hub::Ready_Texture()
 {
 	if (FAILED(__super::Add_Component(LEVEL_HUB, TEXT("Prototype_Component_Texture_Episode_Hub_UI"),
@@ -90,6 +143,74 @@ HRESULT CUI_Episode_Hub::Ready_Texture()
 
 HRESULT CUI_Episode_Hub::Ready_Skill_Button_Text() { return S_OK; }
 HRESULT CUI_Episode_Hub::Ready_Stat_Button_Text() { return S_OK; }
+
+void CUI_Episode_Hub::HandleMapButtonClick(_uint index)
+{
+	if (m_vecMapButtons.empty() || index >= m_vecMapButtons.size())
+		return;
+
+	_uint& current = m_vecMapButtons[index]->m_Button_Info.iCurrentImageNum;
+
+	// 인덱스에 따른 처리 로직
+	switch (index)
+	{
+	case FIRST_NORMAL_MAP: // 0번
+		if (current == FIRST_NORMAP_MAP_COLOR)
+		{
+			// 첫 번째 보스 버튼의 상태가 아직 기본 상태라면 변경 처리
+			if (m_vecMapButtons.size() > FIRST_BOSS_MAP &&
+				m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum == FIRST_BOSS_MAP_GRAY)
+			{
+				if (m_pPortal)
+				{
+					m_pPortal->SetActive(true);
+					m_pPortal->Set_Level(LEVEL_GAMEPLAY);
+				}
+			}
+		}
+		break;
+
+	case FIRST_BOSS_MAP:
+		if (m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum != FIRST_NORMAP_MAP_RED)
+		{
+			MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
+			return;
+		}
+		if (current == FIRST_BOSS_MAP_COLOR)
+		{
+			if (m_vecMapButtons.size() > SECOND_BOSS_MAP &&
+				m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum == SECOND_BOSS_MAP_GRAY)
+			{
+				if (m_pPortal)
+				{
+					m_pPortal->SetActive(true);
+					m_pPortal->Set_Level(LEVEL_BOSS);
+				}
+			}
+		}
+		break;
+
+	case SECOND_BOSS_MAP:
+		if (m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum != FISRT_BOSS_MAP_RED)
+		{
+			MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
+			return;
+		}
+		if (current == SECOND_BOSS_MAP_COLOR)
+		{
+		
+			if (m_pPortal)
+			{
+				m_pPortal->SetActive(true);
+				m_pPortal->Set_Level(LEVEL_HONG);
+			}
+		}
+		break;
+
+	default:
+		break;
+	}
+}
 
 HRESULT CUI_Episode_Hub::Render()
 {
@@ -192,77 +313,10 @@ void CUI_Episode_Hub::Create_Episode_Icon_Image() // 맵 이미지들
 		if (pButton)
 		{
 			m_vecMapButtons.push_back(pButton);
-
 			pButton->SetOnClickCallback([this, index]()
 				{
-					_uint& current = m_vecMapButtons[index]->m_Button_Info.iCurrentImageNum;
-
-					switch (index)
-					{
-					case FIRST_NORMAL_MAP: // 0번
-						if (current == FIRST_NORMAP_MAP_COLOR)
-						{
-							current = FIRST_NORMAP_MAP_RED;
-
-							if (m_vecMapButtons.size() > FIRST_BOSS_MAP &&
-								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum == FIRST_BOSS_MAP_GRAY)
-							{
-
-								if (m_pPortal)
-								{
-									m_pPortal->SetActive(true);
-									m_pPortal->Set_Level(LEVEL_GAMEPLAY);
-								}
-
-								m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum = FIRST_BOSS_MAP_COLOR;
-							}
-						}
-						break;
-
-					case FIRST_BOSS_MAP:
-						if (m_vecMapButtons[FIRST_NORMAL_MAP]->m_Button_Info.iCurrentImageNum != FIRST_NORMAP_MAP_RED)
-						{
-							MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
-							return;
-						}
-
-						if (current == FIRST_BOSS_MAP_COLOR)
-						{
-							current = FISRT_BOSS_MAP_RED;
-							if (m_vecMapButtons.size() > SECOND_BOSS_MAP &&
-								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum == SECOND_BOSS_MAP_GRAY)
-							{
-								if (m_pPortal)
-								{
-									m_pPortal->SetActive(true);
-									m_pPortal->Set_Level(LEVEL_BOSS);
-								}
-								m_vecMapButtons[SECOND_BOSS_MAP]->m_Button_Info.iCurrentImageNum = SECOND_BOSS_MAP_COLOR;
-							}
-						}
-						break;
-
-					case SECOND_BOSS_MAP:
-						if (m_vecMapButtons[FIRST_BOSS_MAP]->m_Button_Info.iCurrentImageNum != FISRT_BOSS_MAP_RED)
-						{
-							MessageBox(nullptr, L"선행 맵을 클리어하세요!", L"에피소드 진입 불가", MB_OK);
-							return;
-						}
-
-						if (current == SECOND_BOSS_MAP_COLOR)
-						{
-							current = SECOND_BOSS_MAP_RED;
-
-							if (m_pPortal)
-							{
-								m_pPortal->SetActive(true);
-								m_pPortal->Set_Level(LEVEL_HONG);
-							}
-						}
-						break;
-					}
+					this->HandleMapButtonClick(index);
 				});
-
 		}
 	}
 }

@@ -14,6 +14,7 @@
 #include "Level_Loading.h"
 #include "Sound_Event.h"
 #include <Camera_FirstPerson.h>
+#include <UI_Episode_Hub.h>
 
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -116,6 +117,16 @@ HRESULT CLevel_Hub::Initialize()
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/003 All That Glitters Is Gold (Hub)").SetVolume(0.25f);
 	CUI_Manager::GetInstance()->GetUI(L"Cursor")->SetActive(false);
+
+	if (CPlayer* player = dynamic_cast<CPlayer*>(pPlayer))
+	{
+		auto pUI = dynamic_cast<CUI_Episode_Hub*>(CUI_Manager::GetInstance()->GetUI(TEXT("Episode_Hub_UI")));
+		if (pUI)
+		{
+			pUI->Set_Level(player->Get_ClearLevel());
+		}
+	}
+
 	return S_OK;
 }
 
@@ -151,6 +162,9 @@ void CLevel_Hub::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, m_pPortal->Get_Level()))))
 			return;
 	}
+
+	
+
 }
 
 HRESULT CLevel_Hub::Render()

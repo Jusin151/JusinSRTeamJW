@@ -24,7 +24,8 @@ private:
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
-
+	class CTrigger* m_pLevelTrigger{ nullptr };
+	class CPlayer* m_pPlayer{ nullptr };
 
 public:
 	static CLevel_Boss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

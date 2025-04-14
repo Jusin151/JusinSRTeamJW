@@ -20,14 +20,17 @@ public:
     enum class TRIGGER_TYPE : uint8_t
     {
         BUTTON,           // 누를 수 있는 버튼
-        INTERACTION     // 상호작용
+        INTERACTION,     // 상호작용
+        LEVEL_CHANGE      // 충돌 시 자동 활성화
     };
 
     typedef struct tagTriggerDesc : public OBJECT_DESC
     {
-        TRIGGER_TYPE eType;
+        TRIGGER_TYPE eType= TRIGGER_TYPE::BUTTON;
         _wstring stTargetTag;        // 영향을 받는 객체의 태그
         _bool bStartsActive;        // 시작시 활성화 여부
+        LEVEL eLevel = LEVEL_END;
+        _float3 vPos{};
     }TRIGGER_DESC;
 
 private:
@@ -47,6 +50,7 @@ public:
     void Deactivate();
 
     void AddTargetObject(class CDoor* pTarget);
+    _bool WasTriggered() const { return m_bWasTriggered; }
 
     void OnTrigger_Activated();
     void OnTrigger_Deactivated();
@@ -61,15 +65,12 @@ private:
     CVIBuffer* m_pVIBufferCom = { nullptr };
     CCollider* m_pColliderCom = { nullptr };
     CMaterial* m_pMaterialCom = { nullptr };
-
-    TRIGGER_TYPE m_eTriggerType = TRIGGER_TYPE::BUTTON;
     _bool m_bWasTriggered = false;
 
 
     class CDoor* m_pTargetObject = { nullptr };
-    _wstring m_stTargetTag;
     _uint m_iPrevSize = { 0 };
-
+    TRIGGER_DESC m_vTriggerDesc;
 private:
     HRESULT Ready_Components();
     HRESULT SetUp_RenderState();
