@@ -37,7 +37,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =16000;
+	m_iHp =21000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -166,7 +166,7 @@ void CHellBoss::Update(_float fTimeDelta)
 		m_fSpeed = 2.f;
 
 		m_fPhase3_KnockBack_Timer += fTimeDelta;
-		if (m_fPhase3_KnockBack_Timer >= 10.f)
+		if (m_fPhase3_KnockBack_Timer >= 5.f)
 		{
 			m_fPhase3_KnockBack_Timer = 0.f;
 
@@ -292,10 +292,10 @@ void CHellBoss::Hp_Pattern()
 				_float3 vPlayerPos = pPlayer->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
 				_float3 vDir = vPlayerPos - vBossPos;
-				vDir.y = 0.f;  // 수평 밀치기
+				vDir.y = 0.f;  
 				vDir.Normalize();
 
-				pPlayer->KnockBack(vDir, 300.f);  // 힘은 필요에 따라 조절
+				pPlayer->KnockBack(vDir, 300.f);  // 힘조절은 요기서
 			}
 		}
 

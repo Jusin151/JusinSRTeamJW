@@ -167,8 +167,10 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_bKnockBack)
 	{
-		Notify(m_iHp, L"HP_Hited");
-		m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);
+		/*Notify(m_iHp, L"HP_Hited");
+		m_pSoundCom->Play_Event(L"event:/Player/Player_Hit")->SetVolume(0.5f);*/
+
+		Take_Damage(10);
 
 		m_pTransformCom->Go_Pos(m_vKnockBackDir * m_fKnockBackPower * fTimeDelta);
 
