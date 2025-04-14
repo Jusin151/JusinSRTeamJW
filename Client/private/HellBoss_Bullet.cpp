@@ -82,6 +82,15 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 
 			m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
 		}
+		else if (pDesc.wBulletType == L"0_Phase4_Shoot") // 4페이즈 전용 총알
+		{
+			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"; // 텍스처는 네가 리소스 맞게 써
+			m_fFrameDuration = 0.03f;
+			m_iFrameCount = 8;
+			m_iMaxFrame = 8;
+
+			m_bRotated_Bullet = pDesc.isLeft;
+		}
 
 		m_vAxis = pDesc.vAxis;
 		m_fSpeed = 3.f;
@@ -116,7 +125,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_fHellBoss_Pos);
 		m_pTransformCom->Set_Scale(0.6f, 0.6f, 0.6f);
 
-		m_iAp = 1.f;
+		m_iAp = 1;
 		m_eType = CG_MONSTER_PROJECTILE_SPHERE;
 	}
 
@@ -175,10 +184,14 @@ void CHellBoss_Bullet::Reset()
 				offsetPos += m_fHellBoss_RIght * -0.14f;
 
 		}
+		if (m_wBulletType == L"0_Phase4_Shoot")
+		{
+			offsetPos = Get_RandomBackOffsetPos(); 
+		}
+
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, offsetPos);
-		m_fHellBoss_Pos = offsetPos; // 이후 방향 계산에도 이 위치 써야함
-
+		m_fHellBoss_Pos = offsetPos; // 이후 방향 계산에 반영
 		m_bInitializedPos = true;
 	}
 
@@ -196,28 +209,34 @@ void CHellBoss_Bullet::Reset()
 		if (m_wBulletType == L"3_EyeBlast")
 		{
 			m_fBullet_Scale = { 0.6f, 0.6f, 0.6f };
-			m_fSpeed = 4.f;
+			m_fSpeed = 5.f;
 		}
 		else if (m_wBulletType == L"4_Shoot")
 		{
 			m_fBullet_Scale = { 3.f, 3.f, 3.f };
-			m_fSpeed = 1.5f;
+			m_fSpeed = 3.5f;
 		}
 		else if (m_wBulletType == L"Power_Blast")
 		{
 			m_fBullet_Scale = { 2.f, 2.f, 2.f };
-			m_fSpeed = 2.0f;
+			m_fSpeed = 3.0f;
 		}
 		else if (m_wBulletType == L"0_Phase2_Shoot")
 		{
 			m_fBullet_Scale = { 2.f, 2.f, 2.f };
-			m_fSpeed = 1.5f;
+			m_fSpeed = 3.5f;
 		}
 		else if (m_wBulletType == L"O_ArmCut_Shoot")
 		{
 			m_fBullet_Scale = { 2.f, 2.f, 2.f };
 			m_fSpeed = 1.5f;
 		}
+		else if (m_wBulletType == L"0_Phase4_Shoot")
+		{
+			m_fBullet_Scale = { 1.f, 1.f, 1.f };
+			m_fSpeed = 2.0f;
+		}
+
 	}
 	else
 	{
@@ -406,6 +425,27 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			m_iCurrentFrame = (m_iCurrentFrame + 1) % m_iFrameCount;
 		}
 	}
+	if (m_wBulletType == L"0_Phase4_Shoot")
+	{
+		CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+			m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+		if (pPlayerTransform)
+		{
+			_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION)
+				- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+
+			m_vDir = Lerp(m_vDir, vToPlayer, fTimeDelta * 2.f); // 2.f는 민감도
+			D3DXVec3Normalize(&m_vDir, &m_vDir);
+		}
+	}
+
+
+	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+
+
 
 
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_fBullet_Scale);
@@ -597,6 +637,30 @@ void CHellBoss_Bullet::Free()
 	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pParticleCom);
 	Safe_Release(m_pParticleTransformCom);
+}
+_float3 CHellBoss_Bullet::Get_RandomBackOffsetPos()
+{
+	const float radiusX = 8.f;  // 좌우 펼쳐짐 범위
+	const float radiusY = 6.f;  // 위아래 펼쳐짐 범위
+	const float backDistance = 5.f;  // 보스 뒤 거리
+
+	_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+	_float3 vLook = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+	_float3 vRight = m_HellBoss_Transform->Get_State(CTransform::STATE_RIGHT);
+	_float3 vUp = m_HellBoss_Transform->Get_State(CTransform::STATE_UP);
+
+	D3DXVec3Normalize(&vLook, &vLook);
+	D3DXVec3Normalize(&vRight, &vRight);
+	D3DXVec3Normalize(&vUp, &vUp);
+
+	// 등 뒤 기준점
+	_float3 center = bossPos - vLook * backDistance;
+
+	// 랜덤한 좌우, 상하 오프셋
+	float offsetX = ((rand() % 200) / 100.f - 1.f) * radiusX; // -radiusX ~ +radiusX
+	float offsetY = ((rand() % 200) / 100.f - 1.f) * radiusY; // -radiusY ~ +radiusY
+
+	return center + vRight * offsetX + vUp * offsetY;
 }
 
 void CHellBoss_Bullet::Launch_Toward_Player()

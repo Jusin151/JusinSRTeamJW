@@ -216,7 +216,8 @@ void CHellBoss_DarkBullet::Reset()
 		m_vDir = m_pDarkHole_Transform->Get_State(CTransform::STATE_LOOK);
 	}
 
-
+	m_eType = CG_MONSTER_PROJECTILE_SPHERE;
+	m_iAp = 1;
 
 }
 

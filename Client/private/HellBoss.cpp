@@ -34,7 +34,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =26000;
+	m_iHp =11000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -110,6 +110,10 @@ HRESULT CHellBoss::Initialize(void* pArg)
 		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PowerBlast_Bullet"), 100))) // 주변에서 회전하는녀석
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE4_Bullet"), 3000))) // 페이즈 4패턴 총알
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -183,14 +187,15 @@ void CHellBoss::Hp_Pattern()
 		m_ePhase = PHASE3;
 		Set_Pattern(new CPattern_Morph());
 		Change_State(new CHellBoss_MorphState());
+
 		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 		{
 			pUI_Event->ShowEventText(0, L"HellBoss_Phase3");
 		}
 
-		m_pCurState = new CHellBoss_JumpLoopState(); 
 		return;
 	}
+
 	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
 	{
 

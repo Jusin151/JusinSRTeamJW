@@ -10,5 +10,5 @@ public:
     void Update(CHellBoss* pBoss, float fTimeDelta) override;
     void Exit(CHellBoss* pBoss) override;
 
-
+private:
 };

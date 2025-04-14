@@ -32,7 +32,7 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		if (pBoss->Get_Phase() == PHASE1)
 		{
 			// 페이즈1은 둘 중 하나 랜덤
-			int randIndex = rand() % 2;
+			_int randIndex = rand() % 2;
 			switch (randIndex)
 			{
 			case 0: pBoss->Set_Pattern(new CPattern_EyeBlast()); break;
@@ -43,9 +43,11 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		{
 			// 페이즈2는 Shoot만 가능하니까
 			pBoss->Set_Pattern(new CPattern_Shoot());
+			
 		}
 		else if (pBoss->Get_Phase() == PHASE3)
 		{
+
 			pBoss->Set_Pattern(new CPattern_Shoot()); 
 		}
 
@@ -58,6 +60,12 @@ void CHellBoss_IdleState::Update(CHellBoss* pBoss, float fDeltaTime)
 		return;
 	}
 
+	if (pBoss->Get_Phase() == PHASE4)
+	{
+
+		pBoss->Set_Pattern(new CPattern_Shoot());
+
+	}
 
 }
 

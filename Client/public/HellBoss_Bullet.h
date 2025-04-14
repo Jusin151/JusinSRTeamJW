@@ -69,6 +69,7 @@ public:
 	static CHellBoss_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+	_float3 Get_RandomBackOffsetPos();
 public:
 	const wstring& Get_BulletType() const { return m_wBulletType; }
 public:

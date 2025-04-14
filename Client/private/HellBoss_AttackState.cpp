@@ -31,7 +31,7 @@ void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
     }
     else if (pBoss->Get_Phase() == PHASE4)
     {
-        pBoss->Set_Animation("J_Phase3_TripleEye");
+        pBoss->Set_Animation("K_Phase3_Nova");
         m_fDelayDuration = 1.3f;
     }
     else if (pBoss->Get_Phase() == PHASE5)

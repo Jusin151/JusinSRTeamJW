@@ -12,7 +12,7 @@ static _float3 m_vCenterPos{};
 void CHellBoss_CircleState::Enter(CHellBoss* pBoss)
 {
     if (pBoss->Get_Phase() == PHASE4)
-        pBoss->Set_Animation("G_Phase3_Idle");
+        pBoss->Set_Animation("H_Phase3_Walk");
 
     _float3 pos = pBoss->Get_Transform()->Get_State(CTransform::STATE_POSITION);
 
@@ -27,6 +27,8 @@ void CHellBoss_CircleState::Enter(CHellBoss* pBoss)
     center.y = pos.y;
 
     m_vCenterPos = center;
+
+    pBoss->Set_Pattern(new CPattern_Shoot());
 }
 
 
@@ -44,6 +46,12 @@ void CHellBoss_CircleState::Update(CHellBoss* pBoss, float fTimeDelta)
     orbitPos.y = m_vCenterPos.y;
 
     pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, orbitPos);
+
+
+ 
+
+    if (pBoss->Get_AttackPattern())
+        pBoss->Use_Attack(fTimeDelta);
 }
 
 
