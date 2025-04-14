@@ -78,14 +78,6 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 
     float fDist = D3DXVec3Length(&vToPlayer); 
 
-    if (pBoss->Get_Phase() == PHASE3) 
-    {
-        pBoss->Set_Pattern(new CPattern_Shoot()); 
-        pBoss->Change_State(new CHellBoss_AttackState()); 
-
-        return; 
-    }
-
     if (fDist < 30.f)
     {
         pBoss->Set_Pattern(new CPattern_Shoot());
