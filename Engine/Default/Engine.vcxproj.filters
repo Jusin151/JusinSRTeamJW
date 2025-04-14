@@ -176,8 +176,8 @@
     <ClInclude Include="..\Public\BlendObject.h">
       <Filter>02.GameObject\BlendObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Projectile_Particle_System.h">
-      <Filter>04.Components\Particle\System\Projectile</Filter>
+    <ClInclude Include="..\Public\Trail_Particle_System.h">
+      <Filter>04.Components\Particle\System\Trail</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Shader.h">
       <Filter>04.Components\Shader</Filter>
@@ -230,7 +230,12 @@
     <ClInclude Include="..\public\Fire_Particle_System.h">
       <Filter>04.Components\Particle\System\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Smoke_Particle_System.h" />
+    <ClInclude Include="..\public\Smoke_Particle_System.h">
+      <Filter>04.Components\Particle\System\Smoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Projectile_Particle_System.h">
+      <Filter>04.Components\Particle\System\Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -389,9 +394,6 @@
     <Filter Include="02.GameObject\BlendObject">
       <UniqueIdentifier>{44e28a63-b2a2-4c0e-9d13-cbb5b6c81309}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Particle\System\Projectile">
-      <UniqueIdentifier>{f30b5435-a479-4423-bb01-4908717064af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\Shader">
       <UniqueIdentifier>{910bf93e-f950-4279-803b-b86512bdab9b}</UniqueIdentifier>
     </Filter>
@@ -434,14 +436,17 @@
     <Filter Include="04.Components\Particle\System\Gib">
       <UniqueIdentifier>{44029e43-1310-44fa-8ea0-d0c465121f2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Particle\System\Staff">
-      <UniqueIdentifier>{227b58f9-3709-4ef7-80e2-0edff643c9ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\Particle\System\Magic">
       <UniqueIdentifier>{3ed57068-dc71-42c0-887d-6045d2297c25}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\Particle\System\Smoke">
       <UniqueIdentifier>{6056a0f2-f7c0-40c0-a1ff-c987ad32612d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\Trail">
+      <UniqueIdentifier>{f30b5435-a479-4423-bb01-4908717064af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Particle\System\Projectile">
+      <UniqueIdentifier>{9c912fca-0e15-4c8c-97a1-d7bacd95ae3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -583,8 +588,8 @@
     <ClCompile Include="..\Private\Firework_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Firework</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Projectile_Particle_System.cpp">
-      <Filter>04.Components\Particle\System\Projectile</Filter>
+    <ClCompile Include="..\Private\Trail_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Trail</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CollisionObject.cpp">
       <Filter>02.GameObject\CollisionObject</Filter>
@@ -622,7 +627,12 @@
     <ClCompile Include="..\private\Fire_Particle_System.cpp">
       <Filter>04.Components\Particle\System\Fire</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Smoke_Particle_System.cpp" />
+    <ClCompile Include="..\private\Smoke_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Smoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Projectile_Particle_System.cpp">
+      <Filter>04.Components\Particle\System\Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\LandObject.cpp">

@@ -1,13 +1,13 @@
-#include "Projectile_Particle_System.h"
+﻿#include "Trail_Particle_System.h"
 
-CProjectile_Particle_System::CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTrail_Particle_System::CTrail_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CParticle_System{ pGraphic_Device }
 {
-
+	
 }
 
-CProjectile_Particle_System::CProjectile_Particle_System(const CProjectile_Particle_System& Prototype)
-	: CParticle_System{ Prototype }
+CTrail_Particle_System::CTrail_Particle_System(const CTrail_Particle_System& Prototype)
+	: CParticle_System { Prototype }
 	, m_vDir{ Prototype.m_vDir }
 	, m_fWidth{ Prototype.m_fWidth }
 	, m_fDistance{ Prototype.m_fDistance }
@@ -15,14 +15,14 @@ CProjectile_Particle_System::CProjectile_Particle_System(const CProjectile_Parti
 
 }
 
-HRESULT CProjectile_Particle_System::Initialize_Prototype()
+HRESULT CTrail_Particle_System::Initialize_Prototype()
 {
-	return S_OK;
+ 	return S_OK;
 }
 
-HRESULT CProjectile_Particle_System::Initialize(void* pArg)
+HRESULT CTrail_Particle_System::Initialize(void* pArg)
 {
-	PROJECTILEDESC desc = *reinterpret_cast<PROJECTILEDESC*>(pArg);
+	TRAILDESC desc = *reinterpret_cast<TRAILDESC*>(pArg);
 	m_vPos = { 0.f, 0.f, 0.f };
 	m_fSize = 0.8f;
 	m_VBSize = 2048;
@@ -40,7 +40,7 @@ HRESULT CProjectile_Particle_System::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CTrail_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 {
 	pAttribute->bIsAlive = true;
 	pAttribute->fAge = 0;
@@ -54,7 +54,7 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
 	pAttribute->iIndex = 0; //rand() % m_pTexture->Get_NumTextures();
 }
 
-void CProjectile_Particle_System::Update(float fTimeDelta)
+void CTrail_Particle_System::Update(float fTimeDelta)
 {
 	Reset_Particle(&*m_Particles.begin());
 	for (auto& i : m_Particles)
@@ -67,7 +67,7 @@ void CProjectile_Particle_System::Update(float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CProjectile_Particle_System::Render()
+HRESULT CTrail_Particle_System::Render()
 {
 	__super::Pre_Render();
 
@@ -115,33 +115,33 @@ HRESULT CProjectile_Particle_System::Render()
 	return S_OK;
 }
 
-CProjectile_Particle_System* CProjectile_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTrail_Particle_System* CTrail_Particle_System::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CProjectile_Particle_System* pInstance = new CProjectile_Particle_System(pGraphic_Device);
+	CTrail_Particle_System* pInstance = new CTrail_Particle_System(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CProjectile_Particle_System");
+		MSG_BOX("Failed to Created : CTrail_Particle_System");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CProjectile_Particle_System* CProjectile_Particle_System::Clone(void* pArg)
+CTrail_Particle_System* CTrail_Particle_System::Clone(void* pArg)
 {
-	CProjectile_Particle_System* pInstance = new CProjectile_Particle_System(*this);
+	CTrail_Particle_System* pInstance = new CTrail_Particle_System(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CProjectile_Particle_System");
+		MSG_BOX("Failed to Created : CTrail_Particle_System");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CProjectile_Particle_System::Free()
+void CTrail_Particle_System::Free()
 {
 	__super::Free();
 }

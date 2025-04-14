@@ -1,6 +1,6 @@
 ﻿#include "BombBox.h"
 #include "GameInstance.h"
-#include "Explosion_Effect.h"
+#include "Effects.h"
 
 CBombBox::CBombBox(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CDeco_Base(pGraphic_Device)
@@ -257,6 +257,24 @@ void CBombBox::Explosion()
 		LEVEL_STATIC,
 		TEXT("Layer_Explosion_Effect"),
 		&effectDesc);
+
+
+	float offsetRangeX = 1.f, offsetRangeY = 1.f;
+
+
+	CEffect_Base::EFFECT_DESC effectDesc2;
+	effectDesc2.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	effectDesc2.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	effectDesc2.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	effectDesc2.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	effectDesc2.vScale = { 1.f, 1.f, 1.f };
+
+	m_pGameInstance->Add_GameObject(
+		LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Fire_Effect"),
+		LEVEL_STATIC,
+		TEXT("Layer_Fire_Effect"),
+		&effectDesc2);
 }
 
 CBombBox* CBombBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

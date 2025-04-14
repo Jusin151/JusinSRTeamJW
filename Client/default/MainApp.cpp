@@ -263,9 +263,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Firework"),
 		CFirework_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	/* For.Prototype_Component_Particle_Projectile*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
-		CProjectile_Particle_System::Create(m_pGraphic_Device))))
+	/* For.Prototype_Component_Particle_Trail*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
+		CTrail_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Particle_Gold*/
@@ -291,6 +291,21 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	/* For.Prototype_Component_Particle_BulletShell*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
 		CBulletShell_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Projectile*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+		CProjectile_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Fire*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Fire"),
+		CFire_Particle_System::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Particle_Smoke*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Smoke"),
+		CSmoke_Particle_System::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 	

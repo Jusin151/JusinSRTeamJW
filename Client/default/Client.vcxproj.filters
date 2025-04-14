@@ -1000,8 +1000,12 @@
       <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Fire_Effect.h" />
+     </ClInclude>
     <ClInclude Include="..\Public\HellBoss_AfterImage.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage</Filter>
+     </ClInclude>
+    <ClInclude Include="..\public\Fire_Effect.h">
+      <Filter>02.GameObjects\03. Effect\Fire_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1450,8 +1454,12 @@
       <Filter>02.GameObjects\03. Effect\Smoke_Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Fire_Effect.cpp" />
+     </ClCompile>
     <ClCompile Include="..\Private\HellBoss_AfterImage.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage</Filter>
+       </ClCompile>
+    <ClCompile Include="..\private\Fire_Effect.cpp">
+      <Filter>02.GameObjects\03. Effect\Fire_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

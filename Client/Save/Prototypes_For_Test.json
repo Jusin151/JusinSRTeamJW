@@ -76,6 +76,16 @@
       "class": "CMagic_Effect"
     },
     {
+      "tag": "Prototype_GameObject_Fire_Effect",
+      "level": 0,
+      "class": "CFire_Effect"
+    },
+    {
+      "tag": "Prototype_GameObject_Smoke_Effect",
+      "level": 0,
+      "class": "CSmoke_Effect"
+    },
+    {
       "tag": "Prototype_GameObject_BulletShell_Effect",
       "level": 0,
       "class": "CBulletShell_Effect"
