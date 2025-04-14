@@ -45,7 +45,6 @@ void CHellBoss_AttackState::Enter(CHellBoss* pBoss)
 void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 {
 
-   
 
     if (!m_bAttackFinished)
     {
@@ -59,7 +58,6 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
 
             if (pBoss->Get_Phase() == PHASE3)
             {
-                // 공격 끝났으면 Walk로 전환 후, 3초 타이머 시작
                 pBoss->Change_State(new CHellBoss_DashState());
                 pBoss->Set_Phase3AttackCooldown(3.0f); // 타이머 시작
                 return;
@@ -76,9 +74,17 @@ void CHellBoss_AttackState::Update(CHellBoss* pBoss, float fDeltaTime)
         return;
 
     //  끝났으면 다음 행동 
-    _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos();
+    _float3 vToPlayer = pBoss->Get_PlayerPos() - pBoss->Get_Pos(); 
 
-    float fDist = D3DXVec3Length(&vToPlayer);
+    float fDist = D3DXVec3Length(&vToPlayer); 
+
+    if (pBoss->Get_Phase() == PHASE3) 
+    {
+        pBoss->Set_Pattern(new CPattern_Shoot()); 
+        pBoss->Change_State(new CHellBoss_AttackState()); 
+
+        return; 
+    }
 
     if (fDist < 30.f)
     {

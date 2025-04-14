@@ -33,8 +33,8 @@ public:
         }
         else
         {
-            // 도망쳤으면 다시 플레이어 쫓아가도록 WalkState로
-            pBoss->Change_State(new CHellBoss_WalkState());
+             // 대쉬하고 Idle
+            pBoss->Change_State(new CHellBoss_IdleState());
         }
     }
 

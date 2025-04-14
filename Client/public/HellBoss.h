@@ -119,7 +119,8 @@ private:
 	_float m_fAttackDelay = 0.f;
 	_float m_fAttackDelayTimer = 0.f;
 	_float m_fPhase3_KnockBack_Timer = 0.f; // 밀어버리는 함수
-
+	_float m_fPhase3AttackCooldown = 0.f;
+	_bool m_bWaitingForPhase3Dash = false; 
 public:
 	void Set_AttackDelay(_float fDelay) { m_fAttackDelay = fDelay; m_fAttackDelayTimer = 0.f; }
 	void Set_CircleBasePos(const _float3& vPos) { m_vCircleBasePos = vPos; }

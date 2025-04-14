@@ -126,11 +126,10 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
         }
     }
 
-    else if (pBoss->Get_Phase() == PHASE3)
+    if (pBoss->Get_Phase() == PHASE3)
     {
         int iCurFrame = pBoss->Get_CurAnimationFrame();
-
-        if (iCurFrame == 130 && !m_bHasFired)
+        if (iCurFrame >= 130 && !m_bHasFired)
         {
             m_bHasFired = true;
 
@@ -138,20 +137,23 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
             {
                 CHellBoss_Bullet::PowerBlastDesc pDesc{};
                 pDesc.wBulletType = L"O_ArmCut_Shoot";
-                pDesc.isLeft = (i % 2 == 0); // 좌우 번갈아
+                pDesc.isLeft = (i % 2 == 0);
 
-                if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(
+                pBoss->Get_GameInstance()->Add_GameObject_FromPool(
                     LEVEL_HONG, LEVEL_HONG,
-                    TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc))
-                {
-                    MSG_BOX("HellBoss_Bullet 생성 실패");
-                }
+                    TEXT("Layer_HellBoss_PHASE2_HandBullet"), &pDesc);
             }
         }
-            pBoss->Change_State(new CHellBoss_DashState());
-     
 
+        if (pBoss->Get_AnimationFinished())
+        {
+            m_bStarted = false;
+            m_bHasFired = false;
+        }
     }
+
+
+
 
 }
 

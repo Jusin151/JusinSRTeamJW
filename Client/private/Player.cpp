@@ -94,7 +94,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.f;
+	m_fSpeed = 1.3f;
 	m_iStr = 10; // 초기 근력 10
 	CPickingSys::Get_Instance()->Set_Player(this);
 

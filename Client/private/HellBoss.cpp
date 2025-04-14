@@ -107,7 +107,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
-		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE2_HandBullet"), 100)))
+		TEXT("Prototype_GameObject_HellBoss_Bullet"), TEXT("Layer_HellBoss_PHASE2_HandBullet"), 30000)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Reserve_Pool(LEVEL_HONG,
@@ -214,6 +214,32 @@ void CHellBoss::Update(_float fTimeDelta)
 			}
 		}
 	}
+	if (m_ePhase == PHASE3 && m_eCurState == MS_IDLE)
+	{
+		if (m_bWaitingForPhase3Dash)
+		{
+			m_fPhase3AttackCooldown -= fTimeDelta;
+			if (m_fPhase3AttackCooldown <= 0.f)
+				m_bWaitingForPhase3Dash = false;
+		}
+
+		if (m_bWaitingForPhase3Dash)
+			return;
+
+		_float3 vToPlayer = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION)
+			- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		vToPlayer.y = 0.f;
+
+		if (D3DXVec3Length(&vToPlayer) < 30.f)
+		{
+			Change_State(new CHellBoss_DashState());
+			m_bWaitingForPhase3Dash = true;
+			m_fPhase3AttackCooldown = 0.5f;
+			return;
+		}
+	}
+
+
 
 
 	m_AnimationManager.Update(fTimeDelta);
@@ -427,7 +453,7 @@ void CHellBoss::Use_Attack(_float fDeltaTime)
 			delete m_pCurAttackPattern;
 			m_pCurAttackPattern = nullptr;
 
-			// Phase1만 Idle로 복귀
+
 			if (m_ePhase == PHASE1)
 				Change_State(new CHellBoss_IdleState());
 			else if (m_ePhase == PHASE2)
@@ -439,6 +465,7 @@ void CHellBoss::Use_Attack(_float fDeltaTime)
 		}
 	}
 }
+
 void CHellBoss::Launch_PowerBlast_Bullets()
 {
 	for (auto& pBullet : m_vecPowerBlasts)
