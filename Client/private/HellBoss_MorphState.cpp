@@ -44,15 +44,15 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
     }
     if (pBoss->Get_Phase() == PHASE2)
     {
-        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_1to2")->SetVolume(0.7f);
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_1to2")->SetVolume(0.7f);
     }
     if (pBoss->Get_Phase() == PHASE3)
     {
-        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_2to3")->SetVolume(0.7f);
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_2to3")->SetVolume(0.7f);
     }
     if (pBoss->Get_Phase() == PHASE4)
     {
-        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_3to4")->SetVolume(0.7f);
 
         _float3 vBossPos = pBoss->Get_CutScene_AnchorPos();
 
@@ -86,7 +86,7 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
     }
     if (pBoss->Get_Phase() == PHASE5)
     {
-        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_3to4")->SetVolume(0.7f);
 
         _float3 vBossPos = pBoss->Get_CutScene_AnchorPos();
 
@@ -118,7 +118,7 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
             pCutCam->Set_CameraDisableDelay(4.2f); // 몇초뒤에 카메라끌껀지
         }
 
-        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_2to3")->SetVolume(0.7f);
+        pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_2to3")->SetVolume(0.7f);
     }
 
 
