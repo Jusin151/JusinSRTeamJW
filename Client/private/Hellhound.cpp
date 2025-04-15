@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Stains_Effect.h"
+#include "Gib_Effect.h"
 
 CHellhound::CHellhound(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CMonster_Base(pGraphic_Device)
@@ -88,8 +89,8 @@ void CHellhound::Priority_Update(_float fTimeDelta)
 	if (m_eCurState == MS_DEATH && !m_bGib)
 	{
 		m_bGib = true;
-		Create_Gibs(0);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+		Create_Gibs(6);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 45)
 	{
@@ -207,7 +208,7 @@ HRESULT CHellhound::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Pain", m_pTransformCom)->SetVolume(0.5f);
 		if (m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
 			m_eCurState = MS_HIT;
 		break;
@@ -260,7 +261,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 		break;
 
 	case MS_WALK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Detect", m_pTransformCom)->SetVolume(0.5f);
 		Chasing(fTimeDelta, fScale.Length());
 		break;
 
@@ -272,7 +273,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 		break;
 
 	case MS_ATTACK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Melee_Attack(fTimeDelta);
 		break;
 
@@ -424,6 +425,12 @@ void CHellhound::Select_Frame(_float fTimeDelta)
 			m_eCurState = MS_IDLE;
 			m_iCurrentFrame = 1;
 			return;
+		}
+
+		if (m_iCurrentFrame == 30)
+		{
+			// ÆÈ gib »ý¼º
+			Create_Gibs(5);
 		}
 
 		if (m_iCurrentFrame < 30 || m_iCurrentFrame > 33)
