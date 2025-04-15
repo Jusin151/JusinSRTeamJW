@@ -170,13 +170,22 @@ void CUI_WeaponShop_UI::Create_SkillButton() //오른쪽 특성 버튼
 
 					auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
 					CUI_Event::EVENT_RENDER_TEXT vRenderText;
-
+					if (pUI_Event)
+					{
+						vRenderText.vPos = _float2(-70.f, 0.f);
+						vRenderText.vFontSize = _float2(10.f, 30.f);
+						vRenderText.vColor = _float3(1.f, 1.f, 0.1f);
+						vRenderText.fLifeTime = 1.f;
+					}
 					switch (eState)
 					{
-					case PurchaseStatus::Success:
+					case PurchaseStatus::Success:		
+						vRenderText.vPos = _float2(-100.f, -100.f);
+						vRenderText.vColor = _float3(1.f, 0.4f, 0.4f);
 						vRenderText.stText = TEXT("구매 완료.");
 						break;
-					case PurchaseStatus::NotEnoughSkillPoint:
+					case PurchaseStatus::NotEnoughPoint:
+						vRenderText.vPos = _float2(-100.f, 0.f);
 						vRenderText.stText = TEXT("스킬 포인트가 부족합니다.");
 						break;
 					case PurchaseStatus::AlreadyOwned:
@@ -186,15 +195,8 @@ void CUI_WeaponShop_UI::Create_SkillButton() //오른쪽 특성 버튼
 					default:
 						break;
 					}
-
-					if (pUI_Event)
-					{
-						vRenderText.vPos = _float2(-70.f, 0.f);
-						vRenderText.vFontSize = _float2(10.f, 30.f);
-						vRenderText.vColor = _float3(1.f, 1.f, 0.1f);
-						vRenderText.fLifeTime = 1.f;
-						pUI_Event->Add_EventRender(vRenderText);
-					}
+					
+					pUI_Event->Add_EventRender(vRenderText);
 				}
 					});
 

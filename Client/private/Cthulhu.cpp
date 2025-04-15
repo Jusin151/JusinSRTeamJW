@@ -401,9 +401,9 @@ NodeStatus CCthulhu::Update_Appear()
 		{
 			CUI_Event::EVENT_RENDER_TEXT vRenderText;
 			vRenderText.stText = TEXT("TENTACLES LEFT: ") + std::to_wstring(m_iCountTentacle);
-			vRenderText.vPos = _float2(-70.f, 0.f);
-			vRenderText.vFontSize = _float2(10.f, 30.f);
-			vRenderText.vColor = _float3(1.f, 0.f, 0.1f);
+			vRenderText.vPos = _float2(-60.f, -10.f);
+			vRenderText.vFontSize = _float2(10.f, 40.f);
+			vRenderText.vColor = _float3(0.65f, 0.44f, 0.43f);
 			vRenderText.fLifeTime = 1.f;
 			pUI_Event->Add_EventRender(vRenderText);
 		}

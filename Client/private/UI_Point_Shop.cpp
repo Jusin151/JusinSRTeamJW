@@ -271,7 +271,28 @@ void CUI_Point_Shop::Create_SkillButton() //오른쪽 특성 버튼
                                 if (!pShop)
                                     return;
 
-                                pShop->Buy_Skill(index);
+                                _uint iPrice = (index == 6 ? 5 : (index == 11 ? 3 : 0));
+                                PurchaseStatus status = pShop->Purchase_Skill(TEXT("Skill_") + to_wstring(index), iPrice);
+                                auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
+                                CUI_Event::EVENT_RENDER_TEXT vRenderText;
+                                if (pUI_Event)
+                                {
+                                    vRenderText.vPos = _float2(-70.f, 0.f);
+                                    vRenderText.vFontSize = _float2(10.f, 30.f);
+                                    vRenderText.vColor = _float3(1.f, 1.f, 0.1f);
+                                    vRenderText.fLifeTime = 1.f;
+                               
+                                }
+                                if (status == PurchaseStatus::NotEnoughPoint)
+                                {
+                                    vRenderText.vPos = _float2(-100.f, 0.f);
+                                    vRenderText.stText = TEXT("스킬 포인트가 부족합니다.");
+                                 }
+                                else if (status == PurchaseStatus::AlreadyOwned)
+                                    vRenderText.stText = TEXT("이미 구매했습니다.");
+
+                                 pUI_Event->Add_EventRender(vRenderText);
+                        
                             });
                     });
 
@@ -330,26 +351,45 @@ void CUI_Point_Shop::Create_StatButton()
 
             pButton->SetOnClickCallback([this, index]()
                 {
+         
                     CHub_PointShop* pShop = dynamic_cast<CHub_PointShop*>(m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Point_Shop")));
                     if (!pShop)
                         return E_FAIL;
-
-                    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                    if (!pPlayer)
-                        return E_FAIL;
-
-                    _bool bSuccess = false;
-
+                    _wstring stStat;
                     switch (index)
                     {
-                    case 0: bSuccess = pPlayer->Add_Strength(1); break;
-                    case 1: bSuccess = pPlayer->Add_MaxHP(10); break;
-                    case 2: bSuccess = pPlayer->Add_Sprit(1); break;
-                    case 3: bSuccess = pPlayer->Add_Capacity(1); break;
+                    case 0:
+                        stStat = TEXT("Strength");
+                        break;
+                    case 1:
+                        stStat = TEXT("Life");
+                        break;
+                    case 2:
+                        stStat = TEXT("Sprit");
+                        break;
+                    case 3:
+                        stStat = TEXT("Capacity");
+                        break;
+
                     }
 
-                    if (bSuccess)
-                        pShop->Buy_Stat(index);
+                    PurchaseStatus status = pShop->Purchase_Stat(stStat, 1);
+                    auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
+                    CUI_Event::EVENT_RENDER_TEXT vRenderText;
+
+                    if (status == PurchaseStatus::Success)
+                        vRenderText.stText = stStat+ TEXT(" 구매 완료.");
+                    else if (status == PurchaseStatus::NotEnoughPoint)
+                        vRenderText.stText = TEXT("스탯 포인트가 부족합니다.");
+
+                    if (pUI_Event)
+                    {
+                        vRenderText.vPos = _float2(-70.f, 0.f);
+                        vRenderText.vFontSize = _float2(10.f, 30.f);
+                        vRenderText.vColor = _float3(1.f, 1.f, 0.1f);
+                        vRenderText.fLifeTime = 1.f;
+                        pUI_Event->Add_EventRender(vRenderText);
+                    }
 
                     return S_OK;
                 });

@@ -126,7 +126,7 @@ PurchaseStatus CHub_WeaponShop::Can_Purchase(const _wstring& stItemName, _uint i
 		}
 		else
 		{
-			return PurchaseStatus::NotEnoughSkillPoint;
+			return PurchaseStatus::NotEnoughPoint;
 		}
 	}
 

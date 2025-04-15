@@ -147,6 +147,19 @@ public:
 		Notify(m_iPlayerMP.first, L"MP");
 		return true;
 	}
+	
+	_bool Add_Skill(const _wstring& stSkillName)
+	{
+		if (m_setSkill.find(stSkillName) != m_setSkill.end()) return false;
+
+		m_setSkill.insert(stSkillName);
+		return true;
+	}
+
+	_bool Has_Skill(const _wstring& stSkillName)
+	{
+		return m_setSkill.find(stSkillName) != m_setSkill.end();
+	}
 
 
 	void Add_Weapon(const _wstring& stWeaponTag);
@@ -226,6 +239,7 @@ private: // 플레이어 관련
 
 	PLAYER_INFO m_vPlayerInfo{};
 	PLAYER_INFO m_vOriginPlayerInfo{};
+	unordered_set<_wstring> m_setSkill; // 스킬 보유용
 public:
 	const auto& Get_PlayerInfo() const { return m_vPlayerInfo; }
 	//_uint Get_StatPoint() { return m_iStatpoint; }

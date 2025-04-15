@@ -30,7 +30,11 @@ public: //상점관련
     void  Buy_Stat(_int index);
 
     void Buy_Skill(_int index);
+    void Buy_Skill(const _wstring& stSkillName);
 
+
+    PurchaseStatus Purchase_Skill(const _wstring& stSkillName, _uint iPrice);
+    PurchaseStatus Purchase_Stat(const _wstring& stStatName, _uint iPrice);
 
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();

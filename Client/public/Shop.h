@@ -13,6 +13,16 @@ class CVIBuffer_Rect;
 class CCollider_Sphere;
 END
 
+
+enum class PurchaseStatus : uint8_t
+{
+	Success = 0,         // 구매 가능(성공)
+	NotEnoughPoint = 1,    // 구매 금액 부족
+	AlreadyOwned = 2,      // 이미 소유중
+	ShopClosed = 3,        // 상점이 닫힘
+	UnknownError = 4
+};
+
 BEGIN(Client)
 
 class CShop : public CGameObject
