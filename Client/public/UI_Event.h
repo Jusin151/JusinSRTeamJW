@@ -55,7 +55,8 @@ public:
 public:
 	void Add_EventRender(const EVENT_RENDER_TEXT& vEventRenderText);
 private:
-	float m_fRainbowTimer = { 0.f };
+	_float m_fRainbowTimer = { 0.f };
+	_bool	m_bEventStart = { false };
 
 public:
 	static CUI_Event* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

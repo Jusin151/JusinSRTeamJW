@@ -59,9 +59,16 @@ HRESULT CUI_Event::Render()
 		{
 			_float2 centerPos = _float2(-100.f, -300.f);
 			_float2 centerSize = _float2(20.f, 40.f);
-
-			float hue = fmodf(m_fRainbowTimer * 1000.f, 360.f);
-			_float3 levelColor = HSVtoRGB(hue, 1.f, 1.f);
+			
+			_float fadeProgress = fminf(m_fRainbowTimer / 2.0f, 1.0f);
+			_float hue = 120.f;
+			_float clampedTime = fmax(0.f, fmin(1.5f, evt.ftime));
+			_float normalizedTime = (1.5f - clampedTime) / 1.5f;
+			_float angle = 2.0f * D3DX_PI * normalizedTime;
+			_float sinValue = sin(angle);
+			_float saturation = sinValue * sinValue;
+			_float value = 0.7f;
+			_float3 levelColor = HSVtoRGB(hue, saturation, value);
 
 			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
 		}

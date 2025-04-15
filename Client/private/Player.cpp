@@ -416,6 +416,7 @@ void CPlayer::Move(_float fTimeDelta)
 				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
 			}
 			break;
+		case Client::LEVEL_HONG:
 		case Client::LEVEL_HUB:
 			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
 			{
@@ -423,9 +424,6 @@ void CPlayer::Move(_float fTimeDelta)
 				temp->SetVolume(1.0f);
 				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
 			}
-			break;
-		case Client::LEVEL_HONG:
-			//m_pSoundCom->Play_Event(L"event:/Player/Footstep_Hard")->SetVolume(0.5f);
 			break;
 		case Client::LEVEL_BOSS:
 			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
