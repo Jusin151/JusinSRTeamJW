@@ -12,6 +12,51 @@
       "class": "CStructure",
       "level": 7,
       "tag": "Prototype_GameObject_Hell_Floor"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_HP_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_EXP"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_MP_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_STAT"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 7,
+      "tag": "Prototype_GameObject_Item_Minigun_Ammo"
     }
   ]
 }

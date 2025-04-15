@@ -36,7 +36,7 @@ HRESULT CBlood_Particle_System::Initialize(void* pArg)
     return S_OK;
 }
 
-void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CBlood_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
 	pAttribute->bIsAlive = true;
 	GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);

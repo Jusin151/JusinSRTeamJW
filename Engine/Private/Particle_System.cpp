@@ -86,10 +86,10 @@ void CParticle_System::Late_Update(_float fTimeDelta)
 	Remove_Dead_Particles();
 }
 
-void CParticle_System::Add_Particle()
+void CParticle_System::Add_Particle(void* pArg)
 {
 	ATTRIBUTE attribute = {};
-	Reset_Particle(&attribute);
+	Reset_Particle(&attribute, pArg);
 	m_Particles.push_back(attribute);
 }
 
@@ -101,7 +101,7 @@ void CParticle_System::Reset()
 	}
 }
 
-void CParticle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CParticle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
 	
 }

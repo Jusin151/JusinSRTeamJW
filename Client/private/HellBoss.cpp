@@ -39,7 +39,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =10000;
+	m_iHp =25000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -445,7 +445,7 @@ void CHellBoss::Process_Input()
 		{
 			Change_State(new CHellBoss_DashState());
 			m_bWaitingForPhase3Dash = true; 
-			m_fPhase3AttackCooldown = 0.01f; // 쿨타임 
+			m_fPhase3AttackCooldown = 0.f; // 쿨타임 
 		}
 	}
 
