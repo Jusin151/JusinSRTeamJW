@@ -67,6 +67,11 @@ void CShop::Update(_float fTimeDelta)
                 m_bSpacePressed = true; 
                 static_cast<CPlayer*>(m_pPlayer)->StopAction();
                 m_pFirstPersonCamera->Camera_Lock(m_bIsOpen);
+                m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen ? true : false);
+                if (m_pPlayer)
+                {
+                    static_cast<CPlayer*>(m_pPlayer)->OnNotify(&m_bIsOpen, L"");
+                }
             }
         }
         else
