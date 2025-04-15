@@ -41,7 +41,7 @@ HRESULT CYeti::Initialize(void* pArg)
 
     m_fSpeed = 0.4f;
 
-    m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+    m_pColliderCom->Set_Scale(_float3(1.f, 2.f, 0.5f));
 
     return S_OK;
 }
@@ -78,7 +78,7 @@ void CYeti::Update(_float fTimeDelta)
         return;
 
     if (m_eCurState != MS_ATTACK)
-        m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
+        m_pColliderCom->Set_Scale(_float3(1.f, 1.f,1.f));
 
 
     Select_Pattern(fTimeDelta);
