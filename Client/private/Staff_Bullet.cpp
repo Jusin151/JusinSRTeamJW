@@ -151,6 +151,7 @@ HRESULT CStaff_Bullet::On_Collision(CCollisionObject* other)
 		break;
 	case CG_OBJECT:
 		CreateParticle(0xFFFFbeFF, 0x00FFbeFF);
+		Take_Damage(other);
 		m_bIsActive = false;
 		break;
 	
