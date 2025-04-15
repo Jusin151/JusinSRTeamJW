@@ -99,7 +99,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 {
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
-                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/slugshot_reworked_shot")->SetVolume(0.3f);
+                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/Slugshot_reworked_shot")->SetVolume(0.3f);
             }
         }
         if (pBoss->Get_AnimationFinished())
@@ -130,7 +130,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                     MSG_BOX("HellBoss_Bullet 생성 실패");
                 }
 
-                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/slugshot_reworked_shot")->SetVolume(0.2f);
+                pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/Slugshot_reworked_shot")->SetVolume(0.2f);
                 ++m_iFiredCount;
                 m_fNextFireTime += 0.2f;
             }

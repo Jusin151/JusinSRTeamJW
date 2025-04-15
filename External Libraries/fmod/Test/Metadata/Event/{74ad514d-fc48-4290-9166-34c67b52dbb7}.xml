@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{74ad514d-fc48-4290-9166-34c67b52dbb7}">
 		<property name="name">
-			<value>slugshot_reworked_shot</value>
+			<value>Slugshot_reworked_shot</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
