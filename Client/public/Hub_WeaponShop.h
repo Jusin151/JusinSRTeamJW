@@ -2,13 +2,7 @@
 #include "Shop.h"
 #include "Observer.h"
 
-enum class PurchaseStatus : uint8_t
-{
-    Success = 0,         // 구매 가능(성공)
-    NotEnoughSkillPoint = 1,    // 구매 금액 부족
-    AlreadyOwned = 2,      // 이미 소유중
-    ShopClosed = 3,        // 상점이 닫힘
-};
+
 
 BEGIN(Client)
 

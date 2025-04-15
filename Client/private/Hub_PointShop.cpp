@@ -151,6 +151,107 @@ void CHub_PointShop::Buy_Skill(_int index)
 	}
 }
 
+void CHub_PointShop::Buy_Skill(const _wstring& stSkillName)
+{
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+	if (!pPlayer)
+		return;
+
+	auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
+	CUI_Event::EVENT_RENDER_TEXT vRenderText;
+
+	if (stSkillName == TEXT("Skill_6"))
+	{
+		pPlayer->Set_DoubleAmmoGain(true);
+		vRenderText.stText = TEXT("탄약획득량이 2배 증가했습니다!\n               더 많이!");
+	}
+	else if (stSkillName == TEXT("Skill_11"))
+	{
+		pPlayer->Set_DoubleSpeedGain();
+		vRenderText.stText = TEXT("스피드가 2배로 증가했습니다!\n          더욱 빠르게!");
+	}
+
+
+	if (pUI_Event)
+	{
+		vRenderText.vPos = _float2(-100.f, -100.f);
+		vRenderText.vFontSize = _float2(10.f, 30.f);
+		vRenderText.vColor = _float3(1.f, 0.4f, 0.4f);
+		vRenderText.fLifeTime = 0.5f;
+		pUI_Event->Add_EventRender(vRenderText);
+	}
+}
+
+PurchaseStatus CHub_PointShop::Purchase_Skill(const _wstring& stSkillName, _uint iPrice)
+{
+	if (!m_bIsOpen)
+		return PurchaseStatus::ShopClosed;
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pPlayer);
+	if (!pPlayer)
+		return PurchaseStatus::UnknownError;
+
+	
+	if (pPlayer->Has_Skill(stSkillName))
+		return PurchaseStatus::AlreadyOwned;
+
+	if (pPlayer->Get_PlayerInfo().iSkillpoint >= iPrice)
+	{
+		pPlayer->Use_SkillPoint(iPrice);
+		Buy_Skill(stSkillName);
+		pPlayer->Add_Skill(stSkillName);
+		return PurchaseStatus::Success;
+	}
+	else
+	{
+		return PurchaseStatus::NotEnoughPoint;
+	}
+}
+
+PurchaseStatus CHub_PointShop::Purchase_Stat(const _wstring& stStatName, _uint iPrice)
+{
+	if (!m_bIsOpen)
+		return PurchaseStatus::ShopClosed;
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pPlayer);
+	if (!pPlayer)
+		return PurchaseStatus::UnknownError;
+
+	if (pPlayer->Get_PlayerInfo().iStatpoint >= iPrice)
+	{
+		_uint iIndex = -1;
+		if (stStatName == TEXT("Strength"))
+		{
+			iIndex = 0;
+			pPlayer->Add_Strength(1);
+
+		}
+		else if (stStatName == TEXT("Life"))
+		{
+			iIndex = 1;
+			pPlayer->Add_MaxHP(10);
+		}
+		else if (stStatName == TEXT("Sprit"))
+		{
+			iIndex = 2;
+			pPlayer->Add_Sprit(1);
+		}
+		else if (stStatName == TEXT("Capacity"))
+		{
+			iIndex = 3;
+			pPlayer->Add_Capacity(1);
+		}
+		else
+			return PurchaseStatus::UnknownError;
+
+
+		Notify(&iIndex, L"StatBuy");  // 성공했을 때만 UI 갱신
+		return PurchaseStatus::Success;
+	}
+	else
+	{
+		return PurchaseStatus::NotEnoughPoint;
+	}
+}
 
 
 HRESULT CHub_PointShop::Ready_Components()
