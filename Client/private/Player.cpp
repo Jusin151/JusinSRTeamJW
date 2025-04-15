@@ -98,7 +98,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 0.6f;
+	m_fSpeed = 1.3f;
 	m_vPlayerInfo.iStr = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);
 	CPickingSys::Get_Instance()->Set_Player(this);
@@ -152,7 +152,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		//m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		//	m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+			//m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
 		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		//	m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);

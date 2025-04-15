@@ -156,7 +156,7 @@ public:
 	void Set_DoubleAmmoGain(_bool bEnable) { m_bDoubleAmmoGain = bEnable; }
 	void Set_DoubleSpeedGain() 
 	{ 
-	     m_fSpeed = 1.6f; 
+	     m_fSpeed = 1.3f; 
 	}
 	 _bool Has_Item(const _wstring& stItemTag);
 	 HRESULT Add_Item(const _wstring& stItemTag);
