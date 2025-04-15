@@ -8,6 +8,7 @@
 #include "UI_Manager.h"
 #include "UI_Player_Icon.h"
 #include "Ranged_Weapon.h"
+#include "Monster_Base.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }
