@@ -152,7 +152,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		//m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		//	m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+			//m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
 		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		//	m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
