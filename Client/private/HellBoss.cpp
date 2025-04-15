@@ -626,7 +626,7 @@ void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
 {
 	m_fDarkHole_SpawnTimer += fDeltaTime;
 
-	if (m_fDarkHole_SpawnTimer >= 1.f)
+	if (m_fDarkHole_SpawnTimer >= 0.3f)
 	{
 		m_fDarkHole_SpawnTimer = 0.f;
 
