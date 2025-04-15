@@ -35,8 +35,6 @@ HRESULT CHellBoss_DarkBullet::Initialize(void* pArg)
 		->Find_Last_Object(LEVEL_HONG, L"Layer_HellBoss_Skill_DarkHole")
 		->Get_Component(TEXT("Com_Transform")));
 
-
-	
 	m_Player_Transform; //여기 플레이어 좌표 받아놨음
 	m_vDir = m_pDarkHole_Transform->Get_State(CTransform::STATE_LOOK);
 	return S_OK;
@@ -275,9 +273,9 @@ HRESULT CHellBoss_DarkBullet::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 1.f, 1.f, 1.f };
+	ColliderDesc.fScale = { 1.5f, 1.5f, 1.5f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
