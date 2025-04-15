@@ -206,7 +206,7 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
 
     case CG_WEAPON:
         Create_Stains(5);
-        m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Pain", m_pTransformCom)->SetVolume(0.5f);
+        m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Pain", m_pTransformCom)->SetVolume(0.7f);
         m_eCurState = MS_HIT;
         break;
 
