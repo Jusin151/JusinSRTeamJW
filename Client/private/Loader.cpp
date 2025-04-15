@@ -63,7 +63,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	switch (m_eNextLevelID) {
 	case LEVEL_LOGO:      m_iTotalTaskCount = 5;  break; // 텍스쳐, 모델, 셰이더, 사운드, 원형객체, 최종
 	case LEVEL_EDITOR:    m_iTotalTaskCount = 4;  break; // JSON1, JSON2, JSON3, 최종
-	case LEVEL_HONG:      m_iTotalTaskCount = 6;  break; // 6 등록+텍스쳐
+	case LEVEL_HONG:      m_iTotalTaskCount = 15;  break; // 6 등록+텍스쳐
 	}
 	m_iCompletedTaskCount = 0;
 	m_fProgress = 0.f;
