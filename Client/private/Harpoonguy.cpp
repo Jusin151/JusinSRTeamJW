@@ -243,7 +243,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		}
 		break;
 	case MS_WALK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.25f);
 		Chasing(fTimeDelta, 5.f);
 		break;
 	case MS_HIT:
@@ -254,7 +254,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 
 		break;
 	case MS_ATTACK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		
 		Shooting(fTimeDelta);
 		break;
 
@@ -281,13 +281,13 @@ void CHarpoonguy::Shooting(_float fTimeDelta)
 	{
 
 		CProjectile_Base::PROJ_DESC pDesc = {};
-		pDesc.fSpeed = 8.f;
+		pDesc.fSpeed = 10.f;
 		pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
+		pDesc.vPos.y += 0.2f;
 		// 오브젝트 풀링으로 변경 필요
 		m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), LEVEL_GAMEPLAY, TEXT("Layer_Projectile_Harpoon "), &pDesc);
-
+		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.25f);
 		m_iCurrentFrame++;
 	}
 

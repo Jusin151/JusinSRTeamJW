@@ -41,7 +41,7 @@ HRESULT CSnowspider::Initialize(void* pArg)
 
     m_fSpeed = 0.3f;
 
-    m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
+    m_pColliderCom->Set_Scale(_float3(1.3f, 1.f, 1.4f));
 
     return S_OK;
 }
@@ -77,7 +77,7 @@ void CSnowspider::Update(_float fTimeDelta)
         return;
 
     if(m_eCurState ==MS_ATTACK)
-        m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
+        m_pColliderCom->Set_Scale(_float3(1.3f, 1.f, 1.4f));
 
     Select_Pattern(fTimeDelta);
 

@@ -140,8 +140,12 @@ void CMonster_Base::Look_Player()
 {
 	if (TEXT("Layer_Player") != m_pTarget->Get_Tag())
 		return;
+	_float3 targetPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+	_float3 selfPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	targetPos.y = selfPos.y;
 
-	m_pTransformCom->LookAt(static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->LookAt(targetPos);
+
 }
 
 void CMonster_Base::Chasing(_float fTimeDelta, _float fDist)
