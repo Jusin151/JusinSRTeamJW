@@ -51,7 +51,11 @@ HRESULT CLevel_Hong::Initialize()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Thingy"),
-		LEVEL_HONG, TEXT("Layer_Thingy"))))
+		LEVEL_HONG, TEXT("Layer_Monster_Thingy"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Hellhound"),
+		LEVEL_HONG, TEXT("Layer_Monster_Hellhound"))))
 		return E_FAIL;
 
 
