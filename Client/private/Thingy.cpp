@@ -90,7 +90,7 @@ void CThingy::Priority_Update(_float fTimeDelta)
 	{
 		m_bGib = true;
 		Create_Gibs(0);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 77)
 	{
@@ -211,7 +211,7 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Pain", m_pTransformCom)->SetVolume(0.5f);
 		if(m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
 			m_eCurState = MS_HIT;
 		break;
@@ -261,7 +261,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		}
 		break;
 	case MS_WALK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Detect", m_pTransformCom)->SetVolume(0.5f);
 		Chasing(fTimeDelta, m_pColliderCom->Get_Scale().Length());
 		break;
 	case MS_HIT:
@@ -272,12 +272,12 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 
 		break;
 	case MS_ATTACK_RANGE:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Shooting(fTimeDelta);
 		break;
 
 	case MS_ATTACK_MELEE:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Melee_Attack(fTimeDelta);
 		break;
 

@@ -42,7 +42,7 @@ HRESULT CLooker::Initialize(void* pArg)
     m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
 	// µð¹ö±ë ¿ë
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
     return S_OK;
 }
@@ -82,7 +82,7 @@ void CLooker::Priority_Update(_float fTimeDelta)
 	{
 		m_bGib = true;
 		Create_Gibs(0);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 42)
 	{
@@ -204,7 +204,7 @@ HRESULT CLooker::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Pain", m_pTransformCom)->SetVolume(0.5f);
 		m_eCurState = MS_HIT;
 		break;
 	case CG_MONSTER:
@@ -243,7 +243,7 @@ void CLooker::Select_Pattern(_float fTimeDelta)
 	case MS_IDLE:
 		if (vDist.LengthSq() > 16)
 		{
-			m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Detect", m_pTransformCom)->SetVolume(0.5f);
 			Chasing(fTimeDelta, 4.f);
 		}
 		else
@@ -259,7 +259,7 @@ void CLooker::Select_Pattern(_float fTimeDelta)
 
 		break;
 	case MS_ATTACK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Shooting(fTimeDelta);
 		break;
 

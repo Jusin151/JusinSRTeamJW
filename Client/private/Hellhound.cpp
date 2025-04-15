@@ -45,7 +45,7 @@ HRESULT CHellhound::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(3.f, 3.f, 3.f);
 
 	// 디버깅 용
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	// morph 상태로 소환
 	m_eCurState = MS_IDLE;
@@ -90,7 +90,7 @@ void CHellhound::Priority_Update(_float fTimeDelta)
 	{
 		m_bGib = true;
 		Create_Gibs(6);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 45)
 	{
@@ -208,7 +208,7 @@ HRESULT CHellhound::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Pain", m_pTransformCom)->SetVolume(0.5f);
 		if (m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
 			m_eCurState = MS_HIT;
 		break;
@@ -261,7 +261,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 		break;
 
 	case MS_WALK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Detect", m_pTransformCom)->SetVolume(0.5f);
 		Chasing(fTimeDelta, fScale.Length());
 		break;
 
@@ -273,7 +273,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 		break;
 
 	case MS_ATTACK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Melee_Attack(fTimeDelta);
 		break;
 
