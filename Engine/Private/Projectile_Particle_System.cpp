@@ -129,6 +129,9 @@ HRESULT CProjectile_Particle_System::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // 알파 값이 기준보다 크면 픽셀 렌더링
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // 기준값 설정 (0~255)
 	return S_OK;
 }
 
@@ -164,6 +167,7 @@ HRESULT CProjectile_Particle_System::Post_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	return S_OK;
 }
 

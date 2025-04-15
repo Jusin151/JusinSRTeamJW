@@ -102,7 +102,7 @@ private:
 
 private:
 	_float m_fElapsedTimeSmoke = {};
-	_float m_fDelayTimeSmoke = { 0.02f };
+	_float m_fDelayTimeSmoke = { 0.02f };	
 private:
 	_float m_fFixedAngle = 0.f; 
 	PowerBlastDesc pDesc{};

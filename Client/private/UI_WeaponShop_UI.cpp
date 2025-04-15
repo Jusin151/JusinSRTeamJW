@@ -101,19 +101,19 @@ HRESULT CUI_WeaponShop_UI::Ready_01_Page_Weapon_Button_Text()
         switch (index)
         {
         case 0:
-            m_str_Weapon_MouseOn_Text[index] = L"이 업그레이드는 근접 범위를\n 1미터 증가시킵니다.\n적중시 HP를 회복합니다.";
+            m_str_Weapon_MouseOn_Text[index] = L"클레이모어 설명란.";
             break;
         case 1:
-            m_str_Weapon_MouseOn_Text[index] = L"이 업그레이드는 근접 피해를 \n 증가시킵니다.\n 적중시 마나를 회복합니다";
+            m_str_Weapon_MouseOn_Text[index] = L"하베스터 설명란";
             break;
         case 2:
-            m_str_Weapon_MouseOn_Text[index] = L" 번개 지팡이로 진화합니다\n 더 오래 차징시 더 강한 공격!";
+            m_str_Weapon_MouseOn_Text[index] = L" 스태프 설명란";
             break;
         case 3:
-            m_str_Weapon_MouseOn_Text[index] = L"빙결 지팡이로 진화합니다\n 긴 쿨다운이지만 강한 공격!";
+            m_str_Weapon_MouseOn_Text[index] = L"추가대기";
             break;
         case 4:
-            m_str_Weapon_MouseOn_Text[index] = L"이 업그레이드는 권총을 \n치명적인 .50 CAL 매그넘으로 \n바꾸어 더 많은 탄약을 소비하는\n 대신 강한 한방을 지니게 됩니다";
+            m_str_Weapon_MouseOn_Text[index] = L"추가대기";
             break;
         case 5:
             m_str_Weapon_MouseOn_Text[index] = L"추가대기";
@@ -191,30 +191,25 @@ void CUI_WeaponShop_UI::Create_SkillButton() //오른쪽 특성 버튼
                     {
                         switch (index)
                         {
-                        case 0:                       
-                            MessageBox(nullptr, L"피의 학살자로 업글완료!!", L"구매 완료", MB_OK);
+                        case 0:            
+                            
+                            MessageBox(nullptr, L"클레이모어 구매완료", L"구매창", MB_OK);
                             break;
                         case 1:
-                            MessageBox(nullptr, L"공허 약탈자로 업글완료! !", L"구매 완료", MB_OK);
-                       
+                            MessageBox(nullptr, L"하베스터 구매완료", L"구매창", MB_OK);
                             break;
                         case 2:
-                            MessageBox(nullptr, L"번개 지팡이로 업글완료!", L"구매 완료", MB_OK);
+                            MessageBox(nullptr, L"스태프 구매완료", L"구매 완료", MB_OK);
                             break;
                         case 3:
-                            MessageBox(nullptr, L"빙결 지팡이로 업글 완료!", L"구매 완료", MB_OK);
                             break;
                         case 4:
-                            MessageBox(nullptr, L" .50 구경 매그넘으로 업글완료!", L"구매 완료", MB_OK);
                             break;
                         case 5:
-                            MessageBox(nullptr, L"빈 공간!", L"빈 공간", MB_OK);
                             break;
                         case 6:
-                            MessageBox(nullptr, L"빈 공간!", L"빈 공간!", MB_OK);
                             break;
                         case 7:
-                            MessageBox(nullptr, L"빈 공간!", L"빈 공간", MB_OK);
                             break;                     
                         default:
                             break;
