@@ -100,6 +100,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_fSpeed = 1.3f;
 	m_vPlayerInfo.iStr = 10;
+	m_vPlayerInfo.iSkillpoint = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -668,6 +669,18 @@ void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
 	else if (stWeaponTag == L"Minigun")
 	{
 		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 6);
+	}
+	else if (stWeaponTag == L"Staff")
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 5);
+	}
+	else if (stWeaponTag == L"Claymore")
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 1);
+	}
+	else //하베스터
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 7);
 	}
 }
 

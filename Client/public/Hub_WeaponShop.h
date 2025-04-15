@@ -2,9 +2,19 @@
 #include "Shop.h"
 #include "Observer.h"
 
+enum class PurchaseStatus : uint8_t
+{
+    Success = 0,         // 구매 가능(성공)
+    NotEnoughSkillPoint = 1,    // 구매 금액 부족
+    AlreadyOwned = 2,      // 이미 소유중
+    ShopClosed = 3,        // 상점이 닫힘
+};
+
 BEGIN(Client)
+
 class CHub_WeaponShop : public CShop
 {
+
 private:
     CHub_WeaponShop(LPDIRECT3DDEVICE9 pGraphic_Device);
     CHub_WeaponShop(const CHub_WeaponShop& Prototype);
@@ -21,12 +31,10 @@ public:
     virtual HRESULT Render()override;
 
 
+    PurchaseStatus Purchase_Item(const _wstring& stItemName, _uint iPrice);
+
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
-    virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) override;
-    virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) override;
-    virtual void Refresh_Shop_Items() override;
-    virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();
 
@@ -35,7 +43,7 @@ protected:
     virtual HRESULT Ready_ShopItems() override;
 private:
     HRESULT Ready_Components();
-
+    PurchaseStatus Can_Purchase(const _wstring& stItemName, _uint iPrice);
 public:
     static CHub_WeaponShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual CGameObject* Clone(void* pArg) override;
@@ -59,5 +67,7 @@ public:
 		}
 	}
  
+
+
 };
 END

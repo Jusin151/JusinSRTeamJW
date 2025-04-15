@@ -84,9 +84,6 @@ HRESULT CHub_PointShop::Open_Shop()
 {
 	Notify(nullptr, L"Open");
 
-	// 상점 아이템 새로고침
-	Refresh_Shop_Items();
-
 	return S_OK;
 }
 
@@ -97,28 +94,6 @@ HRESULT CHub_PointShop::Close_Shop()
 	return S_OK;
 }
 
-HRESULT CHub_PointShop::Purchase_Item(const _uint iItemID, const _uint iCount)
-{
-	// 상점이 닫혀있다면 구매 실패
-	if (!m_bIsOpen)
-		return E_FAIL;
-
-	// 구매 가능 여부 확인
-	if (!Can_Purchase(iItemID, iCount))
-		return E_FAIL;
-	return S_OK;
-}
-
-HRESULT CHub_PointShop::Sell_Item(const _uint iItemID, const _uint iCount)
-{
-	return S_OK;
-}
-
-void CHub_PointShop::Refresh_Shop_Items()
-{
-
-
-}
 HRESULT CHub_PointShop::SetUp_RenderState()
 {
 	// 일단 추가해보기
@@ -141,14 +116,6 @@ HRESULT CHub_PointShop::Release_RenderState()
 	return S_OK;
 }
 
-_bool CHub_PointShop::Can_Purchase(_uint iItemID, _uint iCount)
-{
-	// 상점이 닫혀있으면 구매 불가
-	if (!m_bIsOpen)
-		return false;
-
-	return true;
-}
 
 void CHub_PointShop::Buy_Stat(_int index)
 {

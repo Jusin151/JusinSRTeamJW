@@ -107,12 +107,8 @@ HRESULT CHub_SpellShop::Open_Shop()
 {
     Notify(nullptr, L"Open");
 
-  
-    // 상점 아이템 새로고침
-     Refresh_Shop_Items();
-
     return S_OK;
-}//뭘봐 ㅋ
+}
 
 HRESULT CHub_SpellShop::Close_Shop()
 {
@@ -121,37 +117,6 @@ HRESULT CHub_SpellShop::Close_Shop()
     return S_OK;
 }
 
-HRESULT CHub_SpellShop::Purchase_Item(const _uint iItemID, const _uint iCount)
-{
-    // 상점이 닫혀있다면 구매 실패
-    if (!m_bIsOpen)
-        return E_FAIL;
-
-    // 구매 가능 여부 확인
-    if (!Can_Purchase(iItemID, iCount))
-        return E_FAIL;
-    return S_OK;
-}
-
-HRESULT CHub_SpellShop::Sell_Item(const _uint iItemID, const _uint iCount)
-{
-    return S_OK;
-}
-
-void CHub_SpellShop::Refresh_Shop_Items()
-{
-    
-    
-}
-
-_bool CHub_SpellShop::Can_Purchase(_uint iItemID, _uint iCount)
-{
-    // 상점이 닫혀있으면 구매 불가
-    if (!m_bIsOpen)
-        return false;
-
-    return true;
-}
 
 
 HRESULT CHub_SpellShop::Ready_Components()
