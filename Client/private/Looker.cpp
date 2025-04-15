@@ -243,11 +243,12 @@ void CLooker::Select_Pattern(_float fTimeDelta)
 	case MS_IDLE:
 		if (vDist.LengthSq() > 16)
 		{
-			m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Detect", m_pTransformCom)->SetVolume(0.5f);
+		
 			Chasing(fTimeDelta, 4.f);
 		}
 		else
 		{
+			m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Detect", m_pTransformCom)->SetVolume(0.5f);
 			m_eCurState = MS_ATTACK;
 		}
 		break;
@@ -259,7 +260,7 @@ void CLooker::Select_Pattern(_float fTimeDelta)
 
 		break;
 	case MS_ATTACK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Attack", m_pTransformCom)->SetVolume(0.5f);
+		//
 		Shooting(fTimeDelta);
 		break;
 
@@ -280,7 +281,7 @@ void CLooker::Shooting(_float fTimeDelta)
 
 	if (m_iCurrentFrame == 22)
 	{
-
+		m_pSoundCom->Play_Event(L"event:/Monsters/Looker/Looker_Attack", m_pTransformCom)->SetVolume(0.5f);
 		CProjectile_Base::PROJ_DESC pDesc = {};
 		pDesc.fSpeed = 8.f;
 		pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
