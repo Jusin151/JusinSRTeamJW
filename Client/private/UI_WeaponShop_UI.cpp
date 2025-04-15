@@ -93,13 +93,13 @@ HRESULT CUI_WeaponShop_UI::Ready_01_Page_Weapon_Button_Text()
 		switch (index)
 		{
 		case 0:
-			m_str_Weapon_MouseOn_Text[index] = L"클레이모어 설명란.";
+			m_str_Weapon_MouseOn_Text[index] = L"클레이모어 \n 적을 압도하는 대검.\n느리지만 강력한 \n공격력을 자랑한다.\n 스킬 포인트: 3";
 			break;
 		case 1:
-			m_str_Weapon_MouseOn_Text[index] = L"하베스터 설명란";
+			m_str_Weapon_MouseOn_Text[index] = L"하베스터 \n 샷건의 상위 호환형 무기. \n 근거리에서 압도적인 화력과 \n파괴력을 발휘한다.\n 스킬 포인트: 5 ";
 			break;
 		case 2:
-			m_str_Weapon_MouseOn_Text[index] = L" 스태프 설명란";
+			m_str_Weapon_MouseOn_Text[index] = L"스태프 \n 신비한 마력을 방출하는 지팡이.\n 원거리 마법 공격과 \n적군 무력화에 탁월하다.\n 스킬 포인트: 5";
 			break;
 		default:
 			break;
