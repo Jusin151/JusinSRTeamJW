@@ -2,6 +2,7 @@
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 #include "Player.h"
+#include "Camera_FirstPerson.h"
 #include "CollisionObject.h"
 
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -67,6 +68,19 @@ void CShop::Update(_float fTimeDelta)
                 m_bSpacePressed = true; 
                 static_cast<CPlayer*>(m_pPlayer)->StopAction();
                 m_pFirstPersonCamera->Camera_Lock(m_bIsOpen);
+                m_pGameInstance->Open_UI(LEVEL_HUB, m_bIsOpen ? true : false);
+                if (m_pPlayer)
+                {
+                    static_cast<CPlayer*>(m_pPlayer)->OnNotify(&m_bIsOpen, L"");
+                }
+
+
+               CCamera_FirstPerson* pCam = static_cast<CCamera_FirstPerson*>( m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+               if (pCam)
+               {
+                   pCam->OnNotify(&m_bIsOpen, L"");
+               }
+
             }
         }
         else

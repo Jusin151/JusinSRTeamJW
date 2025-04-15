@@ -103,7 +103,7 @@ HRESULT CUI_HP_Bar::Render()
 	D3DXMATRIX matProj;
 	D3DXMatrixOrthoLH(&matProj, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matProj);
-
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -121,7 +121,6 @@ HRESULT CUI_HP_Bar::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-
 	m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iHealth), _float2(-522.f, 325.0f), _float2(10.f, 20.f), _float3(1.f, 1.f, 1.f));
 
 	 return S_OK;

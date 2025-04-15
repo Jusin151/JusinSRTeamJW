@@ -114,7 +114,7 @@ HRESULT CUI_Shop_Base::Render()
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &matOldView);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &matOldProj);
-    m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+    //m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
     return S_OK;
 }

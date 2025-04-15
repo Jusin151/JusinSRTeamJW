@@ -9,6 +9,7 @@
 #include "Observer.h"
 #include "UI_Manager.h"
 #include "UI_Event.h"
+#include "Observer.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -21,7 +22,7 @@ END
 
 BEGIN(Client)
 
-class CPlayer final : public CCollisionObject
+class CPlayer final : public CCollisionObject, public CObserver
 {
 	enum class WEAPON_STATE
 	{
@@ -155,12 +156,14 @@ private:
 	CCollider_Cube* m_pColliderCom = { nullptr };
 public:
 	void StopAction() { m_bTimeControl = !m_bTimeControl; }
+	void OnNotify(void* pArg, const wstring& type) override;
 
 private:
 	_float			m_fShakeTime = {};
 	_bool m_bTimeControl = { false };
 	_float m_fSaveTime = {};
 	LONG			m_lMiddlePointX = { g_iWinSizeX / 2 };
+	_bool m_bInputLocked{ false };
 
 private: // 플레이어 관련
 	pair<_int, _int> m_iPlayerHP{};    // 플레이어 현재/최대체력
@@ -179,6 +182,7 @@ private: // 플레이어 관련
 	LEVEL m_eClearLevel{ LEVEL_END };
 
 	_float m_fAvoidTime = { 0.f };
+
 public:
 	_uint Get_StatPoint() { return m_iStatpoint; }
 	_uint Get_SkillPoint() { return m_iSkillpoint; }
