@@ -13,9 +13,21 @@ class CVIBuffer_Rect;
 class CCollider_Sphere;
 END
 
+
+enum class PurchaseStatus : uint8_t
+{
+	Success = 0,         // 구매 가능(성공)
+	NotEnoughPoint = 1,    // 구매 금액 부족
+	AlreadyOwned = 2,      // 이미 소유중
+	ShopClosed = 3,        // 상점이 닫힘
+	UnknownError = 4
+};
+
 BEGIN(Client)
+
 class CShop : public CGameObject
 {
+
 protected:
 	CShop(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CShop(const CShop& Prototype);
@@ -32,11 +44,6 @@ public:
 	// 상점 공통 기능
 	virtual HRESULT Open_Shop() = 0;  //  상점 열기
 	virtual HRESULT Close_Shop() = 0;  //  상점 닫기
-	virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) = 0;  // 아이템 구매
-	virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) = 0;  // 아이템 판매
-
-	virtual void Refresh_Shop_Items() = 0;  // 상점 아이템 새로고침
-	virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) = 0;  // 구매 가능 여부 확인
 
 	virtual void LookAtPlayer(_float fTimeDelta);
 

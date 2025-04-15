@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "Magic_Effect.h"
 
 CBullet_Base::CBullet_Base(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CCollisionObject(pGraphic_Device)
@@ -108,6 +109,25 @@ HRESULT CBullet_Base::Render()
 
 	Release_RenderState();
 
+	return S_OK;
+}
+
+HRESULT CBullet_Base::CreateParticle(DWORD dwInit, DWORD dwFade)
+{
+	CMagic_Effect::HIT_DESC hitDesc = {};
+	hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	hitDesc.vScale = { 1.0f, 1.0f, 1.0f };
+	hitDesc.dwInitialColor = dwInit;
+	hitDesc.dwFadeColor = dwFade;
+	if (FAILED(m_pGameInstance->Add_GameObject(
+		LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Magic_Effect"),
+		LEVEL_STATIC,
+		TEXT("Layer_Magic_Effect"), &hitDesc)))
+		return E_FAIL;
 	return S_OK;
 }
 

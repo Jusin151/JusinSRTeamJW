@@ -26,6 +26,8 @@ HRESULT CMagic_Particle_System::Initialize(void* pArg)
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 	m_iMaxParticles = desc.iNumParticles;
+	m_dwInitialColor = desc.dwInitialColor;
+	m_dwFadeColor = desc.dwInitialColor;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -42,14 +44,13 @@ void CMagic_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 	GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
 	pAttribute->vPosition.z = -1.f;
 	pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f), GetRandomFloat(-1.f, 1.0f) };
-	//pAttribute->vAcceleration = { 1.5f, 1.2f, 0.0f };
 	pAttribute->fAge = 0;
 	pAttribute->fLifetime = 2.0f;
 	pAttribute->iIndex = 0;
 
-	pAttribute->vInitialColor = 0xFFFFbeFF;
+	pAttribute->vInitialColor = m_dwInitialColor;
 	pAttribute->vCurrentColor = pAttribute->vInitialColor;
-	pAttribute->vColorFade = 0x00FFbeFF;
+	pAttribute->vColorFade = m_dwFadeColor;
 
 	pAttribute->fSize = m_fSize / D3DXVec3Length(&pAttribute->vPosition);
 }

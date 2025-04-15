@@ -41,6 +41,9 @@ public:
 	// collider,texture는 자식에서 추가
 	HRESULT Ready_Components();
 
+public:
+	HRESULT CreateParticle(DWORD dwInit, DWORD dwFade);
+
 	
 protected:
 	CShader*		m_pShaderCom = { nullptr };

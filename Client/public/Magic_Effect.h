@@ -6,6 +6,8 @@ class CMagic_Effect final : public CEffect_Base
 public:
     typedef struct tagMagicDesc : EFFECT_DESC {
         _uint       type;
+        DWORD        dwInitialColor;
+        DWORD        dwFadeColor;
     } HIT_DESC;
 private:
     CMagic_Effect(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -29,6 +31,8 @@ public:
     virtual void Free()override;
 private:
     CGameObject* m_pTarget = { nullptr };
+    DWORD        m_dwInitialColor;
+    DWORD        m_dwFadeColor;
 };
 END
 

@@ -22,6 +22,8 @@ HRESULT CMagic_Effect::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		HIT_DESC desc = *reinterpret_cast<HIT_DESC*>(pArg);
+		m_dwInitialColor = desc.dwInitialColor;
+		m_dwFadeColor = desc.dwFadeColor;
 	}
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -46,6 +48,8 @@ HRESULT CMagic_Effect::Ready_Components()
 	MagicDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 	MagicDesc.fSize = 0.1f;
 	MagicDesc.iNumTextures = 1;
+	MagicDesc.dwInitialColor = m_dwInitialColor;
+	MagicDesc.dwFadeColor = m_dwFadeColor;
 
 	/* For.Com_MagicParticle */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Magic"),
