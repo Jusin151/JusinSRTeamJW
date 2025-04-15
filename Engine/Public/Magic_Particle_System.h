@@ -9,6 +9,8 @@ public:
 		BOUNDINGSPHERE		Bound;
 		_float3				vOrigin;
 		_uint				iNumParticles;
+		DWORD				dwInitialColor;
+		DWORD				dwFadeColor;
 	}MAGICDESC;
 private:
 	CMagic_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -27,6 +29,8 @@ public:
 
 private:
 	BOUNDINGSPHERE		m_Bound = {};
+	DWORD				m_dwInitialColor;
+	DWORD				m_dwFadeColor;
 public:
 	static	CMagic_Particle_System* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CMagic_Particle_System* Clone(void* pArg) override;
