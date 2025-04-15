@@ -35,9 +35,6 @@ private:
 private:
 	HRESULT Ready_Texture();
 	HRESULT Ready_01_Page_Weapon_Button_Text();
-	HRESULT Ready_02_Page_Weapon_Button_Text();
-	HRESULT Ready_03_Page_Weapon_Button_Text();
-	HRESULT Ready_04_Page_Weapon_Button_Text();
 	void Create_SkillButton();
 public:
 
@@ -55,7 +52,7 @@ private:
 
 public:
 	_bool m_bOnUI = { false };
-
+	_uint m_iPlayerSkillPoint{ 0u };
 public:
 	void OnNotify(void* pArg, const _wstring& tag) override
 	{
@@ -64,6 +61,11 @@ public:
 			SetActive(true);
 			Button_Set_Active(true);
 			m_bOnUI = true;
+
+			if (pArg)
+			{
+			   m_iPlayerSkillPoint = *static_cast<_uint*>(pArg);
+			}
 		}
 		else if (tag == L"Close")
 		{
