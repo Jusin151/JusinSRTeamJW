@@ -36,6 +36,12 @@ public:
 	{
 		ITEM_TYPE eType = ITEM_TYPE::MAX;
 		_wstring strItemName = L"";
+
+		tItem_Desc() = default;
+		tItem_Desc(ITEM_TYPE type, const _wstring& name)
+			: eType(type), strItemName(name)
+		{
+		}
 	}ITEM_DESC;
 
 private:
