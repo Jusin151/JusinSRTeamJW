@@ -39,6 +39,7 @@ private:
 	_bool m_bExplosion = { false };
 
 public:
+	void Set_Explosion(_bool bType){m_bExplosion = bType;}
 	static CBombBox* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();

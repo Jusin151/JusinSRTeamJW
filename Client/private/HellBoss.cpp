@@ -145,6 +145,13 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 }
 void CHellBoss::Update(_float fTimeDelta)
 {
+	if (m_bWaitingForPhase3Dash)
+	{
+		m_fPhase3AttackCooldown -= fTimeDelta;
+		if (m_fPhase3AttackCooldown <= 0.f)
+			m_bWaitingForPhase3Dash = false;
+	}
+
 	if (!m_pTarget)
 		return;
 
@@ -158,142 +165,10 @@ void CHellBoss::Update(_float fTimeDelta)
 		Jump_Pattern(fTimeDelta);
 
 	Process_Input();
-
+	Phase3_Pattern(fTimeDelta);
 	Power_Blast_Pattern();
 	Hp_Pattern();
-
-
-	static _bool bTrue = { false }; // 너무힘들어서 스태틱 남발하는거 봐줘...ㅠㅜㅜㅠㅜㅠㅜㅠ
-	if (m_iHp <= 0)
-	{
-		if (!bTrue)
-		{
-			m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
-			bTrue = true;
-		}
-
-		m_fSpeed = 0.f;
-		m_ePhase = PHASE6;
-		//m_eCurState = MS_DEATH; 
-
-		// 애니메이션 재생
-		m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
-
-		// 컷씬 카메라 생성
-		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		vLook.Normalize();
-
-		_float3 vUp = _float3(0.f, 0.f, 0.f);
-		_float3 vStart = vBossPos - vLook * 15.f + vUp * 7.f;
-		_float3 vEnd = vBossPos + vLook * 5.f + vUp * 2.f;
-
-		_float3 vArgs[2] = { vStart, vEnd };
-
-		m_pGameInstance->Add_GameObject(
-			LEVEL_STATIC,
-			TEXT("Prototype_GameObject_Camera_CutScene"),
-			LEVEL_HONG,
-			TEXT("Layer_Camera"),
-			vArgs);
-
-		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera"));
-		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
-		if (pCutCam)
-		{
-			pCutCam->Set_LookTarget(this);
-			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);
-			pCutCam->Set_CameraDisableDelay(4.f);
-		}
-		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
-		{
-			SetActive(false);
-		}
-
-		//m_pSoundCom->Play_Event(L"event:/Monsters/satan_death")->SetVolume(1.f);
-
-	}
-
-	if (m_ePhase == PHASE3)
-	{
-		m_fSpeed = 2.f;
-
-		m_fPhase3_KnockBack_Timer += fTimeDelta;
-		if (m_fPhase3_KnockBack_Timer >= 5.f)
-		{
-			m_fPhase3_KnockBack_Timer = 0.f;
-
-			m_bJumping = true;
-			m_fJumpTime = 0.f;
-			m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-			_float3 vPos = m_vJumpStartPos;
-			vPos.y += 80.f;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-
-			BossDESC desc{};
-			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
-			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-			desc.vPos = m_vJumpStartPos;
-			desc.strState = "Up";
-		     // event: / Monsters / Up
-			m_pSoundCom->Play_Event(L"event:/Monsters/Up")->SetVolume(1.f);
-
-			m_pGameInstance->Add_GameObject(LEVEL_HONG,
-				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
-				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
-
-
-			if (m_pTarget)
-			{
-				_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
-				_float3 vCurrentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-				_float angleRad = ((rand() % 360)) * D3DX_PI / 180.f;
-				_float distance = 40.f;
-
-				_float3 vOffset;
-				vOffset.x = cosf(angleRad) * distance;
-				vOffset.z = sinf(angleRad) * distance;
-				vOffset.y = 0.f;
-
-				_float3 vTargetPos = vPlayerPos + vOffset;
-				m_vTargetDir = vTargetPos - vCurrentPos;
-				m_vTargetDir.Normalize();
-
-				m_bFalling = true;
-				m_bJumping = false;
-			}
-		}
-	}
-	if (m_ePhase == PHASE3 && m_eCurState == MS_IDLE)
-	{
-	
-
-		if (m_bWaitingForPhase3Dash)
-		{
-			m_fPhase3AttackCooldown -= fTimeDelta;
-			if (m_fPhase3AttackCooldown <= 0.f)
-				m_bWaitingForPhase3Dash = false;
-		}
-
-		if (m_bWaitingForPhase3Dash)
-			return;
-
-		_float3 vToPlayer = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION)
-			- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		vToPlayer.y = 0.f;
-
-		if (D3DXVec3Length(&vToPlayer) < 30.f)
-		{
-			Change_State(new CHellBoss_DashState());
-			m_bWaitingForPhase3Dash = true;
-			m_fPhase3AttackCooldown = 0.5f;
-			return;
-		}
-	}
-
+	Dead_Scene(); 
 
 
 
@@ -426,10 +301,108 @@ void CHellBoss::Jump_Pattern(_float fTimeDelta)
 	}
 }
 
+void CHellBoss::Phase3_Pattern(_float fTimeDelta)
+{
+	if (m_ePhase == PHASE3)
+	{
+		m_fSpeed = 2.f;
+
+		m_fPhase3_KnockBack_Timer += fTimeDelta;
+		if (m_fPhase3_KnockBack_Timer >= 5.f)
+		{
+			m_fPhase3_KnockBack_Timer = 0.f;
+
+			m_bJumping = true;
+			m_fJumpTime = 0.f;
+			m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			_float3 vPos = m_vJumpStartPos;
+			vPos.y += 80.f;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+			BossDESC desc{};
+			desc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			desc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+			desc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			desc.vPos = m_vJumpStartPos;
+			desc.strState = "Up";
+			// event: / Monsters / Up
+			m_pSoundCom->Play_Event(L"event:/Monsters/Up")->SetVolume(1.f);
+
+			m_pGameInstance->Add_GameObject(LEVEL_HONG,
+				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
+				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+
+
+			if (m_pTarget)
+			{
+				_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+				_float3 vCurrentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+				_float angleRad = ((rand() % 360)) * D3DX_PI / 180.f;
+				_float distance = 40.f;
+
+				_float3 vOffset;
+				vOffset.x = cosf(angleRad) * distance;
+				vOffset.z = sinf(angleRad) * distance;
+				vOffset.y = 0.f;
+
+				_float3 vTargetPos = vPlayerPos + vOffset;
+				m_vTargetDir = vTargetPos - vCurrentPos;
+				m_vTargetDir.Normalize();
+
+				m_bFalling = true;
+				m_bJumping = false;
+			}
+		}
+	}
+	if (m_ePhase == PHASE3 && m_eCurState == MS_IDLE)
+	{
+
+
+		if (m_bWaitingForPhase3Dash)
+		{
+			m_fPhase3AttackCooldown -= fTimeDelta;
+			if (m_fPhase3AttackCooldown <= 0.f)
+				m_bWaitingForPhase3Dash = false;
+		}
+
+		if (m_bWaitingForPhase3Dash)
+			return;
+
+		_float3 vToPlayer = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION)
+			- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		vToPlayer.y = 0.f;
+
+		if (D3DXVec3Length(&vToPlayer) < 30.f)
+		{
+			Change_State(new CHellBoss_DashState());
+			m_bWaitingForPhase3Dash = true;
+			m_fPhase3AttackCooldown = 0.5f;
+			return;
+		}
+	}
+}
+
+
 void CHellBoss::Process_Input()
 {
 	//if (GetAsyncKeyState('0') & 0x8000)		
 	//	m_AnimationManager.SetCurrentAnimation("Start");
+
+	if (GetAsyncKeyState('C') & 0x8000)
+	{
+		if (!m_bJumping && !m_bFalling && !m_bWaitingForPhase3Dash &&
+			(m_ePhase == PHASE2 || m_ePhase == PHASE3))
+
+		{
+			Change_State(new CHellBoss_DashState());
+			m_bWaitingForPhase3Dash = true; 
+			m_fPhase3AttackCooldown = 0.01f; // 쿨타임 
+		}
+	}
+
+
 
 	//if ((GetAsyncKeyState('C') & 0x8000 &&!m_bJumping && !m_bFalling && m_ePhase == PHASE3))
 	if (m_bBlink&&!m_bJumping && !m_bFalling && m_ePhase == PHASE3)
@@ -724,6 +697,60 @@ _float3 CHellBoss::Get_RandomWarpPos_InFront()
 	_float3 finalPos = planeCenter + vRight * xOffset + vUp * yOffset;
 
 	return finalPos;
+}
+void CHellBoss::Dead_Scene()
+{
+	static _bool bTrue = { false }; // 너무힘들어서 스태틱 남발하는거 봐줘...ㅠㅜㅜㅠㅜㅠㅜㅠ
+	if (m_iHp <= 0)
+	{
+		if (!bTrue)
+		{
+			m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+			bTrue = true;
+		}
+
+		m_fSpeed = 0.f;
+		m_ePhase = PHASE6;
+		//m_eCurState = MS_DEATH; 
+
+		// 애니메이션 재생
+		m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
+
+		// 컷씬 카메라 생성
+		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+
+		_float3 vUp = _float3(0.f, 0.f, 0.f);
+		_float3 vStart = vBossPos - vLook * 15.f + vUp * 7.f;
+		_float3 vEnd = vBossPos + vLook * 5.f + vUp * 2.f;
+
+		_float3 vArgs[2] = { vStart, vEnd };
+
+		m_pGameInstance->Add_GameObject(
+			LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Camera_CutScene"),
+			LEVEL_HONG,
+			TEXT("Layer_Camera"),
+			vArgs);
+
+		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera"));
+		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
+		if (pCutCam)
+		{
+			pCutCam->Set_LookTarget(this);
+			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);
+			pCutCam->Set_CameraDisableDelay(4.f);
+		}
+		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
+		{
+			SetActive(false);
+		}
+
+		//m_pSoundCom->Play_Event(L"event:/Monsters/satan_death")->SetVolume(1.f);
+
+	}
+
 }
 void CHellBoss::Force_Jump()
 {

@@ -37,6 +37,8 @@ HRESULT CYeti::Initialize(void* pArg)
 
     m_iHp = 30;
 
+    m_iExp = 64;
+
     m_fSpeed = 0.4f;
 
     m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));

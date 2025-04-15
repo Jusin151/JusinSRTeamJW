@@ -37,6 +37,8 @@ HRESULT CSnowspider::Initialize(void* pArg)
 
     m_iHp = 30;
 
+    m_iExp = 41;
+
     m_fSpeed = 0.3f;
 
     m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));

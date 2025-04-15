@@ -38,6 +38,8 @@ HRESULT CGlacier::Initialize(void* pArg)
 
     m_iHp = m_iMaxHp;
 
+    m_iExp = 31;
+
     m_fSpeed = 0.25f;
 
     m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
