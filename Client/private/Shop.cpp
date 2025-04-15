@@ -2,6 +2,7 @@
 #include <Collider_Sphere.h>
 #include <GameInstance.h>
 #include "Player.h"
+#include "Camera_FirstPerson.h"
 #include "CollisionObject.h"
 
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -72,6 +73,14 @@ void CShop::Update(_float fTimeDelta)
                 {
                     static_cast<CPlayer*>(m_pPlayer)->OnNotify(&m_bIsOpen, L"");
                 }
+
+
+               CCamera_FirstPerson* pCam = static_cast<CCamera_FirstPerson*>( m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+               if (pCam)
+               {
+                   pCam->OnNotify(&m_bIsOpen, L"");
+               }
+
             }
         }
         else

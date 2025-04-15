@@ -10,7 +10,7 @@ END
 
 BEGIN(Client)
 
-class CCamera_FirstPerson final : public CCamera
+class CCamera_FirstPerson final : public CCamera,public CObserver
 {
 public:
 	typedef struct tagCameraFreeDesc : public CCamera::CAMERA_DESC
@@ -86,10 +86,12 @@ private:
 	_float3 m_vOriginalCameraPosition; // 원래 카메라 위치
 	_bool m_bSmoothReturn_HellBoss = false; // 부드럽게 복귀할지 여부
 	_float3 m_vShakeBasePosition = {}; 
+	_bool m_bInputLocked{ false };
 public:
 	static CCamera_FirstPerson* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+	void OnNotify(void* pArg, const wstring& type) override;
 };
 
 
