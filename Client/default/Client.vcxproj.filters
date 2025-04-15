@@ -511,6 +511,9 @@
     <Filter Include="02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage">
       <UniqueIdentifier>{aeabafd8-e822-4661-a67a-ac9e6cd6125f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Thingy">
+      <UniqueIdentifier>{a38c3264-c3ed-4f30-8f89-cc875db4f366}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1001,9 +1004,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\HellBoss_AfterImage.h">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage</Filter>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Fire_Effect.h">
       <Filter>02.GameObjects\03. Effect\Fire_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Thingy.h">
+      <Filter>02.GameObjects\01.Monster\normal\Thingy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1453,9 +1459,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\HellBoss_AfterImage.cpp">
       <Filter>02.GameObjects\DW_Boss\00.HellBoss\HellBoss_AfterImage</Filter>
-       </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Fire_Effect.cpp">
       <Filter>02.GameObjects\03. Effect\Fire_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Thingy.cpp">
+      <Filter>02.GameObjects\01.Monster\normal\Thingy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

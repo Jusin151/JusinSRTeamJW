@@ -38,6 +38,7 @@
 #include "Box.h"
 #include "Tree.h"
 #include "BombBox.h"
+#include "Thingy.h"
 
 
 
@@ -394,6 +395,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CGlacierBullet::Create(pGraphic_Device);
 	else if(className =="CCthulhu")
 		return CCthulhu::Create(pGraphic_Device);
+	else if (className == "CThingy")
+		return CThingy::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")
@@ -620,8 +623,6 @@ _wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring & layerName)
 {
 	if (layerName == L"Layer_Player")
 		return L"Prototype_GameObject_Player";
-	else if (layerName == L"Layer_Monster_Crocman")
-		return L"Prototype_GameObject_Crocman";
 	else if (layerName == L"Layer_Monster_Harpoonguy")
 		return L"Prototype_GameObject_Harpoonguy";
 	else if (layerName == L"Layer_Monster_Projectile_Harpoon")

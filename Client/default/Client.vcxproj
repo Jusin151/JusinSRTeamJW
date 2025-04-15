@@ -239,6 +239,7 @@
     <ClInclude Include="..\public\StructureManager.h" />
     <ClInclude Include="..\public\Hit_Effect.h" />
     <ClInclude Include="..\public\Hub_Headers.h" />
+    <ClInclude Include="..\public\Thingy.h" />
     <ClInclude Include="..\public\Torch.h" />
     <ClInclude Include="..\public\TaskNode.h" />
     <ClInclude Include="..\public\Tree.h" />
@@ -410,6 +411,7 @@
     <ClCompile Include="..\private\Statue.cpp" />
     <ClCompile Include="..\private\StructureManager.cpp" />
     <ClCompile Include="..\private\Snowspider.cpp" />
+    <ClCompile Include="..\private\Thingy.cpp" />
     <ClCompile Include="..\private\Torch.cpp" />
     <ClCompile Include="..\private\Tree.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
