@@ -1,27 +1,26 @@
-#include "Thingy.h"
+#include "Hellhound.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
 #include "Player.h"
 #include "GameInstance.h"
 #include "Stains_Effect.h"
-#include "Projectile_Base.h"
 
-CThingy::CThingy(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CMonster_Base(pGraphic_Device)
+CHellhound::CHellhound(LPDIRECT3DDEVICE9 pGraphic_Device)
+    :CMonster_Base(pGraphic_Device)
 {
 }
 
-CThingy::CThingy(const CThingy& Prototype)
-	:CMonster_Base(Prototype)
+CHellhound::CHellhound(const CHellhound& Prototype)
+    :CMonster_Base(Prototype)
 {
 }
 
-HRESULT CThingy::Initialize_Prototype()
+HRESULT CHellhound::Initialize_Prototype()
 {
-	return S_OK;
+    return S_OK;
 }
 
-HRESULT CThingy::Initialize(void* pArg)
+HRESULT CHellhound::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -33,29 +32,29 @@ HRESULT CThingy::Initialize(void* pArg)
 
 	m_iAp = 10;
 
-	m_iHp = 60;
+	m_iHp = 100;
 
 	m_iExp = 64;
 
 	m_fSpeed = 0.4f;
 
 
-	m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
+	m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
 
-	m_pTransformCom->Set_Scale(2.5f, 2.5f, 2.5f);
+	m_pTransformCom->Set_Scale(3.f, 3.f, 3.f);
 
 	// 디버깅 용
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	// morph 상태로 소환
-	m_eCurState = MS_MORPH;
+	m_eCurState = MS_IDLE;
 
-	m_iCurrentFrame = 2;
+	m_iCurrentFrame = 0;
 
 	return S_OK;
 }
 
-void CThingy::Priority_Update(_float fTimeDelta)
+void CHellhound::Priority_Update(_float fTimeDelta)
 {
 	if (nullptr == m_pTarget)
 	{
@@ -92,19 +91,20 @@ void CThingy::Priority_Update(_float fTimeDelta)
 		Create_Gibs(0);
 		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
-	if (m_iCurrentFrame >= 77)
+	if (m_iCurrentFrame >= 45)
 	{
 		m_bIsActive = false;
 
 	}
 }
 
-void CThingy::Update(_float fTimeDelta)
+void CHellhound::Update(_float fTimeDelta)
 {
 	if (m_pTarget == nullptr)
 		return;
 
-	
+	Check_Hp();
+
 	Select_Pattern(fTimeDelta);
 
 	__super::Update(fTimeDelta);
@@ -115,12 +115,11 @@ void CThingy::Update(_float fTimeDelta)
 
 		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
-	
+
 	m_pSoundCom->Update(fTimeDelta);
 }
 
-
-void CThingy::Late_Update(_float fTimeDelta)
+void CHellhound::Late_Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
 	{
@@ -131,12 +130,8 @@ void CThingy::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	if (m_bHit)
-	{
-		m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
-	}
 
-	if(m_eCurState != MS_ATTACK_MELEE)
+	if (m_eCurState != MS_ATTACK_MELEE)
 		Calc_Position();
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
@@ -147,7 +142,7 @@ void CThingy::Late_Update(_float fTimeDelta)
 	Select_Frame(fTimeDelta);
 }
 
-HRESULT CThingy::Render()
+HRESULT CHellhound::Render()
 {
 	if (FAILED(m_pTextureCom->Bind_Resource(m_iCurrentFrame)))
 		return E_FAIL;
@@ -182,7 +177,7 @@ HRESULT CThingy::Render()
 	return S_OK;
 }
 
-HRESULT CThingy::On_Collision(CCollisionObject* other)
+HRESULT CHellhound::On_Collision(CCollisionObject* other)
 {
 	if (nullptr == m_pColliderCom)
 		return E_FAIL;
@@ -201,18 +196,19 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
-		if (m_eCurState == MS_ATTACK_MELEE && m_iCurrentFrame >= 29)
+		if (m_eCurState == MS_ATTACK)
 		{
-			m_bHit = true;
-			Take_Damage(other);
-		}
 			
+			Take_Damage(other);
+			
+		}
+
 		break;
 
 	case CG_WEAPON:
 		Create_Stains(5);
 		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
-		if(m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
+		if (m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
 			m_eCurState = MS_HIT;
 		break;
 	case CG_MONSTER:
@@ -234,7 +230,7 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	return S_OK;
 }
 
-void CThingy::Select_Pattern(_float fTimeDelta)
+void CHellhound::Select_Pattern(_float fTimeDelta)
 {
 	if (m_eCurState == MS_DEATH)
 		return;
@@ -245,38 +241,37 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
+	vDist.y = 0;
+
+	_float3 fScale = m_pColliderCom->Get_Scale();
+	fScale.y = 0;
+
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
-		if (vDist.LengthSq() > 30)
+		if (vDist.LengthSq() > fScale.LengthSq())
 		{
 			m_eCurState = MS_WALK;
 		}
 		else
 		{
-			if (vDist.Length() > m_pColliderCom->Get_Scale().Length())
-				m_eCurState = MS_ATTACK_RANGE;
-			else
-				m_eCurState = MS_ATTACK_MELEE;
+			m_eCurState = MS_ATTACK;
 		}
 		break;
+
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, m_pColliderCom->Get_Scale().Length());
+		Chasing(fTimeDelta, fScale.Length());
 		break;
+
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)
 			m_eCurState = MS_IDLE;
 		else
 			return;
-
-		break;
-	case MS_ATTACK_RANGE:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
-		Shooting(fTimeDelta);
 		break;
 
-	case MS_ATTACK_MELEE:
+	case MS_ATTACK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Melee_Attack(fTimeDelta);
 		break;
@@ -284,36 +279,22 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	default:
 		break;
 	}
-
 }
 
-void CThingy::Shooting(_float fTimeDelta)
+void CHellhound::Check_Hp()
 {
-	if (m_eCurState != MS_ATTACK_RANGE)
+	if (m_bDamaged)
+		return;
+
+	if (m_iHp <= 50)
 	{
-		if (m_fElapsedTime >= 0.5f)
-			m_eCurState = MS_ATTACK_RANGE;
-		else
-			return;
+		m_bDamaged = true;
+		m_eCurState = MS_MORPH;
 	}
-
-	if (m_iCurrentFrame == 48)
-	{
-
-		CProjectile_Base::PROJ_DESC pDesc = {};
-		
 	
-		pDesc.vPos = static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-		pDesc.vPos += static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_LOOK).GetNormalized();
-
-		// 오브젝트 풀링으로 변경 필요
-		m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ThingySpike"), m_pGameInstance->Get_CurrentLevel(), TEXT("Layer_Projectile_ThingSpike"), &pDesc);
-		m_iCurrentFrame++;
-	}
 }
 
-void CThingy::Melee_Attack(_float fTimeDelta)
+void CHellhound::Melee_Attack(_float fTimeDelta)
 {
 	if (m_eCurState != MS_ATTACK_MELEE)
 	{
@@ -323,18 +304,14 @@ void CThingy::Melee_Attack(_float fTimeDelta)
 			return;
 	}
 
-	if(!m_bHit)
-		m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
 
-	// 29 
 }
 
-void CThingy::Select_Frame(_float fTimeDelta)
+void CHellhound::Select_Frame(_float fTimeDelta)
 {
-
 	if (m_iCurrentFrame == 77)
 		return;
-		
+
 	m_fElapsedTime += fTimeDelta;
 
 
@@ -342,90 +319,128 @@ void CThingy::Select_Frame(_float fTimeDelta)
 	switch (m_eCurState)
 	{
 	case Client::CMonster_Base::MS_IDLE:
-		m_iCurrentFrame = 0;
+		if (m_bDamaged)
+		{
+			m_iCurrentFrame = 0;
+		}
+		else
+		{
+			m_iCurrentFrame = 1;
+		}
+		
 		break;
 	case Client::CMonster_Base::MS_HIT:
-		m_iCurrentFrame = 1;
+		if (m_bDamaged)
+			m_iCurrentFrame = 30;
 		break;
 	case Client::CMonster_Base::MS_WALK:
-		if (m_iCurrentFrame == 25)
+		if (m_bDamaged)
 		{
-			m_eCurState = MS_IDLE;
-			m_iCurrentFrame = 0;
-			return;
+			if (m_iCurrentFrame == 12)
+			{
+				m_eCurState = MS_IDLE;
+				m_iCurrentFrame = 1;
+				return;
+			}
+
+			if (m_iCurrentFrame < 7 || m_iCurrentFrame > 12)
+				m_iCurrentFrame = 7;
+
+			if (m_fElapsedTime >= 0.07f)
+			{
+				m_fElapsedTime = 0.0f;
+
+				m_iCurrentFrame++;
+
+			}
 		}
-
-		if (m_iCurrentFrame < 20|| m_iCurrentFrame > 25)
-			m_iCurrentFrame = 20;
-
-		if (m_fElapsedTime >= 0.2f)
+		else
 		{
-			m_fElapsedTime = 0.0f;
+			if (m_iCurrentFrame == 6)
+			{
+				m_eCurState = MS_IDLE;
+				m_iCurrentFrame = 0;
+				return;
+			}
 
-			m_iCurrentFrame++;
+			if (m_iCurrentFrame < 2 || m_iCurrentFrame > 6)
+				m_iCurrentFrame = 2;
 
+			if (m_fElapsedTime >= 0.07f)
+			{
+				m_fElapsedTime = 0.0f;
+
+				m_iCurrentFrame++;
+
+			}
 		}
 		break;
-	case Client::CMonster_Base::MS_ATTACK_MELEE:
-		if (m_iCurrentFrame == 39)
+	case Client::CMonster_Base::MS_ATTACK:
+
+		if (m_bDamaged)
 		{
-			m_eCurState = MS_IDLE;
-			m_iCurrentFrame = 0;
-			return;
+			if (m_iCurrentFrame == 29)
+			{
+				m_eCurState = MS_IDLE;
+				m_iCurrentFrame = 1;
+				return;
+			}
+
+			if (m_iCurrentFrame < 23 || m_iCurrentFrame > 29)
+				m_iCurrentFrame = 23;
+
+			if (m_fElapsedTime >= 0.1f)
+			{
+				m_fElapsedTime = 0.0f;
+
+				m_iCurrentFrame++;
+
+			}
 		}
-
-		if (m_iCurrentFrame < 26 || m_iCurrentFrame > 39)
-			m_iCurrentFrame = 26;
-
-		if (m_fElapsedTime >= 0.07f)
+		else
 		{
-			m_fElapsedTime = 0.0f;
+			if (m_iCurrentFrame == 22)
+			{
+				m_eCurState = MS_IDLE;
+				m_iCurrentFrame = 0;
+				return;
+			}
 
-			m_iCurrentFrame++;
+			if (m_iCurrentFrame < 13 || m_iCurrentFrame > 22)
+				m_iCurrentFrame = 13;
 
-		}
-		break;
-	case Client::CMonster_Base::MS_ATTACK_RANGE:
-		if (m_iCurrentFrame == 67)
-		{
-			m_eCurState = MS_IDLE;
-			m_iCurrentFrame = 0;
-			return;
-		}
+			if (m_fElapsedTime >= 0.1f)
+			{
+				m_fElapsedTime = 0.0f;
 
-		if (m_iCurrentFrame < 40 || m_iCurrentFrame > 67)
-			m_iCurrentFrame = 40;
+				m_iCurrentFrame++;
 
-		if (m_fElapsedTime >= 0.07f)
-		{
-			m_fElapsedTime = 0.0f;
-
-			m_iCurrentFrame++;
-
+			}
 		}
 		break;
 	case Client::CMonster_Base::MS_MORPH:
-		if (m_iCurrentFrame == 19)
+		if (m_iCurrentFrame == 33)
 		{
 			m_eCurState = MS_IDLE;
-			m_iCurrentFrame = 0;
+			m_iCurrentFrame = 1;
 			return;
 		}
 
-		if (m_iCurrentFrame < 2 || m_iCurrentFrame > 19)
-			m_iCurrentFrame = 2;
+		if (m_iCurrentFrame < 30 || m_iCurrentFrame > 33)
+			m_iCurrentFrame = 30;
 
-		if (m_fElapsedTime >= 0.07f)
+		if (m_fElapsedTime >= 0.3f)
 		{
 			m_fElapsedTime = 0.0f;
 
 			m_iCurrentFrame++;
 
 		}
+	
 		break;
 	case Client::CMonster_Base::MS_DEATH:
-		if (m_iCurrentFrame < 68)
-			m_iCurrentFrame = 68;
+		if (m_iCurrentFrame < 34)
+			m_iCurrentFrame = 34;
 
 		if (m_fElapsedTime >= 0.1f)
 		{
@@ -435,12 +450,13 @@ void CThingy::Select_Frame(_float fTimeDelta)
 
 		}
 		break;
+		break;
 	default:
 		break;
 	}
 }
 
-HRESULT CThingy::SetUp_RenderState()
+HRESULT CHellhound::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
@@ -454,7 +470,7 @@ HRESULT CThingy::SetUp_RenderState()
 	return S_OK;
 }
 
-HRESULT CThingy::Release_RenderState()
+HRESULT CHellhound::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -462,42 +478,41 @@ HRESULT CThingy::Release_RenderState()
 	return S_OK;
 }
 
-HRESULT CThingy::Ready_Components()
+HRESULT CHellhound::Ready_Components()
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC,TEXT("Prototype_Component_Texture_Thingy"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hellhound"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 	return S_OK;
 }
 
-CThingy* CThingy::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHellhound* CHellhound::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CThingy* pInstance = new CThingy(pGraphic_Device);
+	CHellhound* pInstance = new CHellhound(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CThingy");
+		MSG_BOX("Failed to Created : CHellhound");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CThingy::Clone(void* pArg)
+CGameObject* CHellhound::Clone(void* pArg)
 {
-	CThingy* pInstance = new CThingy(*this);
+	CHellhound* pInstance = new CHellhound(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CHarpoonguy");
+		MSG_BOX("Failed to Created : CHellhound");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CThingy::Free()
+void CHellhound::Free()
 {
 	__super::Free();
 

@@ -233,15 +233,20 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
     if (m_eCurState == MS_DEATH)
         return;
 
-    _float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+    _float3 vDist;
+    vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
-   
+    vDist.y = 0;
+
+    _float3 fScale = m_pColliderCom->Get_Scale();
+    fScale.y = 0;
+
     switch (m_eCurState)
     {
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > 10)
+            if (vDist.LengthSq() > fScale.LengthSq())
             {
                 m_eCurState = MS_WALK;
                 
@@ -272,7 +277,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
         break;
     case MS_WALK:
         m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Detect", m_pTransformCom)->SetVolume(0.5f);
-        Chasing(fTimeDelta, 3.f);
+        Chasing(fTimeDelta, fScale.Length());
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록

@@ -179,6 +179,12 @@
       "level": 0,
       "path": "../../Resources/Textures/Inven/Inven.png",
       "tag": "Prototype_Component_Texture_Inven_UI"
+    },
+    {
+      "tag": "Prototype_Component_Texture_Hellhound",
+      "level": 0,
+      "path": "../../Resources/Textures/Monster/Hellhound/hellhound_%d.png",
+      "count": 46
     }
   ],
   "gameObjects": [
@@ -331,6 +337,11 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Staff"
+    },
+    {
+      "tag": "Prototype_GameObject_Hellhound",
+      "level": 0,
+      "class": "CHellhound"
     }
   ],
   "buffers": [

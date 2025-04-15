@@ -517,6 +517,9 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\Thingy">
       <UniqueIdentifier>{8b427233-d5b1-4345-90f4-dbb10ddf2584}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Hellhound">
+      <UniqueIdentifier>{bc55c431-4194-4a32-bce5-41932b7a934c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1017,6 +1020,9 @@
     <ClInclude Include="..\public\ThingySpike.h">
       <Filter>02.GameObjects\04. Projectile\Monster\Thingy</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Hellhound.h">
+      <Filter>02.GameObjects\01.Monster\normal\Hellhound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1474,6 +1480,9 @@
     </ClCompile>
     <ClCompile Include="..\private\ThingySpike.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\Thingy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hellhound.cpp">
+      <Filter>02.GameObjects\01.Monster\normal\Hellhound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
