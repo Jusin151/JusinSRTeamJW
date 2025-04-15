@@ -89,6 +89,8 @@ protected:
 	_uint m_iExp{};// 플레이어한테 넣을 Exp
 	_bool bAdd_Exp = false;
 
+	_bool       m_bHit = { false };
+
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();

@@ -41,9 +41,9 @@ HRESULT CThingy::Initialize(void* pArg)
 	m_fSpeed = 0.4f;
 
 
-	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
+	m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
 
-	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
+	m_pTransformCom->Set_Scale(2.5f, 2.5f, 2.5f);
 
 	// 디버깅 용
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
@@ -132,6 +132,11 @@ void CThingy::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
+	if (m_bHit)
+	{
+		m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
+	}
+
 	if(m_eCurState != MS_ATTACK_MELEE)
 		Calc_Position();
 
@@ -139,12 +144,6 @@ void CThingy::Late_Update(_float fTimeDelta)
 
 	m_vObjectMtvSum = { 0.f, 0.f, 0.f };
 	m_vWallMtvs.clear();
-
-	// 
-	_float3 vDist;
-	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
-	if (m_eCurState == MS_MORPH && vDist.LengthSq() > 9)
-		return;
 
 	Select_Frame(fTimeDelta);
 }
@@ -203,8 +202,12 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	switch (other->Get_Type())
 	{
 	case CG_PLAYER:
-		if(m_eCurState == MS_ATTACK_MELEE && m_iCurrentFrame >=	29)
+		if (m_eCurState == MS_ATTACK_MELEE && m_iCurrentFrame >= 29)
+		{
+			m_bHit = true;
 			Take_Damage(other);
+		}
+			
 		break;
 
 	case CG_WEAPON:
@@ -246,7 +249,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
-		if (vDist.LengthSq() > 90)
+		if (vDist.LengthSq() > 30)
 		{
 			m_eCurState = MS_WALK;
 		}
@@ -299,12 +302,14 @@ void CThingy::Shooting(_float fTimeDelta)
 	{
 
 		CProjectile_Base::PROJ_DESC pDesc = {};
-		pDesc.fSpeed = 8.f;
-		pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
-		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		
+	
+		pDesc.vPos = static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+		pDesc.vPos += static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_LOOK).GetNormalized();
 
 		// 오브젝트 풀링으로 변경 필요
-		m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Harpoon"), LEVEL_GAMEPLAY, TEXT("Layer_Projectile_Harpoon"), &pDesc);
+		m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ThingySpike"), m_pGameInstance->Get_CurrentLevel(), TEXT("Layer_Projectile_ThingSpike"), &pDesc);
 		m_iCurrentFrame++;
 	}
 }
@@ -319,7 +324,8 @@ void CThingy::Melee_Attack(_float fTimeDelta)
 			return;
 	}
 
-	m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
+	if(!m_bHit)
+		m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
 
 	// 29 
 }
@@ -366,7 +372,6 @@ void CThingy::Select_Frame(_float fTimeDelta)
 		{
 			m_eCurState = MS_IDLE;
 			m_iCurrentFrame = 0;
-			m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
 			return;
 		}
 
@@ -392,7 +397,7 @@ void CThingy::Select_Frame(_float fTimeDelta)
 		if (m_iCurrentFrame < 40 || m_iCurrentFrame > 67)
 			m_iCurrentFrame = 40;
 
-		if (m_fElapsedTime >= 0.1f)
+		if (m_fElapsedTime >= 0.07f)
 		{
 			m_fElapsedTime = 0.0f;
 
@@ -461,7 +466,7 @@ HRESULT CThingy::Release_RenderState()
 HRESULT CThingy::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY,TEXT("Prototype_Component_Texture_Thingy"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC,TEXT("Prototype_Component_Texture_Thingy"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 	return S_OK;

@@ -39,6 +39,7 @@
 #include "Tree.h"
 #include "BombBox.h"
 #include "Thingy.h"
+#include "ThingySpike.h"
 
 
 
@@ -397,6 +398,8 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CCthulhu::Create(pGraphic_Device);
 	else if (className == "CThingy")
 		return CThingy::Create(pGraphic_Device);
+	else if (className == "CThingySpike")
+		return CThingySpike::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")

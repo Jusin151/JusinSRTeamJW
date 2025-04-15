@@ -265,6 +265,14 @@ void CCollider_Manager::Update_Collision_Floor()
 				{
 					srcEntry->Get_Owner()->SetActive(false);
 				}
+				else
+				{
+					CTransform* pTrans = static_cast<CTransform*>(srcEntry->Get_Owner()->Get_Component(TEXT("Com_Transform")));
+
+					_float3 vPos = pTrans->Get_State(CTransform::STATE_POSITION);
+
+					srcEntry->Get_Owner()->Set_Offset(fY + pTrans->Compute_Scaled().y * 0.6f);
+				}
 			}
 		}
 		else
