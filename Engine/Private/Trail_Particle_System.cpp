@@ -40,7 +40,7 @@ HRESULT CTrail_Particle_System::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CTrail_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CTrail_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
 	pAttribute->bIsAlive = true;
 	pAttribute->fAge = 0;

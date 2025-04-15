@@ -23,7 +23,7 @@ public:
 public:
 	virtual HRESULT Pre_Render() override;
 	virtual HRESULT Post_Render() override;
-	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
+	virtual void Reset_Particle(ATTRIBUTE* pAttribute, void * pArg = nullptr) override;
 private:
 	BOUNDINGBOX		m_Bounding_Box		= {};
 	_float			m_fInitialUpSpeed	= {};		// 초기 상승 속도

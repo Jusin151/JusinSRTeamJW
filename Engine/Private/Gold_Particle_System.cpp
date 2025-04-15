@@ -37,7 +37,7 @@ HRESULT CGold_Particle_System::Initialize(void* pArg)
     return S_OK;
 }
 
-void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CGold_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
     pAttribute->bIsAlive = true;
     GetRandomVector(&pAttribute->vPosition, &m_Bounding_Box.m_vMin, &m_Bounding_Box.m_vMax);

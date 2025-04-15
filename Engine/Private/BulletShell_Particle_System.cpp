@@ -43,7 +43,7 @@ void CBulletShell_Particle_System::Add_Particle(BOUNDINGBOX bound)
     m_Particles.push_back(attribute);
 }
 
-void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
     pAttribute->bIsAlive = true;
     pAttribute->vPosition = m_vPos;

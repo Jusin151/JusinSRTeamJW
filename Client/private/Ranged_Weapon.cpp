@@ -291,7 +291,7 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
 
         m_pGameInstance->Add_GameObject(
             LEVEL_STATIC,
-            TEXT("Prototype_GameObject_Smoke_Effect"),
+            TEXT("Prototype_GameObject_Hit_Effect"),
             LEVEL_STATIC,
             TEXT("Layer_Hit_Effect"),
             &hitDesc);

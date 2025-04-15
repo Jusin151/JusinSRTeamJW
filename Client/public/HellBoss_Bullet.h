@@ -37,23 +37,25 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
+private:
+	HRESULT Ready_Components();
+public:
 	virtual void Priority_Update(_float fTimeDelta)override;
-	// 마지막에 플레이어 방향으로 바라보도록 함
 	virtual void Update(_float fTimeDelta)override;
-	_float3 Lerp(const _float3& a, const _float3& b, _float t);
 	virtual void Late_Update(_float fTimeDelta)override;
+public:
 	virtual HRESULT Render()override;
-
+private:
+	HRESULT SetUp_RenderState();
+	HRESULT Release_RenderState();
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
 	void Attack_Melee();
 	virtual void Reset() override;
-private:
-	HRESULT SetUp_RenderState();
-	HRESULT Release_RenderState();
-	HRESULT Ready_Components();
+	
 private:
 	_float3				m_vDir = {};
+	//CParticle_System*
 	CParticle_System*	m_pParticleCom = { nullptr };
 	CTransform*			m_pParticleTransformCom = { nullptr };
 	CLight*				m_pLightCom = { nullptr };
@@ -91,13 +93,16 @@ private:
 	_float3 m_fBullet_Scale{};
 	_float m_fRotateTime = 0.f;
 
-
 	_float m_fFrameDuration = {}; // 이미지 간 시간 간격
 	_int   m_iMaxFrame = {};          // 애니메이션 마지막 프레임 
 	_int   m_iFrameCount = {};        // 총 이미지 수
 	_float m_fRotateAngle = 0.f;
 	_float m_fRadius = { 3.0f };
 	_int m_iBulletIndex = 0;
+
+private:
+	_float m_fElapsedTimeSmoke = {};
+	_float m_fDelayTimeSmoke = { 0.02f };
 private:
 	_float m_fFixedAngle = 0.f; 
 	PowerBlastDesc pDesc{};
