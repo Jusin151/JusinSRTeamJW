@@ -724,8 +724,8 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 		projectileDesc.iNumParticles = { 5 };
 		projectileDesc.fDistance = { 1.f };
 		projectileDesc.fSize = { 1.f };
-		projectileDesc.strTexturePath = L"../../Resources/Textures/Effect/Ash/tile00%d.png";
-		projectileDesc.iNumTextures = { 6 };
+		projectileDesc.strTexturePath = L"../../Resources/Textures/Effect/Smoke/tile%d.png";
+		projectileDesc.iNumTextures = { 10 };
 
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
 			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &projectileDesc)))
