@@ -36,7 +36,7 @@ HRESULT CMonster_Base::Initialize(void* pArg)
 HRESULT CMonster_Base::Ready_Components()
 {
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_tObjDesc.stBufferTag,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
@@ -98,8 +98,19 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 	}
 
 	if (m_iHp <= 0)
+	{
+		
 		m_eCurState = MS_DEATH;
-
+		if (!bAdd_Exp)
+		{
+			if (CPlayer* pTarget = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
+			{
+				pTarget->Add_Exp(m_iExp);
+			}
+			bAdd_Exp = true;
+		}
+		
+	}
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vNextPos = m_vCurPos;
 }
@@ -178,8 +189,6 @@ HRESULT CMonster_Base::Create_Stains(_uint effectNum)
 
 HRESULT CMonster_Base::Create_Gibs(_uint eType)
 {
-	float offsetRangeX = 1.f, offsetRangeY = 1.f;
-
 	CGib_Effect::HIT_DESC hitDesc;
 	hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);

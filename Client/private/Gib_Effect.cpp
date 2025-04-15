@@ -38,7 +38,7 @@ HRESULT CGib_Effect::Ready_Components()
 	CGib_Particle_System::GIBDESC GibDesc = {};
 	GibDesc.iNumParticles = { 10u };
 	GibDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
-	GibDesc.Bounding_Box.m_vMin = { 0.f, -m_Weapon_Effect_INFO.vPos.y, 0.f};
+	GibDesc.Bounding_Box.m_vMin = { 0.f, m_Weapon_Effect_INFO.vPos.y, 0.f};
 	GibDesc.Bounding_Box.m_vMax = { 1.f, 1.f, 1.f};
 	GibDesc.Bound.m_fRadius = 0.1f;
 	GibDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gore_%d.png";

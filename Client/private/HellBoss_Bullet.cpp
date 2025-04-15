@@ -3,8 +3,11 @@
 #include "GameInstance.h"
 #include "Particles.h"
 #include "HellBoss.h"
+#include "Camera_FirstPerson.h"
+#include "Sound_Source.h"
 
 static _uint BulletCount = 0;
+static _bool bFirst_Blast = { false };
 
 CHellBoss_Bullet::CHellBoss_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CBullet_Base(pGraphic_Device)
@@ -26,7 +29,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
 	{
-
+		//MSG_BOX("알규먼트 똑바로 넣으쇼 ㅋ , HellBossBullet.cpp 30줄");
 	}
 	else
 	{
@@ -36,9 +39,10 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 			return E_FAIL;
 
 
-		m_wBulletType = pDesc.wBulletType;
+		m_wBulletType = pDesc.wBulletType; 
 		if (pDesc.wBulletType == L"Power_Blast") // 피 깎일때마다 발사되는거
 		{
+
 			m_wBulletType = pDesc.wBulletType;
 			m_fFixedAngle = (360.f / pDesc.iTotalCount) * pDesc.iIndex;
 			m_fRotateAngle = m_fFixedAngle;
@@ -52,6 +56,7 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 		}
 		else if (pDesc.wBulletType == L"3_EyeBlast") // 눈에서 발사되는거
 		{
+
 			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Bullet";
 			m_fFrameDuration = 0.02f;
 			m_iFrameCount = 7;
@@ -82,14 +87,27 @@ HRESULT CHellBoss_Bullet::Initialize(void* pArg)
 
 			m_bRotated_Bullet = pDesc.isLeft;  // 왼손 오른손 번갈아가면서
 		}
-		else if (pDesc.wBulletType == L"0_Phase4_Shoot") // 4페이즈 전용 총알
+		else if (pDesc.wBulletType == L"0_Phase4_Shoot")
 		{
-			m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet"; // 텍스처는 네가 리소스 맞게 써
-			m_fFrameDuration = 0.03f;
-			m_iFrameCount = 8;
-			m_iMaxFrame = 8;
+			if (pDesc.iPatternType == 1) // 발사이펙트용 
+			{
+				m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase2_Hand_Bullet";
+				m_fFrameDuration = 0.03f;
+				m_iFrameCount = 7;
+				m_iMaxFrame = 7;
+				m_bRotated_Bullet = pDesc.isLeft;				
+				m_iPatternType = pDesc.iPatternType;
+			}
+			else // 즉 이게 실제 공격용
+			{
+				m_wBullet_Texture = L"Prototype_Component_Texture_HellBoss_Phase4_Bullet";
 
-			m_bRotated_Bullet = pDesc.isLeft;
+				m_fFrameDuration = 0.03f;
+				m_iFrameCount = 1;
+				m_iMaxFrame = 1;
+				m_bRotated_Bullet = pDesc.isLeft;
+				m_iPatternType = pDesc.iPatternType;
+			}
 		}
 
 		m_vAxis = pDesc.vAxis;
@@ -151,13 +169,15 @@ void CHellBoss_Bullet::Reset()
 	if (!m_bInitializedPos)
 	{
 		_float3 offsetPos = m_fHellBoss_Pos;
-
-		if (m_wBulletType == L"3_EyeBlast") // 1페이즈
+		 
+		if (m_wBulletType == L"3_EyeBlast") // 1페이즈 눈깔
 		{
 			offsetPos += m_fHellBoss_Up * 4.2f;
 		}
-		else if (m_wBulletType == L"4_Shoot")//2페이즈
+		else if (m_wBulletType == L"4_Shoot")//1페이즈
 		{
+		
+
 			offsetPos += m_fHellBoss_Up * 2.7f;
 		}
 		else if (m_wBulletType == L"Power_Blast") // 보스 체력 기믹
@@ -184,10 +204,15 @@ void CHellBoss_Bullet::Reset()
 				offsetPos += m_fHellBoss_RIght * -0.14f;
 
 		}
-		if (m_wBulletType == L"0_Phase4_Shoot")
+		if (!m_bOffsetSet && m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType != 1)
 		{
-			offsetPos = Get_RandomBackOffsetPos(); 
+			_float radius = 100.f;
+			_float randX = ((rand() % 200) / 100.f - 1.f) * radius;
+			_float randZ = ((rand() % 200) / 100.f - 1.f) * radius;
+			m_vTargetOffsetPos = _float3(randX, 0.f, randZ);
+			m_bOffsetSet = true;
 		}
+
 
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, offsetPos);
@@ -235,6 +260,8 @@ void CHellBoss_Bullet::Reset()
 		{
 			m_fBullet_Scale = { 1.f, 1.f, 1.f };
 			m_fSpeed = 2.0f;
+			
+		
 		}
 
 	}
@@ -258,7 +285,7 @@ void CHellBoss_Bullet::Reset()
 
 void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 {
-	
+
 	if (m_wBulletType == L"Power_Blast" && m_eBulletMode != LAUNCHING)
 		return;
 
@@ -275,7 +302,7 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 	}
 	else
 	{
-		if (m_fLifeTime >= 5.f)
+		if (m_fLifeTime >= 20.f)
 		{
 			m_bIsActive = false;
 			m_bInitializedPos = false;
@@ -283,6 +310,17 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 		}
 
 	}
+
+	 if (pDesc.iPatternType == 1) // 발사이펙트용 
+	{
+		if (m_fLifeTime >= 1.f)
+		{
+			m_bIsActive = false;
+			m_bInitializedPos = false;
+			m_fLifeTime = 0.f;
+		}
+	}
+	 m_pSoundCom->Update(fTimeDelta);
 }
 
 void CHellBoss_Bullet::Update(_float fTimeDelta)
@@ -355,19 +393,26 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 						D3DXVec3Normalize(&vToPlayer, &vToPlayer);
 						m_vDir = vToPlayer;
 					}
+		
 				}
 			}
 			else if (m_eExpandPhase == EXPAND_LAUNCH)
 			{
+				if (!bFirst_Blast)
+				{
+					m_pSoundCom->Play_Event(L"event:/Weapons/ssg_shot")->SetVolume(0.3f);
+					bFirst_Blast = true;
+				}
 				// 플레이어 향해 날아가기
-				m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+				
+			m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+				
 			}
 		}
 
 
 	}
 
-	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	_float3 a = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
@@ -378,13 +423,13 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 	if (m_wBulletType == L"Power_Blast" && m_eBulletMode == LAUNCHING)
 	{
-		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 		m_pParticleCom->Update(fTimeDelta);
 	}
 	else if (m_wBulletType != L"Power_Blast")
 	{
 
-		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 		m_pParticleCom->Update(fTimeDelta);
 	}
 
@@ -432,20 +477,101 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 		if (pPlayerTransform)
 		{
-			_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION)
-				- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) -
+				m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 			D3DXVec3Normalize(&vToPlayer, &vToPlayer);
 
-			m_vDir = Lerp(m_vDir, vToPlayer, fTimeDelta * 2.f); // 2.f는 민감도
-			D3DXVec3Normalize(&m_vDir, &m_vDir);
+			switch (m_iPatternType)
+			{
+			case 0: // Default 
+				m_vDir = Lerp(m_vDir, vToPlayer, fTimeDelta * 0.7f);
+				D3DXVec3Normalize(&m_vDir, &m_vDir);
+				break;
+			case 1: // Default 
+				m_vDir = Lerp(m_vDir, vToPlayer, fTimeDelta * 0.7f);
+				D3DXVec3Normalize(&m_vDir, &m_vDir);
+				m_fSpeed = 0.f;
+				break;
+			}
 		}
+
 	}
 
 
-	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+
 	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 
 
+
+	if (m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType != 1)
+	{
+		CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+			m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+		if (pPlayerTransform)
+		{
+			_float3 playerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+			_float3 bulletPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			_float3 targetPos = playerPos + m_vTargetOffsetPos;
+			_float3 vToTarget = targetPos - bulletPos;
+			D3DXVec3Normalize(&vToTarget, &vToTarget);
+
+			m_vDir = Lerp(m_vDir, vToTarget, fTimeDelta * 0.7f);
+			D3DXVec3Normalize(&m_vDir, &m_vDir);
+		} 
+
+
+		_float3 vTarget = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vDir;
+		m_pTransformCom->LookAt(vTarget);
+
+
+
+		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+		m_pTransformCom->Set_State(CTransform::STATE_UP, vLook);
+
+		_float3 newLook = vRight.Cross(vLook); 
+		newLook.Normalize();
+		m_pTransformCom->Set_State(CTransform::STATE_LOOK, newLook);
+
+
+	}
+
+	if (!m_bShakeTriggered)
+	{
+		_float3 bulletPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		if (bulletPos.y <= 0.f)
+		{
+			m_bShakeTriggered = true;
+
+			// 카메라에 접근해서 흔들기
+			CCamera_FirstPerson* pCamera =
+				static_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+
+			if (pCamera)
+			{
+				if (m_wBulletType == L"Power_Blast")
+				pCamera->TriggerShake(1.f, 1.f); // 쉐이크 강도, 지속 시간 조절
+				else if (m_wBulletType == L"0_Phase4_Shoot")
+				{
+					pCamera->TriggerShake(0.5f, 0.5f); // 쉐이크 강도, 지속 시간 조절
+					m_pSoundCom->Play_Event(L"event:/Weapons/Boom")->SetVolume(1.f); 
+
+					_bool bTrue = true; 
+					m_pGameInstance->Add_GameObject(
+						LEVEL_HONG,
+						TEXT("Prototype_GameObject_BombBox"),
+						LEVEL_HONG, 
+						TEXT("Layer_BombBox"),&bTrue); 
+				}
+				else
+					pCamera->TriggerShake(0.3f, 0.3f); // 쉐이크 강도, 지속 시간 조절
+			}
+		}
+	}
 
 
 	m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_fBullet_Scale);
@@ -488,9 +614,21 @@ HRESULT CHellBoss_Bullet::Render()
 		if (FAILED(m_pParticleCom->Render()))
 			return E_FAIL;
 	}
+	else if(m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType != 1)
+	{
 
+		if (FAILED(m_pParticleTransformCom->Bind_Resource())) ////////여기다가 미사일 이펙트 달아주세요!!
+			return E_FAIL;
+		if (FAILED(m_pParticleCom->Render()))
+			return E_FAIL;
 
-	Release_RenderState();
+	}
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+	Release_RenderState(); //
 
 
 	return S_OK;
@@ -582,19 +720,23 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 		return E_FAIL;
 
 
-	CProjectile_Particle_System::TRAILDESC     trailDesc{};
+	CTrail_Particle_System::TRAILDESC     trailDesc{};
 	trailDesc.fDistance = 30.f;
 	trailDesc.fWidth = 1.f;
 	trailDesc.iNumParticles = 1;
 	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 	trailDesc.iNumTextures = 1;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
 		return E_FAIL;
 
 	return S_OK;
@@ -626,18 +768,6 @@ CGameObject* CHellBoss_Bullet::Clone(void* pArg)
 	return pInstance;
 }
 
-void CHellBoss_Bullet::Free()
-{
-	__super::Free();
-
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pColliderCom);
-	Safe_Release(m_pAttackCollider);
-	Safe_Release(m_pParticleCom);
-	Safe_Release(m_pParticleTransformCom);
-}
 _float3 CHellBoss_Bullet::Get_RandomBackOffsetPos()
 {
 	const float radiusX = 8.f;  // 좌우 펼쳐짐 범위
@@ -685,7 +815,6 @@ void CHellBoss_Bullet::Launch_Toward_Player()
 	//  보스 뒤로 약간 떨어진 위치하고싶엉
 	_float3 centerPos = bossPos - lookDir * 10.f;
 
-	// (5x2 형태로, X: 가로, Y: 세로)
 	const _int row = m_iBulletIndex / 5; // 0 또는 1
 	const _int col = m_iBulletIndex % 5; // 0 ~ 4
 
@@ -701,8 +830,21 @@ void CHellBoss_Bullet::Launch_Toward_Player()
 
 	// 중심 + 좌우 + 위아래
 	m_vExpandedPos = centerPos + rightDir * xOffset + upDir * yOffset;
-}
 
+}
+void CHellBoss_Bullet::Free()
+{
+	__super::Free();
+
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pAttackCollider);
+	Safe_Release(m_pParticleCom);
+	Safe_Release(m_pParticleTransformCom);
+	Safe_Release(m_pSoundCom);
+}
 
 //조절 요소	설명	수정 위치
 //lookDir * 10.f	보스에서 뒤로 떨어지는 거리	centerPos 

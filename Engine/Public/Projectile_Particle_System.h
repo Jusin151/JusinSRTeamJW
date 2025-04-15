@@ -1,15 +1,15 @@
-﻿#pragma once
+#pragma once
 #include	"Particle_System.h"
 BEGIN(Engine)
 class ENGINE_DLL CProjectile_Particle_System final : public CParticle_System
 {
 public:
-	typedef struct tagTrailParticleDesc : tagParticleSystemDesc
+	typedef struct tagProjectileParticleDesc : tagParticleSystemDesc
 	{
 		_uint			iNumParticles;
 		_float			fWidth;
 		_float			fDistance;
-	}TRAILDESC;
+	}PROJECTILEDESC;
 private:
 	CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CProjectile_Particle_System(const CProjectile_Particle_System& Prototype);

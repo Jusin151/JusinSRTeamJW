@@ -39,7 +39,7 @@ void CPattern_Morph::Execute(CHellBoss* pBoss, float fDeltaTime)
         else if (pBoss->Get_Phase() == PHASE5)
         {
             pBoss->Set_Animation("B_Phase3_End");// 5번째 페이즈 진입, 뚱뚱이에서 -> 괴물처럼
-            m_fDuration = 4.3f; //  대기
+            m_fDuration = 7.3f; //  대기
         }
 
         // 사운드 재생 

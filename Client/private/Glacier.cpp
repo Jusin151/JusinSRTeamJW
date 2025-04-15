@@ -26,8 +26,8 @@ HRESULT CGlacier::Initialize_Prototype()
 HRESULT CGlacier::Initialize(void* pArg)
 {
     INIT_PARENT(pArg)
-        if (FAILED(__super::Initialize(pArg)))
-            return E_FAIL;
+    if (FAILED(__super::Initialize(pArg)))
+        return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -37,6 +37,8 @@ HRESULT CGlacier::Initialize(void* pArg)
     m_iMaxHp = 60;
 
     m_iHp = m_iMaxHp;
+
+    m_iExp = 31;
 
     m_fSpeed = 0.25f;
 
@@ -114,14 +116,6 @@ void CGlacier::Late_Update(_float fTimeDelta)
     m_vObjectMtvSum = { 0.f, 0.f, 0.f };
     m_vWallMtvs.clear();
 
-
-    _float3 vScale = m_pTransformCom->Compute_Scaled();
-    _float3 extents = _float3(
-        0.5f * vScale.x,
-        0.5f * vScale.y,
-        0.5f * vScale.z
-    );
-   
  
     Select_Frame(fTimeDelta);
 }
@@ -263,6 +257,8 @@ void CGlacier::Select_Pattern(_float fTimeDelta)
     default:
         break;
     }
+
+   
 }
 
 void CGlacier::Select_HpState()

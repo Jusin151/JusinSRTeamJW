@@ -1,13 +1,13 @@
-﻿#include "Projectile_Particle_System.h"
+#include "Projectile_Particle_System.h"
 
 CProjectile_Particle_System::CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CParticle_System{ pGraphic_Device }
 {
-	
+
 }
 
 CProjectile_Particle_System::CProjectile_Particle_System(const CProjectile_Particle_System& Prototype)
-	: CParticle_System { Prototype }
+	: CParticle_System{ Prototype }
 	, m_vDir{ Prototype.m_vDir }
 	, m_fWidth{ Prototype.m_fWidth }
 	, m_fDistance{ Prototype.m_fDistance }
@@ -17,12 +17,12 @@ CProjectile_Particle_System::CProjectile_Particle_System(const CProjectile_Parti
 
 HRESULT CProjectile_Particle_System::Initialize_Prototype()
 {
- 	return S_OK;
+	return S_OK;
 }
 
 HRESULT CProjectile_Particle_System::Initialize(void* pArg)
 {
-	TRAILDESC desc = *reinterpret_cast<TRAILDESC*>(pArg);
+	PROJECTILEDESC desc = *reinterpret_cast<PROJECTILEDESC*>(pArg);
 	m_vPos = { 0.f, 0.f, 0.f };
 	m_fSize = 0.8f;
 	m_VBSize = 2048;

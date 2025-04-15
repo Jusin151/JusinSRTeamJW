@@ -25,7 +25,7 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
-
+	CSound_Source* m_pSoundCom = {};
 
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;

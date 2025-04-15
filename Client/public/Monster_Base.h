@@ -20,7 +20,7 @@ BEGIN(Client)
 class CMonster_Base abstract : public CCollisionObject
 {
 public:
-	enum MONSTERSTATE { MS_IDLE, MS_BACK, MS_HIT, MS_WALK,  MS_ATTACK, MS_MORPH, MS_DEATH, MS_END };
+	enum MONSTERSTATE { MS_IDLE, MS_BACK, MS_HIT, MS_WALK, MS_ATTACK, MS_ATTACK_MELEE, MS_ATTACK_RANGE, MS_MORPH, MS_DEATH, MS_END };
 
 protected:
 	CMonster_Base(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -66,12 +66,11 @@ protected:
 	CTexture*		m_pTextureCom = { nullptr };
 	CMaterial*		m_pMaterialCom = { nullptr };
 	CTransform*		m_pTransformCom = { nullptr };
-	CSound_Source*	m_pSoundCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider_Cube* m_pColliderCom = { nullptr };
 	
-	
-	
+public:	
+	CSound_Source* m_pSoundCom = { nullptr };
 protected:
 
 	// 일단 몬스터는 플레이어만 타겟으로 하도록. 다른 걸 타겟으로 하는 것은 나중에 하도록
@@ -87,7 +86,8 @@ protected:
 
 	_bool		m_bCheck = { false };
 	_bool		m_bGib = { false };
-
+	_uint m_iExp{};// 플레이어한테 넣을 Exp
+	_bool bAdd_Exp = false;
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

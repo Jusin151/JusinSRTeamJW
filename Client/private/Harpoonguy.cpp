@@ -39,6 +39,8 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 
 	m_fSpeed = 0.25f;
 
+	m_iExp = 27;
+
 	m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
 
 	return S_OK;
@@ -242,7 +244,7 @@ void CHarpoonguy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, 90.f);
+		Chasing(fTimeDelta, 5.f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)

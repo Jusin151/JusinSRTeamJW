@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "HellBoss_Bullet.h"
 
-enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4, PHASE5};
+enum PHASE_STATE { PHASE1, PHASE2, PHASE3, PHASE4, PHASE5, PHASE6};
 
 typedef struct BossINFO
 {
@@ -61,6 +61,7 @@ public:
 public: // 패턴관련
 	void Hp_Pattern();
 	void Jump_Pattern(_float fTimeDelata);
+	void Phase3_Pattern(_float fTimeDelta);
 	void Set_Pattern(CPattern_Base* pPattern); // 공격패턴 설정
 	void Use_Attack(_float fTimeDelta); // 패턴 사용
 public:
@@ -93,23 +94,35 @@ private: // 3페이즈 관련
 	_float3 m_vJumpStartPos = {};
 	_float3 m_vJumpTargetPos = {};
 	_float3 m_vLandingTargetPos = {};
+public://5페이즈 관련
+	_float Get_FloorOffset() const { return m_fOffset; } 
+	void Dead_Scene();
+
 public: // 3페이즈 관련
 	void Set_Blink(_bool bType) { m_bBlink = bType; }
 	_bool Get_Blink() { return m_bBlink; }
 	_bool Is_Jumping() { return m_bJumping; }
 	_bool Is_Falling() { return m_bJumping; }
 	void Force_Jump(); // 강제 점프
-
+	void Set_Phase3AttackCooldown(_float fDelay) {
+		m_fPhase3_AttackCooldown = fDelay;
+		m_bPhase3_WaitingForAttack = true;
+	}
+	_bool Is_WaitingForPhase3Attack() const { return m_bPhase3_WaitingForAttack; }
+	_bool m_bPhase3_WaitingForAttack = false;
+	_float m_fPhase3_AttackCooldown = 0.f;
 private:
 	_bool m_bFalling = false;
-	_bool m_bParryWindow = false; 
-	_bool m_bParrySuccess = false;
-	_float m_fParryTextTimer = 0.f;
+	_bool m_bParryWindow = false;  //패링용
+	_bool m_bParrySuccess = false; //패링용
+	_float m_fParryTextTimer = 0.f;//패링타이머
 	_float m_fFallSpeed = { 100.f };
 	_float3 m_vTargetDir = {};
 	_float m_fAttackDelay = 0.f;
 	_float m_fAttackDelayTimer = 0.f;
-
+	_float m_fPhase3_KnockBack_Timer = 0.f; // 밀어버리는 변수
+	_float m_fPhase3AttackCooldown = 0.f; // 쿨타임변수
+	_bool m_bWaitingForPhase3Dash = false; 
 public:
 	void Set_AttackDelay(_float fDelay) { m_fAttackDelay = fDelay; m_fAttackDelayTimer = 0.f; }
 	void Set_CircleBasePos(const _float3& vPos) { m_vCircleBasePos = vPos; }

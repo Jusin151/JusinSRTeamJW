@@ -49,7 +49,12 @@ private:
 	void Move(_float fTimeDelta);
 	void Attack(_float fTimeDelta);
 	void Input_Key(_float fTimeDelta);
-
+public: // 헬보스와 관련된 
+	void KnockBack(_float3 vDir, _float fPower);
+private:
+	_float3 m_vKnockBackDir = { 0.f, 0.f, 0.f }; // 밀치는 방향
+	_float  m_fKnockBackPower = 0.f;             // 밀침 힘
+	_bool   m_bKnockBack = false;                // 밀림 여부
 
 private: //옵저버 관련
 
@@ -71,18 +76,17 @@ public:
 	_bool Set_Mp(_int iMp);
 	
 	void Add_Ammo(const _wstring& stWeaponName, _int iAmmo);
-	void Add_Strength(_int Str);  // 근접무기 전용 데미지 증가
-
-	void Add_MaxHP(_int Hp);
 
 	// 최대체력 증가
 	void Add_HP(_int Hp); // 현재체력 증가
 	void Add_MP(_int Mp);
-	void Add_Sprit(_int Sprit); // 정신력 증가
 	
 	void Add_SkillPoint(_int SkillPoint); // 스킬포인트 증가
 	
-	void Add_Capacity(_int type); //원거리무기군 최대탄약증가
+	_bool Add_Sprit(_int Sprit); // 정신력 증가
+	_bool Add_Strength(_int Str);  // 근접무기 전용 데미지 증가
+	_bool Add_MaxHP(_int Hp); //최대체력증가
+	_bool Add_Capacity(_int type); //원거리무기군 최대탄약증가
 
 	void Add_Exp(_int Exp); // 경험치 증가
 
@@ -104,7 +108,7 @@ public:
 	void Set_DoubleAmmoGain(_bool bEnable) { m_bDoubleAmmoGain = bEnable; }
 	void Set_DoubleSpeedGain() 
 	{ 
-	     m_fSpeed = 1.f; 
+	     m_fSpeed = 1.6f; 
 	}
 	 _bool Has_Item(const _wstring& stItemTag);
 	 HRESULT Add_Item(const _wstring& stItemTag);
@@ -179,7 +183,19 @@ private: // 플레이어 관련
 
 	_float m_fAvoidTime = { 0.f };
 
-	
+public:
+	_uint Get_StatPoint() { return m_iStatpoint; }
+	_uint Get_SkillPoint() { return m_iSkillpoint; }
+	_uint Get_Level() { return m_iLevel; }
+	_bool Use_SkillPoint(_uint amount)  
+	{
+		if (m_iSkillpoint < amount)
+			return false;
+
+		m_iSkillpoint -= amount;
+		return true;
+	}
+
 };
 
 

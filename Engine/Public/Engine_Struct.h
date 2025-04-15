@@ -190,5 +190,6 @@ namespace Engine
 		bool			bIsAlive;
 		unsigned int	iIndex;
 		D3DXVECTOR3		vDir;
+		float fFrameProgress = 0.0f;
 	} ATTRIBUTE;
 }

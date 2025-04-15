@@ -90,13 +90,17 @@ public:
 
 			switch (statType)
 			{
-			case 0: ++m_iStr; 
+			case 0: 
+				++m_iStr; 
 				break;
-			case 1: ++m_iMaxHP; 
+			case 1: 
+				++m_iMaxHP; 
 				break;
-			case 2: ++m_iSprit; 
+			case 2: 
+				++m_iSprit; 
 				break;
-			case 3: ++m_iCapacity;
+			case 3: 
+				++m_iCapacity;
 				break;
 			}
 		}

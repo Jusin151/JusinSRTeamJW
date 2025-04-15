@@ -7,8 +7,9 @@ class CPattern_Shoot : public CPattern_Base
 public:
 	CPattern_Shoot();
 
+	bool Is_Finished() const;
+
 	void Execute(CHellBoss* pBoss, float fDeltaTime);
-	bool Is_Finished() const { return !m_bStarted; }
 	virtual void Update(CHellBoss* pBoss, float fDeltaTime);
 private:
 	_bool m_bStarted = { false };

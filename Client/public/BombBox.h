@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "Deco_Base.h"
 
 class CBombBox : public CDeco_Base
@@ -12,7 +12,7 @@ public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 private:
-	// texturecom¥¬ ∞¢ monsterø°º≠ √ﬂ∞°
+	// texturecomÎäî Í∞Å monsterÏóêÏÑú Ï∂îÍ∞Ä
 	HRESULT Ready_Components();
 
 public:
@@ -39,6 +39,7 @@ private:
 	_bool m_bExplosion = { false };
 
 public:
+	void Set_Explosion(_bool bType){m_bExplosion = bType;}
 	static CBombBox* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
 	virtual void Free();

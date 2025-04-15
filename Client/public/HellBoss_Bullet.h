@@ -18,13 +18,15 @@ class CHellBoss_Bullet : public CBullet_Base
 public:
 	struct PowerBlastDesc
 	{
-		_bool bIsPowerBlast = { false };
-		wstring wBulletType;
-		_int iIndex;
-		_int iTotalCount;
-		_bool isLeft{}; //왼손에서 쏠건지 오른손에서 쏠건지
-		_float3 vAxis = { 0.f, 1.f, 0.f }; // Y축 기준으로 기본 회전
+		 wstring wBulletType;
+		_bool isLeft = false;
+		_int iIndex = 0;
+		_int iTotalCount = 0;
+		_float3 vAxis = { 0.f, 1.f, 0.f };
+		_bool bIsPowerBlast = false;
+		_int iPatternType = 0;
 	};
+
 
 
 private:
@@ -72,6 +74,8 @@ public:
 	_float3 Get_RandomBackOffsetPos();
 public:
 	const wstring& Get_BulletType() const { return m_wBulletType; }
+	_bool m_bShakeTriggered = false;
+
 public:
 	void Launch_Toward_Player();
 	void Set_BulletIndex(_int iIndex) { m_iBulletIndex = iIndex; }
@@ -85,6 +89,7 @@ private:
 	wstring m_wBulletType = {};
 	wstring m_wBullet_Texture = {};
 	_float3 m_fBullet_Scale{};
+	_float m_fRotateTime = 0.f;
 
 
 	_float m_fFrameDuration = {}; // 이미지 간 시간 간격
@@ -104,6 +109,10 @@ private:
 	_float3 m_vExpandedPos = {}; // 퍼진 후 위치
 	_float  m_fExpandTime = 0.f;
 	_bool m_bRotated_Bullet{}; //왼쪽 오른쪽 번걸아가면서 쏘는거
+	_uint m_iPatternType{}; 
+	_float3 m_vTargetOffsetPos = _float3(0.f, 0.f, 0.f);
+	_bool m_bOffsetSet = false;
+
 
 };
 END

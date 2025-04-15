@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Deco_Base.h"
 
 class CTree : public CDeco_Base
@@ -12,7 +12,7 @@ public:
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 private:
-	// texturecom´Â °¢ monster¿¡¼­ Ãß°¡
+	// texturecomëŠ” ê° monsterì—ì„œ ì¶”ê°€
 	HRESULT Ready_Components();
 
 public:

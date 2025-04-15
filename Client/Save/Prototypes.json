@@ -121,6 +121,12 @@
       "count": 4
     },
     {
+      "tag": "Prototype_Component_Texture_Thingy",
+      "level": 3,
+      "path": "../../Resources/Textures/Monster/Thingy/thingy_%d.png",
+      "count": 78
+    },
+    {
       "level": 3,
       "path": "../../Resources/Textures/Map/TEXTURE_DUNGEON_WALL_2.png",
       "tag": "Prototype_Component_Texture_Wall",
@@ -512,6 +518,11 @@
       "tag": "Prototype_GameObject_Snowspider",
       "level": 3,
       "class": "CSnowspider"
+    },
+    {
+      "tag": "Prototype_GameObject_Thingy",
+      "level": 3,
+      "class": "CThingy"
     },
     {
       "tag": "Prototype_GameObject_Terrain",

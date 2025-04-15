@@ -21,6 +21,8 @@ void CPattern_EyeBlast::Execute(CHellBoss* pBoss, float fDeltaTime)
 
     if (!m_bHasFired && pBoss->Get_CurAnimationFrame() >= 17) // 눈깔발사
     {
+        pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Range/Staff_huge_shot")->SetVolume(0.3f);
+        //pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/ssg_open")->SetVolume(0.3f);
         m_bHasFired = true;
         CHellBoss_Bullet::PowerBlastDesc pDesc{};
         pDesc.wBulletType = L"3_EyeBlast";

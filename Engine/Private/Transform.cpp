@@ -261,6 +261,11 @@ void CTransform::Rotation_Axis(const _float3& vAxis, float fAngle)
 	Set_State(STATE_UP, vUp);
 	Set_State(STATE_LOOK, vLook);
 }
+void CTransform::Go_Pos(const _float3& vMove)
+{
+	_float3 vPos = Get_State(STATE_POSITION);
+	Set_State(STATE_POSITION, vPos + vMove);
+}
 
 
 CTransform* CTransform::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

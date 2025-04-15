@@ -5,7 +5,7 @@
 			<value>068 Hell - The Judged</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>0</value>
 		</property>
 		<relationship name="folder">
 			<destination>{b00c02fa-51f3-484f-8913-30e16ae3c51e}</destination>
@@ -82,11 +82,7 @@
 			<destination>{0cc432ae-d668-4eb3-a036-79aa0b879f6d}</destination>
 		</relationship>
 	</object>
-	<object class="MultiSound" id="{001a2344-4d0b-4a89-942e-4f9c48f5d358}">
-		<relationship name="sounds">
-			<destination>{22d9c21b-d4f1-4af2-a180-72db245834a6}</destination>
-		</relationship>
-	</object>
+	<object class="MultiSound" id="{001a2344-4d0b-4a89-942e-4f9c48f5d358}" />
 	<object class="MixerBusEffectChain" id="{5c1e7151-de3c-4c82-995c-d4cb7cc998b1}">
 		<relationship name="effects">
 			<destination>{c262cb44-28f9-44d8-ab84-d52aad940070}</destination>
@@ -99,11 +95,6 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{713ffc0b-0142-49f8-8c8a-ed1f4540bab0}" />
-	<object class="SingleSound" id="{22d9c21b-d4f1-4af2-a180-72db245834a6}">
-		<relationship name="audioFile">
-			<destination>{69633429-baf3-41f2-8366-dab7e04e0180}</destination>
-		</relationship>
-	</object>
 	<object class="MixerBusFader" id="{c262cb44-28f9-44d8-ab84-d52aad940070}" />
 	<object class="MixerBusFader" id="{94db3b79-b83a-4214-8d5c-279ae7ff5a5e}" />
 </objects>
