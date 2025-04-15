@@ -54,8 +54,8 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
 
-	Ranged_INFO.CurrentAmmo = 90;
-	Ranged_INFO.MaxAmmo = 90;
+	Ranged_INFO.CurrentAmmo = 15;
+	Ranged_INFO.MaxAmmo = 15;
 	m_fAnimationSpeed = 0.03f;
 
 

@@ -60,8 +60,8 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_iAp = 50;
     m_eType = CG_WEAPON;
    
-    Ranged_INFO.CurrentAmmo = 170; //현총알
-    Ranged_INFO.MaxAmmo = 170;    // 최대 50발
+    Ranged_INFO.CurrentAmmo = 60; //현총알
+    Ranged_INFO.MaxAmmo = 60;    // 최대 50발
     m_fAnimationSpeed = 0.01f; //미니건에서는  발사애니메이션속도
     m_fSpinSpeed = 0.02f; // 얘는 루프 전용 애니메이션속도
 
