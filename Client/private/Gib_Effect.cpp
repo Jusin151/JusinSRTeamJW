@@ -66,6 +66,14 @@ HRESULT CGib_Effect::Ready_Components()
 		GibDesc.strTexturePath = L"../../Resources/Textures/Effect/gib/shard_ice_%d.png";
 		GibDesc.iNumTextures = 2;
 		break;
+	case Client::CGib_Effect::MT_HELLHOUND_DAMAGED:
+		GibDesc.strTexturePath = L"../../Resources/Textures/Monster/Hellhound/hellhound_damagegib_%d.png";
+		GibDesc.iNumTextures = 3;
+		break;
+	case Client::CGib_Effect::MT_HELLHOUND_DEAD:
+		GibDesc.strTexturePath = L"../../Resources/Textures/Monster/Hellhound/hellhound_gib_%d.png";
+		GibDesc.iNumTextures = 5;
+		break;
 	case Client::CGib_Effect::MT_END:
 		break;
 	default:

@@ -42,7 +42,7 @@ HRESULT CLooker::Initialize(void* pArg)
     m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
 	// µð¹ö±ë ¿ë
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
     return S_OK;
 }

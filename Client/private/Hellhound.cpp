@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Stains_Effect.h"
+#include "Gib_Effect.h"
 
 CHellhound::CHellhound(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CMonster_Base(pGraphic_Device)
@@ -44,7 +45,7 @@ HRESULT CHellhound::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(3.f, 3.f, 3.f);
 
 	// 디버깅 용
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	// morph 상태로 소환
 	m_eCurState = MS_IDLE;
@@ -88,7 +89,7 @@ void CHellhound::Priority_Update(_float fTimeDelta)
 	if (m_eCurState == MS_DEATH && !m_bGib)
 	{
 		m_bGib = true;
-		Create_Gibs(0);
+		Create_Gibs(6);
 		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 45)
@@ -424,6 +425,12 @@ void CHellhound::Select_Frame(_float fTimeDelta)
 			m_eCurState = MS_IDLE;
 			m_iCurrentFrame = 1;
 			return;
+		}
+
+		if (m_iCurrentFrame == 30)
+		{
+			// 팔 gib 생성
+			Create_Gibs(5);
 		}
 
 		if (m_iCurrentFrame < 30 || m_iCurrentFrame > 33)
