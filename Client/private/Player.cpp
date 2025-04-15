@@ -10,6 +10,8 @@
 #include "Ranged_Weapon.h"
 #include <Hub_PointShop.h>
 #include <UI_Point_Shop.h>
+#include "Monster_Base.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollisionObject{ pGraphic_Device }

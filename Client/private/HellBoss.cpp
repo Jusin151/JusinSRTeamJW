@@ -170,13 +170,60 @@ void CHellBoss::Update(_float fTimeDelta)
 	Hp_Pattern();
 	Dead_Scene(); 
 
-
-
 	m_AnimationManager.Update(fTimeDelta);
 
 	__super::Update(fTimeDelta);
 }
+void CHellBoss::Change_State(CHellBoss_State* pNewState)
+{
+	if (m_pCurState)
+	{
+		m_pCurState->Exit(this);
+		delete m_pCurState;
+	}
 
+	// 상태 enum 
+	if (dynamic_cast<CHellBoss_IdleState*>(pNewState))
+		m_eCurState = MS_IDLE;
+	else if (dynamic_cast<CHellBoss_WalkState*>(pNewState))
+		m_eCurState = MS_WALK;
+	else if (dynamic_cast<CHellBoss_AttackState*>(pNewState))
+		m_eCurState = MS_ATTACK;
+	else if (dynamic_cast<CHellBoss_DeadState*>(pNewState))
+		m_eCurState = MS_DEATH;
+	else if (dynamic_cast<CHellBoss_MorphState*>(pNewState))
+		m_eCurState = MS_MORPH;
+
+	m_pCurState = pNewState;
+
+	if (m_pCurState)
+		m_pCurState->Enter(this);
+}
+void CHellBoss::Use_Attack(_float fDeltaTime)
+{
+	if (m_pCurAttackPattern)
+	{
+		m_pCurAttackPattern->Execute(this, fDeltaTime);
+
+		if (dynamic_cast<CPattern_Morph*>(m_pCurAttackPattern))
+			return;
+
+		if (m_pCurAttackPattern->Is_Finished())
+		{
+			delete m_pCurAttackPattern;
+			m_pCurAttackPattern = nullptr;
+
+			if (m_ePhase == PHASE1)
+				Change_State(new CHellBoss_IdleState());
+			else if (m_ePhase == PHASE2)
+				Change_State(new CHellBoss_IdleState());
+			else if (m_ePhase == PHASE3)
+				Change_State(new CHellBoss_IdleState());
+			else if (m_ePhase == PHASE4)
+				Change_State(new CHellBoss_CircleState());
+		}
+	}
+}
 void CHellBoss::Hp_Pattern()
 {
 	if (m_eCurState != MS_DEATH)
@@ -469,33 +516,6 @@ void CHellBoss::Process_Input()
 
 
 }
-void CHellBoss::Use_Attack(_float fDeltaTime)
-{
-	if (m_pCurAttackPattern)
-	{
-		m_pCurAttackPattern->Execute(this, fDeltaTime);
-
-		if (dynamic_cast<CPattern_Morph*>(m_pCurAttackPattern))
-			return;
-
-		if (m_pCurAttackPattern->Is_Finished())
-		{
-			delete m_pCurAttackPattern;
-			m_pCurAttackPattern = nullptr;
-
-
-			if (m_ePhase == PHASE1)
-				Change_State(new CHellBoss_IdleState());
-			else if (m_ePhase == PHASE2)
-				Change_State(new CHellBoss_IdleState());
-			else if (m_ePhase == PHASE3)
-				Change_State(new CHellBoss_IdleState());
-			else if (m_ePhase == PHASE4)
-				Change_State(new CHellBoss_CircleState());
-		}
-	}
-}
-
 void CHellBoss::Launch_PowerBlast_Bullets()
 {
 	for (auto& pBullet : m_vecPowerBlasts)
@@ -838,31 +858,6 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 		m_fParryTextTimer -= fTimeDelta;
 
 
-}
-void CHellBoss::Change_State(CHellBoss_State* pNewState)
-{
-	if (m_pCurState)
-	{
-		m_pCurState->Exit(this);
-		delete m_pCurState; 
-	}
-
-	// 상태 enum 
-	if (dynamic_cast<CHellBoss_IdleState*>(pNewState))
-		m_eCurState = MS_IDLE;
-	else if (dynamic_cast<CHellBoss_WalkState*>(pNewState))
-		m_eCurState = MS_WALK;
-	else if (dynamic_cast<CHellBoss_AttackState*>(pNewState))
-		m_eCurState = MS_ATTACK;
-	else if (dynamic_cast<CHellBoss_DeadState*>(pNewState))
-		m_eCurState = MS_DEATH;
-	else if (dynamic_cast<CHellBoss_MorphState*>(pNewState))
-		m_eCurState = MS_MORPH;
-
-	m_pCurState = pNewState;
-
-	if (m_pCurState)
-		m_pCurState->Enter(this);
 }
 HRESULT CHellBoss::Render()
 {

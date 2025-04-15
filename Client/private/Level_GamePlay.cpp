@@ -73,7 +73,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	//	LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
 	//	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Thingy"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Thingy"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Thingy"))))
 		return E_FAIL;
 
