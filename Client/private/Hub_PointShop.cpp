@@ -152,9 +152,7 @@ _bool CHub_PointShop::Can_Purchase(_uint iItemID, _uint iCount)
 
 void CHub_PointShop::Buy_Stat(_int index)
 {
-	
-			Notify(&index, L"StatBuy");  // 성공했을 때만 UI 갱신
-	
+	Notify(&index, L"StatBuy");  // 성공했을 때만 UI 갱신
 }
 void CHub_PointShop::Buy_Skill(_int index)
 {
@@ -165,7 +163,7 @@ void CHub_PointShop::Buy_Skill(_int index)
 	switch (index)
 	{
 	case 6:
-		if (pPlayer->Get_SkillPoint() >= 5)
+		if (pPlayer->Get_PlayerInfo().iSkillpoint >= 5)
 		{
 			pPlayer->Use_SkillPoint(5);
 			pPlayer->Set_DoubleAmmoGain(true);
@@ -174,7 +172,7 @@ void CHub_PointShop::Buy_Skill(_int index)
 		break;
 
 	case 11:
-		if (pPlayer->Get_SkillPoint() >= 3)
+		if (pPlayer->Get_PlayerInfo().iSkillpoint >= 3)
 		{
 			pPlayer->Use_SkillPoint(3);
 			pPlayer->Set_DoubleSpeedGain();
