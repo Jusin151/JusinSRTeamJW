@@ -70,6 +70,13 @@ HRESULT CWeapon_Base::On_Collision(CCollisionObject* other)
 		
 		break;
 
+	case CG_OBJECT:
+
+		// 나중에 공격력 만들어서 추가하는 식으로
+		Take_Damage(other);
+
+		break;
+
 	default:
 		break;
 	

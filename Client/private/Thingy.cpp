@@ -104,6 +104,10 @@ void CThingy::Update(_float fTimeDelta)
 	if (m_pTarget == nullptr)
 		return;
 
+	if (m_eCurState != MS_ATTACK_MELEE)
+	{
+		m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
+	}
 	
 	Select_Pattern(fTimeDelta);
 
@@ -131,10 +135,9 @@ void CThingy::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	if (m_bHit)
-	{
-		m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
-	}
+	
+	
+	
 
 	if(m_eCurState != MS_ATTACK_MELEE)
 		Calc_Position();
@@ -203,7 +206,6 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	case CG_PLAYER:
 		if (m_eCurState == MS_ATTACK_MELEE && m_iCurrentFrame >= 29)
 		{
-			m_bHit = true;
 			Take_Damage(other);
 		}
 			
@@ -262,7 +264,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, m_pColliderCom->Get_Scale().Length());
+		Chasing(fTimeDelta,1.5f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)
@@ -323,8 +325,8 @@ void CThingy::Melee_Attack(_float fTimeDelta)
 			return;
 	}
 
-	if(!m_bHit)
-		m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
+	
+	m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
 
 	// 29 
 }

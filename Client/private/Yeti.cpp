@@ -33,7 +33,7 @@ HRESULT CYeti::Initialize(void* pArg)
 
     m_eType = CG_MONSTER;
 
-    m_iAp = 5;
+    m_iAp = 15;
 
     m_iHp = 30;
 
@@ -76,6 +76,11 @@ void CYeti::Update(_float fTimeDelta)
     }
     if (m_pTarget == nullptr)
         return;
+
+    if (m_eCurState != MS_ATTACK)
+        m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
+
+
     Select_Pattern(fTimeDelta);
 
 
@@ -107,10 +112,9 @@ void CYeti::Late_Update(_float fTimeDelta)
     if (!m_bCheck)
         return;
 
-  
 
-
-    Calc_Position();
+    if (m_eCurState != MS_ATTACK)
+        Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
@@ -183,16 +187,9 @@ HRESULT CYeti::On_Collision(CCollisionObject* other)
         //m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
         //m_pTransformCom->Go_Backward(fTimeDelta);
    
-        if (m_eCurState != MS_ATTACK)
+        if (m_eCurState == MS_ATTACK && m_iCurrentFrame >= 14)
         {
-         
-           
-        }
-        else
-        {
-            m_iAp *= 3;
             Take_Damage(other);
-            m_iAp /= 3;
         }
         break;
      
@@ -244,7 +241,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > fScale.LengthSq())
+            if (vDist.LengthSq() > 2.5f)
             {
                 m_eCurState = MS_WALK;
                
@@ -276,7 +273,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
         break;
     case MS_WALK:
         m_pSoundCom->Play_Event(L"event:/Monsters/Yeti/Yeti_Detect", m_pTransformCom)->SetVolume(0.5f);
-        Chasing(fTimeDelta, fScale.LengthSq());
+        Chasing(fTimeDelta, 1.5f);
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록
@@ -306,6 +303,9 @@ void CYeti::Attack_Melee(_float fTimeDelta)
         else
             return;
     }
+
+    
+    m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
 }
 
 _bool CYeti::Check_DIstance(_float fTimeDelta)

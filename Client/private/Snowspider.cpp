@@ -75,6 +75,10 @@ void CSnowspider::Update(_float fTimeDelta)
     }
     if (m_pTarget == nullptr)
         return;
+
+    if(m_eCurState ==MS_ATTACK)
+        m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
+
     Select_Pattern(fTimeDelta);
 
 
@@ -108,8 +112,8 @@ void CSnowspider::Late_Update(_float fTimeDelta)
 
     
 
-
-    Calc_Position();
+    if(m_eCurState != MS_ATTACK)
+        Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
@@ -246,7 +250,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > fScale.LengthSq())
+            if (vDist.LengthSq() > 2.5f)
             {
                 m_eCurState = MS_WALK;
                 
@@ -277,7 +281,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
         break;
     case MS_WALK:
         m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Detect", m_pTransformCom)->SetVolume(0.5f);
-        Chasing(fTimeDelta, fScale.Length());
+        Chasing(fTimeDelta, 1.5f);
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록
@@ -308,6 +312,7 @@ void CSnowspider::Attack_Melee(_float fTimeDelta)
             return;
     }
 
+    m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
 }
 
 _bool CSnowspider::Check_DIstance(_float fTimeDelta)

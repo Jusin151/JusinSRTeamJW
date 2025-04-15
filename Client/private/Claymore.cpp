@@ -138,6 +138,11 @@ HRESULT CClaymore::On_Collision(CCollisionObject* other)
 	case CG_STRUCTURE_WALL:
 		m_bAttack = true;
 
+	case CG_OBJECT:
+		Take_Damage(other);
+		m_bAttack = true;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Hit")->SetVolume(0.5f);
+
 	default:
 		break;
 	}

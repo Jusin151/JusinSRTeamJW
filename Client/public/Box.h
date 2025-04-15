@@ -34,7 +34,7 @@ private:
 	void	Smart_Drop();
 
 private:
-
+	_bool	m_bDrop = { false };
 
 public:
 	static CBox* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
