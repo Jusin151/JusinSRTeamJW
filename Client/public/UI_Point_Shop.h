@@ -6,6 +6,7 @@
 #include "Hub_PointShop.h"
 #include "GamePlay_Button.h"
 #include "Observer.h"
+#include "Player.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -70,12 +71,14 @@ private:
 public:
 	_bool m_bOnUI = { false };
 private:
-	_uint m_iStr{};
+
+	CPlayer::PLAYER_INFO m_vPlayerInfo{};
+	//_uint m_iStr{};
 	_uint m_iMaxHP{};
-	_uint m_iSprit{};
-	_uint m_iCapacity{};
-	_uint m_iLevel{};
-	_uint m_iPoint{};
+	//_uint m_iSprit{};
+	//_uint m_iCapacity{};
+	//_uint m_iLevel{};
+	//_uint m_iPoint{};
 
 	vector<wstring> m_str_ToolTip_Text{};  // 마우스와 상관없이 버튼 위에 올라와있을텍스트 
 
@@ -84,23 +87,29 @@ public:
 
 	void OnNotify(void* pArg, const wstring& tag) 
 	{
-		if (tag == L"StatBuy")
+		
+		if (pArg&& tag==TEXT("Set_Player_Info"))
+		{
+			m_vPlayerInfo = *static_cast<CPlayer::PLAYER_INFO*>(pArg);
+		}
+
+		if (pArg&&tag == L"StatBuy")
 		{
 			int statType = *reinterpret_cast<_int*>(pArg); 
 
 			switch (statType)
 			{
 			case 0: 
-				++m_iStr; 
+				++m_vPlayerInfo.iStr;
 				break;
 			case 1: 
-				++m_iMaxHP; 
+				++m_vPlayerInfo.iLife;
 				break;
 			case 2: 
-				++m_iSprit; 
+				++m_vPlayerInfo.iSprit;
 				break;
 			case 3: 
-				++m_iCapacity;
+				++m_vPlayerInfo.iCapacity;
 				break;
 			}
 		}
