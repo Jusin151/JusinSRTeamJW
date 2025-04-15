@@ -280,7 +280,7 @@ void CHellBoss::Jump_Pattern(_float fTimeDelta)
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
 				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
 
-			m_pSoundCom->Play_Event(L"event:/Monsters/Down")->SetVolume(1.f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/Down")->SetVolume(1.f);
 
 			if (m_pTarget)
 			{
@@ -327,7 +327,7 @@ void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 			desc.vPos = m_vJumpStartPos;
 			desc.strState = "Up";
 			// event: / Monsters / Up
-			m_pSoundCom->Play_Event(L"event:/Monsters/Up")->SetVolume(1.f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/Up")->SetVolume(1.f);
 
 			m_pGameInstance->Add_GameObject(LEVEL_HONG,
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
@@ -705,7 +705,7 @@ void CHellBoss::Dead_Scene()
 	{
 		if (!bTrue)
 		{
-			m_pSoundCom->Play_Event(L"event:/Monsters/satan_transform_3to4")->SetVolume(0.7f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_3to4")->SetVolume(0.7f);
 			bTrue = true;
 		}
 
@@ -747,7 +747,7 @@ void CHellBoss::Dead_Scene()
 			SetActive(false);
 		}
 
-		//m_pSoundCom->Play_Event(L"event:/Monsters/satan_death")->SetVolume(1.f);
+		//m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_death")->SetVolume(1.f);
 
 	}
 
@@ -893,7 +893,7 @@ HRESULT CHellBoss::Render()
 	Release_RenderState();
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 체력 :") + to_wstring(m_iHp),
-		_float2(-100.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(-200.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 	_float2(-300.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
