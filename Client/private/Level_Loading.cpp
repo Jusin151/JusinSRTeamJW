@@ -48,6 +48,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		{
 			CLevel* pLevel = { nullptr };
 			CStructureManager::Get_Instance()->Clear();
+			CUI_Manager::GetInstance()->Clear();
 			switch (m_eNextLevelID)
 			{
 			case LEVEL_LOGO:
@@ -84,7 +85,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				return;
 			}
 
-			CUI_Manager::GetInstance()->Clear();
+
 
 		}
 	}	

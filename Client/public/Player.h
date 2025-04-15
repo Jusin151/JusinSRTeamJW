@@ -24,6 +24,54 @@ BEGIN(Client)
 
 class CPlayer final : public CCollisionObject, public CObserver
 {
+public:
+	typedef struct tagPlayerInfo
+	{
+		_uint iStr{0u}; // 근력
+		_uint iLife{ 0u };//생명력
+		_uint iSprit{ 0u };//정신력
+		_uint iCapacity{ 0u };//용량
+		_uint iLevel{ 0u }; // 레벨
+		_uint iSkillpoint{ 0u };//스킬포인트
+		_uint iStatpoint{ 0u };//스탯포인트
+
+		tagPlayerInfo() = default;
+
+		// 전체 초기화 생성자
+		tagPlayerInfo(_uint _iStr,
+			_uint _iLife,
+			_uint _iSprit,
+			_uint _iCapacity,
+			_uint _iLevel,
+			_uint _iSkillpoint,
+			_uint _iStatpoint)
+			: iStr(_iStr),
+			iLife(_iLife),
+			iSprit(_iSprit),
+			iCapacity(_iCapacity),
+			iLevel(_iLevel),
+			iSkillpoint(_iSkillpoint),
+			iStatpoint(_iStatpoint)
+		{
+		}
+
+		// 연산자 오버로딩
+		tagPlayerInfo operator-(const tagPlayerInfo& other) const {
+			return tagPlayerInfo(
+				iStr - other.iStr,
+				iLife - other.iLife,
+				iSprit - other.iSprit,
+				iCapacity - other.iCapacity,
+				iLevel - other.iLevel,
+				iSkillpoint - other.iSkillpoint,
+				iStatpoint - other.iStatpoint
+			);
+		}
+	}PLAYER_INFO;
+
+
+private:
+
 	enum class WEAPON_STATE
 	{
 		IDLE,
@@ -137,7 +185,6 @@ private: // 인벤관련
 		m_pPlayer_Inven->Add_Weapon(tag, Index);
 	}
 
-	void Input_ItemtoInven();
 	_bool m_bInven_Render_State{};
 
 	void Equip(_float fTimeDelta);
@@ -169,13 +216,7 @@ private: // 플레이어 관련
 	pair<_int, _int> m_iPlayerHP{};    // 플레이어 현재/최대체력
 	pair<_int, _int> m_iPlayerMP{};    // ``  현재/최대마나
 	pair<_int, _int> m_iPlayerEXP{};   //`` 현재/최대경험치
-	_uint m_iStr{}; // 근력
-	_uint m_iLife{};//생명력
-	_uint m_iSprit{};//정신력
-	_uint m_iCapacity{};//용량
-	_uint m_iLevel{}; // 레벨
-	_uint m_iSkillpoint{};//스킬포인트
-	_uint m_iStatpoint{};//스탯포인트
+
 	CWeapon_Base* m_pPlayer_Weapon = { nullptr };
 	CInventory* m_pPlayer_Inven = { nullptr };
 
@@ -183,18 +224,14 @@ private: // 플레이어 관련
 
 	_float m_fAvoidTime = { 0.f };
 
+	PLAYER_INFO m_vPlayerInfo{};
+	PLAYER_INFO m_vOriginPlayerInfo{};
 public:
-	_uint Get_StatPoint() { return m_iStatpoint; }
-	_uint Get_SkillPoint() { return m_iSkillpoint; }
-	_uint Get_Level() { return m_iLevel; }
-	_bool Use_SkillPoint(_uint amount)  
-	{
-		if (m_iSkillpoint < amount)
-			return false;
-
-		m_iSkillpoint -= amount;
-		return true;
-	}
+	const auto& Get_PlayerInfo() const { return m_vPlayerInfo; }
+	//_uint Get_StatPoint() { return m_iStatpoint; }
+	//_uint Get_SkillPoint() { return m_iSkillpoint; }
+	//_uint Get_Level() { return m_iLevel; }
+	void Use_SkillPoint(_uint amount);
 
 };
 

@@ -51,7 +51,6 @@ HRESULT CUI_Point_Shop::Initialize(void* pArg)
         _float3(m_Shop_INFO.vPos.x, m_Shop_INFO.vPos.y, 0.f));
 
     CUI_Manager::GetInstance()->AddUI(L"Point_Shop_UI", this, UI_TYPE::UI_DYNAMIC);
-
     return S_OK;
 }
 HRESULT CUI_Point_Shop::Register_Buttons()
@@ -69,7 +68,6 @@ void CUI_Point_Shop::Priority_Update(_float fTimeDelta)
 void CUI_Point_Shop::Update(_float fTimeDelta)
 {
     m_bIsActive = m_bOnUI;
-
 }
 
 void CUI_Point_Shop::Late_Update(_float fTimeDelta)
@@ -190,35 +188,35 @@ HRESULT CUI_Point_Shop::Render()
     m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스프린터"), _float2(234.f, 5.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 
-    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iStr),
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_vPlayerInfo.iStr),
         _float2(-298.f, -137.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iMaxHP),
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_vPlayerInfo.iLife),
         _float2(-298.f, -76.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iSprit),
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_vPlayerInfo.iSprit),
         _float2(-298.f, -15.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
-    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_iCapacity),
+    m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(m_vPlayerInfo.iCapacity),
         _float2(-298.f, 46.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
 
 
 
     if (pPlayer)
     {
-        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_Level()), 
+        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_PlayerInfo().iLevel),
             _float2(-163.f, -220.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
     }
     if (pPlayer)
     {
-        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_SkillPoint()),
+        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_PlayerInfo().iSkillpoint),
             _float2(-44.f, 58.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
     }
 
   
     if (pPlayer)
     {
-        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_StatPoint()), 
+        m_pGameInstance->Render_Font_Size(L"MainFont", to_wstring(pPlayer->Get_PlayerInfo().iStatpoint),
             _float2(-358.f, -200.f), _float2(16.f, 24.f), _float3(1.f, 1.f, 0.f));
     }
 
