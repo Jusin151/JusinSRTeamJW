@@ -711,9 +711,9 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.6f, 0.6f, 0.6f };
+	ColliderDesc.fScale = { 1.3f, 1.3f, 1.3f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))

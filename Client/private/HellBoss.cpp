@@ -39,7 +39,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =30000;
+	m_iHp =10000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -626,7 +626,7 @@ void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
 {
 	m_fDarkHole_SpawnTimer += fDeltaTime;
 
-	if (m_fDarkHole_SpawnTimer >= 1.f)
+	if (m_fDarkHole_SpawnTimer >= 0.3f)
 	{
 		m_fDarkHole_SpawnTimer = 0.f;
 
