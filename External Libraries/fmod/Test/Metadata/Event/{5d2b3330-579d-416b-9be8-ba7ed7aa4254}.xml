@@ -5,7 +5,7 @@
 			<value>Level_Up_Distorted</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{1bad0a85-88ad-4738-bcdb-2118fe7b698d}</destination>
@@ -96,7 +96,6 @@
 	<object class="MixerBusEffectChain" id="{b82b8795-5691-4c04-9406-0223ff9010e4}">
 		<relationship name="effects">
 			<destination>{f08ae26b-e4a9-4a6d-bf87-7e2c9b571061}</destination>
-			<destination>{cabf13a9-e0f8-4ee4-bbc6-e2dfacf78fd6}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{ba9c1807-5af8-4bf6-b95d-5df2bbb8d5ab}" />
@@ -107,5 +106,4 @@
 	</object>
 	<object class="MixerBusFader" id="{92abb07a-b9bb-47c0-a58d-a8c3c14a34af}" />
 	<object class="MixerBusFader" id="{f08ae26b-e4a9-4a6d-bf87-7e2c9b571061}" />
-	<object class="SpatialiserEffect" id="{cabf13a9-e0f8-4ee4-bbc6-e2dfacf78fd6}" />
 </objects>

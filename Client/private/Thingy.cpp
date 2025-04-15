@@ -123,7 +123,6 @@ void CThingy::Update(_float fTimeDelta)
 	m_pSoundCom->Update(fTimeDelta);
 }
 
-
 void CThingy::Late_Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))

@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{1aad3d3a-38a9-48ed-89ab-9578dc8f5764}">
 		<property name="name">
-			<value>the_thing_attack_1</value>
+			<value>Thingy_Attack</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -59,7 +59,17 @@
 			<destination>{2fcea790-9b86-4127-b1be-ebf4d51ccd9f}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{3523988a-feaf-483b-a9c0-505d0ef66c89}" />
+	<object class="EventAutomatableProperties" id="{3523988a-feaf-483b-a9c0-505d0ef66c89}">
+		<property name="minimumDistance">
+			<value>0</value>
+		</property>
+		<property name="maximumDistance">
+			<value>10000</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>620</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{995e88b1-6cd2-4052-99d9-a383f92ebfe6}" />
 	<object class="Timeline" id="{5f8ea24c-73dc-41ee-afca-665969037669}">
 		<property name="isProxyEnabled">

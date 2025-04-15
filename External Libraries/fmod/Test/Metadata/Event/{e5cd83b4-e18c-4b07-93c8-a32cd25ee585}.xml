@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{e5cd83b4-e18c-4b07-93c8-a32cd25ee585}">
 		<property name="name">
-			<value>HellHound_Detect</value>
+			<value>Hellhound_Detect</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -62,6 +62,9 @@
 	<object class="EventAutomatableProperties" id="{14743d0f-67b1-4e15-a10a-d8f965d07872}">
 		<property name="maximumDistance">
 			<value>10000</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>900</value>
 		</property>
 	</object>
 	<object class="MarkerTrack" id="{ba6a5619-d5eb-49a3-9641-29fad0ef3813}" />
