@@ -118,12 +118,22 @@
     {
       "class": "CItem",
       "level": 8,
-      "tag": "Prototype_GameObject_Item_ShoGun_Ammo_Small"
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Small"
     },
     {
       "class": "CItem",
       "level": 8,
       "tag": "Prototype_GameObject_Item_Minigun_Ammo"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
     },
     {
       "class": "CStructure",

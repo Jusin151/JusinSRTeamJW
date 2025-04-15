@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 class CPickingSys;
+class CTransform;
 END
 
 BEGIN(Client)
@@ -21,16 +22,14 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Layer_UI();
-	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Weapon();
-	HRESULT Ready_Layer_Weapon_Icon();
+	void Spawn_Item();
+
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
+	CTransform* m_pPlayerTransCom{ nullptr };
 
+	_float m_fItemSpawnCooldownTime{ 20.f };
+	_float m_fItemSpawnTime{ 0.f };
 
 public:
 	static CLevel_Hong* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
