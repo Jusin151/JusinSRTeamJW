@@ -52,19 +52,7 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
 	if (nullptr == m_pPlayer)
 	{
-		m_pPlayer = m_pGameInstance->Find_Object(LEVEL_EDITOR, TEXT("Layer_Player"));
-		if (nullptr == m_pPlayer)
-		{
-			m_pPlayer = m_pGameInstance->Find_Object(LEVEL_HUB, TEXT("Layer_Player"));
-			if (nullptr == m_pPlayer)
-			{
-				m_pPlayer = m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, TEXT("Layer_Player"));
-				if (nullptr == m_pPlayer)
-				{
-					return E_FAIL;
-				}
-			}
-		}
+		return E_FAIL;
 	}
 		
 
@@ -75,6 +63,8 @@ HRESULT CCamera_FirstPerson::Initialize(void* pArg)
 
 void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 {
+	if (m_bInputLocked) return;
+
 	CTransform* fPlayerTrans = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 
 	_float3 fScale = fPlayerTrans->Compute_Scaled();
@@ -457,4 +447,12 @@ void CCamera_FirstPerson::Free()
 	__super::Free();
 	Safe_Release(m_pPlayer);
 	Safe_Release(m_pListenerCom);
+}
+
+void CCamera_FirstPerson::OnNotify(void* pArg, const wstring& type)
+{
+	if (pArg)
+	{
+		m_bInputLocked = *static_cast<_bool*>(pArg);
+	}
 }

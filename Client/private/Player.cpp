@@ -253,6 +253,13 @@ void CPlayer::Equip(_float fTimeDelta)
 	}
 	m_eWeaponState = WEAPON_STATE::IDLE;
 }
+void CPlayer::OnNotify(void* pArg, const wstring& type)
+{
+	if (pArg)
+	{
+		m_bInputLocked = *static_cast<_bool*>(pArg);
+	}
+}
 HRESULT CPlayer::Render()
 {
 
@@ -426,7 +433,8 @@ void CPlayer::Move(_float fTimeDelta)
 
 void CPlayer::Attack(_float fTimeDelta)
 {
-	if (m_pPlayer_Weapon == nullptr||m_eWeaponState == WEAPON_STATE::CHANGE)
+	if (m_pPlayer_Weapon == nullptr||m_eWeaponState == WEAPON_STATE::CHANGE
+		||m_bInputLocked)
 		return;
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
@@ -442,7 +450,8 @@ void CPlayer::Attack(_float fTimeDelta)
 
 void CPlayer::Input_Key(_float fTimeDelta)
 {
-	if (m_bTimeControl)
+
+	if (m_bTimeControl|| m_bInputLocked)
 		return;
 	Equip(fTimeDelta); //인
 	

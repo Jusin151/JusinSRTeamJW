@@ -4,14 +4,14 @@
 #include "GameObject.h"
 
 CObject_Manager::CObject_Manager()
-	: m_pGameInstance { CGameInstance::Get_Instance() }
+	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
 	Safe_AddRef(m_pGameInstance);
 }
 
 CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
 {
-	CLayer*		pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
 
 	if (nullptr == pLayer)
 		return nullptr;
@@ -25,18 +25,18 @@ HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 	m_pLayers.resize(iNumLevels);
 	m_iNumLevels = iNumLevels;
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	/* 사본객체를 오브젝트 매니져에 추가한다. */
 	/* 원형 매니져에게 복제하여 내놔!! */
-  	CGameObject*		pGameObject = dynamic_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg));
+	CGameObject* pGameObject = dynamic_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg));
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	CLayer*		pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
 
 	if (nullptr == pLayer)
 	{
@@ -54,7 +54,7 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 	return S_OK;
 }
 
-CGameObject* CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag,void* pArg)
+CGameObject* CObject_Manager::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	CGameObject* pGameObject = m_pGameInstance->Acquire_Object(iPrototypeLevelIndex, strLayerTag, pArg);
 	if (nullptr == pGameObject)
@@ -84,18 +84,7 @@ void CObject_Manager::Priority_Update(_float fTimeDelta)
 		{
 			if (nullptr == Pair.second)
 				continue;
-			if (m_bOpendUI&& i ==m_iLevelIndex)
-			{
-				if (Pair.first.find(L"UI") !=_wstring::npos || Pair.first.find(L"Shop") != _wstring::npos
-					|| Pair.first.find(L"Episode") != _wstring::npos)
-				{
-					Pair.second->Priority_Update(fTimeDelta);
-				}
-			}
-			else
-			{
-				Pair.second->Priority_Update(fTimeDelta);
-			}
+			Pair.second->Priority_Update(fTimeDelta);
 		}
 	}
 }
@@ -109,19 +98,8 @@ void CObject_Manager::Update(_float fTimeDelta)
 		{
 			if (nullptr == Pair.second)
 				continue;
-			if (m_bOpendUI && i == m_iLevelIndex)
-			{
-				if (Pair.first.find(L"UI") != _wstring::npos|| Pair.first.find(L"Shop") != _wstring::npos
-					|| Pair.first.find(L"Episode") != _wstring::npos)
-				{
-					Pair.second->Update(fTimeDelta);
-				}
-			}
-			else
-			{
-				Pair.second->Update(fTimeDelta);
-			}
-			
+			Pair.second->Update(fTimeDelta);
+
 		}
 	}
 }
@@ -164,7 +142,7 @@ CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const wstring& str
 {
 	CGameObject* pGameObject = Find_Object(iLevelIndex, strLayerTag);
 	if (!pGameObject) return nullptr;
-	
+
 	return pGameObject->Get_Component(strComponentTag);
 }
 
@@ -222,7 +200,7 @@ CObject_Manager* CObject_Manager::Create(_uint iNumLevels)
 
 void CObject_Manager::Free()
 {
-    __super::Free();
+	__super::Free();
 
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{

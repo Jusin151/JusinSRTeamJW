@@ -25,9 +25,6 @@ HRESULT CCamera_CutScene::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-
-
-    
     if (pArg != nullptr)
     {
         _float3* pEyeAt = (_float3*)pArg;
@@ -103,8 +100,7 @@ void CCamera_CutScene::Shaking(_float fTimeDelta)
 }
 
 void CCamera_CutScene::Set_LookTarget(CGameObject* pTarget)
-{
-    
+{ 
     m_pTarget = pTarget;
 }
 
@@ -121,8 +117,12 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
     CUI_Manager::GetInstance()->Set_Actived_UI(false);
     if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
     {
-        if(pPlayer->Get_Current_Weapon()!=nullptr)
+        if (pPlayer->Get_Current_Weapon() != nullptr)
+        {
         pPlayer->Get_Current_Weapon()->SetActive(false);
+        }
+        _bool bLocked = true;
+        pPlayer->OnNotify(&bLocked, L"");
     }
 }
 
@@ -140,8 +140,6 @@ void CCamera_CutScene::Set_CutScenePath(const vector<_float3>& vecPath, float fS
     {
         pBoss->Set_CutSceneCamera_Lock(true);
     }
-
-    
 }
 
 void CCamera_CutScene::TriggerShake(_float shakeAmount, _float duration)
@@ -236,6 +234,8 @@ void CCamera_CutScene::Update(_float fTimeDelta)
             {
                 if (pPlayer->Get_Current_Weapon() != nullptr)
                     pPlayer->Get_Current_Weapon()->SetActive(false);
+                _bool bLocked = false;
+                pPlayer->OnNotify(&bLocked, L"");
             }
         }
     }
