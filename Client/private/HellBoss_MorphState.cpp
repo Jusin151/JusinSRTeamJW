@@ -121,8 +121,8 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
         pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_2to3")->SetVolume(0.7f);
     }
 
-
     upwardSpeed = 5.f;
+   // upwardSpeed = 0.f;
 }
 
 void CHellBoss_MorphState::Update(CHellBoss* pBoss, float fDeltaTime)

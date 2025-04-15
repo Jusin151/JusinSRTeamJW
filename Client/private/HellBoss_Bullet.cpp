@@ -5,6 +5,7 @@
 #include "HellBoss.h"
 #include "Camera_FirstPerson.h"
 #include "Sound_Source.h"
+#include "Smoke_Effect.h"
 
 static _uint BulletCount = 0;
 static _bool bFirst_Blast = { false };
@@ -259,7 +260,7 @@ void CHellBoss_Bullet::Reset()
 		else if (m_wBulletType == L"0_Phase4_Shoot")
 		{
 			m_fBullet_Scale = { 1.f, 1.f, 1.f };
-			m_fSpeed = 2.0f;
+			m_fSpeed = 1.0f;
 			
 		
 		}
@@ -376,7 +377,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 				_float lerpRatio = min(m_fExpandTime / 1.f, 1.f); // 1초간 퍼짐
 
 				_float3 curPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-				_float3 lerpPos = Lerp(curPos, m_vExpandedPos, lerpRatio);
+				_float3 lerpPos = VectorLerp(curPos, m_vExpandedPos, lerpRatio);
 				m_pTransformCom->Set_State(CTransform::STATE_POSITION, lerpPos);
 
 				if (lerpRatio >= 1.f)
@@ -421,22 +422,25 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 	D3DXVec3Normalize(&dir, &dir);
 
 
-	if (m_wBulletType == L"Power_Blast" && m_eBulletMode == LAUNCHING)
+	if (m_eBulletMode == LAUNCHING)
 	{
 		dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 		m_pParticleCom->Update(fTimeDelta);
 	}
-	else if (m_wBulletType != L"Power_Blast")
+	else if (m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType != 1)
 	{
-
-		dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+		dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
 		m_pParticleCom->Update(fTimeDelta);
+		m_fElapsedTimeSmoke += fTimeDelta;
+		m_pParticleCom->Add_Particle(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+		if (m_fElapsedTimeSmoke >= m_fDelayTimeSmoke)
+		{
+			m_fElapsedTimeSmoke -= m_fDelayTimeSmoke;	
+			
+		}
 	}
-
-
-
+	
 	m_fElapsedTime += fTimeDelta;
-
 	if (m_fElapsedTime >= m_fFrameDuration)
 	{
 		m_fElapsedTime = 0.0f;
@@ -484,11 +488,11 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			switch (m_iPatternType)
 			{
 			case 0: // Default 
-				m_vDir = Lerp(m_vDir, vToPlayer, fTimeDelta * 0.7f);
+				m_vDir = VectorLerp(m_vDir, vToPlayer, fTimeDelta * 0.7f);
 				D3DXVec3Normalize(&m_vDir, &m_vDir);
 				break;
 			case 1: // Default 
-				m_vDir = Lerp(m_vDir, vToPlayer, fTimeDelta * 0.7f);
+				m_vDir = VectorLerp(m_vDir, vToPlayer, fTimeDelta * 0.7f);
 				D3DXVec3Normalize(&m_vDir, &m_vDir);
 				m_fSpeed = 0.f;
 				break;
@@ -517,7 +521,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			_float3 vToTarget = targetPos - bulletPos;
 			D3DXVec3Normalize(&vToTarget, &vToTarget);
 
-			m_vDir = Lerp(m_vDir, vToTarget, fTimeDelta * 0.7f);
+			m_vDir = VectorLerp(m_vDir, vToTarget, fTimeDelta * 0.7f);
 			D3DXVec3Normalize(&m_vDir, &m_vDir);
 		} 
 
@@ -578,10 +582,6 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_SPHERE, m_pAttackCollider);
 
-}
-_float3 CHellBoss_Bullet::Lerp(const _float3& a, const _float3& b, _float t)
-{
-	return a + (b - a) * t;
 }
 
 void CHellBoss_Bullet::Late_Update(_float fTimeDelta)
@@ -673,7 +673,6 @@ void CHellBoss_Bullet::Attack_Melee()
 HRESULT CHellBoss_Bullet::SetUp_RenderState()
 {
 	// 일단 추가해보기
-
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -711,25 +710,44 @@ HRESULT CHellBoss_Bullet::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 0.6f, 0.6f, 0.6f };
+	ColliderDesc.fScale = { 1.3f, 1.3f, 1.3f };
 	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.5f, 0.f };
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
 		return E_FAIL;
+	
+	if (m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType != 1)
+	{
+		CProjectile_Particle_System::PROJECTILEDESC projectileDesc = {};
+		projectileDesc.iNumParticles = { 5 };
+		projectileDesc.fDistance = { 1.f };
+		projectileDesc.fSize = { 1.f };
+		projectileDesc.strTexturePath = L"../../Resources/Textures/Effect/Ash/tile00%d.png";
+		projectileDesc.iNumTextures = { 6 };
 
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &projectileDesc)))
+			return E_FAIL;
+	}
+	else
+	{
+		CTrail_Particle_System::TRAILDESC     trailDesc{};
+		trailDesc.fDistance = 30.f;
+		trailDesc.fWidth = 1.f;
+		trailDesc.iNumParticles = 1;
+		trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+		trailDesc.iNumTextures = 1;
 
-	CTrail_Particle_System::TRAILDESC     trailDesc{};
-	trailDesc.fDistance = 30.f;
-	trailDesc.fWidth = 1.f;
-	trailDesc.iNumParticles = 1;
-	trailDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
-	trailDesc.iNumTextures = 1;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
+			TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
+			return E_FAIL;
+	}
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
-		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &trailDesc)))
-		return E_FAIL;
+	
+
+	
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_ParticleTransform"), reinterpret_cast<CComponent**>(&m_pParticleTransformCom))))

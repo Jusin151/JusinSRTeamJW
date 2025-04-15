@@ -179,6 +179,30 @@
       "level": 0,
       "path": "../../Resources/Textures/Inven/Inven.png",
       "tag": "Prototype_Component_Texture_Inven_UI"
+    },
+    {
+      "tag": "Prototype_Component_Texture_Thingy",
+      "level": 0,
+      "path": "../../Resources/Textures/Monster/Thingy/thingy_%d.png",
+      "count": 78
+    },
+    {
+      "tag": "Prototype_Component_Texture_Hellhound",
+      "level": 0,
+      "path": "../../Resources/Textures/Monster/Hellhound/hellhound_%d.png",
+      "count": 46
+    },
+    {
+      "tag": "Prototype_Component_Texture_Looker",
+      "level": 0,
+      "path": "../../Resources/Textures/Monster/Looker/looker_%d.png",
+      "count": 43
+    },
+    {
+      "tag": "Prototype_Component_Texture_LookerBullet",
+      "level": 0,
+      "path": "../../Resources/Textures/Monster/Looker/bat_spit_green000%d.png",
+      "count": 8
     }
   ],
   "gameObjects": [
@@ -331,6 +355,26 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Staff"
+    },
+    {
+      "tag": "Prototype_GameObject_Thingy",
+      "level": 0,
+      "class": "CThingy"
+    },
+    {
+      "tag": "Prototype_GameObject_Hellhound",
+      "level": 0,
+      "class": "CHellhound"
+    },
+    {
+      "tag": "Prototype_GameObject_Looker",
+      "level": 0,
+      "class": "CLooker"
+    },
+    {
+      "tag": "Prototype_GameObject_LookerBullet",
+      "level": 0,
+      "class": "CLookerBullet"
     }
   ],
   "buffers": [

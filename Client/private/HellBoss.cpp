@@ -445,7 +445,7 @@ void CHellBoss::Process_Input()
 		{
 			Change_State(new CHellBoss_DashState());
 			m_bWaitingForPhase3Dash = true; 
-			m_fPhase3AttackCooldown = 0.01f; // 쿨타임 
+			m_fPhase3AttackCooldown = 0.f; // 쿨타임 
 		}
 	}
 
@@ -626,7 +626,7 @@ void CHellBoss::Spawn_Warp_Effect(_float fDeltaTime)
 {
 	m_fDarkHole_SpawnTimer += fDeltaTime;
 
-	if (m_fDarkHole_SpawnTimer >= 1.f)
+	if (m_fDarkHole_SpawnTimer >= 0.3f)
 	{
 		m_fDarkHole_SpawnTimer = 0.f;
 

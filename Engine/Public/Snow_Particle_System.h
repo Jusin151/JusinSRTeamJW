@@ -16,7 +16,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
+	virtual void Reset_Particle(ATTRIBUTE* pAttribute, void * pArg = nullptr) override;
 	virtual void Update(float fTimeDelta) override;
 
 public:

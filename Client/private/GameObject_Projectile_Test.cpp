@@ -61,6 +61,13 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
         TEXT("Com_Material"), reinterpret_cast<CComponent**>(&m_pMaterialCom))))
         return E_FAIL;
 
+
+    CProjectile_Particle_System::PROJECTILEDESC projectileDesc = {};
+    projectileDesc.iNumParticles = { 1 };
+    projectileDesc.fDistance = { 1.f };
+    projectileDesc.strTexturePath = L"../../Resources/Textures/Effect/Smoke/tile%d.png";
+    projectileDesc.iNumTextures = { 10 };
+
     CTrail_Particle_System::TRAILDESC particleDesc = {};
     particleDesc.iNumParticles = { 1 };
     particleDesc.fDistance = { 10.f };
@@ -69,45 +76,45 @@ HRESULT CGameObject_Projectile_Test::Ready_Components()
     particleDesc.iNumTextures = { 1 };
 
     /* For.Com_Particle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Trail"),
-        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &particleDesc)))
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Projectile"),
+        TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &projectileDesc)))
         return E_FAIL;
 
-    CGold_Particle_System::GOLDDESC goldDesc = {};
-    goldDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
-    goldDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
-    goldDesc.iNumParticles = { 10 };
-    goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
-    goldDesc.iNumTextures = { 1 };
+    //CGold_Particle_System::GOLDDESC goldDesc = {};
+    //goldDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
+    //goldDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
+    //goldDesc.iNumParticles = { 10 };
+    //goldDesc.strTexturePath = L"../../Resources/Textures/Particle/particle_gold.png";
+    //goldDesc.iNumTextures = { 1 };
 
-    /* For.Com_GoldParticle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
-        TEXT("Com_GoldParticle"), reinterpret_cast<CComponent**>(&m_pGoldParticleCom), &goldDesc)))
-        return E_FAIL;
+    ///* For.Com_GoldParticle */
+    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Gold"),
+    //    TEXT("Com_GoldParticle"), reinterpret_cast<CComponent**>(&m_pGoldParticleCom), &goldDesc)))
+    //    return E_FAIL;
 
-    CBlood_Particle_System::BLOODDESC bloodDesc = {};
-    bloodDesc.Bound.m_vCenter = { 0.f , 0.f, 0.f };
-    bloodDesc.Bound.m_fRadius = 1.f;
-    bloodDesc.iNumParticles = { 100 };
-    bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
-    bloodDesc.iNumTextures = { 1 };
+    //CBlood_Particle_System::BLOODDESC bloodDesc = {};
+    //bloodDesc.Bound.m_vCenter = { 0.f , 0.f, 0.f };
+    //bloodDesc.Bound.m_fRadius = 1.f;
+    //bloodDesc.iNumParticles = { 100 };
+    //bloodDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    //bloodDesc.iNumTextures = { 1 };
 
-    /* For.Com_BloodParticle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
-        TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
-        return E_FAIL;
+    ///* For.Com_BloodParticle */
+    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_Blood"),
+    //    TEXT("Com_BloodParticle"), reinterpret_cast<CComponent**>(&m_pBloodParticleCom), &bloodDesc)))
+    //    return E_FAIL;
 
 
-    CBulletShell_Particle_System::BULLETSHELLDESC shellDesc = {};
-    shellDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
-    shellDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
-    shellDesc.iNumParticles = { 10 };
-    shellDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
+    //CBulletShell_Particle_System::BULLETSHELLDESC shellDesc = {};
+    //shellDesc.Bounding_Box.m_vMin = { -1, -1, -1 };
+    //shellDesc.Bounding_Box.m_vMax = { 1, 1, 1 };
+    //shellDesc.iNumParticles = { 10 };
+    //shellDesc.strTexturePath = L"../../Resources/Textures/Particle/sprite_blood_particle.png";
 
-    /* For.Com_BulletShellParticle */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
-        TEXT("Com_BulletShellParticle"), reinterpret_cast<CComponent**>(&m_pBulletShellParticleCom), &shellDesc)))
-        return E_FAIL;
+    ///* For.Com_BulletShellParticle */
+    //if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Particle_BulletShell"),
+    //    TEXT("Com_BulletShellParticle"), reinterpret_cast<CComponent**>(&m_pBulletShellParticleCom), &shellDesc)))
+    //    return E_FAIL;
 
     return S_OK;
 }
@@ -119,13 +126,24 @@ void CGameObject_Projectile_Test::Priority_Update(_float fTimeDelta)
 void CGameObject_Projectile_Test::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
-    m_pParticleCom->Update(fTimeDelta);
-    m_pGoldParticleCom->Update(fTimeDelta);
-    m_pBloodParticleCom->Update(fTimeDelta);
+    m_fElaspedTime += fTimeDelta;
+    if (m_fElaspedTime >= m_fDelay)
+    {
+        m_fElaspedTime -= m_fDelay;
+        if (m_pParticleCom)
+            m_pParticleCom->Add_Particle();
+    }
+        
+    if(m_pParticleCom)
+        m_pParticleCom->Update(fTimeDelta);
+    if(m_pGoldParticleCom)
+        m_pGoldParticleCom->Update(fTimeDelta);
+    if (m_pBloodParticleCom)
+        m_pBloodParticleCom->Update(fTimeDelta);
     
     m_pTransformCom->Go(m_vDir, fTimeDelta);
 
-    dynamic_cast<CTrail_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
+    dynamic_cast<CProjectile_Particle_System*>(m_pParticleCom)->Set_Dir(m_vDir);
     //m_pParticleCom->Set_Origin(m_vDir);
 }
 
@@ -133,7 +151,7 @@ void CGameObject_Projectile_Test::Late_Update(_float fTimeDelta)
 {
     if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).x > 50.f || m_pTransformCom->Get_State(CTransform::STATE_POSITION).x < -50.f)
         m_vDir *= -1.f;
-    m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 }
 
 HRESULT CGameObject_Projectile_Test::Pre_Render()
@@ -169,11 +187,11 @@ HRESULT CGameObject_Projectile_Test::Render()
     if (FAILED(m_pParticleCom->Render()))
         return E_FAIL;
 
-    if (FAILED(m_pGoldParticleCom->Render()))
+    /*if (FAILED(m_pGoldParticleCom->Render()))
         return E_FAIL;
 
     if (FAILED(m_pBloodParticleCom->Render()))
-        return E_FAIL;
+        return E_FAIL;*/
 
     Post_Render();
 

@@ -36,7 +36,7 @@ HRESULT CMagic_Particle_System::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMagic_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CMagic_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
 	pAttribute->bIsAlive = true;
 	GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);

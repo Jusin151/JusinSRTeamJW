@@ -15,6 +15,7 @@ CPattern_Shoot::CPattern_Shoot()
 bool CPattern_Shoot::Is_Finished() const
 {
     return m_bFinished;
+   
 }
 
 void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
@@ -51,7 +52,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
                 pDesc.wBulletType = L"0_Phase4_Shoot";
                 pDesc.isLeft = (rand() % 2 == 0);
                 pDesc.iPatternType = 0; // 
-
+                
                 if (!pBoss->Get_GameInstance()->Add_GameObject_FromPool(
                     LEVEL_HONG, LEVEL_HONG,
                     TEXT("Layer_HellBoss_PHASE4_Bullet"), &pDesc))

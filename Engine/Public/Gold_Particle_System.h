@@ -18,7 +18,7 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
+	virtual void Reset_Particle(ATTRIBUTE* pAttribute, void * pArg = nullptr) override;
 	virtual void Update(float fTimeDelta) override;
 	void Set_Dir(_float3 vDir) { m_vDir = -vDir; }
 public:

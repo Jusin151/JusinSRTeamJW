@@ -35,7 +35,7 @@ HRESULT CSmoke_Effect::Initialize(void* pArg)
 HRESULT CSmoke_Effect::Ready_Components()
 {
 	CSmoke_Particle_System::SMOKEDESC SmokeDesc = {};
-	SmokeDesc.iNumParticles = { 10u };
+	SmokeDesc.iNumParticles = { 1 };
 	SmokeDesc.fSize = { 0.5f };
 	SmokeDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
 	SmokeDesc.Bounding_Box.m_vMin = { 0.f, m_Weapon_Effect_INFO.vPos.y, 0.f };

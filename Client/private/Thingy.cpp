@@ -1,5 +1,4 @@
 #include "Thingy.h"
-#include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
 #include "Player.h"
@@ -46,7 +45,7 @@ HRESULT CThingy::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(2.5f, 2.5f, 2.5f);
 
 	// 디버깅 용
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	// morph 상태로 소환
 	m_eCurState = MS_MORPH;

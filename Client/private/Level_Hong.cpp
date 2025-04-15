@@ -63,6 +63,14 @@ HRESULT CLevel_Hong::Initialize()
 		LEVEL_HONG, TEXT("Layer_HellBoss"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Thingy"),
+		LEVEL_HONG, TEXT("Layer_Monster_Thingy"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Hellhound"),
+		LEVEL_HONG, TEXT("Layer_Monster_Hellhound"))))
+		return E_FAIL;
+
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/068 Hell - HongDongWan").SetVolume(0.25f);
 

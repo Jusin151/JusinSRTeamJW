@@ -37,7 +37,7 @@ HRESULT CSnow_Particle_System::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CSnow_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CSnow_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
 	pAttribute->bIsAlive = true;
 

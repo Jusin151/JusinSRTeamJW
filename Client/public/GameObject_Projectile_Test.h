@@ -40,6 +40,10 @@ private:
 	CParticle_System*	m_pBloodParticleCom = { nullptr };
 	CParticle_System*	m_pBulletShellParticleCom = { nullptr };
 
+private:
+	_float				m_fElaspedTime = {};
+	_float				m_fDelay = { 1.0f };
+
 public:
 	static	CGameObject_Projectile_Test* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject_Projectile_Test* Clone(void* pArg);

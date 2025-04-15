@@ -33,7 +33,8 @@ void CHellBoss_CircleState::Enter(CHellBoss* pBoss)
 
 void CHellBoss_CircleState::Update(CHellBoss* pBoss, float fTimeDelta)
 {
-    const float radius = 30.f;
+   const float radius = 30.f;
+   // const float radius = 0.f;
     const float angularSpeed = D3DX_PI / 4.f;
 
     pBoss->m_fAngle += fTimeDelta * angularSpeed;

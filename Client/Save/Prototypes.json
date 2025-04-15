@@ -121,12 +121,6 @@
       "count": 4
     },
     {
-      "tag": "Prototype_Component_Texture_Thingy",
-      "level": 0,
-      "path": "../../Resources/Textures/Monster/Thingy/thingy_%d.png",
-      "count": 78
-    },
-    {
       "tag": "Prototype_Component_Texture_ThingySpike",
       "level": 0,
       "path": "../../Resources/Textures/Monster/Thingy/thingy_spikes_%d.png",
@@ -524,11 +518,6 @@
       "tag": "Prototype_GameObject_Snowspider",
       "level": 3,
       "class": "CSnowspider" 
-    },
-    {
-      "tag": "Prototype_GameObject_Thingy",
-      "level": 0,
-      "class": "CThingy"
     },
     {
       "tag": "Prototype_GameObject_ThingySpike",

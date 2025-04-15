@@ -54,8 +54,10 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_TextureRanges["Reloading"] = { 3, 16 };
 	m_TextureRanges["Firing"] = { 1, 2 };
 
+
 	Ranged_INFO.CurrentAmmo = 15;
 	Ranged_INFO.MaxAmmo = 15;
+
 	m_fAnimationSpeed = 0.03f;
 
 
@@ -161,7 +163,6 @@ void CShotGun::Attack_WeaponSpecific(_float fTimeDelta)
 	}
 	else if (m_eState == State::Idle && Ranged_INFO.CurrentAmmo == 0)
 	{
-		m_eState = State::Reloading;
 		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Gun/gun_empty")->SetVolume(0.5f);
 	}
 }

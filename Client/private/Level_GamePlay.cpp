@@ -60,21 +60,13 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_GAMEPLAY, TEXT("Layer_MiniMap"))))
 		return E_FAIL;
-	// json으로 변경 필요
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Statue"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
-	//	return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Box"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Tree"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_Deco"))))
-	//	return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Thingy"),
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Thingy"),
 		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Thingy"))))
+		return E_FAIL;*/
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Looker"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Looker"))))
 		return E_FAIL;
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.5f);
