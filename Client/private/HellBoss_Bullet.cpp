@@ -559,6 +559,13 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 				{
 					pCamera->TriggerShake(0.5f, 0.5f); // 쉐이크 강도, 지속 시간 조절
 					m_pSoundCom->Play_Event(L"event:/Weapons/Boom")->SetVolume(1.f); 
+
+					_bool bTrue = true; 
+					m_pGameInstance->Add_GameObject(
+						LEVEL_HONG,
+						TEXT("Prototype_GameObject_BombBox"),
+						LEVEL_HONG, 
+						TEXT("Layer_BombBox"),&bTrue); 
 				}
 				else
 					pCamera->TriggerShake(0.3f, 0.3f); // 쉐이크 강도, 지속 시간 조절

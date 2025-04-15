@@ -98,8 +98,19 @@ void CMonster_Base::Priority_Update(_float fTimeDelta)
 	}
 
 	if (m_iHp <= 0)
+	{
+		
 		m_eCurState = MS_DEATH;
-
+		if (!bAdd_Exp)
+		{
+			if (CPlayer* pTarget = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
+			{
+				pTarget->Add_Exp(m_iExp);
+			}
+			bAdd_Exp = true;
+		}
+		
+	}
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vNextPos = m_vCurPos;
 }

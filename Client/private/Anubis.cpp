@@ -34,6 +34,8 @@ HRESULT CAnubis::Initialize(void* pArg)
 
 	m_eType = CG_MONSTER;
 
+	m_iExp = 23;
+
 	return S_OK;
 }
 

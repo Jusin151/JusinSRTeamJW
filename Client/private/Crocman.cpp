@@ -38,6 +38,8 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 	m_fSpeed = 0.15f;
 
+	m_iExp = 31;
+
 	m_pColliderCom->Set_Scale(_float3(2.f, 2.f, 2.f));
 
 	return S_OK;

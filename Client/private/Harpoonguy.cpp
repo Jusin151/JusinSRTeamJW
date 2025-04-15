@@ -39,6 +39,8 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 
 	m_fSpeed = 0.25f;
 
+	m_iExp = 27;
+
 	m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
 
 	return S_OK;

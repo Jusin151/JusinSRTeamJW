@@ -61,6 +61,7 @@ public:
 public: // 패턴관련
 	void Hp_Pattern();
 	void Jump_Pattern(_float fTimeDelata);
+	void Phase3_Pattern(_float fTimeDelta);
 	void Set_Pattern(CPattern_Base* pPattern); // 공격패턴 설정
 	void Use_Attack(_float fTimeDelta); // 패턴 사용
 public:
@@ -95,7 +96,7 @@ private: // 3페이즈 관련
 	_float3 m_vLandingTargetPos = {};
 public://5페이즈 관련
 	_float Get_FloorOffset() const { return m_fOffset; } 
-
+	void Dead_Scene();
 
 public: // 3페이즈 관련
 	void Set_Blink(_bool bType) { m_bBlink = bType; }
@@ -112,15 +113,15 @@ public: // 3페이즈 관련
 	_float m_fPhase3_AttackCooldown = 0.f;
 private:
 	_bool m_bFalling = false;
-	_bool m_bParryWindow = false; 
-	_bool m_bParrySuccess = false;
-	_float m_fParryTextTimer = 0.f;
+	_bool m_bParryWindow = false;  //패링용
+	_bool m_bParrySuccess = false; //패링용
+	_float m_fParryTextTimer = 0.f;//패링타이머
 	_float m_fFallSpeed = { 100.f };
 	_float3 m_vTargetDir = {};
 	_float m_fAttackDelay = 0.f;
 	_float m_fAttackDelayTimer = 0.f;
-	_float m_fPhase3_KnockBack_Timer = 0.f; // 밀어버리는 함수
-	_float m_fPhase3AttackCooldown = 0.f;
+	_float m_fPhase3_KnockBack_Timer = 0.f; // 밀어버리는 변수
+	_float m_fPhase3AttackCooldown = 0.f; // 쿨타임변수
 	_bool m_bWaitingForPhase3Dash = false; 
 public:
 	void Set_AttackDelay(_float fDelay) { m_fAttackDelay = fDelay; m_fAttackDelayTimer = 0.f; }
