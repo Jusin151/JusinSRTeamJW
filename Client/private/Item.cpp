@@ -217,12 +217,21 @@ void CItem::Use_Item()
 	case Client::CItem::ITEM_TYPE::EXP:
 		break;
 	case Client::CItem::ITEM_TYPE::STAT:
+		m_pPlayer->Add_SkillPoint(5);
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(5, m_strItemName);
+		}
 		break;
 	case Client::CItem::ITEM_TYPE::KEY:
 		m_pSoundCom->Play_Event(L"event:/Objects/Keys_Pickup")->SetVolume(0.5f);
 		if (FAILED(m_pPlayer->Add_Item(m_strItemName)))
 		{
 			return;
+		}
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+		{
+			pUI_Event->ShowEventText(1, m_strItemName);
 		}
 		break;
 	case Client::CItem::ITEM_TYPE::WEAPON:
@@ -233,6 +242,10 @@ void CItem::Use_Item()
 		else
 		{
 			m_pPlayer->Add_Weapon(m_strItemName);
+			if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
+			{
+				pUI_Event->ShowEventText(1, m_strItemName);
+			}
 		}
 		break;
 	case Client::CItem::ITEM_TYPE::MAX:

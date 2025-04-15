@@ -44,7 +44,7 @@ HRESULT CHellhound::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(3.f, 3.f, 3.f);
 
 	// 디버깅 용
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	// morph 상태로 소환
 	m_eCurState = MS_IDLE;
