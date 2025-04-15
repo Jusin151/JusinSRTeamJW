@@ -23,7 +23,17 @@ public:
 		_float ftime;
 	};
 
+	typedef struct tagEventRenderText
+	{
+		_wstring stText;
+		_float2 vPos;
+		_float2 vFontSize;
+		_float3 vColor;
+		_float fLifeTime;
+	} EVENT_RENDER_TEXT;
+
 	vector<EventText> m_vecEventTexts;
+	vector<EVENT_RENDER_TEXT> m_vecEventRenderTexts;
 
 public:
 	enum HP_STATE { Default, Heated };
@@ -41,6 +51,9 @@ public:
 	virtual HRESULT Render()override;
 
 	_float3 HSVtoRGB(float h, float s, float v);
+
+public:
+	void Add_EventRender(const EVENT_RENDER_TEXT& vEventRenderText);
 private:
 	float m_fRainbowTimer = { 0.f };
 

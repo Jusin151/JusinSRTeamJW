@@ -27,9 +27,18 @@ void CUI_Event::Update(_float fTimeDelta)
 	for (auto& it : m_vecEventTexts)
 		it.ftime -= fTimeDelta;
 
+	for (auto& it : m_vecEventRenderTexts)
+	{
+		it.fLifeTime -= fTimeDelta;
+	}
+
 	m_vecEventTexts.erase(remove_if(m_vecEventTexts.begin(), m_vecEventTexts.end(),
 		[](const EventText& e) { return e.ftime <= 0.f; }),
 		m_vecEventTexts.end());
+
+	m_vecEventRenderTexts.erase(remove_if(m_vecEventRenderTexts.begin(), m_vecEventRenderTexts.end(),
+		[](const EVENT_RENDER_TEXT& e) { return e.fLifeTime <= 0.f; }),
+		m_vecEventRenderTexts.end());
 }
 
 
@@ -83,6 +92,11 @@ HRESULT CUI_Event::Render()
 		}
 	}
 
+	for (const auto& renderText : m_vecEventRenderTexts)
+	{
+		m_pGameInstance->Render_Font_Size(TEXT("EventFont"), renderText.stText, renderText.vPos, renderText.vFontSize, renderText.vColor);
+	}
+
 	return S_OK;
 }
 
@@ -102,6 +116,11 @@ _float3 CUI_Event::HSVtoRGB(float h, float s, float v)
 	else { r = c; g = 0; b = x; }
 
 	return _float3(r + m, g + m, b + m);
+}
+
+void CUI_Event::Add_EventRender(const EVENT_RENDER_TEXT& vEventRenderText)
+{
+	m_vecEventRenderTexts.push_back(vEventRenderText);
 }
 
 
