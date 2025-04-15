@@ -812,6 +812,9 @@ HRESULT CPlayer::Ready_Player_SetUP()
 	if (auto pPlayer_Hit = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hit_Blood")))
 		Add_Observer(pPlayer_Hit);
 
+	if (auto pPlayer_Restore = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Restore_Effect")))
+		Add_Observer(pPlayer_Restore);
+
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);
 

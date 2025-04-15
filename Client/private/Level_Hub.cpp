@@ -564,6 +564,11 @@ HRESULT CLevel_Hub::Ready_Layer_UI()
 		LEVEL_STATIC, TEXT("Layer_Blood"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Restore_Effect"),
+		LEVEL_STATIC, TEXT("Layer_Restore"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

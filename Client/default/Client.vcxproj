@@ -294,6 +294,7 @@
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\Shop.h" />
+    <ClInclude Include="..\public\UI_Restore_Effect.h" />
     <ClInclude Include="..\Public\UI_Shop_Base.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
@@ -458,6 +459,7 @@
     <ClCompile Include="..\private\Shop.cpp" />
     <ClCompile Include="..\private\UI_Hit_Blood.cpp" />
     <ClCompile Include="..\private\UI_Point_Shop.cpp" />
+    <ClCompile Include="..\private\UI_Restore_Effect.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />

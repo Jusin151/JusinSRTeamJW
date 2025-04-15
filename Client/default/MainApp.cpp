@@ -27,6 +27,7 @@
 #include "GameObject_Snow.h"
 #include "Sound_Manager.h"
 #include "UI_Hit_Blood.h"
+#include "UI_Restore_Effect.h"
 #include "Camera_CutScene.h"
 
 
@@ -219,11 +220,18 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/SkyBox/SkyBox_Cthulhu.dds"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Cube_Base*/
+	/* For.Prototype_Component_Texture_Player_Hit*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Player_Hit"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/Effect/bloodscreen_2.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Player_Restore*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Player_Restore"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Effect/Restore_Screen.png"), 1))))
 		return E_FAIL;
 #pragma endregion
 	
@@ -427,6 +435,11 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Hit_Blood"),
 		CUI_Hit_Blood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Restore_Effect"),
+		CUI_Restore_Effect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 

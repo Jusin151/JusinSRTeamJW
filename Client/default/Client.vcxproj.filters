@@ -526,6 +526,9 @@
     <Filter Include="02.GameObjects\04. Projectile\Monster\Looker">
       <UniqueIdentifier>{154b37b4-c9c3-4f4c-ad3f-4114873569bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI">
+      <UniqueIdentifier>{02dead43-a4b2-4154-832f-6c76e37a60ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1035,6 +1038,9 @@
     <ClInclude Include="..\public\LookerBullet.h">
       <Filter>02.GameObjects\04. Projectile\Monster\Looker</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\UI_Restore_Effect.h">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1501,6 +1507,9 @@
     </ClCompile>
     <ClCompile Include="..\private\LookerBullet.cpp">
       <Filter>02.GameObjects\04. Projectile\Monster\Looker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Restore_Effect.cpp">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
