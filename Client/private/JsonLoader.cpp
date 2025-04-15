@@ -41,7 +41,8 @@
 #include "Thingy.h"
 #include "ThingySpike.h"
 #include "Hellhound.h"
-
+#include "Looker.h"
+#include "LookerBullet.h"
 
 
 HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring& filePath)
@@ -403,6 +404,10 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 		return CThingySpike::Create(pGraphic_Device);
 	else if (className == "CHellhound")
 		return CHellhound::Create(pGraphic_Device);
+	else if (className == "CLooker")
+		return CLooker::Create(pGraphic_Device);
+	else if (className == "CLookerBullet")
+		return CLookerBullet::Create(pGraphic_Device);
 #pragma endregion
 
 	else if (className == "CItem")

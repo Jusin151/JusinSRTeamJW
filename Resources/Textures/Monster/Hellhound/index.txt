@@ -1,0 +1,9 @@
+idle not damaged 0
+idle damaged 1
+walk not damaged 2 ~ 6
+walk damaged 7 ~ 12
+attack not damaged 13 ~ 22
+attack damaged 23 ~ 29
+hit not damaged 30
+morph 31 ~ 33
+death 34 ~ 45
