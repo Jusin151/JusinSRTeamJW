@@ -44,7 +44,7 @@ HRESULT CFirework_Particle_System::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CFirework_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CFirework_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
     pAttribute->bIsAlive = true;
     pAttribute->vPosition = m_vPos; // 시작 위치는 동일

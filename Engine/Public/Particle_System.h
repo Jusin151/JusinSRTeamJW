@@ -47,9 +47,9 @@ public:
 	virtual HRESULT Post_Render();
 
 public:
-	virtual void Add_Particle();
+	virtual void Add_Particle(void* pArg = nullptr);
 	virtual void Reset();
-	virtual void Reset_Particle(ATTRIBUTE* pAttribute);
+	virtual void Reset_Particle(ATTRIBUTE* pAttribute, void* pArg = nullptr);
 
 public:
 	void Set_Origin(const _float3& vOrigin) { m_vPos = vOrigin; }
