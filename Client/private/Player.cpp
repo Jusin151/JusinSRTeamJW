@@ -638,10 +638,11 @@ void CPlayer::Add_Exp(_int Exp)
 		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 		{
 			pUI_Event->ShowEventText(0, L"LevelUp");
+			m_pSoundCom->Play_Event(L"event:/Objects/Level_Up_Distorted")->SetVolume(0.7f);
+			Notify(m_iPlayerEXP.first, L"Exp");
 		}
 	}
-	m_pSoundCom->Play_Event(L"event:/Level_Up_Distorted")->SetVolume(0.5f);
-	Notify(m_iPlayerEXP.first, L"Exp");
+
 
 
 	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))

@@ -56,7 +56,7 @@ void CDoor::Update(_float fTimeDelta)
 	// 문 애니메이션 업데이트
 	if (m_eDoorState == DOOR_STATE::OPENING)
 	{
-		m_pSoundCom->Play_Event(L"event:/Objects/door_Sliding_CLose_Clean", m_pTransformCom)->SetVolume(0.5f);
+
 		m_fDoorOpenAmount += m_fDoorOpenSpeed * fTimeDelta;
 		if (m_fDoorOpenAmount >= 1.0f)
 		{
@@ -67,7 +67,7 @@ void CDoor::Update(_float fTimeDelta)
 	}
 	else if (m_eDoorState == DOOR_STATE::CLOSING)
 	{
-		m_pSoundCom->Play_Event(L"event:/Objects/door_Sliding_CLose_Clean", m_pTransformCom)->SetVolume(0.5f);
+		
 		m_fDoorOpenAmount -= m_fDoorOpenSpeed * fTimeDelta;
 		if (m_fDoorOpenAmount <= 0.0f)
 		{
@@ -191,6 +191,7 @@ void CDoor::Open_Door()
 {
 	if (m_eDoorState == DOOR_STATE::CLOSED || m_eDoorState == DOOR_STATE::CLOSING)
 	{
+		m_pSoundCom->Play_Event(L"event:/Objects/Door_Sliding_CLose_Clean", m_pTransformCom)->SetVolume(0.7f);
 		m_eDoorState = DOOR_STATE::OPENING;
 	}
 }

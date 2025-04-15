@@ -70,7 +70,7 @@ HRESULT CUI_Event::Render()
 		{
 			_float2 centerPos = _float2(-130.f, 0.f);
 			_float2 centerSize = _float2(20.f, 40.f);
-			_float3 levelColor = _float3(255.f, 0.f, 0.f);
+			_float3 levelColor = _float3(1.f, 0.f, 0.f);
 
 			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
 		}
@@ -78,7 +78,7 @@ HRESULT CUI_Event::Render()
 		{
 			_float2 centerPos = _float2(-330.f, -300.f);
 			_float2 centerSize = _float2(20.f, 40.f);
-			_float3 levelColor = _float3(255.f, 0.f, 0.f);
+			_float3 levelColor = _float3(1.f, 0.f, 0.f);
 
 			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
 		}

@@ -218,6 +218,7 @@ void CItem::Use_Item()
 		break;
 	case Client::CItem::ITEM_TYPE::STAT:
 		m_pPlayer->Add_SkillPoint(5);
+		m_pSoundCom->Play_Event(L"event:/Objects/Keys_Pickup")->SetVolume(0.5f);
 		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 		{
 			pUI_Event->ShowEventText(5, m_strItemName);

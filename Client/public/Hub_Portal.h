@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include "Shop.h"
 
+BEGIN(Engine)
+class CSound_Source;
+END
+
 BEGIN(Client)
 class CHub_Portal : public CGameObject 
 {
@@ -32,6 +36,7 @@ public:
     LEVEL Get_Level() const { return m_eLevel; }
     void Set_Level(LEVEL eLevel) { m_eLevel = eLevel; }
     _bool IsOpen_Portal() const { return m_bPortal_On; }
+    virtual void Reset() override;
 protected:
     CLight* m_pLightCom = { nullptr };
     CShader* m_pShaderCom = { nullptr };
@@ -56,6 +61,7 @@ private:
     _float m_fFrameTime = {};
     _uint m_iCurrentFrame = {};
     LEVEL m_eLevel;
+    CSound_Source* m_pSoundCom = { nullptr };
 public:
     void OnNotify(void* pArg, const wstring& type)
     {

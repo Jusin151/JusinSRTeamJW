@@ -69,7 +69,7 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Looker"))))
 		return E_FAIL;
 
-	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.5f);
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.3f);
 
 	
 

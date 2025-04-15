@@ -3,6 +3,7 @@
 #include <GameInstance.h>
 #include "Player.h"
 #include "CollisionObject.h"
+#include "Sound_Source.h"
 #include "Level_Loading.h"
 
 CHub_Portal::CHub_Portal(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -161,6 +162,11 @@ HRESULT CHub_Portal::Render()
     return S_OK;
 }
 
+void CHub_Portal::Reset()
+{
+    m_pSoundCom->Play_Event(L"event:/Objects/Teleporter_Staticloop", m_pTransformCom)->SetVolume(1.f);
+}
+
 
 
 
@@ -291,6 +297,9 @@ HRESULT CHub_Portal::Ready_Components()
     //    TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom))))
     //    return E_FAIL;
 
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+        TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -325,7 +334,6 @@ CGameObject* CHub_Portal::Clone(void* pArg)
 void CHub_Portal::Free()
 {
     __super::Free();
-
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
@@ -335,4 +343,5 @@ void CHub_Portal::Free()
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pLightCom);
     Safe_Release(m_pParticleCom);
+    Safe_Release(m_pSoundCom);
 }
