@@ -15,6 +15,7 @@
 #include "Level_Loading.h"
 #include "Transform.h"
 #include <Camera_FirstPerson.h>
+#include "HellBoss.h"
 
 static const vector<CItem::ITEM_DESC> g_ItemInfos{
 	{ CItem::ITEM_TYPE::HP, L"Prototype_GameObject_Item_HP_Small" },
@@ -63,14 +64,10 @@ HRESULT CLevel_Hong::Initialize()
 		LEVEL_HONG, TEXT("Layer_HellBoss"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Thingy"),
-		LEVEL_HONG, TEXT("Layer_Monster_Thingy"))))
-		return E_FAIL;
+	m_pHellboss = dynamic_cast<CHellBoss*>(m_pGameInstance->Find_Object(LEVEL_HONG, TEXT("Layer_HellBoss")));
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Hellhound"),
-		LEVEL_HONG, TEXT("Layer_Monster_Hellhound"))))
+	if (!m_pHellboss)
 		return E_FAIL;
-
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/068 Hell - HongDongWan").SetVolume(0.25f);
 
@@ -88,7 +85,9 @@ void CLevel_Hong::Update(_float fTimeDelta)
 	}
 
 	m_fItemSpawnTime += fTimeDelta;
+	m_fMonsterSpawnTime += fTimeDelta;
 	Spawn_Item();
+	Spawn_Monsters((m_pHellboss->Get_Phase()!=PHASE4));
 }
 
 HRESULT CLevel_Hong::Render()
@@ -135,6 +134,83 @@ void CLevel_Hong::Spawn_Item()
 			}
 		}
 		m_fItemSpawnTime = 0.f;
+	}
+}
+
+void CLevel_Hong::Spawn_Monsters(_bool bInterval)
+{
+     _float3 playerPos = m_pPlayerTransCom->Get_State(CTransform::STATE_POSITION);
+
+	if (bInterval)
+	{
+		if (m_fMonsterSpawnTime >= 5.f)
+		{
+			_float3 spawnPos;
+
+			GetRandomVector(&spawnPos, &playerPos, 55.f);
+			spawnPos.y = 0.5f;
+			_int iRand = rand() % static_cast<int>(MonsterType::TYPE_END);
+			Spawn_Monster(static_cast<MonsterType>(iRand), spawnPos);
+			m_fMonsterSpawnTime = 0.f;
+		}
+	}
+	else
+	{
+		if (m_fMonsterSpawnTime >= m_fMonsterSpawnCooldownTime)
+		{
+			for (_int i = 0; i < 20; ++i)
+			{
+				_float3 spawnPos;
+				GetRandomVector(&spawnPos, &playerPos, 50.f);
+				spawnPos.y = 0.5f;
+
+				MonsterType type;
+				if (i % 2 == 0)
+					type = MonsterType::THINGY;
+				else if (i % 5 == 0)
+					type = MonsterType::LOOKER;
+				else
+					type = MonsterType::HELLHOUND;
+
+				Spawn_Monster(type, spawnPos);
+			}
+			m_fMonsterSpawnTime = 0.f;
+		}
+	}
+}
+
+void CLevel_Hong::Spawn_Monster(MonsterType type, const _float3& spawnPos)
+{
+	_wstring stProtoTag;
+	_wstring stLayerTag;
+
+	switch (type)
+	{
+	case MonsterType::THINGY:
+		stProtoTag = TEXT("Prototype_GameObject_Thingy");
+		stLayerTag = TEXT("Layer_Monster_Thingy");
+		break;
+	case MonsterType::LOOKER:
+		stProtoTag = TEXT("Prototype_GameObject_Looker");
+		stLayerTag = TEXT("Layer_Monster_Looker");
+		break;
+	case MonsterType::HELLHOUND:
+		stProtoTag = TEXT("Prototype_GameObject_Hellhound");
+		stLayerTag = TEXT("Layer_Monster_Hellhound");
+		break;
+	default:
+		return;
+	}
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, stProtoTag, LEVEL_HONG, stLayerTag)))
+		return;
+
+	auto pMonster = m_pGameInstance->Find_Last_Object(LEVEL_HONG, stLayerTag);
+	if (pMonster)
+	{
+		CTransform* pTransform = dynamic_cast<CTransform*>(pMonster->Get_Component(TEXT("Com_Transform")));
+		if (pTransform)
+			pTransform->Set_State(CTransform::STATE_POSITION, spawnPos);
 	}
 }
 
