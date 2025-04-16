@@ -37,7 +37,7 @@ public:
 	void StartEffect();
 	virtual void OnNotify(void* pArg, const wstring& type) override
 	{
-		if (type == L"HP")
+		if (type == L"HP" || type == L"LevelUp")
 		{
 			StartEffect();
 		}
