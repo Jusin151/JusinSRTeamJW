@@ -25,7 +25,7 @@ HRESULT CLevel_Boss::Initialize()
 {
 
 	CJsonLoader jsonLoader;
- 	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_GAMEPLAY);
+	jsonLoader.Load_Level(m_pGameInstance, m_pGraphic_Device, L"../Save/LEVEL_AntarcticBoss.json", LEVEL_GAMEPLAY);
 	m_pGameInstance->Stop_All_Event();
 
 
@@ -52,7 +52,7 @@ HRESULT CLevel_Boss::Initialize()
 	CTrigger::TRIGGER_DESC vTriggerDesc;
 	vTriggerDesc.bStartsActive = true;
 	vTriggerDesc.eLevel = LEVEL_HUB;
-	vTriggerDesc.vPos = _float3(4.f,1.f, -2.4f);
+	vTriggerDesc.vPos = _float3(4.f, 1.f, -2.4f);
 	vTriggerDesc.eType = CTrigger::TRIGGER_TYPE::LEVEL_CHANGE;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger_Button"),
 		LEVEL_BOSS, TEXT("Layer_Trigger_Level"), &vTriggerDesc)))
@@ -65,6 +65,8 @@ HRESULT CLevel_Boss::Initialize()
 	{
 		pWormhole->SetActive(false);
 	}
+
+	m_ItemList = m_pGameInstance->Get_LayerObjects(LEVEL_BOSS, TEXT("Layer_Item"));
 	return S_OK;
 }
 
@@ -79,7 +81,7 @@ void CLevel_Boss::Update(_float fTimeDelta)
 	}
 
 
-	if (m_pPlayer&& m_pPlayer->Get_ClearLevel()==LEVEL_BOSS)
+	if (m_pPlayer && m_pPlayer->Get_ClearLevel() == LEVEL_BOSS)
 	{
 		if (m_pLevelTrigger && !m_pLevelTrigger->IsActive())
 		{
@@ -90,14 +92,18 @@ void CLevel_Boss::Update(_float fTimeDelta)
 				pWormhole->SetActive(true);
 			}
 		}
-		if (m_pLevelTrigger&&m_pLevelTrigger->WasTriggered())
+		if (m_pLevelTrigger && m_pLevelTrigger->WasTriggered())
 		{
 			// 나중에 웜홀 만들기
-		  if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
-			return;
+			if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+				CLevel_Loading::Create(m_pGraphic_Device, LEVEL_HUB))))
+				return;
 		}
 	}
+
+	m_fItemSpawnTime += fTimeDelta;
+
+	SpawnItems();
 }
 
 HRESULT CLevel_Boss::Render()
@@ -112,6 +118,21 @@ HRESULT CLevel_Boss::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 
 	return S_OK;
+}
+
+void CLevel_Boss::SpawnItems()
+{
+	if (m_fItemSpawnTime >= 25.f)
+	{
+		for (auto& pItem : m_ItemList)
+		{
+			if (pItem && !pItem->IsActive())
+			{
+				pItem->SetActive(true);
+			}
+		}
+		m_fItemSpawnTime = 0.f;
+	}
 }
 
 CLevel_Boss* CLevel_Boss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

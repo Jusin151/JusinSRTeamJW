@@ -196,26 +196,39 @@ void CItem::Use_Item()
 {
 	if (!m_pPlayer) return;
 
+	_int iAmount = 10; // 기본값
+
+	if (m_strItemName.find(L"Big") != std::wstring::npos)
+		iAmount = 20;
+	if (m_strItemName.find(L"Minigun_Ammo") != std::wstring::npos)
+		iAmount = 20;
+
+	// HP Big 판별용
+	_int iHpAmount = 10;
+	if (m_strItemName.find(L"HP_Big") != std::wstring::npos)
+		iHpAmount = 20;
+
 	switch (m_eItemType)
 	{
 	case Client::CItem::ITEM_TYPE::HP:
-		m_pPlayer->Add_HP(+10);
+		m_pPlayer->Add_HP(iHpAmount);
 		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
+
 	case Client::CItem::ITEM_TYPE::MP:
-		m_pPlayer->Add_MP(10);
+		m_pPlayer->Add_MP(iAmount);
 		m_pSoundCom->Play_Event(L"event:/Objects/potion")->SetVolume(0.5f);
 		break;
+
 	case Client::CItem::ITEM_TYPE::AMMO:
-		m_pPlayer->Add_Ammo(m_strItemName, 10);
+		m_pPlayer->Add_Ammo(m_strItemName, iAmount);
 		m_pSoundCom->Play_Event(L"event:/Objects/ammo_pickup")->SetVolume(0.5f);
-		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event"))) 
+		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 		{
-			pUI_Event->ShowEventText(10,m_strItemName);
+			pUI_Event->ShowEventText(iAmount, m_strItemName);
 		}
 		break;
-	case Client::CItem::ITEM_TYPE::EXP:
-		break;
+
 	case Client::CItem::ITEM_TYPE::STAT:
 		m_pPlayer->Add_SkillPoint(5);
 		m_pSoundCom->Play_Event(L"event:/Objects/Keys_Pickup")->SetVolume(0.5f);
@@ -224,21 +237,21 @@ void CItem::Use_Item()
 			pUI_Event->ShowEventText(5, m_strItemName);
 		}
 		break;
+
 	case Client::CItem::ITEM_TYPE::KEY:
 		m_pSoundCom->Play_Event(L"event:/Objects/Keys_Pickup")->SetVolume(0.5f);
 		if (FAILED(m_pPlayer->Add_Item(m_strItemName)))
-		{
 			return;
-		}
 		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 		{
 			pUI_Event->ShowEventText(1, m_strItemName);
 		}
 		break;
+
 	case Client::CItem::ITEM_TYPE::WEAPON:
 		if (m_pPlayer->Has_Item(m_strItemName))
 		{
-			m_pPlayer->Add_Ammo(m_strItemName, 10);
+			m_pPlayer->Add_Ammo(m_strItemName, 20);
 		}
 		else
 		{
@@ -249,8 +262,8 @@ void CItem::Use_Item()
 			}
 		}
 		break;
+
 	case Client::CItem::ITEM_TYPE::MAX:
-		break;
 	default:
 		break;
 	}

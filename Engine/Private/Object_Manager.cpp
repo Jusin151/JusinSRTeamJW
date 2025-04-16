@@ -174,6 +174,15 @@ HRESULT CObject_Manager::Remove_Object(_uint iLevelIndex, const _wstring& strLay
 	return S_OK;
 }
 
+list<CGameObject*> CObject_Manager::Get_LayerObjects(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return list<CGameObject*>();
+
+	return pLayer->Get_LayerObjects();
+}
+
 
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {

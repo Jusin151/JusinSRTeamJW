@@ -98,6 +98,11 @@
     {
       "class": "CItem",
       "level": 8,
+      "tag": "Prototype_GameObject_Item_HP_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
       "tag": "Prototype_GameObject_Item_EXP"
     },
     {
@@ -108,7 +113,17 @@
     {
       "class": "CItem",
       "level": 8,
+      "tag": "Prototype_GameObject_Item_MP_Big"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
       "tag": "Prototype_GameObject_Item_Magnum_Ammo_Small"
+    },
+    {
+      "class": "CItem",
+      "level": 8,
+      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
     },
     {
       "class": "CItem",
@@ -129,11 +144,6 @@
       "class": "CItem",
       "level": 8,
       "tag": "Prototype_GameObject_Item_ShotGun_Ammo_Big"
-    },
-    {
-      "class": "CItem",
-      "level": 8,
-      "tag": "Prototype_GameObject_Item_Magnum_Ammo_Big"
     },
     {
       "class": "CStructure",
