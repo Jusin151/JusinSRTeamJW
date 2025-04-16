@@ -35,7 +35,7 @@ CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() },
 	m_pPickingSys{ CPickingSys::Get_Instance() }
 { 
-	Safe_AddRef(m_pSound_Manager);
+	
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pPickingSys);
 }
@@ -56,6 +56,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device, &m_pSound_Manager)))
 		return E_FAIL;	
+	Safe_AddRef(m_pSound_Manager);
 #pragma endregion
 
 #pragma region 준비
