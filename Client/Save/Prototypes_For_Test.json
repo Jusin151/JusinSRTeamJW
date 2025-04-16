@@ -94,20 +94,6 @@
       "tag": "Prototype_GameObject_Explosion_Effect",
       "level": 0,
       "class": "CExplosion_Effect"
-    },
-    {
-      "tag": "Prototype_GameObject_Terrain",
-      "level": 0,
-      "class": "CTerrain"
-    }
-  ],
-  "buffers": [
-    {
-      "tag": "Prototype_Component_VIBuffer_Terrain",
-      "level": 0,
-      "class": "CVIBuffer_Terrain",
-      "width": 256,
-      "height": 256
     }
   ]
 }

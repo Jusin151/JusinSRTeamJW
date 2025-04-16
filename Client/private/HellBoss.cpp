@@ -45,7 +45,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =9100;
+	m_iHp =17000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -959,31 +959,31 @@ HRESULT CHellBoss::Render()
 	m_pShaderCom->End();
 	Release_RenderState();
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 체력 :") + to_wstring(m_iHp),
-		_float2(-200.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
-	_float2(-300.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
-	_float2(-100.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
-	_float2(100.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
-
-if (m_fParryTextTimer > 0.f)
-{
-	if (m_bParrySuccess)
-	{
-		m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("패링 성공"),
-			_float2(-100.f, -100.f), _float2(8.f, 0.f), _float3(0.f, 1.f, 0.f));
-	}
-	else
-	{
-		m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("패링 실패"),
-			_float2(-100.f, -100.f), _float2(8.f, 0.f), _float3(1.f, 0.f, 0.f));
-	}
-}
+//	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 체력 :") + to_wstring(m_iHp),
+//		_float2(-200.f, 300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+//
+//	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+//	_float2(-300.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+//
+//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
+//	_float2(-100.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+//
+//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("보스 위치 Z:") + to_wstring(m_pTransformCom->Get_WorldMat()._43),
+//	_float2(100.f, -150.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+//
+//if (m_fParryTextTimer > 0.f)
+//{
+//	if (m_bParrySuccess)
+//	{
+//		m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("패링 성공"),
+//			_float2(-100.f, -100.f), _float2(8.f, 0.f), _float3(0.f, 1.f, 0.f));
+//	}
+//	else
+//	{
+//		m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("패링 실패"),
+//			_float2(-100.f, -100.f), _float2(8.f, 0.f), _float3(1.f, 0.f, 0.f));
+//	}
+//}
 
 
 

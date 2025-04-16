@@ -73,18 +73,6 @@
       "count": 1
     },
     {
-      "tag": "Prototype_Component_Texture_Anubis",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Anubis/anubis_%d.png",
-      "count": 1
-    },
-    {
-      "tag": "Prototype_Component_Texture_Crocman",
-      "level": 3,
-      "path": "../../Resources/Textures/Monster/Crocman/Crocman_%d.png",
-      "count": 27
-    },
-    {
       "tag": "Prototype_Component_Texture_Harpoon",
       "level": 3,
       "path": "../../Resources/Textures/Monster/Harpoonguy/Harpoon.png",
@@ -480,16 +468,6 @@
       "class": "CItem"
     },
     {
-      "tag": "Prototype_GameObject_Anubis",
-      "level": 3,
-      "class": "CAnubis"
-    },
-    {
-      "tag": "Prototype_GameObject_Crocman",
-      "level": 3,
-      "class": "CCrocman"
-    },
-    {
       "tag": "Prototype_GameObject_Harpoonguy",
       "level": 3,
       "class": "CHarpoonguy"
@@ -869,15 +847,6 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Minigun"
-    }
-  ], 
-  "buffers": [
-    {
-      "tag": "Prototype_Component_VIBuffer_Terrain",
-      "level": 3,
-      "class": "CVIBuffer_Terrain",
-      "width": 256,
-      "height": 256
     }
   ]
 }

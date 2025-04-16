@@ -169,7 +169,12 @@ HRESULT CBombBox::On_Collision(CCollisionObject* other)
 	{
 	case CG_PLAYER:
 		if (m_bExplosion)
+		{
+			m_iAp /= 10;
 			Take_Damage(other);
+			m_iAp *= 10;
+		}
+			
 		break;
 
 	case CG_WEAPON:
