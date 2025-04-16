@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "HellBoss.h"
 #include "UI_Manager.h"
+#include <Camera_FirstPerson.h>
 
 CCamera_CutScene::CCamera_CutScene(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCamera(pGraphic_Device) 
@@ -123,6 +124,11 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
         }
         _bool bLocked = true;
         pPlayer->OnNotify(&bLocked, L"");
+        CCamera_FirstPerson* pCam = static_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+        if (pCam)
+        {
+            pCam->OnNotify(&bLocked, L"");
+        }
     }
 }
 
@@ -236,6 +242,12 @@ void CCamera_CutScene::Update(_float fTimeDelta)
                     pPlayer->Get_Current_Weapon()->SetActive(false);
                 _bool bLocked = false;
                 pPlayer->OnNotify(&bLocked, L"");
+
+                CCamera_FirstPerson* pCam = static_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+                if (pCam)
+                {
+                    pCam->OnNotify(&bLocked, L"");
+                }
             }
         }
     }

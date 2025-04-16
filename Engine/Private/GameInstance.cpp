@@ -193,6 +193,11 @@ CGameObject* CGameInstance::Find_Last_Object(_uint iLevelIndex, const _wstring& 
 	return m_pObject_Manager->Find_Last_Object(iLevelIndex, strLayerTag);
 }
 
+list<CGameObject*> CGameInstance::Get_LayerObjects(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Get_LayerObjects(iLevelIndex, strLayerTag);
+}
+
 HRESULT CGameInstance::Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject)
 {
 	return m_pObject_Manager->Remove_Object(iLevelIndex,strLayerTag,pGameObject);

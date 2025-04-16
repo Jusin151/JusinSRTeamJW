@@ -31,6 +31,7 @@ public:
 	class CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	class CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
 	HRESULT Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, class CGameObject* pGameObject);
+	list<CGameObject*> Get_LayerObjects(_uint iLevelIndex, const _wstring& strLayerTag);
 	void Open_UI(_uint iLevelIndex, _bool bOpenUI) { m_bOpendUI = bOpenUI; m_iLevelIndex = iLevelIndex; }
 private:	
 	_uint								m_iNumLevels = {};

@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 class CPickingSys;
+class CGameObject;
 END
 
 BEGIN(Client)
@@ -22,10 +23,15 @@ public:
 
 private:
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
+
+	void SpawnItems();
 private:
 	CPickingSys* m_pPickingSys = { nullptr };
 	class CTrigger* m_pLevelTrigger{ nullptr };
 	class CPlayer* m_pPlayer{ nullptr };
+	list<CGameObject*> m_ItemList;
+
+	_float m_fItemSpawnTime{ 0.f };
 
 public:
 	static CLevel_Boss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
