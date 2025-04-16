@@ -17,6 +17,7 @@
 #include "Camera_CutScene.h"
 #include "Level_Logo.h"
 #include "Level_Loading.h"
+#include "Camera_FirstPerson.h"
 
 
 CHellBoss::CHellBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -44,7 +45,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =17000;
+	m_iHp =9100;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -78,7 +79,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.2f);  // 한팔 Walk상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 120, 120, 0.1f);  // 대쉬!!!
+	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 104, 104, 0.1f);  // 대쉬!!!
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
@@ -130,6 +131,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 }
 void CHellBoss::Priority_Update(_float fTimeDelta)
 {
+	
 	if (!m_bCutSceneCamera_Look)
 	{
 		if (nullptr == m_pTarget)
@@ -140,6 +142,7 @@ void CHellBoss::Priority_Update(_float fTimeDelta)
 			Safe_AddRef(pTarget);
 		}
 	}
+	
 
 	if (m_iHp <= 0)
 		m_eCurState = MS_DEATH;
@@ -159,6 +162,8 @@ void CHellBoss::Update(_float fTimeDelta)
 
 	if (!m_pTarget)
 		return;
+
+	
 
 	if (m_pCurState)
 		m_pCurState->Update(this, fTimeDelta);
@@ -364,12 +369,26 @@ void CHellBoss::Jump_Pattern(_float fTimeDelta)
 
 void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 {
+
+	if (m_pTarget)
+	{
+		_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDiff = vPlayerPos - vBossPos;
+		_float fDistance = vDiff.Length(); // 
+
+		if (fDistance >= 50.f)
+			return;
+	}
+
+
 	if (m_ePhase == PHASE3)
 	{
 	
 
 		m_fPhase3_KnockBack_Timer += fTimeDelta;
-		if (m_fPhase3_KnockBack_Timer >= 10.f)
+		if (m_fPhase3_KnockBack_Timer >= 7.f)
 		{
 			m_fPhase3_KnockBack_Timer = 0.f;
 
@@ -762,11 +781,11 @@ void CHellBoss::Dead_Scene()
 
 			vector<_float3> vecPath = { vStart, vMid, vEnd };
 
-			m_pGameInstance->Add_GameObject(
-				LEVEL_STATIC,
+			m_pGameInstance->Add_GameObject(  
+				LEVEL_STATIC, 
 				TEXT("Prototype_GameObject_Camera_CutScene"),
-				LEVEL_HONG,
-				TEXT("Layer_Camera"));
+				LEVEL_HONG, 
+				TEXT("Layer_Camera"));  
 
 			if (CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera")))
 			{
@@ -795,6 +814,19 @@ void CHellBoss::Force_Jump()
 	if (m_bJumping || m_bFalling || m_ePhase != PHASE3)
 		return;
 
+	
+	if (m_pTarget)
+	{
+		_float3 vPlayerPos = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDiff = vPlayerPos - vBossPos;
+		_float fDistance = vDiff.Length(); // 
+
+		if (fDistance >= 50.f)
+			return; 
+	}
+
 	m_bJumping = true;
 	m_fJumpTime = 0.f;
 	m_vJumpStartPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -810,9 +842,12 @@ void CHellBoss::Force_Jump()
 	desc.vPos = m_vJumpStartPos;
 	desc.strState = "Up";
 
-	m_pGameInstance->Add_GameObject(LEVEL_HONG,
+	m_pGameInstance->Add_GameObject(
+		LEVEL_HONG,
 		TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
-		LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
+		LEVEL_HONG,
+		TEXT("Layer_HellBoss_Skill_Landing"),
+		&desc);
 
 	if (m_pTarget)
 	{
@@ -830,10 +865,12 @@ void CHellBoss::Force_Jump()
 		_float3 vTargetPos = vPlayerPos + vOffset;
 		m_vTargetDir = (vTargetPos - vCurrentPos);
 		m_vTargetDir.Normalize();
+
 		m_bFalling = true;
 		m_bJumping = false;
 	}
 }
+
 
 _float3 CHellBoss::Get_CutScene_AnchorPos() const
 {
@@ -874,6 +911,20 @@ void CHellBoss::Late_Update(_float fTimeDelta)
 
 	if (m_fParryTextTimer > 0.f)
 		m_fParryTextTimer -= fTimeDelta;
+
+	if (!m_bInit)
+	{
+		CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
+		if (pCamera)
+		{
+			pCamera->Set_Yaw(D3DXToRadian(-105.f));
+			pCamera->Set_Pitch(D3DXToRadian(-10.f));
+		}
+
+
+
+		m_bInit = true;
+	}
 
 
 }

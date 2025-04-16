@@ -4,6 +4,7 @@
 #include "HellBoss.h"
 #include "UI_Manager.h"
 #include <Camera_FirstPerson.h>
+#include "Level_Hong.h"
 
 CCamera_CutScene::CCamera_CutScene(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCamera(pGraphic_Device) 
@@ -115,6 +116,7 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
     m_fDisableDelay = fDelay;
     m_fDisableTimer = 0.f;
     m_bDelayDisable = true;
+    CLevel_Hong::m_bCutSceneDelayDisable = true;
     CUI_Manager::GetInstance()->Set_Actived_UI(false);
     if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
     {
@@ -130,6 +132,7 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
             pCam->OnNotify(&bLocked, L"");
         }
     }
+    
 }
 
 
@@ -234,6 +237,7 @@ void CCamera_CutScene::Update(_float fTimeDelta)
         if (m_fDisableTimer >= m_fDisableDelay)
         {
             m_bDelayDisable = false; 
+            CLevel_Hong::m_bCutSceneDelayDisable = false;
             SetActive(false); 
             CUI_Manager::GetInstance()->Set_Actived_UI(true);
             if (CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"))))
