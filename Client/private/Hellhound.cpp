@@ -262,7 +262,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, fScale.Length());
+		Chasing(fTimeDelta, 4.f);
 		break;
 
 	case MS_HIT:
@@ -501,7 +501,7 @@ HRESULT CHellhound::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 2.f, 2.f, 2.f };
+	ColliderDesc.fScale = { 3.f, 3.f, 3.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
 

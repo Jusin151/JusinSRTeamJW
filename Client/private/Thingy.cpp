@@ -243,10 +243,15 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
+	vDist.y = 0;
+
+	_float3 fScale = m_pColliderCom->Get_Scale();
+	fScale.y = 0;
+
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
-		if (vDist.LengthSq() > 30)
+		if (vDist.LengthSq() > fScale.LengthSq())
 		{
 			m_eCurState = MS_WALK;
 		}
@@ -260,7 +265,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta,1.5f);
+		Chasing(fTimeDelta, 2.f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)
@@ -476,7 +481,7 @@ HRESULT CThingy::Ready_Components()
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 2.f, 2.f, 2.f };
+	ColliderDesc.fScale = { 3.f, 3.f, 3.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
 
