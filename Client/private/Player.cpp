@@ -646,6 +646,7 @@ void CPlayer::Add_Exp(_int Exp)
 			pUI_Event->ShowEventText(0, L"LevelUp");
 			m_pSoundCom->Play_Event(L"event:/Objects/Level_Up_Distorted")->SetVolume(0.7f);
 			Notify(m_iPlayerEXP.first, L"Exp");
+			Notify(m_vPlayerInfo.iLevel, L"LevelUp");
 		}
 	}
 
