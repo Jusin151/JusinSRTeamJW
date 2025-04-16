@@ -71,7 +71,7 @@ HRESULT CLevel_Hong::Initialize()
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Hellhound"),
 		LEVEL_HONG, TEXT("Layer_Monster_Hellhound"))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 //event: / Backgrounds / 068 Hell - HongDongWan_[cut_194sec]
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/068 Hell - HongDongWan_[cut_194sec]").SetVolume(0.25f);
