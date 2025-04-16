@@ -135,13 +135,13 @@ HRESULT CGlacierBullet::On_Collision(CCollisionObject* other)
 
 		break;
 	case CG_STRUCTURE_WALL:
-		fPos -= m_vDir.GetNormalized();
+		fPos -= m_vDir.GetNormalized() * 1.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		CreateParticle(0xFFFFbeFF, 0x00FFbeFF);
 		m_bIsActive = false;
 		break;
 	case CG_DOOR:
-		fPos -= m_vDir.GetNormalized();
+		fPos -= m_vDir.GetNormalized() * 1.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 		CreateParticle(0xFFFFbeFF, 0x00FFbeFF);
 		m_bIsActive = false;

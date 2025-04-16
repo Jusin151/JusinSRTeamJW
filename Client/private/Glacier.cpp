@@ -70,7 +70,11 @@ void CGlacier::Update(_float fTimeDelta)
         return;
     m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
+
     Select_HpState();
+
+    if (m_eHpState != HP_VERYHURT)
+        m_fShootingDelay += fTimeDelta;
 
 
     __super::Update(fTimeDelta);
@@ -235,6 +239,8 @@ void CGlacier::Select_Pattern(_float fTimeDelta)
     _float3 vDist;
     vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
+    Shooting(fTimeDelta);
+
     switch (m_eHpState)
     {
     case HP_MAX:
@@ -251,7 +257,6 @@ void CGlacier::Select_Pattern(_float fTimeDelta)
         break;
     case HP_VERYHURT:
 
-        Shooting(fTimeDelta);
         Chasing(fTimeDelta, 20.f);
         break;
     default:
@@ -288,27 +293,50 @@ _float  CGlacier::Check_Direction()
 
 void CGlacier::Shooting(_float fTimeDelta)
 {
-    if (m_eCurState != MS_ATTACK)
+    if (m_eHpState == HP_VERYHURT)
     {
-        if (m_fElapsedTime >= 0.5f)
-            m_eCurState = MS_ATTACK;
-        else
-            return;
+        if (m_eCurState != MS_ATTACK)
+        {
+            if (m_fElapsedTime >= 0.5f)
+                m_eCurState = MS_ATTACK;
+            else
+                return;
+        }
+
+        if (m_iCurrentFrame == 39)
+        {
+
+            CProjectile_Base::PROJ_DESC pDesc = {};
+            pDesc.fSpeed = 10.f;
+            pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
+            pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+            // 오브젝트 풀링으로 변경 필요
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GlacierBullet"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_GlacierBullet"), &pDesc);
+
+            m_iCurrentFrame++;
+        }
+    }
+    else
+    {
+        if (m_fShootingDelay >= 0.7f)
+        {
+            m_fShootingDelay = 0.f;
+
+            CProjectile_Base::PROJ_DESC pDesc = {};
+            pDesc.fSpeed = 10.f;
+            pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
+            pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+            // 오브젝트 풀링으로 변경 필요
+            m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GlacierBullet"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_GlacierBullet"), &pDesc);
+
+
+        }
     }
 
-    if (m_iCurrentFrame == 39)
-    {
 
-        CProjectile_Base::PROJ_DESC pDesc = {};
-        pDesc.fSpeed = 10.f;
-        pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
-        pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-        // 오브젝트 풀링으로 변경 필요
-        m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GlacierBullet"), LEVEL_GAMEPLAY, TEXT("Layer_Monster_Projectile_GlacierBullet"), &pDesc);
-
-        m_iCurrentFrame++;
-    }
+    
 }
 
 void CGlacier::Select_Frame(_float fTimeDelta)
@@ -417,7 +445,7 @@ void CGlacier::Select_Frame(_float fTimeDelta)
         if (m_iCurrentFrame < 33 || m_iCurrentFrame > 43)
             m_iCurrentFrame = 33;
 
-        if (m_fElapsedTime >= 0.1f)
+        if (m_fElapsedTime >= 0.05f)
         {
             m_fElapsedTime = 0.0f;
 

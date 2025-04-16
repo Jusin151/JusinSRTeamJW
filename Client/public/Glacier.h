@@ -50,6 +50,7 @@ private:
 	HPSTATE m_eHpState = { HP_MAX };
 	_uint m_iMaxHp = {0};
 	_bool m_bRight = { false };
+	_float m_fShootingDelay = { 0.f };
 
 public:
 	static CGlacier* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
