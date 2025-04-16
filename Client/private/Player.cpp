@@ -547,7 +547,6 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 			if (pWeapon)
 			{
 				pWeapon->Add_Ammo(iFinalAmmo);
-
 			}
 		}
 	}

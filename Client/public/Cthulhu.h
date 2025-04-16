@@ -133,7 +133,7 @@ private:
     _float m_fSpawnCoolTime{ 0.f };
     _float m_fSpawnCoolDown{ 2.f };
     list<CGameObject*> m_MonsterList;
-    const _int MAX_MONSTER_SPAWN_COUNT = 6;
+    const _int MAX_MONSTER_SPAWN_COUNT = 8;
 
     // 스파이크
     _float m_fSpikeCoolTime{ 0.f };
@@ -147,6 +147,9 @@ private:
 
     // 플레이어 관련
     CTransform* m_pPlayerTransform { nullptr };
+
+    // 사운드 관련
+    _float m_fSoundTime{ 0.f };
 
 public:
     static CCthulhu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
