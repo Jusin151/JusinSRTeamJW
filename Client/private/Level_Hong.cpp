@@ -53,7 +53,7 @@ HRESULT CLevel_Hong::Initialize()
 	CCamera_FirstPerson* pCamera = dynamic_cast<CCamera_FirstPerson*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")));
 	if (pCamera)
 	{
-		pCamera->Set_Yaw(D3DXToRadian(180.f));
+		pCamera->Set_Yaw(D3DXToRadian(180.f)); 
 	}
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MiniMap"),
 		LEVEL_HONG, TEXT("Layer_MiniMap"))))

@@ -57,7 +57,7 @@ HRESULT CMinigun::Initialize(void* pArg)
     m_Weapon_INFO.Damage = 20;
     m_Weapon_INFO.AttackSpeed = 1.2f;
 
-    m_iAp = 50;
+    m_iAp = 20;
     m_eType = CG_WEAPON;
    
     Ranged_INFO.CurrentAmmo = 60; //현총알
