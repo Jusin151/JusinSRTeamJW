@@ -39,7 +39,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =16000;
+	m_iHp =4500;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -247,7 +247,7 @@ void CHellBoss::Hp_Pattern()
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 20000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
+	if (m_iHp <= 13000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
 	{
 		m_bDidPhase2Morph = true;
 		m_ePhase = PHASE2;
@@ -255,7 +255,7 @@ void CHellBoss::Hp_Pattern()
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 15000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
+	if (m_iHp <= 9000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
 	{
 		m_fSpeed = 6.f; 
 		m_bDidPhase3Morph = true;
@@ -288,7 +288,7 @@ void CHellBoss::Hp_Pattern()
 		return;
 	}
 
-	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
+	if (m_iHp <= 4500 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
 	{
 		m_fSpeed = 7.f;
 		m_bDidPhase4Morph = true;
@@ -297,8 +297,9 @@ void CHellBoss::Hp_Pattern()
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 5000 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
+	if (m_iHp <= 1500 && !m_bDidPhase5Morph)  // <<< 5페이즈 돌입! 
 	{
+		m_fSpeed = 0.f;
 		m_bDidPhase5Morph = true;
 		m_ePhase = PHASE5;
 		Set_Pattern(new CPattern_Morph());
