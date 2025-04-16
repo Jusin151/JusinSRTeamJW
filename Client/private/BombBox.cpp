@@ -67,6 +67,15 @@ HRESULT CBombBox::Ready_Components()
 void CBombBox::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
+
+	if(m_bExplosion)
+		m_fLifeTime += fTimeDelta;
+
+	if (m_fLifeTime >= 5.f)
+	{
+		m_fLifeTime = 0.f;
+		m_bIsActive = false;
+	}
 }
 
 void CBombBox::Update(_float fTimeDelta)
@@ -82,6 +91,8 @@ void CBombBox::Update(_float fTimeDelta)
 	}
 
 	Look_Player();
+
+	
 
 
 	if (m_eCurState == DS_DEATH)
