@@ -133,9 +133,15 @@ HRESULT CLookerBullet::On_Collision(CCollisionObject* other)
 
 		break;
 	case CG_STRUCTURE_WALL:
+		fPos -= m_vDir.GetNormalized();
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		CreateParticle(0xFF55aa44, 0x0055aa44);
 		m_bIsActive = false;
 		break;
 	case CG_DOOR:
+		fPos -= m_vDir.GetNormalized();
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		CreateParticle(0xFF55aa44, 0x0055aa44);
 		m_bIsActive = false;
 		break;
 	default:
