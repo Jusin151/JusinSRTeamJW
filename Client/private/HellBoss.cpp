@@ -39,7 +39,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =16000;
+	m_iHp =10;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -171,7 +171,6 @@ void CHellBoss::Update(_float fTimeDelta)
 	Dead_Scene(); 
 
 	m_AnimationManager.Update(fTimeDelta);
-
 	__super::Update(fTimeDelta);
 }
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
@@ -772,6 +771,10 @@ void CHellBoss::Dead_Scene()
 		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
 		{
 			SetActive(false);
+			
+			CPlayer* player = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));	
+			if (player)
+				player->Set_ClearLevel(LEVEL_BOSS);
 		}
 
 		//m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_death")->SetVolume(1.f);
@@ -846,6 +849,7 @@ void CHellBoss::Set_Pattern(CPattern_Base* pPattern)
 }
 void CHellBoss::Late_Update(_float fTimeDelta)
 {
+	
 	if (nullptr == m_pTarget)
 		return;
 
