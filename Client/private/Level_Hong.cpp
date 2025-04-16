@@ -69,6 +69,9 @@ HRESULT CLevel_Hong::Initialize()
 	if (!m_pHellboss)
 		return E_FAIL;
 
+
+
+//event: / Backgrounds / 068 Hell - HongDongWan_[cut_194sec]
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/068 Hell - HongDongWan_[cut_194sec]").SetVolume(0.25f);
 
 

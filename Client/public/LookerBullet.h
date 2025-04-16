@@ -35,6 +35,8 @@ private:
 	_float m_fElapsedTime = { 0.f };
 	_int m_iCurrentFrame = { 0 };
 
+	_float				m_fLifeTime = 0.f;
+
 public:
 	static CLookerBullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
