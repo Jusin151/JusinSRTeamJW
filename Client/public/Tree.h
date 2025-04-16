@@ -35,6 +35,8 @@ private:
 	_int m_iPreHp = {};
 	_int m_iCurHp = {};
 
+	_bool m_bFinalCheck = { false };
+
 public:
 	static CTree* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject* Clone(void* pArg) override;
