@@ -17,7 +17,7 @@ typedef struct BossINFO
 	_float3 vPos{};
 	 string strState{};
 
-}BossDESC;
+}BossDESC;//
 
 class CHellBoss : public CMonster_Base
 {
@@ -37,8 +37,11 @@ public:
 	virtual void Update(_float fTimeDelta)override;
 	void Process_Input();
 	virtual void Late_Update(_float fTimeDelta)override;
+	void Dead_Scene();
+	_bool Get_isDead() { return m_bDead; } 
 	virtual HRESULT Render()override;
-
+private:
+	_bool m_bDead = { false };
 public:
 	virtual HRESULT On_Collision(CCollisionObject* other) override;
 private:
@@ -96,7 +99,7 @@ private: // 3페이즈 관련
 	_float3 m_vLandingTargetPos = {};
 public://5페이즈 관련
 	_float Get_FloorOffset() const { return m_fOffset; } 
-	void Dead_Scene();
+
 
 public: // 3페이즈 관련
 	void Set_Blink(_bool bType) { m_bBlink = bType; }
