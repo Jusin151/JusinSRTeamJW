@@ -27,6 +27,10 @@ HRESULT CBulletShell_Effect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	m_fLifeTime = 5.f;
 	
 	_float3 pos = m_Weapon_Effect_INFO.vPos;
@@ -34,7 +38,11 @@ HRESULT CBulletShell_Effect::Initialize(void* pArg)
 	pos += m_Weapon_Effect_INFO.vRight * 0.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pos);
 	static_cast<CBulletShell_Particle_System*>(m_pParticleCom)->Set_WorldMat(*m_pTransformCom->Get_WorldMatrix());
-	//m_pTransformCom->Ro
+
+
+	m_pSoundCom->Play_Event(L"event:/Weapons/case_pistol_3", m_pTransformCom)->SetVolume(10.f);
+
+
 	return S_OK;
 }
 
@@ -59,11 +67,15 @@ HRESULT CBulletShell_Effect::Ready_Components()
 		TEXT("Com_Particle"), reinterpret_cast<CComponent**>(&m_pParticleCom), &BulletShellDesc)))
 		return E_FAIL;
 
+
+
 	return S_OK;
 }
 
 void CBulletShell_Effect::Priority_Update(_float fTimeDelta)
 {
+	m_pSoundCom->Update(fTimeDelta); 
+
 }
 
 void CBulletShell_Effect::Update(_float fTimeDelta)
@@ -141,4 +153,6 @@ CBulletShell_Effect* CBulletShell_Effect::Clone(void* pArg)
 void CBulletShell_Effect::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pSoundCom);
 }

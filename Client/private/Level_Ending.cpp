@@ -20,6 +20,9 @@ HRESULT CLevel_Ending::Initialize()
 
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/100 The Warlock Is Dead").SetVolume(0.5f);
+
+	CUI_Manager::GetInstance()->Set_Actived_UI(false);
+
 	return S_OK;
 }
 

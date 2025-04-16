@@ -37,15 +37,15 @@ HRESULT CHellBoss::Initialize(void* pArg)
  	if (FAILED(Ready_Components())) 
 		return E_FAIL;
 
-	   //13000
-		//9000
-		//4500
-		//1500
+	   //13100 //바로 2페이즈 진입 원할시
+		//9100 //바로 3페이즈 진입 원할시
+		//4600  /바로 4페이즈 진입 원할시
+		//1600 //바로 5페이즈 진입 원할시
 
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =17000;
+	m_iHp =4600;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -289,7 +289,7 @@ void CHellBoss::Hp_Pattern()
 				vDir.y = 0.f;  
 				vDir.Normalize();
 
-				pPlayer->KnockBack(vDir, 300.f);  // 힘조절은 요기서
+				pPlayer->KnockBack(vDir, 100.f);  // 힘조절은 요기서
 			}
 		}
 
@@ -807,6 +807,8 @@ void CHellBoss::Dead_Scene()
 			CPlayer* player = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
 			if (player)
 				player->Set_ClearLevel(LEVEL_BOSS);
+
+
 		}
 
 	}

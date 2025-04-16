@@ -57,7 +57,7 @@ void CBulletShell_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* p
     pAttribute->vCurrentColor = 0xFFFFFFFF;
     pAttribute->fSize = m_fSize;
 }
-
+//event:/Weapons/case_pistol_3
 void CBulletShell_Particle_System::Update(float fTimeDelta)
 {
     for (auto& i : m_Particles)

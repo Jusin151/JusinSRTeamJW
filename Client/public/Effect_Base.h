@@ -67,6 +67,7 @@ protected:
     CVIBuffer_Rect*     m_pVIBufferCom          = {};
     CParticle_System*   m_pParticleCom          = {};
     EFFECT_DESC         m_Weapon_Effect_INFO    = {};
+    
 
 protected: // 이펙트 관련
     _float  m_fLifeTime = {}; // 최대 몇초까지 남게할껀지
