@@ -35,7 +35,7 @@ HRESULT CYeti::Initialize(void* pArg)
 
     m_iAp = 15;
 
-    m_iHp = 30;
+    m_iHp = 100;
 
     m_iExp = 64;
 
