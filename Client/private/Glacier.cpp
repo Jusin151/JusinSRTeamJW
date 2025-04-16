@@ -34,7 +34,7 @@ HRESULT CGlacier::Initialize(void* pArg)
 
     m_eType = CG_MONSTER;
 
-    m_iMaxHp = 60;
+    m_iMaxHp = 100;
 
     m_iHp = m_iMaxHp;
 

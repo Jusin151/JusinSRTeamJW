@@ -35,7 +35,7 @@ HRESULT CSnowspider::Initialize(void* pArg)
 
     m_iAp = 10;
 
-    m_iHp = 30;
+    m_iHp = 70;
 
     m_iExp = 41;
 

@@ -42,10 +42,10 @@ HRESULT CMagnum::Initialize(void* pArg)
 	m_Weapon_INFO.WeaponID = WEAPON_ID::Magnum;
 	m_Weapon_INFO.vPos = { 0.f,-170.f }; // 샷건 위치
 	m_Weapon_INFO.vSize = { 749,420.f };// 샷건 크기 위에 두개는 일단 밖에서 하는중
-	m_Weapon_INFO.Damage = 500;                // 데미지
+	m_Weapon_INFO.Damage = 40;                // 데미지
 	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
-	m_iAp = 20; 
+	m_iAp = 40; 
 	m_eType = CG_WEAPON;
 
 	m_pTransformCom->Set_Scale(m_Weapon_INFO.vSize.x, m_Weapon_INFO.vSize.y, 1.f);

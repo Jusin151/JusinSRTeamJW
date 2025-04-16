@@ -34,7 +34,7 @@ HRESULT CCrocman::Initialize(void* pArg)
 
 	m_iAp = 5;
 
-	m_iHp = 30;
+	m_iHp = 100;
 
 	m_fSpeed = 0.15f;
 

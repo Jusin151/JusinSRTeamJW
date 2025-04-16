@@ -98,7 +98,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.3f;
+	m_fSpeed = 1.f;
 	m_vPlayerInfo.iStr = 10;
 	m_vPlayerInfo.iSkillpoint = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);

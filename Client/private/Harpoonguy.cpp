@@ -35,7 +35,7 @@ HRESULT CHarpoonguy::Initialize(void* pArg)
 
 	m_eType = CG_MONSTER;
 
-	m_iHp = 30;
+	m_iHp = 60;
 
 	m_fSpeed = 0.25f;
 
