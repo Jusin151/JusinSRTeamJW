@@ -25,6 +25,8 @@ HRESULT CBombBox::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+
+
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 	m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 

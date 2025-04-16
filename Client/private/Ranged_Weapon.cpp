@@ -6,7 +6,9 @@
 #include "Effects.h"
 #include "UI_Manager.h"
 #include "Collider_Manager.h"
+#include "Item_Manager.h"
 #include <Cthulhu.h>
+#include "Harvester.h"
 CRanged_Weapon::CRanged_Weapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CWeapon_Base{ pGraphic_Device }
 {
@@ -100,7 +102,7 @@ void CRanged_Weapon::Move_Hand(_float fTimeDelta)
 
 
 
-HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage)
+HRESULT CRanged_Weapon::Picking_Object(_uint EffectNum, _uint Damage,CWeapon_Base* pType)
 {
 
     if (m_pPickingSys)
@@ -277,6 +279,11 @@ void CRanged_Weapon::Wall_Picking(CCollider* pCollider, _uint EffectNum)
     {
         _float offsetX = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
         _float offsetY = (((rand() % 100) / 100.f) - 0.5f) * 0.4f;
+        if (dynamic_cast<CHarvester*>(this))
+        {
+            offsetX = (((rand() % 300) / 100.f) - 0.5f) * 0.4f;
+            offsetY = (((rand() % 300) / 100.f) - 0.5f) * 0.4f;
+        }
         _float3 vOffset = _float3(offsetX, offsetY, 0.f);
 
         effectDesc.vPos = vEffectPos + vOffset;

@@ -43,6 +43,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta)override;
 	virtual void Update(_float fTimeDelta)override;
 	virtual void Late_Update(_float fTimeDelta)override;
+	void Power_Blast_Pattern(_float fTimeDelta);
 public:
 	virtual HRESULT Render()override;
 private:

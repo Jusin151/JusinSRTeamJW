@@ -53,7 +53,7 @@ public:
     virtual HRESULT Render()override;
 public:
     virtual HRESULT Ready_Picking();
-    virtual HRESULT Picking_Object(_uint EffectNum,_uint Damage);
+    virtual HRESULT Picking_Object(_uint EffectNum,_uint Damage,CWeapon_Base* pType = 0);
     void Wall_Picking(CCollider* pCollider, _uint EffectNum);
     void Monster_Hit(CCollider* pCollider, _uint Damage);
     void CreateHitEffect(CCollider* pClosestCollider, const _float3& vWorldHitPos, _uint Damage);

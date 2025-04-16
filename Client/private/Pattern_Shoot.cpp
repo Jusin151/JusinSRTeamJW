@@ -62,7 +62,7 @@ void CPattern_Shoot::Execute(CHellBoss* pBoss, float fDeltaTime)
            // event: / Weapons / rocketlauncher_shot
                 pBoss->m_pSoundCom->Play_Event(L"event:/Weapons/Rocketlauncher_shot")->SetVolume(0.1f);
             }
-            for (_int i = 0; i < iBulletPerShot; ++i)// 발사이펙트용 
+            for (_int i = 0; i < 20; ++i)// 발사이펙트용 
             {
                 CHellBoss_Bullet::PowerBlastDesc pDesc{};// 발사이펙트용 
                 pDesc.wBulletType = L"0_Phase4_Shoot";// 발사이펙트용 
