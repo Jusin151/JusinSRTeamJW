@@ -285,7 +285,7 @@ NodeStatus CCthulhu::UpdateAttack()
 			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
 			m_iMissilesToFire--;
 			m_fMissileTimer = 0.f;
-			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.5f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.7f);
 		}
 
 
@@ -384,7 +384,7 @@ NodeStatus CCthulhu::Update_Appear()
 			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);  // 카메라 이동
 			pCutCam->Set_CameraDisableDelay(5.f);          
 		}
-
+		m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_detect_01", m_pTransformCom)->SetVolume(0.7f);
 		m_bCameraShaken = true;
 	}
 	_float3 pos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -1005,7 +1005,7 @@ _bool CCthulhu::IsPlayerVisible()
 			return false;
 		}
 	}
-	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_detect_01", m_pTransformCom)->SetVolume(0.5f);
+
 	return true;
 }
 
@@ -1102,6 +1102,7 @@ void CCthulhu::Update_CoolTimes(_float fTimeDelta)
 		m_fBigTentacleCoolTime += fTimeDelta;
 		m_fSpikeCoolTime += fTimeDelta;
 		m_fSpawnCoolTime += fTimeDelta;
+		m_fSoundTime += fTimeDelta;
 	}
 
 }
@@ -1126,7 +1127,11 @@ void CCthulhu::Set_Hp(_int iHp)
 	if (!m_bCanHit) return;
 	m_iHp = max(iHp,0);
 
-	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_pain_01", m_pTransformCom)->SetVolume(0.5f);
+	if (m_fSoundTime >= 2.5f)
+	{
+	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_pain_01", m_pTransformCom)->SetVolume(0.7f);
+	m_fSoundTime = 0.f;
+	}
 }
 
 json CCthulhu::Serialize()
