@@ -87,6 +87,7 @@ public:
 		m_bRotated_Bullet = !m_bRotated_Bullet;
 	}
 private:
+
 	_bool m_bJustSpawned = { true };
 	_bool m_bInitializedPos = {false}; 
 	wstring m_wBulletType = {};

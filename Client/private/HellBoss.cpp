@@ -782,7 +782,10 @@ void CHellBoss::Dead_Scene()
 		}
 
 		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
+		{
+			m_bDead = true; 
 			SetActive(false);
+		}
 	}
 
 
