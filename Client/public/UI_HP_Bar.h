@@ -49,6 +49,11 @@ public:
 		m_iHealth = iHealth;
 		Update_HP_Bar();
 	}
+	void Set_MaxHP(_uint iHealth)
+	{
+		m_iMaxHealth = iHealth; 
+		Update_HP_Bar();
+	}
 	void Init_HP(_uint CurrentHP, _uint MaxHP)
 	{
 		m_iHealth = CurrentHP;
@@ -63,6 +68,10 @@ public:
 		if (type == L"HP")
 		{
 			Set_HP(*reinterpret_cast<_uint*>(pArg));
+		}
+		if (type == L"HP_Max")
+		{
+			Set_MaxHP(*reinterpret_cast<_uint*>(pArg)); 
 		}
 		if (type == L"HP_Hited")
 		{
