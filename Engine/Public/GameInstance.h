@@ -51,11 +51,11 @@ public:
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	CGameObject* Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag);
-	CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	CGameObject* Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag);
+	list<CGameObject*> Get_LayerObjects(_uint iLevelIndex, const _wstring& strLayerTag);
+	CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag);
 	HRESULT Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject);
 	void Open_UI(_uint iLevelIndex, _bool bOpenUI);
-	/*CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);*/
 #pragma endregion
 
 #pragma region RENDERER

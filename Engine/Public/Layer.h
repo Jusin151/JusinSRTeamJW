@@ -27,6 +27,7 @@ public:
 	class CGameObject* Find_Object();
 	class CGameObject* Find_Last_Object();
 	HRESULT Remove_GameObject(class CGameObject* pGameObject);	
+	list<CGameObject*> Get_LayerObjects();
 private:
 	list<class CGameObject*>			m_GameObjects;
 	class CGameInstance* m_pGameInstance;

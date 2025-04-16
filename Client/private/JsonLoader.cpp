@@ -7,8 +7,6 @@
 #include "UI_Headers.h" 
 #include "GamePlay_Button.h"
 #include "Weapon_Headers.h"
-#include "Anubis.h"
-#include "Crocman.h"
 #include "Hub_PointShop.h"
 #include "Harpoon.h"
 #include "Item.h"
@@ -380,10 +378,6 @@ CBase* CJsonLoader::Create_Object_ByClassName(const string & className, LPDIRECT
 #pragma endregion
 
 #pragma region Monsters
-	else if (className == "CAnubis")
-		return CAnubis::Create(pGraphic_Device);
-	else if (className == "CCrocman")
-		return CCrocman::Create(pGraphic_Device);
 	else if (className == "CHarpoonguy")
 		return CHarpoonguy::Create(pGraphic_Device);
 	else if (className == "CYeti")

@@ -125,6 +125,10 @@ HRESULT CLayer::Remove_GameObject(CGameObject* pGameObject)
 
 	return S_OK;
 }
+list<CGameObject*> CLayer::Get_LayerObjects()
+{
+	return m_GameObjects;
+}
 CLayer* CLayer::Create(_uint iPrototypeLevelIndex)
 {
 	CLayer* pLayer = new CLayer();

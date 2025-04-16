@@ -71,24 +71,40 @@ void CTree::Update(_float fTimeDelta)
 		m_bInit = true;
 	}
 
+	Select_State();
+
 	Look_Player();
 
 
 	
 
 
-	if (m_eCurState != DS_DEATH)
+	if (m_eCurState != DS_DEATH && !m_bFinalCheck)
 	{
 		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+
+		m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
+
+		
 		
 	}
+	
 
-	m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
+
+	if (m_eCurState == DS_DEATH && !m_bFinalCheck)
+	{
+		m_pColliderCom->Update_Collider(TEXT("Com_Transform"), m_pColliderCom->Get_Scale());
+
+		m_pGameInstance->Add_Collider(CG_OBJECT, m_pColliderCom);
+
+		m_bFinalCheck = true;
+	}
+
 }
 
 void CTree::Late_Update(_float fTimeDelta)
 {
-	Select_State();
+	
 
 	Calc_Position();
 
@@ -202,10 +218,13 @@ HRESULT CTree::Release_RenderState()
 
 void CTree::Select_State()
 {
+
+	if (m_eCurState == DS_DEATH)
+		return;
 	m_iCurHp = m_iHp;
 	
 
- 	if (m_eCurState == DS_HIT)
+  	if (m_eCurState == DS_HIT)
 	{
 
 		if (m_iCurHp != m_iPreHp)
@@ -219,9 +238,12 @@ void CTree::Select_State()
 			return;
 		}
 			
-
-		m_pColliderCom->Set_Scale(_float3(2.f, floor(4.f / m_iHitCount)  , 2.f));
-		m_pTransformCom->Set_Scale(2.f, floor(4.f / m_iHitCount)  , 2.f);
+		
+		m_pColliderCom->Set_Scale(_float3(2.f, floor(4.f / m_iHitCount), 2.f));
+		m_pTransformCom->Set_Scale(2.f, floor(4.f / m_iHitCount), 2.f);
+		
+		
+		
 
 
 		m_eCurState = DS_IDLE;
@@ -250,6 +272,7 @@ void CTree::Select_State()
 	{
 		m_eCurState = DS_DEATH;
 		m_iHitCount = 3;
+		
 	}
 		
 }
