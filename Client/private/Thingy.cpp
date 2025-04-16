@@ -435,7 +435,7 @@ void CThingy::Select_Frame(_float fTimeDelta)
 		if (m_iCurrentFrame < 2 || m_iCurrentFrame > 19)
 			m_iCurrentFrame = 2;
 
-		if (m_fElapsedTime >= 0.07f)
+		if (m_fElapsedTime >= 0.15f)
 		{
 			m_fElapsedTime = 0.0f;
 

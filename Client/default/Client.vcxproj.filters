@@ -325,12 +325,6 @@
     <Filter Include="02.GameObjects\01.Monster\normal">
       <UniqueIdentifier>{ea8a0889-7989-443d-8892-efbf4a3f5719}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\01.Monster\normal\Anubis">
-      <UniqueIdentifier>{54719e9f-0839-471c-a96f-16d435f626d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\01.Monster\normal\Crocman">
-      <UniqueIdentifier>{5c9378ca-7b4e-42e2-9c6b-523b5aa3ec88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\01.Monster\normal\Harpoonguy">
       <UniqueIdentifier>{0d132fd3-9009-4ee7-be71-25807adcb069}</UniqueIdentifier>
     </Filter>
@@ -663,9 +657,6 @@
     <ClInclude Include="..\Public\Monster_Base.h">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Anubis.h">
-      <Filter>02.GameObjects\01.Monster\normal\Anubis</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Level_Editor.h">
       <Filter>01.Levels\Editor</Filter>
     </ClInclude>
@@ -674,9 +665,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Item_Manager.h">
       <Filter>96. Manager\Item_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Crocman.h">
-      <Filter>02.GameObjects\01.Monster\normal\Crocman</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameObject_Cube.h">
       <Filter>02.GameObjects\Base\Cube</Filter>
@@ -1155,9 +1143,6 @@
     <ClCompile Include="..\Private\Monster_Base.cpp">
       <Filter>02.GameObjects\01.Monster\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Anubis.cpp">
-      <Filter>02.GameObjects\01.Monster\normal\Anubis</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Level_Editor.cpp">
       <Filter>01.Levels\Editor</Filter>
     </ClCompile>
@@ -1166,9 +1151,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Manager.cpp">
       <Filter>96. Manager\Item_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Crocman.cpp">
-      <Filter>02.GameObjects\01.Monster\normal\Crocman</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameObject_Cube.cpp">
       <Filter>02.GameObjects\Base\Cube</Filter>
