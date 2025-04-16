@@ -64,7 +64,6 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	case LEVEL_LOGO:      m_iTotalTaskCount = 5;  break; // 텍스쳐, 모델, 셰이더, 사운드, 원형객체, 최종
 	case LEVEL_EDITOR:    m_iTotalTaskCount = 4;  break; // JSON1, JSON2, JSON3, 최종
 	case LEVEL_HONG:      m_iTotalTaskCount = 15;  break; // 6 등록+텍스쳐
-	default:	m_iTotalTaskCount = 5; break;
 	}
 	m_iCompletedTaskCount = 0;
 	m_fProgress = 0.f;
@@ -174,7 +173,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes.json");
 	m_iTotalTaskCount += jsonLoader.CountPrototypes(L"../Save/Prototypes_For_Test.json");
-
 	jsonLoader.Load_Prototypes(
 		m_pGameInstance, m_pGraphic_Device, L"../Save/Prototypes_For_Test.json",
 		[this]() { CompleteOneTask(); }
