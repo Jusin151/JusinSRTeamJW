@@ -848,14 +848,5 @@
       "level": 3,
       "tag": "Prototype_GameObject_Item_Minigun"
     }
-  ], 
-  "buffers": [
-    {
-      "tag": "Prototype_Component_VIBuffer_Terrain",
-      "level": 3,
-      "class": "CVIBuffer_Terrain",
-      "width": 256,
-      "height": 256
-    }
   ]
 }
