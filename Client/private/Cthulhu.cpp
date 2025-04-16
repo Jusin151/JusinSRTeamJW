@@ -425,7 +425,7 @@ NodeStatus CCthulhu::Deploy_Tentacles()
 	{
 		m_fTentacleTimer += m_fDelta;
 
-		if (m_fTentacleTimer >= 5.0f)
+		if (m_fTentacleTimer >= 7.0f)
 		{
 			for (auto& pTentacle : m_listTentacles)
 			{
@@ -771,7 +771,7 @@ NodeStatus CCthulhu::Attack_Spike()
 
 NodeStatus CCthulhu::Spawn_Monster()
 {
-	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp) > m_fPhaseThreshold)
+	if (m_eState == STATE::DEAD)
 		return NodeStatus::FAIL;
 
 	if (m_fSpawnCoolTime >= m_fSpawnCoolDown)

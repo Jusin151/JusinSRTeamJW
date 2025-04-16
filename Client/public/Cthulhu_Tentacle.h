@@ -57,7 +57,7 @@ private:
 private:
     unordered_map<Tentacle_STATE, vector<_uint>> m_mapStateTextures;
     _float m_fFrame = 0.f;
-    _float m_fAnimationSpeed = 6.f;
+    _float m_fAnimationSpeed = 7.f;
     Tentacle_STATE  m_eState = Tentacle_STATE::IDLE;
 
     _uint m_iMaxHp{ 0u };
