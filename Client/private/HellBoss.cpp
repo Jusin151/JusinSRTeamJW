@@ -751,7 +751,7 @@ void CHellBoss::Dead_Scene()
 
 			vLook.Normalize();
 			vRight.Normalize();
-			     
+
 			_float radius = 40.f;
 			_float sideOffset = radius * 0.1f; // ← 45도 기준 좌우 이동량
 
@@ -782,15 +782,15 @@ void CHellBoss::Dead_Scene()
 
 		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
 		{
-			m_bDead = true; 
+			m_bDead = true;
 			SetActive(false);
-			
-			CPlayer* player = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));	
+
+			CPlayer* player = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
 			if (player)
 				player->Set_ClearLevel(LEVEL_BOSS);
 		}
 
-
+	}
 }
 void CHellBoss::Force_Jump()
 {
