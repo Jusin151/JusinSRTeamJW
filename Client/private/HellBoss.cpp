@@ -36,10 +36,15 @@ HRESULT CHellBoss::Initialize(void* pArg)
  	if (FAILED(Ready_Components())) 
 		return E_FAIL;
 
+	   //13000
+		//9000
+		//4500
+		//1500
+
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =4500;
+	m_iHp =17000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -439,7 +444,6 @@ void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 	}
 }
 
-
 void CHellBoss::Process_Input()
 {
 	//if (GetAsyncKeyState('0') & 0x8000)		
@@ -728,56 +732,59 @@ _float3 CHellBoss::Get_RandomWarpPos_InFront()
 }
 void CHellBoss::Dead_Scene()
 {
-	static _bool bTrue = { false }; // 너무힘들어서 스태틱 남발하는거 봐줘...ㅠㅜㅜㅠㅜㅠㅜㅠ
+	static _bool bTrue = { false }; // 너무힘들어서 스태틱 남발
+
 	if (m_iHp <= 0)
 	{
 		if (!bTrue)
 		{
 			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_3to4")->SetVolume(0.7f);
 			bTrue = true;
+
+			m_fSpeed = 0.f;
+			m_ePhase = PHASE6;
+			m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
+
+			_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+			_float3 vUp = _float3(0.f, 1.f, 0.f);
+
+			vLook.Normalize();
+			vRight.Normalize();
+			     
+			_float radius = 40.f;
+			_float sideOffset = radius * 0.1f; // ← 45도 기준 좌우 이동량
+
+			_float3 vStart = vBossPos - vRight * sideOffset + vUp * 5.f;
+			_float3 vMid = vBossPos - vLook * (radius * 3.5f) + vUp * 15.f;
+			_float3 vEnd = vBossPos + vRight * sideOffset + vUp * 10.f;
+
+			vector<_float3> vecPath = { vStart, vMid, vEnd };
+
+			m_pGameInstance->Add_GameObject(
+				LEVEL_STATIC,
+				TEXT("Prototype_GameObject_Camera_CutScene"),
+				LEVEL_HONG,
+				TEXT("Layer_Camera"));
+
+			if (CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera")))
+			{
+				if (CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj))
+				{
+					pCutCam->Set_LookTarget(this);
+					pCutCam->Set_CutScenePath(vecPath, 0.15f);
+					pCutCam->Set_CameraDisableDelay(4.f);
+
+					m_pTransformCom->LookAt(pCutCam->Get_Transform()->Get_State(CTransform::STATE_POSITION));
+				}
+			}
 		}
 
-		m_fSpeed = 0.f;
-		m_ePhase = PHASE6;
-		//m_eCurState = MS_DEATH; 
-
-		// 애니메이션 재생
-		m_AnimationManager.SetCurrentAnimation("M_Phase4_Death");
-
-		// 컷씬 카메라 생성
-		_float3 vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		vLook.Normalize();
-
-		_float3 vUp = _float3(0.f, 0.f, 0.f);
-		_float3 vStart = vBossPos - vLook * 15.f + vUp * 7.f;
-		_float3 vEnd = vBossPos + vLook * 5.f + vUp * 2.f;
-
-		_float3 vArgs[2] = { vStart, vEnd };
-
-		m_pGameInstance->Add_GameObject(
-			LEVEL_STATIC,
-			TEXT("Prototype_GameObject_Camera_CutScene"),
-			LEVEL_HONG,
-			TEXT("Layer_Camera"),
-			vArgs);
-
-		CGameObject* pObj = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Camera"));
-		CCamera_CutScene* pCutCam = dynamic_cast<CCamera_CutScene*>(pObj);
-		if (pCutCam)
-		{
-			pCutCam->Set_LookTarget(this);
-			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);
-			pCutCam->Set_CameraDisableDelay(4.f);
-		}
 		if (Get_AnimationManager()->GetCurrentFrame() >= 336)
-		{
 			SetActive(false);
-		}
-
-		//m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_death")->SetVolume(1.f);
-
 	}
+
 
 }
 void CHellBoss::Force_Jump()

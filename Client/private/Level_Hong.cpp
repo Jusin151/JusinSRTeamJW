@@ -144,6 +144,9 @@ void CLevel_Hong::Spawn_Item()
 void CLevel_Hong::Spawn_Monsters(_bool bInterval)
 {
      _float3 playerPos = m_pPlayerTransCom->Get_State(CTransform::STATE_POSITION);
+	 
+	 if (m_pHellboss->Get_Hp() <= 100)
+		 return;
 
 	if (bInterval)
 	{

@@ -213,7 +213,27 @@ void CHellBoss_Bullet::Reset()
 			m_vTargetOffsetPos = _float3(randX, 0.f, randZ);
 			m_bOffsetSet = true;
 		}
+		else if (m_wBulletType == L"0_Phase4_Shoot" && pDesc.iPatternType == 1)
+		{
+		
+			_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+			_float3 look = m_HellBoss_Transform->Get_State(CTransform::STATE_LOOK);
+			_float3 right = m_HellBoss_Transform->Get_State(CTransform::STATE_RIGHT);
+			_float3 up = m_HellBoss_Transform->Get_State(CTransform::STATE_UP);
 
+			look.Normalize();
+			right.Normalize();
+			up.Normalize();
+
+			_float dist = 5.f; // 보스 앞 거리
+			_float width = 5.f;  // 좌우 퍼짐
+			_float height = 5.f; // 상하 퍼짐
+
+			_float randX = ((rand() % 200) / 100.f - 1.f) * width;
+			_float randY = ((rand() % 200) / 100.f - 1.f) * height;
+
+			offsetPos = bossPos + look * dist + right * randX + up * randY;
+		}
 
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, offsetPos);
@@ -301,18 +321,16 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 			m_fLifeTime = 0.f;
 		}
 	}
-	else
+	if (m_wBulletType == L"0_Phase4_Shoot")
 	{
-		if (m_fLifeTime >= 20.f)
+		if (m_fLifeTime >= 10.f)
 		{
 			m_bIsActive = false;
 			m_bInitializedPos = false;
 			m_fLifeTime = 0.f;
 		}
-
 	}
-
-	 if (pDesc.iPatternType == 1) // 발사이펙트용 
+	if (pDesc.iPatternType == 1) // 발사이펙트용 
 	{
 		if (m_fLifeTime >= 1.f)
 		{
@@ -321,105 +339,23 @@ void CHellBoss_Bullet::Priority_Update(_float fTimeDelta)
 			m_fLifeTime = 0.f;
 		}
 	}
+	
+		if (m_fLifeTime >= 20.f)
+		{
+			m_bIsActive = false;
+			m_bInitializedPos = false;
+			m_fLifeTime = 0.f;
+		}
+
+
+
 	 m_pSoundCom->Update(fTimeDelta);
 }
 
 void CHellBoss_Bullet::Update(_float fTimeDelta)
 {
 
-	if (pDesc.wBulletType == L"Power_Blast")
-	{
-		if (m_eBulletMode == ROTATING)
-		{
-			m_fRotateAngle += fTimeDelta * 90.f;
-
-			D3DXMATRIX matRot;
-			D3DXMatrixRotationAxis(&matRot, &m_vAxis, D3DXToRadian(m_fRotateAngle + m_fFixedAngle));
-
-			_float3 offset = { m_fRadius, 0.f, 0.f }; // 기본 방향 (X축 기준)
-			D3DXVec3TransformCoord(&offset, &offset, &matRot);
-
-			_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
-			_float3 newPos = bossPos + offset;
-
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
-
-			// LookAt 플레이어 처리
-			CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
-				m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
-
-			if (pPlayerTransform)
-			{
-				_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - newPos;
-				vToPlayer.y = 0.f;
-				vToPlayer.Normalize();
-
-				_float3 vUp = _float3(0.f, 1.f, 0.f);
-				_float3 vRight = vUp.Cross(vToPlayer);
-				vRight.Normalize();
-
-				_float3 vNewUp = vToPlayer.Cross(vRight);
-				vNewUp.Normalize();
-
-				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-				m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
-				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vToPlayer);
-			}
-
-		}
-
-		else if (m_eBulletMode == LAUNCHING)
-		{
-			if (m_eExpandPhase == EXPAND_SPREADING)
-			{
-				m_fExpandTime += fTimeDelta;
-
-				_float lerpRatio = min(m_fExpandTime / 1.f, 1.f); // 1초간 퍼짐
-
-				_float3 curPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-				_float3 lerpPos = VectorLerp(curPos, m_vExpandedPos, lerpRatio);
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, lerpPos);
-
-				if (lerpRatio >= 1.f)
-				{
-					m_eExpandPhase = EXPAND_LAUNCH;
-
-					// 플레이어 방향 재계산
-					CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
-						m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
-
-					if (pPlayerTransform)
-					{
-						_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - lerpPos;
-						D3DXVec3Normalize(&vToPlayer, &vToPlayer);
-						m_vDir = vToPlayer;
-					}
-		
-				}
-			}
-			else if (m_eExpandPhase == EXPAND_LAUNCH)
-			{
-				if (!bFirst_Blast)
-				{
-					m_pSoundCom->Play_Event(L"event:/Weapons/ssg_shot")->SetVolume(0.3f);
-					bFirst_Blast = true;
-				}
-				// 플레이어 향해 날아가기
-				
-			m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
-				
-			}
-		}
-
-
-	}
-
-	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
-	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-	_float3 a = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
-	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 dir = b - a;
-	D3DXVec3Normalize(&dir, &dir);
+	Power_Blast_Pattern(fTimeDelta); 
 
 
 	if (m_eBulletMode == LAUNCHING)
@@ -503,7 +439,6 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 
 
 
-	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
 
 
 
@@ -525,6 +460,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 			D3DXVec3Normalize(&m_vDir, &m_vDir);
 		} 
 
+		m_pTransformCom->Go(m_vDir, fTimeDelta* m_fSpeed); 
 
 		_float3 vTarget = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vDir;
 		m_pTransformCom->LookAt(vTarget);
@@ -564,6 +500,7 @@ void CHellBoss_Bullet::Update(_float fTimeDelta)
 					pCamera->TriggerShake(0.5f, 0.5f); // 쉐이크 강도, 지속 시간 조절
 					m_pSoundCom->Play_Event(L"event:/Weapons/Boom")->SetVolume(1.f); 
 
+					
 					_bool bTrue = true; 
 					m_pGameInstance->Add_GameObject(
 						LEVEL_HONG,
@@ -589,6 +526,105 @@ void CHellBoss_Bullet::Late_Update(_float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 
 	
+}
+
+void CHellBoss_Bullet::Power_Blast_Pattern(_float fTimeDelta)
+{
+	if (pDesc.wBulletType == L"Power_Blast")
+	{
+		if (m_eBulletMode == ROTATING)
+		{
+			m_fRotateAngle += fTimeDelta * 90.f;
+
+			D3DXMATRIX matRot;
+			D3DXMatrixRotationAxis(&matRot, &m_vAxis, D3DXToRadian(m_fRotateAngle + m_fFixedAngle));
+
+			_float3 offset = { m_fRadius, 0.f, 0.f }; // 기본 방향 (X축 기준)
+			D3DXVec3TransformCoord(&offset, &offset, &matRot);
+
+			_float3 bossPos = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+			_float3 newPos = bossPos + offset;
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, newPos);
+
+			// LookAt 플레이어 처리
+			CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+				m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+			if (pPlayerTransform)
+			{
+				_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - newPos;
+				vToPlayer.y = 0.f;
+				vToPlayer.Normalize();
+
+				_float3 vUp = _float3(0.f, 1.f, 0.f);
+				_float3 vRight = vUp.Cross(vToPlayer);
+				vRight.Normalize();
+
+				_float3 vNewUp = vToPlayer.Cross(vRight);
+				vNewUp.Normalize();
+
+				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+				m_pTransformCom->Set_State(CTransform::STATE_UP, vNewUp);
+				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vToPlayer);
+			}
+
+		}
+
+		else if (m_eBulletMode == LAUNCHING)
+		{
+			if (m_eExpandPhase == EXPAND_SPREADING)
+			{
+				m_fExpandTime += fTimeDelta;
+
+				_float lerpRatio = min(m_fExpandTime / 1.f, 1.f); // 1초간 퍼짐
+
+				_float3 curPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 lerpPos = VectorLerp(curPos, m_vExpandedPos, lerpRatio);
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, lerpPos);
+
+				if (lerpRatio >= 1.f)
+				{
+					m_eExpandPhase = EXPAND_LAUNCH;
+
+					// 플레이어 방향 재계산
+					CTransform* pPlayerTransform = dynamic_cast<CTransform*>(
+						m_pGameInstance->Get_Instance()->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+					if (pPlayerTransform)
+					{
+						_float3 vToPlayer = pPlayerTransform->Get_State(CTransform::STATE_POSITION) - lerpPos;
+						D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+						m_vDir = vToPlayer;
+					}
+
+				}
+			}
+			else if (m_eExpandPhase == EXPAND_LAUNCH)
+			{
+				if (!bFirst_Blast)
+				{
+					m_pSoundCom->Play_Event(L"event:/Weapons/ssg_shot")->SetVolume(0.3f);
+					bFirst_Blast = true;
+				}
+				// 플레이어 향해 날아가기
+
+				m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+
+			}
+		}
+
+
+	}
+
+	m_pTransformCom->Go(m_vDir, fTimeDelta * m_fSpeed);
+	m_pParticleTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	_float3 a = m_HellBoss_Transform->Get_State(CTransform::STATE_POSITION);
+	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 dir = b - a;
+	D3DXVec3Normalize(&dir, &dir);
+
+
 }
 
 

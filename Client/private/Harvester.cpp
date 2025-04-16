@@ -41,7 +41,7 @@ HRESULT CHarvester::Initialize(void* pArg)
 	Ranged_INFO.MaxAmmo = 30;
 	m_fAnimationSpeed = 0.03f;
 
-	m_iAp = 50;
+	m_iAp = 150;
 	m_eType = CG_WEAPON;
 
 	m_pTransformCom->Set_Scale(m_Staff_INFO.vSize.x, m_Staff_INFO.vSize.y, 1.f);
@@ -150,7 +150,7 @@ void CHarvester::Attack_WeaponSpecific(_float fTimeDelta)
 		m_eState = State::Firing;
 		m_iCurrentFrame = m_TextureRanges["Firing"].first;
 		m_fElapsedTime = 0.0f;
-		__super::Picking_Object(5, m_Weapon_INFO.Damage);
+		__super::Picking_Object(12, m_Weapon_INFO.Damage);
 		Ranged_INFO.CurrentAmmo = max(0,Ranged_INFO.CurrentAmmo-4);
 		Notify_Bullet();
 		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Harvester/harvester_shot")->SetVolume(0.5f);		

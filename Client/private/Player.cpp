@@ -144,8 +144,8 @@ void CPlayer::Update(_float fTimeDelta)
 	/////////트리거용 
 	if (GetAsyncKeyState('0') & 0x8000)
 	{
-		Add_Ammo(L"Minigun_Ammo", 100);
-
+		Add_Ammo(L"Minigun_Ammo", 20);
+		Add_Ammo(L"Magnum_Ammo", 20);
 	}
 	static _bool m_WeaponTrigger = { true }; //임시
 
