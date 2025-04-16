@@ -30,13 +30,11 @@ HRESULT CBombBox::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 	m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
-
 	m_eType = CG_OBJECT;
 
 	m_iCurrentFrame = 0;
 
-	m_iAp = 50;
+	m_iAp = 150;
 
 	return S_OK;
 }
@@ -44,7 +42,7 @@ HRESULT CBombBox::Initialize(void* pArg)
 HRESULT CBombBox::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BombBox"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BombBox"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -52,7 +50,7 @@ HRESULT CBombBox::Ready_Components()
 	CCollider::COL_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
 	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 7.f,7.f,7.f };
+	ColliderDesc.fScale = { 10.f,7.f,10.f };
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
@@ -67,6 +65,15 @@ HRESULT CBombBox::Ready_Components()
 void CBombBox::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
+
+	if(m_bExplosion)
+		m_fLifeTime += fTimeDelta;
+
+	if (m_fLifeTime >= 5.f)
+	{
+		m_fLifeTime = 0.f;
+		m_bIsActive = false;
+	}
 }
 
 void CBombBox::Update(_float fTimeDelta)
@@ -82,6 +89,8 @@ void CBombBox::Update(_float fTimeDelta)
 	}
 
 	Look_Player();
+
+	
 
 
 	if (m_eCurState == DS_DEATH)
@@ -248,11 +257,11 @@ void CBombBox::Explosion()
 	effectDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	effectDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
 	effectDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	effectDesc.vScale = { 5.f, 5.f, 5.f };
+	effectDesc.vScale = { 10.f, 7.f, 10.f };
 	
 
 	effectDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	effectDesc.vPos += {0.f, 2.f, 0.f};
+	effectDesc.vPos += {0.f, 3.f, 0.f};
 	m_pGameInstance->Add_GameObject(
 		LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Explosion_Effect"),

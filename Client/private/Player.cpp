@@ -11,6 +11,7 @@
 #include <Hub_PointShop.h>
 #include <UI_Point_Shop.h>
 #include "Monster_Base.h"
+#include <Harvester.h>
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -540,8 +541,16 @@ void CPlayer::Add_Ammo(const _wstring& stWeaponName, _int iAmmo)
 
 	if (m_pPlayer_Inven)
 	{
-		if (m_pPlayer_Inven->Exist_item(weaponName))
+		if (m_pPlayer_Inven->Exist_item(weaponName)) // 존재하는지 
 		{
+			if (weaponName == L"ShotGun")
+			{
+				if (auto pHarv =  dynamic_cast<CHarvester*>(m_pPlayer_Weapon))
+				{
+					pHarv->Add_Ammo(iFinalAmmo);
+					return;
+				}
+			}
 			auto pWeapon = dynamic_cast<CRanged_Weapon*>(m_pPlayer_Inven->Get_Weapon(weaponName));
 
 			if (pWeapon)

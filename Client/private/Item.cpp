@@ -199,7 +199,7 @@ void CItem::Use_Item()
 	_int iAmount = 10; // 기본값
 
 	if (m_strItemName.find(L"Big") != std::wstring::npos)
-		iAmount = 20;
+		iAmount = 20  ;
 	if (m_strItemName.find(L"Minigun_Ammo") != std::wstring::npos)
 		iAmount = 20;
 

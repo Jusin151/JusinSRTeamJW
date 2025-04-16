@@ -211,6 +211,7 @@
     <ClInclude Include="..\public\HP_WorldUI.h" />
     <ClInclude Include="..\public\Hub_Light.h" />
     <ClInclude Include="..\public\Lamp.h" />
+    <ClInclude Include="..\public\Level_Ending.h" />
     <ClInclude Include="..\public\Long_Torch.h" />
     <ClInclude Include="..\public\Looker.h" />
     <ClInclude Include="..\public\LookerBullet.h" />
@@ -396,6 +397,7 @@
     <ClCompile Include="..\private\Image.cpp" />
     <ClCompile Include="..\private\Lamp.cpp" />
     <ClCompile Include="..\private\Level_Boss.cpp" />
+    <ClCompile Include="..\private\Level_Ending.cpp" />
     <ClCompile Include="..\private\Level_Hong.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\private\Long_Torch.cpp" />

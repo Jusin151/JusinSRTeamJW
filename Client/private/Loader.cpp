@@ -64,6 +64,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	case LEVEL_LOGO:      m_iTotalTaskCount = 5;  break; // 텍스쳐, 모델, 셰이더, 사운드, 원형객체, 최종
 	case LEVEL_EDITOR:    m_iTotalTaskCount = 4;  break; // JSON1, JSON2, JSON3, 최종
 	case LEVEL_HONG:      m_iTotalTaskCount = 15;  break; // 6 등록+텍스쳐
+	default:	m_iTotalTaskCount = 5; break;
 	}
 	m_iCompletedTaskCount = 0;
 	m_fProgress = 0.f;
@@ -83,6 +84,7 @@ HRESULT CLoader::Loading()
 	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::CHANGING);
 	switch (m_eNextLevelID)
 	{
+	
 	case LEVEL_LOGO:
 		hr = Loading_For_Logo();
 		break;
@@ -103,6 +105,9 @@ HRESULT CLoader::Loading()
 		break;
 	case LEVEL_BOSS:
  		hr = Loading_For_Boss();
+		break;
+	case LEVEL_ENDING:
+		hr = Loading_For_Ending();
 		break;
 	}
  	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL); 
@@ -488,6 +493,32 @@ HRESULT CLoader::Loading_For_Boss()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_For_Ending()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	// 엔딩씬 로드
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Ending"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Ending_Credit/bg_intermission.png"), 1))))
+		return E_FAIL;
+	CompleteOneTask(); // 1/6
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	CompleteOneTask(); // 1/6
+	lstrcpy(m_szLoadingText, TEXT("셰이더을(를) 로딩중입니다."));
+	CompleteOneTask(); // 1/6
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+	CompleteOneTask(); // 1/6
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_ENDING, TEXT("Prototype_GameObject_BackGround"),
+		CBackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	CompleteOneTask(); // 1/6
+	m_isFinished = true;
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_pGameInstance->Set_LevelState(CGameInstance::LEVEL_STATE::NORMAL);
+	return S_OK;
+}
+
 void CLoader::DrawLoadingBar(IDirect3DDevice9* device, _float progress, const RECT& rc)
 {
 	device->SetTexture(0, nullptr);  // 0번 텍스처 해제
@@ -656,6 +687,8 @@ HRESULT CLoader::Add_To_Logo_Textures()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_BackGround_4"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D, TEXT("../../Resources/Textures/UI/Logo/menu_potwory_v01.png"), 1))))
 		return E_FAIL;
+
+	
 
 	Add_To_Logo_Menu_Textures();
 

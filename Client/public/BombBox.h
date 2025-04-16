@@ -37,6 +37,7 @@ private:
 	CCollider_Sphere* m_pAttackColliderCom = { nullptr };
 
 	_bool m_bExplosion = { false };
+	_float m_fLifeTime = { 0.f };
 
 public:
 	void Set_Explosion(_bool bType){m_bExplosion = bType;}

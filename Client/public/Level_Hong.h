@@ -15,9 +15,10 @@ enum class MonsterType
 	HELLHOUND,
 	TYPE_END
 };
+
 class CHellBoss;
 BEGIN(Client)
-
+class CPlayer;
 class CLevel_Hong final : public CLevel
 {
 private:
@@ -38,11 +39,12 @@ private:
 	CHellBoss* m_pHellboss{ nullptr };
 	CPickingSys* m_pPickingSys = { nullptr };
 	CTransform* m_pPlayerTransCom{ nullptr };
+	CPlayer* m_pPlayer = { nullptr };
 
-	_float m_fItemSpawnCooldownTime{ 20.f };
+	_float m_fItemSpawnCooldownTime{ 10.f };
 	_float m_fItemSpawnTime{ 0.f };
 
-	_float m_fMonsterSpawnCooldownTime{ 40.f };
+	_float m_fMonsterSpawnCooldownTime{ 20.f };
 	_float m_fMonsterSpawnTime{ 0.f };
 
 	

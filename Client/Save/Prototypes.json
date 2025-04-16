@@ -458,7 +458,7 @@
     },
     {
       "tag": "Prototype_Component_Texture_BombBox",
-      "level": 3,
+      "level": 0,
       "path": "../../Resources/Textures/Deco/BombBox/BombBox_%d.png",
       "count": 2
     }

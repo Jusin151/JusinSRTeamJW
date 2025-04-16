@@ -16,8 +16,11 @@
 #include "Transform.h"
 #include <Camera_FirstPerson.h>
 #include "HellBoss.h"
+#include "BombBox.h"
  
 _bool CLevel_Hong::m_bCutSceneDelayDisable = false;
+
+
 
 static const vector<CItem::ITEM_DESC> g_ItemInfos{
 	{ CItem::ITEM_TYPE::HP, L"Prototype_GameObject_Item_HP_Small" },
@@ -43,10 +46,10 @@ HRESULT CLevel_Hong::Initialize()
 	static _bool bIsLoading = false;
 	m_pGameInstance->Stop_All_Event();
 
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-	if (pPlayer)
+	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));	
+	if (m_pPlayer)
 	{
-		m_pPlayerTransCom = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		m_pPlayerTransCom = static_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")));
 		if (nullptr == m_pPlayerTransCom)
 			return E_FAIL;
 		m_pPlayerTransCom->Set_State(CTransform::STATE_POSITION, _float3(-4.6f, 0.f, -1.1f));
@@ -65,6 +68,13 @@ HRESULT CLevel_Hong::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_HellBoss"),
 		LEVEL_HONG, TEXT("Layer_HellBoss"))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_HONG, TEXT("Prototype_GameObject_BombBox"),
+		CBombBox::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
 
 	m_pHellboss = dynamic_cast<CHellBoss*>(m_pGameInstance->Find_Object(LEVEL_HONG, TEXT("Layer_HellBoss")));
 
@@ -98,7 +108,14 @@ void CLevel_Hong::Update(_float fTimeDelta)
 		return; 
 
 	Spawn_Item();
-	Spawn_Monsters((m_pHellboss->Get_Phase()!=PHASE4));
+	Spawn_Monsters((m_pHellboss->Get_Phase()<PHASE4));
+
+	if (m_pPlayer && m_pPlayer->Get_ClearLevel() == LEVEL_BOSS)
+	{
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_ENDING))))
+			return;
+	}
 }
 
 HRESULT CLevel_Hong::Render()
@@ -172,7 +189,7 @@ void CLevel_Hong::Spawn_Monsters(_bool bInterval)
 	{
 		if (m_fMonsterSpawnTime >= m_fMonsterSpawnCooldownTime)
 		{
-			for (_int i = 0; i < 20; ++i)
+			for (_int i = 0; i < 16; ++i)
 			{
 				_float3 spawnPos;
 				GetRandomVector(&spawnPos, &playerPos, 50.f);
@@ -188,6 +205,28 @@ void CLevel_Hong::Spawn_Monsters(_bool bInterval)
 
 				Spawn_Monster(type, spawnPos);
 			}
+
+			
+			for (_int i = 0; i < 5; i++)
+			{
+
+			_float3 spawnPos;
+			GetRandomVector(&spawnPos, &playerPos, 15.f);
+			spawnPos.y = 0.5f;
+
+			if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_HONG, TEXT("Prototype_GameObject_BombBox"),
+				LEVEL_HONG, TEXT("Layer_Deco_BombBox"))))
+				return ;
+
+			auto pBox = m_pGameInstance->Find_Last_Object(LEVEL_HONG, TEXT("Layer_Deco_BombBox"));
+			if (pBox)
+			{
+				CTransform* pTransform = dynamic_cast<CTransform*>(pBox->Get_Component(TEXT("Com_Transform")));
+				if (pTransform)
+					pTransform->Set_State(CTransform::STATE_POSITION, spawnPos);
+			}
+			}
+
 			m_fMonsterSpawnTime = 0.f;
 		}
 	}

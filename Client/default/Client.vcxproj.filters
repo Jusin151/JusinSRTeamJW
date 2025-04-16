@@ -523,6 +523,9 @@
     <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI">
       <UniqueIdentifier>{02dead43-a4b2-4154-832f-6c76e37a60ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Ending">
+      <UniqueIdentifier>{21017127-8675-4188-ba00-6ce9698eeace}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1029,6 +1032,9 @@
     <ClInclude Include="..\public\UI_Restore_Effect.h">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Ending.h">
+      <Filter>01.Levels\Ending</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1492,6 +1498,9 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Restore_Effect.cpp">
       <Filter>02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Ending.cpp">
+      <Filter>01.Levels\Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
