@@ -132,7 +132,7 @@ void CHellhound::Late_Update(_float fTimeDelta)
 		return;
 
 
-	if (m_eCurState != MS_ATTACK_MELEE)
+	if (m_eCurState != MS_ATTACK)
 		Calc_Position();
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
@@ -262,7 +262,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, fScale.Length());
+		Chasing(fTimeDelta, 4.f);
 		break;
 
 	case MS_HIT:
@@ -297,15 +297,21 @@ void CHellhound::Check_Hp()
 
 void CHellhound::Melee_Attack(_float fTimeDelta)
 {
-	if (m_eCurState != MS_ATTACK_MELEE)
+	if (m_eCurState != MS_ATTACK)
 	{
 		if (m_fElapsedTime >= 0.5f)
-			m_eCurState = MS_ATTACK_MELEE;
+			m_eCurState = MS_ATTACK;
 		else
 			return;
 	}
 
 
+	if (m_iCurrentFrame == 17 || m_iCurrentFrame == 26)
+	{
+		m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+
+		m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	}
 }
 
 void CHellhound::Select_Frame(_float fTimeDelta)
@@ -490,6 +496,20 @@ HRESULT CHellhound::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hellhound"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 3.f, 3.f, 3.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -525,4 +545,5 @@ void CHellhound::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTarget);
+	Safe_Release(m_pAttackCollider);
 }

@@ -136,11 +136,11 @@ HRESULT CHit_Effect::Pre_Render()
 	m_pShaderCom->Set_UVScaleFactor(&vScaleFactor);
 	m_pShaderCom->Set_UVOffsetFactor(&vOffsetFactor);
 	// 깊이 버퍼 테스트 비활성화 (항상 그리도록)
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 
 	// (선택 사항) 깊이 버퍼 쓰기 비활성화
 	// 이 객체가 다른 객체의 렌더링에 영향을 주지 않도록 합니다.
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);

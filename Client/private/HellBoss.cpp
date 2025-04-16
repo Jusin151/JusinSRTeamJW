@@ -39,7 +39,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =30000;
+	m_iHp =16000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -176,6 +176,13 @@ void CHellBoss::Update(_float fTimeDelta)
 }
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
 {
+	if (dynamic_cast<CHellBoss_DashState*>(pNewState) && m_ePhase == PHASE3)
+	{
+		delete pNewState;
+		return; // 페이즈3에서는 대쉬 금지
+	}
+
+
 	if (m_pCurState)
 	{
 		m_pCurState->Exit(this);
@@ -250,6 +257,7 @@ void CHellBoss::Hp_Pattern()
 	}
 	if (m_iHp <= 15000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
 	{
+		m_fSpeed = 6.f; 
 		m_bDidPhase3Morph = true;
 		m_ePhase = PHASE3;
 		Set_Pattern(new CPattern_Morph());
@@ -282,7 +290,7 @@ void CHellBoss::Hp_Pattern()
 
 	if (m_iHp <= 10000 && !m_bDidPhase4Morph) // 4페이즈 돌입! 부유형!
 	{
-
+		m_fSpeed = 7.f;
 		m_bDidPhase4Morph = true;
 		m_ePhase = PHASE4;
 		Set_Pattern(new CPattern_Morph());
@@ -352,10 +360,10 @@ void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 {
 	if (m_ePhase == PHASE3)
 	{
-		m_fSpeed = 2.f;
+	
 
 		m_fPhase3_KnockBack_Timer += fTimeDelta;
-		if (m_fPhase3_KnockBack_Timer >= 5.f)
+		if (m_fPhase3_KnockBack_Timer >= 10.f)
 		{
 			m_fPhase3_KnockBack_Timer = 0.f;
 
@@ -406,8 +414,7 @@ void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 	if (m_ePhase == PHASE3 && m_eCurState == MS_IDLE)
 	{
 
-
-		if (m_bWaitingForPhase3Dash)
+		/*if (m_bWaitingForPhase3Dash)
 		{
 			m_fPhase3AttackCooldown -= fTimeDelta;
 			if (m_fPhase3AttackCooldown <= 0.f)
@@ -419,15 +426,15 @@ void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 
 		_float3 vToPlayer = static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION)
 			- m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		vToPlayer.y = 0.f;
+		vToPlayer.y = 0.f;*/
 
-		if (D3DXVec3Length(&vToPlayer) < 30.f)
+		/*if (D3DXVec3Length(&vToPlayer) < 30.f)
 		{
 			Change_State(new CHellBoss_DashState());
 			m_bWaitingForPhase3Dash = true;
 			m_fPhase3AttackCooldown = 0.5f;
 			return;
-		}
+		}*/
 	}
 }
 
@@ -440,7 +447,7 @@ void CHellBoss::Process_Input()
 	if (GetAsyncKeyState('C') & 0x8000)
 	{
 		if (!m_bJumping && !m_bFalling && !m_bWaitingForPhase3Dash &&
-			(m_ePhase == PHASE2 || m_ePhase == PHASE3))
+			(m_ePhase == PHASE2))
 
 		{
 			Change_State(new CHellBoss_DashState());
@@ -964,8 +971,6 @@ HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-	/*	m_vNextPos += vMove * 0.2f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);*/
 
 		break;
 	case CG_STRUCTURE_WALL:

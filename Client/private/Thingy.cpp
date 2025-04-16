@@ -44,10 +44,10 @@ HRESULT CThingy::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scale(2.5f, 2.5f, 2.5f);
 
-	// µπˆ±Î øÎ
+	// ÎîîÎ≤ÑÍπÖ Ïö©
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
-	// morph ªÛ≈¬∑Œ º“»Ø
+	// morph ÏÉÅÌÉúÎ°ú ÏÜåÌôò
 	m_eCurState = MS_MORPH;
 
 	m_iCurrentFrame = 2;
@@ -104,10 +104,7 @@ void CThingy::Update(_float fTimeDelta)
 	if (m_pTarget == nullptr)
 		return;
 
-	if (m_eCurState != MS_ATTACK_MELEE)
-	{
-		m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
-	}
+	
 	
 	Select_Pattern(fTimeDelta);
 
@@ -192,7 +189,7 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	if (nullptr == other)
 		return S_OK;
 
-	// æ»πŸ≤Ó∏È √Êµπ æ»¿œæÓ≥≤
+	// ÏïàÎ∞îÎÄåÎ©¥ Ï∂©Îèå ÏïàÏùºÏñ¥ÎÇ®
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
@@ -246,6 +243,11 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	_float3 vDist;
 	vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
 
+	vDist.y = 0;
+
+	_float3 fScale = m_pColliderCom->Get_Scale();
+	fScale.y = 0;
+
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
@@ -255,7 +257,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		}
 		else
 		{
-			if (vDist.Length() > m_pColliderCom->Get_Scale().Length())
+			if (vDist.LengthSq() > 8)
 				m_eCurState = MS_ATTACK_RANGE;
 			else
 				m_eCurState = MS_ATTACK_MELEE;
@@ -308,7 +310,7 @@ void CThingy::Shooting(_float fTimeDelta)
 
 		pDesc.vPos += static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_LOOK).GetNormalized();
 
-		// ø¿∫Í¡ß∆Æ «Æ∏µ¿∏∑Œ ∫Ø∞Ê « ø‰
+		// Ïò§Î∏åÏ†ùÌä∏ ÌíÄÎßÅÏúºÎ°ú Î≥ÄÍ≤Ω ÌïÑÏöî
 		m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ThingySpike"), m_pGameInstance->Get_CurrentLevel(), TEXT("Layer_Projectile_ThingSpike"), &pDesc);
 		m_iCurrentFrame++;
 	}
@@ -325,9 +327,14 @@ void CThingy::Melee_Attack(_float fTimeDelta)
 	}
 
 	
-	m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
+	if (m_iCurrentFrame == 29)
+	{
+		m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
-	// 29 
+		m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	}
+
+	
 }
 
 void CThingy::Select_Frame(_float fTimeDelta)
@@ -446,8 +453,8 @@ HRESULT CThingy::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // æÀ∆ƒ ∞™¿Ã ±‚¡ÿ∫∏¥Ÿ ≈©∏È «»ºø ∑ª¥ı∏µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ±‚¡ÿ∞™ º≥¡§ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ÏïåÌåå Í∞íÏù¥ Í∏∞Ï§ÄÎ≥¥Îã§ ÌÅ¨Î©¥ ÌîΩÏÖÄ Î†åÎçîÎßÅ
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // Í∏∞Ï§ÄÍ∞í ÏÑ§Ï†ï (0~255)
 	_float2 ScaleFactor = { 1.0f, 1.0f };
 	_float2 Offset = { 0.f, 0.f };
 	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
@@ -468,6 +475,19 @@ HRESULT CThingy::Ready_Components()
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC,TEXT("Prototype_Component_Texture_Thingy"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// Ïù¥Í±∏Î°ú ÏΩúÎùºÏù¥Îçî ÌÅ¨Í∏∞ ÏÑ§Ï†ï
+	ColliderDesc.fScale = { 3.f, 3.f, 3.f };
+	// Ïò§Î∏åÏ†ùÌä∏ÏôÄ ÏÉÅÎåÄÏ†ÅÏù∏ Í±∞Î¶¨ ÏÑ§Ï†ï
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
 		return E_FAIL;
 	return S_OK;
 }
@@ -504,4 +524,5 @@ void CThingy::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTarget);
+	Safe_Release(m_pAttackCollider);
 }
