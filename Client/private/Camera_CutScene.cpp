@@ -122,7 +122,7 @@ void CCamera_CutScene::Set_CameraDisableDelay(_float fDelay)
     {
         if (pPlayer->Get_Current_Weapon() != nullptr)
         {
-        pPlayer->Get_Current_Weapon()->SetActive(false);
+        pPlayer->Get_Current_Weapon()->SetActive(false); 
         }
         _bool bLocked = true;
         pPlayer->OnNotify(&bLocked, L"");
