@@ -42,6 +42,20 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
+	if (m_eNextLevelID == LEVEL_ENDING && true == m_pLoader->isFinished())
+	{
+		CLevel* pLevel = { nullptr };
+		CStructureManager::Get_Instance()->Clear();
+		CUI_Manager::GetInstance()->Clear();
+		pLevel = CLevel_Ending::Create(m_pGraphic_Device);
+		if (nullptr == pLevel)
+			return;
+
+		if (FAILED(m_pGameInstance->Process_LevelChange(m_eNextLevelID, pLevel)))
+		{
+			return;
+		}
+	}
 
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
@@ -80,17 +94,11 @@ void CLevel_Loading::Update(_float fTimeDelta)
 
 			if (nullptr == pLevel)
 				return;
-
-			//if (FAILED(m_pGameInstance->Change_Level(m_eNextLevelID, pLevel)))
-			//	return;
 		
 			if (FAILED(m_pGameInstance->Process_LevelChange(m_eNextLevelID, pLevel)))
 			{
 				return;
 			}
-
-
-
 		}
 	}	
 }

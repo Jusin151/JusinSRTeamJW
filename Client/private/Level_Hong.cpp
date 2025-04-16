@@ -101,7 +101,8 @@ void CLevel_Hong::Update(_float fTimeDelta)
 	Spawn_Item();
 	Spawn_Monsters((m_pHellboss->Get_Phase()<PHASE4));
 
-	if (m_pPlayer && m_pPlayer->Get_ClearLevel() == LEVEL_BOSS)
+	
+	if (m_pHellboss->Get_isDead() && m_pPlayer && m_pPlayer->Get_ClearLevel() == LEVEL_BOSS)
 	{
 		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_ENDING))))
