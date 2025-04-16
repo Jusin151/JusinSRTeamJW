@@ -98,7 +98,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.3f;
+	m_fSpeed = 1.f;
 	m_vPlayerInfo.iStr = 10;
 	m_vPlayerInfo.iSkillpoint = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);
@@ -112,7 +112,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 }
 
 
-void CPlayer::Priority_Update(_float fTimeDelta)
+void CPlayer::Priority_Update(_float fTimeDelta) 
 {
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vNextPos = m_vCurPos;
@@ -156,7 +156,7 @@ void CPlayer::Update(_float fTimeDelta)
 			//m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
 		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		//	m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+			m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
 		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
 		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 

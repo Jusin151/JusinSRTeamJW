@@ -35,7 +35,7 @@ HRESULT CYeti::Initialize(void* pArg)
 
     m_iAp = 15;
 
-    m_iHp = 30;
+    m_iHp = 100;
 
     m_iExp = 64;
 
@@ -76,9 +76,6 @@ void CYeti::Update(_float fTimeDelta)
     }
     if (m_pTarget == nullptr)
         return;
-
-    if (m_eCurState != MS_ATTACK)
-        m_pColliderCom->Set_Scale(_float3(1.f, 1.f,1.f));
 
 
     Select_Pattern(fTimeDelta);
@@ -241,7 +238,7 @@ void CYeti::Select_Pattern(_float fTimeDelta)
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > 2.5f)
+            if (vDist.LengthSq() > 3.f)
             {
                 m_eCurState = MS_WALK;
                
@@ -304,15 +301,20 @@ void CYeti::Attack_Melee(_float fTimeDelta)
             return;
     }
 
-    
-    m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
+    if (m_iCurrentFrame == 14)
+    {
+        m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+
+        m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+    }
+   
 }
 
 _bool CYeti::Check_DIstance(_float fTimeDelta)
 {
     _float3 Dist = m_vAnchorPoint - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-    if (Dist.LengthSq() < 100)
+    if (Dist.LengthSq() < 150)
     {
         m_fBackTime = 2.f;
         return true;  // 설정한 값 이내면 바로 true
@@ -428,6 +430,19 @@ HRESULT CYeti::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
+    /* For.Com_Collider */
+    CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+    ColliderDesc.pOwner = this;
+    // 이걸로 콜라이더 크기 설정
+    ColliderDesc.fScale = { 1.5f, 1.5f, 1.5f };
+    // 오브젝트와 상대적인 거리 설정
+    ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -463,4 +478,5 @@ void CYeti::Free()
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTarget);
+    Safe_Release(m_pAttackCollider);
 }
