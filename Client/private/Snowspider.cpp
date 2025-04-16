@@ -33,15 +33,15 @@ HRESULT CSnowspider::Initialize(void* pArg)
 
     m_eType = CG_MONSTER;
 
-    m_iAp = 5;
+    m_iAp = 10;
 
-    m_iHp = 30;
+    m_iHp = 70;
 
     m_iExp = 41;
 
     m_fSpeed = 0.3f;
 
-    m_pColliderCom->Set_Scale(_float3(1.5f, 1.5f, 1.5f));
+    m_pColliderCom->Set_Scale(_float3(1.3f, 1.f, 1.4f));
 
     return S_OK;
 }
@@ -75,6 +75,8 @@ void CSnowspider::Update(_float fTimeDelta)
     }
     if (m_pTarget == nullptr)
         return;
+
+
     Select_Pattern(fTimeDelta);
 
 
@@ -108,8 +110,8 @@ void CSnowspider::Late_Update(_float fTimeDelta)
 
     
 
-
-    Calc_Position();
+    if(m_eCurState != MS_ATTACK)
+        Calc_Position();
 
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
@@ -186,23 +188,20 @@ HRESULT CSnowspider::On_Collision(CCollisionObject* other)
         //m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
         //m_pTransformCom->Go_Backward(fTimeDelta);
 
-        if (m_eCurState != MS_ATTACK)
+        if (m_eCurState == MS_ATTACK && m_iCurrentFrame >= 13)
         {
-            
-        }
-        else
-        {
-            m_iAp *= 3;
+           
             Take_Damage(other);
-            m_iAp /= 3;
+           
         }
+        
 
         
         break;
 
     case CG_WEAPON:
         Create_Stains(5);
-        m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Pain", m_pTransformCom)->SetVolume(0.5f);
+        m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Pain", m_pTransformCom)->SetVolume(0.7f);
         m_eCurState = MS_HIT;
         break;
 
@@ -246,7 +245,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
     case MS_IDLE:
         if (Check_DIstance(fTimeDelta))
         {
-            if (vDist.LengthSq() > fScale.LengthSq())
+            if (vDist.LengthSq() > 5.f)
             {
                 m_eCurState = MS_WALK;
                 
@@ -277,7 +276,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
         break;
     case MS_WALK:
         m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Detect", m_pTransformCom)->SetVolume(0.5f);
-        Chasing(fTimeDelta, fScale.Length());
+        Chasing(fTimeDelta, 2.f);
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록
@@ -308,13 +307,19 @@ void CSnowspider::Attack_Melee(_float fTimeDelta)
             return;
     }
 
+    if (m_iCurrentFrame == 13)
+    {
+        m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+
+        m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+    }
 }
 
 _bool CSnowspider::Check_DIstance(_float fTimeDelta)
 {
     _float3 Dist = m_vAnchorPoint - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-    if (Dist.LengthSq() < 30)
+    if (Dist.LengthSq() < 200)
     {
         m_fBackTime = 2.f;
         return true;  // 30 이내면 바로 true
@@ -429,7 +434,18 @@ HRESULT CSnowspider::Ready_Components()
     if (FAILED(__super::Add_Component(m_tObjDesc.iLevel, m_tObjDesc.stProtTextureTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
+    /* For.Com_Collider */
+    CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+    ColliderDesc.pOwner = this;
+    // 이걸로 콜라이더 크기 설정
+    ColliderDesc.fScale = { 1.5f, 1.5f, 1.5f };
+    // 오브젝트와 상대적인 거리 설정
+    ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
 
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+        TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -466,4 +482,5 @@ void CSnowspider::Free()
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTarget);
+    Safe_Release(m_pAttackCollider);
 }

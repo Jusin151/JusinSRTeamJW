@@ -89,17 +89,18 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	// Gameplay start pos
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
-	m_pTransformCom->Set_Scale(1.f, 1.8f, 1.f);
+	m_pTransformCom->Set_Scale(1.f, 1.5f, 1.f);
 	//m_pColliderCom->Set_Radius(5.f);
-	m_pColliderCom->Set_Scale(_float3(1.f, 1.8f, 1.f));
+	m_pColliderCom->Set_Scale(_float3(1.f, 1.5f, 1.f));
 
 
 	if (FAILED(Ready_Player_SetUP()))
 		return E_FAIL;
 
 
-	m_fSpeed = 1.3f;
+	m_fSpeed = 1.f;
 	m_vPlayerInfo.iStr = 10;
+	m_vPlayerInfo.iSkillpoint = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);
 	CPickingSys::Get_Instance()->Set_Player(this);
 
@@ -111,7 +112,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 }
 
 
-void CPlayer::Priority_Update(_float fTimeDelta)
+void CPlayer::Priority_Update(_float fTimeDelta) 
 {
 	m_vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vNextPos = m_vCurPos;
@@ -150,14 +151,14 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_WeaponTrigger)
 	{
-		//m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
+		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-			//m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
-		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		//	m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
 		m_WeaponTrigger = false;
 	}
@@ -415,6 +416,7 @@ void CPlayer::Move(_float fTimeDelta)
 				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
 			}
 			break;
+		case Client::LEVEL_HONG:
 		case Client::LEVEL_HUB:
 			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
 			{
@@ -422,9 +424,6 @@ void CPlayer::Move(_float fTimeDelta)
 				temp->SetVolume(1.0f);
 				temp->SetCallBack(ManageIsWalkingCallback, FMOD_STUDIO_EVENT_CALLBACK_ALL);
 			}
-			break;
-		case Client::LEVEL_HONG:
-			//m_pSoundCom->Play_Event(L"event:/Player/Footstep_Hard")->SetVolume(0.5f);
 			break;
 		case Client::LEVEL_BOSS:
 			if (m_pSoundCom->Get_Global_Parameter("IsWalking") <= 0.5f)
@@ -637,10 +636,11 @@ void CPlayer::Add_Exp(_int Exp)
 		if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
 		{
 			pUI_Event->ShowEventText(0, L"LevelUp");
+			m_pSoundCom->Play_Event(L"event:/Objects/Level_Up_Distorted")->SetVolume(0.7f);
+			Notify(m_iPlayerEXP.first, L"Exp");
 		}
 	}
-	m_pSoundCom->Play_Event(L"event:/Level_Up_Distorted")->SetVolume(0.5f);
-	Notify(m_iPlayerEXP.first, L"Exp");
+
 
 
 	if (auto pUI_Event = dynamic_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(L"UI_Event")))
@@ -668,6 +668,18 @@ void CPlayer::Add_Weapon(const _wstring& stWeaponTag)
 	else if (stWeaponTag == L"Minigun")
 	{
 		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 6);
+	}
+	else if (stWeaponTag == L"Staff")
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 5);
+	}
+	else if (stWeaponTag == L"Claymore")
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 1);
+	}
+	else //하베스터
+	{
+		m_pPlayer_Inven->Add_Weapon(stWeaponTag, 7);
 	}
 }
 
@@ -797,6 +809,9 @@ HRESULT CPlayer::Ready_Player_SetUP()
 
 	if (auto pPlayer_Hit = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Hit_Blood")))
 		Add_Observer(pPlayer_Hit);
+
+	if (auto pPlayer_Restore = dynamic_cast<CObserver*>(CUI_Manager::GetInstance()->GetUI(L"Restore_Effect")))
+		Add_Observer(pPlayer_Restore);
 
 
 	CUI_Manager::GetInstance()->Init_HP_UI(m_iHp, m_iPlayerHP.second);

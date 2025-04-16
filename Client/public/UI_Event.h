@@ -55,7 +55,8 @@ public:
 public:
 	void Add_EventRender(const EVENT_RENDER_TEXT& vEventRenderText);
 private:
-	float m_fRainbowTimer = { 0.f };
+	_float m_fRainbowTimer = { 0.f };
+	_bool	m_bEventStart = { false };
 
 public:
 	static CUI_Event* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -70,26 +71,32 @@ public:
 		if (tag == L"Exp")
 			text = L"경험치 획득!  +" + to_wstring(value);
 		else if (tag == L"Hp")
-			text = L"체력을 회복! +" + to_wstring(value);
+			text = L"체력 회복! +" + to_wstring(value);
+		else if(tag ==L"MP")
+			text = L"마나 회복! +" + to_wstring(value);
+		else if (tag == L"Stat")
+			text = L"스킬 포인트 획득! +" + to_wstring(value);
 		else if (tag == L"Magnum_Ammo_Small") 
-			text = L"당신은 약간의 권총탄약을 얻었습니다! +" + to_wstring(value);
+			text = L"당신은 약간의 권총 탄약을 얻었습니다! +" + to_wstring(value);
 		else if (tag == L"Magnum_Ammo_Big")
-			text = L"당신은 대량의 권총탄약을 얻었습니다! +" + to_wstring(value);
+			text = L"당신은 대량의 권총 탄약을 얻었습니다! +" + to_wstring(value);
 		else if (tag == L"ShotGun_Ammo_Small")
-			text = L"당신은 약간의 샷건탄약을 얻었습니다! +" + to_wstring(value);
+			text = L"당신은 약간의 샷건 탄약을 얻었습니다! +" + to_wstring(value);
 		else if (tag == L"ShotGun_Ammo_Big")
-			text = L"당신은 대량의 샷건탄약을 얻었습니다! +" + to_wstring(value);
+			text = L"당신은 대량의 샷건 탄약을 얻었습니다! +" + to_wstring(value);
+		else if (tag == L"Minigun_Ammo")
+			text = L"당신은 대량의 미니건 탄약을 얻었습니다! +" + to_wstring(value);
 		else if (tag == L"Red")
-			text = L"RED를 얻었다(수정바람) +" + to_wstring(value);
+			text = L"Red Key 획득했습니다.";
 		else if (tag == L"Blue")
 			text = L"Blue를 얻었다(수정바람) +" + to_wstring(value);
 		else if (tag == L"Yellow")
 			text = L"Yellow를 얻었다(수정바람) +" + to_wstring(value);
-		else if (tag == L"Yellow")
+		else if (tag == L"ShotGun")
 			text = L"ShotGun 획득!";
-		else if (tag == L"Yellow")
+		else if (tag == L"Staff")
 			text = L"Staff 획득!";
-		else if (tag == L"Yellow")
+		else if (tag == L"Minigun")
 			text = L"Minigun 획득!";
 		else if (tag == L"LevelUp")
 			text = L"레벨업!";

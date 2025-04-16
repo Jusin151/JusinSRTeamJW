@@ -32,7 +32,8 @@ private:
 	virtual void Select_State()override;
 
 private:
-
+	_int m_iPreHp = {};
+	_int m_iCurHp = {};
 
 public:
 	static CTree* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

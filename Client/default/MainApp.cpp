@@ -27,6 +27,7 @@
 #include "GameObject_Snow.h"
 #include "Sound_Manager.h"
 #include "UI_Hit_Blood.h"
+#include "UI_Restore_Effect.h"
 #include "Camera_CutScene.h"
 
 
@@ -34,7 +35,7 @@ CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() },
 	m_pPickingSys{ CPickingSys::Get_Instance() }
 { 
-	Safe_AddRef(m_pSound_Manager);
+	
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pPickingSys);
 }
@@ -55,6 +56,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device, &m_pSound_Manager)))
 		return E_FAIL;	
+	Safe_AddRef(m_pSound_Manager);
 #pragma endregion
 
 #pragma region 준비
@@ -219,11 +221,18 @@ HRESULT CMainApp::Ready_Component_For_Static()
 			TEXT("../../Resources/Textures/SkyBox/SkyBox_Cthulhu.dds"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Cube_Base*/
+	/* For.Prototype_Component_Texture_Player_Hit*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_Component_Texture_Player_Hit"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
 			TEXT("../../Resources/Textures/Effect/bloodscreen_2.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Player_Restore*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_Component_Texture_Player_Restore"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_2D,
+			TEXT("../../Resources/Textures/Effect/Restore_Screen.png"), 1))))
 		return E_FAIL;
 #pragma endregion
 	
@@ -427,6 +436,11 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Hit_Blood"),
 		CUI_Hit_Blood::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Restore_Effect"),
+		CUI_Restore_Effect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 

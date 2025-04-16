@@ -214,6 +214,8 @@
     <ClInclude Include="..\public\Hub_Light.h" />
     <ClInclude Include="..\public\Lamp.h" />
     <ClInclude Include="..\public\Long_Torch.h" />
+    <ClInclude Include="..\public\Looker.h" />
+    <ClInclude Include="..\public\LookerBullet.h" />
     <ClInclude Include="..\public\Magic_Effect.h" />
     <ClInclude Include="..\public\Pattern_EyeBlast.h" />
     <ClInclude Include="..\public\HellBoss.h" />
@@ -292,6 +294,7 @@
     <ClInclude Include="..\public\Projectile_Base.h" />
     <ClInclude Include="..\public\Ranged_Weapon.h" />
     <ClInclude Include="..\public\Shop.h" />
+    <ClInclude Include="..\public\UI_Restore_Effect.h" />
     <ClInclude Include="..\Public\UI_Shop_Base.h" />
     <ClInclude Include="..\public\ShotGun.h" />
     <ClInclude Include="..\public\Sonic.h" />
@@ -399,6 +402,8 @@
     <ClCompile Include="..\private\Level_Hong.cpp" />
     <ClCompile Include="..\private\Level_Hub.cpp" />
     <ClCompile Include="..\private\Long_Torch.cpp" />
+    <ClCompile Include="..\private\Looker.cpp" />
+    <ClCompile Include="..\private\LookerBullet.cpp" />
     <ClCompile Include="..\private\Magic_Effect.cpp" />
     <ClCompile Include="..\private\MiniMap.cpp" />
     <ClCompile Include="..\Private\Observer.cpp" />
@@ -454,6 +459,7 @@
     <ClCompile Include="..\private\Shop.cpp" />
     <ClCompile Include="..\private\UI_Hit_Blood.cpp" />
     <ClCompile Include="..\private\UI_Point_Shop.cpp" />
+    <ClCompile Include="..\private\UI_Restore_Effect.cpp" />
     <ClCompile Include="..\Private\UI_Shop_Base.cpp" />
     <ClCompile Include="..\private\ShotGun.cpp" />
     <ClCompile Include="..\private\Sonic.cpp" />

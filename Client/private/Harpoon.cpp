@@ -135,9 +135,15 @@ HRESULT CHarpoon::On_Collision(CCollisionObject* other)
 		
 		break;
 	case CG_STRUCTURE_WALL:
+		fPos -= m_vDir.GetNormalized();
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		CreateParticle(0xFF885522, 0x00885522);
 		m_bIsActive = false;
 		break;
 	case CG_DOOR:
+		fPos -= m_vDir.GetNormalized();
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
+		CreateParticle(0xFF885522, 0x00885522);
 		m_bIsActive = false;
 		break;
 	default:

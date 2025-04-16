@@ -76,7 +76,7 @@ void CCamera_FirstPerson::Priority_Update(_float fTimeDelta)
 	if (!m_bTriggerShake)
 	{
 		auto vPos = fPlayerTrans->Get_State(CTransform::STATE_POSITION);
-		vPos.y += 0.2f;
+		vPos.y += 0.3f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	}
 
@@ -204,7 +204,7 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 			m_bTriggerShake = false;
 			CTransform* playerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 			_float3 basePos = playerTransform->Get_State(CTransform::STATE_POSITION);
-			basePos.y += 0.2f;
+			basePos.y += 0.3f;
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, basePos);
 			return;
 		}
@@ -217,7 +217,7 @@ void CCamera_FirstPerson::Shaking(_float fTimeDelta)
 		// 플레이어의 현재 위치를 기준으로 삼음
 		CTransform* playerTransform = static_cast<CPlayer*>(m_pPlayer)->Get_TransForm();
 		_float3 basePos = playerTransform->Get_State(CTransform::STATE_POSITION);
-		basePos.y += 0.2f; // 기존에 사용하던 높이 오프셋
+		basePos.y += 0.3f; // 기존에 사용하던 높이 오프셋
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, basePos + randomOffset);
 	}

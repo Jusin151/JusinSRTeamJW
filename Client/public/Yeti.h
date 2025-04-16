@@ -42,6 +42,7 @@ private:
 
 
 private:
+	CCollider_Cube* m_pAttackCollider = { nullptr };
 	
 	_float3 m_vAnchorPoint = {};
 	_float m_fBackTime = { 2.f };

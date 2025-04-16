@@ -235,6 +235,8 @@ void CBox::Select_State()
 
 void CBox::Smart_Drop()
 {
+    if (m_bDrop)
+        return;
     // 정보를 일단 가져옴
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTarget);
     pair<_int, _int> PlayerHp = pPlayer->Get_PlayerHp();
@@ -323,6 +325,8 @@ void CBox::Smart_Drop()
     _float3 fPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
     pTrans->Set_State(CTransform::STATE_POSITION, fPos);
+
+    m_bDrop = true;
 }
 
 CBox* CBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

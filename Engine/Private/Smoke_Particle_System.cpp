@@ -35,12 +35,12 @@ HRESULT CSmoke_Particle_System::Initialize(void* pArg)
     return S_OK;
 }
 
-void CSmoke_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute)
+void CSmoke_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pArg)
 {
     pAttribute->bIsAlive = true;
     GetRandomVector(&pAttribute->vPosition, &m_Bound.m_vCenter, m_Bound.m_fRadius);
     pAttribute->vVelocity = { GetRandomFloat(-1.f, 1.0f), GetRandomFloat(1.f, 5.0f), GetRandomFloat(-1.f, 1.0f) };
-    pAttribute->vAcceleration = { 0.8, 0.8, 0.8f };
+    pAttribute->vAcceleration = { 0.8f, 0.8f, 0.8f };
     pAttribute->fAge = 0;
     pAttribute->fLifetime = 10.0f;
     pAttribute->iIndex = 0;

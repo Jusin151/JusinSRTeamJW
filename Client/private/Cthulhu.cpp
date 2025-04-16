@@ -285,7 +285,7 @@ NodeStatus CCthulhu::UpdateAttack()
 			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
 			m_iMissilesToFire--;
 			m_fMissileTimer = 0.f;
-			//m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.5f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_attack_01", m_pTransformCom)->SetVolume(0.5f);
 		}
 
 
@@ -401,9 +401,9 @@ NodeStatus CCthulhu::Update_Appear()
 		{
 			CUI_Event::EVENT_RENDER_TEXT vRenderText;
 			vRenderText.stText = TEXT("TENTACLES LEFT: ") + std::to_wstring(m_iCountTentacle);
-			vRenderText.vPos = _float2(-70.f, 0.f);
-			vRenderText.vFontSize = _float2(10.f, 30.f);
-			vRenderText.vColor = _float3(1.f, 0.f, 0.1f);
+			vRenderText.vPos = _float2(-60.f, -10.f);
+			vRenderText.vFontSize = _float2(10.f, 40.f);
+			vRenderText.vColor = _float3(0.65f, 0.44f, 0.43f);
 			vRenderText.fLifeTime = 1.f;
 			pUI_Event->Add_EventRender(vRenderText);
 		}
@@ -1008,9 +1008,9 @@ void CCthulhu::Remove_DeadTentacles()
 			{
 				CUI_Event::EVENT_RENDER_TEXT vRenderText;
 				vRenderText.stText = TEXT("TENTACLES LEFT: ") + std::to_wstring(m_iCountTentacle);
-				vRenderText.vPos = _float2(-70.f, 0.f);
-				vRenderText.vFontSize = _float2(10.f, 30.f);
-				vRenderText.vColor = _float3(1.f, 0.f, 0.1f);
+				vRenderText.vPos = _float2(-60.f, -10.f);
+				vRenderText.vFontSize = _float2(10.f, 40.f);
+				vRenderText.vColor = _float3(0.65f, 0.44f, 0.43f);
 				vRenderText.fLifeTime = 1.f;
 				pUI_Event->Add_EventRender(vRenderText);
 			}
@@ -1038,9 +1038,11 @@ void CCthulhu::Select_Pattern(_float fTimeDelta)
 
 void CCthulhu::Set_Hp(_int iHp)
 {
+	Create_Stains(5);
 	if (!m_bCanHit) return;
-	m_iHp = iHp;
-	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/yeti_pain_1", m_pTransformCom)->SetVolume(0.5f);
+	m_iHp = max(iHp,0);
+
+	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_pain_01", m_pTransformCom)->SetVolume(0.5f);
 }
 
 json CCthulhu::Serialize()

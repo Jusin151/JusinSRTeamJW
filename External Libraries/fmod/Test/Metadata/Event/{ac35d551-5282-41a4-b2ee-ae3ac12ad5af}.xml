@@ -63,6 +63,9 @@
 		<property name="maximumDistance">
 			<value>10000</value>
 		</property>
+		<property name="triggerCooldown">
+			<value>1400</value>
+		</property>
 	</object>
 	<object class="MarkerTrack" id="{eb357c4a-3e6f-47b3-9821-5532b92beb5f}" />
 	<object class="Timeline" id="{34768d3f-b7bb-4c96-b1ce-9fc73d626ac9}">
@@ -116,7 +119,7 @@
 			<value>1</value>
 		</property>
 		<property name="soundSize">
-			<value>7000</value>
+			<value>10000</value>
 		</property>
 	</object>
 </objects>

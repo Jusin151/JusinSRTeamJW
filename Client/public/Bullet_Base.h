@@ -28,6 +28,9 @@ protected:
 	CSound_Source* m_pSoundCom = {};
 
 public:
+	HRESULT CreateParticle(DWORD dwInit, DWORD dwFade);
+
+public:
 	virtual HRESULT On_Collision(CCollisionObject* other)override;
 
 	void Attack_Melee();

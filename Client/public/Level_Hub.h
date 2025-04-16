@@ -35,7 +35,6 @@ private:
 	CPickingSys* m_pPickingSys = { nullptr };
 	CHub_Portal* m_pPortal{ nullptr };
 
-
 public:
 	static CLevel_Hub* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;

@@ -84,9 +84,6 @@ HRESULT CHub_PointShop::Open_Shop()
 {
 	Notify(nullptr, L"Open");
 
-	// 상점 아이템 새로고침
-	Refresh_Shop_Items();
-
 	return S_OK;
 }
 
@@ -97,28 +94,6 @@ HRESULT CHub_PointShop::Close_Shop()
 	return S_OK;
 }
 
-HRESULT CHub_PointShop::Purchase_Item(const _uint iItemID, const _uint iCount)
-{
-	// 상점이 닫혀있다면 구매 실패
-	if (!m_bIsOpen)
-		return E_FAIL;
-
-	// 구매 가능 여부 확인
-	if (!Can_Purchase(iItemID, iCount))
-		return E_FAIL;
-	return S_OK;
-}
-
-HRESULT CHub_PointShop::Sell_Item(const _uint iItemID, const _uint iCount)
-{
-	return S_OK;
-}
-
-void CHub_PointShop::Refresh_Shop_Items()
-{
-
-
-}
 HRESULT CHub_PointShop::SetUp_RenderState()
 {
 	// 일단 추가해보기
@@ -141,14 +116,6 @@ HRESULT CHub_PointShop::Release_RenderState()
 	return S_OK;
 }
 
-_bool CHub_PointShop::Can_Purchase(_uint iItemID, _uint iCount)
-{
-	// 상점이 닫혀있으면 구매 불가
-	if (!m_bIsOpen)
-		return false;
-
-	return true;
-}
 
 void CHub_PointShop::Buy_Stat(_int index)
 {
@@ -184,6 +151,107 @@ void CHub_PointShop::Buy_Skill(_int index)
 	}
 }
 
+void CHub_PointShop::Buy_Skill(const _wstring& stSkillName)
+{
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
+	if (!pPlayer)
+		return;
+
+	auto pUI_Event = static_cast<CUI_Event*>(CUI_Manager::GetInstance()->GetUI(TEXT("UI_Event")));
+	CUI_Event::EVENT_RENDER_TEXT vRenderText;
+
+	if (stSkillName == TEXT("Skill_6"))
+	{
+		pPlayer->Set_DoubleAmmoGain(true);
+		vRenderText.stText = TEXT("탄약획득량이 2배 증가했습니다!\n               더 많이!");
+	}
+	else if (stSkillName == TEXT("Skill_11"))
+	{
+		pPlayer->Set_DoubleSpeedGain();
+		vRenderText.stText = TEXT("스피드가 2배로 증가했습니다!\n          더욱 빠르게!");
+	}
+
+
+	if (pUI_Event)
+	{
+		vRenderText.vPos = _float2(-100.f, -100.f);
+		vRenderText.vFontSize = _float2(10.f, 30.f);
+		vRenderText.vColor = _float3(1.f, 0.4f, 0.4f);
+		vRenderText.fLifeTime = 0.5f;
+		pUI_Event->Add_EventRender(vRenderText);
+	}
+}
+
+PurchaseStatus CHub_PointShop::Purchase_Skill(const _wstring& stSkillName, _uint iPrice)
+{
+	if (!m_bIsOpen)
+		return PurchaseStatus::ShopClosed;
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pPlayer);
+	if (!pPlayer)
+		return PurchaseStatus::UnknownError;
+
+	
+	if (pPlayer->Has_Skill(stSkillName))
+		return PurchaseStatus::AlreadyOwned;
+
+	if (pPlayer->Get_PlayerInfo().iSkillpoint >= iPrice)
+	{
+		pPlayer->Use_SkillPoint(iPrice);
+		Buy_Skill(stSkillName);
+		pPlayer->Add_Skill(stSkillName);
+		return PurchaseStatus::Success;
+	}
+	else
+	{
+		return PurchaseStatus::NotEnoughPoint;
+	}
+}
+
+PurchaseStatus CHub_PointShop::Purchase_Stat(const _wstring& stStatName, _uint iPrice)
+{
+	if (!m_bIsOpen)
+		return PurchaseStatus::ShopClosed;
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pPlayer);
+	if (!pPlayer)
+		return PurchaseStatus::UnknownError;
+
+	if (pPlayer->Get_PlayerInfo().iStatpoint >= iPrice)
+	{
+		_uint iIndex = -1;
+		if (stStatName == TEXT("Strength"))
+		{
+			iIndex = 0;
+			pPlayer->Add_Strength(1);
+
+		}
+		else if (stStatName == TEXT("Life"))
+		{
+			iIndex = 1;
+			pPlayer->Add_MaxHP(10);
+		}
+		else if (stStatName == TEXT("Sprit"))
+		{
+			iIndex = 2;
+			pPlayer->Add_Sprit(1);
+		}
+		else if (stStatName == TEXT("Capacity"))
+		{
+			iIndex = 3;
+			pPlayer->Add_Capacity(1);
+		}
+		else
+			return PurchaseStatus::UnknownError;
+
+
+		Notify(&iIndex, L"StatBuy");  // 성공했을 때만 UI 갱신
+		return PurchaseStatus::Success;
+	}
+	else
+	{
+		return PurchaseStatus::NotEnoughPoint;
+	}
+}
 
 
 HRESULT CHub_PointShop::Ready_Components()

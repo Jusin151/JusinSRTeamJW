@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Stains_Effect.h"
+#include "Gib_Effect.h"
 
 CHellhound::CHellhound(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CMonster_Base(pGraphic_Device)
@@ -44,7 +45,7 @@ HRESULT CHellhound::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(3.f, 3.f, 3.f);
 
 	// 디버깅 용
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
 	// morph 상태로 소환
 	m_eCurState = MS_IDLE;
@@ -88,8 +89,8 @@ void CHellhound::Priority_Update(_float fTimeDelta)
 	if (m_eCurState == MS_DEATH && !m_bGib)
 	{
 		m_bGib = true;
-		Create_Gibs(0);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+		Create_Gibs(6);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 45)
 	{
@@ -131,7 +132,7 @@ void CHellhound::Late_Update(_float fTimeDelta)
 		return;
 
 
-	if (m_eCurState != MS_ATTACK_MELEE)
+	if (m_eCurState != MS_ATTACK)
 		Calc_Position();
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
@@ -207,7 +208,7 @@ HRESULT CHellhound::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Pain", m_pTransformCom)->SetVolume(0.5f);
 		if (m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
 			m_eCurState = MS_HIT;
 		break;
@@ -260,7 +261,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 		break;
 
 	case MS_WALK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Detect", m_pTransformCom)->SetVolume(0.5f);
 		Chasing(fTimeDelta, fScale.Length());
 		break;
 
@@ -272,7 +273,7 @@ void CHellhound::Select_Pattern(_float fTimeDelta)
 		break;
 
 	case MS_ATTACK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Hellhound/Hellhound_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Melee_Attack(fTimeDelta);
 		break;
 
@@ -296,15 +297,21 @@ void CHellhound::Check_Hp()
 
 void CHellhound::Melee_Attack(_float fTimeDelta)
 {
-	if (m_eCurState != MS_ATTACK_MELEE)
+	if (m_eCurState != MS_ATTACK)
 	{
 		if (m_fElapsedTime >= 0.5f)
-			m_eCurState = MS_ATTACK_MELEE;
+			m_eCurState = MS_ATTACK;
 		else
 			return;
 	}
 
 
+	if (m_iCurrentFrame == 17 || m_iCurrentFrame == 26)
+	{
+		m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+
+		m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	}
 }
 
 void CHellhound::Select_Frame(_float fTimeDelta)
@@ -426,6 +433,12 @@ void CHellhound::Select_Frame(_float fTimeDelta)
 			return;
 		}
 
+		if (m_iCurrentFrame == 30)
+		{
+			// 팔 gib 생성
+			Create_Gibs(5);
+		}
+
 		if (m_iCurrentFrame < 30 || m_iCurrentFrame > 33)
 			m_iCurrentFrame = 30;
 
@@ -483,6 +496,20 @@ HRESULT CHellhound::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hellhound"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 2.f, 2.f, 2.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -518,4 +545,5 @@ void CHellhound::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTarget);
+	Safe_Release(m_pAttackCollider);
 }

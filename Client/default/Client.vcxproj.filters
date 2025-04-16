@@ -520,6 +520,15 @@
     <Filter Include="02.GameObjects\01.Monster\normal\Hellhound">
       <UniqueIdentifier>{bc55c431-4194-4a32-bce5-41932b7a934c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\01.Monster\normal\Looker">
+      <UniqueIdentifier>{b440f31b-2b54-43ca-816d-94b624033d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster\Looker">
+      <UniqueIdentifier>{154b37b4-c9c3-4f4c-ad3f-4114873569bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI">
+      <UniqueIdentifier>{02dead43-a4b2-4154-832f-6c76e37a60ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1023,6 +1032,15 @@
     <ClInclude Include="..\public\Hellhound.h">
       <Filter>02.GameObjects\01.Monster\normal\Hellhound</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Looker.h">
+      <Filter>02.GameObjects\01.Monster\normal\Looker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LookerBullet.h">
+      <Filter>02.GameObjects\04. Projectile\Monster\Looker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Restore_Effect.h">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1483,6 +1501,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Hellhound.cpp">
       <Filter>02.GameObjects\01.Monster\normal\Hellhound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Looker.cpp">
+      <Filter>02.GameObjects\01.Monster\normal\Looker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LookerBullet.cpp">
+      <Filter>02.GameObjects\04. Projectile\Monster\Looker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Restore_Effect.cpp">
+      <Filter>02.GameObjects\97. UI\02.GamePlay_UI\98. Player Restore Effect UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

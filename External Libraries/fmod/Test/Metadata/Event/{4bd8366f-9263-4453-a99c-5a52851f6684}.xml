@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{4bd8366f-9263-4453-a99c-5a52851f6684}">
 		<property name="name">
-			<value>the_thing_detect</value>
+			<value>Thingy_Detect</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -59,7 +59,17 @@
 			<destination>{2fcea790-9b86-4127-b1be-ebf4d51ccd9f}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{7f10fe05-ad05-4e2e-981c-4d4b03d359db}" />
+	<object class="EventAutomatableProperties" id="{7f10fe05-ad05-4e2e-981c-4d4b03d359db}">
+		<property name="minimumDistance">
+			<value>0</value>
+		</property>
+		<property name="maximumDistance">
+			<value>10000</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>1600</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{45498852-3142-4157-a4e7-9cb150752784}" />
 	<object class="Timeline" id="{b61d122d-b080-4a67-9577-c679c513c6e9}">
 		<property name="isProxyEnabled">
@@ -107,5 +117,12 @@
 	</object>
 	<object class="MixerBusFader" id="{c001aa18-bcc7-4026-945d-5e2e79b77b93}" />
 	<object class="MixerBusFader" id="{e974d855-c759-4f81-855b-7fe4f4a6f3c4}" />
-	<object class="SpatialiserEffect" id="{cb8a5d87-bf42-4145-950e-247f70883ec6}" />
+	<object class="SpatialiserEffect" id="{cb8a5d87-bf42-4145-950e-247f70883ec6}">
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>10000</value>
+		</property>
+	</object>
 </objects>

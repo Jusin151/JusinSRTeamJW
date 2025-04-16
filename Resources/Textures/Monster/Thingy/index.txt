@@ -1,0 +1,7 @@
+idle 0
+hit 1
+morph 2~19
+walk 20~ 25
+melee_attack 26 ~ 39
+range_attack 40 ~ 67
+death 68~ 77

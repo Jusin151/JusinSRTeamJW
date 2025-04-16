@@ -34,6 +34,11 @@ HRESULT CTree::Initialize(void* pArg)
 
 	m_iCurrentFrame = 0;
 
+	m_iHp = 45;
+
+	m_iCurHp = m_iHp;
+	m_iPreHp = m_iHp;
+
 	return S_OK;
 }
 
@@ -52,11 +57,7 @@ void CTree::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 
-	if (m_iHitCount >= 3)
-	{
-		m_eCurState = DS_DEATH;
-		m_iHitCount = 3;
-	}
+
 }
 
 void CTree::Update(_float fTimeDelta)
@@ -150,8 +151,7 @@ HRESULT CTree::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		m_eCurState = DS_HIT;
-		++m_iHitCount;
-
+		
 
 		break;
 
@@ -161,22 +161,19 @@ HRESULT CTree::On_Collision(CCollisionObject* other)
 
 	case CG_PLAYER_PROJECTILE_SPHERE:
 		m_eCurState = DS_HIT;
-		++m_iHitCount;
+		
 
 		break;
 
 	case CG_PLAYER_PROJECTILE_CUBE:
 		m_eCurState = DS_HIT;
-		++m_iHitCount;
+		
 
 		break;
 
 	default:
 		break;
 	}
-
-	if (m_iHitCount > 3)
-		m_iHitCount = 3;
 
 	return S_OK;
 }
@@ -205,10 +202,23 @@ HRESULT CTree::Release_RenderState()
 
 void CTree::Select_State()
 {
+	m_iCurHp = m_iHp;
 	
 
-	if (m_eCurState == DS_HIT)
+ 	if (m_eCurState == DS_HIT)
 	{
+
+		if (m_iCurHp != m_iPreHp)
+		{
+			++m_iHitCount;
+			m_iPreHp = m_iCurHp;
+		}
+		else
+		{
+			m_eCurState = DS_IDLE;
+			return;
+		}
+			
 
 		m_pColliderCom->Set_Scale(_float3(2.f, floor(4.f / m_iHitCount)  , 2.f));
 		m_pTransformCom->Set_Scale(2.f, floor(4.f / m_iHitCount)  , 2.f);
@@ -234,6 +244,12 @@ void CTree::Select_State()
 			LEVEL_STATIC,
 			TEXT("Layer_Gib_Effect"),
 			&hitDesc);
+	}
+
+	if (m_iHitCount >= 3)
+	{
+		m_eCurState = DS_DEATH;
+		m_iHitCount = 3;
 	}
 		
 }

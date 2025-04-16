@@ -65,11 +65,11 @@ HRESULT CLevel_GamePlay::Initialize()
 		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Thingy"))))
 		return E_FAIL;*/
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Hellhound"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Hellhound"))))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Looker"),
+		LEVEL_GAMEPLAY, TEXT("Layer_Monster_Looker"))))
 		return E_FAIL;
 
-	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.5f);
+	m_pGameInstance->Play_Background(L"event:/Backgrounds/019 Antarctic - Calm Before The Storm").SetVolume(0.3f);
 
 	
 

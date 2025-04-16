@@ -90,7 +90,7 @@ void CThingy::Priority_Update(_float fTimeDelta)
 	{
 		m_bGib = true;
 		Create_Gibs(0);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Death", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Death", m_pTransformCom)->SetVolume(0.5f);
 	}
 	if (m_iCurrentFrame >= 77)
 	{
@@ -104,6 +104,7 @@ void CThingy::Update(_float fTimeDelta)
 	if (m_pTarget == nullptr)
 		return;
 
+	
 	
 	Select_Pattern(fTimeDelta);
 
@@ -119,7 +120,6 @@ void CThingy::Update(_float fTimeDelta)
 	m_pSoundCom->Update(fTimeDelta);
 }
 
-
 void CThingy::Late_Update(_float fTimeDelta)
 {
 	if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
@@ -131,10 +131,9 @@ void CThingy::Late_Update(_float fTimeDelta)
 	if (nullptr == m_pTarget)
 		return;
 
-	if (m_bHit)
-	{
-		m_pColliderCom->Set_Scale(_float3(2.5f, 2.5f, 2.5f));
-	}
+	
+	
+	
 
 	if(m_eCurState != MS_ATTACK_MELEE)
 		Calc_Position();
@@ -203,7 +202,6 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	case CG_PLAYER:
 		if (m_eCurState == MS_ATTACK_MELEE && m_iCurrentFrame >= 29)
 		{
-			m_bHit = true;
 			Take_Damage(other);
 		}
 			
@@ -211,7 +209,7 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 
 	case CG_WEAPON:
 		Create_Stains(5);
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Pain", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Pain", m_pTransformCom)->SetVolume(0.5f);
 		if(m_eCurState == MS_IDLE || m_eCurState == MS_WALK)
 			m_eCurState = MS_HIT;
 		break;
@@ -254,15 +252,15 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		}
 		else
 		{
-			if (vDist.Length() > m_pColliderCom->Get_Scale().Length())
+			if (vDist.LengthSq() > 8)
 				m_eCurState = MS_ATTACK_RANGE;
 			else
 				m_eCurState = MS_ATTACK_MELEE;
 		}
 		break;
 	case MS_WALK:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, m_pColliderCom->Get_Scale().Length());
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Detect", m_pTransformCom)->SetVolume(0.5f);
+		Chasing(fTimeDelta,1.5f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)
@@ -272,12 +270,12 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 
 		break;
 	case MS_ATTACK_RANGE:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Shooting(fTimeDelta);
 		break;
 
 	case MS_ATTACK_MELEE:
-		m_pSoundCom->Play_Event(L"event:/Monsters/Polarman/Polarman_Attack", m_pTransformCom)->SetVolume(0.5f);
+		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Attack", m_pTransformCom)->SetVolume(0.5f);
 		Melee_Attack(fTimeDelta);
 		break;
 
@@ -323,10 +321,15 @@ void CThingy::Melee_Attack(_float fTimeDelta)
 			return;
 	}
 
-	if(!m_bHit)
-		m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));
+	
+	if (m_iCurrentFrame == 29)
+	{
+		m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
 
-	// 29 
+		m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+	}
+
+	
 }
 
 void CThingy::Select_Frame(_float fTimeDelta)
@@ -468,6 +471,19 @@ HRESULT CThingy::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC,TEXT("Prototype_Component_Texture_Thingy"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+
+	/* For.Com_Collider */
+	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
+	ColliderDesc.pOwner = this;
+	// 이걸로 콜라이더 크기 설정
+	ColliderDesc.fScale = { 2.f, 2.f, 2.f };
+	// 오브젝트와 상대적인 거리 설정
+	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
+		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -503,4 +519,5 @@ void CThingy::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTarget);
+	Safe_Release(m_pAttackCollider);
 }

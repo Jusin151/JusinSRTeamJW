@@ -27,14 +27,14 @@ public:
 public: //상점관련
     virtual HRESULT Open_Shop() override;
     virtual HRESULT Close_Shop() override;
-    virtual HRESULT Purchase_Item(const _uint iItemID, const _uint iCount = 1) override;
-    virtual HRESULT Sell_Item(const _uint iItemID, const _uint iCount = 1) override;
-    virtual void Refresh_Shop_Items() override;
-    virtual _bool Can_Purchase(_uint iItemID, _uint iCount = 1) override;
     void  Buy_Stat(_int index);
 
     void Buy_Skill(_int index);
+    void Buy_Skill(const _wstring& stSkillName);
 
+
+    PurchaseStatus Purchase_Skill(const _wstring& stSkillName, _uint iPrice);
+    PurchaseStatus Purchase_Stat(const _wstring& stStatName, _uint iPrice);
 
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();

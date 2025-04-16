@@ -1,0 +1,4 @@
+idle 0 ~ 9
+hit 10
+attack 11 ~ 27
+death 28 ~ 42

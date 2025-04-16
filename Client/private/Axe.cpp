@@ -111,6 +111,11 @@ HRESULT CAxe::On_Collision(CCollisionObject* other)
 		m_bAttack = true;
 		m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Hit")->SetVolume(0.5f);
 		break;
+
+	case CG_OBJECT:
+		Take_Damage(other);
+		m_bAttack = true;
+		m_pSoundCom->Play_Event(L"event:/Weapons/Melee/melee_Hit")->SetVolume(0.5f);
 	default:
 		break;
 	}

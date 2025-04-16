@@ -23,7 +23,7 @@ public:
 	void Add_Particle(BOUNDINGBOX bound);
 
 public:
-	virtual void Reset_Particle(ATTRIBUTE* pAttribute) override;
+	virtual void Reset_Particle(ATTRIBUTE* pAttribute, void* pArg = nullptr) override;
 	virtual void Update(float fTimeDelta) override;
 public:
 	virtual HRESULT Render() override;

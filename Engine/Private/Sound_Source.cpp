@@ -6,7 +6,7 @@ CSound_Source::CSound_Source(LPDIRECT3DDEVICE9 pGraphic_Device, CSound_Manager* 
     : CComponent{ pGraphic_Device }
     , m_pSound_Manager { pSound_Manager }
 {
-    Safe_AddRef(pSound_Manager);
+    Safe_AddRef(m_pSound_Manager);
 }
 
 CSound_Source::CSound_Source(const CSound_Source& Prototype)
@@ -82,9 +82,17 @@ CSound_Event* CSound_Source::Play_Event(_wstring strEvent, void* pArg)
     CSound_Event* e = m_pSound_Manager->Play_Event(strEvent);
     if (e->Is3D())
     {
-        CTransform* pTranform = reinterpret_cast<CTransform*>(pArg);
-        m_Events3D.emplace_back(e);
-        e->Set3DAttributes(*pTranform);
+        if (pArg)
+        {
+            CTransform* pTransform = reinterpret_cast<CTransform*>(pArg);
+            m_Events3D.emplace_back(e);
+            e->Set3DAttributes(*pTransform);
+        }
+        else
+        {
+            delete e;
+            e = nullptr;
+        }
     }
     else
     {

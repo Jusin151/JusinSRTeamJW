@@ -4,7 +4,7 @@ BEGIN(Client)
 class CGib_Effect final : public CEffect_Base
 {
 public:
-    enum MonsterType { MT_NORMAL, MT_SNOWSPIDER, MT_YETI, MT_GLACIER_HIT, MT_GLACIER_DEAD, MT_END };
+    enum MonsterType { MT_NORMAL, MT_SNOWSPIDER, MT_YETI, MT_GLACIER_HIT, MT_GLACIER_DEAD, MT_HELLHOUND_DAMAGED, MT_HELLHOUND_DEAD, MT_END };
     typedef struct tagGibDesc : EFFECT_DESC {
         _uint       type;
     } HIT_DESC;
