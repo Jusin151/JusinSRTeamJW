@@ -140,6 +140,18 @@ void CThingy::Late_Update(_float fTimeDelta)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
+	_float3 vTargetDist;
+	vTargetDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - static_cast<CPlayer*>(m_pTarget)->Get_TransForm()->Get_State(CTransform::STATE_POSITION);
+
+	_float3 vDist = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - vTargetDist;
+
+	if (vDist.LengthSq() < 2)
+	{
+		m_vNextPos = vDist.GetNormalized() * 1.5f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
+	}
+
+
 	m_vObjectMtvSum = { 0.f, 0.f, 0.f };
 	m_vWallMtvs.clear();
 
@@ -423,7 +435,7 @@ void CThingy::Select_Frame(_float fTimeDelta)
 		if (m_iCurrentFrame < 2 || m_iCurrentFrame > 19)
 			m_iCurrentFrame = 2;
 
-		if (m_fElapsedTime >= 0.07f)
+		if (m_fElapsedTime >= 0.15f)
 		{
 			m_fElapsedTime = 0.0f;
 

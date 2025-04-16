@@ -170,7 +170,6 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Animation.h" />
     <ClInclude Include="..\public\AnimationManager.h" />
-    <ClInclude Include="..\public\Anubis.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BehaviorTree.h" />
@@ -196,7 +195,6 @@
     <ClInclude Include="..\public\HellBoss_Skill_DarkHole.h" />
     <ClInclude Include="..\public\Claymore.h" />
     <ClInclude Include="..\public\CompositeNode.h" />
-    <ClInclude Include="..\public\Crocman.h" />
     <ClInclude Include="..\public\Cthulhu.h" />
     <ClInclude Include="..\public\CthulhuMissile.h" />
     <ClInclude Include="..\public\Cthulhu_Big_Tentacle.h" />
@@ -343,7 +341,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\private\Anubis.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\BehaviorTree.cpp" />
@@ -429,7 +426,6 @@
     <ClCompile Include="..\Private\UI_Event.cpp" />
     <ClCompile Include="..\Private\UI_Exp_Bar.cpp" />
     <ClCompile Include="..\private\Claymore.cpp" />
-    <ClCompile Include="..\private\Crocman.cpp" />
     <ClCompile Include="..\Private\Effect_Base.cpp" />
     <ClCompile Include="..\private\GameObject_Cube.cpp" />
     <ClCompile Include="..\private\GameObject_Light.cpp" />
