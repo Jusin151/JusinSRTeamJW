@@ -859,6 +859,16 @@
       "class": "CItem",
       "level": 3,
       "tag": "Prototype_GameObject_Item_Stat"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_ShotGun"
+    },
+    {
+      "class": "CItem",
+      "level": 3,
+      "tag": "Prototype_GameObject_Item_Minigun"
     }
   ], 
   "buffers": [

@@ -45,7 +45,7 @@ void CWarningZone::Late_Update(_float fTimeDelta)
 {
 	if (m_bCanRender)
 	{
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	}
 }
 
@@ -75,6 +75,7 @@ HRESULT CWarningZone::Render()
 		return E_FAIL;
 	m_pShaderCom->End();
 	Release_RenderState();
+	m_pShaderCom->Set_Fog(_float3(0.247f, 0.55f, 0.407f), 1.f, 40.f);
 
 	return S_OK;
 }

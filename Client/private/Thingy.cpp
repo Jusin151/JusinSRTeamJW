@@ -249,7 +249,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
-		if (vDist.LengthSq() > 30)
+		if (vDist.LengthSq() > 30.f)
 		{
 			m_eCurState = MS_WALK;
 		}
@@ -263,7 +263,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta,1.5f);
+		Chasing(fTimeDelta,5.f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)

@@ -35,7 +35,7 @@ HRESULT CLooker::Initialize(void* pArg)
 
     m_iHp = 30;
 
-    m_fSpeed = 0.25f;
+    m_fSpeed = 0.5f;
 
     m_iExp = 27;
 
@@ -241,10 +241,10 @@ void CLooker::Select_Pattern(_float fTimeDelta)
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
-		if (vDist.LengthSq() > 16)
+		if (vDist.LengthSq() > 25.f)
 		{
 		
-			Chasing(fTimeDelta, 4.f);
+			Chasing(fTimeDelta, 5.f);
 		}
 		else
 		{
