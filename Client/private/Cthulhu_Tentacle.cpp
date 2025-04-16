@@ -28,7 +28,7 @@ HRESULT CCthulhu_Tentacle::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_iHp =150;
+	m_iHp =200;
 	m_iMaxHp = m_iHp;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
 	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);

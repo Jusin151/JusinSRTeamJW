@@ -133,7 +133,7 @@ private:
     _float m_fSpawnCoolTime{ 0.f };
     _float m_fSpawnCoolDown{ 2.f };
     list<CGameObject*> m_MonsterList;
-    const _int MAX_MONSTER_SPAWN_COUNT = 8;
+    const _int MAX_MONSTER_SPAWN_COUNT = 12;
 
     // 스파이크
     _float m_fSpikeCoolTime{ 0.f };
