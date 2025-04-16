@@ -276,7 +276,7 @@ void CSnowspider::Select_Pattern(_float fTimeDelta)
         break;
     case MS_WALK:
         m_pSoundCom->Play_Event(L"event:/Monsters/Spider/Spider_Detect", m_pTransformCom)->SetVolume(0.5f);
-        Chasing(fTimeDelta, 2.5f);
+        Chasing(fTimeDelta, 2.f);
         break;
     case MS_HIT:
         // 맞고 바로 안바뀌도록
@@ -319,7 +319,7 @@ _bool CSnowspider::Check_DIstance(_float fTimeDelta)
 {
     _float3 Dist = m_vAnchorPoint - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-    if (Dist.LengthSq() < 150)
+    if (Dist.LengthSq() < 200)
     {
         m_fBackTime = 2.f;
         return true;  // 30 이내면 바로 true
