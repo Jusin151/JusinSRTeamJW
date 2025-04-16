@@ -52,6 +52,7 @@ private:
 public:
 	static CLevel_Hong* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
+	static _bool m_bCutSceneDelayDisable;  
 };
 
 END

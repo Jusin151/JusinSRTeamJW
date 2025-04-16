@@ -17,6 +17,10 @@
 #include <Camera_FirstPerson.h>
 #include "HellBoss.h"
 #include "BombBox.h"
+ 
+_bool CLevel_Hong::m_bCutSceneDelayDisable = false;
+
+
 
 static const vector<CItem::ITEM_DESC> g_ItemInfos{
 	{ CItem::ITEM_TYPE::HP, L"Prototype_GameObject_Item_HP_Small" },
@@ -98,6 +102,11 @@ void CLevel_Hong::Update(_float fTimeDelta)
 
 	m_fItemSpawnTime += fTimeDelta;
 	m_fMonsterSpawnTime += fTimeDelta;
+
+
+	if (m_bCutSceneDelayDisable) 
+		return; 
+
 	Spawn_Item();
 	Spawn_Monsters((m_pHellboss->Get_Phase()<PHASE4));
 

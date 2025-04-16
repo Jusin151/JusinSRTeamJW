@@ -39,7 +39,7 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
         {
             pCutCam->Set_LookTarget(pBoss);                 // 카메라는 보스를 계속 바라보게
             pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);  // 카메라 이동
-            pCutCam->Set_CameraDisableDelay(3.f);          // 4초 후 자동으로꺼지게
+            pCutCam->Set_CameraDisableDelay(3.f);          // 3초 후 자동으로꺼지게
         }
     }
     if (pBoss->Get_Phase() == PHASE2)

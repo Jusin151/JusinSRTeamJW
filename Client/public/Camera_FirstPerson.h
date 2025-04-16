@@ -34,6 +34,8 @@ public:
 public:
 	_float Get_Yaw() const { return m_fYaw; }
 	void Set_Yaw(_float fYaw) { m_fYaw = fYaw; }
+	_float Get_Pitch() const { return m_fPitch; }
+	void Set_Pitch(_float fYaw) { m_fPitch = fYaw; }
 
 	void ApplyRecoil(float fAmount)
 	{
