@@ -50,6 +50,13 @@ HRESULT CLookerBullet::Initialize(void* pArg)
 
 void CLookerBullet::Priority_Update(_float fTimeDelta)
 {
+	m_fLifeTime += fTimeDelta;
+
+	if (m_fLifeTime >= 4.f)
+	{
+		m_bIsActive = false;
+		m_fLifeTime = 0.f;
+	}
 }
 
 void CLookerBullet::Update(_float fTimeDelta)
