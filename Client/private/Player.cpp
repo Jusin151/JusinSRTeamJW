@@ -99,15 +99,14 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.f;
-	m_vPlayerInfo.iStr = 10;
-	m_vPlayerInfo.iSkillpoint = 10;
+	m_fSpeed = 0.6f;
+	m_vPlayerInfo.iStr = 50; 
+	//m_vPlayerInfo.iSkillpoint = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);
 	CPickingSys::Get_Instance()->Set_Player(this);
 
 	m_vOriginPlayerInfo = m_vPlayerInfo;
-	// 디버그용
-	Add_Item(L"Red");
+
 
 	return S_OK;
 }
@@ -152,14 +151,14 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_WeaponTrigger)
 	{
-		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
+		//m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
-		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
+		//m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
-		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
-		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
-		m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
+		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		//m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
+		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
 		m_WeaponTrigger = false;
 	}
@@ -278,7 +277,7 @@ void CPlayer::Use_SkillPoint(_uint amount)
 HRESULT CPlayer::Render()
 {
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
+	/*m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 X:") + to_wstring(m_pTransformCom->Get_WorldMat()._41),
 		_float2(-300.f, -207.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("플레이어 위치 Y:") + to_wstring(m_pTransformCom->Get_WorldMat()._42),
@@ -327,7 +326,7 @@ HRESULT CPlayer::Render()
 		_float2(400.f, -50.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("스탯포인트:") + to_wstring(m_vPlayerInfo.iStatpoint),
-		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+		_float2(400.f, -30.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));*/
 
 
 	return S_OK;
@@ -580,6 +579,7 @@ _bool CPlayer::Add_MaxHP(_int Hp)
 	m_iPlayerHP.second += Hp;
 
 	Notify(m_iHp, L"HP");
+	Notify(m_iPlayerHP.second, L"HP_Max");
 	return true;
 }
 
@@ -656,7 +656,7 @@ void CPlayer::Add_Exp(_int Exp)
 		pUI_Event->ShowEventText(Exp, L"Exp");
 	}
 
-
+	Notify(m_iPlayerEXP.first, L"Exp"); 
 }
 
 void CPlayer::Add_Weapon(const _wstring& stWeaponTag)

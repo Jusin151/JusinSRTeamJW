@@ -66,7 +66,7 @@ void CUI_HP_Bar::Late_Update(_float fTimeDelta)
 }
 void CUI_HP_Bar::Update_HP_Bar()
 {
-	_float fHP_Ratio = m_iHealth / 100.f;
+	_float fHP_Ratio =(_float)m_iHealth / (_float)m_iMaxHealth;
 
 	if (fHP_Ratio < 0.f)
 		fHP_Ratio = 0.f;

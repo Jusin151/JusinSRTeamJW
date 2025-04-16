@@ -531,8 +531,7 @@ _int CJsonLoader::CountPrototypes(const _wstring& filePath) const
 		count += static_cast<int>(j["textures"].size());
 	if (j.contains("gameObjects") && j["gameObjects"].is_array())
 		count += static_cast<int>(j["gameObjects"].size());
-	if (j.contains("buffers") && j["buffers"].is_array())
-		count += static_cast<int>(j["buffers"].size());
+
 
 	return count;
 }
