@@ -238,7 +238,7 @@ PurchaseStatus CHub_PointShop::Purchase_Stat(const _wstring& stStatName, _uint i
 		else if (stStatName == TEXT("Capacity"))
 		{
 			iIndex = 3;
-			pPlayer->Add_Capacity(1);
+			pPlayer->Add_Capacity(5);
 		}
 		else
 			return PurchaseStatus::UnknownError;
