@@ -964,8 +964,6 @@ HRESULT CHellBoss::On_Collision(CCollisionObject* other)
 		break;
 
 	case CG_MONSTER:
-		//m_vNextPos += vMove * 0.2f;
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vNextPos);
 
 		break;
 	case CG_STRUCTURE_WALL:
