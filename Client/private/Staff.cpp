@@ -197,7 +197,7 @@ void CStaff::Late_Update(_float fTimeDelta)
                 if (!m_bHasFired)
                 {
                     CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
-                    if (!pPlayer || !pPlayer->TryUseMana(10))  
+                    if (!pPlayer || !pPlayer->TryUseMana(5))  
                     {
                         m_bFireLock = true;
                         m_pSoundCom->Stop_All_Event(false);
