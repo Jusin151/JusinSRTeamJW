@@ -176,7 +176,6 @@ void CHellBoss::Update(_float fTimeDelta)
 	Dead_Scene(); 
 
 	m_AnimationManager.Update(fTimeDelta);
-
 	__super::Update(fTimeDelta);
 }
 void CHellBoss::Change_State(CHellBoss_State* pNewState)
@@ -785,8 +784,11 @@ void CHellBoss::Dead_Scene()
 		{
 			m_bDead = true; 
 			SetActive(false);
+			
+			CPlayer* player = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));	
+			if (player)
+				player->Set_ClearLevel(LEVEL_BOSS);
 		}
-	}
 
 
 }
@@ -857,6 +859,7 @@ void CHellBoss::Set_Pattern(CPattern_Base* pPattern)
 }
 void CHellBoss::Late_Update(_float fTimeDelta)
 {
+	
 	if (nullptr == m_pTarget)
 		return;
 

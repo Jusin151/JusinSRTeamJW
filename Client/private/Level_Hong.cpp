@@ -42,10 +42,10 @@ HRESULT CLevel_Hong::Initialize()
 	static _bool bIsLoading = false;
 	m_pGameInstance->Stop_All_Event();
 
-	CGameObject* pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player"));
-	if (pPlayer)
+	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));	
+	if (m_pPlayer)
 	{
-		m_pPlayerTransCom = static_cast<CTransform*>(pPlayer->Get_Component(TEXT("Com_Transform")));
+		m_pPlayerTransCom = static_cast<CTransform*>(m_pPlayer->Get_Component(TEXT("Com_Transform")));
 		if (nullptr == m_pPlayerTransCom)
 			return E_FAIL;
 		m_pPlayerTransCom->Set_State(CTransform::STATE_POSITION, _float3(-4.6f, 0.f, -1.1f));
@@ -100,6 +100,13 @@ void CLevel_Hong::Update(_float fTimeDelta)
 	m_fMonsterSpawnTime += fTimeDelta;
 	Spawn_Item();
 	Spawn_Monsters((m_pHellboss->Get_Phase()<PHASE4));
+
+	if (m_pPlayer && m_pPlayer->Get_ClearLevel() == LEVEL_BOSS)
+	{
+		if (FAILED(m_pGameInstance->Process_LevelChange(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_ENDING))))
+			return;
+	}
 }
 
 HRESULT CLevel_Hong::Render()
