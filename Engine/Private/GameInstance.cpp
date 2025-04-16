@@ -91,7 +91,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	    m_pCollider_Manager->Update_Collison();
 		m_pFrustumCull->Update();
 		m_pObject_Manager->Late_Update(fTimeDelta);
-		m_pLevel_Manager->Update(fTimeDelta);
+		//m_pLevel_Manager->Update(fTimeDelta);
 		m_pCollider_Manager->Clear();
 	}
 }

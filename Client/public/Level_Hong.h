@@ -39,10 +39,10 @@ private:
 	CPickingSys* m_pPickingSys = { nullptr };
 	CTransform* m_pPlayerTransCom{ nullptr };
 
-	_float m_fItemSpawnCooldownTime{ 20.f };
+	_float m_fItemSpawnCooldownTime{ 10.f };
 	_float m_fItemSpawnTime{ 0.f };
 
-	_float m_fMonsterSpawnCooldownTime{ 40.f };
+	_float m_fMonsterSpawnCooldownTime{ 20.f };
 	_float m_fMonsterSpawnTime{ 0.f };
 
 	
