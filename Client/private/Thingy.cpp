@@ -44,10 +44,10 @@ HRESULT CThingy::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scale(2.5f, 2.5f, 2.5f);
 
-	// µğ¹ö±ë ¿ë
+	// ë””ë²„ê¹… ìš©
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
-	// morph »óÅÂ·Î ¼ÒÈ¯
+	// morph ìƒíƒœë¡œ ì†Œí™˜
 	m_eCurState = MS_MORPH;
 
 	m_iCurrentFrame = 2;
@@ -189,7 +189,7 @@ HRESULT CThingy::On_Collision(CCollisionObject* other)
 	if (nullptr == other)
 		return S_OK;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
@@ -251,7 +251,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 	switch (m_eCurState)
 	{
 	case MS_IDLE:
-		if (vDist.LengthSq() > fScale.LengthSq())
+		if (vDist.LengthSq() > 30.f)
 		{
 			m_eCurState = MS_WALK;
 		}
@@ -265,7 +265,7 @@ void CThingy::Select_Pattern(_float fTimeDelta)
 		break;
 	case MS_WALK:
 		m_pSoundCom->Play_Event(L"event:/Monsters/Thingy/Thingy_Detect", m_pTransformCom)->SetVolume(0.5f);
-		Chasing(fTimeDelta, 2.f);
+		Chasing(fTimeDelta,5.f);
 		break;
 	case MS_HIT:
 		if (m_fElapsedTime >= 0.5f)
@@ -310,7 +310,7 @@ void CThingy::Shooting(_float fTimeDelta)
 
 		pDesc.vPos += static_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_LOOK).GetNormalized();
 
-		// ¿ÀºêÁ§Æ® Ç®¸µÀ¸·Î º¯°æ ÇÊ¿ä
+		// ì˜¤ë¸Œì íŠ¸ í’€ë§ìœ¼ë¡œ ë³€ê²½ í•„ìš”
 		m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ThingySpike"), m_pGameInstance->Get_CurrentLevel(), TEXT("Layer_Projectile_ThingSpike"), &pDesc);
 		m_iCurrentFrame++;
 	}
@@ -453,8 +453,8 @@ HRESULT CThingy::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	_float2 ScaleFactor = { 1.0f, 1.0f };
 	_float2 Offset = { 0.f, 0.f };
 	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);
@@ -480,9 +480,9 @@ HRESULT CThingy::Ready_Components()
 	/* For.Com_Collider */
 	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
 	ColliderDesc.pOwner = this;
-	// ÀÌ°É·Î Äİ¶óÀÌ´õ Å©±â ¼³Á¤
+	// ì´ê±¸ë¡œ ì½œë¼ì´ë” í¬ê¸° ì„¤ì •
 	ColliderDesc.fScale = { 3.f, 3.f, 3.f };
-	// ¿ÀºêÁ§Æ®¿Í »ó´ëÀûÀÎ °Å¸® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ì™€ ìƒëŒ€ì ì¸ ê±°ë¦¬ ì„¤ì •
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
 
 

@@ -510,7 +510,6 @@ NodeStatus CCthulhu::Deploy_Tentacles()
 
 NodeStatus CCthulhu::Deploy_BigTentacles()
 {
-
 	if (m_eState == STATE::DEAD)
 		return NodeStatus::FAIL;
 
@@ -770,6 +769,29 @@ NodeStatus CCthulhu::Attack_Spike()
 	return NodeStatus::RUNNING;
 }
 
+NodeStatus CCthulhu::Spawn_Monster()
+{
+	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp) > m_fPhaseThreshold)
+		return NodeStatus::FAIL;
+
+	if (m_fSpawnCoolTime >= m_fSpawnCoolDown)
+	{
+		if (MAX_MONSTER_SPAWN_COUNT > static_cast<_int>(m_MonsterList.size()))
+		{
+			_float3 vBasePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 spawnPos;
+
+			GetRandomVector(&spawnPos, &vBasePos, 20.f);
+			spawnPos.y = 0.5f;
+			_int iRand = rand() % static_cast<int>(MonsterType::TYPE_END);
+			Create_Monster(static_cast<MonsterType>(iRand), spawnPos);
+			m_fSpawnCoolTime = 0.f;
+		}
+	}
+
+	return NodeStatus();
+}
+
 NodeStatus CCthulhu::Dead()
 {
 	if (m_iHp > 0)
@@ -866,6 +888,7 @@ void CCthulhu::Create_BehaviorTree()
 	CCompositeNode* pStateSelector = new CSelectorNode();
 	CCompositeNode* pAttackParallel = new CParallelNode();
 
+	// 공격 관련
 	CCompositeNode* pAttackSeq = new CSequenceNode();
 	TaskNode* pAttack = new TaskNode(L"Attack", [this]() -> NodeStatus { return this->Attack(); });
 	TaskNode* pUpdateAttack = new TaskNode(L"UpdateAttack", [this]() -> NodeStatus { return this->UpdateAttack(); });
@@ -876,27 +899,23 @@ void CCthulhu::Create_BehaviorTree()
 	TaskNode* pDeploy = new TaskNode(L"Deploy", [this]() -> NodeStatus { return this->Deploy_Tentacles(); });
 	TaskNode* pBigDeploy = new TaskNode(L"Big_Deploy", [this]() -> NodeStatus { return this->Deploy_BigTentacles(); });
 	TaskNode* pSpikeAttack = new TaskNode(L"Attack_Spike", [this]() -> NodeStatus { return this->Attack_Spike(); });
+	TaskNode* pSpawnMonster = new TaskNode(L"SpawnMonster", [this]() -> NodeStatus { return this->Spawn_Monster(); });
 
 
 	CCompositeNode* pAttackSelector = new CSelectorNode();
 	pAttackSelector->AddChild(pAttackSeq);      // 기본 미사일 공격
 	pAttackSelector->AddChild(pMultiAttack);      // 멀티 미사일 공격
+	pAttackSelector->AddChild(pSpawnMonster);      // 멀티 미사일 공격
 	// 동시에 실행
 	pAttackParallel->AddChild(pBigDeploy);
 	pAttackParallel->AddChild(pDeploy);
 	pAttackParallel->AddChild(pAttackSelector);
-	//pAttackParallel->AddChild(pAttackSeq);
-	//pAttackParallel->AddChild(pMultiAttack);
 	pAttackParallel->AddChild(pSpikeAttack);
 
 
-	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {
-		return this->Update_Appear();
-		}));
+	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {return this->Update_Appear();}));
 
-	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {
-		return this->Dead();
-		}));
+	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {return this->Dead();}));
 
 	pStateSelector->AddChild(pAttackParallel);
 
@@ -1022,6 +1041,71 @@ void CCthulhu::Remove_DeadTentacles()
 	}
 }
 
+void CCthulhu::Remove_DeadMonsters()
+{
+	for (auto it = m_MonsterList.begin(); it != m_MonsterList.end(); )
+	{
+		CGameObject* pMonster = *it;
+		if (pMonster != nullptr && !pMonster->IsActive())
+		{
+			it = m_MonsterList.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void CCthulhu::Create_Monster(MonsterType type, const _float3& spawnPos)
+{
+	_wstring stProtoTag;
+	_wstring stLayerTag;
+
+	switch (type)
+	{
+	case MonsterType::THINGY:
+		stProtoTag = TEXT("Prototype_GameObject_Thingy");
+		stLayerTag = TEXT("Layer_Monster_Thingy");
+		break;
+	case MonsterType::LOOKER:
+		stProtoTag = TEXT("Prototype_GameObject_Looker");
+		stLayerTag = TEXT("Layer_Monster_Looker");
+		break;
+	default:
+		return;
+	}
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, stProtoTag, LEVEL_HONG, stLayerTag)))
+		return;
+
+	auto pMonster = m_pGameInstance->Find_Last_Object(LEVEL_HONG, stLayerTag);
+	if (pMonster)
+	{
+		CTransform* pTransform = dynamic_cast<CTransform*>(pMonster->Get_Component(TEXT("Com_Transform")));
+		if (pTransform)
+			pTransform->Set_State(CTransform::STATE_POSITION, spawnPos);
+
+		m_MonsterList.push_back(pMonster);
+	}
+}
+
+void CCthulhu::Update_CoolTimes(_float fTimeDelta)
+{
+	m_fDelta = fTimeDelta;
+
+	if (m_bIsAppeared)
+	{
+		m_fAttackCoolTime += fTimeDelta;
+		m_fMultiAttackCoolTime += fTimeDelta;
+		m_fTentacleCoolTime += fTimeDelta;
+		m_fBigTentacleCoolTime += fTimeDelta;
+		m_fSpikeCoolTime += fTimeDelta;
+		m_fSpawnCoolTime += fTimeDelta;
+	}
+
+}
+
 HRESULT CCthulhu::On_Collision(CCollisionObject* other)
 {
 	return S_OK;
@@ -1077,18 +1161,7 @@ void CCthulhu::Deserialize(const json& j)
 }
 void CCthulhu::Priority_Update(_float fTimeDelta)
 {
-	m_fDelta = fTimeDelta;
-
-	if (m_bIsAppeared)
-	{
-	m_fAttackCoolTime += fTimeDelta;
-	m_fMultiAttackCoolTime += fTimeDelta;
-	m_fTentacleCoolTime += fTimeDelta;
-	m_fBigTentacleCoolTime += fTimeDelta;
-	m_fSpikeCoolTime += fTimeDelta;
-	}
-
-
+	Update_CoolTimes(fTimeDelta);
 	Select_Pattern(fTimeDelta);
 }
 
@@ -1101,9 +1174,13 @@ void CCthulhu::Update(_float fTimeDelta)
 		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Collider_Cube"));
 			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
+
+	// 죽은 애들 처리
 	Remove_DeadTentacles();
+	Remove_DeadMonsters();
 
 	Billboarding(fTimeDelta);
+
 	if (m_bUpdateAnimation)
 	{
 		Update_Animation(fTimeDelta);

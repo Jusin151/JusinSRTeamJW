@@ -37,7 +37,7 @@ HRESULT CHellhound::Initialize(void* pArg)
 
 	m_iExp = 64;
 
-	m_fSpeed = 0.4f;
+	m_fSpeed = 0.7f;
 
 
 	m_pColliderCom->Set_Scale(_float3(3.f, 3.f, 3.f));

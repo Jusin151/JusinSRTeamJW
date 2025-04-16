@@ -3,6 +3,14 @@
 #include <BehaviorTree.h>
 #include "Spike.h"
 BEGIN(Client)
+
+enum class MonsterType
+{
+    THINGY,
+    LOOKER,
+    TYPE_END
+};
+
 class CCthulhu final : public CMonster_Base
 {
     friend  class CCthulhuAttackMag;
@@ -50,6 +58,8 @@ private:
 	void Set_State(STATE eState) { m_eState = eState; }
 	STATE Get_State() { return m_eState; }
 
+
+    // 비헤이비어 트리 관련 함수
 	void Create_BehaviorTree();
 	NodeStatus Update_Appear(); // 처음 등장
     NodeStatus Attack(); // 공격 트리거
@@ -61,13 +71,18 @@ private:
 
     NodeStatus Attack_Spike(); // 스파이크 공격
 
+    NodeStatus Spawn_Monster(); // 스파이크 공격
+
     NodeStatus Dead();
-    void DropItems();
+
 
     _bool IsPlayerVisible();
-
+    void DropItems();
     void Remove_DeadTentacles();
-
+    void Remove_DeadMonsters();
+    void Create_Monster(MonsterType type, const _float3& spawnPos);
+    void Update_CoolTimes(_float fTimeDelta);
+    
 private:
     CBehaviorTree* m_pBehaviorTree = nullptr;
     unordered_map<STATE, vector<_uint>> m_mapStateTextures;
@@ -114,6 +129,11 @@ private:
     _float m_fBigTentacleTimer{ 5.f };
 	vector<class CCthulhu_Big_Tentacle*> m_vecBigTentacles;
 
+    // 몬스터 배치 관련
+    _float m_fSpawnCoolTime{ 0.f };
+    _float m_fSpawnCoolDown{ 2.f };
+    list<CGameObject*> m_MonsterList;
+    const _int MAX_MONSTER_SPAWN_COUNT = 6;
 
     // 스파이크
     _float m_fSpikeCoolTime{ 0.f };
