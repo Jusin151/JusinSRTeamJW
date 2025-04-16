@@ -42,7 +42,6 @@ HRESULT CBulletShell_Effect::Initialize(void* pArg)
 
 	m_pSoundCom->Play_Event(L"event:/Weapons/case_pistol_3", m_pTransformCom)->SetVolume(10.f);
 
-
 	return S_OK;
 }
 

@@ -56,12 +56,12 @@ public:
         m_fRadius = D3DXVec3Length(&vToCenter); // 현재 거리 그대로 유지
         m_fCurAngle = atan2f(vToCenter.z, vToCenter.x); // 현재 각도 저장
 
-        pBoss->Set_Animation("I_ArmCut_Dash");
+      //  pBoss->Set_Animation("I_ArmCut_Dash");
     }
     void Update(CHellBoss* pBoss, float fDeltaTime) override
     {
         m_fTime += fDeltaTime;
-        if (m_fTime < 0.5f)
+        if (m_fTime < 0.1f)
         {
             m_fCurAngle += m_fAngularSpeed * fDeltaTime; // 시계 방향 회전
 
@@ -72,10 +72,11 @@ public:
 
             pBoss->Get_Transform()->Set_State(CTransform::STATE_POSITION, vNewPos);
 
+            // Update 내부에서
             m_fAfterImageTimer += fDeltaTime;
-            if (m_fAfterImageTimer >= m_fAfterImageInterval)
+            while (m_fAfterImageTimer >= m_fAfterImageInterval)
             {
-                m_fAfterImageTimer = 0.f;
+                m_fAfterImageTimer -= m_fAfterImageInterval;
 
                 CHellBoss_AfterImage::DESC desc{};
                 desc.vPos = vNewPos;
@@ -91,6 +92,8 @@ public:
                     TEXT("Layer_HellBoss_AfterImage"),
                     &desc);
             }
+
+
         }
         else
         {

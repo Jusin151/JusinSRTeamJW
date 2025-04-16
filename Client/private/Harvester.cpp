@@ -72,6 +72,7 @@ void CHarvester::Priority_Update(_float fTimeDelta)
 
 void CHarvester::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 	m_fElapsedTime += fTimeDelta;
 
 	switch (m_eState)

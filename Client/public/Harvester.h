@@ -51,9 +51,7 @@ public:
 private:
 	Weapon_DESC m_Staff_INFO{};
 	State m_eState = State::Idle;
-	_float t = {}; //
-	_float speed = { 0.1f }; //
-	_float2 m_vInitialPos = {};
+
 	CLight*			m_pLightCom = { nullptr };
 public:
 	static CHarvester* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -58,7 +58,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	Ranged_INFO.CurrentAmmo = 40; // 현재
 	Ranged_INFO.MaxAmmo = 40; // 최대
 
-	m_fAnimationSpeed = 0.055f;
+	m_fAnimationSpeed = 0.045f;
 
 
 	__super::Ready_Picking();
