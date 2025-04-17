@@ -356,10 +356,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 #pragma endregion
 
 #pragma region Font
-	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/StandardFont.ttf")))
+	if (FAILED(m_pGameInstance->Add_Font(L"MainFont", L"../../Resources/Textures/Font/Wheaton Capitals.ttf")))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(L"EventFont", L"../../Resources/Textures/Font/함초롱돋움R.ttf")))
+	if (FAILED(m_pGameInstance->Add_Font(L"EventFont", L"../../Resources/Textures/Font/함초롱돋움.ttf")))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(L"EndingFont", L"../../Resources/Textures/Font/SoyaPixel.ttf")))
 		return E_FAIL;
 #pragma endregion
 	return S_OK;

@@ -34,11 +34,25 @@ void CLevel_Ending::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_LOGO))))
 			return;
 	}
+	fOffSetY += 1.0f;
 }
 
 HRESULT CLevel_Ending::Render()
 {
 	SetWindowText(g_hWnd, TEXT("엔딩레벨입니다."));
+
+	m_pGameInstance->Render_Font_Size(L"MainFont", L"The End"/*+ to_wstring()*/,
+		_float2(-56.f, -307.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"팀장:	김장원"/*+ to_wstring()*/,
+		_float2(-88.f, -207.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"김경래"/*+ to_wstring()*/,
+		_float2(-24.f, -157.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"차명훈"/*+ to_wstring()*/,
+		_float2(-24.f, -107.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"홍동완"/*+ to_wstring()*/,
+		_float2(-24.f, -57.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
+	//m_pGameInstance->Render_Font_Size(L"MainFont", L"CHA"/*+ to_wstring()*/,
+	//	_float2(-300.f, +107.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 1.f));
 
 	return S_OK;
 }
