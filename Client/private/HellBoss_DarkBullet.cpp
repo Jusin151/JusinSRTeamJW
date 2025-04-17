@@ -217,6 +217,7 @@ void CHellBoss_DarkBullet::Reset()
 	m_eType = CG_MONSTER_PROJECTILE_SPHERE;
 
 
+	m_pSoundCom->Play_Event(L"event:/Weapons/Boom")->SetVolume(1.f); 
 }
 
 

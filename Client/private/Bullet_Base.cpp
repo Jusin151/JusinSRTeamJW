@@ -207,6 +207,12 @@ HRESULT CBullet_Base::Ready_Components()
 		TEXT("Com_VIBufferm"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Source"),
+		TEXT("Com_Sound_Source"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+
 	_float3 fPos = { 10.f, 0.5f, 10.f };
 
 
@@ -251,4 +257,5 @@ void CBullet_Base::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pAttackCollider);
+	Safe_Release(m_pSoundCom);
 }

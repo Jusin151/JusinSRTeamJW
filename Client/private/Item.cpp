@@ -249,7 +249,8 @@ void CItem::Use_Item()
 		break;
 
 	case Client::CItem::ITEM_TYPE::WEAPON:
-		m_pSoundCom->Play_Event(L"event:/Objects/ammo_pickup")->SetVolume(0.5f);
+		////event:/Objects/General_Weapon_Pickup_2
+		m_pSoundCom->Play_Event(L"event:/Objects/General_Weapon_Pickup_2")->SetVolume(3.f);
 		if (m_pPlayer->Has_Item(m_strItemName))
 		{
 			m_pPlayer->Add_Ammo(m_strItemName, 20);
