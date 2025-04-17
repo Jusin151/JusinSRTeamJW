@@ -109,7 +109,7 @@ public:
 				++m_vPlayerInfo.iSprit;
 				break;
 			case 3: 
-				++m_vPlayerInfo.iCapacity;
+				m_vPlayerInfo.iCapacity+=5;
 				break;
 			}
 		}

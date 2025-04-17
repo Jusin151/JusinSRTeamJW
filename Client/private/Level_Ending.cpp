@@ -43,13 +43,13 @@ HRESULT CLevel_Ending::Render()
 
 	m_pGameInstance->Render_Font_Size(L"MainFont", L"The End"/*+ to_wstring()*/,
 		_float2(-56.f, -307.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
-	m_pGameInstance->Render_Font_Size(L"EndingFont", L"팀장:	김장원"/*+ to_wstring()*/,
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"팀장:\t김장원\n "/*+ to_wstring()*/,
 		_float2(-88.f, -207.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
-	m_pGameInstance->Render_Font_Size(L"EndingFont", L"김경래"/*+ to_wstring()*/,
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"김경래\n"/*+ to_wstring()*/,
 		_float2(-24.f, -157.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
-	m_pGameInstance->Render_Font_Size(L"EndingFont", L"차명훈"/*+ to_wstring()*/,
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"차명훈\n"/*+ to_wstring()*/,
 		_float2(-24.f, -107.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
-	m_pGameInstance->Render_Font_Size(L"EndingFont", L"홍동완"/*+ to_wstring()*/,
+	m_pGameInstance->Render_Font_Size(L"EndingFont", L"홍동완\n"/*+ to_wstring()*/,
 		_float2(-24.f, -57.f - fOffSetY), _float2(16.f, 32.f), _float3(1.f, 1.f, 1.f));
 	//m_pGameInstance->Render_Font_Size(L"MainFont", L"CHA"/*+ to_wstring()*/,
 	//	_float2(-300.f, +107.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 1.f));
@@ -85,4 +85,5 @@ CLevel_Ending* CLevel_Ending::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Ending::Free()
 {
 	__super::Free();
+	m_pGameInstance->Stop_All_Event();
 }

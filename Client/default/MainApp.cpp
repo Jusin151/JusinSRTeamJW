@@ -539,8 +539,6 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 	m_pGameInstance->Stop_All_Event();
 	m_pGameInstance->Release_Engine();
-
-
 	Safe_Release(m_pSound_Manager);
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);

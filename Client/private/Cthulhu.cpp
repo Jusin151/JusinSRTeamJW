@@ -115,9 +115,9 @@ HRESULT CCthulhu::Initialize(void* pArg)
 	if (!m_pBehaviorTree)
 		return E_FAIL;
 
-	m_iHp = 5000;
-	m_fPhaseThreshold = { m_iHp * 0.7f }; // 70퍼일 때 멀티 미사일
-	m_fPhaseThreshold2 = { m_iHp * 0.5f }; // 50퍼일 때 럴커
+	m_iHp = 4500;
+	m_fPhaseThreshold = { m_iHp * 0.8f }; // 70퍼일 때 멀티 미사일
+	m_fPhaseThreshold2 = { m_iHp * 0.6f }; // 50퍼일 때 럴커
 
 	m_pBehaviorTree->Initialize();
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
@@ -1257,8 +1257,8 @@ HRESULT CCthulhu::Render()
 	m_pShaderCom->End();
 	Release_RenderState();
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 HP :") + to_wstring(m_iHp),
-		_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("현재 HP :") + to_wstring(m_iHp),
+	//	_float2(-300.f, 0.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	_float3 basePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPlayerPos = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);

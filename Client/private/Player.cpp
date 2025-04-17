@@ -87,7 +87,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	// Antarctic1_Test pos
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(2.f, 0.7f, -35.f));
-
+	Set_ClearLevel(LEVEL_GAMEPLAY);
 	// Gameplay start pos
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-5.f, 0.5f, -1.f));
 	m_pTransformCom->Set_Scale(1.f, 1.5f, 1.f);
@@ -99,7 +99,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	m_fSpeed = 1.f;
+	m_fSpeed = 0.6f;
 	m_vPlayerInfo.iStr = 50; 
 	//m_vPlayerInfo.iSkillpoint = 10;
 	CItem_Manager::GetInstance()->SetUp_MeleeWeapon_to_Strength(m_vPlayerInfo.iStr);
@@ -107,7 +107,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_vOriginPlayerInfo = m_vPlayerInfo;
 
-
+	Add_SkillPoint(10);
+	
 	return S_OK;
 }
 
@@ -151,13 +152,13 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_WeaponTrigger)
 	{
-		m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
+		//m_pPlayer_Inven->Add_Weapon(L"Claymore", 1);
 		m_pPlayer_Inven->Add_Weapon(L"Axe", 2);
 		m_pPlayer_Inven->Add_Weapon(L"ShotGun", 3);
 		m_pPlayer_Inven->Add_Weapon(L"Magnum", 4);
-		m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
+		//m_pPlayer_Inven->Add_Weapon(L"Staff", 5);
 		m_pPlayer_Inven->Add_Weapon(L"Minigun", 6);
-		m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
+		//m_pPlayer_Inven->Add_Weapon(L"Harvester", 7);
 		//m_pPlayer_Inven->Add_Weapon(L"Sonic", 8);
 
 		m_WeaponTrigger = false;
@@ -167,7 +168,10 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		Add_Exp(10);
 	}
-
+	if (GetAsyncKeyState('G') & 0x8000)//임시
+	{
+		Set_Hp(90);
+	}
 	if (m_bKnockBack)
 	{
 		/*Notify(m_iHp, L"HP_Hited");
@@ -187,7 +191,7 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 	}
 
-	Add_Item(L"Red");
+//	Add_Item(L"Red");
 
 
 
@@ -469,7 +473,7 @@ void CPlayer::Input_Key(_float fTimeDelta)
 
 void CPlayer::Set_Hp(_int iHp)
 {
-	m_iHp += iHp;
+	m_iHp = iHp;
 	Notify(m_iHp, L"HP");
 }
 

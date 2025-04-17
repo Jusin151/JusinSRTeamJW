@@ -97,8 +97,8 @@ HRESULT CClaymore::Render()
 	
 	__super::Render();
 
-	m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("클레이모어 공격력:") + to_wstring(m_iAp),
-		_float2(350.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
+	//m_pGameInstance->Render_Font_Size(L"MainFont", TEXT("클레이모어 공격력:") + to_wstring(m_iAp),
+	//	_float2(350.f, -300.f), _float2(8.f, 0.f), _float3(1.f, 1.f, 0.f));
 
 	return S_OK;
 

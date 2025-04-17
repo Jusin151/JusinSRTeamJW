@@ -45,7 +45,7 @@ HRESULT CHellBoss::Initialize(void* pArg)
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
 	m_iAp = 5;
-	m_iHp =17000;
+	m_iHp =15000;
 	m_iPrevHpDiv100 = m_iHp / 100;
 	m_fSpeed = 7.f;
 	m_fOffset = 3.6f;
@@ -258,7 +258,7 @@ void CHellBoss::Hp_Pattern()
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 13000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
+	if (m_iHp <= 12000 && !m_bDidPhase2Morph) // <<< 2페이즈 돌입!
 	{
 		m_bDidPhase2Morph = true;
 		m_ePhase = PHASE2;
@@ -266,7 +266,7 @@ void CHellBoss::Hp_Pattern()
 		Change_State(new CHellBoss_MorphState());
 		return;
 	}
-	if (m_iHp <= 9000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
+	if (m_iHp <= 8000 && !m_bDidPhase3Morph)  // <<< 3페이즈 돌입! , 한팔 절단
 	{
 		m_fSpeed = 6.f; 
 		m_bDidPhase3Morph = true;
@@ -291,7 +291,7 @@ void CHellBoss::Hp_Pattern()
 				vDir.y = 0.f;  
 				vDir.Normalize();
 
-				pPlayer->KnockBack(vDir, 100.f);  // 힘조절은 요기서
+				pPlayer->KnockBack(vDir, 200.f);  // 힘조절은 요기서
 			}
 		}
 
@@ -347,7 +347,7 @@ void CHellBoss::Jump_Pattern(_float fTimeDelta)
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
 				LEVEL_HONG, TEXT("Layer_HellBoss_Skill_Landing"), &desc);
 
-			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/Down")->SetVolume(1.f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/Down")->SetVolume(2.f);
 
 			if (m_pTarget)
 			{
@@ -361,7 +361,7 @@ void CHellBoss::Jump_Pattern(_float fTimeDelta)
 					vDir.y = 0.f;
 					vDir.Normalize();
 
-					pPlayer->KnockBack(vDir, 300.f);
+					pPlayer->KnockBack(vDir, 150.f);
 				}
 			}
 		}
@@ -408,7 +408,7 @@ void CHellBoss::Phase3_Pattern(_float fTimeDelta)
 			desc.vPos = m_vJumpStartPos;
 			desc.strState = "Up";
 			// event: / Monsters / Up
-			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/Up")->SetVolume(1.f);
+			m_pSoundCom->Play_Event(L"event:/Monsters/Satan/Up")->SetVolume(2.f);
 
 			m_pGameInstance->Add_GameObject(LEVEL_HONG,
 				TEXT("Prototype_GameObject_HellBoss_Skill_Landing"),
