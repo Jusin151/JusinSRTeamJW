@@ -29,6 +29,7 @@
 #include "UI_Hit_Blood.h"
 #include "UI_Restore_Effect.h"
 #include "Camera_CutScene.h"
+#include "AttackMelee.h"
 
 
 CMainApp::CMainApp()
@@ -443,6 +444,8 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		CUI_Restore_Effect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_AttackMelee"), CAttackMelee::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 #pragma endregion
 
