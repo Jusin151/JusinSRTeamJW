@@ -175,7 +175,7 @@ void CLevel_Hong::Spawn_Monsters(_bool bInterval)
 
 	if (bInterval)
 	{
-		if (m_fMonsterSpawnTime >= 5.f)
+		if (m_fMonsterSpawnTime >= 2.f)
 		{
 			_float3 spawnPos;
 

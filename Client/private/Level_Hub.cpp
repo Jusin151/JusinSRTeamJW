@@ -16,6 +16,7 @@
 #include <Camera_FirstPerson.h>
 #include <UI_Episode_Hub.h>
 
+
 CLevel_Hub::CLevel_Hub(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -114,6 +115,9 @@ HRESULT CLevel_Hub::Initialize()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
 		LEVEL_HUB, TEXT("Layer_SkyBox"))))
 		return E_FAIL;
+
+
+
 
 	m_pGameInstance->Play_Background(L"event:/Backgrounds/003 All That Glitters Is Gold (Hub)").SetVolume(0.25f);
 	CUI_Manager::GetInstance()->GetUI(L"Cursor")->SetActive(false);

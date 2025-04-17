@@ -100,7 +100,12 @@ void CSpike::Late_Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, fPos);
 	if (m_bUpdateAnimation)
 	{
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+		if (m_pGameInstance->IsAABBInFrustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Compute_Scaled()))
+		{
+			if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+				return;
+		}
+
 	}
 }
 
@@ -213,11 +218,11 @@ _bool CSpike::IsAnimationFinished() const
 	return m_bAnimFinished;
 }
 
-void CSpike::Activate_WarningZone()
+void CSpike::Activate_WarningZone(_bool bActive )
 {
 	if (m_pWarningZone)
 	{
-		m_pWarningZone->Set_Render(true);
+		m_pWarningZone->Set_Render(bActive);
 	}
 }
 
