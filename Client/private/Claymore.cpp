@@ -46,7 +46,7 @@ HRESULT CClaymore::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pColliderCom->Set_Scale(_float3(2.f, 1.f, 2.f));
+	m_pColliderCom->Set_Scale(_float3(5.f, 1.f, 5.f));
 
 	m_pColTransformCom->Set_Scale(2.f, 1.f, 2.f);
 

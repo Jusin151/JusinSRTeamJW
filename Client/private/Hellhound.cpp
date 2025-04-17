@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 #include "Stains_Effect.h"
 #include "Gib_Effect.h"
+#include "AttackMelee.h"
 
 CHellhound::CHellhound(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CMonster_Base(pGraphic_Device)
@@ -319,9 +320,13 @@ void CHellhound::Melee_Attack(_float fTimeDelta)
 
 	if (m_iCurrentFrame == 17 || m_iCurrentFrame == 26)
 	{
-		m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+		CAttackMelee::MELEE_DESC pDesc = {};
+		pDesc.iDamage = m_iAp;
+		pDesc.fLifeTIme = 0.5f;
+		pDesc.vScale = { 3.f, 3.f, 3.f };
+		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 
-		m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+		m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_AttackMelee"), m_pGameInstance->Get_CurrentLevel(), TEXT("Layer_AttackMelee"), &pDesc);
 	}
 }
 
@@ -512,18 +517,7 @@ HRESULT CHellhound::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	/* For.Com_Collider */
-	CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-	ColliderDesc.pOwner = this;
-	// 이걸로 콜라이더 크기 설정
-	ColliderDesc.fScale = { 3.f, 3.f, 3.f };
-	// 오브젝트와 상대적인 거리 설정
-	ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
-
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-		TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
-		return E_FAIL;
+	
 
 	return S_OK;
 }
@@ -560,5 +554,5 @@ void CHellhound::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTarget);
-	Safe_Release(m_pAttackCollider);
+
 }
