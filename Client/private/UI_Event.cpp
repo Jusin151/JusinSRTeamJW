@@ -70,7 +70,7 @@ HRESULT CUI_Event::Render()
 			_float value = 0.7f;
 			_float3 levelColor = HSVtoRGB(hue, saturation, value);
 
-			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
+			m_pGameInstance->Render_Font_Size(L"MainFont", evt.wstr, centerPos, centerSize, levelColor);
 		}
 
 		else if (evt.wstr == L"마나가 부족합니다..!")
@@ -79,7 +79,7 @@ HRESULT CUI_Event::Render()
 			_float2 centerSize = _float2(20.f, 40.f);
 			_float3 levelColor = _float3(1.f, 0.f, 0.f);
 
-			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
+			m_pGameInstance->Render_Font_Size(L"MainFont", evt.wstr, centerPos, centerSize, levelColor);
 		}
 		else if (evt.wstr == L"악마가 위기감을 느끼기 시작했습니다..!")
 		{
@@ -87,7 +87,7 @@ HRESULT CUI_Event::Render()
 			_float2 centerSize = _float2(20.f, 40.f);
 			_float3 levelColor = _float3(1.f, 0.f, 0.f);
 
-			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, centerPos, centerSize, levelColor);
+			m_pGameInstance->Render_Font_Size(L"MainFont", evt.wstr, centerPos, centerSize, levelColor);
 		}
 		else
 		{
@@ -95,13 +95,13 @@ HRESULT CUI_Event::Render()
 			_float2 pos = basePos + _float2(0.f, -(_float)i * lineSpacing);
 			_float2 size = _float2(8.f, 20.f);
 			_float3 color = _float3(1.f, 1.f, 0.f);
-			m_pGameInstance->Render_Font_Size(L"EventFont", evt.wstr, pos, size, color);
+			m_pGameInstance->Render_Font_Size(L"MainFont", evt.wstr, pos, size, color);
 		}
 	}
 
 	for (const auto& renderText : m_vecEventRenderTexts)
 	{
-		m_pGameInstance->Render_Font_Size(TEXT("EventFont"), renderText.stText, renderText.vPos, renderText.vFontSize, renderText.vColor);
+		m_pGameInstance->Render_Font_Size(TEXT("MainFont"), renderText.stText, renderText.vPos, renderText.vFontSize, renderText.vColor);
 	}
 
 	return S_OK;
