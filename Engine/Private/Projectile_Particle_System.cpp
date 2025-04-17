@@ -1,4 +1,4 @@
-#include "Projectile_Particle_System.h"
+ï»¿#include "Projectile_Particle_System.h"
 
 CProjectile_Particle_System::CProjectile_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CParticle_System{ pGraphic_Device }
@@ -54,7 +54,7 @@ void CProjectile_Particle_System::Reset_Particle(ATTRIBUTE* pAttribute, void* pA
 void CProjectile_Particle_System::Update(float fTimeDelta)
 {
 	const _uint numTextures = m_pTexture->Get_NumTextures();
-	const float maxAnimDistance = 15.0f; // ¿¹½Ã °ª
+	const float maxAnimDistance = 15.0f; // ì˜ˆì‹œ ê°’
 	//Reset_Particle(&*m_Particles.begin());
 	for (auto& i : m_Particles)
 	{
@@ -62,7 +62,7 @@ void CProjectile_Particle_System::Update(float fTimeDelta)
 		{
 			//i.vPosition -= i.vVelocity * fTimeDelta;
 			
-			// --- 1. ½Ã°£ ºñÀ² °è»ê (0.0 ~ 1.0) ---
+			// --- 1. ì‹œê°„ ë¹„ìœ¨ ê³„ì‚° (0.0 ~ 1.0) ---
 			float ageRatio = 0.0f;
 			if (i.fLifetime > 0.0f) {
 				ageRatio = i.fAge / i.fLifetime;
@@ -70,33 +70,33 @@ void CProjectile_Particle_System::Update(float fTimeDelta)
 			}
 			i.fAge += fTimeDelta;
 
-			//// --- 2. °Å¸® ºñÀ² °è»ê (0.0 ~ 1.0) ---
+			//// --- 2. ê±°ë¦¬ ë¹„ìœ¨ ê³„ì‚° (0.0 ~ 1.0) ---
 			/*_float3 pos = i.vPosition;
 			float currentDistance = pos.Length();
 			float distanceRatio = currentDistance / maxAnimDistance;
 			distanceRatio = max(0.0f, std::min(distanceRatio, 1.0f));*/
 
-			//// --- 3. µÎ ºñÀ² Á¶ÇÕ (ÃÖ´ñ°ª »ç¿ë) ---
-			//// ½Ã°£°ú °Å¸® Áß ´õ ¸¹ÀÌ ÁøÇàµÈ ÂÊÀÇ ºñÀ²À» ÃÖÁ¾ ºñÀ²·Î »ç¿ë
+			//// --- 3. ë‘ ë¹„ìœ¨ ì¡°í•© (ìµœëŒ“ê°’ ì‚¬ìš©) ---
+			//// ì‹œê°„ê³¼ ê±°ë¦¬ ì¤‘ ë” ë§ì´ ì§„í–‰ëœ ìª½ì˜ ë¹„ìœ¨ì„ ìµœì¢… ë¹„ìœ¨ë¡œ ì‚¬ìš©
 			//float finalRatio = max(ageRatio, distanceRatio);
 			float finalRatio = ageRatio;
 
-			///* --- ´Ù¸¥ Á¶ÇÕ ¹æ½Ä ¿¹½Ã (ÁÖ¼® Ã³¸®µÊ) ---
-			//// °¡Áß Æò±Õ (¿¹: ½Ã°£ 60%, °Å¸® 40%)
+			///* --- ë‹¤ë¥¸ ì¡°í•© ë°©ì‹ ì˜ˆì‹œ (ì£¼ì„ ì²˜ë¦¬ë¨) ---
+			//// ê°€ì¤‘ í‰ê·  (ì˜ˆ: ì‹œê°„ 60%, ê±°ë¦¬ 40%)
 			//// float timeWeight = 0.6f;
 			//// float distanceWeight = 0.4f;
 			//// float finalRatio = timeWeight * ageRatio + distanceWeight * distanceRatio;
-			//// finalRatio = std::max(0.0f, std::min(finalRatio, 1.0f)); // °á°ú Å¬·¥ÇÎ
+			//// finalRatio = std::max(0.0f, std::min(finalRatio, 1.0f)); // ê²°ê³¼ í´ë¨í•‘
 
-			//// °ö¼À
+			//// ê³±ì…ˆ
 			//// float finalRatio = ageRatio * distanceRatio;
 			//*/
 
-			//// --- 4. ÃÖÁ¾ ºñÀ²À» ÇÁ·¹ÀÓ ÀÎµ¦½º·Î ¸ÅÇÎ ---
+			//// --- 4. ìµœì¢… ë¹„ìœ¨ì„ í”„ë ˆì„ ì¸ë±ìŠ¤ë¡œ ë§¤í•‘ ---
 			i.fSize *= 0.90f;
 			float targetFrame = finalRatio * static_cast<float>(numTextures);
 			i.iIndex = static_cast<int>(targetFrame);
-			//i.iIndex = min(i.iIndex, numTextures - 1); // ÀÎµ¦½º ¹üÀ§ Á¦ÇÑ
+			//i.iIndex = min(i.iIndex, numTextures - 1); // ì¸ë±ìŠ¤ ë²”ìœ„ ì œí•œ
 		}
 		if (i.iIndex >= m_pTexture->Get_NumTextures() || i.fAge >= i.fLifetime)
 			i.bIsAlive = false;
@@ -116,22 +116,22 @@ HRESULT CProjectile_Particle_System::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
 
-	// ±íÀÌ ¹öÆÛ Å×½ºÆ® ºñÈ°¼ºÈ­ (Ç×»ó ±×¸®µµ·Ï)
+	// ê¹Šì´ ë²„í¼ í…ŒìŠ¤íŠ¸ ë¹„í™œì„±í™” (í•­ìƒ ê·¸ë¦¬ë„ë¡)
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 
-	// (¼±ÅÃ »çÇ×) ±íÀÌ ¹öÆÛ ¾²±â ºñÈ°¼ºÈ­
-	// ÀÌ °´Ã¼°¡ ´Ù¸¥ °´Ã¼ÀÇ ·»´õ¸µ¿¡ ¿µÇâÀ» ÁÖÁö ¾Êµµ·Ï ÇÕ´Ï´Ù.
+	// (ì„ íƒ ì‚¬í•­) ê¹Šì´ ë²„í¼ ì“°ê¸° ë¹„í™œì„±í™”
+	// ì´ ê°ì²´ê°€ ë‹¤ë¥¸ ê°ì²´ì˜ ë Œë”ë§ì— ì˜í–¥ì„ ì£¼ì§€ ì•Šë„ë¡ í•©ë‹ˆë‹¤.
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // Á¤Á¡ »ö»ó¸¸ »ç¿ë
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // ÅØ½ºÃÄ »ö»ó ÁöÁ¤
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // ì •ì  ìƒ‰ìƒë§Œ ì‚¬ìš©
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // í…ìŠ¤ì³ ìƒ‰ìƒ ì§€ì •
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	return S_OK;
 }
 
@@ -151,11 +151,11 @@ HRESULT CProjectile_Particle_System::Render()
 
 HRESULT CProjectile_Particle_System::Post_Render()
 {
-	// ±íÀÌ ¹öÆÛ Å×½ºÆ® ºñÈ°¼ºÈ­ (Ç×»ó ±×¸®µµ·Ï)
+	// ê¹Šì´ ë²„í¼ í…ŒìŠ¤íŠ¸ ë¹„í™œì„±í™” (í•­ìƒ ê·¸ë¦¬ë„ë¡)
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 
-	// (¼±ÅÃ »çÇ×) ±íÀÌ ¹öÆÛ ¾²±â ºñÈ°¼ºÈ­
-	// ÀÌ °´Ã¼°¡ ´Ù¸¥ °´Ã¼ÀÇ ·»´õ¸µ¿¡ ¿µÇâÀ» ÁÖÁö ¾Êµµ·Ï ÇÕ´Ï´Ù.
+	// (ì„ íƒ ì‚¬í•­) ê¹Šì´ ë²„í¼ ì“°ê¸° ë¹„í™œì„±í™”
+	// ì´ ê°ì²´ê°€ ë‹¤ë¥¸ ê°ì²´ì˜ ë Œë”ë§ì— ì˜í–¥ì„ ì£¼ì§€ ì•Šë„ë¡ í•©ë‹ˆë‹¤.
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);

@@ -35,7 +35,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	m_Weapon_INFO.vPos = { 0.f,-170.f }; // 샷건 위치
 	m_Weapon_INFO.vSize ={ 749,420.f };// 샷건 크기 위에 두개는 일단 밖에서 하는중
 	m_Weapon_INFO.Damage = 50;                // 데미지
-	m_Weapon_INFO.AttackSpeed = 1.2f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
+	m_Weapon_INFO.AttackSpeed = 0.8f;           // 공격 속도 (ex. 초당 발사 가능 횟수)
 
 	m_iAp = 50;
 	m_eType = CG_WEAPON;
@@ -58,7 +58,7 @@ HRESULT CShotGun::Initialize(void* pArg)
 	Ranged_INFO.CurrentAmmo = 40; // 현재
 	Ranged_INFO.MaxAmmo = 40; // 최대
 
-	m_fAnimationSpeed = 0.03f;
+	m_fAnimationSpeed = 0.045f;
 
 
 	__super::Ready_Picking();
@@ -111,6 +111,7 @@ void CShotGun::Late_Update(_float fTimeDelta)
 				m_eState = State::Reloading;
 				m_iCurrentFrame = m_TextureRanges["Reloading"].first;
 				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpout")->SetVolume(0.5f);
+
 			}
 		}
 		break;
@@ -125,7 +126,7 @@ void CShotGun::Late_Update(_float fTimeDelta)
 			{
 				m_eState = State::Idle;
 				m_iCurrentFrame = m_TextureRanges["Idle"].first;
-				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
+				
 			}
 		}
 		break;
@@ -149,6 +150,10 @@ void CShotGun::Late_Update(_float fTimeDelta)
 		m_pLightCom->Set_Position(pos);
 		m_pLightCom->DecreaseIntensity(m_iCurrentFrame);
 	}
+
+
+	if(m_iCurrentFrame==11)
+	m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
 }
 void CShotGun::Attack_WeaponSpecific(_float fTimeDelta)
 {

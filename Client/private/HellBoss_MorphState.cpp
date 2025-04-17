@@ -115,13 +115,13 @@ void CHellBoss_MorphState::Enter(CHellBoss* pBoss)
         {
             pCutCam->Set_LookTarget(pBoss); // 컷씬 카메라가 뭘 보게 할껀지
             pCutCam->Set_CutScenePath(vecPath, 0.4f); // 경로 넣기
-            pCutCam->Set_CameraDisableDelay(4.2f); // 몇초뒤에 카메라끌껀지
+            pCutCam->Set_CameraDisableDelay(4.5f); // 몇초뒤에 카메라끌껀지
         }
 
         pBoss->m_pSoundCom->Play_Event(L"event:/Monsters/Satan/satan_transform_2to3")->SetVolume(0.7f);
     }
 
-    upwardSpeed = 5.f;
+    upwardSpeed = 3.f;
    // upwardSpeed = 0.f;
 }
 

@@ -37,10 +37,10 @@ HRESULT CHellBoss::Initialize(void* pArg)
  	if (FAILED(Ready_Components())) 
 		return E_FAIL;
 
-	   //13000
-		//9000
-		//4500
-		//1500
+	   //13100 //바로 2페이즈 진입 원할시
+		//9100 //바로 3페이즈 진입 원할시
+		//4600  /바로 4페이즈 진입 원할시
+		//1600 //바로 5페이즈 진입 원할시
 
 	srand(static_cast<_uint>(time(nullptr)));
 	m_eType = CG_MONSTER;
@@ -79,7 +79,9 @@ HRESULT CHellBoss::Initialize(void* pArg)
 
 	m_AnimationManager.AddAnimation("U_ArmCut_Idle", 117, 117);  // 한팔 대기상태
 	m_AnimationManager.AddAnimation("I_ArmCut_Walk", 118, 124, 0.2f);  // 한팔 Walk상태
-	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 104, 104, 0.1f);  // 대쉬!!!
+
+	m_AnimationManager.AddAnimation("I_ArmCut_Dash", 105, 105, 0.1f);  // 대쉬!!!
+
 	m_AnimationManager.AddAnimation("O_ArmCut_Attack", 125, 138);// 한팔 Attack상태 , 팔드는 모션, 공격모션당 최초 한번
 
 	m_AnimationManager.AddAnimation("P_ArmCut_End", 139, 203,0.08f);   //////////////////////////// 4페이즈 진입
@@ -289,7 +291,7 @@ void CHellBoss::Hp_Pattern()
 				vDir.y = 0.f;  
 				vDir.Normalize();
 
-				pPlayer->KnockBack(vDir, 300.f);  // 힘조절은 요기서
+				pPlayer->KnockBack(vDir, 100.f);  // 힘조절은 요기서
 			}
 		}
 
@@ -807,6 +809,8 @@ void CHellBoss::Dead_Scene()
 			CPlayer* player = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Player")));
 			if (player)
 				player->Set_ClearLevel(LEVEL_BOSS);
+
+
 		}
 
 	}

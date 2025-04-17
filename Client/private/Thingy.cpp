@@ -1,4 +1,4 @@
-#include "Thingy.h"
+﻿#include "Thingy.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
 #include "Player.h"

@@ -1,4 +1,4 @@
-#include "Fire_Particle_System.h"
+ï»¿#include "Fire_Particle_System.h"
 
 CFire_Particle_System::CFire_Particle_System(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CParticle_System{ pGraphic_Device }
@@ -58,7 +58,8 @@ void CFire_Particle_System::Update(float fTimeDelta)
             i.iIndex %= m_pTexture->Get_NumTextures();
             _float3 worldPos = {};
             D3DXVec3TransformCoord(&worldPos, &i.vPosition, &m_WorldMat);
-            if (worldPos.y + abs(m_Bounding_Box.m_vMin.y) > m_Bounding_Box.m_vMin.y * 0.3f)
+            _float floorLevel = m_Bounding_Box.m_vMin.y - m_Bounding_Box.m_vMin.x * 0.5f + 0.2f;
+            if (worldPos.y > floorLevel)
             {
                 i.vPosition += (i.vVelocity * i.vAcceleration.x) * fTimeDelta;
                 i.vVelocity.y -= GRAVITY * fTimeDelta;
@@ -82,8 +83,8 @@ HRESULT CFire_Particle_System::Pre_Render()
     m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.0f));
     m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(1.0f));
 
-    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // Á¤Á¡ »ö»ó¸¸ »ç¿ë
-    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // ÅØ½ºÃÄ »ö»ó ÁöÁ¤
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1); // ì •ì  ìƒ‰ìƒë§Œ ì‚¬ìš©
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);    // í…ìŠ¤ì³ ìƒ‰ìƒ ì§€ì •
 
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

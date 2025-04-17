@@ -1,4 +1,4 @@
-#include "Looker.h"
+ï»¿#include "Looker.h"
 #include "VIBuffer_Rect.h"
 #include "Texture.h"
 #include "Collider_Cube.h"
@@ -41,7 +41,7 @@ HRESULT CLooker::Initialize(void* pArg)
 
     m_pColliderCom->Set_Scale(_float3(1.f, 1.f, 1.f));
 
-	// µð¹ö±ë ¿ë
+	// ë””ë²„ê¹… ìš©
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-15.f, 0.46f, -32.f));
 
     return S_OK;
@@ -200,7 +200,7 @@ HRESULT CLooker::On_Collision(CCollisionObject* other)
 	if (nullptr == other)
 		return S_OK;
 
-	// ¾È¹Ù²î¸é Ãæµ¹ ¾ÈÀÏ¾î³²
+	// ì•ˆë°”ë€Œë©´ ì¶©ëŒ ì•ˆì¼ì–´ë‚¨
 	if (other->Get_Type() == CG_END)
 		return S_OK;
 
@@ -298,7 +298,7 @@ void CLooker::Shooting(_float fTimeDelta)
 		pDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 		pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-		// ¿ÀºêÁ§Æ® Ç®¸µÀ¸·Î º¯°æ ÇÊ¿ä
+		// ì˜¤ë¸Œì íŠ¸ í’€ë§ìœ¼ë¡œ ë³€ê²½ í•„ìš”
 		m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LookerBullet"), m_pGameInstance->Get_CurrentLevel(), 
 			TEXT("Layer_Projectile_LookerBullet"), &pDesc);
 
@@ -311,7 +311,7 @@ void CLooker::Select_Frame(_float fTimeDelta)
 	if (m_iCurrentFrame == 42)
 		return;
 
-	m_fElapsedTime += fTimeDelta ; //ÀÓÀÇ·Î ¾Ö´Ï¸ÞÀÌ¼Ç ¼Óµµ Á» ¿Ã¸²
+	m_fElapsedTime += fTimeDelta ; //ìž„ì˜ë¡œ ì• ë‹ˆë©”ì´ì…˜ ì†ë„ ì¢€ ì˜¬ë¦¼
 
 	switch (m_eCurState)
 	{
@@ -381,8 +381,8 @@ HRESULT CLooker::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 0); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	_float2 ScaleFactor = { 1.0f, 1.0f };
 	_float2 Offset = { 0.f, 0.f };
 	m_pShaderCom->Set_UVScaleFactor(&ScaleFactor);

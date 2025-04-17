@@ -238,16 +238,12 @@ void CBombBox::Select_State()
 
 	if (m_eCurState == DS_HIT)
 	{
-
-		m_pTransformCom->Set_Scale(1.f, 0.5f, 1.f);
 		m_pColliderCom->Set_Scale(_float3(1.f, 0.5f, 1.f));
 		m_iCurrentFrame = 1;
 		m_bExplosion = true;
-
 		// 폭발 이펙트 생성
 		Explosion();
-		
-
+		m_pTransformCom->Set_Scale(1.f, 0.5f, 1.f);
 	}
 
 	
@@ -283,6 +279,7 @@ void CBombBox::Explosion()
 	effectDesc2.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	effectDesc2.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
 	effectDesc2.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	effectDesc2.fScaleY = m_pTransformCom->Compute_Scaled().y;
 	effectDesc2.vScale = { 1.f, 1.f, 1.f };
 
 	m_pGameInstance->Add_GameObject(

@@ -39,7 +39,7 @@ HRESULT CHarvester::Initialize(void* pArg)
 
 	Ranged_INFO.CurrentAmmo = 30; 
 	Ranged_INFO.MaxAmmo = 30;
-	m_fAnimationSpeed = 0.03f;
+	m_fAnimationSpeed = 0.025f;
 
 	m_iAp = 150;
 	m_eType = CG_WEAPON;
@@ -72,6 +72,7 @@ void CHarvester::Priority_Update(_float fTimeDelta)
 
 void CHarvester::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 	m_fElapsedTime += fTimeDelta;
 
 	switch (m_eState)
@@ -110,11 +111,14 @@ void CHarvester::Update(_float fTimeDelta)
 			{
 				m_eState = State::Idle;
 				m_iCurrentFrame = m_TextureRanges["Idle"].first;
-				m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
+				//m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
 			}
 		}
 		break;
 	}
+
+	if (m_iCurrentFrame == 24)
+		m_pSoundCom->Play_Event(L"event:/Weapons/Range/Shotgun/basic_shotgun_pumpin")->SetVolume(0.5f);
 
 	m_pSoundCom->Update(fTimeDelta);
 }

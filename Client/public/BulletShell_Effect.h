@@ -29,5 +29,6 @@ public:
     virtual void Free()override;
 private:
     CGameObject* m_pTarget = { nullptr };
+    CSound_Source* m_pSoundCom = { nullptr };
 };
 END
