@@ -20,9 +20,7 @@ HRESULT CAttackMelee::Initialize_Prototype()
 
 HRESULT CAttackMelee::Initialize(void* pArg)
 {
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
-
+	
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -116,6 +114,13 @@ HRESULT CAttackMelee::Ready_Components()
 	// 오브젝트와 상대적인 거리 설정
 	ColliderDesc.fLocalPos = { 0.f, 0.f, 0.f };
 
+	/* For.Com_Transform */
+	CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
@@ -153,4 +158,5 @@ void CAttackMelee::Free()
 {
 	__super::Free();
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pTransformCom);
 }
