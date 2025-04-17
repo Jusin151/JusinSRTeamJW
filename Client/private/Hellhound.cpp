@@ -446,8 +446,12 @@ void CHellhound::Select_Frame(_float fTimeDelta)
 
 		if (m_iCurrentFrame == 30)
 		{
-			// 팔 gib 생성
-			Create_Gibs(5);
+			if (!m_bArmDestoryed)
+			{
+				// 팔 gib 생성
+				Create_Gibs(5);
+				m_bArmDestoryed = true;
+			}
 		}
 
 		if (m_iCurrentFrame < 30 || m_iCurrentFrame > 33)

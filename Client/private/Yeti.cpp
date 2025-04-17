@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "AttackMelee.h"
 
 CYeti::CYeti(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CMonster_Base(pGraphic_Device)
@@ -305,9 +306,13 @@ void CYeti::Attack_Melee(_float fTimeDelta)
 
     if (m_iCurrentFrame == 14)
     {
-        m_pAttackCollider->Update_Collider(TEXT("Com_Transform"), m_pAttackCollider->Get_Scale());
+        CAttackMelee::MELEE_DESC pDesc = {};
+        pDesc.iDamage = m_iAp;
+        pDesc.fLifeTIme = 1.f;
+        pDesc.vScale = { 2.f, 2.f, 2.f };
+        pDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK).GetNormalized();
 
-        m_pGameInstance->Add_Collider(CG_MONSTER_PROJECTILE_CUBE, m_pAttackCollider);
+        m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_AttackMelee"), m_pGameInstance->Get_CurrentLevel(), TEXT("Layer_AttackMelee"), &pDesc);
     }
    
 }
