@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Observer.h"
 #include "Client_Defines.h"
@@ -8,7 +8,7 @@
 BEGIN(Engine)
 class CTexture;
 class CTransform;
-class CVIBuffer_Rect;  // UI´Â »ç°¢ÇüÀ¸·Î
+class CVIBuffer_Rect;  // UIëŠ” ì‚¬ê°í˜•ìœ¼ë¡œ
 END
 
 BEGIN(Client)

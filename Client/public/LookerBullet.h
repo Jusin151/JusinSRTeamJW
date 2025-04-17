@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Projectile_Base.h"
 
@@ -31,7 +31,7 @@ private:
 	HRESULT Ready_Components();
 
 private:
-	// ¾Ö´Ï¸ŞÀÌ¼Ç µ¹¸®±â À§ÇØ.. ÇÑ ÇÁ·¹ÀÓ ½Ã°£, ÇöÀç ÇÁ·¹ÀÓ ¼ö
+	// ì• ë‹ˆë©”ì´ì…˜ ëŒë¦¬ê¸° ìœ„í•´.. í•œ í”„ë ˆì„ ì‹œê°„, í˜„ì¬ í”„ë ˆì„ ìˆ˜
 	_float m_fElapsedTime = { 0.f };
 	_int m_iCurrentFrame = { 0 };
 

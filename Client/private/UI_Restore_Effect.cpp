@@ -1,4 +1,4 @@
-#include "UI_Restore_Effect.h"
+ï»¿#include "UI_Restore_Effect.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 
@@ -52,7 +52,7 @@ void CUI_Restore_Effect::Priority_Update(_float fTimeDelta)
 
 void CUI_Restore_Effect::Update(_float fTimeDelta)
 {
-	// È°¼ºÈ­ »óÅÂ°¡ ¾Æ´Ï¸é ¾÷µ¥ÀÌÆ®ÇÏÁö ¾ÊÀ½
+	// í™œì„±í™” ìƒíƒœê°€ ì•„ë‹ˆë©´ ì—…ë°ì´íŠ¸í•˜ì§€ ì•ŠìŒ
 	if (!m_bStart)
 	{
 		return;
@@ -138,7 +138,7 @@ void CUI_Restore_Effect::StartEffect()
 {
 	m_bStart = true;
 	m_fElpasedTime = 0.0f;
-	m_fAlpha = 0.4f;        // ½ÃÀÛ ¾ËÆÄ
+	m_fAlpha = 0.4f;        // ì‹œìž‘ ì•ŒíŒŒ
 	m_fAnimationTime = 1.0f;
 }
 
@@ -148,7 +148,7 @@ CUI_Restore_Effect* CUI_Restore_Effect::Create(LPDIRECT3DDEVICE9 pGraphic_Device
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("CUI_Restore_Effect ¿øº» »ý¼º ½ÇÆÐ ");
+		MSG_BOX("CUI_Restore_Effect ì›ë³¸ ìƒì„± ì‹¤íŒ¨ ");
 		Safe_Release(pInstance);
 	}
 	return pInstance;
@@ -159,7 +159,7 @@ CGameObject* CUI_Restore_Effect::Clone(void* pArg)
 	CUI_Restore_Effect* pInstace = new CUI_Restore_Effect(*this);
 	if (FAILED(pInstace->Initialize(pArg)))
 	{
-		MSG_BOX("CUI_Restore_Effect º¹Á¦ ½ÇÆÐ");
+		MSG_BOX("CUI_Restore_Effect ë³µì œ ì‹¤íŒ¨");
 		Safe_Release(pInstace);
 	}
 	return pInstace;

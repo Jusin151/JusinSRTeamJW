@@ -237,26 +237,13 @@ void CTree::Select_State()
 			m_eCurState = DS_IDLE;
 			return;
 		}
-			
-		
-		m_pColliderCom->Set_Scale(_float3(2.f, floor(4.f / m_iHitCount), 2.f));
-		m_pTransformCom->Set_Scale(2.f, floor(4.f / m_iHitCount), 2.f);
-		
-		
-		
-
-
-		m_eCurState = DS_IDLE;
-
-		// gib �߰�..
-
-		float offsetRangeX = 1.f, offsetRangeY = 1.f;
 
 		CGib_Effect::HIT_DESC hitDesc;
 		hitDesc.vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
 		hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		hitDesc.vScale = { 1.5f, 1.f, 1.5f };
+		hitDesc.fScaleY = m_pTransformCom->Compute_Scaled().y;
 		hitDesc.type = 3;
 
 		hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -266,6 +253,11 @@ void CTree::Select_State()
 			LEVEL_STATIC,
 			TEXT("Layer_Gib_Effect"),
 			&hitDesc);
+		
+		m_pColliderCom->Set_Scale(_float3(2.f, floor(4.f / m_iHitCount), 2.f));
+		m_pTransformCom->Set_Scale(2.f, floor(4.f / m_iHitCount), 2.f);
+		
+		m_eCurState = DS_IDLE;	
 	}
 
 	if (m_iHitCount >= 3)

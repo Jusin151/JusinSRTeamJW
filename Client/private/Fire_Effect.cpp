@@ -1,4 +1,4 @@
-#include "Fire_Effect.h"
+ï»¿#include "Fire_Effect.h"
 #include "Particles.h"
 
 CFire_Effect::CFire_Effect(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -37,7 +37,7 @@ HRESULT CFire_Effect::Ready_Components()
 	CFire_Particle_System::FIREDESC FireDesc = {};
 	FireDesc.iNumParticles = { 10u };
 	FireDesc.Bound.m_vCenter = { 0.f, 0.f, 0.f };
-	FireDesc.Bounding_Box.m_vMin = { 0.f, m_Weapon_Effect_INFO.vPos.y, 0.f };
+	FireDesc.Bounding_Box.m_vMin = { m_Weapon_Effect_INFO.fScaleY, m_Weapon_Effect_INFO.vPos.y, 0.f };
 	FireDesc.Bounding_Box.m_vMax = { 1.f, 1.f, 1.f };
 	FireDesc.Bound.m_fRadius = 0.1f;
 	FireDesc.strTexturePath = L"../../Resources/Textures/Effect/Fire/fire_ground_000%d.png";
@@ -77,8 +77,8 @@ HRESULT CFire_Effect::Pre_Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ¾ËÆÄ °ªÀÌ ±âÁØº¸´Ù Å©¸é ÇÈ¼¿ ·»´õ¸µ
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ±âÁØ°ª ¼³Á¤ (0~255)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // ì•ŒíŒŒ ê°’ì´ ê¸°ì¤€ë³´ë‹¤ í¬ë©´ í”½ì…€ ë Œë”ë§
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200); // ê¸°ì¤€ê°’ ì„¤ì • (0~255)
 	return S_OK;
 }
 

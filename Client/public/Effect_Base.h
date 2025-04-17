@@ -35,6 +35,7 @@ public:
         _float3 vUp = {};
         _float3 vLook = {};
         _float fLifeTime = {};
+        _float fScaleY = {};
         EFFECT_TYPE eType = EFFECT_TYPE::NONE;
     };
 

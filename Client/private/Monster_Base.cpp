@@ -198,6 +198,7 @@ HRESULT CMonster_Base::Create_Gibs(_uint eType)
 	hitDesc.vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
 	hitDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	hitDesc.vScale = { 1.5f, 1.f, 1.5f };
+	hitDesc.fScaleY = m_pTransformCom->Compute_Scaled().y;
 	hitDesc.type = eType;
 
 	hitDesc.vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);

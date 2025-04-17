@@ -1,4 +1,4 @@
-#include "Level_Ending.h"
+ï»¿#include "Level_Ending.h"
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
@@ -38,7 +38,7 @@ void CLevel_Ending::Update(_float fTimeDelta)
 
 HRESULT CLevel_Ending::Render()
 {
-	SetWindowText(g_hWnd, TEXT("¿£µù·¹º§ÀÔ´Ï´Ù."));
+	SetWindowText(g_hWnd, TEXT("ì—”ë”©ë ˆë²¨ìž…ë‹ˆë‹¤."));
 
 	return S_OK;
 }

@@ -1,4 +1,4 @@
-#include "HellBoss_AfterImage.h"
+﻿#include "HellBoss_AfterImage.h"
 #include "GameInstance.h"
 
 CHellBoss_AfterImage::CHellBoss_AfterImage(LPDIRECT3DDEVICE9 pGraphic_Device)
