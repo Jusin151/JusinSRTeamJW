@@ -47,6 +47,7 @@ private:
 
 	_uint m_iMaxHp = { 0 };
 	_bool m_bDamaged = { false };
+	_bool m_bArmDestoryed = { false };
 
 public:
 	static CHellhound* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
