@@ -526,6 +526,9 @@
     <Filter Include="01.Levels\Ending">
       <UniqueIdentifier>{21017127-8675-4188-ba00-6ce9698eeace}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\04. Projectile\Monster\Melee">
+      <UniqueIdentifier>{5096c40c-9791-4e05-9e61-e96a75013d00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1035,6 +1038,9 @@
     <ClInclude Include="..\public\Level_Ending.h">
       <Filter>01.Levels\Ending</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\AttackMelee.h">
+      <Filter>02.GameObjects\04. Projectile\Monster\Melee</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1501,6 +1507,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_Ending.cpp">
       <Filter>01.Levels\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AttackMelee.cpp">
+      <Filter>02.GameObjects\04. Projectile\Monster\Melee</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
