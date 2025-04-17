@@ -42,7 +42,7 @@ private:
 
 
 private:
-	CCollider_Cube* m_pAttackCollider = { nullptr };
+
 
 
 	_uint m_iMaxHp = { 0 };

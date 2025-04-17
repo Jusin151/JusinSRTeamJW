@@ -437,18 +437,9 @@ HRESULT CYeti::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
-    /* For.Com_Collider */
-    CCollider_Cube::COL_CUBE_DESC	ColliderDesc = {};
-    ColliderDesc.pOwner = this;
-    // 이걸로 콜라이더 크기 설정
-    ColliderDesc.fScale = { 1.5f, 1.5f, 1.5f };
-    // 오브젝트와 상대적인 거리 설정
-    ColliderDesc.fLocalPos = { 0.f, 0.f, 1.f };
+   
 
-
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Cube"),
-        TEXT("Com_Collider_Attack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &ColliderDesc)))
-        return E_FAIL;
+   
 
     return S_OK;
 }
@@ -485,5 +476,4 @@ void CYeti::Free()
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pTarget);
-    Safe_Release(m_pAttackCollider);
 }
