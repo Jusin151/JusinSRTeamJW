@@ -46,7 +46,7 @@ public:
     void ActiveShakeTrigger() { m_bShaked = true; }
     void Set_Position(const _float3& vPos);
     _bool IsAnimationFinished() const;
-    void Activate_WarningZone();
+    void Activate_WarningZone(_bool bActive = true);
 private:
     HRESULT SetUp_RenderState();
     HRESULT Release_RenderState();

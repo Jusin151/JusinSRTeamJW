@@ -799,6 +799,14 @@ NodeStatus CCthulhu::Dead()
 
 	if (m_eState != STATE::DEAD)
 	{
+		if (!m_vecSpikes.empty())
+		{
+			for (auto& pSpike : m_vecSpikes)
+			{
+				pSpike->Activate_WarningZone(false);
+			}
+			m_vecSpikes.clear();
+		}
 		m_eState = STATE::DEAD;
 		m_fFrame = 0.f;
 		m_iCurrentFrame = m_mapStateTextures[m_eState][0];

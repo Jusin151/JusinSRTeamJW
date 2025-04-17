@@ -213,11 +213,11 @@ _bool CSpike::IsAnimationFinished() const
 	return m_bAnimFinished;
 }
 
-void CSpike::Activate_WarningZone()
+void CSpike::Activate_WarningZone(_bool bActive )
 {
 	if (m_pWarningZone)
 	{
-		m_pWarningZone->Set_Render(true);
+		m_pWarningZone->Set_Render(bActive);
 	}
 }
 
