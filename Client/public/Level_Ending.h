@@ -19,7 +19,7 @@ public:
 	HRESULT Ready_Layer_BackGround();
 
 private:
-
+	_float fOffSetY = { -600 };
 
 public:
 	static CLevel_Ending* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

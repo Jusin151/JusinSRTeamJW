@@ -41,7 +41,7 @@ private:
 
 
 private:
-	CCollider_Cube* m_pAttackCollider = { nullptr };
+	
 
 
 	_bool	m_bMorph = { false };

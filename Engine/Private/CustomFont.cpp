@@ -21,13 +21,14 @@ HRESULT CCustomFont::Initialize(const wstring& strFontFilePath)
 	m_FontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
 	m_FontDesc.Quality = DEFAULT_QUALITY;
 	m_FontDesc.PitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+	//wcscpy_s(m_FontDesc.FaceName, )
 	wcscpy_s(m_FontDesc.FaceName, L"Wheaton Capitals");  // 기본 폰트 이름
 
 	// 폰트 파일 이름이 지정된 경우 사용
 	if (!strFontFilePath.empty())
 	{
 		// 간단한 예: 파일 이름에서 .ttf 확장자 제거
-		wstring strFontName = strFontFilePath;
+ 		wstring strFontName = strFontFilePath;
 		size_t pos = strFontName.rfind(L'\\');
 		if (pos != wstring::npos)
 			strFontName = strFontName.substr(pos + 1);
@@ -35,6 +36,16 @@ HRESULT CCustomFont::Initialize(const wstring& strFontFilePath)
 		pos = strFontName.rfind(L'.');
 		if (pos != wstring::npos)
 			strFontName = strFontName.substr(0, pos);
+
+		size_t lastSlashPos = strFontName.find_last_of(L'/'); // 와이드 문자 L'/' 사용
+
+		std::wstring fileName;
+
+		// '/' 문자를 찾았는지 확인합니다.
+		if (lastSlashPos != std::wstring::npos) {
+			// 찾았다면, '/' 다음 위치부터 끝까지 부분 문자열을 추출합니다.
+			strFontName = strFontName.substr(lastSlashPos + 1);
+		}
 
 		if (!strFontName.empty() && strFontName.length() < LF_FACESIZE)
 			wcscpy_s(m_FontDesc.FaceName, strFontName.c_str());

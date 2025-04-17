@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Animation.h" />
     <ClInclude Include="..\public\AnimationManager.h" />
+    <ClInclude Include="..\public\AttackMelee.h" />
     <ClInclude Include="..\public\Axe.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BehaviorTree.h" />
@@ -342,6 +343,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\AttackMelee.cpp" />
     <ClCompile Include="..\private\Axe.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\BehaviorTree.cpp" />
