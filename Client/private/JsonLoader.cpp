@@ -623,20 +623,3 @@ HRESULT CJsonLoader::Load_Prototypes(CGameInstance* pGameInstance, LPDIRECT3DDEV
 	return S_OK;
 }
 
-_wstring CJsonLoader::Get_Prototype_For_Layer(const _wstring & layerName)
-{
-	if (layerName == L"Layer_Player")
-		return L"Prototype_GameObject_Player";
-	else if (layerName == L"Layer_Monster_Harpoonguy")
-		return L"Prototype_GameObject_Harpoonguy";
-	else if (layerName == L"Layer_Monster_Projectile_Harpoon")
-		return L"Prototype_GameObject_Harpoon";
-	else if (layerName == L"Layer_BackGround")
-		return L"Prototype_GameObject_Terrain";
-	else if (layerName == L"Layer_Camera")
-		return L"Prototype_GameObject_Camera_FirstPerson";
-	else if (layerName == L"Layer_Default_PlayerUI")
-		return L"Prototype_GameObject_Default_PlayerUI";
-
-	return L"";
-}

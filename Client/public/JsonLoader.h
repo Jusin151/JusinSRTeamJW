@@ -16,8 +16,6 @@ public:
         const _wstring& filePath,
         function<void()> onEntryLoaded 
     );
-private:
-   
-    _wstring Get_Prototype_For_Layer(const _wstring& layerName);
+
 };
 

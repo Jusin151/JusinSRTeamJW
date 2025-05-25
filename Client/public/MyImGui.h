@@ -28,14 +28,11 @@ public:
 	struct tHistoryItem
 	{
 
-
 		CMyImGui::EHistoryActionType eType = CMyImGui::EHistoryActionType::NONE;
 		CGameObject* pGameObject = nullptr;
 		_wstring wstrLayerTag;
 		_uint iLevel = 0;
 		_uint iProtoLevel = 0;
-
-
 
 		// 트랜스폼 관련 상태 저장
 		_float3 vOldPosition = { 0.0f, 0.0f, 0.0f };
@@ -68,11 +65,6 @@ public:
 	HRESULT Initialize(_uint iNumLevels, LPDIRECT3DDEVICE9 pGraphic_Device);
 	void Update(_float fTimeDelta);
 	HRESULT Render();
-
-private:
-//	void ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers);
-	//void ShowListInLayer(CLayer* pLayer);
-	void ShowComponentsInGameObject(CGameObject* pGameObject);
 
 private:
 #pragma region 에디터용
