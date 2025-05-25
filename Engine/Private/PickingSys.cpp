@@ -126,7 +126,6 @@ _bool CPickingSys::Ray_Intersection(CCollider* pCollider)
     return false;
 }
 
-// Ray_Intersection()를 오버로드하거나 시그니처 수정
 bool CPickingSys::Ray_Intersection(CCollider* pCollider, _float3* pOutHitPos)
 {
     // 예시: Sphere라면

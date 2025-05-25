@@ -496,35 +496,6 @@ void CMyImGui::ShowCreateObjectTab()
 		}
 	}
 
-	//// 프로토타입으로부터 게임 오브젝트 생성 버튼
-	//if (selectedPrototypeIndex >= 0 && ImGui::Button("Create From Selected Prototype"))
-	//{
-	//	if (selectedPrototypeIndex < prototypeInfos.size())
-	//	{
-	//		const auto& info = prototypeInfos[selectedPrototypeIndex];
-	//		_wstring protoTag = ISerializable::Utf8ToWide(info.tag);
-	//		_wstring layerTag = ISerializable::Utf8ToWide(objectLayerTagBuffer);
-
-	//		CGameObject::OBJECT_DESC tObjDesc{};
-	//		tObjDesc.iLevel = iLevel;
-	//		tObjDesc.iProtoLevel = info.level;
-	//		tObjDesc.stProtTag = protoTag;
-	//		tObjDesc.stBufferTag = ISerializable::Utf8ToWide(info.bufferTag);
-	//		tObjDesc.stProtTextureTag = ISerializable::Utf8ToWide(info.textureTag);
-	//		tObjDesc.iPoolCount = iPoolingCount;
-
-	//		// 게임 오브젝트 추가
-	//		if (iPoolingCount != 0)
-	//		{
-	//			m_pGameInstance->Reserve_Pool(info.level, protoTag, layerTag, iPoolingCount, &tObjDesc);
-	//		}
-	//		else
-	//		{
-	//			m_pGameInstance->Add_GameObject(info.level, protoTag, iLevel, layerTag, &tObjDesc);
-	//		}
-	//	}
-	//}
-
 	// 프로토타입 목록 새로고침 버튼
 	if (ImGui::Button("Refresh Prototypes"))
 	{
@@ -2351,71 +2322,6 @@ _bool CMyImGui::IsMouseOverImGui()
 {
 	ImGuiIO& io = ImGui::GetIO();
 	return io.WantCaptureMouse || io.WantCaptureKeyboard;
-}
-//
-//void CMyImGui::ShowLayerInMap(map<const _wstring, class CLayer*>* pLayers)
-//{
-//	if (ImGui::BeginTable("MyMapTable", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders)) {
-//		// 헤더 설정
-//		ImGui::TableSetupColumn("Layer Key");
-//		//ImGui::TableSetupColumn("Objects"); // 오브젝트 리스트를 표시할 열
-//		ImGui::TableHeadersRow();
-//
-//		// 맵의 각 요소를 순회하며 테이블에 행 추가
-//		for (_uint i = 0; i < m_iNumLevels; ++i) {
-//			// std::map<std::wstring, CLayer*> iter = pLayers[i];
-//			for (auto& pair : pLayers[i])
-//			{
-//				ImGui::TableNextRow(); // 새 행 시작
-//				ImGui::TableNextColumn(); // 첫 번째 열 (Key)
-//				if (ImGui::CollapsingHeader(WStringToString(pair.first).c_str())) // Key (wstring) 출력
-//					ShowListInLayer(pair.second);
-//			}
-//		}
-//		ImGui::EndTable();
-//	}
-//}
-//
-//void CMyImGui::ShowListInLayer(CLayer* pLayer)
-//{
-//	////내부 테이블
-//	//if (ImGui::BeginTable("ObjectsTable", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders))
-//	//{
-//	//	ImGui::TableSetupColumn("ID");
-//	//	//ImGui::TableSetupColumn("Components");
-//	//	ImGui::TableHeadersRow();
-//	//	int i = 0;
-//	//	for (const auto& pGameObject : pLayer->m_GameObjects)
-//	//	{
-//	//		ImGui::TableNextRow();
-//	//		ImGui::TableNextColumn();
-//	//		if (ImGui::CollapsingHeader(to_string(i).c_str()))
-//	//			ShowComponentsInGameObject(pGameObject);
-//	//		//ImGui::TableNextColumn();
-//	//		//ImGui::Text("%d", pGameObject->GetID());
-//	//		++i;
-//	//	}
-//	//	ImGui::EndTable();
-//	//}
-//}
-
-void CMyImGui::ShowComponentsInGameObject(CGameObject* pGameObject)
-{
-	//if (ImGui::BeginTable("ObjectsTable", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders))
-	//{
-	//	ImGui::TableSetupColumn("Components");
-	//	ImGui::TableHeadersRow();
-	//	for (const auto& pair : pGameObject->m_Components)
-	//	{
-	//		ImGui::TableNextRow();
-	//		ImGui::TableNextColumn();
-	//		if (ImGui::CollapsingHeader(WStringToString(pair.first).c_str()))
-	//		{
-
-	//		}
-	//	}
-	//	ImGui::EndTable();
-	//}
 }
 
 void CMyImGui::ShowTriggerTab()

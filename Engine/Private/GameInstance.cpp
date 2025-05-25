@@ -88,7 +88,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		m_pObject_Manager->Priority_Update(fTimeDelta);
 		m_pSound_Manager->Update(fTimeDelta);
 		m_pObject_Manager->Update(fTimeDelta);
-	    m_pCollider_Manager->Update_Collison();
+		m_pCollider_Manager->Update_Collison();
 		m_pFrustumCull->Update();
 		m_pObject_Manager->Late_Update(fTimeDelta);
 		//m_pLevel_Manager->Update(fTimeDelta);
@@ -104,11 +104,11 @@ HRESULT CGameInstance::Draw()
 	m_pGraphic_Device->Render_Begin();
 	if (m_eLevelState == LEVEL_STATE::NORMAL)
 	{
-	m_pRenderer->Draw();
+		m_pRenderer->Draw();
 
-	m_pLevel_Manager->Render();
+		m_pLevel_Manager->Render();
 
-	m_pGraphic_Device->Render_End();
+		m_pGraphic_Device->Render_End();
 	}
 
 	return S_OK;
@@ -170,12 +170,12 @@ HRESULT CGameInstance::Find_Prototype(const _wstring& strPrototypeTag)
 #pragma region OBJECT_MANAGER
 HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
- 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
+	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
 }
 
 CGameObject* CGameInstance::Add_GameObject_FromPool(_uint iPrototypeLevelIndex, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
-	return m_pObject_Manager->Add_GameObject_FromPool(iPrototypeLevelIndex,iLevelIndex,strLayerTag, pArg);
+	return m_pObject_Manager->Add_GameObject_FromPool(iPrototypeLevelIndex, iLevelIndex, strLayerTag, pArg);
 }
 
 CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag)
@@ -185,7 +185,7 @@ CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLa
 
 CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComponentTag)
 {
-	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag,strComponentTag);
+	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag, strComponentTag);
 }
 
 CGameObject* CGameInstance::Find_Last_Object(_uint iLevelIndex, const _wstring& strLayerTag)
@@ -200,7 +200,7 @@ list<CGameObject*> CGameInstance::Get_LayerObjects(_uint iLevelIndex, const _wst
 
 HRESULT CGameInstance::Remove_Object(_uint iLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject)
 {
-	return m_pObject_Manager->Remove_Object(iLevelIndex,strLayerTag,pGameObject);
+	return m_pObject_Manager->Remove_Object(iLevelIndex, strLayerTag, pGameObject);
 }
 
 void CGameInstance::Open_UI(_uint iLevelIndex, _bool bOpenUI)
@@ -213,7 +213,7 @@ void CGameInstance::Open_UI(_uint iLevelIndex, _bool bOpenUI)
 /*CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
 {
 	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag, strComponentTag, iIndex);
-	
+
 }*/
 
 #pragma endregion
@@ -328,14 +328,14 @@ void CGameInstance::SetBusPaused(const _wstring& name, bool pause)
 
 #pragma region POOL_MANAGER
 
-CGameObject* CGameInstance::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag,void* pArg)
+CGameObject* CGameInstance::Acquire_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
-	return m_pPool_Manager->Acquire_Object(iPrototypeLevelIndex,strLayerTag,pArg);
+	return m_pPool_Manager->Acquire_Object(iPrototypeLevelIndex, strLayerTag, pArg);
 }
 
 HRESULT CGameInstance::Return_Object(_uint iPrototypeLevelIndex, const _wstring& strLayerTag, CGameObject* pGameObject)
 {
-	return  m_pPool_Manager->Return_Object(iPrototypeLevelIndex,strLayerTag,pGameObject);
+	return  m_pPool_Manager->Return_Object(iPrototypeLevelIndex, strLayerTag, pGameObject);
 }
 
 HRESULT CGameInstance::Reserve_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strLayerTag, _uint iCount, void* pArg)
@@ -357,7 +357,7 @@ vector<list<class CCollider*>> CGameInstance::Get_Colliders()
 }
 void CGameInstance::Clear_Colliders()
 {
-	 m_pCollider_Manager->Clear();
+	m_pCollider_Manager->Clear();
 }
 #pragma endregion
 
@@ -369,11 +369,11 @@ HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _wstring& strF
 
 HRESULT CGameInstance::Render_Font(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, _float3 vColor)
 {
-	return m_pFont_Manager->Render_Font(strFontTag,strText,vPosition,vColor);
+	return m_pFont_Manager->Render_Font(strFontTag, strText, vPosition, vColor);
 }
 
 // 사이즈 크기 조절용 폰트
-HRESULT CGameInstance::Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition,const _float2& vSize, _float3 vColor)
+HRESULT CGameInstance::Render_Font_Size(const _wstring& strFontTag, const _wstring& strText, const _float2& vPosition, const _float2& vSize, _float3 vColor)
 {
 	return m_pFont_Manager->Render_Font_size(strFontTag, strText, vPosition, vSize, vColor);
 }
@@ -399,14 +399,14 @@ _bool CGameInstance::IsSphereInFrustum(const _float3& point, _float fRadius)
 
 _bool CGameInstance::IsAABBInFrustum(const _float3& point, const _float3& scale)
 {
-	return m_pFrustumCull->IsAABBInFrustum(point,scale);
+	return m_pFrustumCull->IsAABBInFrustum(point, scale);
 }
 
 #pragma endregion
 
 void CGameInstance::Release_Engine()
 {
-	
+
 	Safe_Release(m_pFont_Manager);
 
 	Safe_Release(m_pFrustumCull);
@@ -418,7 +418,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pSound_Manager);
 
 	Safe_Release(m_pObject_Manager);
-	
+
 	Safe_Release(m_pPool_Manager);
 
 	Safe_Release(m_pPrototype_Manager);
@@ -439,5 +439,5 @@ void CGameInstance::Free()
 
 
 
-	
+
 }
