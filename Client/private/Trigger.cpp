@@ -205,8 +205,6 @@ void CTrigger::Find_Target()
 		CDoor* pDoor = dynamic_cast<CDoor*>(m_pGameInstance->Find_Object(m_tObjDesc.iLevel, m_vTriggerDesc.stTargetTag));
 		AddTargetObject(pDoor);
 	}
-
-	
 }
 
 HRESULT CTrigger::SetUp_RenderState()

@@ -28,7 +28,7 @@ HRESULT CCthulhu_Tentacle::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_iHp =200;
+	m_iHp = 200;
 	m_iMaxHp = m_iHp;
 	m_pTarget = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Player");
 	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
@@ -39,7 +39,7 @@ HRESULT CCthulhu_Tentacle::Initialize(void* pArg)
 		return E_FAIL;
 	}
 
-	m_pHpBar = static_cast<CHP_WorldUI*>( m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_UI_HpBarWorld")));
+	m_pHpBar = static_cast<CHP_WorldUI*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_UI_HpBarWorld")));
 	m_pHpBar->Set_Parent(this);
 	m_pHpBar->SetActive(false);
 	return S_OK;
@@ -56,14 +56,14 @@ void CCthulhu_Tentacle::Priority_Update(_float fTimeDelta)
 
 void CCthulhu_Tentacle::Update(_float fTimeDelta)
 {
-	if(m_pColliderCom && m_eState != Tentacle_STATE::DEAD )
+	if (m_pColliderCom && m_eState != Tentacle_STATE::DEAD)
 	{
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
-		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"),m_pTransformCom->Compute_Scaled());
+		m_pColliderCom->Update_Collider(TEXT("Com_Collider_Cube"), m_pTransformCom->Compute_Scaled());
 		m_pGameInstance->Add_Collider(CG_ENVIRONMENT, m_pColliderCom);
-		if(m_bCanHit)
-		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		if (m_bCanHit)
+			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
 	Billboarding(fTimeDelta);
@@ -123,7 +123,7 @@ void CCthulhu_Tentacle::Reset()
 void CCthulhu_Tentacle::Set_Hp(_int iHp)
 {
 	m_iHp = iHp;
-	_float fHpRatio =(_float)m_iHp / m_iMaxHp;
+	_float fHpRatio = (_float)m_iHp / m_iMaxHp;
 	Create_Stains(5);
 	m_pSoundCom->Play_Event(L"event:/Monsters/Thing/the_thing_death_pain_1", m_pTransformCom)->SetVolume(0.5f);
 	m_pHpBar->OnNotify(&fHpRatio, TEXT(""));
@@ -131,7 +131,7 @@ void CCthulhu_Tentacle::Set_Hp(_int iHp)
 
 HRESULT CCthulhu_Tentacle::On_Collision(CCollisionObject* other)
 {
-    return E_NOTIMPL;
+	return E_NOTIMPL;
 }
 
 void CCthulhu_Tentacle::Billboarding(_float fTimeDelta)
@@ -186,11 +186,11 @@ void CCthulhu_Tentacle::Select_Pattern(_float fTimeDelta)
 		break;
 	case Client::CCthulhu_Tentacle::Tentacle_STATE::ATTACK:
 		break;
-	
+
 	case Client::CCthulhu_Tentacle::Tentacle_STATE::DEAD:
 		if (m_pHpBar)
 		{
-		m_pHpBar->SetActive(false);
+			m_pHpBar->SetActive(false);
 		}
 		break;
 	default:
@@ -348,7 +348,7 @@ void CCthulhu_Tentacle::Update_Animation(_float fTimeDelta)
 _bool CCthulhu_Tentacle::IsPlayerVisible()
 {
 	_float3 monsterPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	monsterPos.y += 5.f+m_fOffset;
+	monsterPos.y += 5.f + m_fOffset;
 
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
 	if (!pPlayerTransform)
@@ -376,11 +376,11 @@ _bool CCthulhu_Tentacle::IsPlayerVisible()
 	if (m_pOwner)
 	{
 
-	CCollider_Cube* pOwnerCol = dynamic_cast<CCollider_Cube*>(m_pOwner->Get_Component(TEXT("Com_Collider_Cube")));
-	if (CCthulhu::RayCubeIntersection(rayOrigin, rayDir, pOwnerCol, fDistance))
-	{
-		return false;
-	}
+		CCollider_Cube* pOwnerCol = dynamic_cast<CCollider_Cube*>(m_pOwner->Get_Component(TEXT("Com_Collider_Cube")));
+		if (CCthulhu::RayCubeIntersection(rayOrigin, rayDir, pOwnerCol, fDistance))
+		{
+			return false;
+		}
 	}
 	return true;
 }
@@ -395,17 +395,17 @@ void CCthulhu_Tentacle::Attack()
 	vDir.Normalize();
 
 	CCthulhuMissile::PROJ_DESC prjDesc{ vPos, vDir, 20.f };
-	if(FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"), LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc)))
 		return;
 
 	CCthulhuMissile* pMissile = static_cast<CCthulhuMissile*>(m_pGameInstance->Find_Last_Object(LEVEL_BOSS, TEXT("Layer_CthulhuMissile")));
 	if (pMissile)
 	{
-	auto pTransform = static_cast<CTransform*>(pMissile->Get_Component(TEXT("Com_Transform")));
-	if (pTransform)
-	{
-		pTransform->Set_Scale(0.7f, 0.7f, 1.f);
-	}
+		auto pTransform = static_cast<CTransform*>(pMissile->Get_Component(TEXT("Com_Transform")));
+		if (pTransform)
+		{
+			pTransform->Set_Scale(0.7f, 0.7f, 1.f);
+		}
 	}
 
 	m_eState = Tentacle_STATE::IDLE;

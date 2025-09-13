@@ -109,35 +109,23 @@ _bool CPickingSys::Cube_Intersection(CCollider_Cube* pColliderCu)
 
 _bool CPickingSys::Ray_Intersection(CCollider* pCollider)
 {
-    CCollider_Sphere*  pSphere = dynamic_cast<CCollider_Sphere*>(pCollider);
-
-    if (pSphere)
-    {
-        return Sphere_lntersection(pSphere);
-    }
-
-    CCollider_Cube* pCube = dynamic_cast<CCollider_Cube*>(pCollider);
-
-    if (pCube)
-    {
-        return Cube_Intersection(pCube);
-    }
-
-    return false;
+   if(pCollider  == nullptr ||pCollider->Get_Owner() == m_pPlayer)
+	   return false;
+    return  pCollider->Ray_lntersection(m_Ray);
 }
 
 bool CPickingSys::Ray_Intersection(CCollider* pCollider, _float3* pOutHitPos)
 {
-    // 예시: Sphere라면
+
     CCollider_Sphere* pSphere = dynamic_cast<CCollider_Sphere*>(pCollider);
     if (pSphere)
     {
-        // (1) 판별식(discriminant) 구하기
+        //  판별식 구하기
         _float3 vCenter = pSphere->Get_State(CTransform::STATE_POSITION);
         _float3 vOc = m_Ray.vOrigin - vCenter;
         float r = pSphere->Get_Radius(); // 구의 반지름
 
-        float a = m_Ray.vDir.Dot(m_Ray.vDir);        // 보통 1
+        float a = m_Ray.vDir.Dot(m_Ray.vDir);     
         float b = 2.f * m_Ray.vDir.Dot(vOc);
         float c = vOc.Dot(vOc) - r * r;
         float discriminant = b * b - 4.f * a * c;
@@ -154,9 +142,9 @@ bool CPickingSys::Ray_Intersection(CCollider* pCollider, _float3* pOutHitPos)
         if (t1 >= 0.f && t2 >= 0.f) t = min(t1, t2);
         else if (t1 >= 0.f)        t = t1;
         else if (t2 >= 0.f)        t = t2;
-        else return false; // 둘 다 음수 => 뒤쪽 충돌
+        else return false; // 둘 다 음수  뒤쪽 충돌
 
-        // (3) 진짜 충돌 위치
+        // 충돌 위치
         _float3 vHitPos = m_Ray.vOrigin + m_Ray.vDir * t;
         if (pOutHitPos)
             *pOutHitPos = vHitPos;
@@ -265,7 +253,7 @@ _float3 CPickingSys::Get_Mouse_Effect()
 }
 _bool CPickingSys::Sphere_lntersection(CCollider_Sphere* pColliderSp)
 {
-	if (pColliderSp == nullptr|| pColliderSp->Get_Owner() == m_pPlayer) return false;
+	if (pColliderSp == nullptr) return false;
 	_float3 v = m_Ray.vOrigin - pColliderSp->Get_State(CTransform::STATE_POSITION);
 
 	_float a = m_Ray.vDir.Dot(m_Ray.vDir);     // a = 1 (정규화된 방향 벡터라면)
@@ -317,6 +305,7 @@ HRESULT CPickingSys::CalcPickingRay(_ulong iX, _ulong iY)
 
 	return S_OK;
 }
+
 
 void CPickingSys::Free()
 {

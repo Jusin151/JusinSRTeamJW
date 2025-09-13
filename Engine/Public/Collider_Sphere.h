@@ -19,6 +19,9 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual HRESULT Update_Collider(const _wstring& strLayerTag, _float3 fScale) override;
+
+
+	virtual _bool Ray_lntersection(CPickingSys::Ray& vRay) override;
 private:
 	
 	 

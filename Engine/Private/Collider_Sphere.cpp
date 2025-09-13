@@ -119,6 +119,29 @@ HRESULT CCollider_Sphere::Update_Collider(const _wstring& strLayerTag, _float3 f
 
     return S_OK;
 }
+
+_bool CCollider_Sphere::Ray_lntersection(CPickingSys::Ray& vRay)
+{
+    _float3 v = vRay.vOrigin - this->Get_State(CTransform::STATE_POSITION);
+
+    _float a = vRay.vDir.Dot(vRay.vDir);     // a = 1 (정규화된 방향 벡터라면)
+    _float b = 2.0f * vRay.vDir.Dot(v);
+    //_float c = v.Dot(v) - (pColliderSp->Get_Radius() * pColliderSp->Get_Radius());
+    _float c = v.Dot(v) - (this->Get_Radius());
+    _float discriminant = (b * b) - (4.0f * a * c);
+    if (discriminant < 0.f)
+        return false;
+
+
+    discriminant = sqrtf(discriminant);
+    float s0 = (-b + discriminant) / 2.0f;
+    float s1 = (-b - discriminant) / 2.0f;
+    if (s0 >= 0.f || s1 >= 0.f)
+        return true;
+
+
+    return false;
+}
 	
 
 CCollider_Sphere* CCollider_Sphere::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

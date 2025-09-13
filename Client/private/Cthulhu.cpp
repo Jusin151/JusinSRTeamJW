@@ -132,8 +132,8 @@ HRESULT CCthulhu::Initialize(void* pArg)
 
 	for (auto& pTentacle : m_listTentacles)
 	{
-		if(pTentacle)
-		pTentacle->Set_Parent(this);
+		if (pTentacle)
+			pTentacle->Set_Parent(this);
 	}
 	return S_OK;
 }
@@ -235,7 +235,7 @@ NodeStatus CCthulhu::Attack()
 
 	if (m_fAttackCoolTime < m_fAttackCoolDown)
 	{
-		
+
 		return NodeStatus::FAIL;
 	}
 	else
@@ -260,7 +260,7 @@ NodeStatus CCthulhu::Attack()
 
 NodeStatus CCthulhu::UpdateAttack()
 {
-	if (m_bIsMultiAttack) 
+	if (m_bIsMultiAttack)
 		return NodeStatus::FAIL;
 
 	if (m_bIsAttacking)
@@ -309,7 +309,7 @@ NodeStatus CCthulhu::MultiMissileAttack()
 		return NodeStatus::FAIL;
 	}
 
-	if (m_iHp < m_fPhaseThreshold && IsPlayerVisible()&& !m_bIsAttacking)
+	if (m_iHp < m_fPhaseThreshold && IsPlayerVisible() && !m_bIsAttacking)
 	{
 		m_fMultiAttackCoolTime = 0.f;
 
@@ -336,7 +336,7 @@ NodeStatus CCthulhu::MultiMissileAttack()
 			_float3 vDir = pTransform->Get_State(CTransform::STATE_POSITION) - vPos;
 			vDir.Normalize();
 
-			CCthulhuMissile::Missile_DESC prjDesc { vPos, vDir, 20.f,1 };
+			CCthulhuMissile::Missile_DESC prjDesc{ vPos, vDir, 20.f,1 };
 			m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_CthulhuMissile"),
 				LEVEL_BOSS, TEXT("Layer_CthulhuMissile"), &prjDesc);
 
@@ -367,7 +367,7 @@ NodeStatus CCthulhu::Update_Appear()
 	if (!m_bCameraShaken)
 	{
 		const _float3& vBossPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		const _float3& vStart = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION)+_float3(-1.54f,-0.6f, -0.8f);
+		const _float3& vStart = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) + _float3(-1.54f, -0.6f, -0.8f);
 		const _float3& vEnd = vBossPos + _float3(-14.f, 7.5f, 0.f);
 		_float3 vArgs[2] = { vStart, vEnd };
 		m_pGameInstance->Add_GameObject(
@@ -380,9 +380,9 @@ NodeStatus CCthulhu::Update_Appear()
 		if (pCutCam)
 		{
 			pCutCam->TriggerShake(0.2f, 4.5f);
-			pCutCam->Set_LookTarget(this);                 
+			pCutCam->Set_LookTarget(this);
 			pCutCam->Set_CutSceneMove(vStart, vEnd, 0.5f);  // 카메라 이동
-			pCutCam->Set_CameraDisableDelay(5.f);          
+			pCutCam->Set_CameraDisableDelay(5.f);
 		}
 		m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_detect_01", m_pTransformCom)->SetVolume(0.7f);
 		m_bCameraShaken = true;
@@ -557,7 +557,7 @@ NodeStatus CCthulhu::Deploy_BigTentacles()
 
 NodeStatus CCthulhu::Attack_Spike()
 {
-	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp)> m_fPhaseThreshold2)
+	if (m_eState == STATE::DEAD || static_cast<_float>(m_iHp) > m_fPhaseThreshold2)
 		return NodeStatus::FAIL;
 	static _uint iIndex = 0;
 	static _bool bIsCircle = false;
@@ -566,53 +566,47 @@ NodeStatus CCthulhu::Attack_Spike()
 	{
 		fWaringTime += m_fDelta;
 		m_fSpikeTimer += m_fDelta;
-
 		if (fWaringTime >= 1.2f)
 		{
-
-
-		_float fSpikeTimer = (bIsCircle ? 0.2f : 0.09f);
-		if (m_fSpikeTimer >= fSpikeTimer)
-		{
-			if (!bIsCircle)
+			_float fSpikeTimer = (bIsCircle ? 0.2f : 0.09f);
+			if (m_fSpikeTimer >= fSpikeTimer)
 			{
-
-				// 마지막 스파이크가 아니라면 다음 스파이크로 진행
-				if (iIndex < m_vecSpikes.size())
+				if (!bIsCircle)
 				{
-					if (iIndex == m_vecSpikes.size() - 1)
+
+					// 마지막 스파이크가 아니라면 다음 스파이크로 진행
+					if (iIndex < m_vecSpikes.size())
 					{
-						m_vecSpikes[iIndex]->ActiveShakeTrigger();
+						if (iIndex == m_vecSpikes.size() - 1)
+						{
+							m_vecSpikes[iIndex]->ActiveShakeTrigger();
+						}
+						m_vecSpikes[iIndex]->Active_Animaiton(true);
+						iIndex++;
+
 					}
-					m_vecSpikes[iIndex]->Active_Animaiton(true);
-					iIndex++;
-
 				}
-			}
-			else
-			{
-
-				for (_uint j = iIndex; j < iIndex + 18 && j < m_vecSpikes.size(); j++)
+				else
 				{
-					m_vecSpikes[j]->Active_Animaiton(true);
+
+					for (_uint j = iIndex; j < iIndex + 18 && j < m_vecSpikes.size(); j++)
+					{
+						m_vecSpikes[j]->Active_Animaiton(true);
+					}
+					iIndex += 18;
 				}
-				iIndex += 18; 
+
+				if (iIndex == m_vecSpikes.size())
+				{
+					m_bSpikeAppeared = false;
+					iIndex = 0;
+					fWaringTime = 0.f;
+					m_vecSpikes.clear();
+					return NodeStatus::SUCCESS;
+				}
+				m_fSpikeTimer = 0.f;
 			}
-
-			if (iIndex == m_vecSpikes.size())
-			{
-				m_bSpikeAppeared = false;
-				iIndex = 0;
-				fWaringTime = 0.f;
-				m_vecSpikes.clear();
-				return NodeStatus::SUCCESS;
-			}
-		
-			m_fSpikeTimer = 0.f;
 		}
-
-		}
-
 		return NodeStatus::RUNNING;
 	}
 
@@ -659,99 +653,31 @@ NodeStatus CCthulhu::Attack_Spike()
 
 		_uint iSpikeCount = max(1u, static_cast<_uint>(ceil(fDistance / (2.f + s_fSpacingOffset)))) + 1;
 
-		if (fDistance >=14.f)
+		if (fDistance >= 14.f)
 		{
 			bIsCircle = false;
-		for (_uint i = 0; i < iSpikeCount; i++)
-		{
-			if (CSpike* pNewSpike = static_cast<CSpike*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_BOSS, LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike"))))
-			{
-
-				pNewSpike->Active_Animaiton(false);
-				_float3 newPos = basePos + vDir * ((2.f + s_fSpacingOffset) * i);
-				if (i == 0)
-					newPos.z += 0.01f;
-
-				if (abs(fDotVal) <= centerThreshold)
-				{
-					pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
-				}
-				else
-				{
-					pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
-					// dot 값의 부호에 따라 플레이어 기준 오른쪽이면 Flip(true), 왼쪽이면 Flip(false)
-					pNewSpike->Flip(fDotVal > 0.f);
-				}
-				pNewSpike->Set_Position(newPos);
-				pNewSpike->Activate_WarningZone();
-				m_vecSpikes.push_back(pNewSpike);
-			}
-			else
-			{
-				return NodeStatus::FAIL;
-			}
-		}
-
-		}
-		else
-		{
-			bIsCircle = true;
-		_uint uiTotalSpikes = 18; // 배치할 스파이크 개수
-		_float fRadius = 7.5f;    // 원의 반지름
-		
-		for (_uint i = 0; i < 3; i++)
-		{
-
-			for (_uint i = 0; i < uiTotalSpikes; i++)
+			for (_uint i = 0; i < iSpikeCount; i++)
 			{
 				if (CSpike* pNewSpike = static_cast<CSpike*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_BOSS, LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike"))))
 				{
+
 					pNewSpike->Active_Animaiton(false);
+					_float3 newPos = basePos + vDir * ((2.f + s_fSpacingOffset) * i);
+					if (i == 0)
+						newPos.z += 0.01f;
 
-					_float fAngle = (2.f * D3DX_PI * i) / uiTotalSpikes;
-
-					// 원형 배치를 위한 위치 계산
-					_float3 vNewPos;
-					vNewPos.x = basePos.x + fRadius * cosf(fAngle);
-					vNewPos.y = basePos.y;
-					vNewPos.z = basePos.z + fRadius * sinf(fAngle);
-
-					pNewSpike->Set_Position(vNewPos);
-					pNewSpike->Activate_WarningZone();
-
-					_float fAngleDeg = D3DXToDegree(fAngle);
-					if (fAngleDeg < 0.f)
-						fAngleDeg += 360.f;
-
-					// 상/하/좌/우 영역 구분
-					// [315, 360) && [0, 45) => 상 (CENTER)
-					// [45, 135) => 오른쪽 (RIGHT)
-					// [135, 225) => 하 (CENTER)
-					// [225, 315) => 왼쪽 (LEFT)
-
-					if ((fAngleDeg >= 315.f && fAngleDeg < 360.f) ||
-						(fAngleDeg >= 0.f && fAngleDeg < 45.f))
+					if (abs(fDotVal) <= centerThreshold)
 					{
-						// 위쪽
-						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
-					}
-					else if (fAngleDeg >= 45.f && fAngleDeg < 135.f)
-					{
-						// 오른쪽
-						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
-						pNewSpike->Flip(true);
-					}
-					else if (fAngleDeg >= 135.f && fAngleDeg < 225.f)
-					{
-						// 아래쪽
 						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
 					}
 					else
 					{
-						// 왼쪽
 						pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
-						pNewSpike->Flip(false);
+						// dot 값의 부호에 따라 플레이어 기준 오른쪽이면 Flip(true), 왼쪽이면 Flip(false)
+						pNewSpike->Flip(fDotVal > 0.f);
 					}
+					pNewSpike->Set_Position(newPos);
+					pNewSpike->Activate_WarningZone();
 					m_vecSpikes.push_back(pNewSpike);
 				}
 				else
@@ -759,12 +685,78 @@ NodeStatus CCthulhu::Attack_Spike()
 					return NodeStatus::FAIL;
 				}
 			}
-			fRadius += 2.3f;
+
 		}
+		else
+		{
+			bIsCircle = true;
+			_uint uiTotalSpikes = 18; // 배치할 스파이크 개수
+			_float fRadius = 7.5f;    // 원의 반지름
+
+			for (_uint i = 0; i < 3; i++)
+			{
+
+				for (_uint i = 0; i < uiTotalSpikes; i++)
+				{
+					if (CSpike* pNewSpike = static_cast<CSpike*>(m_pGameInstance->Add_GameObject_FromPool(LEVEL_BOSS, LEVEL_BOSS, TEXT("Layer_Cthulhu_Spike"))))
+					{
+						pNewSpike->Active_Animaiton(false);
+
+						_float fAngle = (2.f * D3DX_PI * i) / uiTotalSpikes;
+
+						// 원형 배치를 위한 위치 계산
+						_float3 vNewPos;
+						vNewPos.x = basePos.x + fRadius * cosf(fAngle);
+						vNewPos.y = basePos.y;
+						vNewPos.z = basePos.z + fRadius * sinf(fAngle);
+
+						pNewSpike->Set_Position(vNewPos);
+						pNewSpike->Activate_WarningZone();
+
+						_float fAngleDeg = D3DXToDegree(fAngle);
+						if (fAngleDeg < 0.f)
+							fAngleDeg += 360.f;
+
+						// 상/하/좌/우 영역 구분
+						// [315, 360) && [0, 45) => 상 (CENTER)
+						// [45, 135) => 오른쪽 (RIGHT)
+						// [135, 225) => 하 (CENTER)
+						// [225, 315) => 왼쪽 (LEFT)
+
+						if ((fAngleDeg >= 315.f && fAngleDeg < 360.f) ||
+							(fAngleDeg >= 0.f && fAngleDeg < 45.f))
+						{
+							// 위쪽
+							pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
+						}
+						else if (fAngleDeg >= 45.f && fAngleDeg < 135.f)
+						{
+							// 오른쪽
+							pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
+							pNewSpike->Flip(true);
+						}
+						else if (fAngleDeg >= 135.f && fAngleDeg < 225.f)
+						{
+							// 아래쪽
+							pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::CENTER);
+						}
+						else
+						{
+							// 왼쪽
+							pNewSpike->Set_SpikeType(CSpike::SPIKE_TYPE::SIDE);
+							pNewSpike->Flip(false);
+						}
+						m_vecSpikes.push_back(pNewSpike);
+					}
+					else
+					{
+						return NodeStatus::FAIL;
+					}
+				}
+				fRadius += 2.3f;
+			}
 		}
 	}
-
-	
 
 	return NodeStatus::RUNNING;
 }
@@ -832,11 +824,11 @@ void CCthulhu::DropItems()
 	CItem::ITEM_DESC itemDesc;
 	for (_int i = 0; i < iDropCount; i++)
 	{
-	
+
 		if (i < 2)
 		{
-		itemDesc.eType = CItem::ITEM_TYPE::AMMO;
-		itemDesc.strItemName = L"Magnum_Ammo_Small";
+			itemDesc.eType = CItem::ITEM_TYPE::AMMO;
+			itemDesc.strItemName = L"Magnum_Ammo_Small";
 		}
 		else if (i >= 2 && i < 4)
 		{
@@ -921,9 +913,9 @@ void CCthulhu::Create_BehaviorTree()
 	pAttackParallel->AddChild(pSpikeAttack);
 
 
-	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {return this->Update_Appear();}));
+	pStateSelector->AddChild(new TaskNode(L"UpdateAppear", [this]() -> NodeStatus {return this->Update_Appear(); }));
 
-	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {return this->Dead();}));
+	pStateSelector->AddChild(new TaskNode(L"Dead", [this]() -> NodeStatus {return this->Dead(); }));
 
 	pStateSelector->AddChild(pAttackParallel);
 
@@ -949,16 +941,14 @@ _bool CCthulhu::RayCubeIntersection(const _float3& rayOrigin, _float3& rayDir, C
 	_float3 vLocalOrigin = rayOrigin - pCollider->Get_Desc().fPos;
 
 	_float3 vLocalDir, vLocalPos;
-	for (int i = 0; i < 3; i++)
+	for (_int i = 0; i < 3; i++)
 	{
 		vLocalDir[i] = rayDir.Dot(vDir[i]);
 		vLocalPos[i] = vLocalOrigin.Dot(vDir[i]);
 	}
-
 	_float fMin = -FLT_MAX;
 	_float fMax = FLT_MAX;
-
-	for (int i = 0; i < 3; i++)
+	for (_int i = 0; i < 3; i++)
 	{
 		if (fabs(vLocalDir[i]) < FLT_EPSILON)
 		{
@@ -1133,12 +1123,12 @@ void CCthulhu::Set_Hp(_int iHp)
 {
 	Create_Stains(5);
 	if (!m_bCanHit) return;
-	m_iHp = max(iHp,0);
+	m_iHp = max(iHp, 0);
 
 	if (m_fSoundTime >= 2.5f)
 	{
-	m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_pain_01", m_pTransformCom)->SetVolume(0.7f);
-	m_fSoundTime = 0.f;
+		m_pSoundCom->Play_Event(L"event:/Monsters/Cthulhu/Cthulhu_pain_01", m_pTransformCom)->SetVolume(0.7f);
+		m_fSoundTime = 0.f;
 	}
 }
 
@@ -1185,7 +1175,7 @@ void CCthulhu::Update(_float fTimeDelta)
 		m_pColliderCom->Set_WorldMat(m_pTransformCom->Get_WorldMat());
 
 		m_pColliderCom->Update_Collider_Boss(TEXT("Com_Collider_Cube"));
-			m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
+		m_pGameInstance->Add_Collider(CG_MONSTER, m_pColliderCom);
 	}
 
 	// 죽은 애들 처리

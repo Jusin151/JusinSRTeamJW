@@ -296,6 +296,82 @@ HRESULT CCollider_Cube::Update_Collider_Boss(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+_bool CCollider_Cube::Ray_lntersection(CPickingSys::Ray& vRay)
+{
+
+	_float fScaleX = this->Get_Desc().fAxisX.Length();
+	_float fScaleY = this->Get_Desc().fAxisY.Length();
+	_float fScaleZ = this->Get_Desc().fAxisZ.Length();
+
+	// 방향 벡터 정규화
+	_float3 vDirX = this->Get_Desc().fAxisX.GetNormalized();
+	_float3 vDirY = this->Get_Desc().fAxisY.GetNormalized();
+	_float3 vDirZ = this->Get_Desc().fAxisZ.GetNormalized();
+
+	// 스케일이 적용된 축 벡터 생성
+	_float fHalfSize[3] = {
+		fScaleX * 0.5f,  // 0.5f는 중심에서 가장자리까지의 거리
+		fScaleY * 0.5f,
+		fScaleZ * 0.5f
+	};
+	_float3 vDir[3] = {
+	  vDirX,
+	  vDirY,
+	  vDirZ
+	};
+
+	// OBB의 로컬 좌표계로 변환된 광선 원점
+	_float3 vLocalOrigin = vRay.vOrigin - this->Get_Desc().fPos;
+
+	// 로컬 좌표계 기준 광선 방향과 원점 계산
+	_float3 vLocalDir, vLocalPos;
+	for (int i = 0; i < 3; i++)
+	{
+		vLocalDir[i] = vRay.vDir.Dot(vDir[i]);
+		vLocalPos[i] = vLocalOrigin.Dot(vDir[i]);
+	}
+
+	//  각 축별 슬랩 교차 검사
+	_float fMin = -FLT_MAX;
+	_float fMax = FLT_MAX;
+
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (abs(vLocalDir[i]) < FLT_EPSILON)
+		{
+			// 광선이 이 축과 평행하면, 원점이 박스 범위 내에 있어야 함
+			if (vLocalPos[i] < -fHalfSize[i] || vLocalPos[i] > fHalfSize[i])
+				return false;
+		}
+		else
+		{
+			// t 값 계산 (슬랩 진입/이탈 지점)
+			_float t1 = (-fHalfSize[i] - vLocalPos[i]) / vLocalDir[i];
+			_float t2 = (fHalfSize[i] - vLocalPos[i]) / vLocalDir[i];
+
+			// t1이 항상 더 작은 값이 되도록 함
+			if (t1 > t2)
+			{
+				_float temp = t1;
+				t1 = t2;
+				t2 = temp;
+			}
+
+			// 교차 구간 업데이트
+			fMin = max(fMin, t1);
+			fMax = min(fMax, t2);
+
+			// 교차 구간이 유효하지 않으면 충돌 없음
+			if (fMin > fMax)
+				return false;
+		}
+	}
+
+	// 모든 슬랩을 통과하면 충돌 발생
+	return fMin <= fMax && fMax >= 0.0f;
+}
+
 CCollider_Cube* CCollider_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider_Cube* pInstance = new CCollider_Cube(pGraphic_Device);

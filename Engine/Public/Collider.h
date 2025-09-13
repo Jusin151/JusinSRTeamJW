@@ -3,7 +3,7 @@
 #include "Component.h"
 #include "Transform.h"
 #include "VIBuffer.h"
-
+#include "PickingSys.h"
 BEGIN(Engine)
 
 class ENGINE_DLL CCollider abstract : public CComponent
@@ -34,7 +34,7 @@ public:
 	virtual HRESULT Render() = 0;
 
 	virtual HRESULT Update_Collider(const _wstring& strLayerTag, _float3 fScale) = 0;
-
+	virtual _bool Ray_lntersection( CPickingSys::Ray& vRay) { return true; }
 public:
 	// 오브젝트에서 설정해서 매니저로 넘기기
 	_float3 Get_State(CTransform::TRANSFORMSTATE eState) const {
@@ -72,6 +72,7 @@ public:
 	_bool Get_bCollision() { return m_bIsCollision; }
 	void Set_bCollsion() { m_bIsCollision = true; }
 
+	virtual _bool Ray_lntersection() { return true; }
 protected:
 	_float4x4				m_WorldMatrix = {};
 	// 큐브의 중점 저장용

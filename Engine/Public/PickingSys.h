@@ -5,13 +5,14 @@ BEGIN(Engine)
 
 class ENGINE_DLL CPickingSys final : public CBase
 {
-	DECLARE_SINGLETON(CPickingSys)
-private:
+public:
 	struct Ray
 	{
 		_float3 vOrigin;
 		_float3 vDir;
 	};
+	DECLARE_SINGLETON(CPickingSys)
+
 private:
 	CPickingSys();
 	virtual ~CPickingSys() = default;

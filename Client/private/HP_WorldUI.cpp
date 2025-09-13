@@ -82,7 +82,7 @@ HRESULT CHP_WorldUI::Render()
 	// 현재 위치를 가져온 후 오프셋을 적용합니다.
 	_float3 vCurPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	vCurPos += vOffsetZ+ vOffsetY; 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);\
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
 
 	if (FAILED(m_pTextureCom->Bind_Resource(1)))
 		return E_FAIL;
