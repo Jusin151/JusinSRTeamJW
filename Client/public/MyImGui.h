@@ -207,7 +207,7 @@ private:
 	class CGameInstance*	m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };
 	_uint m_iNumLevels = {};
-	map<unsigned int, CGameObject*> m_gameObjects;
+	unordered_map<unsigned int, CGameObject*> m_gameObjects;
 	CEditor* m_Editor = { nullptr };
 	CGameObject* m_pCurrentGameObject = { nullptr };
 public:

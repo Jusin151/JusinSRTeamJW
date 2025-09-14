@@ -1032,8 +1032,7 @@ CGameObject* CMyImGui::Find_Object_ByAddress(CGameObject* pAddress)
 	// 각 레벨마다 모든 레이어를 순회하며 검색
 	for (_uint iLevel = 0; iLevel < m_iNumLevels; ++iLevel)
 	{
-		// 레벨의 모든 레이어 가져오기 (구현에 따라 코드 조정 필요)
-		// NOTE: 실제 GameInstance 구현에 맞게 수정해야 합니다!
+		// 레벨의 모든 레이어 가져오기 
 		auto& layers = m_pGameInstance->m_pObject_Manager->m_pLayers[iLevel];
 
 		for (auto& layerPair : layers)
